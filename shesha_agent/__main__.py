@@ -7,12 +7,17 @@ Usage:
 """
 
 import asyncio
+import shutil
 import sys
+from pathlib import Path
 
 from claude_agent_sdk import ClaudeSDKClient
 
 from .options import build_options
 from .output import BOLD, DIM, RESET, collect_and_print
+
+# Plugin cache dir — clear on every run so skills always use latest source
+_PLUGIN_CACHE = Path.home() / ".claude" / "plugins" / "cache" / "shesha-plugins"
 
 
 def parse_args() -> tuple[str, str, str | None, str | None]:
@@ -52,6 +57,10 @@ async def main():
             "[--backend-cmd <cmd>] [--module <name>]"
         )
         sys.exit(1)
+
+    # Clear stale plugin cache so skills always use latest source
+    if _PLUGIN_CACHE.exists():
+        shutil.rmtree(_PLUGIN_CACHE, ignore_errors=True)
 
     print(f"{BOLD}Request:{RESET} {request}")
     print(f"{DIM}cwd={cwd}{RESET}")

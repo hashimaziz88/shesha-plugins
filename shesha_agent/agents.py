@@ -156,10 +156,10 @@ DOMAIN GAPS:
 IMPORTANT: Do NOT create or modify anything. Only search and analyze.\
 """,
     tools=[
-        "mcp__omo-mcp__search_entities",
-        "mcp__omo-mcp__search_forms",
-        "mcp__omo-mcp__search_modules",
-        "mcp__omo-mcp__search_reference_lists",
+        "mcp__shesha-mcp__search_entities",
+        "mcp__shesha-mcp__search_forms",
+        "mcp__shesha-mcp__search_modules",
+        "mcp__shesha-mcp__search_reference_lists",
     ],
     model="haiku",
 )
@@ -216,8 +216,11 @@ application services, and DTOs. Build, test, fix, and verify.
       stop it. The test script must start a fresh server with the new code.
       Skip this step if no server is running.
    b. Run /test-entity-crud-api --start-server --update-entities
-      This builds the solution, starts a fresh server, and tests ALL entity
-      CRUD GET endpoints. Auto-fix is enabled by default and handles:
+      IMPORTANT: Just invoke the skill. Do NOT manually probe for PowerShell
+      versions, run dotnet commands, or improvise — the skill handles everything
+      including build, server start, and test execution. It uses Windows
+      PowerShell (powershell.exe), NOT pwsh.
+      Auto-fix is enabled by default and handles:
       - GraphQL field conflicts (renames property or adds [GraphQLIgnore])
       - Missing database columns (creates FluentMigrator migration)
       - Entity registration issues (fixes [Entity] attribute)
@@ -298,11 +301,11 @@ order, then verify each form has a working test URL.
 - When updating existing forms, use update_form_configuration.\
 """,
     tools=[
-        "mcp__omo-mcp__create_form_configuration",
-        "mcp__omo-mcp__update_form_configuration",
-        "mcp__omo-mcp__get_form_test_url",
-        "mcp__omo-mcp__search_forms",
-        "mcp__omo-mcp__search_entities",
+        "mcp__shesha-mcp__create_form_configuration",
+        "mcp__shesha-mcp__update_form_configuration",
+        "mcp__shesha-mcp__get_form_test_url",
+        "mcp__shesha-mcp__search_forms",
+        "mcp__shesha-mcp__search_entities",
     ],
     model="sonnet",
 )
@@ -377,7 +380,7 @@ def build_agents(backend_cmd: str | None = None) -> dict[str, AgentDefinition]:
             "Bash",
             "Glob",
             "Grep",
-            "mcp__omo-mcp__search_entities",
+            "mcp__shesha-mcp__search_entities",
         ],
         model="sonnet",
     )

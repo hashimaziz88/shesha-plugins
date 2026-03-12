@@ -33,9 +33,9 @@ if ($Port -eq 0) {
     if ($launchSettings) {
         $json = Get-Content $launchSettings.FullName | ConvertFrom-Json
 
-        # Ensure a "Project" profile exists — required for dotnet run
+        # Ensure a "Project" profile exists - required for dotnet run
         if (-not $json.profiles.PSObject.Properties["Project"]) {
-            Write-Host "  No 'Project' launch profile found — creating one..." -ForegroundColor Yellow
+            Write-Host "  No 'Project' launch profile found - creating one..." -ForegroundColor Yellow
 
             # Derive port from iisSettings if available, otherwise default
             $defaultPort = 21021
@@ -459,6 +459,7 @@ if (-not (Test-Path $testScript)) {
     exit 1
 }
 
+$testExitCode = 0
 try {
     $testParams = @{
         BaseUrl = $BaseUrl
@@ -475,15 +476,16 @@ catch {
     Write-Host "  ERROR: Test execution failed - $_" -ForegroundColor Red
     $testExitCode = 1
 }
-
-# Step 3: Cleanup if we started the server
-if ($ServerProcess) {
-    Write-Host ""
-    Write-Header "Cleanup"
-    Stop-BackendServer -Process $ServerProcess
+finally {
+    # Always clean up the server we started, even on crash/abort
+    if ($ServerProcess) {
+        Write-Host ""
+        Write-Header "Cleanup"
+        Stop-BackendServer -Process $ServerProcess
+    }
 }
 
-# Step 4: Final summary
+# Step 3: Final summary
 Write-Host ""
 if ($testExitCode -eq 0) {
     Write-Host "  All tests passed!" -ForegroundColor Green

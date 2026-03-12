@@ -9,14 +9,14 @@ ALLOWED_TOOLS = [
     # Core
     "Read", "Write", "Edit", "Bash", "Glob", "Grep",
     "Skill", "TodoWrite",
-    # MCP: omo-mcp
-    "mcp__omo-mcp__search_entities",
-    "mcp__omo-mcp__search_forms",
-    "mcp__omo-mcp__search_modules",
-    "mcp__omo-mcp__search_reference_lists",
-    "mcp__omo-mcp__create_form_configuration",
-    "mcp__omo-mcp__update_form_configuration",
-    "mcp__omo-mcp__get_form_test_url",
+    # MCP: shesha-mcp
+    "mcp__shesha-mcp__search_entities",
+    "mcp__shesha-mcp__search_forms",
+    "mcp__shesha-mcp__search_modules",
+    "mcp__shesha-mcp__search_reference_lists",
+    "mcp__shesha-mcp__create_form_configuration",
+    "mcp__shesha-mcp__update_form_configuration",
+    "mcp__shesha-mcp__get_form_test_url",
 ]
 
 
@@ -30,7 +30,7 @@ def build_options(cwd: str = ".", backend_cmd: str | None = None) -> ClaudeAgent
         },
         agents=build_agents(backend_cmd),
         mcp_servers={
-            "omo-mcp": {
+            "shesha-mcp": {
                 "type": "sse",
                 "url": "http://127.0.0.1:8000/sse",
             },
