@@ -32,14 +32,31 @@ if ($Port -eq 0) {
         Where-Object { $_.FullName -match "Web\.Host" } | Select-Object -First 1
     if ($launchSettings) {
         $json = Get-Content $launchSettings.FullName | ConvertFrom-Json
-        # Look for "Project" profile first, then fall back to first profile
-        $projectProfile = $null
-        if ($json.profiles.PSObject.Properties["Project"]) {
-            $projectProfile = $json.profiles.Project
-        } else {
-            $profiles = $json.profiles.PSObject.Properties | Select-Object -First 1
-            if ($profiles) { $projectProfile = $profiles.Value }
+
+        # Ensure a "Project" profile exists — required for dotnet run
+        if (-not $json.profiles.PSObject.Properties["Project"]) {
+            Write-Host "  No 'Project' launch profile found — creating one..." -ForegroundColor Yellow
+
+            # Derive port from iisSettings if available, otherwise default
+            $defaultPort = 21021
+            if ($json.iisSettings -and $json.iisSettings.iisExpress -and $json.iisSettings.iisExpress.applicationUrl) {
+                if ($json.iisSettings.iisExpress.applicationUrl -match ":(\d+)") {
+                    $defaultPort = [int]$Matches[1]
+                }
+            }
+
+            $projectProfile = [PSCustomObject]@{
+                commandName    = "Project"
+                launchBrowser  = $false
+                applicationUrl = "http://localhost:$defaultPort"
+            }
+            $json.profiles | Add-Member -NotePropertyName "Project" -NotePropertyValue $projectProfile
+            $json | ConvertTo-Json -Depth 10 | Set-Content $launchSettings.FullName -Encoding UTF8
+            Write-Host "  Created 'Project' profile (port $defaultPort) in $($launchSettings.FullName)" -ForegroundColor Green
         }
+
+        # Read port from Project profile
+        $projectProfile = $json.profiles.Project
         if ($projectProfile -and $projectProfile.applicationUrl) {
             $url = $projectProfile.applicationUrl -split ";" | Select-Object -First 1
             if ($url -match ":(\d+)") {
