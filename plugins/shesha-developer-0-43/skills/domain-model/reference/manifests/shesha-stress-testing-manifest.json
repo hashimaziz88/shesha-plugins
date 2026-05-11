@@ -1,0 +1,12 @@
+{
+  "module": {
+    "name": "Shesha.StressTesting",
+    "className": "Shesha.StressTesting.StressTestingModule",
+    "dbPrefix": null,
+    "publisher": "Shesha",
+    "dependencies": ["SheshaCoreModule", "SheshaApplicationModule", "EnterpriseModule", "AbpAspNetCoreModule", "AbpZeroCommonModule"]
+  },
+  "entities": [],
+  "referenceLists": [],
+  "note": "This is an application-layer testing module that provides OTP retrieval capabilities for stress testing and development scenarios. It does not define its own domain entities but operates on existing OtpAuditItem entities from the core Shesha framework. The module is restricted to Development and Staging environments for security purposes and enables automated testing of OTP-based authentication flows."
+}

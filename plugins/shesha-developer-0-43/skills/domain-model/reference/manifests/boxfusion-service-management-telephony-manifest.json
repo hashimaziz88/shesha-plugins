@@ -1,0 +1,17 @@
+{
+  "module": {
+    "name": "Boxfusion.ServiceManagementTelephony",
+    "className": "Boxfusion.ServiceManagementTelephony.Application.ServiceManagementTelephonyApplicationModule",
+    "dbPrefix": "SMT_",
+    "publisher": "Boxfusion",
+    "dependencies": ["Abp.Zero.Common", "Abp.AspNetCore", "Shesha.Telephony.Domain", "Shesha.Telephony.Application", "ServiceManagement"]
+  },
+  "entities": [],
+  "referenceLists": [
+    { "name": "CallInteractionType", "description": "Phone call interaction classifications", "values": ["InboundCall", "OutboundCall", "CallTransfer", "Conference", "Voicemail"], "isEnum": false, "adminConfigurable": true },
+    { "name": "CallDisposition", "description": "Call outcome classifications", "values": ["Resolved", "Escalated", "CallBack", "NoAnswer", "Transferred"], "isEnum": false, "adminConfigurable": true },
+    { "name": "CallPriority", "description": "Priority levels for phone calls", "values": ["Normal", "High", "Urgent", "Emergency"], "isEnum": false },
+    { "name": "IVRMenuOption", "description": "IVR menu selections", "values": ["TechnicalSupport", "BillingInquiry", "NewService", "GeneralInquiry"], "isEnum": false, "adminConfigurable": true }
+  ],
+  "note": "Application layer integration module - uses entities from ServiceManagement.Domain (Case, CaseInteraction, Contact) and Shesha.Telephony.Domain (Call, CallQueue, Agent, CallRecording)"
+}

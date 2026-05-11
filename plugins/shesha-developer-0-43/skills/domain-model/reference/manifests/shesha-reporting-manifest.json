@@ -1,0 +1,99 @@
+{
+  "module": {
+    "name": "Shesha.Reporting",
+    "className": "Shesha.Reporting.ReportingModule",
+    "dbPrefix": "rpt_",
+    "publisher": "Boxfusion",
+    "dependencies": ["SheshaCoreModule", "SheshaApplicationModule", "AbpAspNetCoreModule"]
+  },
+  "entities": [
+    {
+      "name": "ReportConfig",
+      "namespace": "Shesha.Reporting.Domain",
+      "description": "Root aggregate for report configurations with versioning and configuration item support",
+      "baseEntity": "ConfigurationItemBase",
+      "isAggregate": true,
+      "properties": [
+        { "name": "ItemType", "type": "string", "description": "Configuration item type identifier (constant: 'report')" },
+        { "name": "ReportType", "type": "ReportTypeConfig", "description": "Associated report type configuration" },
+        { "name": "Icon", "type": "string", "description": "Icon identifier for UI display" },
+        { "name": "ShowInReportsMenu", "type": "bool", "description": "Whether to display in reports menu" },
+        { "name": "ConnectionStringName", "type": "string", "description": "Database connection string identifier" },
+        { "name": "OrderIndex", "type": "int?", "description": "Display order in menus and lists" },
+        { "name": "ExtensionJson", "type": "string", "description": "JSON configuration data specific to report type" },
+        { "name": "DataFile", "type": "StoredFile", "description": "Binary data storage for report definitions" },
+        { "name": "Category", "type": "long?", "description": "Report category classification" },
+        { "name": "ParameterForm", "type": "FormConfiguration", "description": "Form configuration for report parameters" },
+        { "name": "Flags", "type": "long?", "description": "Multi-value flags for report characteristics" }
+      ]
+    },
+    {
+      "name": "ReportTypeConfig",
+      "namespace": "Shesha.Reporting.Domain",
+      "description": "Configuration for report types defining behavior and capabilities",
+      "baseEntity": "ConfigurationItemBase",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "ReportParameter",
+      "namespace": "Shesha.Reporting.Domain",
+      "description": "Parameters for reports with data types and default values",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": [
+        { "name": "ReportConfig", "type": "ReportConfig", "description": "Parent report configuration" },
+        { "name": "Name", "type": "string", "description": "Parameter identifier name" },
+        { "name": "DefaultValue", "type": "string", "description": "Default value for the parameter" },
+        { "name": "DataType", "type": "GeneralDataType", "description": "Data type of the parameter (Text, Number, Date, etc.)" },
+        { "name": "OrderIndex", "type": "int?", "description": "Display order within parameter form" }
+      ]
+    },
+    {
+      "name": "GeneratedReportConfig",
+      "namespace": "Shesha.Reporting.Domain",
+      "description": "Configuration for generated report instances",
+      "baseEntity": "Entity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "DistributedReportConfigItem",
+      "namespace": "Shesha.Reporting.Domain",
+      "description": "Configuration items for distributed report scenarios",
+      "baseEntity": "Entity",
+      "isAggregate": false,
+      "properties": []
+    }
+  ],
+  "referenceLists": [
+    {
+      "name": "ReportCategory",
+      "description": "Categorizes reports by functional area",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Reporting.Domain.Enums.RefListReportCategory"
+    },
+    {
+      "name": "ReportParameterType",
+      "description": "Data types available for report parameters",
+      "values": ["Text", "Number", "Date", "Boolean"],
+      "isEnum": true,
+      "enumFullName": "GeneralDataType"
+    },
+    {
+      "name": "ReportFlags",
+      "description": "Multi-value flags for report characteristics",
+      "values": [],
+      "isEnum": false,
+      "enumFullName": null
+    },
+    {
+      "name": "ReportStatus",
+      "description": "Status values for report lifecycle",
+      "values": [],
+      "isEnum": false,
+      "enumFullName": null
+    }
+  ]
+}

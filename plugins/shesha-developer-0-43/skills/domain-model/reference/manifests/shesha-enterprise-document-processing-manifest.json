@@ -1,0 +1,32 @@
+{
+  "module": {
+    "name": "Shesha.Enterprise.DocumentProcessing",
+    "className": "Shesha.Enterprise.DocumentProcessing.SheshaEnterpriseDocumentProcessingModule",
+    "dbPrefix": "entpr_",
+    "publisher": "Boxfusion",
+    "dependencies": ["SheshaFrameworkModule", "SheshaNHibernateModule", "AbpZeroCoreModule"]
+  },
+  "entities": [
+    {
+      "name": "FileTemplateConfiguration",
+      "namespace": "Shesha.Enterprise.DocumentProcessing.Domain",
+      "description": "Document template configuration and metadata",
+      "baseEntity": "ConfigurationItemBase",
+      "isAggregate": false,
+      "properties": [
+        { "name": "DocumentTemplate", "type": "StoredFile", "description": "Reference to the stored template file" },
+        { "name": "ItemType", "type": "string", "description": "Fixed value 'file-template' for configuration item type" },
+        { "name": "VersionStatus", "type": "ConfigurationItemVersionStatus", "description": "Template version status (defaults to Live)" }
+      ]
+    }
+  ],
+  "referenceLists": [
+    {
+      "name": "SignatureType",
+      "description": "Defines the type of signature to display",
+      "values": ["Normal", "Small", "SmallOrNormal", "NormalOrSmall"],
+      "isEnum": true,
+      "enumFullName": "Shesha.Enterprise.DocumentProcessing.SignatureType"
+    }
+  ]
+}

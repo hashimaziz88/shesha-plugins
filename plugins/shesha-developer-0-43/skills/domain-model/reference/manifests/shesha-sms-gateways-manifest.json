@@ -1,0 +1,12 @@
+{
+  "module": {
+    "name": "Shesha.Sms.BulkSms, Shesha.Sms.SmsPortal, Shesha.Sms.Xml2Sms",
+    "className": "Shesha.Sms.BulkSms.SheshaBulkSmsModule, Shesha.Sms.SmsPortal.SheshaSmsPortalModule, Shesha.Sms.Xml2Sms.SheshaXml2SmsModule",
+    "dbPrefix": null,
+    "publisher": "Shesha",
+    "dependencies": ["SheshaFrameworkModule", "SheshaApplicationModule", "AbpAspNetCoreModule"]
+  },
+  "entities": [],
+  "referenceLists": [],
+  "note": "These are application-layer SMS gateway modules that integrate with external SMS service providers (BulkSms, SmsPortal, Xml2Sms). They do not define domain entities as they operate purely as service integration modules. Each module provides SMS sending capabilities through its respective provider's API, with configurable gateway settings including authentication and proxy support."
+}

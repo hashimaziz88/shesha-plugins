@@ -1,0 +1,104 @@
+{
+  "module": {
+    "name": "Boxfusion.PatientEngagement",
+    "className": "Boxfusion.PatientEngagement.Domain.PatientEngagementModule",
+    "dbPrefix": "PE_",
+    "publisher": "Boxfusion",
+    "dependencies": ["Shesha.Core", "Shesha.Application"]
+  },
+  "entities": [
+    {
+      "name": "AmbulanceRequest",
+      "namespace": "Boxfusion.PatientEngagement.Domain.AmbulanceRequests",
+      "description": "Central ambulance request entity with complete emergency details",
+      "baseEntity": "BaseEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "RequestNumber", "type": "string", "description": "Unique identifier for external reference" },
+        { "name": "CallerName", "type": "string", "description": "Name of person making the request" },
+        { "name": "CallerMobileNumber", "type": "string", "description": "Caller's contact number" },
+        { "name": "PatientName", "type": "string", "description": "Patient's full name" },
+        { "name": "PatientAge", "type": "int?", "description": "Patient's age" },
+        { "name": "PatientGender", "type": "RefListGender", "description": "Patient's gender" },
+        { "name": "PatientMobileNumber", "type": "string", "description": "Patient's contact number" },
+        { "name": "EmergencyType", "type": "RefListEmergencyType", "description": "Type of medical emergency" },
+        { "name": "ProvisionalDiagnosis", "type": "RefListProvisionalDiagnosis", "description": "Initial assessment of patient condition" },
+        { "name": "IncidentDescription", "type": "string", "description": "Detailed description of the incident" },
+        { "name": "LocationDescription", "type": "string", "description": "Detailed location description" },
+        { "name": "PickupLatitude", "type": "decimal?", "description": "GPS latitude of pickup location" },
+        { "name": "PickupLongitude", "type": "decimal?", "description": "GPS longitude of pickup location" },
+        { "name": "DestinationFacility", "type": "string", "description": "Target medical facility" },
+        { "name": "Priority", "type": "RefListRequestPriority", "description": "Emergency priority level" },
+        { "name": "Status", "type": "RefListRequestStatus", "description": "Current request status" },
+        { "name": "IsPregnancyRelated", "type": "bool", "description": "Whether emergency involves pregnancy" },
+        { "name": "IsPatientAwake", "type": "RefListPatientIsAwake", "description": "Patient consciousness level" },
+        { "name": "IsPatientBreathing", "type": "bool?", "description": "Whether patient is breathing" },
+        { "name": "BloodPressure", "type": "string", "description": "Patient's blood pressure reading" },
+        { "name": "PulseRate", "type": "int?", "description": "Patient's pulse rate" },
+        { "name": "Temperature", "type": "decimal?", "description": "Patient's temperature" },
+        { "name": "OtherMedicalConditions", "type": "RefListOtherMedicalConditions", "description": "Additional medical conditions" },
+        { "name": "RequestedDateTime", "type": "DateTime", "description": "When the request was made" },
+        { "name": "DispatchedDateTime", "type": "DateTime?", "description": "When vehicle was dispatched" },
+        { "name": "ArrivedDateTime", "type": "DateTime?", "description": "When vehicle arrived at scene" },
+        { "name": "CompletedDateTime", "type": "DateTime?", "description": "When request was completed" },
+        { "name": "CancellationReason", "type": "RefListCancellationReason?", "description": "Reason for cancellation if applicable" },
+        { "name": "WeeksPregnant", "type": "int?", "description": "Pregnancy duration in weeks" },
+        { "name": "IsFirstChild", "type": "bool?", "description": "Whether this is first pregnancy" },
+        { "name": "ContractionInterval", "type": "int?", "description": "Time between contractions (minutes)" },
+        { "name": "WaterBroken", "type": "bool?", "description": "Whether amniotic sac has ruptured" },
+        { "name": "WaterColor", "type": "RefListWaterColor", "description": "Color of amniotic fluid" },
+        { "name": "BabyBodyPartOut", "type": "RefListBodyPartOut", "description": "Whether any body part is visible" },
+        { "name": "ExpectedDeliveryDate", "type": "DateTime?", "description": "Expected due date" }
+      ]
+    },
+    {
+      "name": "EmsVehicle",
+      "namespace": "Boxfusion.PatientEngagement.Domain.Vehicles",
+      "description": "Emergency medical service vehicle tracking",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "VehicleNumber", "type": "string", "description": "Unique vehicle identification" },
+        { "name": "VehicleType", "type": "RefListVehicleType", "description": "Type of EMS vehicle" },
+        { "name": "CallSign", "type": "string", "description": "Radio call sign" },
+        { "name": "CurrentStatus", "type": "RefListVehicleStatus", "description": "Current operational status" },
+        { "name": "CurrentLatitude", "type": "decimal?", "description": "Current GPS latitude" },
+        { "name": "CurrentLongitude", "type": "decimal?", "description": "Current GPS longitude" },
+        { "name": "HomeStation", "type": "string", "description": "Base station location" },
+        { "name": "CrewMembers", "type": "string", "description": "Current crew member names" },
+        { "name": "IsAvailable", "type": "bool", "description": "Whether vehicle is available for dispatch" },
+        { "name": "LastMaintenance", "type": "DateTime?", "description": "Date of last maintenance" }
+      ]
+    },
+    {
+      "name": "VehicleDispatched",
+      "namespace": "Boxfusion.PatientEngagement.Domain.Vehicles",
+      "description": "Vehicle dispatch tracking and status",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "RequestId", "type": "guid", "description": "Associated ambulance request" },
+        { "name": "VehicleId", "type": "guid", "description": "Dispatched vehicle reference" },
+        { "name": "DispatchedTime", "type": "DateTime", "description": "When vehicle was dispatched" },
+        { "name": "EstimatedArrivalTime", "type": "DateTime?", "description": "ETA at pickup location" },
+        { "name": "ActualArrivalTime", "type": "DateTime?", "description": "Actual arrival time" },
+        { "name": "CompletedTime", "type": "DateTime?", "description": "When dispatch was completed" },
+        { "name": "Status", "type": "RefListDispatchStatus", "description": "Current dispatch status" },
+        { "name": "Notes", "type": "string", "description": "Dispatch notes and updates" }
+      ]
+    }
+  ],
+  "referenceLists": [
+    { "name": "RequestStatus", "description": "Ambulance request status tracking", "values": ["New", "Dispatched", "EnRoute", "OnScene", "Transporting", "Completed", "Cancelled"], "isEnum": true, "enumFullName": "Boxfusion.PatientEngagement.Domain.RefListRequestStatus" },
+    { "name": "ResponseStatus", "description": "Response outcome classification", "values": ["Successful", "Refused", "NoAccess", "Cancelled"], "isEnum": true, "enumFullName": "Boxfusion.PatientEngagement.Domain.RefListResponseStatus" },
+    { "name": "CancellationReason", "description": "Reasons for request cancellation", "values": ["PatientRefused", "FalseAlarm", "DuplicateCall", "ResolvedByOthers"], "isEnum": false, "adminConfigurable": true },
+    { "name": "ProvisionalDiagnosis", "description": "Initial patient condition assessment", "values": ["CardiacArrest", "Trauma", "Stroke", "ChestPain", "DifficultyBreathing", "Pregnancy"], "isEnum": false, "adminConfigurable": true },
+    { "name": "EmergencyType", "description": "Classification of emergency situations", "values": ["Medical", "Trauma", "Maternity", "Psychiatric", "Other"], "isEnum": false, "adminConfigurable": true },
+    { "name": "Gender", "description": "Patient gender options", "values": ["Male", "Female", "Other"], "isEnum": true, "enumFullName": "Boxfusion.PatientEngagement.Domain.RefListGender" },
+    { "name": "PatientIsAwake", "description": "Patient consciousness levels", "values": ["Awake", "Unconscious", "SemiConscious"], "isEnum": true, "enumFullName": "Boxfusion.PatientEngagement.Domain.RefListPatientIsAwake" },
+    { "name": "WaterColor", "description": "Amniotic fluid color for pregnancy emergencies", "values": ["Clear", "Pink", "Green", "Brown"], "isEnum": true, "enumFullName": "Boxfusion.PatientEngagement.Domain.RefListWaterColor" },
+    { "name": "BodyPartOut", "description": "Visible body parts during delivery", "values": ["None", "Head", "Arm", "Leg", "Cord"], "isEnum": true, "enumFullName": "Boxfusion.PatientEngagement.Domain.RefListBodyPartOut" },
+    { "name": "OtherMedicalConditions", "description": "Additional patient medical conditions", "values": ["Diabetes", "Hypertension", "HeartDisease", "Epilepsy", "Asthma"], "isEnum": false, "multiSelect": true, "adminConfigurable": true },
+    { "name": "PickupLocationMethod", "description": "How pickup location was determined", "values": ["GPSCoordinates", "Address", "Landmarks", "Coordinates"], "isEnum": false, "adminConfigurable": true }
+  ]
+}

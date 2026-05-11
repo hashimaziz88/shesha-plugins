@@ -1,0 +1,479 @@
+{
+  "module": {
+    "name": "Shesha.Core",
+    "className": "Shesha.SheshaCoreModule",
+    "dbPrefix": "Core_",
+    "publisher": "Shesha",
+    "dependencies": ["SheshaFrameworkModule", "AbpZeroCoreModule"]
+  },
+  "entities": [
+    {
+      "name": "Person",
+      "namespace": "Shesha.Domain",
+      "description": "Core person entity with identity, contact, and demographic information",
+      "baseEntity": "FullPowerEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "IdentityNumber", "type": "string(13)", "description": "National identity number or equivalent" },
+        { "name": "Title", "type": "RefListPersonTitle", "description": "Person title (Mr, Mrs, Ms, Dr, Prof)" },
+        { "name": "FirstName", "type": "string", "description": "Given name" },
+        { "name": "LastName", "type": "string", "description": "Family name" },
+        { "name": "MiddleName", "type": "string", "description": "Middle name(s)" },
+        { "name": "Initials", "type": "string", "description": "Name initials" },
+        { "name": "FullName", "type": "string", "description": "Calculated full display name" },
+        { "name": "CustomShortName", "type": "string", "description": "Custom short display name" },
+        { "name": "HomeNumber", "type": "string", "description": "Home telephone number" },
+        { "name": "MobileNumber1", "type": "string", "description": "Primary mobile number" },
+        { "name": "MobileNumber2", "type": "string", "description": "Secondary mobile number" },
+        { "name": "EmailAddress1", "type": "string", "description": "Primary email address" },
+        { "name": "EmailAddress2", "type": "string", "description": "Secondary email address" },
+        { "name": "DateOfBirth", "type": "DateTime?", "description": "Date of birth" },
+        { "name": "Gender", "type": "RefListGender", "description": "Gender (Male, Female, NotDisclosed)" },
+        { "name": "User", "type": "User", "description": "Associated system user account" },
+        { "name": "Address", "type": "Address", "description": "Home address" },
+        { "name": "WorkAddress", "type": "Address", "description": "Work address" },
+        { "name": "PrimaryOrganisation", "type": "Organisation", "description": "Primary affiliated organization" },
+        { "name": "PrimaryAccount", "type": "Account", "description": "Primary associated account" },
+        { "name": "PrimarySite", "type": "Site", "description": "Primary associated site" },
+        { "name": "Photo", "type": "StoredFile", "description": "Profile photo" }
+      ]
+    },
+    {
+      "name": "Organisation",
+      "namespace": "Shesha.Domain",
+      "description": "Organization entity extending OrganisationBase",
+      "baseEntity": "OrganisationBase",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Persons", "type": "IList<OrganisationPerson>", "description": "Associated persons" }
+      ]
+    },
+    {
+      "name": "OrganisationBase",
+      "namespace": "Shesha.Domain",
+      "description": "Generic base class for organizational structures",
+      "baseEntity": "FullPowerEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "Organization name" },
+        { "name": "ShortAlias", "type": "string", "description": "Short display name" },
+        { "name": "Description", "type": "string", "description": "Organization description" },
+        { "name": "FreeTextAddress", "type": "string", "description": "Address as free text" },
+        { "name": "OrganisationType", "type": "RefListOrganisationType", "description": "Type of organization" },
+        { "name": "Status", "type": "RefListOrganisationStatus", "description": "Current status" },
+        { "name": "Parent", "type": "TOrganisation", "description": "Parent organization" },
+        { "name": "Units", "type": "IList<TOrganisation>", "description": "Child organizations" },
+        { "name": "PrimaryAddress", "type": "TAddress", "description": "Primary address" },
+        { "name": "PrimaryContact", "type": "TPerson", "description": "Primary contact person" }
+      ]
+    },
+    {
+      "name": "OrganisationPerson",
+      "namespace": "Shesha.Domain",
+      "description": "Relationship entity linking persons to organizations",
+      "baseEntity": "OrganisationPersonBase",
+      "isAggregate": false,
+      "properties": [
+        { "name": "Organisation", "type": "Organisation", "description": "Associated organization" },
+        { "name": "Person", "type": "Person", "description": "Associated person" },
+        { "name": "Position", "type": "string", "description": "Person's position in organization" },
+        { "name": "IsDefault", "type": "bool", "description": "Default organization for person" }
+      ]
+    },
+    {
+      "name": "OrganisationAddress",
+      "namespace": "Shesha.Domain",
+      "description": "Relationship entity linking addresses to organizations",
+      "baseEntity": "RelationshipEntityBase",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "PersonRelationship",
+      "namespace": "Shesha.Domain",
+      "description": "Defines relationships between persons",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "Person", "type": "Person", "description": "Primary person in relationship" },
+        { "name": "RelatedPerson", "type": "Person", "description": "Related person" },
+        { "name": "RelationshipType", "type": "RefListRelationshipType", "description": "Type of relationship" },
+        { "name": "Comment", "type": "string", "description": "Additional relationship notes" }
+      ]
+    },
+    {
+      "name": "Account",
+      "namespace": "Shesha.Domain",
+      "description": "Business account with relationships to persons and organizations",
+      "baseEntity": "FullPowerEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "Account name" },
+        { "name": "AccountNo", "type": "string", "description": "Account number" },
+        { "name": "Status", "type": "RefListAccountStatus", "description": "Account status" },
+        { "name": "AccountType", "type": "RefListAccountType", "description": "Type of account" },
+        { "name": "PrimaryContact", "type": "Person", "description": "Primary contact person" },
+        { "name": "Organisation", "type": "Organisation", "description": "Associated organization" },
+        { "name": "Parent", "type": "Account", "description": "Parent account" },
+        { "name": "PrimarySite", "type": "Site", "description": "Primary site" },
+        { "name": "BillingAddress", "type": "Address", "description": "Billing address" },
+        { "name": "FreeTextBillingAddress", "type": "string", "description": "Billing address" },
+        { "name": "ActiveFromDate", "type": "DateTime?", "description": "Account activation date" },
+        { "name": "ActiveToDate", "type": "DateTime?", "description": "Account expiration date" },
+        { "name": "ContactEmail", "type": "string", "description": "Contact email" },
+        { "name": "ContactTelephone", "type": "string", "description": "Contact telephone" }
+      ]
+    },
+    {
+      "name": "Address",
+      "namespace": "Shesha.Domain",
+      "description": "Geographic address with coordinate support",
+      "baseEntity": "FullPowerEntity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "AddressLine1", "type": "string", "description": "First address line" },
+        { "name": "AddressLine2", "type": "string", "description": "Second address line" },
+        { "name": "AddressLine3", "type": "string", "description": "Third address line" },
+        { "name": "Suburb", "type": "string", "description": "Suburb or district" },
+        { "name": "Town", "type": "string", "description": "Town or city" },
+        { "name": "POBox", "type": "string", "description": "Post office box" },
+        { "name": "Latitude", "type": "double?", "description": "Geographic latitude (-90 to 90)" },
+        { "name": "Longitude", "type": "double?", "description": "Geographic longitude" },
+        { "name": "FullAddress", "type": "string", "description": "Calculated full address" }
+      ]
+    },
+    {
+      "name": "Site",
+      "namespace": "Shesha.Domain",
+      "description": "Physical location/site with operating hours and coordinates",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "Site name" },
+        { "name": "ShortName", "type": "string", "description": "Short display name" },
+        { "name": "Description", "type": "string", "description": "Site description" },
+        { "name": "Comments", "type": "string", "description": "Additional comments" },
+        { "name": "OperatingHoursStartTime", "type": "TimeSpan?", "description": "Daily opening time" },
+        { "name": "OperatingHoursClosingTime", "type": "TimeSpan?", "description": "Daily closing time" },
+        { "name": "SiteType", "type": "long?", "description": "Site type reference list value" },
+        { "name": "SiteSubType", "type": "RefListSiteSubType?", "description": "Site sub-type classification" },
+        { "name": "PartOf", "type": "Site", "description": "Parent site in hierarchy" },
+        { "name": "Address", "type": "Address", "description": "Site address" },
+        { "name": "PrimaryContact", "type": "Person", "description": "Primary contact person" },
+        { "name": "Organisation", "type": "Organisation", "description": "Owning organization" },
+        { "name": "Latitude", "type": "decimal?", "description": "Geographic latitude coordinate" },
+        { "name": "Longitude", "type": "decimal?", "description": "Geographic longitude coordinate" },
+        { "name": "Altitude", "type": "decimal?", "description": "Altitude above sea level" },
+        { "name": "Area", "type": "Single?", "description": "Physical area size measurement" },
+        { "name": "ContactNumber", "type": "string(20)", "description": "Site contact telephone number" }
+      ]
+    },
+    {
+      "name": "ShaRole",
+      "namespace": "Shesha.Domain",
+      "description": "Configurable role definition with permissions",
+      "baseEntity": "ConfigurationItemBase",
+      "isAggregate": true,
+      "properties": [
+        { "name": "NameSpace", "type": "string", "description": "Role namespace" },
+        { "name": "Name", "type": "string", "description": "Role name" },
+        { "name": "Description", "type": "string", "description": "Role description" },
+        { "name": "HardLinkToApplication", "type": "bool", "description": "Application-specific role flag" },
+        { "name": "RoleAppointmentType", "type": "RoleAppointmentTypeConfig", "description": "Appointment type configuration" },
+        { "name": "Permissions", "type": "IList<ShaRolePermission>", "description": "Associated permissions" }
+      ]
+    },
+    {
+      "name": "ShaRolePermission",
+      "namespace": "Shesha.Domain",
+      "description": "Permission assignments for roles",
+      "baseEntity": "FullPowerEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "ShaRoleAppointedPerson",
+      "namespace": "Shesha.Domain",
+      "description": "Person-specific role appointments",
+      "baseEntity": "ShaRoleAppointment",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "ShaRoleAppointmentEntity",
+      "namespace": "Shesha.Domain",
+      "description": "Generic entity appointments for roles",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "RoleAppointmentTypeConfig",
+      "namespace": "Shesha.Domain",
+      "description": "Configuration for role appointment types",
+      "baseEntity": "ConfigurationItemBase",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "ShaRoleAppointment",
+      "namespace": "Shesha.Domain",
+      "description": "Role appointment with time-bounded scope",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Role", "type": "ShaRole", "description": "Assigned role" },
+        { "name": "FromDate", "type": "DateTime?", "description": "Appointment start date" },
+        { "name": "ToDate", "type": "DateTime?", "description": "Appointment end date" },
+        { "name": "Status", "type": "RefListRoleAppointmentStatus", "description": "Appointment status" },
+        { "name": "GenericEntity1", "type": "GenericEntityReference", "description": "First scope entity" },
+        { "name": "GenericEntity2", "type": "GenericEntityReference", "description": "Second scope entity" },
+        { "name": "GenericEntity3", "type": "GenericEntityReference", "description": "Third scope entity" }
+      ]
+    },
+    {
+      "name": "Notification",
+      "namespace": "Shesha.Domain",
+      "description": "Notification message with priority and categorization",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "Notification name" },
+        { "name": "Priority", "type": "RefListNotificationPriority", "description": "Priority level" },
+        { "name": "NotificationData", "type": "string", "description": "JSON notification data" },
+        { "name": "Category", "type": "string", "description": "Notification category" },
+        { "name": "NotificationType", "type": "NotificationTypeConfig", "description": "Type configuration" },
+        { "name": "ToPerson", "type": "Person", "description": "Recipient person" },
+        { "name": "FromPerson", "type": "Person", "description": "Sender person" },
+        { "name": "TriggeringEntity", "type": "GenericEntityReference", "description": "Entity that triggered notification" },
+        { "name": "NotificationTopic", "type": "NotificationTopicConfig", "description": "Topic configuration" }
+      ]
+    },
+    {
+      "name": "NotificationMessage",
+      "namespace": "Shesha.Domain",
+      "description": "Detailed notification delivery tracking",
+      "baseEntity": "FullPowerEntity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "PartOf", "type": "Notification", "description": "Parent notification" },
+        { "name": "Subject", "type": "string", "description": "Message subject" },
+        { "name": "Message", "type": "string", "description": "Message body" },
+        { "name": "RecipientText", "type": "string", "description": "Recipient display text" },
+        { "name": "SenderText", "type": "string", "description": "Sender display text" },
+        { "name": "CC", "type": "string", "description": "Carbon copy recipients" },
+        { "name": "RetryCount", "type": "int", "description": "Delivery retry attempts" },
+        { "name": "Direction", "type": "RefListNotificationDirection", "description": "Message direction" },
+        { "name": "ReadStatus", "type": "RefListNotificationReadStatus", "description": "Read status" },
+        { "name": "DateSent", "type": "DateTime?", "description": "Sent timestamp" },
+        { "name": "ErrorMessage", "type": "string", "description": "Last error message" },
+        { "name": "Channel", "type": "NotificationChannelConfig", "description": "Delivery channel" }
+      ]
+    },
+    {
+      "name": "NotificationMessageAttachment",
+      "namespace": "Shesha.Domain",
+      "description": "File attachments for notification messages",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "NotificationTemplate",
+      "namespace": "Shesha.Domain",
+      "description": "Notification message templates",
+      "baseEntity": "ConfigurationItemBase",
+      "isAggregate": true,
+      "properties": [
+        { "name": "MessageFormat", "type": "RefListNotificationMessageFormat", "description": "Template format" },
+        { "name": "TitleTemplate", "type": "string", "description": "Subject template" },
+        { "name": "BodyTemplate", "type": "string", "description": "Message body template" }
+      ]
+    },
+    {
+      "name": "NotificationTypeConfig",
+      "namespace": "Shesha.Domain",
+      "description": "Notification type configuration",
+      "baseEntity": "ConfigurationItemBase",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "Notification type name" },
+        { "name": "Description", "type": "string", "description": "Type description" },
+        { "name": "Templates", "type": "IList<NotificationTemplate>", "description": "Associated templates" }
+      ]
+    },
+    {
+      "name": "NotificationChannelConfig",
+      "namespace": "Shesha.Domain",
+      "description": "Notification channel configuration",
+      "baseEntity": "ConfigurationItemBase",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "Note",
+      "namespace": "Shesha.Domain",
+      "description": "Hierarchical notes with visibility control",
+      "baseEntity": "FullPowerChildEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "DeviceRegistration",
+      "namespace": "Shesha.Domain",
+      "description": "Mobile device registration for push notifications",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "EntityHistoryEvent",
+      "namespace": "Shesha.Domain",
+      "description": "Audit trail event tracking",
+      "baseEntity": "Entity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "EntityHistoryItem",
+      "namespace": "Shesha.Domain",
+      "description": "View entity for audit trail items",
+      "baseEntity": "Entity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "EntityId", "type": "string", "description": "Entity identifier" },
+        { "name": "EntityTypeFullName", "type": "string", "description": "Full type name of entity" },
+        { "name": "PropertyName", "type": "string", "description": "Changed property name" },
+        { "name": "OldValue", "type": "string", "description": "Previous value" },
+        { "name": "NewValue", "type": "string", "description": "New value" },
+        { "name": "CreationTime", "type": "DateTime", "description": "Change timestamp" },
+        { "name": "UserId", "type": "long?", "description": "User who made change" }
+      ]
+    }
+  ],
+  "referenceLists": [
+    {
+      "name": "Gender",
+      "description": "Person gender options",
+      "values": ["Male(1)", "Female(2)", "NotDisclosed(3)"],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListGender"
+    },
+    {
+      "name": "PersonTitle",
+      "description": "Person title options",
+      "values": ["Unknown(0)", "Mr(1)", "Mrs(2)", "Ms(3)", "Dr(4)", "Prof(5)"],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListPersonTitle"
+    },
+    {
+      "name": "NotificationPriority",
+      "description": "Notification priority levels",
+      "values": ["High(1)", "Medium(2)", "Low(3)", "Deferred(4)"],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListNotificationPriority"
+    },
+    {
+      "name": "NotificationStatus",
+      "description": "Notification delivery status",
+      "values": ["Unknown(0)", "Sent(1)", "Outgoing(2)", "WaitToRetry(4)", "Failed(8)", "Preparing(16)"],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListNotificationStatus"
+    },
+    {
+      "name": "ShaRoleAppointmentType",
+      "description": "Role appointment types",
+      "values": ["Person(1)", "Post(2)", "PostLevel(3)", "Unit(4)"],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.ShaRoleAppointmentType"
+    },
+    {
+      "name": "AccountStatus",
+      "description": "Account status options",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListAccountStatus",
+      "adminConfigurable": true
+    },
+    {
+      "name": "AccountType",
+      "description": "Account type classification",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListAccountType",
+      "adminConfigurable": true
+    },
+    {
+      "name": "NotificationDirection",
+      "description": "Message direction",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListNotificationDirection",
+      "adminConfigurable": true
+    },
+    {
+      "name": "NotificationReadStatus",
+      "description": "Message read status",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListNotificationReadStatus",
+      "adminConfigurable": true
+    },
+    {
+      "name": "NotificationMessageFormat",
+      "description": "Template message format",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListNotificationMessageFormat",
+      "adminConfigurable": true
+    },
+    {
+      "name": "NotificationChannelStatus",
+      "description": "Channel status options",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListNotificationChannelStatus",
+      "adminConfigurable": true
+    },
+    {
+      "name": "OrganisationType",
+      "description": "Organization classification",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListOrganisationType",
+      "adminConfigurable": true
+    },
+    {
+      "name": "OrganisationStatus",
+      "description": "Organization status",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListOrganisationStatus",
+      "adminConfigurable": true
+    },
+    {
+      "name": "VisibilityType",
+      "description": "Note visibility options",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListVisibilityType",
+      "adminConfigurable": true
+    },
+    {
+      "name": "PermissionAccessType",
+      "description": "Permission access levels",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListPermissionedAccess",
+      "adminConfigurable": true
+    },
+    {
+      "name": "SiteSubType",
+      "description": "Site sub-type classification",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.RefListSiteSubType",
+      "adminConfigurable": true
+    }
+  ]
+}

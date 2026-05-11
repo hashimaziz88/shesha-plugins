@@ -1,0 +1,12 @@
+{
+  "module": {
+    "name": "Shesha.Ldap",
+    "className": "Shesha.Ldap.SheshaLdapModule",
+    "dbPrefix": null,
+    "publisher": "Shesha",
+    "dependencies": ["AbpZeroCommonModule", "AbpAspNetCoreModule"]
+  },
+  "entities": [],
+  "referenceLists": [],
+  "note": "This is an authentication module only. It provides LDAP authentication capabilities for Shesha applications, enabling organizations to authenticate users against their existing Active Directory or other LDAP-compliant directory services. It does not define any domain entities as it focuses solely on authentication services."
+}

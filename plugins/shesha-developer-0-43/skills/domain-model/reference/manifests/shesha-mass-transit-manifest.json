@@ -1,0 +1,12 @@
+{
+  "module": {
+    "name": "Shesha.MassTransit",
+    "className": "Shesha.MassTransit.SheshaMassTransitModule",
+    "dbPrefix": null,
+    "publisher": "Shesha",
+    "dependencies": ["SheshaCoreModule", "SheshaApplicationModule", "EnterpriseModule", "AbpAspNetCoreModule"]
+  },
+  "entities": [],
+  "referenceLists": [],
+  "note": "This is an infrastructure module providing distributed messaging and message bus capabilities through MassTransit integration with RabbitMQ. It does not define domain entities as it operates purely as infrastructure for message handling. The module provides consumer framework, producer interfaces, and configuration management for message-based communication between Shesha modules and external systems."
+}

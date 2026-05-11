@@ -1,0 +1,75 @@
+{
+  "module": {
+    "name": "Shesha.InAppMessaging",
+    "className": "Shesha.InAppMessaging.InAppMessagingModule",
+    "dbPrefix": "inappmsg_",
+    "publisher": "Boxfusion",
+    "dependencies": ["SheshaCoreModule", "SheshaApplicationModule"]
+  },
+  "entities": [
+    {
+      "name": "Thread",
+      "namespace": "Shesha.InAppMessaging.Domain.Threads",
+      "description": "Root aggregate representing a conversation thread",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": true,
+      "properties": [
+        { "name": "RelatesTo", "type": "GenericEntityReference", "description": "Reference to the business entity this thread relates to" },
+        { "name": "Subject", "type": "string", "description": "Subject line of the thread (max 255 chars)" },
+        { "name": "Format", "type": "RefListThreadFormat", "description": "Message format for the thread (PlainText, RichText, Markdown)" },
+        { "name": "NotificationTemplateForExternalParticipants", "type": "NotificationTemplate", "description": "Template for notifying external participants" },
+        { "name": "NotificationTemplateForInternalParticipants", "type": "NotificationTemplate", "description": "Template for notifying internal participants" },
+        { "name": "FirstMessageDate", "type": "DateTime?", "description": "Timestamp when first message was sent" },
+        { "name": "LastMessageDate", "type": "DateTime?", "description": "Timestamp when last message was sent" },
+        { "name": "LastMessageFrom", "type": "Person", "description": "Person who sent the last message" },
+        { "name": "LastMessageFromOrg", "type": "OrganisationBase", "description": "Organization that sent the last message" },
+        { "name": "Messages", "type": "IList<Message>", "description": "Collection of messages in the thread" },
+        { "name": "IsNewMessage", "type": "bool", "description": "Indicates if thread has any messages (computed)" },
+        { "name": "HasUnreadMessages", "type": "bool", "description": "Indicates if thread has unread messages (computed)" }
+      ]
+    },
+    {
+      "name": "Message",
+      "namespace": "Shesha.InAppMessaging.Domain.Threads",
+      "description": "Individual message within a thread",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": [
+        { "name": "PartOf", "type": "Thread", "description": "The thread this message belongs to" },
+        { "name": "Sender", "type": "Participant", "description": "The participant who sent the message" },
+        { "name": "MessageText", "type": "string", "description": "Content of the message (max length)" },
+        { "name": "IsRead", "type": "bool", "description": "Whether the message has been read" },
+        { "name": "Person", "type": "Person", "description": "Person who authored the message" }
+      ]
+    },
+    {
+      "name": "Participant",
+      "namespace": "Shesha.InAppMessaging.Domain.Threads",
+      "description": "Participant in a thread (person or organization)",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": [
+        { "name": "PartOf", "type": "Thread", "description": "The thread this participant belongs to" },
+        { "name": "Person", "type": "Person", "description": "Person participant (nullable)" },
+        { "name": "Organisation", "type": "Organisation", "description": "Organization participant (nullable)" },
+        { "name": "IsExternal", "type": "bool", "description": "Whether participant is external (e.g., customer)" },
+        { "name": "CanMessage", "type": "bool", "description": "Whether participant can send messages" },
+        { "name": "HasArchived", "type": "bool", "description": "Whether participant has archived the thread" },
+        { "name": "NumUnreadMessages", "type": "int", "description": "Number of unread messages for this participant" }
+      ]
+    }
+  ],
+  "referenceLists": [
+    {
+      "name": "ThreadFormat",
+      "description": "Defines the message format for threads",
+      "values": [
+        { "name": "PlainText", "value": 1 },
+        { "name": "RichText", "value": 2 },
+        { "name": "Markdown", "value": 3 }
+      ],
+      "isEnum": true,
+      "enumFullName": "Shesha.InAppMessaging.Domain.Threads.RefListThreadFormat"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "module": {
+    "name": "Shesha.BpmnEngine",
+    "className": "Shesha.Enterprise.SheshaBpmnEngineModule",
+    "dbPrefix": null,
+    "publisher": "Boxfusion",
+    "dependencies": ["AbpZeroCommonModule", "AbpAutoMapperModule", "Shesha.Enterprise.Application"]
+  },
+  "entities": [
+    {
+      "name": "BusinessProcess",
+      "namespace": "Shesha.BpmnEngine",
+      "description": "Core workflow engine process executor",
+      "baseEntity": "Sealed Class",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Id", "type": "Guid", "description": "Unique identifier for the process instance" },
+        { "name": "State", "type": "ProcessState", "description": "Current execution state of the process" },
+        { "name": "Variables", "type": "IReadonlyVariables", "description": "Process variables and their values" },
+        { "name": "StateLogLevel", "type": "LogLevel", "description": "Logging verbosity level for state tracking" }
+      ]
+    },
+    {
+      "name": "ProcessState",
+      "namespace": "Shesha.BpmnEngine",
+      "description": "Contains complete state of a running process",
+      "baseEntity": "Value Object",
+      "isAggregate": false,
+      "properties": [
+        { "name": "Status", "type": "ProcessStateStatus", "description": "Current status (Execution, Suspended, Completed, etc.)" },
+        { "name": "Variables", "type": "VariablesCollection", "description": "Collection of process variables" },
+        { "name": "Path", "type": "IProcessPath", "description": "Current execution path information" },
+        { "name": "Log", "type": "ProcessLog", "description": "Execution history and audit trail" },
+        { "name": "Steps", "type": "List<StateStep>", "description": "Individual step execution records" }
+      ]
+    },
+    {
+      "name": "ActivityInstance",
+      "namespace": "Shesha.BpmnEngine.State",
+      "description": "Represents an executing activity within a process",
+      "baseEntity": "Abstract Base",
+      "isAggregate": false,
+      "properties": [
+        { "name": "Element", "type": "TElement", "description": "The BPMN element being executed" },
+        { "name": "InstanceId", "type": "ActivityIdentifier", "description": "Unique identifier for this activity instance" },
+        { "name": "SourceId", "type": "ActivityIdentifier", "description": "Identifier of the source activity" },
+        { "name": "PersistedId", "type": "Guid?", "description": "Database identifier if persisted" },
+        { "name": "IsScope", "type": "bool", "description": "Whether this activity creates a variable scope" }
+      ]
+    },
+    {
+      "name": "ProcessVariable",
+      "namespace": "Shesha.BpmnEngine.State",
+      "description": "Variable storage within process execution context",
+      "baseEntity": "ProcessVariableBase",
+      "isAggregate": false,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "Variable name identifier" },
+        { "name": "Value", "type": "object", "description": "Variable value (serialized)" },
+        { "name": "Type", "type": "VariableTypes", "description": "Data type of the variable" },
+        { "name": "Scope", "type": "string", "description": "Variable scope identifier" }
+      ]
+    },
+    {
+      "name": "UserTaskInstance",
+      "namespace": "Shesha.BpmnEngine.State",
+      "description": "User task activity instance",
+      "baseEntity": "ActivityInstance",
+      "isAggregate": false,
+      "properties": [
+        { "name": "FormIdentifier", "type": "IFormIdentifier", "description": "Associated form for task completion" },
+        { "name": "Assignees", "type": "IUserTaskAssignees", "description": "Task assignment configuration" },
+        { "name": "Decisions", "type": "IEnumerable<IUserDecision>", "description": "Available user decisions/buttons" },
+        { "name": "SlaSettings", "type": "IUserTaskSlaSettings", "description": "Service level agreement configuration" },
+        { "name": "NotificationSettings", "type": "IUserTaskNotificationsSettings", "description": "Notification configuration" }
+      ]
+    }
+  ],
+  "referenceLists": [
+    { "name": "StepStatuses", "description": "Status of workflow step execution", "values": ["Waiting", "Succeeded", "NotRun", "Failed", "Suspended", "Terminated", "WaitingStart", "Started"], "isEnum": true, "enumFullName": "Shesha.BpmnEngine.StepStatuses" },
+    { "name": "ProcessStateStatus", "description": "Overall status of process execution", "values": ["Execution", "ExecutionSuspended", "Suspended", "Terminated", "Completed"], "isEnum": true, "enumFullName": "Shesha.BpmnEngine.ProcessStateStatus" },
+    { "name": "UserTaskAssigneeRole", "description": "Role type for task assignees", "values": ["Owner", "Follower", "Exclusion"], "isEnum": true, "enumFullName": "Shesha.Enterprise.Model.Enums.UserTaskAssigneeRole" },
+    { "name": "MultiInstanceActivityType", "description": "Type of multi-instance execution", "values": ["None", "Sequential", "Parallel"], "isEnum": true, "enumFullName": "Shesha.BpmnEngine.Elements.Processes.MultiInstanceActivityType" },
+    { "name": "TransitionConditionType", "description": "Type of sequence flow condition", "values": ["Expression", "Script"], "isEnum": true, "enumFullName": "Shesha.Enterprise.Model.Enums.TransitionConditionType" },
+    { "name": "ProgressIndicatorInclusionTrigger", "description": "When to include tasks in progress indicators", "values": ["Never", "Always", "OnlyWhenAssignedToCurrentUser"], "isEnum": true, "enumFullName": "Shesha.Enterprise.Model.Enums.ProgressIndicatorInclusionTrigger" },
+    { "name": "YesNoInherited", "description": "Three-state boolean with inheritance", "values": ["Yes", "No", "Inherited"], "isEnum": true, "enumFullName": "Shesha.Enterprise.Model.Enums.YesNoInherited" },
+    { "name": "ImageOutputTypes", "description": "Format for diagram image output", "values": ["Jpeg", "Png"], "isEnum": true, "enumFullName": "Shesha.BpmnEngine.ImageOuputTypes" }
+  ]
+}

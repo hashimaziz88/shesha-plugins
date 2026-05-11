@@ -1,0 +1,165 @@
+{
+  "module": {
+    "name": "Shesha.Questionnaire.Domain",
+    "className": "Shesha.Questionnaire.Domain.QuestionnaireModule",
+    "dbPrefix": "entpr_",
+    "publisher": "Boxfusion",
+    "dependencies": ["SheshaCoreModule", "SheshaApplicationModule"]
+  },
+  "entities": [
+    {
+      "name": "Questionnaire",
+      "namespace": "Shesha.Questionnaire.Domain.Questionnaires",
+      "description": "Root aggregate for questionnaire definitions with type, status, and description",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "Name of the questionnaire" },
+        { "name": "Description", "type": "string", "description": "Detailed description of the questionnaire" },
+        { "name": "Type", "type": "long?", "description": "Questionnaire type reference (e.g., JobPosting, EmployeeSurvey)" },
+        { "name": "Status", "type": "RefListQuestionnaireStatus?", "description": "Current status of the questionnaire (Draft, Active, Inactive)" }
+      ]
+    },
+    {
+      "name": "Question",
+      "namespace": "Shesha.Questionnaire.Domain.Questions",
+      "description": "Individual questions within questionnaires with various types and scoring",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": [
+        { "name": "Label", "type": "string", "description": "Display label for the question" },
+        { "name": "Type", "type": "RefListQuestionType?", "description": "Type of question (MultipleChoice, Checkbox, Date, Text, etc.)" },
+        { "name": "Description", "type": "string?", "description": "Optional description for the question" },
+        { "name": "Hint", "type": "string?", "description": "Help text or hint for users" },
+        { "name": "IsRequired", "type": "bool?", "description": "Whether the question is mandatory" },
+        { "name": "HasAttachment", "type": "bool?", "description": "Whether the question supports file attachments" },
+        { "name": "Weight", "type": "decimal?", "description": "Scoring weight for the question" },
+        { "name": "OrderIndex", "type": "int?", "description": "Display order within the questionnaire" },
+        { "name": "MinLabel", "type": "string", "description": "Label for minimum value in range questions" },
+        { "name": "MinValue", "type": "int?", "description": "Minimum value for range questions" },
+        { "name": "MaxLabel", "type": "string", "description": "Label for maximum value in range questions" },
+        { "name": "MaxValue", "type": "int?", "description": "Maximum value for range questions" },
+        { "name": "Questionnaire", "type": "Questionnaire", "description": "Parent questionnaire reference" }
+      ]
+    },
+    {
+      "name": "QuestionnaireResponse",
+      "namespace": "Shesha.Questionnaire.Domain.QuestionnaireResponses",
+      "description": "Response instances to questionnaires with completion tracking and scoring",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": [
+        { "name": "CompletedDate", "type": "DateTime?", "description": "When the response was completed" },
+        { "name": "TotalScore", "type": "Single", "description": "Calculated total score for the response" },
+        { "name": "Status", "type": "RefListQuestionnaireResponseStatus?", "description": "Current status of the response" },
+        { "name": "Questionnaire", "type": "Questionnaire", "description": "Associated questionnaire" },
+        { "name": "QuestionnairePublication", "type": "QuestionnairePublication", "description": "Associated publication instance" },
+        { "name": "CompletedBy", "type": "Person", "description": "Person who completed the questionnaire" },
+        { "name": "Answers", "type": "IList<QuestionAnswer>", "description": "Collection of answers provided" }
+      ]
+    },
+    {
+      "name": "QuestionAnswer",
+      "namespace": "Shesha.Questionnaire.Domain.QuestionAnswers",
+      "description": "Individual answers to questions with multiple value formats",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": [
+        { "name": "TextValue", "type": "string?", "description": "Text-based answer value (max 2000 chars)" },
+        { "name": "NumValue", "type": "int?", "description": "Numeric answer value" },
+        { "name": "DateTime", "type": "DateTime?", "description": "Date/time answer value" },
+        { "name": "Score", "type": "Single?", "description": "Score assigned to this answer" },
+        { "name": "QuestionnaireResponse", "type": "QuestionnaireResponse", "description": "Parent response" },
+        { "name": "Question", "type": "Question", "description": "Associated question" }
+      ]
+    },
+    {
+      "name": "QuestionOption",
+      "namespace": "Shesha.Questionnaire.Domain.QuestionOptions",
+      "description": "Selectable options for multiple choice questions with scoring",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "Display name for the option" },
+        { "name": "Description", "type": "string", "description": "Description of the option" },
+        { "name": "Score", "type": "Single", "description": "Score value when this option is selected" },
+        { "name": "OrderIndex", "type": "Single", "description": "Display order within the question" },
+        { "name": "Question", "type": "Question", "description": "Parent question" }
+      ]
+    },
+    {
+      "name": "QuestionAnswerOption",
+      "namespace": "Shesha.Questionnaire.Domain.QuestionAnswerOptions",
+      "description": "Selected options for question answers",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "QuestionnairePublication",
+      "namespace": "Shesha.Questionnaire.Domain.QuestionnaierPublications",
+      "description": "Publication instances of questionnaires",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "JobApplicationTest",
+      "namespace": "Shesha.Questionnaire.Domain.TestJobApplication",
+      "description": "Test entity for job application scenarios",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "JobPostingTest",
+      "namespace": "Shesha.Questionnaire.Domain.TestJobPosting",
+      "description": "Test entity for job posting scenarios",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": []
+    }
+  ],
+  "referenceLists": [
+    {
+      "name": "QuestionType",
+      "description": "Defines the types of questions supported",
+      "values": [
+        { "name": "MultipleChoice", "value": 1 },
+        { "name": "Checkbox", "value": 2 },
+        { "name": "Date", "value": 3 },
+        { "name": "Text", "value": 4 },
+        { "name": "BigText", "value": 5 },
+        { "name": "Number", "value": 6 },
+        { "name": "Range", "value": 7 }
+      ],
+      "isEnum": true,
+      "enumFullName": "Shesha.Questionnaire.RefListQuestionType"
+    },
+    {
+      "name": "QuestionnaireStatus",
+      "description": "Defines the lifecycle states of questionnaires",
+      "values": [
+        { "name": "Draft", "value": 1 },
+        { "name": "Active", "value": 2 },
+        { "name": "Inactive", "value": 3 }
+      ],
+      "isEnum": true,
+      "enumFullName": "Shesha.Questionnaire.RefListQuestionnaireStatus"
+    },
+    {
+      "name": "QuestionnaireResponseStatus",
+      "description": "Defines the states of questionnaire responses",
+      "values": [],
+      "isEnum": true,
+      "enumFullName": "Shesha.Questionnaire.RefListQuestionnaireResponseStatus"
+    },
+    {
+      "name": "QuestionnaireType",
+      "description": "Categorizes questionnaires by purpose",
+      "values": [],
+      "isEnum": false,
+      "enumFullName": null
+    }
+  ]
+}

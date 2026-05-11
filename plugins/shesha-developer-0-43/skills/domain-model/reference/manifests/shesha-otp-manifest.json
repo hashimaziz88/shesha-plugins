@@ -1,0 +1,56 @@
+{
+  "module": {
+    "name": "Shesha.Otp",
+    "className": "Shesha.Otp.OtpModule",
+    "dbPrefix": "Core_",
+    "publisher": "Shesha",
+    "dependencies": ["SheshaCoreModule"]
+  },
+  "entities": [
+    {
+      "name": "OtpAuditItem",
+      "namespace": "Shesha.Domain",
+      "description": "OTP (One-Time Password) audit trail entity. Tracks generated OTPs, delivery status, and verification attempts for security and compliance",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Otp", "type": "string", "description": "The actual OTP code sent to the user" },
+        { "name": "ExpiresOn", "type": "DateTime?", "description": "When the OTP expires and can no longer be used" },
+        { "name": "SendTo", "type": "string", "description": "Mobile number or email address where OTP was sent" },
+        { "name": "SendType", "type": "RefListOtpSendType", "description": "Communication channel used to send OTP (SMS, Email, EmailLink)" },
+        { "name": "RecipientType", "type": "string", "description": "Type of recipient entity (e.g., 'Person', 'User')" },
+        { "name": "RecipientId", "type": "string", "description": "ID of the recipient entity" },
+        { "name": "ActionType", "type": "string", "description": "Type of action the OTP is for (e.g., 'password restore', 'registration'). Used for audit and template selection" },
+        { "name": "SentOn", "type": "DateTime?", "description": "Actual timestamp when the OTP was sent" },
+        { "name": "SendStatus", "type": "RefListOtpSendStatus", "description": "Status of the OTP send operation (Sent, Failed, Ignored)" },
+        { "name": "ErrorMessage", "type": "string", "description": "Error message if OTP sending failed" }
+      ]
+    }
+  ],
+  "referenceLists": [
+    {
+      "name": "OtpSendType",
+      "description": "Communication channel for OTP delivery",
+      "values": ["SMS", "Email", "EmailLink"],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.OtpSendType",
+      "items": [
+        { "value": 1, "name": "SMS", "description": "Send OTP via SMS message" },
+        { "value": 2, "name": "Email", "description": "Send OTP via email in message body" },
+        { "value": 3, "name": "EmailLink", "description": "Send OTP as a clickable link in email (for password reset flows)" }
+      ]
+    },
+    {
+      "name": "OtpSendStatus",
+      "description": "Status of OTP send operation",
+      "values": ["Sent", "Failed", "Ignored"],
+      "isEnum": true,
+      "enumFullName": "Shesha.Domain.Enums.OtpSendStatus",
+      "items": [
+        { "value": 1, "name": "Sent", "description": "OTP was successfully sent to the recipient" },
+        { "value": 2, "name": "Failed", "description": "OTP sending failed due to an error" },
+        { "value": 3, "name": "Ignored", "description": "OTP sending was bypassed (when IgnoreOtpValidation is enabled for testing)" }
+      ]
+    }
+  ]
+}

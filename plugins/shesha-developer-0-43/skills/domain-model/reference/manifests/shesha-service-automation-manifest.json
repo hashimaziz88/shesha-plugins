@@ -1,0 +1,223 @@
+{
+  "module": {
+    "name": "Shesha.ServiceAutomation",
+    "className": "Shesha.ServiceAutomation.Domain.ServiceAutomationModule",
+    "dbPrefix": "SA_",
+    "publisher": "Boxfusion",
+    "dependencies": ["Shesha.Core", "Shesha.Application"]
+  },
+  "entities": [
+    {
+      "name": "AutomationCategory",
+      "namespace": "Shesha.ServiceAutomation.Domain.AutomationCategories",
+      "description": "AI automation categories with copilot configuration",
+      "baseEntity": "BaseEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "Category name for automation grouping" },
+        { "name": "Description", "type": "string", "description": "Detailed category description" },
+        { "name": "IsActive", "type": "bool", "description": "Whether category is currently active" },
+        { "name": "Priority", "type": "int", "description": "Processing priority for the category" },
+        { "name": "CopilotEnabled", "type": "bool", "description": "Whether copilot functionality is enabled" },
+        { "name": "CopilotConfiguration", "type": "string", "description": "JSON configuration for copilot behavior" },
+        { "name": "AutomationRules", "type": "string", "description": "JSON rules for automated processing" },
+        { "name": "RequiredParameters", "type": "string", "description": "Required parameters for automation" }
+      ]
+    },
+    {
+      "name": "AutomationTool",
+      "namespace": "Shesha.ServiceAutomation.Domain.AutomationTools",
+      "description": "External automation tools and API integrations",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "CaseAutomation",
+      "namespace": "Shesha.ServiceAutomation.Domain.CaseAutomations",
+      "description": "AI automation tracking for individual cases",
+      "baseEntity": "BaseEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "CaseId", "type": "Guid", "description": "Reference to ServiceManagement case" },
+        { "name": "AutomationCategoryId", "type": "Guid", "description": "Category of automation applied" },
+        { "name": "Status", "type": "RefListAutomationStatus", "description": "Current automation processing status" },
+        { "name": "StartedDateTime", "type": "DateTime", "description": "When automation process began" },
+        { "name": "CompletedDateTime", "type": "DateTime?", "description": "When automation process completed" },
+        { "name": "ProcessingTimeMinutes", "type": "int?", "description": "Total processing time" },
+        { "name": "SuccessIndicator", "type": "bool?", "description": "Whether automation was successful" },
+        { "name": "ConfidenceScore", "type": "decimal?", "description": "AI confidence level (0-1)" },
+        { "name": "ResolutionSuggestions", "type": "string", "description": "JSON array of suggested resolutions" },
+        { "name": "ProcessingNotes", "type": "string", "description": "Notes about the automation process" },
+        { "name": "ErrorDetails", "type": "string", "description": "Error information if automation failed" }
+      ]
+    },
+    {
+      "name": "Resolution",
+      "namespace": "Shesha.ServiceAutomation.Domain.Resolutions",
+      "description": "AI-generated resolution recommendations",
+      "baseEntity": "BaseEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Title", "type": "string", "description": "Resolution title or summary" },
+        { "name": "Description", "type": "string", "description": "Detailed resolution description" },
+        { "name": "ResolutionType", "type": "RefListResolutionType", "description": "Type/category of resolution" },
+        { "name": "ComplexityLevel", "type": "RefListComplexityLevel", "description": "Complexity level (Simple, Medium, Complex)" },
+        { "name": "ConfidenceScore", "type": "decimal", "description": "AI confidence in the resolution (0-1)" },
+        { "name": "ApprovedBy", "type": "Guid?", "description": "User who approved the resolution" },
+        { "name": "ApprovedDateTime", "type": "DateTime?", "description": "When resolution was approved" },
+        { "name": "IsActive", "type": "bool", "description": "Whether resolution is currently active" },
+        { "name": "UsageCount", "type": "int", "description": "Number of times resolution has been applied" },
+        { "name": "SuccessRate", "type": "decimal?", "description": "Success rate when applied" },
+        { "name": "AverageResolutionTime", "type": "int?", "description": "Average time to resolve using this solution" }
+      ]
+    },
+    {
+      "name": "ResolutionTool",
+      "namespace": "Shesha.ServiceAutomation.Domain.Resolutions",
+      "description": "Tools and methods used for automated resolution",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "Parameter",
+      "namespace": "Shesha.ServiceAutomation.Domain.Parameters",
+      "description": "Dynamic parameter management for automation processes",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "Property",
+      "namespace": "Shesha.ServiceAutomation.Domain.Properties",
+      "description": "Property definitions for automation configuration",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "CopilotConversationSession",
+      "namespace": "Shesha.ServiceAutomation.Domain.Conversations",
+      "description": "AI conversation session management",
+      "baseEntity": "BaseEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "UserId", "type": "Guid", "description": "User participating in conversation" },
+        { "name": "CaseId", "type": "Guid?", "description": "Optional associated case reference" },
+        { "name": "SessionType", "type": "RefListSessionType", "description": "Type of copilot session" },
+        { "name": "Status", "type": "RefListConversationStatus", "description": "Current conversation status" },
+        { "name": "StartedDateTime", "type": "DateTime", "description": "When conversation began" },
+        { "name": "LastActivityDateTime", "type": "DateTime", "description": "Last interaction timestamp" },
+        { "name": "EndedDateTime", "type": "DateTime?", "description": "When conversation ended" },
+        { "name": "MessageCount", "type": "int", "description": "Total number of messages" },
+        { "name": "Context", "type": "string", "description": "JSON context information for AI" },
+        { "name": "Summary", "type": "string", "description": "AI-generated conversation summary" }
+      ]
+    },
+    {
+      "name": "CopilotConversationMessage",
+      "namespace": "Shesha.ServiceAutomation.Domain.Conversations",
+      "description": "Individual messages in AI conversations",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "SessionId", "type": "Guid", "description": "Parent conversation session" },
+        { "name": "MessageType", "type": "RefListMessageType", "description": "Type of message (User, AI, System)" },
+        { "name": "Content", "type": "string", "description": "Message content" },
+        { "name": "Timestamp", "type": "DateTime", "description": "Message timestamp" },
+        { "name": "StepType", "type": "RefListConversationStepType", "description": "Processing step type" },
+        { "name": "ProcessingTimeMs", "type": "int?", "description": "AI processing time in milliseconds" },
+        { "name": "TokensUsed", "type": "int?", "description": "AI tokens consumed for this message" }
+      ]
+    },
+    {
+      "name": "ArticleSegment",
+      "namespace": "Shesha.ServiceAutomation.Domain.Articles",
+      "description": "Knowledge base article segments for vector search",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "ResolutionAuditLog",
+      "namespace": "Shesha.ServiceAutomation.Domain.Audit",
+      "description": "Comprehensive audit trail for all automation activities",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    }
+  ],
+  "referenceLists": [
+    {
+      "name": "AutomationStatus",
+      "description": "Status of automation processes",
+      "values": ["Pending", "Processing", "Completed", "Failed", "Cancelled"],
+      "isEnum": true,
+      "enumFullName": "Shesha.ServiceAutomation.Domain.RefListAutomationStatus"
+    },
+    {
+      "name": "GlobalStatus",
+      "description": "Overall system automation status",
+      "values": ["Enabled", "Disabled", "Maintenance"],
+      "isEnum": true,
+      "enumFullName": "Shesha.ServiceAutomation.Domain.RefListGlobalStatus"
+    },
+    {
+      "name": "CommunicationChannel",
+      "description": "Channels for automation communication",
+      "values": ["Email", "SMS", "Push", "WebSocket"],
+      "isEnum": false,
+      "enumFullName": null
+    },
+    {
+      "name": "Expression",
+      "description": "Expression types for automation rules",
+      "values": ["Equals", "Contains", "GreaterThan", "LessThan", "Between"],
+      "isEnum": true,
+      "enumFullName": "Shesha.ServiceAutomation.Domain.RefListExpression"
+    },
+    {
+      "name": "ExecutionType",
+      "description": "Types of automation execution",
+      "values": ["Synchronous", "Asynchronous", "Scheduled"],
+      "isEnum": true,
+      "enumFullName": "Shesha.ServiceAutomation.Domain.RefListExecutionType"
+    },
+    {
+      "name": "AuthType",
+      "description": "Authentication types for external tools",
+      "values": ["None", "ApiKey", "OAuth", "BasicAuth"],
+      "isEnum": true,
+      "enumFullName": "Shesha.ServiceAutomation.Domain.RefListAuthType"
+    },
+    {
+      "name": "HttpMethod",
+      "description": "HTTP methods for API calls",
+      "values": ["GET", "POST", "PUT", "DELETE", "PATCH"],
+      "isEnum": true,
+      "enumFullName": "Shesha.ServiceAutomation.Domain.RefListHttpMethod"
+    },
+    {
+      "name": "DataType",
+      "description": "Data types for parameters and properties",
+      "values": ["String", "Integer", "Boolean", "DateTime", "JSON"],
+      "isEnum": true,
+      "enumFullName": "Shesha.ServiceAutomation.Domain.RefListDataType"
+    },
+    {
+      "name": "ConversationStepType",
+      "description": "Types of conversation processing steps",
+      "values": ["Input", "Processing", "Output", "Error"],
+      "isEnum": true,
+      "enumFullName": "Shesha.ServiceAutomation.Domain.RefListConversationStepType"
+    },
+    {
+      "name": "ComplexityLevel",
+      "description": "Complexity levels for resolutions",
+      "values": ["Simple", "Medium", "Complex", "Expert"],
+      "isEnum": true,
+      "enumFullName": "Shesha.ServiceAutomation.Domain.RefListComplexityLevel"
+    }
+  ]
+}

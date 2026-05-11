@@ -1,0 +1,60 @@
+{
+  "module": {
+    "name": "Shesha.FacialRecognition",
+    "className": "Shesha.FacialRecognition.Domain.FacialRecognitionModule",
+    "dbPrefix": "Facial_",
+    "publisher": "Boxfusion",
+    "dependencies": ["Shesha.Enterprise.Domain", "SheshaCoreModule", "SheshaApplicationModule"]
+  },
+  "entities": [
+    {
+      "name": "FacialRecognitionEvent",
+      "namespace": "Shesha.FacialRecognition.Domain",
+      "description": "Audit trail entity for all facial recognition activities including authentication attempts, registrations, and bypasses",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": [
+        { "name": "EventDateTime", "type": "DateTime?", "description": "Timestamp when the facial recognition event occurred" },
+        { "name": "Event", "type": "string", "description": "Descriptive text of the facial recognition event" },
+        { "name": "Person", "type": "Person", "description": "Reference to the person involved in the facial recognition event" },
+        { "name": "Status", "type": "RefListFacialRecognitionEventStatus?", "description": "Status of the facial recognition attempt (Successful, Failed, Bypassed)" },
+        { "name": "StoredFile", "type": "StoredFile?", "description": "Reference to the facial image file used in the recognition attempt" },
+        { "name": "BypassedSession", "type": "RefListBypassedFacialRecognitionSession?", "description": "Type of session bypass when biometric authentication is manually overridden (Start, End)" }
+      ]
+    }
+  ],
+  "referenceLists": [
+    {
+      "name": "FacialRecognitionEventStatus",
+      "description": "Status outcomes for facial recognition attempts",
+      "values": [
+        { "name": "Successful", "value": 1 },
+        { "name": "Failed", "value": 2 },
+        { "name": "Bypassed", "value": 3 }
+      ],
+      "isEnum": true,
+      "enumFullName": "Shesha.FacialRecognition.Domain.Enums.RefListFacialRecognitionEventStatus"
+    },
+    {
+      "name": "BypassedFacialRecognitionSession",
+      "description": "Session types for biometric bypass scenarios",
+      "values": [
+        { "name": "Start", "value": 1 },
+        { "name": "End", "value": 2 }
+      ],
+      "isEnum": true,
+      "enumFullName": "Shesha.FacialRecognition.Domain.Enums.RefListBypassedFacialRecognitionSession"
+    },
+    {
+      "name": "FileCategory",
+      "description": "Categories for facial recognition related files",
+      "values": [
+        { "name": "BypassedPhoto", "value": 5 },
+        { "name": "RegisteredPhoto", "value": 6 },
+        { "name": "AuthenticatedPhoto", "value": 7 }
+      ],
+      "isEnum": true,
+      "enumFullName": "Shesha.FacialRecognition.Domain.Enums.RefListFileCategory"
+    }
+  ]
+}

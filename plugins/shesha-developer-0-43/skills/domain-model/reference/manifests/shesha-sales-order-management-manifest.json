@@ -1,0 +1,100 @@
+{
+  "module": {
+    "name": "Shesha.SalesOrderManagement",
+    "className": "Shesha.SalesOrderManagement.SalesOrderManagementModule",
+    "dbPrefix": "entpr_",
+    "publisher": "Boxfusion",
+    "dependencies": ["SheshaCoreModule", "SheshaApplicationModule", "AbpAutoMapperModule"]
+  },
+  "entities": [
+    {
+      "name": "SalesOrder",
+      "namespace": "Shesha.SalesOrderManagement.Domain",
+      "description": "Main sales order entity with customer and delivery information",
+      "baseEntity": "Order",
+      "isAggregate": true,
+      "properties": [
+        { "name": "InvoicingStatus", "type": "RefListInvoicingStatus?", "description": "Override for sales order specific invoicing status" },
+        { "name": "Status", "type": "long?", "description": "Override for sales order specific status values" }
+      ]
+    },
+    {
+      "name": "SalesOrderItem",
+      "namespace": "Shesha.SalesOrderManagement.Domain",
+      "description": "Line items with advanced discounting and fulfillment tracking",
+      "baseEntity": "OrderLineItem",
+      "isAggregate": false,
+      "properties": [
+        { "name": "FulfillmentStatus", "type": "long?", "description": "Status of fulfillment for this line item" },
+        { "name": "DiscountPercent", "type": "decimal?", "description": "Percentage discount applied to the item" },
+        { "name": "DiscountAmount", "type": "decimal?", "description": "Fixed discount amount applied to the item" },
+        { "name": "DiscountType", "type": "RefListDiscountingType?", "description": "Type of discount applied (percentage or fixed amount)" }
+      ]
+    },
+    {
+      "name": "InvoiceIssued",
+      "namespace": "Shesha.SalesOrderManagement.Domain.InvoicesIssued",
+      "description": "Invoices issued to customers for sales orders",
+      "baseEntity": "Invoice",
+      "isAggregate": false,
+      "properties": [
+        { "name": "SourceActivity", "type": "GenericEntityReference", "description": "Reference to the source activity that generated the invoice" },
+        { "name": "SalesOrder", "type": "SalesOrder", "description": "Direct relationship to the originating sales order" }
+      ]
+    },
+    {
+      "name": "InvoiceIssuedItem",
+      "namespace": "Shesha.SalesOrderManagement.Domain.InvoicesIssued",
+      "description": "Line items for issued invoices",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "CreditNoteIssued",
+      "namespace": "Shesha.SalesOrderManagement.Domain.CreditNotes",
+      "description": "Credit notes issued to customers",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "CreditNoteIssuedItem",
+      "namespace": "Shesha.SalesOrderManagement.Domain.CreditNotes",
+      "description": "Line items for issued credit notes",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": []
+    }
+  ],
+  "referenceLists": [
+    {
+      "name": "SalesOrderInvoicingStatus",
+      "description": "Invoicing status specific to sales orders",
+      "values": [],
+      "isEnum": false,
+      "enumFullName": null
+    },
+    {
+      "name": "SalesOrderStatus",
+      "description": "Status values for sales order lifecycle",
+      "values": ["Draft", "PendingApproval", "PendingConfirmation", "Confirmed", "RejectedNotConfirmed", "DeclinedNotApproved", "Cancelled"],
+      "isEnum": true,
+      "enumFullName": "Shesha.Enterprise.RefListSalesOrderStatus"
+    },
+    {
+      "name": "FulfillmentStatus",
+      "description": "Status of line item fulfillment",
+      "values": [],
+      "isEnum": false,
+      "enumFullName": null
+    },
+    {
+      "name": "DiscountingType",
+      "description": "Types of discounts that can be applied",
+      "values": ["Percentage", "FixedAmount"],
+      "isEnum": true,
+      "enumFullName": "Shesha.Enterprise.RefListDiscountingType"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "module": {
+    "name": "Boxfusion.Dep.Core",
+    "className": "Boxfusion.Dep.Domain.DepModule",
+    "dbPrefix": "Dep_",
+    "publisher": "Boxfusion",
+    "dependencies": ["Shesha.Enterprise.Domain", "Shesha.Enterprise.Application"]
+  },
+  "entities": [
+    {
+      "name": "BroadcastNotification",
+      "namespace": "Boxfusion.Dep.Domain.BroadcastNotifications",
+      "description": "Broadcast notification management with targeting",
+      "baseEntity": "BaseEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "Name/title of the broadcast notification" },
+        { "name": "Message", "type": "string", "description": "Content of the notification message" },
+        { "name": "TargetingCriteria", "type": "string", "description": "JSON criteria for notification targeting" },
+        { "name": "SentCount", "type": "int", "description": "Number of notifications successfully sent" },
+        { "name": "FailedCount", "type": "int", "description": "Number of failed notification attempts" },
+        { "name": "ScheduledTime", "type": "DateTime?", "description": "Optional scheduled time for notification" },
+        { "name": "Status", "type": "RefListNotificationStatus", "description": "Current status of the notification" }
+      ]
+    },
+    {
+      "name": "Contact",
+      "namespace": "Boxfusion.Dep.Domain.Contacts",
+      "description": "Contact with social media handles and relationship tracking",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "FirstName", "type": "string", "description": "Contact's first name" },
+        { "name": "LastName", "type": "string", "description": "Contact's last name" },
+        { "name": "Email", "type": "string", "description": "Primary email address" },
+        { "name": "MobileNumber", "type": "string", "description": "Primary mobile number" },
+        { "name": "TwitterHandle", "type": "string", "description": "Twitter/X social media handle" },
+        { "name": "FacebookHandle", "type": "string", "description": "Facebook profile handle" },
+        { "name": "InstagramHandle", "type": "string", "description": "Instagram profile handle" },
+        { "name": "LinkedInHandle", "type": "string", "description": "LinkedIn profile handle" },
+        { "name": "Organization", "type": "string", "description": "Associated organization" },
+        { "name": "JobTitle", "type": "string", "description": "Contact's job title or position" }
+      ]
+    },
+    {
+      "name": "Event",
+      "namespace": "Boxfusion.Dep.Domain.Events",
+      "description": "Event management entity",
+      "baseEntity": "BaseEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "Event name/title" },
+        { "name": "Description", "type": "string", "description": "Detailed event description" },
+        { "name": "StartDate", "type": "DateTime", "description": "Event start date and time" },
+        { "name": "EndDate", "type": "DateTime", "description": "Event end date and time" },
+        { "name": "Location", "type": "string", "description": "Event location or venue" },
+        { "name": "MaxAttendees", "type": "int?", "description": "Maximum number of attendees allowed" },
+        { "name": "CurrentAttendees", "type": "int", "description": "Current number of registered attendees" }
+      ]
+    },
+    {
+      "name": "EventPresenter",
+      "namespace": "Boxfusion.Dep.Domain.EventPresenters",
+      "description": "Event presenter tracking",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "FAQ",
+      "namespace": "Boxfusion.Dep.Domain.FAQs",
+      "description": "Frequently asked questions management",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "Question", "type": "string", "description": "The frequently asked question" },
+        { "name": "Answer", "type": "string", "description": "Detailed answer to the question" },
+        { "name": "Category", "type": "string", "description": "FAQ category for organization" },
+        { "name": "IsActive", "type": "bool", "description": "Whether the FAQ is currently active" },
+        { "name": "ViewCount", "type": "int", "description": "Number of times this FAQ has been viewed" }
+      ]
+    },
+    {
+      "name": "VerifiedMobileNumber",
+      "namespace": "Boxfusion.Dep.Domain.Persons",
+      "description": "Mobile number verification tracking",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "DepSite",
+      "namespace": "Boxfusion.Dep.Domain.Sites",
+      "description": "Site management for DEP platform",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    }
+  ],
+  "referenceLists": [
+    {
+      "name": "NotificationTarget",
+      "description": "Target audience types for broadcast notifications",
+      "values": ["Individual", "Group", "All Users"],
+      "isEnum": false,
+      "enumFullName": null
+    },
+    {
+      "name": "TargetingFlagOperation",
+      "description": "Operations for targeting criteria",
+      "values": ["AND", "OR", "NOT"],
+      "isEnum": true,
+      "enumFullName": "Boxfusion.Dep.Domain.BroadcastNotifications.RefListTargetingFlagOperation"
+    },
+    {
+      "name": "ContactFlags",
+      "description": "Contact categorization flags",
+      "values": ["VIP", "Blocked", "Verified"],
+      "isEnum": false,
+      "multiSelect": true,
+      "enumFullName": null
+    }
+  ]
+}

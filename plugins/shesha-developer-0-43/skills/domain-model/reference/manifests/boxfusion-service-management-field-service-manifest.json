@@ -1,0 +1,16 @@
+{
+  "module": {
+    "name": "Boxfusion.ServiceManagementFieldService",
+    "className": "Boxfusion.ServiceManagementFieldService.Application.ServiceManagementFieldServiceApplicationModule",
+    "dbPrefix": "SMFS_",
+    "publisher": "Boxfusion",
+    "dependencies": ["Abp.Zero.Common", "Abp.AspNetCore", "Boxfusion.FieldService", "Boxfusion.FieldService.Application", "ServiceManagement"]
+  },
+  "entities": [],
+  "referenceLists": [
+    { "name": "FieldServiceRequestType", "description": "Types of field service requests", "values": ["Installation", "Repair", "Maintenance", "Inspection"], "isEnum": false, "adminConfigurable": true },
+    { "name": "OnSiteServiceStatus", "description": "Status of on-site service delivery", "values": ["Scheduled", "EnRoute", "OnSite", "InProgress", "Completed"], "isEnum": false },
+    { "name": "FieldServicePriority", "description": "Priority levels for field service work", "values": ["Standard", "Urgent", "Emergency"], "isEnum": false }
+  ],
+  "note": "Application layer integration module - uses entities from ServiceManagement.Domain (Case, CaseInteraction, CaseRouting) and Boxfusion.FieldService.Domain (WorkOrder, Technician, ServiceAppointment, FieldServiceSchedule)"
+}

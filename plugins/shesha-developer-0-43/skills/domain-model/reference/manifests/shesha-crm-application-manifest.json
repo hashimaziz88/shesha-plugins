@@ -1,0 +1,12 @@
+{
+  "module": {
+    "name": "Shesha.Crm.Application",
+    "className": "Shesha.Crm.Application.CrmApplicationModule",
+    "dbPrefix": null,
+    "publisher": "Shesha",
+    "dependencies": ["CrmModule", "SheshaCoreModule", "AbpAspNetCoreModule"]
+  },
+  "entities": [],
+  "referenceLists": [],
+  "note": "Application layer module - provides application services for Shesha.Crm.Domain entities. No domain entities defined."
+}

@@ -1,0 +1,16 @@
+{
+  "module": {
+    "name": "Boxfusion.ServiceManagementChat",
+    "className": "Boxfusion.ServiceManagementChat.Application.ServiceManagementChatApplicationModule",
+    "dbPrefix": "SMC_",
+    "publisher": "Boxfusion",
+    "dependencies": ["Abp.Zero.Common", "Abp.AspNetCore", "ServiceManagement"]
+  },
+  "entities": [],
+  "referenceLists": [
+    { "name": "ChatChannelType", "description": "Types of chat channels supported", "values": ["WebChat", "WhatsApp", "Telegram", "FacebookMessenger"], "isEnum": false, "adminConfigurable": true },
+    { "name": "ChatInteractionType", "description": "Chat-specific interaction classifications", "values": ["ChatMessage", "ChatTransfer", "ChatEscalation", "ChatResolution"], "isEnum": false, "adminConfigurable": true },
+    { "name": "ChatSessionStatus", "description": "Status of chat sessions", "values": ["Active", "Queued", "Transferred", "Ended"], "isEnum": false }
+  ],
+  "note": "Application layer only module - uses entities from ServiceManagement.Domain (Case, CaseInteraction) and Dep.Domain (Contact)"
+}

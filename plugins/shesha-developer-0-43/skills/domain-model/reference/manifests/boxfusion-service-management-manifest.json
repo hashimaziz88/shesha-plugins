@@ -1,0 +1,211 @@
+{
+  "module": {
+    "name": "Boxfusion.ServiceManagement",
+    "className": "Boxfusion.ServiceManagement.Domain.ServiceManagementModule",
+    "dbPrefix": "SM_",
+    "publisher": "Boxfusion",
+    "dependencies": ["Shesha.Enterprise.Domain", "Shesha.Enterprise.Application", "Boxfusion.Dep.Core"]
+  },
+  "entities": [
+    {
+      "name": "Case",
+      "namespace": "Boxfusion.ServiceManagement.Domain.Cases",
+      "description": "Central case management entity with complete lifecycle tracking",
+      "baseEntity": "BaseEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "CaseNumber", "type": "string", "description": "Unique case identifier for external reference" },
+        { "name": "Title", "type": "string", "description": "Case title or subject" },
+        { "name": "Description", "type": "string", "description": "Detailed case description" },
+        { "name": "Status", "type": "RefListCaseStatus", "description": "Current case status (Open, InProgress, Resolved, Closed)" },
+        { "name": "Priority", "type": "RefListCasePriority", "description": "Case priority level (Low, Medium, High, Critical)" },
+        { "name": "Urgency", "type": "RefListCaseUrgency", "description": "Case urgency classification" },
+        { "name": "CaseTypeId", "type": "guid", "description": "Reference to case type configuration" },
+        { "name": "ContactId", "type": "guid", "description": "Associated contact/customer" },
+        { "name": "AssignedToId", "type": "guid?", "description": "Currently assigned agent/team" },
+        { "name": "ReportedDate", "type": "DateTime", "description": "When the case was initially reported" },
+        { "name": "AssignedDate", "type": "DateTime?", "description": "When case was assigned" },
+        { "name": "ResolvedDate", "type": "DateTime?", "description": "When case was marked resolved" },
+        { "name": "ClosedDate", "type": "DateTime?", "description": "When case was formally closed" },
+        { "name": "SlaDeadline", "type": "DateTime?", "description": "SLA compliance deadline" },
+        { "name": "ResolutionNotes", "type": "string", "description": "Final resolution documentation" }
+      ]
+    },
+    {
+      "name": "CaseInteraction",
+      "namespace": "Boxfusion.ServiceManagement.Domain.CaseInteractions",
+      "description": "All case interactions and communications",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "CaseId", "type": "guid", "description": "Associated case reference" },
+        { "name": "InteractionType", "type": "RefListInteractionType", "description": "Type of interaction (Email, Phone, Chat, Note)" },
+        { "name": "Subject", "type": "string", "description": "Interaction subject or summary" },
+        { "name": "Content", "type": "string", "description": "Full interaction content" },
+        { "name": "Direction", "type": "RefListInteractionDirection", "description": "Inbound or outbound interaction" },
+        { "name": "ChannelId", "type": "string", "description": "Channel-specific identifier" },
+        { "name": "ContactMethod", "type": "string", "description": "How the interaction was conducted" },
+        { "name": "Duration", "type": "int?", "description": "Interaction duration in minutes" },
+        { "name": "IsVisible", "type": "bool", "description": "Whether interaction is visible to customer" }
+      ]
+    },
+    {
+      "name": "CaseRouting",
+      "namespace": "Boxfusion.ServiceManagement.Domain.CaseRoutings",
+      "description": "Case routing and assignment rules",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "CaseType",
+      "namespace": "Boxfusion.ServiceManagement.Domain.CaseTypes",
+      "description": "Case categorization and configuration",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "Article",
+      "namespace": "Boxfusion.ServiceManagement.Domain.Articles",
+      "description": "Knowledge base articles",
+      "baseEntity": "BaseEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Title", "type": "string", "description": "Article title" },
+        { "name": "Content", "type": "string", "description": "Full article content" },
+        { "name": "Summary", "type": "string", "description": "Brief article summary" },
+        { "name": "CategoryId", "type": "guid", "description": "Article category reference" },
+        { "name": "Status", "type": "RefListArticleStatus", "description": "Publishing status (Draft, Published, Archived)" },
+        { "name": "Version", "type": "int", "description": "Current version number" },
+        { "name": "ViewCount", "type": "int", "description": "Number of times viewed" },
+        { "name": "Rating", "type": "decimal", "description": "Average user rating" },
+        { "name": "Tags", "type": "string", "description": "Comma-separated tags for search" },
+        { "name": "IsPublic", "type": "bool", "description": "Whether article is publicly accessible" }
+      ]
+    },
+    {
+      "name": "ArticleHistory",
+      "namespace": "Boxfusion.ServiceManagement.Domain.Articles",
+      "description": "Article version history tracking",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "ArticleCategory",
+      "namespace": "Boxfusion.ServiceManagement.Domain.Articles",
+      "description": "Article categorization",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "SlaPolicy",
+      "namespace": "Boxfusion.ServiceManagement.Domain.SLAs",
+      "description": "SLA policy definitions with targets and escalations",
+      "baseEntity": "BaseEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "SLA policy name" },
+        { "name": "Description", "type": "string", "description": "Policy description and scope" },
+        { "name": "IsActive", "type": "bool", "description": "Whether policy is currently active" },
+        { "name": "Priority", "type": "int", "description": "Policy application priority" },
+        { "name": "FirstResponseTarget", "type": "int", "description": "First response time target (minutes)" },
+        { "name": "ResolutionTarget", "type": "int", "description": "Resolution time target (minutes)" },
+        { "name": "EscalationThreshold", "type": "int", "description": "Time before escalation (minutes)" },
+        { "name": "BusinessHoursOnly", "type": "bool", "description": "Whether targets apply only during business hours" },
+        { "name": "AutoAssign", "type": "bool", "description": "Whether to auto-assign cases" }
+      ]
+    },
+    {
+      "name": "SlaTarget",
+      "namespace": "Boxfusion.ServiceManagement.Domain.SLAs",
+      "description": "SLA target definitions",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "SlaPolicyCondition",
+      "namespace": "Boxfusion.ServiceManagement.Domain.SLAs",
+      "description": "SLA policy conditions and rules",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "MSGraphSubscription",
+      "namespace": "Boxfusion.ServiceManagement.Domain.EmailProcessing",
+      "description": "Microsoft Graph email subscription tracking",
+      "baseEntity": "BaseEntity",
+      "isAggregate": false,
+      "properties": []
+    }
+  ],
+  "referenceLists": [
+    {
+      "name": "CaseStatus",
+      "description": "Case lifecycle status values",
+      "values": ["Open", "InProgress", "Resolved", "Closed", "Cancelled"],
+      "isEnum": true,
+      "enumFullName": "Boxfusion.ServiceManagement.Domain.RefListCaseStatus"
+    },
+    {
+      "name": "CasePriority",
+      "description": "Case priority classifications",
+      "values": ["Low", "Medium", "High", "Critical"],
+      "isEnum": true,
+      "enumFullName": "Boxfusion.ServiceManagement.Domain.RefListCasePriority"
+    },
+    {
+      "name": "CaseUrgency",
+      "description": "Case urgency classifications",
+      "values": ["Low", "Medium", "High"],
+      "isEnum": true,
+      "enumFullName": "Boxfusion.ServiceManagement.Domain.RefListCaseUrgency"
+    },
+    {
+      "name": "InteractionType",
+      "description": "Types of case interactions",
+      "values": ["Email", "Phone", "Chat", "Note", "SMS"],
+      "isEnum": false,
+      "adminConfigurable": true
+    },
+    {
+      "name": "InteractionDirection",
+      "description": "Direction of case interactions",
+      "values": ["Inbound", "Outbound"],
+      "isEnum": true,
+      "enumFullName": "Boxfusion.ServiceManagement.Domain.RefListInteractionDirection"
+    },
+    {
+      "name": "CaseCancellationReason",
+      "description": "Reasons for case cancellation",
+      "values": ["Duplicate", "InvalidRequest", "CustomerWithdrew"],
+      "isEnum": false,
+      "adminConfigurable": true
+    },
+    {
+      "name": "ResolutionMethod",
+      "description": "How case was resolved",
+      "values": ["SelfService", "AgentAssisted", "Escalated", "AutoResolved"],
+      "isEnum": false,
+      "adminConfigurable": true
+    },
+    {
+      "name": "ArticleStatus",
+      "description": "Article publishing status",
+      "values": ["Draft", "Published", "Archived"],
+      "isEnum": true,
+      "enumFullName": "Boxfusion.ServiceManagement.Domain.RefListArticleStatus"
+    },
+    {
+      "name": "EscalationType",
+      "description": "Types of case escalation",
+      "values": ["TimeBasedEscalation", "ManualEscalation", "PolicyBasedEscalation"],
+      "isEnum": true,
+      "enumFullName": "Boxfusion.ServiceManagement.Domain.RefListEscalationType"
+    }
+  ]
+}

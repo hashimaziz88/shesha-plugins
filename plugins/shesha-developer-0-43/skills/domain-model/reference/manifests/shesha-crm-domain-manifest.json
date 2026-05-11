@@ -1,0 +1,188 @@
+{
+  "module": {
+    "name": "Shesha.Crm.Domain",
+    "className": "Shesha.Crm.Domain.CrmModule",
+    "dbPrefix": "Crm_",
+    "publisher": "Shesha",
+    "dependencies": ["SheshaCoreModule", "SheshaApplicationModule"]
+  },
+  "entities": [
+    {
+      "name": "Contact",
+      "namespace": "Shesha.Crm.Domain.Domain",
+      "description": "CRM contact extending Person with lead source and organizational relationships",
+      "baseEntity": "Person",
+      "isAggregate": false,
+      "properties": [
+        { "name": "Description", "type": "string", "description": "Extended description of the contact" },
+        { "name": "Assistant", "type": "string(200)", "description": "Name of the contact's assistant" },
+        { "name": "Department", "type": "string(200)", "description": "Department within the organization" },
+        { "name": "LeadSource", "type": "RefListLeadSourceType", "description": "How this contact was acquired" },
+        { "name": "CrmAccount", "type": "CrmAccount", "description": "Associated business account" },
+        { "name": "ReportingTo", "type": "Contact", "description": "Direct reporting manager (self-reference)" },
+        { "name": "ContactOwner", "type": "Person", "description": "Person responsible for managing this contact" }
+      ]
+    },
+    {
+      "name": "Lead",
+      "namespace": "Shesha.Crm.Domain.Domain",
+      "description": "Prospective customer with conversion tracking and comprehensive business metrics",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Organisation", "type": "string(100)", "description": "Company name" },
+        { "name": "FirstName", "type": "string(100)", "description": "Lead's first name" },
+        { "name": "LastName", "type": "string(100)", "description": "Lead's last name" },
+        { "name": "Title", "type": "RefListPersonTitle", "description": "Personal title" },
+        { "name": "MobileNumber", "type": "string(20)", "description": "Primary mobile contact" },
+        { "name": "EmailAddress", "type": "string(255)", "description": "Primary email address" },
+        { "name": "SecondaryEmailAddress", "type": "string(255)", "description": "Alternative email" },
+        { "name": "Website", "type": "string(200)", "description": "Company website" },
+        { "name": "NoOfEmployees", "type": "int?", "description": "Company size" },
+        { "name": "AnnualRevenue", "type": "decimal?", "description": "Company revenue" },
+        { "name": "IsConverted", "type": "bool", "description": "Conversion status flag" },
+        { "name": "ConvertedDate", "type": "DateTime?", "description": "When conversion occurred" },
+        { "name": "Rating", "type": "ReferenceList", "description": "Lead quality rating" },
+        { "name": "LeadSource", "type": "ReferenceList", "description": "How lead was acquired" },
+        { "name": "Industry", "type": "ReferenceList", "description": "Business industry classification" },
+        { "name": "LeadStatus", "type": "ReferenceList", "description": "Current status in lead pipeline" },
+        { "name": "LeadOwner", "type": "Person", "description": "Sales person responsible" },
+        { "name": "Address", "type": "Area", "description": "Physical location" },
+        { "name": "ConvertedBy", "type": "Person", "description": "Who performed the conversion" },
+        { "name": "ConvertedToOrganisation", "type": "Organisation", "description": "Target organization after conversion" },
+        { "name": "ConvertedToContact", "type": "Contact", "description": "Target contact after conversion" },
+        { "name": "ConvertedToAccount", "type": "CrmAccount", "description": "Target account after conversion" }
+      ]
+    },
+    {
+      "name": "Opportunity",
+      "namespace": "Shesha.Crm.Domain.Domain",
+      "description": "Sales opportunity with pipeline management and financial forecasting",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "OpportunityName", "type": "string(200)", "description": "Descriptive name for the opportunity" },
+        { "name": "Amount", "type": "decimal?", "description": "Expected revenue" },
+        { "name": "ProbabilityWeightedAmount", "type": "decimal?", "description": "Amount adjusted by probability" },
+        { "name": "ClosingDate", "type": "DateTime?", "description": "Expected close date" },
+        { "name": "Probability", "type": "int?", "description": "Win probability percentage" },
+        { "name": "Description", "type": "string", "description": "Detailed description" },
+        { "name": "NextStep", "type": "string", "description": "Planned next actions" },
+        { "name": "OpportunityType", "type": "ReferenceList", "description": "Type classification" },
+        { "name": "OpportunityStage", "type": "ReferenceList", "description": "Current pipeline stage" },
+        { "name": "OpportunityOwner", "type": "Person", "description": "Responsible sales person" },
+        { "name": "Contact", "type": "Contact", "description": "Associated contact" },
+        { "name": "Account", "type": "CrmAccount", "description": "Associated account" },
+        { "name": "CampaignSource", "type": "Campaign", "description": "Originating campaign" },
+        { "name": "Currency", "type": "Currency", "description": "Transaction currency" },
+        { "name": "Territory", "type": "Territory", "description": "Assigned sales territory" },
+        { "name": "RegisteringPartner", "type": "Organisation", "description": "Partner organization" }
+      ]
+    },
+    {
+      "name": "CrmAccount",
+      "namespace": "Shesha.Crm.Domain.Domain",
+      "description": "Business account extending base Account with CRM-specific metrics",
+      "baseEntity": "Account",
+      "isAggregate": false,
+      "properties": [
+        { "name": "AnnualRevenue", "type": "decimal?", "description": "Yearly revenue" },
+        { "name": "SicCode", "type": "string(10)", "description": "Standard Industrial Classification code" },
+        { "name": "TickerSymbol", "type": "string(10)", "description": "Stock market ticker" },
+        { "name": "Website", "type": "string(200)", "description": "Company website" },
+        { "name": "Industry", "type": "ReferenceList", "description": "Industry classification" },
+        { "name": "Rating", "type": "ReferenceList", "description": "Account rating/priority" },
+        { "name": "Description", "type": "string", "description": "Detailed account information" },
+        { "name": "AccountOwner", "type": "Person", "description": "Account manager" },
+        { "name": "ReportingTo", "type": "Contact", "description": "Primary contact" },
+        { "name": "ShippingAddress", "type": "Area", "description": "Delivery address" }
+      ]
+    },
+    {
+      "name": "CrmTask",
+      "namespace": "Shesha.Crm.Domain.Domain",
+      "description": "CRM-specific task extending enterprise task capabilities",
+      "baseEntity": "Task",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "Campaign",
+      "namespace": "Shesha.Crm.Domain.Domain",
+      "description": "Marketing campaign with budget tracking and hierarchical organization",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "CampaignName", "type": "string(200)", "description": "Campaign name" },
+        { "name": "StartDate", "type": "DateTime?", "description": "Campaign start date" },
+        { "name": "EndDate", "type": "DateTime?", "description": "Campaign end date" },
+        { "name": "Description", "type": "string", "description": "Campaign details" },
+        { "name": "ExpectedRevenue", "type": "decimal?", "description": "Projected revenue" },
+        { "name": "BudgetedCost", "type": "decimal?", "description": "Planned budget" },
+        { "name": "ActualCost", "type": "decimal?", "description": "Actual spend" },
+        { "name": "CampaignStatus", "type": "ReferenceList", "description": "Current status" },
+        { "name": "CampaignType", "type": "ReferenceList", "description": "Campaign type" },
+        { "name": "CampaignOwner", "type": "Person", "description": "Campaign manager" },
+        { "name": "Parent", "type": "Campaign", "description": "Parent campaign for hierarchies" }
+      ]
+    },
+    {
+      "name": "Territory",
+      "namespace": "Shesha.Crm.Domain.Domain",
+      "description": "Sales territory with hierarchical structure and geographic levels",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": true,
+      "properties": [
+        { "name": "Name", "type": "string", "description": "Territory name", "required": true },
+        { "name": "Description", "type": "string", "description": "Territory description" },
+        { "name": "IsActive", "type": "bool", "description": "Active status" },
+        { "name": "TerritoryType", "type": "ReferenceList", "description": "Territory classification" },
+        { "name": "CanAllocateAccount", "type": "bool", "description": "Business rule flag for account allocation" },
+        { "name": "GeographicLevel", "type": "RefListGeographicLevel", "description": "International/National/Provincial/Local" },
+        { "name": "Parent", "type": "Territory", "description": "Parent territory for hierarchies" }
+      ]
+    },
+    {
+      "name": "CampaignTarget",
+      "namespace": "Shesha.Crm.Domain.Domain",
+      "description": "Flexible campaign targeting using generic entity references",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "TargetStatus", "type": "ReferenceList", "description": "Status of the target" },
+        { "name": "Campaign", "type": "Campaign", "description": "Associated campaign" },
+        { "name": "Target", "type": "GenericEntityReference", "description": "Flexible reference to any entity type" }
+      ]
+    },
+    {
+      "name": "OpportunityProduct",
+      "namespace": "Shesha.Crm.Domain.Domain",
+      "description": "Association between opportunities and products",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "Comment", "type": "string", "description": "Notes about the product in this opportunity" },
+        { "name": "PartOf", "type": "Opportunity", "description": "Associated opportunity" },
+        { "name": "Product", "type": "Product", "description": "Referenced product from enterprise domain" }
+      ]
+    },
+    {
+      "name": "MeetingParticipant",
+      "namespace": "Shesha.Crm.Domain.Domain",
+      "description": "Meeting participant tracking for opportunities",
+      "baseEntity": "FullAuditedEntity",
+      "isAggregate": false,
+      "properties": [
+        { "name": "Person", "type": "Person", "description": "Person participating in the meeting" },
+        { "name": "Contact", "type": "Contact", "description": "Contact participating in the meeting" },
+        { "name": "Opportunity", "type": "Opportunity", "description": "Associated opportunity" }
+      ]
+    }
+  ],
+  "referenceLists": [
+    { "name": "RefListGeographicLevel", "description": "Geographic territory levels", "values": ["International", "National", "Provincial", "Local"], "isEnum": true, "enumFullName": "Shesha.Crm.Domain.Domain.Enums.RefListGeographicLevel" },
+    { "name": "RefListLeadSourceType", "description": "How leads are acquired", "values": ["Advertisement", "ColdCall", "EmployeeReferral", "ExternalReferral", "OnlineStore", "Partner", "PublicRelations", "SalesMailAlias", "Seminar", "TradeShow", "Web", "WordOfMouth", "Other", "DirectMail", "SocialMedia"], "isEnum": true, "enumFullName": "Shesha.Crm.Domain.Domain.Enums.RefListLeadSourceType" },
+    { "name": "RefListOpportunityType", "description": "Opportunity classification", "values": ["ExistingBusiness", "NewBusiness"], "isEnum": true, "enumFullName": "Shesha.Crm.Domain.Domain.Enums.RefListOpportunityType" },
+    { "name": "RefListPriorityType", "description": "Priority levels", "values": ["High", "Highest", "Low", "Lowest", "Normal"], "isEnum": true, "enumFullName": "Shesha.Crm.Domain.Domain.Enums.RefListPriorityType" }
+  ]
+}

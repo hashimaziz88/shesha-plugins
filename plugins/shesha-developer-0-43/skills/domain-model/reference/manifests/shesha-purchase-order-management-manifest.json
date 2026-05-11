@@ -1,0 +1,84 @@
+{
+  "module": {
+    "name": "Shesha.PurchaseOrderManagement",
+    "className": "Shesha.PurchaseOrderManagement.Domain.PurchaseOrderManagementModule",
+    "dbPrefix": "entpr_",
+    "publisher": "Boxfusion",
+    "dependencies": ["SheshaCoreModule", "SheshaApplicationModule"]
+  },
+  "entities": [
+    {
+      "name": "PurchaseOrder",
+      "namespace": "Shesha.PurchaseOrderManagement.Domain.PurchaseOrders",
+      "description": "Main purchase order entity with supplier and delivery information",
+      "baseEntity": "Order",
+      "isAggregate": true,
+      "properties": [
+        { "name": "IssuedBy", "type": "Organisation", "description": "Organization that issued the purchase order" },
+        { "name": "NumberOfInvoices", "type": "decimal?", "description": "Count of invoices associated with this purchase order" }
+      ]
+    },
+    {
+      "name": "PurchaseOrderItem",
+      "namespace": "Shesha.PurchaseOrderManagement.Domain.PurchaseOrderItems",
+      "description": "Line items within purchase orders with fulfillment tracking",
+      "baseEntity": "OrderLineItem",
+      "isAggregate": false,
+      "properties": [
+        { "name": "QuantityCredited", "type": "int?", "description": "Quantity that has been credited back" },
+        { "name": "FulfillmentStatus", "type": "long?", "description": "Status of fulfillment for this line item" }
+      ]
+    },
+    {
+      "name": "InvoiceReceived",
+      "namespace": "Shesha.PurchaseOrderManagement.Domain.InvoicesReceived",
+      "description": "Invoices received from suppliers for purchase orders",
+      "baseEntity": "Invoice",
+      "isAggregate": false,
+      "properties": [
+        { "name": "OrderNo", "type": "string", "description": "Purchase order number reference" },
+        { "name": "PurchaseOrder", "type": "PurchaseOrder", "description": "Direct relationship to purchase order" }
+      ]
+    },
+    {
+      "name": "CreditNoteReceived",
+      "namespace": "Shesha.PurchaseOrderManagement.Domain.CreditNotesReceived",
+      "description": "Credit notes received from suppliers",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "CreditNoteReceivedItem",
+      "namespace": "Shesha.PurchaseOrderManagement.Domain.CreditNotesReceived",
+      "description": "Line items for credit notes received",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": []
+    },
+    {
+      "name": "InvoiceReceivedLineItem",
+      "namespace": "Shesha.PurchaseOrderManagement.Domain.InvoicesReceived",
+      "description": "Line items for invoices received",
+      "baseEntity": "FullAuditedEntity<Guid>",
+      "isAggregate": false,
+      "properties": []
+    }
+  ],
+  "referenceLists": [
+    {
+      "name": "PurchaseOrderStatus",
+      "description": "Status values for purchase order lifecycle",
+      "values": ["Draft", "PendingApproval", "PendingConfirmation", "Confirmed", "RejectedNotConfirmed", "DeclinedNotApproved", "Cancelled"],
+      "isEnum": true,
+      "enumFullName": "Shesha.PurchaseOrderManagement.PurchaseOrders.RefListPurchaseOrderStatus"
+    },
+    {
+      "name": "FulfillmentStatus",
+      "description": "Status of line item fulfillment",
+      "values": [],
+      "isEnum": false,
+      "enumFullName": null
+    }
+  ]
+}
