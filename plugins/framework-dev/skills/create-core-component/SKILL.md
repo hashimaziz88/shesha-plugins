@@ -1,5 +1,5 @@
 ---
-name: create-component
+name: create-core-component
 description: Use this skill when creating new designer components in Shesha framework applications. This skill guides you through implementing custom form components with proper interfaces, settings forms, component definitions, and toolbox registration following Shesha best practices.
 ---
 
