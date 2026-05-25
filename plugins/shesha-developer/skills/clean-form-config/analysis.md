@@ -21,30 +21,48 @@ Verify you have an object with a `components` array before continuing.
 
 ## Step 3: Load the component properties index
 
-Read the bundled index: `plugins/shesha-developer/skills/clean-form-config/assets/component-properties.json` (v2 format).
+The index ships as a set of group files under `plugins/shesha-developer/skills/clean-form-config/assets/groups/`.
 
-Structure:
-- `_meta` — skip.
+**Loading procedure:**
+
+1. Read `assets/groups/index.json` — contains `components: { [type]: groupName }` and `groupFiles: [...]`.
+2. Read `assets/groups/base.json` — always required; contains `base` and `_formSettings`.
+3. For each unique component type in the form, look up `index.components[type]` to find its group file, then read `assets/groups/<groupName>.json`. Cache loaded files — don't re-read the same group file twice.
+
+**File structure** (v3):
+
+`base.json`:
 - `base.props` — property keys valid on **every** component.
-- `base.types` — expected value type for base properties with known types.
-- `_formSettings.props` — valid keys for the `formSettings` object (from `IFormSettings`).
+- `base.types` — expected value type for base properties. `"script"` means a JS string evaluated at runtime.
+- `base.scripts` — script metadata per script-typed base property: `{ returns, async, context[], description }`.
+- `base.constraints` — validation rules: `{ keyCase, valueType }` for style-returning scripts; `{ enum[] }` for string enums.
+- `_formSettings.props` — valid keys for the `formSettings` object.
 - `_formSettings.types` — expected value types for `formSettings` properties.
-- Per component type entry (e.g. `textField`) — `{ props: [...], types: {...} }`.
+- `_formSettings.scripts` — script metadata for `_formSettings` script-typed properties.
+
+Each group file (e.g. `data-entry.json`):
+- Per component type entry — `{ props, types, scripts?, constraints? }`.
   - `props` — component-specific additional property keys.
-  - `types` — expected value types for those properties (only those with known types).
+  - `types` — expected value types. `"script"` = JS string evaluated at runtime.
+  - `scripts` — script metadata for this component's script-typed properties.
+  - `constraints` — `{ enum[] }` for allowed string values; `{ keyCase, valueType }` for script return-object shape.
 
 For each component being analyzed, build:
 
 ```
-allowedKeys = new Set([...data.base.props, ...(data[component.type]?.props ?? [])])
-typeMap = { ...data.base.types, ...(data[component.type]?.types ?? {}) }
+groupFile   = loadedGroups[index.components[component.type]]  // may be undefined for unknown types
+allowedKeys = new Set([...base.base.props, ...(groupFile?.[component.type]?.props ?? [])])
+typeMap     = { ...base.base.types,       ...(groupFile?.[component.type]?.types       ?? {}) }
+scriptsMeta = { ...base.base.scripts,     ...(groupFile?.[component.type]?.scripts     ?? {}) }
+constraints = { ...base.base.constraints, ...(groupFile?.[component.type]?.constraints ?? {}) }
 ```
 
 For the `formSettings` object:
 
 ```
-formSettingsAllowedKeys = new Set(data._formSettings.props)
-formSettingsTypeMap = data._formSettings.types
+formSettingsAllowedKeys = new Set(base._formSettings.props)
+formSettingsTypeMap     = base._formSettings.types
+formSettingsScripts     = base._formSettings.scripts ?? {}
 ```
 
 Properties in `allowedKeys`/`formSettingsAllowedKeys` but absent from the type map have ambiguous/union types — skip type-checking for those.
@@ -102,7 +120,7 @@ Also type-check the `formSettings` object: for each key in `formSettings` that I
 
 For each component, for each key that IS in `allowedKeys` (valid properties):
 
-1. `expectedType = typeMap[key]` — if not present → skip (ambiguous type).
+1. `expectedType = typeMap[key]` — if not present → skip (ambiguous type). If `expectedType === 'script'` → skip type-checking (value is a JS string evaluated at runtime; validate its content in Steps 4g and 4g-style).
 2. `rawValue = component[key]`
 3. Unwrap `IPropertySetting` wrapper if present:
    - If `rawValue` is an object with `_mode === 'code'` → skip (JS expression, runtime type unknown).
@@ -195,6 +213,25 @@ Output format per finding:
   Property:  <key>
   Issue:     <description, e.g. "unmatched braces: 3 opens, 2 closes">
   Excerpt:   <first 120 chars of script>
+```
+
+**Additional check for style-returning scripts (`customStyle`, `style`, `wrapperStyle`):**
+
+For any script property where `constraints[key].keyCase === 'camel'`, attempt to extract the returned object literal from the script string (look for `return {` or an arrow-function implicit `({`). For each key found in the object literal:
+
+- Flag any key in kebab-case (contains `-`) as `[WARNING — use camelCase key]`
+- Flag any value that is a bare number without units (e.g. `fontSize: 14` instead of `fontSize: '14px'`) as `[WARNING — value should be a quoted string]`
+
+Severity: **`[WARNING]`** — the component will likely not style correctly at runtime.
+**Never auto-fixable** — the correct unit/value requires developer intent.
+
+Output format:
+```
+[WARNING] customStyle object rule violation
+  Component: <id> (<type>)
+  Property:  <key>
+  Issue:     kebab-case key "font-size" — use camelCase "fontSize"
+             bare number value for "opacity: 1" — use quoted string "opacity: '1'"
 ```
 
 ---

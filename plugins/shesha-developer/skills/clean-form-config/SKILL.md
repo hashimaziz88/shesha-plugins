@@ -14,12 +14,12 @@ Identify and remove **dead properties**, **console.log debug statements**, and *
 Read the bundled index from the skill's own assets folder:
 
 ```
-plugins/shesha-developer/skills/clean-form-config/assets/component-properties.json
+plugins/shesha-developer/skills/clean-form-config/assets/groups/index.json
 ```
 
-This file is maintained by the skill author and ships with the plugin — no generation step is needed. Proceed directly to Step 2.
+Then load `base.json` and whichever group files are needed for the components in the form (see Step 3 of [analysis.md](analysis.md) for the full loading procedure). All files are maintained by the skill author and ship with the plugin — no generation step is needed. Proceed directly to Step 2.
 
-> **Note for skill maintainers:** To refresh the index after a shesha-reactjs upgrade, follow [generate-index.md](generate-index.md) and replace the file above.
+> **Note for skill maintainers:** To refresh the index after a shesha-reactjs upgrade, follow [generate-index.md](generate-index.md) and replace the files in the `assets/groups/` folder.
 
 ---
 
