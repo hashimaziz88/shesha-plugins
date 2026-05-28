@@ -1,587 +1,158 @@
 {
   "_meta": {
     "version": 3,
-    "generated": "2026-05-28T06:06:56.064Z",
+    "generated": "2026-05-28T10:00:00.000Z",
     "group": "layout"
   },
   "card": {
     "props": [
-      {
-        "name": "hideHeading",
-        "required": false
-      },
-      {
-        "name": "hideWhenEmpty",
-        "type": "boolean",
-        "required": false,
-        "JsReturnType": "boolean"
-      }
+      { "name": "hideHeading", "type": "boolean", "desc": "Hide the card title and header area.", "required": false, "JsReturnType": "boolean" },
+      { "name": "hideWhenEmpty", "type": "boolean", "desc": "Hide the card entirely when it has no visible child components.", "required": false, "JsReturnType": "boolean" }
     ]
   },
   "collapsiblePanel": {
     "props": [
-      {
-        "name": "accentStyle",
-        "required": false
-      },
-      {
-        "name": "collapsedByDefault",
-        "required": false
-      },
-      {
-        "name": "collapsible",
-        "required": false
-      },
-      {
-        "name": "expandIconPosition",
-        "required": false
-      },
-      {
-        "name": "ghost",
-        "required": false
-      },
-      {
-        "name": "hasCustomHeader",
-        "required": false
-      },
-      {
-        "name": "header",
-        "required": false
-      },
-      {
-        "name": "headerStyles",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "hideCollapseContent",
-        "required": false
-      },
-      {
-        "name": "hideWhenEmpty",
-        "required": false
-      },
-      {
-        "name": "isSimpleDesign",
-        "required": false
-      }
+      { "name": "accentStyle", "type": "boolean", "desc": "Apply an accent colour bar on the left side of the panel header.", "required": false, "JsReturnType": "boolean" },
+      { "name": "collapsedByDefault", "type": "boolean", "desc": "Start the panel in its collapsed state.", "required": false, "JsReturnType": "boolean" },
+      { "name": "collapsible", "type": "string", "options": ["header", "icon", "disabled"], "desc": "Which element toggles collapse: the whole header, the icon only, or disabled.", "required": false, "JsReturnType": "string" },
+      { "name": "expandIconPosition", "type": "string", "options": ["left", "right", "hide"], "desc": "Position of the expand/collapse icon, or 'hide' to remove it.", "required": false, "JsReturnType": "string" },
+      { "name": "ghost", "type": "boolean", "desc": "Render the panel without background or border (transparent style).", "required": false, "JsReturnType": "boolean" },
+      { "name": "hasCustomHeader", "type": "boolean", "desc": "Replace the default header with custom child components.", "required": false, "JsReturnType": "boolean" },
+      { "name": "header", "type": "object", "desc": "Custom header content definition ({ id, components }).", "required": false, "JsReturnType": "object" },
+      { "name": "headerStyles", "type": "string", "desc": "Inline CSS applied to the panel header bar.", "required": false, "JsReturnType": "string" },
+      { "name": "hideCollapseContent", "type": "boolean", "desc": "Hide the panel body when collapsed (removes it from DOM).", "required": false, "JsReturnType": "boolean" },
+      { "name": "hideWhenEmpty", "type": "boolean", "desc": "Hide the panel entirely when it has no visible child components.", "required": false, "JsReturnType": "boolean" },
+      { "name": "isSimpleDesign", "type": "boolean", "desc": "Use a simplified flat panel style without borders or shadows.", "required": false, "JsReturnType": "boolean" }
     ]
   },
   "columns": {
     "props": [
-      {
-        "name": "columns",
-        "required": false
-      },
-      {
-        "name": "gutterX",
-        "type": "number",
-        "required": false,
-        "JsReturnType": "number"
-      },
-      {
-        "name": "gutterY",
-        "required": false
-      }
+      { "name": "columns", "type": "array", "desc": "Column definitions — each with flex, offset, push, pull and child components.", "required": false, "JsReturnType": "array" },
+      { "name": "gutterX", "type": "number", "desc": "Horizontal gutter (spacing) between columns in pixels.", "required": false, "JsReturnType": "number" },
+      { "name": "gutterY", "type": "number", "desc": "Vertical gutter (spacing) between column rows in pixels.", "required": false, "JsReturnType": "number" }
     ]
   },
   "container": {
     "props": [
-      {
-        "name": "alignItems",
-        "required": false
-      },
-      {
-        "name": "alignSelf",
-        "required": false
-      },
-      {
-        "name": "display",
-        "required": false
-      },
-      {
-        "name": "flexDirection",
-        "required": false
-      },
-      {
-        "name": "flexWrap",
-        "required": false
-      },
-      {
-        "name": "gap",
-        "required": false
-      },
-      {
-        "name": "gridColumnsCount",
-        "required": false
-      },
-      {
-        "name": "justifyContent",
-        "required": false
-      },
-      {
-        "name": "justifyItems",
-        "required": false
-      },
-      {
-        "name": "justifySelf",
-        "required": false
-      },
-      {
-        "name": "noDefaultStyling",
-        "type": "boolean",
-        "required": false,
-        "JsReturnType": "boolean"
-      },
-      {
-        "name": "position",
-        "required": false
-      },
-      {
-        "name": "showAdvanced",
-        "required": false
-      }
+      { "name": "alignItems", "type": "string", "options": ["flex-start", "flex-end", "center", "stretch", "baseline"], "desc": "Align children along the cross axis.", "required": false, "JsReturnType": "string" },
+      { "name": "alignSelf", "type": "string", "options": ["auto", "flex-start", "flex-end", "center", "stretch", "baseline"], "desc": "Override the parent's alignItems for this container.", "required": false, "JsReturnType": "string" },
+      { "name": "display", "type": "string", "options": ["flex", "inline-flex", "grid", "block", "inline-block"], "desc": "CSS display mode for the container.", "required": false, "JsReturnType": "string" },
+      { "name": "flexDirection", "type": "string", "options": ["row", "column", "row-reverse", "column-reverse"], "desc": "Direction children are laid out.", "required": false, "JsReturnType": "string" },
+      { "name": "flexWrap", "type": "string", "options": ["nowrap", "wrap", "wrap-reverse"], "desc": "Whether children wrap onto multiple lines.", "required": false, "JsReturnType": "string" },
+      { "name": "gap", "type": "number", "desc": "Gap between child components in pixels.", "required": false, "JsReturnType": "number" },
+      { "name": "gridColumnsCount", "type": "number", "desc": "Number of columns when display is 'grid'.", "required": false, "JsReturnType": "number" },
+      { "name": "justifyContent", "type": "string", "options": ["flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly"], "desc": "Distribute children along the main axis.", "required": false, "JsReturnType": "string" },
+      { "name": "justifyItems", "type": "string", "options": ["start", "end", "center", "stretch"], "desc": "Default justifySelf for all grid children.", "required": false, "JsReturnType": "string" },
+      { "name": "justifySelf", "type": "string", "options": ["auto", "start", "end", "center", "stretch"], "desc": "Align this container within its grid parent.", "required": false, "JsReturnType": "string" },
+      { "name": "noDefaultStyling", "type": "boolean", "desc": "Remove all default padding and background from the container.", "required": false, "JsReturnType": "boolean" }
     ]
   },
   "drawer": {
     "props": [
-      {
-        "name": "action",
-        "required": false,
-        "type": "action-config",
-        "desc": "The primary action configuration for the drawer.",
-        "JsReturnType": "action-config"
-      },
-      {
-        "name": "cancelButtonCollapsiblePanel",
-        "required": false
-      },
-      {
-        "name": "cancelButtonCustomEnabled",
-        "required": false
-      },
-      {
-        "name": "cancelText",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "containerComponents",
-        "required": false
-      },
-      {
-        "name": "footerpnlShadowStyle",
-        "required": false
-      },
-      {
-        "name": "footerStyles",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "headerStyles",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "okButtonCollapsiblePanel",
-        "required": false
-      },
-      {
-        "name": "okButtonCustomEnabled",
-        "required": false
-      },
-      {
-        "name": "okText",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "onCancelAction",
-        "type": "action-config",
-        "required": false,
-        "JsReturnType": "action-config",
-        "desc": "Action to execute when the drawer is cancelled."
-      },
-      {
-        "name": "onOkAction",
-        "type": "action-config",
-        "required": false,
-        "JsReturnType": "action-config",
-        "desc": "Action to execute when the drawer is confirmed."
-      },
-      {
-        "name": "placement",
-        "required": false
-      },
-      {
-        "name": "showFooter",
-        "required": false
-      },
-      {
-        "name": "showHeader",
-        "required": false
-      }
+      { "name": "action", "type": "action-config", "desc": "Primary action executed when the drawer opens.", "required": false },
+      { "name": "cancelButtonCustomEnabled", "type": "script", "desc": "Expression that returns true/false to enable or disable the cancel button.", "required": false, "async": false, "context": ["data", "formData", "contexts", "globalState"] },
+      { "name": "cancelText", "type": "string", "desc": "Label for the cancel button.", "required": false, "JsReturnType": "string" },
+      { "name": "footerStyles", "type": "string", "desc": "Inline CSS applied to the drawer footer.", "required": false, "JsReturnType": "string" },
+      { "name": "headerStyles", "type": "string", "desc": "Inline CSS applied to the drawer header.", "required": false, "JsReturnType": "string" },
+      { "name": "okButtonCustomEnabled", "type": "script", "desc": "Expression that returns true/false to enable or disable the OK button.", "required": false, "async": false, "context": ["data", "formData", "contexts", "globalState"] },
+      { "name": "okText", "type": "string", "desc": "Label for the OK button.", "required": false, "JsReturnType": "string" },
+      { "name": "onCancelAction", "type": "action-config", "desc": "Action executed when the drawer is cancelled.", "required": false },
+      { "name": "onOkAction", "type": "action-config", "desc": "Action executed when the drawer is confirmed.", "required": false },
+      { "name": "placement", "type": "string", "options": ["top", "right", "bottom", "left"], "desc": "Which edge the drawer slides in from.", "required": false, "JsReturnType": "string" },
+      { "name": "showFooter", "type": "boolean", "desc": "Show the drawer footer bar with OK/cancel buttons.", "required": false, "JsReturnType": "boolean" },
+      { "name": "showHeader", "type": "boolean", "desc": "Show the drawer header bar with the title.", "required": false, "JsReturnType": "boolean" }
     ]
   },
   "KeyInformationBar": {
     "props": [
-      {
-        "name": "alignItems",
-        "required": false
-      },
-      {
-        "name": "columns",
-        "required": false
-      },
-      {
-        "name": "divider",
-        "required": false
-      },
-      {
-        "name": "dividerColor",
-        "required": false
-      },
-      {
-        "name": "dividerHeight",
-        "required": false
-      },
-      {
-        "name": "dividerMargin",
-        "required": false
-      },
-      {
-        "name": "dividerThickness",
-        "required": false
-      },
-      {
-        "name": "dividerWidth",
-        "required": false
-      },
-      {
-        "name": "gap",
-        "required": false
-      },
-      {
-        "name": "orientation",
-        "required": false
-      }
+      { "name": "alignItems", "type": "string", "options": ["flex-start", "flex-end", "center", "stretch", "baseline"], "desc": "Align items along the cross axis.", "required": false, "JsReturnType": "string" },
+      { "name": "columns", "type": "array", "desc": "Column definitions for each info cell ({ id, width, flexDirection, textAlign, components, padding }).", "required": false, "JsReturnType": "array" },
+      { "name": "divider", "type": "boolean", "desc": "Show a divider line between each column.", "required": false, "JsReturnType": "boolean" },
+      { "name": "dividerColor", "type": "string", "desc": "CSS color of the column dividers.", "required": false, "JsReturnType": "string" },
+      { "name": "dividerHeight", "type": "string", "desc": "Height of the divider line (e.g. '60%', '40px').", "required": false, "JsReturnType": "string" },
+      { "name": "dividerMargin", "type": "number", "desc": "Horizontal margin around each divider in pixels.", "required": false, "JsReturnType": "number" },
+      { "name": "dividerThickness", "type": "string", "desc": "Thickness of the divider line (e.g. '1px', '2px').", "required": false, "JsReturnType": "string" },
+      { "name": "dividerWidth", "type": "string", "desc": "Width override for the divider element.", "required": false, "JsReturnType": "string" },
+      { "name": "gap", "type": "number", "desc": "Gap between columns in pixels.", "required": false, "JsReturnType": "number" },
+      { "name": "orientation", "type": "string", "options": ["horizontal", "vertical"], "desc": "Direction the info cells are laid out.", "required": false, "JsReturnType": "string" }
     ]
   },
   "sectionSeparator": {
     "props": [
-      {
-        "name": "containerStyle",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "containerStylingBox",
-        "type": "object",
-        "required": false,
-        "JsReturnType": "object"
-      },
-      {
-        "name": "inline",
-        "required": false
-      },
-      {
-        "name": "lineFont",
-        "required": false
-      },
-      {
-        "name": "lineHeight",
-        "required": false
-      },
-      {
-        "name": "lineStyle",
-        "required": false
-      },
-      {
-        "name": "lineType",
-        "required": false
-      },
-      {
-        "name": "lineWidth",
-        "required": false
-      },
-      {
-        "name": "orientation",
-        "required": false
-      },
-      {
-        "name": "titleStyle",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      }
+      { "name": "dashed", "type": "boolean", "desc": "Render the separator line as dashed instead of solid.", "required": false, "JsReturnType": "boolean" },
+      { "name": "inline", "type": "boolean", "desc": "Render the separator inline with surrounding content.", "required": false, "JsReturnType": "boolean" },
+      { "name": "lineHeight", "type": "string", "desc": "Height of the separator line (e.g. '1px').", "required": false, "JsReturnType": "string" },
+      { "name": "lineType", "type": "string", "options": ["horizontal", "vertical"], "desc": "Direction of the separator line.", "required": false, "JsReturnType": "string" },
+      { "name": "lineWidth", "type": "string", "desc": "Width of the separator line (e.g. '100%', '200px').", "required": false, "JsReturnType": "string" },
+      { "name": "orientation", "type": "string", "options": ["left", "center", "right"], "desc": "Position of the section title relative to the line.", "required": false, "JsReturnType": "string" },
+      { "name": "titleStyle", "type": "string", "desc": "Inline CSS applied to the section title text.", "required": false, "JsReturnType": "string" }
     ]
   },
   "sizableColumns": {
     "props": [
-      {
-        "name": "columns",
-        "required": false
-      }
+      { "name": "columns", "type": "array", "desc": "Column definitions — each with a resizable size value and child components.", "required": false, "JsReturnType": "array" }
     ]
   },
   "space": {
-    "props": []
+    "props": [
+      { "name": "align", "type": "string", "options": ["start", "end", "center", "baseline"], "desc": "Align items along the cross axis.", "required": false, "JsReturnType": "string" },
+      { "name": "direction", "type": "string", "options": ["horizontal", "vertical"], "desc": "Direction items are spaced.", "required": false, "JsReturnType": "string" },
+      { "name": "marginLeft", "type": "number", "desc": "Left margin of the space container in pixels.", "required": false, "JsReturnType": "number" },
+      { "name": "marginRight", "type": "number", "desc": "Right margin of the space container in pixels.", "required": false, "JsReturnType": "number" },
+      { "name": "size", "type": "string", "options": ["small", "middle", "large"], "desc": "Preset gap between items. Use sizeNumber for a custom pixel value.", "required": false, "JsReturnType": "string" },
+      { "name": "sizeNumber", "type": "number", "desc": "Custom gap between items in pixels (overrides size).", "required": false, "JsReturnType": "number" },
+      { "name": "wrap", "type": "boolean", "desc": "Allow items to wrap onto the next line.", "required": false, "JsReturnType": "boolean" }
+    ]
   },
   "tabs": {
     "props": [
-      {
-        "name": "card",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "cardStyle",
-        "required": false
-      },
-      {
-        "name": "defaultActiveKey",
-        "required": false
-      },
-      {
-        "name": "tabCardFontStyle",
-        "required": false
-      },
-      {
-        "name": "tabLineColor",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "tabPosition",
-        "required": false
-      },
-      {
-        "name": "tabs",
-        "required": false
-      },
-      {
-        "name": "tabType",
-        "required": false
-      }
+      { "name": "defaultActiveKey", "type": "string", "desc": "Key of the tab that is active on first render.", "required": false, "JsReturnType": "string" },
+      { "name": "tabLineColor", "type": "string", "desc": "CSS color of the active tab indicator line.", "required": false, "JsReturnType": "string" },
+      { "name": "tabPosition", "type": "string", "options": ["top", "bottom", "left", "right"], "desc": "Where the tab strip is rendered relative to the content.", "required": false, "JsReturnType": "string" },
+      { "name": "tabs", "type": "array", "desc": "Tab pane definitions — each with key, title, icon, hidden, permissions, and child components.", "required": false, "JsReturnType": "array" },
+      { "name": "tabType", "type": "string", "options": ["line", "card"], "desc": "Visual style of the tab strip.", "required": false, "JsReturnType": "string" }
     ]
   },
   "wizard": {
     "props": [
-      {
-        "name": "additionalStyles",
-        "required": false
-      },
-      {
-        "name": "buttonsLayout",
-        "required": false
-      },
-      {
-        "name": "defaultActiveStep",
-        "required": false
-      },
-      {
-        "name": "direction",
-        "required": false
-      },
-      {
-        "name": "labelPlacement",
-        "required": false
-      },
-      {
-        "name": "steps",
-        "required": false
-      },
-      {
-        "name": "stepWidth",
-        "required": false
-      },
-      {
-        "name": "wizardType",
-        "required": false
-      }
+      { "name": "buttonsLayout", "type": "string", "options": ["left", "right", "spaceBetween"], "desc": "Alignment of the navigation buttons.", "required": false, "JsReturnType": "string" },
+      { "name": "defaultActiveStep", "type": "string", "desc": "Key of the step that is active on first render.", "required": false, "JsReturnType": "string" },
+      { "name": "direction", "type": "string", "options": ["horizontal", "vertical"], "desc": "Direction the step indicators are laid out.", "required": false, "JsReturnType": "string" },
+      { "name": "labelPlacement", "type": "string", "options": ["horizontal", "vertical"], "desc": "Whether step labels are placed beside or below the step icon.", "required": false, "JsReturnType": "string" },
+      { "name": "showStepStatus", "type": "boolean", "desc": "Show a status indicator (finish/process/wait/error) on each step.", "required": false, "JsReturnType": "boolean" },
+      { "name": "steps", "type": "array", "desc": "Step definitions — each with title, description, icon, navigation actions, and child components.", "required": false, "JsReturnType": "array" },
+      { "name": "stepWidth", "type": "string", "desc": "Width of each step indicator (e.g. '120px').", "required": false, "JsReturnType": "string" },
+      { "name": "wizardType", "type": "string", "options": ["default", "navigation"], "desc": "'default' shows a progress stepper; 'navigation' shows a navigable step bar.", "required": false, "JsReturnType": "string" }
     ]
   },
   "subForm": {
     "props": [
-      {
-        "name": "apiMode",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string",
-        "options": [
-          "rest",
-          "graphql"
-        ]
-      },
-      {
-        "name": "dataSource",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string",
-        "options": [
-          "form",
-          "api"
-        ]
-      },
-      {
-        "name": "entityType",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "formId",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "formSelectionMode",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string",
-        "options": [
-          "name",
-          "dynamic"
-        ]
-      },
-      {
-        "name": "formType",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "getUrl",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "labelCol",
-        "type": "object",
-        "required": false,
-        "JsReturnType": "object"
-      },
-      {
-        "name": "onCreated",
-        "type": "script",
-        "desc": "Called after the sub-form entity is created successfully.",
-        "required": false,
-        "JsReturnType": "void",
-        "async": true,
-        "context": [
-          "data",
-          "response",
-          "contexts",
-          "globalState",
-          "http"
-        ]
-      },
-      {
-        "name": "onUpdated",
-        "type": "script",
-        "desc": "Called after the sub-form entity is updated successfully.",
-        "required": false,
-        "JsReturnType": "void",
-        "async": true,
-        "context": [
-          "data",
-          "response",
-          "contexts",
-          "globalState",
-          "http"
-        ]
-      },
-      {
-        "name": "postUrl",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "properties",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "putUrl",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "uniqueStateId",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "wrapperCol",
-        "type": "object",
-        "required": false,
-        "JsReturnType": "object"
-      }
+      { "name": "apiMode", "type": "string", "options": ["entityName", "url"], "desc": "Whether the API is called by entity name or a custom URL.", "required": false, "JsReturnType": "string" },
+      { "name": "dataSource", "type": "string", "options": ["form", "api"], "desc": "Whether the sub-form data comes from the parent form or a separate API call.", "required": false, "JsReturnType": "string" },
+      { "name": "entityType", "type": "string", "desc": "Fully-qualified entity type (e.g. 'Shesha.Core.Person'). Used when apiMode is 'entityName'.", "required": false, "JsReturnType": "string" },
+      { "name": "formId", "type": "form-id", "desc": "Form to render inside the sub-form container.", "required": false, "JsReturnType": "form-id" },
+      { "name": "formSelectionMode", "type": "string", "options": ["name", "dynamic"], "desc": "Whether the form is resolved by name or dynamically by entity type.", "required": false, "JsReturnType": "string" },
+      { "name": "formType", "type": "string", "desc": "Form type hint used when formSelectionMode is 'dynamic'.", "required": false, "JsReturnType": "string" },
+      { "name": "getUrl", "type": "string", "desc": "URL to GET the entity data from.", "required": false, "JsReturnType": "string" },
+      { "name": "labelCol", "type": "number", "desc": "Ant Design label column span (1–24).", "required": false, "JsReturnType": "number" },
+      { "name": "onCreated", "type": "script", "desc": "Called after the sub-form entity is created successfully.", "required": false, "async": true, "context": ["data", "response", "contexts", "globalState", "http"] },
+      { "name": "onUpdated", "type": "script", "desc": "Called after the sub-form entity is updated successfully.", "required": false, "async": true, "context": ["data", "response", "contexts", "globalState", "http"] },
+      { "name": "postUrl", "type": "string", "desc": "URL to POST a new entity record to.", "required": false, "JsReturnType": "string" },
+      { "name": "properties", "type": "string", "desc": "Comma-separated or space-separated list of entity properties to fetch.", "required": false, "JsReturnType": "string" },
+      { "name": "putUrl", "type": "string", "desc": "URL to PUT (update) an existing entity record.", "required": false, "JsReturnType": "string" },
+      { "name": "queryParams", "type": "script", "desc": "Script returning extra query parameters appended to the GET request.", "required": false, "async": false, "context": ["data", "formData", "contexts", "globalState"] },
+      { "name": "uniqueStateId", "type": "string", "desc": "Unique identifier used to isolate this sub-form's state from other sub-forms on the same page.", "required": false, "JsReturnType": "string" },
+      { "name": "wrapperCol", "type": "number", "desc": "Ant Design wrapper column span (1–24).", "required": false, "JsReturnType": "number" }
     ]
   },
   "menuList": {
     "props": [
-      {
-        "name": "gap",
-        "required": false
-      },
-      {
-        "name": "hoverItemBackground",
-        "required": false
-      },
-      {
-        "name": "hoverItemColor",
-        "required": false
-      },
-      {
-        "name": "itemBackground",
-        "required": false
-      },
-      {
-        "name": "itemColor",
-        "required": false
-      },
-      {
-        "name": "selectedItemBackground",
-        "required": false
-      },
-      {
-        "name": "selectedItemColor",
-        "required": false
-      },
-      {
-        "name": "styleOnHover",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "styleOnSelected",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      },
-      {
-        "name": "styleOnSubMenu",
-        "type": "string",
-        "required": false,
-        "JsReturnType": "string"
-      }
+      { "name": "gap", "type": "number", "desc": "Gap between menu items in pixels.", "required": false, "JsReturnType": "number" },
+      { "name": "items", "type": "array", "desc": "Menu item definitions (antd ItemType array).", "required": false, "JsReturnType": "array" },
+      { "name": "menuOverflow", "type": "string", "options": ["dropdown", "menu", "scroll"], "desc": "How items that overflow the menu bar are handled.", "required": false, "JsReturnType": "string" },
+      { "name": "styleOnHover", "type": "string", "desc": "Inline CSS expression applied to menu items on hover.", "required": false, "JsReturnType": "string" },
+      { "name": "styleOnSelected", "type": "string", "desc": "Inline CSS expression applied to the selected menu item.", "required": false, "JsReturnType": "string" },
+      { "name": "styleOnSubMenu", "type": "string", "desc": "Inline CSS expression applied to sub-menu containers.", "required": false, "JsReturnType": "string" }
     ]
   }
 }
