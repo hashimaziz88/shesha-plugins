@@ -1,110 +1,236 @@
 {
   "_meta": {
     "version": 3,
-    "generated": "2026-05-22T08:44:41.645Z",
+    "generated": "2026-05-28T06:06:56.059Z",
     "group": "data-display"
   },
   "alert": {
     "props": [
-      "alertType",
-      "banner",
-      "closable",
-      "customStyle",
-      "icon",
-      "marquee",
-      "showIcon",
-      "text"
-    ],
-    "types": {
-      "marquee": "boolean",
-      "showIcon": "boolean",
-      "text": "string"
-    }
+      {
+        "name": "alertType",
+        "required": false
+      },
+      {
+        "name": "banner",
+        "required": false
+      },
+      {
+        "name": "closable",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "required": false
+      },
+      {
+        "name": "marquee",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "showIcon",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      }
+    ]
   },
   "link": {
     "props": [
-      "alignItems",
-      "content",
-      "customStyle",
-      "direction",
-      "hasChildren",
-      "href",
-      "justifyContent",
-      "justifyItems",
-      "target"
-    ],
-    "types": {
-      "hasChildren": "boolean",
-      "href": "string"
-    }
+      {
+        "name": "alignItems",
+        "required": false
+      },
+      {
+        "name": "content",
+        "required": false
+      },
+      {
+        "name": "direction",
+        "required": false
+      },
+      {
+        "name": "hasChildren",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "justifyContent",
+        "required": false
+      },
+      {
+        "name": "justifyItems",
+        "required": false
+      },
+      {
+        "name": "target",
+        "required": false
+      }
+    ]
   },
   "statistic": {
     "props": [
-      "precision",
-      "prefix",
-      "prefixIcon",
-      "suffix",
-      "suffixIcon",
-      "title",
-      "titleFont",
-      "titleStyle",
-      "value",
-      "valueFont",
-      "valueStyle"
-    ],
-    "types": {
-      "prefix": "string",
-      "suffix": "string",
-      "title": "string",
-      "titleStyle": "string",
-      "value": "number",
-      "valueStyle": "string"
-    }
+      {
+        "name": "precision",
+        "required": false
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "prefixIcon",
+        "required": false
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "suffixIcon",
+        "required": false
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "titleFont",
+        "required": false
+      },
+      {
+        "name": "titleStyle",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "value",
+        "type": "number",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "valueFont",
+        "required": false
+      },
+      {
+        "name": "valueStyle",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      }
+    ]
   },
   "text": {
     "props": [
-      "code",
-      "content",
-      "contentDisplay",
-      "contentType",
-      "copyable",
-      "dataType",
-      "dateFormat",
-      "delete",
-      "ellipsis",
-      "italic",
-      "keyboard",
-      "level",
-      "mark",
-      "numberFormat",
-      "textType",
-      "underline"
-    ],
-    "types": {
-      "delete": "boolean",
-      "ellipsis": "boolean",
-      "italic": "boolean",
-      "keyboard": "boolean"
-    }
+      {
+        "name": "code",
+        "required": false
+      },
+      {
+        "name": "content",
+        "required": false
+      },
+      {
+        "name": "contentDisplay",
+        "required": false
+      },
+      {
+        "name": "contentType",
+        "required": false
+      },
+      {
+        "name": "copyable",
+        "required": false
+      },
+      {
+        "name": "dataType",
+        "required": false
+      },
+      {
+        "name": "dateFormat",
+        "required": false
+      },
+      {
+        "name": "delete",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "ellipsis",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "italic",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "keyboard",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "level",
+        "required": false
+      },
+      {
+        "name": "mark",
+        "required": false
+      },
+      {
+        "name": "numberFormat",
+        "required": false
+      },
+      {
+        "name": "textType",
+        "required": false
+      },
+      {
+        "name": "underline",
+        "required": false
+      }
+    ]
   },
   "validationErrors": {
-    "props": [],
-    "types": {}
+    "props": []
   },
   "barChart": {
-    "props": [],
-    "types": {}
+    "props": []
   },
   "lineChart": {
-    "props": [],
-    "types": {}
+    "props": []
   },
   "pieChart": {
-    "props": [],
-    "types": {}
+    "props": []
   },
   "polarAreaChart": {
-    "props": [],
-    "types": {}
+    "props": []
   }
 }

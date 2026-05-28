@@ -1,274 +1,587 @@
 {
   "_meta": {
     "version": 3,
-    "generated": "2026-05-22T08:44:41.645Z",
+    "generated": "2026-05-28T06:06:56.064Z",
     "group": "layout"
   },
   "card": {
     "props": [
-      "customStyle",
-      "hideHeading",
-      "hideWhenEmpty"
-    ],
-    "types": {
-      "hideWhenEmpty": "boolean"
-    }
+      {
+        "name": "hideHeading",
+        "required": false
+      },
+      {
+        "name": "hideWhenEmpty",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean"
+      }
+    ]
   },
   "collapsiblePanel": {
     "props": [
-      "accentStyle",
-      "collapsedByDefault",
-      "collapsible",
-      "customStyle",
-      "expandIconPosition",
-      "ghost",
-      "hasCustomHeader",
-      "header",
-      "headerStyles",
-      "hideCollapseContent",
-      "hideWhenEmpty",
-      "isSimpleDesign"
-    ],
-    "types": {
-      "headerStyles": "string"
-    }
+      {
+        "name": "accentStyle",
+        "required": false
+      },
+      {
+        "name": "collapsedByDefault",
+        "required": false
+      },
+      {
+        "name": "collapsible",
+        "required": false
+      },
+      {
+        "name": "expandIconPosition",
+        "required": false
+      },
+      {
+        "name": "ghost",
+        "required": false
+      },
+      {
+        "name": "hasCustomHeader",
+        "required": false
+      },
+      {
+        "name": "header",
+        "required": false
+      },
+      {
+        "name": "headerStyles",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "hideCollapseContent",
+        "required": false
+      },
+      {
+        "name": "hideWhenEmpty",
+        "required": false
+      },
+      {
+        "name": "isSimpleDesign",
+        "required": false
+      }
+    ]
   },
   "columns": {
     "props": [
-      "columns",
-      "gutterX",
-      "gutterY"
-    ],
-    "types": {
-      "gutterX": "number"
-    }
+      {
+        "name": "columns",
+        "required": false
+      },
+      {
+        "name": "gutterX",
+        "type": "number",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "gutterY",
+        "required": false
+      }
+    ]
   },
   "container": {
     "props": [
-      "alignItems",
-      "alignSelf",
-      "customStyle",
-      "display",
-      "flexDirection",
-      "flexWrap",
-      "gap",
-      "gridColumnsCount",
-      "justifyContent",
-      "justifyItems",
-      "justifySelf",
-      "noDefaultStyling",
-      "position",
-      "showAdvanced"
-    ],
-    "types": {
-      "noDefaultStyling": "boolean"
-    }
+      {
+        "name": "alignItems",
+        "required": false
+      },
+      {
+        "name": "alignSelf",
+        "required": false
+      },
+      {
+        "name": "display",
+        "required": false
+      },
+      {
+        "name": "flexDirection",
+        "required": false
+      },
+      {
+        "name": "flexWrap",
+        "required": false
+      },
+      {
+        "name": "gap",
+        "required": false
+      },
+      {
+        "name": "gridColumnsCount",
+        "required": false
+      },
+      {
+        "name": "justifyContent",
+        "required": false
+      },
+      {
+        "name": "justifyItems",
+        "required": false
+      },
+      {
+        "name": "justifySelf",
+        "required": false
+      },
+      {
+        "name": "noDefaultStyling",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "position",
+        "required": false
+      },
+      {
+        "name": "showAdvanced",
+        "required": false
+      }
+    ]
   },
   "drawer": {
     "props": [
-      "action",
-      "cancelButtonCollapsiblePanel",
-      "cancelButtonCustomEnabled",
-      "cancelText",
-      "containerComponents",
-      "customStyle",
-      "footerpnlShadowStyle",
-      "footerStyles",
-      "headerStyles",
-      "okButtonCollapsiblePanel",
-      "okButtonCustomEnabled",
-      "okText",
-      "onCancelAction",
-      "onOkAction",
-      "placement",
-      "showFooter",
-      "showHeader"
-    ],
-    "types": {
-      "cancelText": "string",
-      "footerStyles": "string",
-      "headerStyles": "string",
-      "okText": "string",
-      "onCancelAction": "object",
-      "onOkAction": "object"
-    }
+      {
+        "name": "action",
+        "required": false,
+        "type": "action-config",
+        "desc": "The primary action configuration for the drawer.",
+        "JsReturnType": "action-config"
+      },
+      {
+        "name": "cancelButtonCollapsiblePanel",
+        "required": false
+      },
+      {
+        "name": "cancelButtonCustomEnabled",
+        "required": false
+      },
+      {
+        "name": "cancelText",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "containerComponents",
+        "required": false
+      },
+      {
+        "name": "footerpnlShadowStyle",
+        "required": false
+      },
+      {
+        "name": "footerStyles",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "headerStyles",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "okButtonCollapsiblePanel",
+        "required": false
+      },
+      {
+        "name": "okButtonCustomEnabled",
+        "required": false
+      },
+      {
+        "name": "okText",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "onCancelAction",
+        "type": "action-config",
+        "required": false,
+        "JsReturnType": "action-config",
+        "desc": "Action to execute when the drawer is cancelled."
+      },
+      {
+        "name": "onOkAction",
+        "type": "action-config",
+        "required": false,
+        "JsReturnType": "action-config",
+        "desc": "Action to execute when the drawer is confirmed."
+      },
+      {
+        "name": "placement",
+        "required": false
+      },
+      {
+        "name": "showFooter",
+        "required": false
+      },
+      {
+        "name": "showHeader",
+        "required": false
+      }
+    ]
   },
   "KeyInformationBar": {
     "props": [
-      "alignItems",
-      "columns",
-      "customStyle",
-      "divider",
-      "dividerColor",
-      "dividerHeight",
-      "dividerMargin",
-      "dividerThickness",
-      "dividerWidth",
-      "gap",
-      "orientation"
-    ],
-    "types": {}
+      {
+        "name": "alignItems",
+        "required": false
+      },
+      {
+        "name": "columns",
+        "required": false
+      },
+      {
+        "name": "divider",
+        "required": false
+      },
+      {
+        "name": "dividerColor",
+        "required": false
+      },
+      {
+        "name": "dividerHeight",
+        "required": false
+      },
+      {
+        "name": "dividerMargin",
+        "required": false
+      },
+      {
+        "name": "dividerThickness",
+        "required": false
+      },
+      {
+        "name": "dividerWidth",
+        "required": false
+      },
+      {
+        "name": "gap",
+        "required": false
+      },
+      {
+        "name": "orientation",
+        "required": false
+      }
+    ]
   },
   "sectionSeparator": {
     "props": [
-      "containerStyle",
-      "containerStylingBox",
-      "customStyle",
-      "inline",
-      "lineFont",
-      "lineHeight",
-      "lineStyle",
-      "lineType",
-      "lineWidth",
-      "orientation",
-      "titleStyle"
-    ],
-    "types": {
-      "containerStyle": "string",
-      "containerStylingBox": "object",
-      "titleStyle": "string"
-    }
+      {
+        "name": "containerStyle",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "containerStylingBox",
+        "type": "object",
+        "required": false,
+        "JsReturnType": "object"
+      },
+      {
+        "name": "inline",
+        "required": false
+      },
+      {
+        "name": "lineFont",
+        "required": false
+      },
+      {
+        "name": "lineHeight",
+        "required": false
+      },
+      {
+        "name": "lineStyle",
+        "required": false
+      },
+      {
+        "name": "lineType",
+        "required": false
+      },
+      {
+        "name": "lineWidth",
+        "required": false
+      },
+      {
+        "name": "orientation",
+        "required": false
+      },
+      {
+        "name": "titleStyle",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      }
+    ]
   },
   "sizableColumns": {
     "props": [
-      "columns"
-    ],
-    "types": {}
+      {
+        "name": "columns",
+        "required": false
+      }
+    ]
   },
   "space": {
-    "props": [],
-    "types": {}
+    "props": []
   },
   "tabs": {
     "props": [
-      "card",
-      "cardStyle",
-      "customStyle",
-      "defaultActiveKey",
-      "tabCardFontStyle",
-      "tabLineColor",
-      "tabPosition",
-      "tabs",
-      "tabType"
-    ],
-    "types": {
-      "card": "string",
-      "tabLineColor": "string"
-    }
+      {
+        "name": "card",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "cardStyle",
+        "required": false
+      },
+      {
+        "name": "defaultActiveKey",
+        "required": false
+      },
+      {
+        "name": "tabCardFontStyle",
+        "required": false
+      },
+      {
+        "name": "tabLineColor",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "tabPosition",
+        "required": false
+      },
+      {
+        "name": "tabs",
+        "required": false
+      },
+      {
+        "name": "tabType",
+        "required": false
+      }
+    ]
   },
   "wizard": {
     "props": [
-      "additionalStyles",
-      "buttonsLayout",
-      "customStyle",
-      "defaultActiveStep",
-      "direction",
-      "labelPlacement",
-      "steps",
-      "stepWidth",
-      "wizardType"
-    ],
-    "types": {}
+      {
+        "name": "additionalStyles",
+        "required": false
+      },
+      {
+        "name": "buttonsLayout",
+        "required": false
+      },
+      {
+        "name": "defaultActiveStep",
+        "required": false
+      },
+      {
+        "name": "direction",
+        "required": false
+      },
+      {
+        "name": "labelPlacement",
+        "required": false
+      },
+      {
+        "name": "steps",
+        "required": false
+      },
+      {
+        "name": "stepWidth",
+        "required": false
+      },
+      {
+        "name": "wizardType",
+        "required": false
+      }
+    ]
   },
   "subForm": {
     "props": [
-      "apiMode",
-      "dataSource",
-      "entityType",
-      "formId",
-      "formSelectionMode",
-      "formType",
-      "getUrl",
-      "labelCol",
-      "onCreated",
-      "onUpdated",
-      "postUrl",
-      "properties",
-      "putUrl",
-      "uniqueStateId",
-      "wrapperCol"
-    ],
-    "types": {
-      "entityType": "string",
-      "formId": "string",
-      "onCreated": "script",
-      "onUpdated": "script",
-      "properties": "string",
-      "uniqueStateId": "string",
-      "apiMode": "string",
-      "dataSource": "string",
-      "formSelectionMode": "string",
-      "formType": "string",
-      "getUrl": "string",
-      "labelCol": "object",
-      "postUrl": "string",
-      "putUrl": "string",
-      "wrapperCol": "object"
-    },
-    "scripts": {
-      "onCreated": {
-        "returns": "void",
-        "async": true,
-        "context": [
-          "data",
-          "response",
-          "contexts",
-          "globalState",
-          "http"
-        ],
-        "description": "Called after the sub-form entity is created successfully."
-      },
-      "onUpdated": {
-        "returns": "void",
-        "async": true,
-        "context": [
-          "data",
-          "response",
-          "contexts",
-          "globalState",
-          "http"
-        ],
-        "description": "Called after the sub-form entity is updated successfully."
-      }
-    },
-    "constraints": {
-      "apiMode": {
-        "enum": [
+      {
+        "name": "apiMode",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
           "rest",
           "graphql"
         ]
       },
-      "dataSource": {
-        "enum": [
+      {
+        "name": "dataSource",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
           "form",
           "api"
         ]
       },
-      "formSelectionMode": {
-        "enum": [
+      {
+        "name": "entityType",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "formId",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "formSelectionMode",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
           "name",
           "dynamic"
         ]
+      },
+      {
+        "name": "formType",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "getUrl",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "labelCol",
+        "type": "object",
+        "required": false,
+        "JsReturnType": "object"
+      },
+      {
+        "name": "onCreated",
+        "type": "script",
+        "desc": "Called after the sub-form entity is created successfully.",
+        "required": false,
+        "JsReturnType": "void",
+        "async": true,
+        "context": [
+          "data",
+          "response",
+          "contexts",
+          "globalState",
+          "http"
+        ]
+      },
+      {
+        "name": "onUpdated",
+        "type": "script",
+        "desc": "Called after the sub-form entity is updated successfully.",
+        "required": false,
+        "JsReturnType": "void",
+        "async": true,
+        "context": [
+          "data",
+          "response",
+          "contexts",
+          "globalState",
+          "http"
+        ]
+      },
+      {
+        "name": "postUrl",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "properties",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "putUrl",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "uniqueStateId",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "wrapperCol",
+        "type": "object",
+        "required": false,
+        "JsReturnType": "object"
       }
-    }
+    ]
   },
   "menuList": {
     "props": [
-      "gap",
-      "hoverItemBackground",
-      "hoverItemColor",
-      "itemBackground",
-      "itemColor",
-      "selectedItemBackground",
-      "selectedItemColor",
-      "styleOnHover",
-      "styleOnSelected",
-      "styleOnSubMenu"
-    ],
-    "types": {
-      "styleOnHover": "string",
-      "styleOnSelected": "string",
-      "styleOnSubMenu": "string"
-    }
+      {
+        "name": "gap",
+        "required": false
+      },
+      {
+        "name": "hoverItemBackground",
+        "required": false
+      },
+      {
+        "name": "hoverItemColor",
+        "required": false
+      },
+      {
+        "name": "itemBackground",
+        "required": false
+      },
+      {
+        "name": "itemColor",
+        "required": false
+      },
+      {
+        "name": "selectedItemBackground",
+        "required": false
+      },
+      {
+        "name": "selectedItemColor",
+        "required": false
+      },
+      {
+        "name": "styleOnHover",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "styleOnSelected",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "styleOnSubMenu",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      }
+    ]
   }
 }

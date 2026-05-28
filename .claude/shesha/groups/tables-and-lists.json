@@ -1,144 +1,350 @@
 {
   "_meta": {
     "version": 3,
-    "generated": "2026-05-22T08:44:41.645Z",
+    "generated": "2026-05-28T06:06:56.063Z",
     "group": "tables-and-lists"
   },
   "datatableContext": {
     "props": [
-      "allowReordering",
-      "customReorderEndpoint",
-      "dataFetchingMode",
-      "defaultPageSize",
-      "disableRefresh",
-      "endpoint",
-      "entityType",
-      "grouping",
-      "onAfterRowReorder",
-      "onBeforeRowReorder",
-      "permanentFilter",
-      "sortMode",
-      "sourceType",
-      "standardSorting",
-      "strictSortBy",
-      "strictSortOrder"
-    ],
-    "types": {}
+      {
+        "name": "allowReordering",
+        "required": false
+      },
+      {
+        "name": "customReorderEndpoint",
+        "required": false
+      },
+      {
+        "name": "dataFetchingMode",
+        "required": false
+      },
+      {
+        "name": "defaultPageSize",
+        "required": false
+      },
+      {
+        "name": "disableRefresh",
+        "required": false
+      },
+      {
+        "name": "endpoint",
+        "required": false
+      },
+      {
+        "name": "entityType",
+        "required": false
+      },
+      {
+        "name": "grouping",
+        "required": false
+      },
+      {
+        "name": "onAfterRowReorder",
+        "required": false
+      },
+      {
+        "name": "onBeforeRowReorder",
+        "required": false
+      },
+      {
+        "name": "permanentFilter",
+        "required": false
+      },
+      {
+        "name": "sortMode",
+        "required": false
+      },
+      {
+        "name": "sourceType",
+        "required": false
+      },
+      {
+        "name": "standardSorting",
+        "required": false
+      },
+      {
+        "name": "strictSortBy",
+        "required": false
+      },
+      {
+        "name": "strictSortOrder",
+        "required": false
+      }
+    ]
   },
   "datatable": {
-    "props": [],
-    "types": {}
+    "props": []
   },
   "datalist": {
     "props": [
-      "canAddInline",
-      "canDeleteInline",
-      "canEditInline",
-      "cardHeight",
-      "cardMaxWidth",
-      "cardMinWidth",
-      "collapseByDefault",
-      "collapsible",
-      "container",
-      "containerCustomStylePanel",
-      "containerDimensionsPanel",
-      "containerStylingBoxPanel",
-      "createFormId",
-      "createFormType",
-      "customCreateUrl",
-      "customDeleteUrl",
-      "customListItemWidth",
-      "customStyle",
-      "customUpdateUrl",
-      "datalistEmptyState",
-      "dblClickActionConfiguration",
-      "formId",
-      "formIdExpression",
-      "formSelectionMode",
-      "formType",
-      "gap",
-      "groupStyle",
-      "inlineEditMode",
-      "inlineSaveMode",
-      "listItemWidth",
-      "modalWidth",
-      "onListItemClick",
-      "onListItemHover",
-      "onListItemSave",
-      "onListItemSaveSuccessAction",
-      "onListItemSelect",
-      "onNewListItemInitialize",
-      "onRowDeleteSuccessAction",
-      "onRowSave",
-      "onSelectionChange",
-      "orientation",
-      "selectionMode",
-      "showBorder",
-      "showEditIcons"
-    ],
-    "types": {
-      "cardHeight": "string",
-      "cardMinWidth": "string",
-      "collapsible": "boolean",
-      "container": "object",
-      "customCreateUrl": "string",
-      "customDeleteUrl": "string",
-      "dblClickActionConfiguration": "object",
-      "gap": "number",
-      "groupStyle": "string",
-      "onListItemClick": "object",
-      "onListItemHover": "object",
-      "onListItemSave": "string",
-      "onListItemSaveSuccessAction": "object",
-      "onRowDeleteSuccessAction": "object",
-      "onRowSave": "string",
-      "showBorder": "boolean"
-    }
+      {
+        "name": "canAddInline",
+        "required": false
+      },
+      {
+        "name": "canDeleteInline",
+        "required": false
+      },
+      {
+        "name": "canEditInline",
+        "required": false
+      },
+      {
+        "name": "cardHeight",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "cardMaxWidth",
+        "required": false
+      },
+      {
+        "name": "cardMinWidth",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "collapseByDefault",
+        "required": false
+      },
+      {
+        "name": "collapsible",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "container",
+        "type": "object",
+        "required": false,
+        "JsReturnType": "object"
+      },
+      {
+        "name": "containerCustomStylePanel",
+        "required": false
+      },
+      {
+        "name": "containerDimensionsPanel",
+        "required": false
+      },
+      {
+        "name": "containerStylingBoxPanel",
+        "required": false
+      },
+      {
+        "name": "createFormId",
+        "required": false
+      },
+      {
+        "name": "createFormType",
+        "required": false
+      },
+      {
+        "name": "customCreateUrl",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "customDeleteUrl",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "customListItemWidth",
+        "required": false
+      },
+      {
+        "name": "customUpdateUrl",
+        "required": false
+      },
+      {
+        "name": "datalistEmptyState",
+        "required": false
+      },
+      {
+        "name": "dblClickActionConfiguration",
+        "type": "action-config",
+        "required": false,
+        "JsReturnType": "action-config",
+        "desc": "Action to execute on row double-click."
+      },
+      {
+        "name": "formId",
+        "required": false
+      },
+      {
+        "name": "formIdExpression",
+        "required": false
+      },
+      {
+        "name": "formSelectionMode",
+        "required": false
+      },
+      {
+        "name": "formType",
+        "required": false
+      },
+      {
+        "name": "gap",
+        "type": "number",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "groupStyle",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "inlineEditMode",
+        "required": false
+      },
+      {
+        "name": "inlineSaveMode",
+        "required": false
+      },
+      {
+        "name": "listItemWidth",
+        "required": false
+      },
+      {
+        "name": "modalWidth",
+        "required": false
+      },
+      {
+        "name": "onListItemClick",
+        "type": "object",
+        "required": false,
+        "JsReturnType": "object"
+      },
+      {
+        "name": "onListItemHover",
+        "type": "object",
+        "required": false,
+        "JsReturnType": "object"
+      },
+      {
+        "name": "onListItemSave",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "onListItemSaveSuccessAction",
+        "type": "action-config",
+        "required": false,
+        "JsReturnType": "action-config",
+        "desc": "Action to execute after a list item is saved successfully."
+      },
+      {
+        "name": "onListItemSelect",
+        "required": false
+      },
+      {
+        "name": "onNewListItemInitialize",
+        "required": false
+      },
+      {
+        "name": "onRowDeleteSuccessAction",
+        "type": "action-config",
+        "required": false,
+        "JsReturnType": "action-config",
+        "desc": "Action to execute after a row is deleted successfully."
+      },
+      {
+        "name": "onRowSave",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "onSelectionChange",
+        "required": false
+      },
+      {
+        "name": "orientation",
+        "required": false
+      },
+      {
+        "name": "selectionMode",
+        "required": false
+      },
+      {
+        "name": "showBorder",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "showEditIcons",
+        "required": false
+      }
+    ]
   },
   "datatable.pager": {
     "props": [
-      "customStyle",
-      "showSizeChanger",
-      "showTotalItems"
-    ],
-    "types": {}
+      {
+        "name": "showSizeChanger",
+        "required": false
+      },
+      {
+        "name": "showTotalItems",
+        "required": false
+      }
+    ]
   },
   "datatable.quickSearch": {
     "props": [
-      "separatorDisplay"
-    ],
-    "types": {}
+      {
+        "name": "separatorDisplay",
+        "required": false
+      }
+    ]
   },
   "datatable.selectColumnsButton": {
-    "props": [],
-    "types": {}
+    "props": []
   },
   "tableViewSelector": {
     "props": [
-      "commonSettings",
-      "filters",
-      "showIcon"
-    ],
-    "types": {
-      "showIcon": "boolean"
-    }
+      {
+        "name": "commonSettings",
+        "required": false
+      },
+      {
+        "name": "filters",
+        "required": false
+      },
+      {
+        "name": "showIcon",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean"
+      }
+    ]
   },
   "childTable": {
-    "props": [],
-    "types": {}
+    "props": []
   },
   "datatable.filter": {
     "props": [
-      "buttonType",
-      "customStyle",
-      "icon"
-    ],
-    "types": {
-      "icon": "string"
-    }
+      {
+        "name": "buttonType",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string"
+      }
+    ]
   },
   "dataContext": {
-    "props": [],
-    "types": {}
+    "props": []
   }
 }
