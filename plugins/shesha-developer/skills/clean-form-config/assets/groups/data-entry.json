@@ -15,17 +15,20 @@
       },
       {
         "name": "buttonType",
-        "required": false
+        "required": false,
+        "desc": "Visual style of the button."
       },
       {
         "name": "icon",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Ant Design icon name displayed on the button."
       },
       {
         "name": "iconPosition",
-        "required": false
+        "required": false,
+        "desc": "Whether the icon appears before ('start') or after ('end') the label."
       }
     ]
   },
@@ -70,49 +73,57 @@
           "values",
           "referenceList",
           "url"
-        ]
+        ],
+        "desc": "Where dropdown options come from: 'referenceList' or 'values'."
       },
       {
         "name": "disabledValues",
         "type": "array",
         "required": false,
-        "JsReturnType": "array"
+        "JsReturnType": "array",
+        "desc": "Array of option values that are disabled (greyed out)."
       },
       {
         "name": "disableItemValue",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Script returning an array of values to disable dynamically."
       },
       {
         "name": "displayStyle",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "How selected options are rendered: 'tags' or 'text'."
       },
       {
         "name": "filter",
         "type": "object",
         "required": false,
-        "JsReturnType": "object"
+        "JsReturnType": "object",
+        "desc": "JSON Logic expression filtering which reference list items are shown."
       },
       {
         "name": "ignoredValues",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Array of option values excluded from the dropdown."
       },
       {
         "name": "incomeCustomJs",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Script transforming the stored value before it is displayed."
       },
       {
         "name": "labelCustomJs",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Script returning a custom display label for the current value."
       },
       {
         "name": "mode",
@@ -123,7 +134,8 @@
           "single",
           "multiple",
           "tags"
-        ]
+        ],
+        "desc": "Single-select or multi-select mode."
       },
       {
         "name": "outcomeCustomJs",
@@ -152,25 +164,29 @@
         "name": "showIcon",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Show the option icon alongside the label."
       },
       {
         "name": "showItemName",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Show the option's internal name rather than its label."
       },
       {
         "name": "solidColor",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Fill the tag background with the option color."
       },
       {
         "name": "tag",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Style configuration applied to selected value tags."
       },
       {
         "name": "valueFormat",
@@ -181,7 +197,8 @@
           "simple",
           "referenceListItem",
           "custom"
-        ]
+        ],
+        "desc": "Shape of the stored value when an option is selected."
       },
       {
         "name": "values",
@@ -199,13 +216,15 @@
         "name": "highPrecision",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Use high-precision decimal arithmetic for the field value."
       },
       {
         "name": "prefix",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Text or symbol displayed before the number input."
       },
       {
         "name": "prefixIcon",
@@ -218,19 +237,22 @@
         "name": "stepNumeric",
         "type": "number",
         "required": false,
-        "JsReturnType": "number"
+        "JsReturnType": "number",
+        "desc": "Increment/decrement amount when using the step buttons."
       },
       {
         "name": "stepString",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Step amount expressed as a string (used for large-number precision)."
       },
       {
         "name": "suffix",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Text or symbol displayed after the number input."
       },
       {
         "name": "suffixIcon",
@@ -247,7 +269,8 @@
         "name": "prefix",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Static text or icon shown before the input."
       },
       {
         "name": "prefixIcon",
@@ -267,13 +290,15 @@
         "name": "spellCheck",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Enable browser spell-checking in this field."
       },
       {
         "name": "suffix",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Static text or icon shown after the input."
       },
       {
         "name": "suffixIcon",
@@ -294,7 +319,8 @@
           "url",
           "search",
           "tel"
-        ]
+        ],
+        "desc": "Input type: 'text', 'password', 'email', 'url', etc."
       }
     ]
   },
@@ -304,31 +330,36 @@
         "name": "allowClear",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Show a clear button to reset the textarea."
       },
       {
         "name": "autoSize",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Grow the textarea height automatically to fit its content."
       },
       {
         "name": "passEmptyStringByDefault",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Submit an empty string rather than null when the field is blank."
       },
       {
         "name": "showCount",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Show the character count below the textarea."
       },
       {
         "name": "spellCheck",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Enable browser spell-checking in this field."
       }
     ]
   },
@@ -346,13 +377,15 @@
           "values",
           "referenceList",
           "url"
-        ]
+        ],
+        "desc": "Where checkbox options come from: 'referenceList' or 'values'."
       },
       {
         "name": "dataSourceUrl",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "API URL to fetch options from (used when dataSourceType is 'url')."
       },
       {
         "name": "direction",
@@ -362,7 +395,8 @@
         "options": [
           "horizontal",
           "vertical"
-        ]
+        ],
+        "desc": "Layout direction of the checkboxes."
       },
       {
         "name": "items",
@@ -418,13 +452,15 @@
           "values",
           "referenceList",
           "url"
-        ]
+        ],
+        "desc": "Where radio options come from: 'referenceList' or 'values'."
       },
       {
         "name": "dataSourceUrl",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "API URL to fetch options from (used when dataSourceType is 'url')."
       },
       {
         "name": "direction",
@@ -434,7 +470,8 @@
         "options": [
           "horizontal",
           "vertical"
-        ]
+        ],
+        "desc": "Layout direction of the radio buttons."
       },
       {
         "name": "items",
@@ -474,13 +511,15 @@
         "name": "max",
         "type": "number",
         "required": false,
-        "JsReturnType": "number"
+        "JsReturnType": "number",
+        "desc": "Maximum value of the slider."
       },
       {
         "name": "min",
         "type": "number",
         "required": false,
-        "JsReturnType": "number"
+        "JsReturnType": "number",
+        "desc": "Minimum value of the slider."
       }
     ]
   },
@@ -500,7 +539,8 @@
         "name": "defaultToMidnight",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Set the default time to midnight (00:00:00) when no time is selected."
       },
       {
         "name": "disabledDateFunc",
@@ -599,7 +639,8 @@
           "month",
           "quarter",
           "year"
-        ]
+        ],
+        "desc": "Calendar display mode: 'date', 'week', 'month', 'quarter', or 'year'."
       },
       {
         "name": "quarterFormat",
@@ -612,25 +653,29 @@
         "name": "range",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Enable range selection (stores a start and end date)."
       },
       {
         "name": "resolveToUTC",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Convert the selected date to UTC before storing."
       },
       {
         "name": "showNow",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Show a 'Now' shortcut in the date picker."
       },
       {
         "name": "showTime",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Include a time picker alongside the date picker."
       },
       {
         "name": "timeFormat",
@@ -661,13 +706,15 @@
         "name": "allowClear",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Show a clear button to reset the time field."
       },
       {
         "name": "autoFocus",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Automatically focus the time picker on mount."
       },
       {
         "name": "format",
@@ -680,7 +727,8 @@
         "name": "hideDisabledOptions",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Hide (instead of grey out) time options restricted by disabledTimeTemplate."
       },
       {
         "name": "hourStep",
@@ -693,7 +741,8 @@
         "name": "inputReadOnly",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Prevent manual keyboard input; force selection from the picker."
       },
       {
         "name": "minuteStep",
@@ -706,7 +755,8 @@
         "name": "range",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Enable range selection (stores a start and end time)."
       },
       {
         "name": "secondStep",
@@ -719,13 +769,15 @@
         "name": "showNow",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Show a 'Now' shortcut to select the current time."
       },
       {
         "name": "use12Hours",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Display the time in 12-hour format with AM/PM."
       }
     ]
   },

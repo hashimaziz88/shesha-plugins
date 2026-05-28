@@ -24,7 +24,8 @@
         "name": "googleMapsApiKey",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "API key for the Google Maps Places API."
       },
       {
         "name": "latPriority",
@@ -51,7 +52,8 @@
         "name": "openCageApiKey",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "API key for the OpenCage geocoding API."
       },
       {
         "name": "prefix",
@@ -71,7 +73,8 @@
         "name": "showPriorityBounds",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Highlight the priority bounds area on the map."
       },
       {
         "name": "onSelectCustom",
@@ -102,7 +105,8 @@
         "name": "googleMapsApiKey",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "API key for the Google Maps Places API."
       },
       {
         "name": "defaultZoom",
@@ -158,7 +162,8 @@
           "url"
         ],
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Where suggestions come from: an entity list ('entitiesList') or a custom URL ('url')."
       },
       {
         "name": "dataSourceUrl",
@@ -548,7 +553,8 @@
         "name": "autofocus",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Automatically focus the editor when the form loads."
       },
       {
         "name": "autoHeight",
@@ -624,7 +630,8 @@
         "name": "placeholder",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Placeholder text shown when the editor is empty."
       },
       {
         "name": "preset",
@@ -709,7 +716,8 @@
           "large"
         ],
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Size preset for toolbar icon buttons."
       },
       {
         "name": "toolbarSticky",
@@ -818,7 +826,8 @@
           "dashboard"
         ],
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Visual style of the progress indicator: 'line', 'circle', or 'dashboard'."
       },
       {
         "name": "showInfo",
@@ -837,7 +846,8 @@
           "active"
         ],
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Current status determining the bar color and icon."
       },
       {
         "name": "steps",
@@ -971,7 +981,8 @@
         "name": "description",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Optional description text shown beneath the chevron."
       },
       {
         "name": "image",

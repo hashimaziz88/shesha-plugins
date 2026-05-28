@@ -30,31 +30,36 @@
         "name": "closable",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Show a close button that dismisses the alert."
       },
       {
         "name": "icon",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Custom Ant Design icon name shown in the alert (overrides the default type icon)."
       },
       {
         "name": "marquee",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Scroll the alert text as a marquee."
       },
       {
         "name": "showIcon",
         "type": "boolean",
         "required": false,
-        "JsReturnType": "boolean"
+        "JsReturnType": "boolean",
+        "desc": "Show the default icon for the alert type."
       },
       {
         "name": "text",
         "type": "string",
         "required": false,
-        "JsReturnType": "string"
+        "JsReturnType": "string",
+        "desc": "Alert message text."
       }
     ]
   },
