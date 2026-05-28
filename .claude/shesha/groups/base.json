@@ -1740,6 +1740,20 @@
         { "name": "buttons", "type": "array", "required": false, "arrayItemType": "button-group-item", "desc": "Custom button definitions shown when footerButtons is 'custom'." }
       ]
     },
+    "stored-filter": {
+      "desc": "A named saved filter shown in the table view selector.",
+      "shape": [
+        { "name": "id", "type": "string", "required": true, "desc": "Unique filter ID (GUID)." },
+        { "name": "name", "type": "string", "required": true, "desc": "Display name shown in the selector." },
+        { "name": "tooltip", "type": "string", "required": false },
+        { "name": "expression", "type": "object", "required": false, "desc": "JSON Logic or object filter expression." },
+        { "name": "selected", "type": "boolean", "required": false, "desc": "Whether this filter is currently selected." },
+        { "name": "defaultSelected", "type": "boolean", "required": false, "desc": "Whether this filter is selected by default." },
+        { "name": "sortOrder", "type": "number", "required": false },
+        { "name": "permissions", "type": "array", "required": false, "desc": "Permission strings required to see this filter." },
+        { "name": "hasDynamicExpression", "type": "boolean", "required": false }
+      ]
+    },
     "column-item": {
       "desc": "Defines a single column in a datatable or kanban view. Shared between table and kanban components.",
       "shape": [
