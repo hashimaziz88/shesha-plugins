@@ -1,89 +1,148 @@
 {
   "_meta": {
     "version": 3,
-    "generated": "2026-05-22T08:44:41.645Z",
+    "generated": "2026-05-28T06:06:56.071Z",
     "group": "data-entry"
   },
   "button": {
     "props": [
-      "actionConfiguration",
-      "buttonType",
-      "customStyle",
-      "icon",
-      "iconPosition"
-    ],
-    "types": {
-      "actionConfiguration": "object",
-      "icon": "string"
-    }
+      {
+        "name": "actionConfiguration",
+        "type": "action-config",
+        "required": false,
+        "JsReturnType": "action-config",
+        "desc": "The action to execute when the button is clicked."
+      },
+      {
+        "name": "buttonType",
+        "required": false,
+        "desc": "Visual style of the button."
+      },
+      {
+        "name": "icon",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Ant Design icon name displayed on the button."
+      },
+      {
+        "name": "iconPosition",
+        "required": false,
+        "desc": "Whether the icon appears before ('start') or after ('end') the label."
+      }
+    ]
   },
   "buttonGroup": {
     "props": [
-      "customStyle",
-      "gap",
-      "isInline",
-      "items"
-    ],
-    "types": {}
+      {
+        "name": "gap",
+        "type": "string",
+        "options": [
+          "small",
+          "medium",
+          "middle",
+          "large"
+        ],
+        "desc": "Spacing between buttons.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "isInline",
+        "type": "boolean",
+        "desc": "Render buttons inline rather than as a block.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "items",
+        "required": false,
+        "arrayItemType": "button-group-item",
+        "desc": "The buttons and groups in this button group."
+      }
+    ]
   },
   "dropdown": {
     "props": [
-      "customStyle",
-      "dataSourceType",
-      "defaultTagStyle",
-      "disabledValues",
-      "disableItemValue",
-      "displayStyle",
-      "filter",
-      "ignoredValues",
-      "incomeCustomJs",
-      "labelCustomJs",
-      "mode",
-      "outcomeCustomJs",
-      "referenceListId",
-      "showIcon",
-      "showItemName",
-      "solidColor",
-      "tag",
-      "tagBackgroundStyle",
-      "tagBorderStyle",
-      "tagCustomStyle",
-      "tagDimensionStyle",
-      "tagFontStyle",
-      "tagShadowStyle",
-      "valueFormat",
-      "values"
-    ],
-    "types": {
-      "filter": "object",
-      "ignoredValues": "string",
-      "incomeCustomJs": "string",
-      "labelCustomJs": "string",
-      "solidColor": "boolean",
-      "tag": "string",
-      "customStyle": "script",
-      "dataSourceType": "string",
-      "defaultTagStyle": "object",
-      "disabledValues": "array",
-      "disableItemValue": "string",
-      "displayStyle": "string",
-      "mode": "string",
-      "outcomeCustomJs": "script",
-      "referenceListId": "string",
-      "showIcon": "boolean",
-      "showItemName": "boolean",
-      "tagBackgroundStyle": "object",
-      "tagBorderStyle": "object",
-      "tagCustomStyle": "string",
-      "tagDimensionStyle": "object",
-      "tagFontStyle": "object",
-      "tagShadowStyle": "object",
-      "values": "array",
-      "valueFormat": "string"
-    },
-    "scripts": {
-      "outcomeCustomJs": {
-        "returns": "any",
+      {
+        "name": "dataSourceType",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "values",
+          "referenceList",
+          "url"
+        ],
+        "desc": "Where dropdown options come from: 'referenceList' or 'values'."
+      },
+      {
+        "name": "disabledValues",
+        "type": "array",
+        "required": false,
+        "JsReturnType": "array",
+        "desc": "Array of option values that are disabled (greyed out)."
+      },
+      {
+        "name": "disableItemValue",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Script returning an array of values to disable dynamically."
+      },
+      {
+        "name": "displayStyle",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "How selected options are rendered: 'tags' or 'text'."
+      },
+      {
+        "name": "filter",
+        "type": "object",
+        "required": false,
+        "JsReturnType": "object",
+        "desc": "JSON Logic expression filtering which reference list items are shown."
+      },
+      {
+        "name": "ignoredValues",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Array of option values excluded from the dropdown."
+      },
+      {
+        "name": "incomeCustomJs",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Script transforming the stored value before it is displayed."
+      },
+      {
+        "name": "labelCustomJs",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Script returning a custom display label for the current value."
+      },
+      {
+        "name": "mode",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "single",
+          "multiple",
+          "tags"
+        ],
+        "desc": "Single-select or multi-select mode."
+      },
+      {
+        "name": "outcomeCustomJs",
+        "type": "script",
+        "desc": "Transform the selected value before it is stored on the form.",
+        "required": false,
+        "JsReturnType": "any",
         "async": false,
         "context": [
           "selectedValue",
@@ -92,138 +151,278 @@
           "formData",
           "contexts",
           "globalState"
-        ],
-        "description": "Transform the selected value before it is stored on the form."
-      }
-    },
-    "constraints": {
-      "dataSourceType": {
-        "enum": [
-          "values",
-          "referenceList",
-          "url"
         ]
       },
-      "mode": {
-        "enum": [
-          "single",
-          "multiple",
-          "tags"
-        ]
+      {
+        "name": "referenceListId",
+        "type": "reference-list-id",
+        "required": false,
+        "JsReturnType": "reference-list-id",
+        "desc": "Reference list to populate options from when dataSourceType is \"referenceList\"."
       },
-      "valueFormat": {
-        "enum": [
+      {
+        "name": "showIcon",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Show the option icon alongside the label."
+      },
+      {
+        "name": "showItemName",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Show the option's internal name rather than its label."
+      },
+      {
+        "name": "solidColor",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Fill the tag background with the option color."
+      },
+      {
+        "name": "tag",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Style configuration applied to selected value tags."
+      },
+      {
+        "name": "valueFormat",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
           "simple",
           "referenceListItem",
           "custom"
-        ]
+        ],
+        "desc": "Shape of the stored value when an option is selected."
+      },
+      {
+        "name": "values",
+        "type": "array",
+        "required": false,
+        "JsReturnType": "array",
+        "arrayItemType": "label-value-item",
+        "desc": "Static list of options when dataSourceType is \"values\"."
       }
-    }
+    ]
   },
   "numberField": {
     "props": [
-      "customStyle",
-      "highPrecision",
-      "prefix",
-      "prefixIcon",
-      "stepNumeric",
-      "stepString",
-      "suffix",
-      "suffixIcon"
-    ],
-    "types": {
-      "highPrecision": "boolean",
-      "prefix": "string",
-      "suffix": "string",
-      "customStyle": "script",
-      "prefixIcon": "string",
-      "stepNumeric": "number",
-      "stepString": "string",
-      "suffixIcon": "string"
-    }
+      {
+        "name": "highPrecision",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Use high-precision decimal arithmetic for the field value."
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Text or symbol displayed before the number input."
+      },
+      {
+        "name": "prefixIcon",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Ant Design icon name (e.g. \"SearchOutlined\")."
+      },
+      {
+        "name": "stepNumeric",
+        "type": "number",
+        "required": false,
+        "JsReturnType": "number",
+        "desc": "Increment/decrement amount when using the step buttons."
+      },
+      {
+        "name": "stepString",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Step amount expressed as a string (used for large-number precision)."
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Text or symbol displayed after the number input."
+      },
+      {
+        "name": "suffixIcon",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Ant Design icon name (e.g. \"SearchOutlined\")."
+      }
+    ]
   },
   "textField": {
     "props": [
-      "customStyle",
-      "prefix",
-      "prefixIcon",
-      "regExp",
-      "spellCheck",
-      "suffix",
-      "suffixIcon",
-      "textType"
-    ],
-    "types": {
-      "prefix": "string",
-      "regExp": "string",
-      "spellCheck": "boolean",
-      "suffix": "string",
-      "customStyle": "script",
-      "prefixIcon": "string",
-      "suffixIcon": "string",
-      "textType": "string"
-    },
-    "constraints": {
-      "textType": {
-        "enum": [
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Static text or icon shown before the input."
+      },
+      {
+        "name": "prefixIcon",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Ant Design icon name (e.g. \"SearchOutlined\")."
+      },
+      {
+        "name": "regExp",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "A valid regular expression string used to validate the field value (e.g. \"^[a-z]+$\")."
+      },
+      {
+        "name": "spellCheck",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Enable browser spell-checking in this field."
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Static text or icon shown after the input."
+      },
+      {
+        "name": "suffixIcon",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Ant Design icon name (e.g. \"SearchOutlined\")."
+      },
+      {
+        "name": "textType",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
           "text",
           "password",
           "email",
           "url",
           "search",
           "tel"
-        ]
+        ],
+        "desc": "Input type: 'text', 'password', 'email', 'url', etc."
       }
-    }
+    ]
   },
   "textArea": {
     "props": [
-      "allowClear",
-      "autoSize",
-      "passEmptyStringByDefault",
-      "showCount",
-      "spellCheck"
-    ],
-    "types": {
-      "autoSize": "boolean",
-      "passEmptyStringByDefault": "boolean",
-      "showCount": "boolean",
-      "allowClear": "boolean",
-      "spellCheck": "boolean"
-    }
+      {
+        "name": "allowClear",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Show a clear button to reset the textarea."
+      },
+      {
+        "name": "autoSize",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Grow the textarea height automatically to fit its content."
+      },
+      {
+        "name": "passEmptyStringByDefault",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Submit an empty string rather than null when the field is blank."
+      },
+      {
+        "name": "showCount",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Show the character count below the textarea."
+      },
+      {
+        "name": "spellCheck",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Enable browser spell-checking in this field."
+      }
+    ]
   },
   "checkbox": {
-    "props": [
-      "customStyle"
-    ],
-    "types": {
-      "customStyle": "script"
-    }
+    "props": []
   },
   "checkboxGroup": {
     "props": [
-      "customStyle",
-      "dataSourceType",
-      "dataSourceUrl",
-      "direction",
-      "items",
-      "mode",
-      "reducerFunc",
-      "referenceListId"
-    ],
-    "types": {
-      "customStyle": "script",
-      "dataSourceType": "string",
-      "dataSourceUrl": "string",
-      "direction": "string",
-      "items": "array",
-      "mode": "string",
-      "reducerFunc": "script",
-      "referenceListId": "string"
-    },
-    "scripts": {
-      "reducerFunc": {
-        "returns": "array",
+      {
+        "name": "dataSourceType",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "values",
+          "referenceList",
+          "url"
+        ],
+        "desc": "Where checkbox options come from: 'referenceList' or 'values'."
+      },
+      {
+        "name": "dataSourceUrl",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "API URL to fetch options from (used when dataSourceType is 'url')."
+      },
+      {
+        "name": "direction",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "horizontal",
+          "vertical"
+        ],
+        "desc": "Layout direction of the checkboxes."
+      },
+      {
+        "name": "items",
+        "type": "array",
+        "required": false,
+        "JsReturnType": "array",
+        "arrayItemType": "label-value-item",
+        "desc": "Static list of options when dataSourceType is \"values\"."
+      },
+      {
+        "name": "mode",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "single",
+          "multiple"
+        ],
+        "desc": "Whether one or multiple checkboxes can be selected."
+      },
+      {
+        "name": "reducerFunc",
+        "type": "script",
+        "desc": "Receives the raw items list; return a transformed array of { label, value } items.",
+        "required": false,
+        "JsReturnType": "array",
         "async": false,
         "context": [
           "items",
@@ -231,48 +430,63 @@
           "formData",
           "contexts",
           "globalState"
-        ],
-        "description": "Receives the raw items list; return a transformed array of { label, value } items."
-      }
-    },
-    "constraints": {
-      "direction": {
-        "enum": [
-          "horizontal",
-          "vertical"
         ]
       },
-      "dataSourceType": {
-        "enum": [
-          "values",
-          "referenceList",
-          "url"
-        ]
+      {
+        "name": "referenceListId",
+        "type": "reference-list-id",
+        "required": false,
+        "JsReturnType": "reference-list-id",
+        "desc": "Reference list to populate options from when dataSourceType is \"referenceList\"."
       }
-    }
+    ]
   },
   "radio": {
     "props": [
-      "customStyle",
-      "dataSourceType",
-      "dataSourceUrl",
-      "direction",
-      "items",
-      "reducerFunc",
-      "referenceListId"
-    ],
-    "types": {
-      "customStyle": "script",
-      "dataSourceType": "string",
-      "dataSourceUrl": "string",
-      "direction": "string",
-      "items": "array",
-      "reducerFunc": "script",
-      "referenceListId": "string"
-    },
-    "scripts": {
-      "reducerFunc": {
-        "returns": "array",
+      {
+        "name": "dataSourceType",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "values",
+          "referenceList",
+          "url"
+        ],
+        "desc": "Where radio options come from: 'referenceList' or 'values'."
+      },
+      {
+        "name": "dataSourceUrl",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "API URL to fetch options from (used when dataSourceType is 'url')."
+      },
+      {
+        "name": "direction",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "horizontal",
+          "vertical"
+        ],
+        "desc": "Layout direction of the radio buttons."
+      },
+      {
+        "name": "items",
+        "type": "array",
+        "required": false,
+        "JsReturnType": "array",
+        "arrayItemType": "label-value-item",
+        "desc": "Static list of options when dataSourceType is \"values\"."
+      },
+      {
+        "name": "reducerFunc",
+        "type": "script",
+        "desc": "Receives the raw items list; return a transformed array of { label, value } items.",
+        "required": false,
+        "JsReturnType": "array",
         "async": false,
         "context": [
           "items",
@@ -280,104 +494,60 @@
           "formData",
           "contexts",
           "globalState"
-        ],
-        "description": "Receives the raw items list; return a transformed array of { label, value } items."
-      }
-    },
-    "constraints": {
-      "direction": {
-        "enum": [
-          "horizontal",
-          "vertical"
         ]
       },
-      "dataSourceType": {
-        "enum": [
-          "values",
-          "referenceList",
-          "url"
-        ]
+      {
+        "name": "referenceListId",
+        "type": "reference-list-id",
+        "required": false,
+        "JsReturnType": "reference-list-id",
+        "desc": "Reference list to populate options from when dataSourceType is \"referenceList\"."
       }
-    }
+    ]
   },
   "slider": {
     "props": [
-      "customStyle",
-      "max",
-      "min"
-    ],
-    "types": {
-      "min": "number",
-      "customStyle": "script",
-      "max": "number"
-    }
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "JsReturnType": "number",
+        "desc": "Maximum value of the slider."
+      },
+      {
+        "name": "min",
+        "type": "number",
+        "required": false,
+        "JsReturnType": "number",
+        "desc": "Minimum value of the slider."
+      }
+    ]
   },
   "switch": {
-    "props": [
-      "customStyle"
-    ],
-    "types": {
-      "customStyle": "script"
-    }
+    "props": []
   },
   "dateField": {
     "props": [
-      "customStyle",
-      "dateFormat",
-      "defaultToMidnight",
-      "disabledDateFunc",
-      "disabledDateMode",
-      "disabledDateTemplate",
-      "disabledTimeFunc",
-      "disabledTimeMode",
-      "disabledTimeTemplate",
-      "monthFormat",
-      "picker",
-      "quarterFormat",
-      "range",
-      "resolveToUTC",
-      "showNow",
-      "showTime",
-      "timeFormat",
-      "weekFormat",
-      "yearFormat"
-    ],
-    "types": {
-      "range": "boolean",
-      "customStyle": "script",
-      "dateFormat": "string",
-      "defaultToMidnight": "boolean",
-      "disabledDateFunc": "script",
-      "disabledDateMode": "string",
-      "disabledDateTemplate": "string",
-      "disabledTimeFunc": "script",
-      "disabledTimeMode": "string",
-      "disabledTimeTemplate": "string",
-      "monthFormat": "string",
-      "picker": "string",
-      "quarterFormat": "string",
-      "resolveToUTC": "boolean",
-      "showNow": "boolean",
-      "showTime": "boolean",
-      "timeFormat": "string",
-      "weekFormat": "string",
-      "yearFormat": "string"
-    },
-    "scripts": {
-      "disabledDateFunc": {
-        "returns": "boolean",
-        "async": false,
-        "context": [
-          "current",
-          "data",
-          "formData",
-          "contexts",
-          "globalState"
-        ],
-        "description": "Receives current (moment); return true to disable that date."
+      {
+        "name": "dateFormat",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Moment.js date format string (e.g. \"DD/MM/YYYY\")."
       },
-      "disabledTimeFunc": {
-        "returns": "object",
+      {
+        "name": "defaultToMidnight",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Set the default time to midnight (00:00:00) when no time is selected."
+      },
+      {
+        "name": "disabledDateFunc",
+        "type": "script",
+        "desc": "Receives current (moment); return true to disable that date.",
+        "required": false,
+        "JsReturnType": "boolean",
         "async": false,
         "context": [
           "current",
@@ -385,76 +555,248 @@
           "formData",
           "contexts",
           "globalState"
+        ]
+      },
+      {
+        "name": "disabledDateMode",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "none",
+          "functionTemplate",
+          "customFunction"
         ],
-        "description": "Return { disabledHours, disabledMinutes, disabledSeconds } functions."
-      }
-    },
-    "constraints": {
-      "picker": {
-        "enum": [
+        "desc": "none: no restriction; functionTemplate: use disabledDateTemplate body; customFunction: use disabledDateFunc."
+      },
+      {
+        "name": "disabledDateTemplate",
+        "type": "script",
+        "required": false,
+        "JsReturnType": "boolean",
+        "async": false,
+        "context": [
+          "current",
+          "moment",
+          "data",
+          "globalState"
+        ],
+        "desc": "JS function body (not a full function declaration) evaluated to disable specific dates. Return true to disable. Example: \"return current && current < moment().endOf(\"day\");\""
+      },
+      {
+        "name": "disabledTimeFunc",
+        "type": "script",
+        "desc": "Return { disabledHours, disabledMinutes, disabledSeconds } functions.",
+        "required": false,
+        "JsReturnType": "object",
+        "async": false,
+        "context": [
+          "current",
+          "data",
+          "formData",
+          "contexts",
+          "globalState"
+        ]
+      },
+      {
+        "name": "disabledTimeMode",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "none",
+          "timeFunctionTemplate",
+          "customFunction"
+        ],
+        "desc": "none: no restriction; timeFunctionTemplate: use disabledTimeTemplate preset; customFunction: use disabledTimeFunc."
+      },
+      {
+        "name": "disabledTimeTemplate",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "disabledPastTime",
+          "disableFutureTime"
+        ],
+        "desc": "Preset template: disabledPastTime disables times before now; disableFutureTime disables times after now."
+      },
+      {
+        "name": "monthFormat",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Moment.js month format string (e.g. \"MM/YYYY\")."
+      },
+      {
+        "name": "picker",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
           "date",
           "week",
           "month",
           "quarter",
           "year"
-        ]
+        ],
+        "desc": "Calendar display mode: 'date', 'week', 'month', 'quarter', or 'year'."
       },
-      "disabledDateMode": {
-        "enum": [
-          "none",
-          "functionTemplate",
-          "customFunction"
-        ]
+      {
+        "name": "quarterFormat",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Moment.js quarter format string (e.g. \"YYYY-[Q]Q\")."
       },
-      "disabledTimeMode": {
-        "enum": [
-          "none",
-          "functionTemplate",
-          "customFunction"
-        ]
+      {
+        "name": "range",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Enable range selection (stores a start and end date)."
+      },
+      {
+        "name": "resolveToUTC",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Convert the selected date to UTC before storing."
+      },
+      {
+        "name": "showNow",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Show a 'Now' shortcut in the date picker."
+      },
+      {
+        "name": "showTime",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Include a time picker alongside the date picker."
+      },
+      {
+        "name": "timeFormat",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Moment.js time format string (e.g. \"HH:mm:ss\")."
+      },
+      {
+        "name": "weekFormat",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Moment.js week format string (e.g. \"YYYY-[W]WW\")."
+      },
+      {
+        "name": "yearFormat",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Moment.js year format string (e.g. \"YYYY\")."
       }
-    }
+    ]
   },
   "timePicker": {
     "props": [
-      "allowClear",
-      "autoFocus",
-      "customStyle",
-      "format",
-      "hideDisabledOptions",
-      "hourStep",
-      "inputReadOnly",
-      "minuteStep",
-      "range",
-      "secondStep",
-      "showNow",
-      "use12Hours"
-    ],
-    "types": {
-      "allowClear": "boolean",
-      "autoFocus": "boolean",
-      "hourStep": "number",
-      "inputReadOnly": "boolean",
-      "range": "boolean",
-      "secondStep": "number",
-      "customStyle": "script",
-      "format": "string",
-      "hideDisabledOptions": "boolean",
-      "minuteStep": "number",
-      "showNow": "boolean",
-      "use12Hours": "boolean"
-    }
+      {
+        "name": "allowClear",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Show a clear button to reset the time field."
+      },
+      {
+        "name": "autoFocus",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Automatically focus the time picker on mount."
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Moment.js time format string (e.g. \"HH:mm\", \"HH:mm:ss\", \"hh:mm a\")."
+      },
+      {
+        "name": "hideDisabledOptions",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Hide (instead of grey out) time options restricted by disabledTimeTemplate."
+      },
+      {
+        "name": "hourStep",
+        "type": "number",
+        "required": false,
+        "JsReturnType": "number",
+        "desc": "Interval between hour options. Must be a positive integer that divides 24 evenly (e.g. 1, 2, 3, 4, 6, 8, 12)."
+      },
+      {
+        "name": "inputReadOnly",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Prevent manual keyboard input; force selection from the picker."
+      },
+      {
+        "name": "minuteStep",
+        "type": "number",
+        "required": false,
+        "JsReturnType": "number",
+        "desc": "Interval between minute options. Must be a positive integer that divides 60 evenly (e.g. 1, 5, 10, 15, 30)."
+      },
+      {
+        "name": "range",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Enable range selection (stores a start and end time)."
+      },
+      {
+        "name": "secondStep",
+        "type": "number",
+        "required": false,
+        "JsReturnType": "number",
+        "desc": "Interval between second options. Must be a positive integer that divides 60 evenly (e.g. 1, 5, 10, 15, 30)."
+      },
+      {
+        "name": "showNow",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Show a 'Now' shortcut to select the current time."
+      },
+      {
+        "name": "use12Hours",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Display the time in 12-hour format with AM/PM."
+      }
+    ]
   },
   "rate": {
     "props": [
-      "count",
-      "customStyle",
-      "icon"
-    ],
-    "types": {
-      "count": "number",
-      "customStyle": "script",
-      "icon": "string"
-    }
+      {
+        "name": "count",
+        "type": "number",
+        "required": false,
+        "JsReturnType": "number",
+        "desc": "Number of stars to display. Must be a positive integer."
+      },
+      {
+        "name": "icon",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Ant Design icon name (e.g. \"SearchOutlined\")."
+      }
+    ]
   }
 }

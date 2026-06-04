@@ -31,41 +31,57 @@ The index ships as a set of group files under `plugins/shesha-developer/skills/c
 
 **File structure** (v3):
 
-`base.json`:
-- `base.props` — property keys valid on **every** component.
-- `base.types` — expected value type for base properties. `"script"` means a JS string evaluated at runtime.
-- `base.scripts` — script metadata per script-typed base property: `{ returns, async, context[], description }`.
-- `base.constraints` — validation rules: `{ keyCase, valueType }` for style-returning scripts; `{ enum[] }` for string enums.
-- `_formSettings.props` — valid keys for the `formSettings` object.
-- `_formSettings.types` — expected value types for `formSettings` properties.
-- `_formSettings.scripts` — script metadata for `_formSettings` script-typed properties.
+Each entry (`base`, `_formSettings`, or a component type like `textField`) contains a single `props` array of property descriptors:
 
-Each group file (e.g. `data-entry.json`):
-- Per component type entry — `{ props, types, scripts?, constraints? }`.
-  - `props` — component-specific additional property keys.
-  - `types` — expected value types. `"script"` = JS string evaluated at runtime.
-  - `scripts` — script metadata for this component's script-typed properties.
-  - `constraints` — `{ enum[] }` for allowed string values; `{ keyCase, valueType }` for script return-object shape.
+```json
+{
+  "name": "alertType",
+  "type": "string",
+  "options": ["success", "info", "warning", "error"],
+  "desc": "Determines the alert color and icon.",
+  "required": false,
+  "JsReturnType": "string"
+}
+```
+
+Descriptor fields:
+- `name` — property key.
+- `type` — storage type: `string | boolean | number | object | array | script`. Omitted when unknown.
+- `options` — valid string values for `type: "string"` enums.
+- `desc` — human-readable description.
+- `required` — whether the property must be present.
+- `JsReturnType` — what a `_mode: "code"` JS expression must return. For non-script props mirrors `type`; for `type: "script"` props it is the specific return type (e.g. `"boolean"`, `"void"`, `"object"`).
+- `async` — (`type: "script"` only) whether the script must be declared async.
+- `context` — (`type: "script"` only) variable names available in scope.
+- `keyCase` — (`type: "script"`, style-returning) return object keys must be `"camel"`.
+- `valueType` — (`type: "script"`, style-returning) return object values must be `"string"`.
+
+`base.json` contains two entries:
+- `base` — props valid on **every** component (including `customStyle`, `customVisibility`, all event handlers, etc.).
+- `_formSettings` — props valid on the form-level `formSettings` object.
+
+Each group file contains only the component-specific props (props not already in `base`).
 
 For each component being analyzed, build:
 
 ```
-groupFile   = loadedGroups[index.components[component.type]]  // may be undefined for unknown types
-allowedKeys = new Set([...base.base.props, ...(groupFile?.[component.type]?.props ?? [])])
-typeMap     = { ...base.base.types,       ...(groupFile?.[component.type]?.types       ?? {}) }
-scriptsMeta = { ...base.base.scripts,     ...(groupFile?.[component.type]?.scripts     ?? {}) }
-constraints = { ...base.base.constraints, ...(groupFile?.[component.type]?.constraints ?? {}) }
+groupFile   = loadedGroups[index.components[component.type]]   // undefined for unknown types
+basePropMap = Object.fromEntries(base.base.props.map(p => [p.name, p]))
+compPropMap = Object.fromEntries((groupFile?.[component.type]?.props ?? []).map(p => [p.name, p]))
+propMap     = { ...basePropMap, ...compPropMap }   // component props override base if same name
+allowedKeys = new Set(Object.keys(propMap))
 ```
+
+Then for type-checking: `propMap[key].type` gives the expected type; `propMap[key].options` gives valid enum values.
 
 For the `formSettings` object:
 
 ```
-formSettingsAllowedKeys = new Set(base._formSettings.props)
-formSettingsTypeMap     = base._formSettings.types
-formSettingsScripts     = base._formSettings.scripts ?? {}
+fsPropMap           = Object.fromEntries(base._formSettings.props.map(p => [p.name, p]))
+formSettingsAllowed = new Set(Object.keys(fsPropMap))
 ```
 
-Properties in `allowedKeys`/`formSettingsAllowedKeys` but absent from the type map have ambiguous/union types — skip type-checking for those.
+Properties in `allowedKeys`/`formSettingsAllowed` with no `type` have ambiguous/union types — skip type-checking for those.
 
 ---
 
@@ -120,7 +136,7 @@ Also type-check the `formSettings` object: for each key in `formSettings` that I
 
 For each component, for each key that IS in `allowedKeys` (valid properties):
 
-1. `expectedType = typeMap[key]` — if not present → skip (ambiguous type). If `expectedType === 'script'` → skip type-checking (value is a JS string evaluated at runtime; validate its content in Steps 4g and 4g-style).
+1. `propDef = propMap[key]` — if not present → skip (ambiguous type). `expectedType = propDef?.type`. If `expectedType === 'script'` → skip type-checking (value is a JS string evaluated at runtime; validate its content in Steps 4g and 4g-style).
 2. `rawValue = component[key]`
 3. Unwrap `IPropertySetting` wrapper if present:
    - If `rawValue` is an object with `_mode === 'code'` → skip (JS expression, runtime type unknown).
@@ -217,7 +233,7 @@ Output format per finding:
 
 **Additional check for style-returning scripts (`customStyle`, `style`, `wrapperStyle`):**
 
-For any script property where `constraints[key].keyCase === 'camel'`, attempt to extract the returned object literal from the script string (look for `return {` or an arrow-function implicit `({`). For each key found in the object literal:
+For any script property where `propMap[key]?.keyCase === 'camel'`, attempt to extract the returned object literal from the script string (look for `return {` or an arrow-function implicit `({`). For each key found in the object literal:
 
 - Flag any key in kebab-case (contains `-`) as `[WARNING — use camelCase key]`
 - Flag any value that is a bare number without units (e.g. `fontSize: 14` instead of `fontSize: '14px'`) as `[WARNING — value should be a quoted string]`

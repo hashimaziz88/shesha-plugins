@@ -1,95 +1,197 @@
 {
   "_meta": {
     "version": 3,
-    "generated": "2026-05-22T08:44:41.645Z",
+    "generated": "2026-05-28T10:00:00.000Z",
     "group": "advanced"
   },
   "address": {
     "props": [
-      "countryRestriction",
-      "customStyle",
-      "debounce",
-      "googleMapsApiKey",
-      "latPriority",
-      "lngPriority",
-      "minCharactersSearch",
-      "openCageApiKey",
-      "prefix",
-      "radiusPriority",
-      "showPriorityBounds"
-    ],
-    "types": {
-      "minCharactersSearch": "number",
-      "showPriorityBounds": "boolean",
-      "countryRestriction": "string",
-      "customStyle": "script",
-      "debounce": "number",
-      "googleMapsApiKey": "string",
-      "latPriority": "number",
-      "lngPriority": "number",
-      "openCageApiKey": "string",
-      "prefix": "string",
-      "radiusPriority": "number"
-    }
+      {
+        "name": "countryRestriction",
+        "type": "array",
+        "desc": "ISO 3166-1 alpha-2 country codes to restrict suggestions (e.g. [\"ZA\",\"US\"]).",
+        "required": false,
+        "JsReturnType": "array"
+      },
+      {
+        "name": "debounce",
+        "type": "number",
+        "desc": "Milliseconds to wait after typing before querying the geocoding API.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "googleMapsApiKey",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "API key for the Google Maps Places API."
+      },
+      {
+        "name": "latPriority",
+        "type": "number",
+        "desc": "Latitude bias for prioritising nearby results.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "lngPriority",
+        "type": "number",
+        "desc": "Longitude bias for prioritising nearby results.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "minCharactersSearch",
+        "type": "number",
+        "desc": "Minimum characters typed before the lookup fires.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "openCageApiKey",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "API key for the OpenCage geocoding API."
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "desc": "Text prepended to the stored address value.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "radiusPriority",
+        "type": "number",
+        "desc": "Radius (km) around the lat/lng priority point.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "showPriorityBounds",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Highlight the priority bounds area on the map."
+      },
+      {
+        "name": "onSelectCustom",
+        "type": "script",
+        "desc": "Called when the user selects an address suggestion. Return value is ignored.",
+        "required": false,
+        "async": false,
+        "context": [
+          "result",
+          "data",
+          "formData",
+          "contexts",
+          "globalState"
+        ]
+      }
+    ]
   },
   "addressInput": {
-    "props": [],
-    "types": {}
+    "props": [
+      {
+        "name": "enableMapInterface",
+        "type": "boolean",
+        "desc": "Show an interactive map alongside the address input.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "googleMapsApiKey",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "API key for the Google Maps Places API."
+      },
+      {
+        "name": "defaultZoom",
+        "type": "number",
+        "desc": "Initial zoom level for the embedded map.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "latitudePropertyName",
+        "type": "string",
+        "desc": "Form property name where latitude is stored.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "longitudePropertyName",
+        "type": "string",
+        "desc": "Form property name where longitude is stored.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "mapHeight",
+        "type": "number",
+        "desc": "Height of the embedded map in pixels.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "mapWidth",
+        "type": "number",
+        "desc": "Width of the embedded map in pixels.",
+        "required": false,
+        "JsReturnType": "number"
+      }
+    ]
   },
   "autocomplete": {
     "props": [
-      "allowFreeText",
-      "customStyle",
-      "dataSourceType",
-      "dataSourceUrl",
-      "disableSearch",
-      "displayPropName",
-      "displayValueFunc",
-      "entityType",
-      "fields",
-      "filter",
-      "filterKeysFunc",
-      "grouping",
-      "keyPropName",
-      "keyValueFunc",
-      "mode",
-      "outcomeValueFunc",
-      "quickviewDisplayPropertyName",
-      "quickviewEnabled",
-      "quickviewFormPath",
-      "quickviewGetEntityUrl",
-      "quickviewWidth",
-      "sorting",
-      "valueFormat"
-    ],
-    "types": {
-      "dataSourceUrl": "string",
-      "disableSearch": "boolean",
-      "displayValueFunc": "script",
-      "allowFreeText": "boolean",
-      "customStyle": "script",
-      "dataSourceType": "string",
-      "displayPropName": "string",
-      "entityType": "string",
-      "fields": "array",
-      "filter": "object",
-      "filterKeysFunc": "script",
-      "grouping": "string",
-      "keyPropName": "string",
-      "keyValueFunc": "script",
-      "mode": "string",
-      "outcomeValueFunc": "script",
-      "quickviewDisplayPropertyName": "string",
-      "quickviewEnabled": "boolean",
-      "quickviewFormPath": "string",
-      "quickviewGetEntityUrl": "string",
-      "quickviewWidth": "number",
-      "sorting": "array",
-      "valueFormat": "string"
-    },
-    "scripts": {
-      "displayValueFunc": {
-        "returns": "string",
+      {
+        "name": "allowFreeText",
+        "type": "boolean",
+        "desc": "Allow the user to type a value that is not in the suggestion list.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "dataSourceType",
+        "type": "string",
+        "options": [
+          "entitiesList",
+          "url"
+        ],
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Where suggestions come from: an entity list ('entitiesList') or a custom URL ('url')."
+      },
+      {
+        "name": "dataSourceUrl",
+        "type": "string",
+        "desc": "API URL to fetch autocomplete suggestions from (used when dataSourceType is 'url').",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "disableSearch",
+        "type": "boolean",
+        "desc": "Disable the search input; show suggestions immediately.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "displayPropName",
+        "type": "string",
+        "desc": "Entity property to display as the suggestion label.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "displayValueFunc",
+        "type": "script",
+        "desc": "Receives the selected item object; return the string to display.",
+        "required": false,
+        "JsReturnType": "string",
         "async": false,
         "context": [
           "item",
@@ -97,11 +199,35 @@
           "formData",
           "contexts",
           "globalState"
-        ],
-        "description": "Receives the selected item object; return the string to display."
+        ]
       },
-      "filterKeysFunc": {
-        "returns": "array",
+      {
+        "name": "entityType",
+        "type": "string",
+        "desc": "Fully-qualified entity type (e.g. 'Shesha.Core.Person'). Used when dataSourceType is 'entitiesList'.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "fields",
+        "type": "array",
+        "desc": "Entity property names to include in the query payload.",
+        "required": false,
+        "JsReturnType": "array"
+      },
+      {
+        "name": "filter",
+        "type": "object",
+        "desc": "JSON Logic filter expression appended to every autocomplete query (see jsonlogic.com).",
+        "required": false,
+        "JsReturnType": "object"
+      },
+      {
+        "name": "filterKeysFunc",
+        "type": "script",
+        "desc": "Return an array of property keys to include in the search payload.",
+        "required": false,
+        "JsReturnType": "array",
         "async": false,
         "context": [
           "data",
@@ -109,11 +235,35 @@
           "contexts",
           "globalState",
           "http"
-        ],
-        "description": "Return an array of property keys to include in the search payload."
+        ]
       },
-      "keyValueFunc": {
-        "returns": "string",
+      {
+        "name": "grouping",
+        "type": "array",
+        "desc": "Grouping configuration applied to the suggestion list.",
+        "required": false,
+        "JsReturnType": "array"
+      },
+      {
+        "name": "hideBorder",
+        "type": "boolean",
+        "desc": "Remove the border from the autocomplete input.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "keyPropName",
+        "type": "string",
+        "desc": "Entity property used as the stored key value.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "keyValueFunc",
+        "type": "script",
+        "desc": "Receives the selected item; return the key value to store.",
+        "required": false,
+        "JsReturnType": "string",
         "async": false,
         "context": [
           "item",
@@ -121,11 +271,25 @@
           "formData",
           "contexts",
           "globalState"
-        ],
-        "description": "Receives the selected item; return the key value to store."
+        ]
       },
-      "outcomeValueFunc": {
-        "returns": "any",
+      {
+        "name": "mode",
+        "type": "string",
+        "options": [
+          "single",
+          "multiple"
+        ],
+        "desc": "Single-select or multi-select mode.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "outcomeValueFunc",
+        "type": "script",
+        "desc": "Transform the selected item into the value stored on the form.",
+        "required": false,
+        "JsReturnType": "any",
         "async": false,
         "context": [
           "item",
@@ -134,283 +298,951 @@
           "formData",
           "contexts",
           "globalState"
-        ],
-        "description": "Transform the selected item into the value stored on the form."
-      }
-    },
-    "constraints": {
-      "dataSourceType": {
-        "enum": [
-          "entitiesList",
-          "url"
         ]
       },
-      "mode": {
-        "enum": [
-          "single",
-          "multiple"
-        ]
+      {
+        "name": "quickviewDisplayPropertyName",
+        "type": "string",
+        "desc": "Entity property shown in the quickview popup header.",
+        "required": false,
+        "JsReturnType": "string"
       },
-      "valueFormat": {
-        "enum": [
+      {
+        "name": "quickviewEnabled",
+        "type": "boolean",
+        "desc": "Show a quickview popup when the user hovers over the selected value.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "quickviewFormPath",
+        "type": "string",
+        "desc": "Form identifier for the quickview popup (module/name).",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "quickviewGetEntityUrl",
+        "type": "string",
+        "desc": "API URL to fetch the full entity record for the quickview.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "quickviewWidth",
+        "type": "number",
+        "desc": "Width of the quickview popup in pixels.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "queryParams",
+        "type": "array",
+        "desc": "Static query parameters appended to every autocomplete request.",
+        "required": false,
+        "JsReturnType": "array"
+      },
+      {
+        "name": "sorting",
+        "type": "array",
+        "desc": "Default sort order applied to the suggestion list.",
+        "required": false,
+        "JsReturnType": "array"
+      },
+      {
+        "name": "valueFormat",
+        "type": "string",
+        "options": [
           "simple",
           "entityReference",
           "custom"
-        ]
+        ],
+        "desc": "Shape of the value stored when an item is selected.",
+        "required": false,
+        "JsReturnType": "string"
       }
-    }
+    ]
   },
   "colorPicker": {
     "props": [
-      "allowClear",
-      "customStyles",
-      "disabledAlpha",
-      "marginPadding",
-      "showText",
-      "title"
-    ],
-    "types": {
-      "allowClear": "boolean",
-      "disabledAlpha": "boolean",
-      "title": "string",
-      "customStyles": "string",
-      "marginPadding": "object",
-      "showText": "boolean"
-    }
+      {
+        "name": "allowClear",
+        "type": "boolean",
+        "desc": "Show a clear button to reset the color to empty.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "disabledAlpha",
+        "type": "boolean",
+        "desc": "Hide the alpha channel slider.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "showText",
+        "type": "boolean",
+        "desc": "Display the hex color code as text next to the swatch.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "desc": "Label text shown above the color swatch.",
+        "required": false,
+        "JsReturnType": "string"
+      }
+    ]
   },
   "iconPicker": {
     "props": [
-      "customStyle"
-    ],
-    "types": {}
+      {
+        "name": "customColor",
+        "type": "string",
+        "desc": "CSS color applied to the custom icon.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "customIcon",
+        "type": "string",
+        "desc": "SVG path or custom icon definition to display instead of an Ant Design icon.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "defaultIcon",
+        "type": "string",
+        "desc": "Ant Design icon name shown when no value is selected (e.g. 'QuestionOutlined').",
+        "required": false,
+        "JsReturnType": "string"
+      }
+    ]
   },
   "htmlRender": {
     "props": [
-      "customStyle",
-      "renderer"
-    ],
-    "types": {
-      "renderer": "string"
-    }
+      {
+        "name": "renderer",
+        "type": "string",
+        "desc": "HTML string or Handlebars template rendered inside the component.",
+        "required": false,
+        "JsReturnType": "string"
+      }
+    ]
   },
   "image": {
     "props": [
-      "allowedFileTypes",
-      "allowPreview",
-      "alt",
-      "base64",
-      "customStyle",
-      "dataSource",
-      "filter",
-      "filterIntensity",
-      "objectFit",
-      "objectPosition",
-      "opacity",
-      "pnlsize-position-",
-      "storedFileId",
-      "url"
-    ],
-    "types": {
-      "dataSource": "string",
-      "opacity": "number",
-      "url": "string"
-    }
+      {
+        "name": "allowedFileTypes",
+        "type": "array",
+        "desc": "MIME types or extensions accepted when uploading (e.g. ['image/png', '.jpg']).",
+        "required": false,
+        "JsReturnType": "array"
+      },
+      {
+        "name": "allowPreview",
+        "type": "boolean",
+        "desc": "Show a lightbox preview when the image is clicked.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "alt",
+        "type": "string",
+        "desc": "Alternative text for screen readers and broken-image fallback.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "base64",
+        "type": "string",
+        "desc": "Base64-encoded image data URI (used when dataSource is 'base64').",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "dataSource",
+        "type": "string",
+        "desc": "Which source prop to use: url | storedFile | base64 | entityReference.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "filter",
+        "type": "object",
+        "desc": "CSS filter effects applied to the image. Sub-properties: blur (px), brightness (1=normal), contrast (1=normal), grayscale (0–1), hueRotate (deg), invert (0–1), saturate (1=normal), sepia (0–1).",
+        "required": false,
+        "JsReturnType": "object"
+      },
+      {
+        "name": "objectFit",
+        "type": "string",
+        "options": [
+          "fill",
+          "contain",
+          "cover",
+          "none",
+          "scale-down"
+        ],
+        "desc": "CSS object-fit for controlling how the image fills its container.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "objectPosition",
+        "type": "string",
+        "desc": "CSS object-position (e.g. 'center', '50% 50%').",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "opacity",
+        "type": "number",
+        "desc": "CSS opacity (0 = transparent, 1 = opaque).",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "storedFileId",
+        "type": "string",
+        "desc": "GUID of the stored file record (used when dataSource is 'storedFile').",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "url",
+        "type": "string",
+        "desc": "Image URL (used when dataSource is 'url').",
+        "required": false,
+        "JsReturnType": "string"
+      }
+    ]
   },
   "richTextEditor": {
     "props": [
-      "advancedPanel",
-      "allowResizeX",
-      "allowResizeY",
-      "askBeforePasteFromWord",
-      "askBeforePasteHTML",
-      "autofocus",
-      "direction",
-      "disablePlugins",
-      "displayPanel",
-      "enter",
-      "iframe",
-      "insertImageAsBase64URI",
-      "optionsPanel",
-      "preset",
-      "saveHeightInStorage",
-      "saveModeInStorage",
-      "showCharsCounter",
-      "showWordsCounter",
-      "theme",
-      "toolbar",
-      "toolbarButtonSize",
-      "toolbarPanel"
-    ],
-    "types": {
-      "advancedPanel": "boolean",
-      "allowResizeX": "boolean",
-      "allowResizeY": "boolean",
-      "askBeforePasteFromWord": "boolean",
-      "askBeforePasteHTML": "boolean",
-      "autofocus": "boolean",
-      "direction": "string",
-      "disablePlugins": "string",
-      "displayPanel": "boolean",
-      "enter": "string",
-      "iframe": "boolean",
-      "insertImageAsBase64URI": "boolean",
-      "optionsPanel": "boolean",
-      "preset": "string",
-      "saveHeightInStorage": "boolean",
-      "saveModeInStorage": "boolean",
-      "showCharsCounter": "boolean",
-      "showWordsCounter": "boolean",
-      "theme": "string",
-      "toolbar": "boolean",
-      "toolbarButtonSize": "string",
-      "toolbarPanel": "boolean"
-    },
-    "constraints": {
-      "toolbarButtonSize": {
-        "enum": [
-          "xsmall",
-          "small",
-          "middle",
-          "large"
-        ]
+      {
+        "name": "allowResizeX",
+        "type": "boolean",
+        "desc": "Allow horizontal resizing of the editor.",
+        "required": false,
+        "JsReturnType": "boolean"
       },
-      "enter": {
-        "enum": [
+      {
+        "name": "allowResizeY",
+        "type": "boolean",
+        "desc": "Allow vertical resizing of the editor.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "askBeforePasteFromWord",
+        "type": "boolean",
+        "desc": "Prompt before pasting content copied from MS Word.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "askBeforePasteHTML",
+        "type": "boolean",
+        "desc": "Prompt before pasting raw HTML.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "autofocus",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Automatically focus the editor when the form loads."
+      },
+      {
+        "name": "autoHeight",
+        "type": "boolean",
+        "desc": "Grow the editor height automatically to fit content.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "autoWidth",
+        "type": "boolean",
+        "desc": "Grow the editor width automatically.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "defaultMode",
+        "type": "string",
+        "options": [
+          "1",
+          "2",
+          "3"
+        ],
+        "desc": "Starting editor mode: 1=WYSIWYG, 2=source, 3=split.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "direction",
+        "type": "string",
+        "options": [
+          "ltr",
+          "rtl"
+        ],
+        "desc": "Text direction inside the editor.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "disablePlugins",
+        "type": "array",
+        "desc": "List of Jodit plugin names to disable.",
+        "required": false,
+        "JsReturnType": "array"
+      },
+      {
+        "name": "enter",
+        "type": "string",
+        "options": [
           "P",
           "DIV",
           "BR"
-        ]
+        ],
+        "desc": "HTML element inserted when Enter is pressed.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "iframe",
+        "type": "boolean",
+        "desc": "Render the editor content inside an iframe for CSS isolation.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "insertImageAsBase64URI",
+        "type": "boolean",
+        "desc": "Embed inserted images as base64 URIs instead of uploading.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Placeholder text shown when the editor is empty."
+      },
+      {
+        "name": "preset",
+        "type": "string",
+        "options": [
+          "inline"
+        ],
+        "desc": "Editor configuration preset.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "saveHeightInStorage",
+        "type": "boolean",
+        "desc": "Persist the editor height in localStorage between sessions.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "saveModeInStorage",
+        "type": "boolean",
+        "desc": "Persist the editor mode in localStorage between sessions.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "showCharsCounter",
+        "type": "boolean",
+        "desc": "Show character count in the editor status bar.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "showWordsCounter",
+        "type": "boolean",
+        "desc": "Show word count in the editor status bar.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "showXPathInStatusbar",
+        "type": "boolean",
+        "desc": "Show the XPath of the selected element in the status bar.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "spellcheck",
+        "type": "boolean",
+        "desc": "Enable browser spell-checking inside the editor.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "textIcons",
+        "type": "boolean",
+        "desc": "Use text labels instead of icons in the toolbar buttons.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "theme",
+        "type": "string",
+        "desc": "Jodit UI theme name (e.g. 'default', 'dark').",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "toolbar",
+        "type": "boolean",
+        "desc": "Show the editor toolbar.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "toolbarButtonSize",
+        "type": "string",
+        "options": [
+          "tiny",
+          "xsmall",
+          "middle",
+          "large"
+        ],
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Size preset for toolbar icon buttons."
+      },
+      {
+        "name": "toolbarSticky",
+        "type": "boolean",
+        "desc": "Keep the toolbar visible when scrolling past the editor.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "toolbarStickyOffset",
+        "type": "number",
+        "desc": "Top offset in pixels for the sticky toolbar.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "useSearch",
+        "type": "boolean",
+        "desc": "Enable the find-and-replace functionality.",
+        "required": false,
+        "JsReturnType": "boolean"
       }
-    }
+    ]
   },
   "markdown": {
     "props": [
-      "content",
-      "customStyle"
-    ],
-    "types": {}
+      {
+        "name": "content",
+        "type": "string",
+        "desc": "Markdown text to render.",
+        "required": true,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "hideBorder",
+        "type": "boolean",
+        "desc": "Remove the container border.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "remarkPlugins",
+        "type": "array",
+        "desc": "List of remark plugin names to extend the markdown parser.",
+        "required": false,
+        "JsReturnType": "array"
+      }
+    ]
   },
   "progress": {
     "props": [
-      "customStyle",
-      "gapDegree",
-      "gapPosition",
-      "lineStrokeColor",
-      "percent",
-      "progressStyle",
-      "progressType",
-      "showInfo",
-      "status",
-      "steps",
-      "strokeColor",
-      "strokeLinecap",
-      "strokeWidth",
-      "trailColor",
-      "typeSpecificSettings"
-    ],
-    "types": {
-      "showInfo": "boolean",
-      "steps": "number"
-    }
+      {
+        "name": "circleStrokeColor",
+        "type": "string",
+        "desc": "Stroke color for circle and dashboard progress types.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "format",
+        "type": "string",
+        "desc": "Display template for the progress label text (e.g. '{percent}%').",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "gapDegree",
+        "type": "number",
+        "desc": "Arc gap angle in degrees for dashboard type.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "gapPosition",
+        "type": "string",
+        "options": [
+          "top",
+          "bottom",
+          "left",
+          "right"
+        ],
+        "desc": "Position of the arc gap for dashboard type.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "lineStrokeColor",
+        "type": "string",
+        "desc": "Stroke color for line type.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "percent",
+        "type": "number",
+        "desc": "Current progress as a plain number from 0 to 100 (no % sign).",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "progressType",
+        "type": "string",
+        "options": [
+          "line",
+          "circle",
+          "dashboard"
+        ],
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Visual style of the progress indicator: 'line', 'circle', or 'dashboard'."
+      },
+      {
+        "name": "showInfo",
+        "type": "boolean",
+        "desc": "Show the percentage text or format label.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "options": [
+          "success",
+          "exception",
+          "normal",
+          "active"
+        ],
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Current status determining the bar color and icon."
+      },
+      {
+        "name": "steps",
+        "type": "number",
+        "desc": "Number of steps for a stepped progress bar.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "strokeColor",
+        "type": "string",
+        "desc": "Default stroke color (overridden by lineStrokeColor / circleStrokeColor).",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "strokeLinecap",
+        "type": "string",
+        "options": [
+          "round",
+          "butt",
+          "square"
+        ],
+        "desc": "Shape of the progress bar ends.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "strokeWidth",
+        "type": "number",
+        "desc": "Width of the progress stroke in pixels.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "success",
+        "type": "string",
+        "desc": "JSON string configuring the success segment ({ percent, strokeColor }).",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "trailColor",
+        "type": "string",
+        "desc": "Color of the unfilled portion of the progress track.",
+        "required": false,
+        "JsReturnType": "string"
+      }
+    ]
   },
   "refListStatus": {
     "props": [
-      "customStyle",
-      "referenceListId",
-      "showIcon",
-      "showReflistName",
-      "solidBackground"
-    ],
-    "types": {
-      "referenceListId": "string",
-      "showIcon": "boolean",
-      "solidBackground": "boolean"
-    }
+      {
+        "name": "referenceListId",
+        "type": "reference-list-id",
+        "required": true,
+        "desc": "Identifier of the reference list providing the status options.",
+        "JsReturnType": "reference-list-id"
+      },
+      {
+        "name": "showIcon",
+        "type": "boolean",
+        "desc": "Display the status icon alongside the label.",
+        "required": false
+      },
+      {
+        "name": "showReflistName",
+        "type": "boolean",
+        "desc": "Display the reference list name as a prefix.",
+        "required": false
+      },
+      {
+        "name": "solidBackground",
+        "type": "boolean",
+        "desc": "Use a solid background colour instead of an outlined badge.",
+        "required": false
+      }
+    ]
   },
   "statusTag": {
     "props": [
-      "mappings",
-      "override",
-      "value",
-      "valueSource"
-    ],
-    "types": {
-      "mappings": "string",
-      "override": "string"
-    }
+      {
+        "name": "mappings",
+        "type": "string",
+        "desc": "JSON-encoded object: { mapping: [{ code: number, text: string, color: string, override?: string }], default: { text: string, color: string, override?: string } }",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "desc": "Manual value to display when valueSource is 'manual'.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "valueSource",
+        "type": "string",
+        "options": [
+          "form",
+          "manual"
+        ],
+        "desc": "Whether to use the bound form value or a manually configured value.",
+        "required": false,
+        "JsReturnType": "string"
+      }
+    ]
   },
   "chevron": {
     "props": [
-      "activeColor",
-      "colorSource",
-      "items",
-      "referenceList",
-      "showIcons"
-    ],
-    "types": {
-      "referenceList": "string",
-      "showIcons": "boolean"
-    }
+      {
+        "name": "activeColor",
+        "type": "string",
+        "desc": "CSS color applied to the active/selected chevron item.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "colorSource",
+        "type": "string",
+        "options": [
+          "primary",
+          "custom",
+          "reflist"
+        ],
+        "desc": "Whether to use the primary theme color, a custom color, or per-item colors from the reference list.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Optional description text shown beneath the chevron."
+      },
+      {
+        "name": "image",
+        "type": "string",
+        "desc": "URL of an image displayed inside the chevron items.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "imageSize",
+        "type": "number",
+        "desc": "Size of the image in pixels.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "imageStyle",
+        "type": "boolean",
+        "desc": "Render the image as a CSS background instead of an <img> tag.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "items",
+        "type": "array",
+        "desc": "Static chevron items used when not driven by a reference list.",
+        "required": false,
+        "JsReturnType": "array"
+      },
+      {
+        "name": "referenceList",
+        "type": "reference-list-id",
+        "desc": "Reference list used to populate chevron items dynamically.",
+        "required": false,
+        "JsReturnType": "reference-list-id"
+      },
+      {
+        "name": "showIcons",
+        "type": "boolean",
+        "desc": "Display icons from the reference list items.",
+        "required": false,
+        "JsReturnType": "boolean"
+      }
+    ]
   },
   "kanban": {
     "props": [
-      "allowDelete",
-      "allowEdit",
-      "allowNewRecord",
-      "borderContainer",
-      "borderRadiusContainer",
-      "collapsible",
-      "columncustomStyle",
-      "columnStyle",
-      "columnStyles",
-      "createFormId",
-      "customStyle",
-      "editFormId",
-      "gap",
-      "groupingProperty",
-      "headerStyles",
-      "items",
-      "kanbanReadonly",
-      "modalFormId",
-      "pnlcolumnStyles",
-      "referenceList",
-      "showIcons"
-    ],
-    "types": {
-      "allowDelete": "boolean",
-      "allowEdit": "boolean",
-      "allowNewRecord": "boolean",
-      "collapsible": "boolean",
-      "columnStyle": "string",
-      "columnStyles": "string",
-      "gap": "number",
-      "headerStyles": "string",
-      "modalFormId": "string",
-      "referenceList": "string"
-    }
+      {
+        "name": "actionConfiguration",
+        "type": "action-config",
+        "desc": "Action triggered when a card is clicked.",
+        "required": false
+      },
+      {
+        "name": "allowDelete",
+        "type": "boolean",
+        "desc": "Show a delete option on kanban cards.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "allowEdit",
+        "type": "boolean",
+        "desc": "Show an edit option on kanban cards.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "allowNewRecord",
+        "type": "boolean",
+        "desc": "Show a button to create new cards in each column.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "collapsible",
+        "type": "boolean",
+        "desc": "Allow columns to be collapsed.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "columnStyle",
+        "type": "string",
+        "desc": "Inline CSS applied to each column container.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "createFormId",
+        "type": "form-id",
+        "desc": "Form used when creating a new card.",
+        "required": false,
+        "JsReturnType": "form-id"
+      },
+      {
+        "name": "editFormId",
+        "type": "form-id",
+        "desc": "Form used when editing a card.",
+        "required": false,
+        "JsReturnType": "form-id"
+      },
+      {
+        "name": "entityType",
+        "type": "string",
+        "desc": "Fully-qualified entity type for the kanban cards (e.g. 'Shesha.Core.Person').",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "fontColor",
+        "type": "string",
+        "desc": "CSS color applied to card text.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "gap",
+        "type": "number",
+        "desc": "Gap between cards in pixels.",
+        "required": false,
+        "JsReturnType": "number"
+      },
+      {
+        "name": "groupingProperty",
+        "type": "string",
+        "desc": "Entity property used to determine which column a card belongs to.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "headerStyles",
+        "type": "string",
+        "desc": "Inline CSS applied to each column header.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "items",
+        "type": "array",
+        "desc": "Column definitions for the kanban view.",
+        "required": false,
+        "JsReturnType": "array",
+        "arrayItemType": "column-item"
+      },
+      {
+        "name": "kanbanReadonly",
+        "type": "boolean",
+        "desc": "Disable drag-and-drop and all edit actions.",
+        "required": false,
+        "JsReturnType": "boolean"
+      },
+      {
+        "name": "modalFormId",
+        "type": "form-id",
+        "desc": "Form shown in a modal when a card is clicked.",
+        "required": false,
+        "JsReturnType": "form-id"
+      },
+      {
+        "name": "referenceList",
+        "type": "reference-list-id",
+        "desc": "Reference list that defines the kanban columns.",
+        "required": false,
+        "JsReturnType": "reference-list-id"
+      },
+      {
+        "name": "showIcons",
+        "type": "boolean",
+        "desc": "Display icons from the reference list in column headers.",
+        "required": false,
+        "JsReturnType": "boolean"
+      }
+    ]
   },
   "calendar": {
     "props": [
-      "displayPeriod",
-      "dummyEventColor",
-      "externalEndDate",
-      "externalStartDate",
-      "items",
-      "maxDate",
-      "minDate",
-      "momentLocale",
-      "name",
-      "onSlotClick",
-      "onViewChange"
-    ],
-    "types": {
-      "dummyEventColor": "string",
-      "externalStartDate": "string",
-      "minDate": "string",
-      "momentLocale": "string",
-      "name": "string",
-      "onSlotClick": "object",
-      "onViewChange": "object"
-    }
+      {
+        "name": "displayPeriod",
+        "type": "array",
+        "desc": "Calendar views the user can switch between: 'month', 'week', 'work_week', 'day', 'agenda'.",
+        "required": false,
+        "JsReturnType": "array"
+      },
+      {
+        "name": "dummyEventColor",
+        "type": "string",
+        "desc": "CSS color used for placeholder/dummy calendar events.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "endDate",
+        "type": "string",
+        "desc": "ISO 8601 date string for the calendar's end boundary.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "externalEndDate",
+        "type": "string",
+        "desc": "Form property name supplying the end date dynamically.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "externalStartDate",
+        "type": "string",
+        "desc": "Form property name supplying the start date dynamically.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "items",
+        "type": "array",
+        "desc": "Calendar layer configurations defining event data sources.",
+        "required": false,
+        "JsReturnType": "array",
+        "arrayItemType": "calendar-layer"
+      },
+      {
+        "name": "maxDate",
+        "type": "string",
+        "desc": "ISO 8601 date string; no navigation beyond this date.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "minDate",
+        "type": "string",
+        "desc": "ISO 8601 date string; no navigation before this date.",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "momentLocale",
+        "type": "string",
+        "desc": "Moment.js locale string for day/month name formatting (e.g. 'en-gb', 'fr').",
+        "required": false,
+        "JsReturnType": "string"
+      },
+      {
+        "name": "onSlotClick",
+        "type": "action-config",
+        "desc": "Action triggered when the user clicks an empty calendar slot.",
+        "required": false
+      },
+      {
+        "name": "onViewChange",
+        "type": "action-config",
+        "desc": "Action triggered when the user changes the view or navigates.",
+        "required": false
+      },
+      {
+        "name": "startDate",
+        "type": "string",
+        "desc": "ISO 8601 date string for the calendar's start boundary.",
+        "required": false,
+        "JsReturnType": "string"
+      }
+    ]
   }
 }

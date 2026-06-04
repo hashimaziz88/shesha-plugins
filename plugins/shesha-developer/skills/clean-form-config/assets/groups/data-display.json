@@ -1,110 +1,486 @@
 {
   "_meta": {
     "version": 3,
-    "generated": "2026-05-22T08:44:41.645Z",
+    "generated": "2026-05-28T06:06:56.072Z",
     "group": "data-display"
   },
   "alert": {
     "props": [
-      "alertType",
-      "banner",
-      "closable",
-      "customStyle",
-      "icon",
-      "marquee",
-      "showIcon",
-      "text"
-    ],
-    "types": {
-      "marquee": "boolean",
-      "showIcon": "boolean",
-      "text": "string"
-    }
+      {
+        "name": "alertType",
+        "required": false,
+        "type": "string",
+        "options": [
+          "success",
+          "info",
+          "warning",
+          "error"
+        ],
+        "desc": "Determines the alert colour and icon.",
+        "JsReturnType": "string"
+      },
+      {
+        "name": "banner",
+        "required": false,
+        "type": "boolean",
+        "JsReturnType": "boolean",
+        "desc": "When true, renders the alert as a full-width banner with no border radius."
+      },
+      {
+        "name": "closable",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Show a close button that dismisses the alert."
+      },
+      {
+        "name": "icon",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Custom Ant Design icon name shown in the alert (overrides the default type icon)."
+      },
+      {
+        "name": "marquee",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Scroll the alert text as a marquee."
+      },
+      {
+        "name": "showIcon",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Show the default icon for the alert type."
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Alert message text."
+      }
+    ]
   },
   "link": {
     "props": [
-      "alignItems",
-      "content",
-      "customStyle",
-      "direction",
-      "hasChildren",
-      "href",
-      "justifyContent",
-      "justifyItems",
-      "target"
-    ],
-    "types": {
-      "hasChildren": "boolean",
-      "href": "string"
-    }
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "URL the link navigates to."
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Text content displayed as the link label."
+      },
+      {
+        "name": "target",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "_blank",
+          "_self",
+          "_parent",
+          "_top"
+        ],
+        "desc": "Browsing context for the link."
+      },
+      {
+        "name": "download",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "When set, the link triggers a file download using this value as the filename."
+      },
+      {
+        "name": "direction",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "horizontal",
+          "vertical"
+        ],
+        "desc": "Flex direction for child content."
+      },
+      {
+        "name": "hasChildren",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "When true, the link renders child components inside it."
+      },
+      {
+        "name": "justifyContent",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "center",
+          "start",
+          "end",
+          "flex-start",
+          "flex-end",
+          "left",
+          "right",
+          "normal",
+          "space-between",
+          "space-around",
+          "space-evenly",
+          "stretch",
+          "safe center",
+          "unsafe center",
+          "inherit",
+          "initial",
+          "revert",
+          "revert-layer",
+          "unset"
+        ],
+        "desc": "CSS justify-content for the link flex container."
+      },
+      {
+        "name": "alignItems",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "normal",
+          "stretch",
+          "center",
+          "start",
+          "end",
+          "flex-start",
+          "flex-end",
+          "baseline",
+          "first baseline",
+          "last baseline",
+          "safe center",
+          "unsafe center",
+          "inherit",
+          "initial",
+          "revert",
+          "revert-layer",
+          "unset"
+        ],
+        "desc": "CSS align-items for the link flex container."
+      },
+      {
+        "name": "justifyItems",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "normal",
+          "stretch",
+          "center",
+          "start",
+          "end",
+          "flex-start",
+          "flex-end",
+          "self-start",
+          "self-end",
+          "left",
+          "right",
+          "baseline",
+          "first baseline",
+          "last baseline",
+          "safe center",
+          "unsafe center",
+          "legacy right",
+          "legacy left",
+          "legacy center",
+          "inherit",
+          "initial",
+          "revert",
+          "revert-layer",
+          "unset"
+        ],
+        "desc": "CSS justify-items for the link flex container."
+      }
+    ]
   },
   "statistic": {
     "props": [
-      "precision",
-      "prefix",
-      "prefixIcon",
-      "suffix",
-      "suffixIcon",
-      "title",
-      "titleFont",
-      "titleStyle",
-      "value",
-      "valueFont",
-      "valueStyle"
-    ],
-    "types": {
-      "prefix": "string",
-      "suffix": "string",
-      "title": "string",
-      "titleStyle": "string",
-      "value": "number",
-      "valueStyle": "string"
-    }
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "The value to display. Accepts a number or string."
+      },
+      {
+        "name": "precision",
+        "type": "number",
+        "required": false,
+        "JsReturnType": "number",
+        "desc": "Number of decimal places to show. Must be a non-negative integer."
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Label displayed above the value."
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Text displayed before the value."
+      },
+      {
+        "name": "prefixIcon",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Ant Design icon name (e.g. \"RiseOutlined\")."
+      },
+      {
+        "name": "suffix",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Text displayed after the value."
+      },
+      {
+        "name": "suffixIcon",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Ant Design icon name (e.g. \"RiseOutlined\")."
+      },
+      {
+        "name": "titleFont",
+        "type": "font-config",
+        "required": false,
+        "JsReturnType": "font-config",
+        "desc": "Font configuration. Matches font-config shape plus an optional transform (CSS text-transform)."
+      },
+      {
+        "name": "valueFont",
+        "type": "font-config",
+        "required": false,
+        "JsReturnType": "font-config",
+        "desc": "Font configuration. Matches font-config shape plus an optional transform (CSS text-transform)."
+      },
+      {
+        "name": "titleStyle",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Inline CSS style string applied to the title."
+      },
+      {
+        "name": "valueStyle",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Inline CSS style string applied to the value."
+      }
+    ]
   },
   "text": {
     "props": [
-      "code",
-      "content",
-      "contentDisplay",
-      "contentType",
-      "copyable",
-      "dataType",
-      "dateFormat",
-      "delete",
-      "ellipsis",
-      "italic",
-      "keyboard",
-      "level",
-      "mark",
-      "numberFormat",
-      "textType",
-      "underline"
-    ],
-    "types": {
-      "delete": "boolean",
-      "ellipsis": "boolean",
-      "italic": "boolean",
-      "keyboard": "boolean"
-    }
+      {
+        "name": "textType",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "span",
+          "paragraph",
+          "title"
+        ],
+        "desc": "HTML element to render — span (inline), paragraph (block), or title (heading)."
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Static text content to display."
+      },
+      {
+        "name": "contentDisplay",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "content",
+          "name"
+        ],
+        "desc": "Whether to display the content value or the propertyName."
+      },
+      {
+        "name": "contentType",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          "primary",
+          "secondary",
+          "success",
+          "warning",
+          "info",
+          "danger",
+          "custom"
+        ],
+        "desc": "Ant Design typography colour preset."
+      },
+      {
+        "name": "dataType",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "How the bound value is formatted before display. date-time uses dateFormat; number uses numberFormat; boolean renders as Yes/No.",
+        "options": [
+          "string",
+          "date-time",
+          "number",
+          "boolean"
+        ]
+      },
+      {
+        "name": "dateFormat",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Moment.js format string applied when dataType is date (e.g. \"DD/MM/YYYY\")."
+      },
+      {
+        "name": "numberFormat",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Format applied when dataType is \"number\".",
+        "options": [
+          "currency",
+          "double",
+          "round",
+          "thousandSeparator"
+        ]
+      },
+      {
+        "name": "level",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "options": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          "text-xxs",
+          "text-xs",
+          "text-sm",
+          "text-base",
+          "text-lg",
+          "text-xl",
+          "text-2xl",
+          "text-3xl",
+          "text-4xl",
+          "text-5xl",
+          "text-6xl",
+          "text-7xl",
+          "text-8xl",
+          "text-9xl"
+        ],
+        "desc": "Heading level (1–5) or a font-size token (e.g. \"text-lg\"). Only used when textType is \"title\"."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "JsReturnType": "string",
+        "desc": "Dynamic bound value — overrides content when present."
+      },
+      {
+        "name": "code",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Render as inline code."
+      },
+      {
+        "name": "copyable",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Show a copy-to-clipboard button."
+      },
+      {
+        "name": "delete",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Apply strikethrough."
+      },
+      {
+        "name": "ellipsis",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Truncate overflowing text with an ellipsis."
+      },
+      {
+        "name": "italic",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Italicise the text."
+      },
+      {
+        "name": "keyboard",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Render styled as a keyboard key."
+      },
+      {
+        "name": "mark",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Highlight with a yellow background."
+      },
+      {
+        "name": "strong",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Bold the text."
+      },
+      {
+        "name": "underline",
+        "type": "boolean",
+        "required": false,
+        "JsReturnType": "boolean",
+        "desc": "Underline the text."
+      }
+    ]
   },
   "validationErrors": {
-    "props": [],
-    "types": {}
+    "props": []
   },
   "barChart": {
-    "props": [],
-    "types": {}
+    "props": []
   },
   "lineChart": {
-    "props": [],
-    "types": {}
+    "props": []
   },
   "pieChart": {
-    "props": [],
-    "types": {}
+    "props": []
   },
   "polarAreaChart": {
-    "props": [],
-    "types": {}
+    "props": []
   }
 }
