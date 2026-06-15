@@ -55,10 +55,24 @@ Dialog-hosted create forms may instead rely on the Show Dialog footer submit —
 [components/add-dialogs.md](components/add-dialogs.md). `actionOwner` is case-sensitive:
 `shesha.form` / `shesha.common`, never `Shesha.Common`.
 
-**An exit path exists wherever there is an edit mode.** Detail forms with a
-Start Edit/Submit lifecycle pair it with `Cancel Edit` (owner `shesha.form`); modal forms
-use `Close Dialog` (owner `shesha.common`). A form the user can put into edit mode but not
-back out of is broken, not minimal.
+**Every form with a Submit also has an exit action — even when the prompt never mentions
+buttons.** A user who can save must be able to leave without saving, so the exit button is
+half of the action row, not an optional extra. The catch: a terse prompt like *"a form with
+one required first-name field"* names no buttons at all, so it's easy to emit only the
+Submit and stop — which trips the deterministic harness check **F-S2** ("form has a
+cancel/dismiss button") and cascades into **V-A3** and **C6**. Treat the exit button as
+implied by *any* create/edit intent. Which exit action depends on how the form is hosted:
+
+- **Standalone page** (a create/edit view the user opens directly — the default for "make a
+  form for X"): a **Back** button — `buttonAction: "navigate"`,
+  `actionConfiguration: { actionName: "Navigate", actionOwner: "shesha.common" }` pointing at
+  the entity's list/table form. This is the most-forgotten case; copy
+  [assets/examples/standalone-create.json](../assets/examples/standalone-create.json).
+- **Modal/dialog form**: `Close Dialog` (owner `shesha.common`).
+- **Detail form** with a Start Edit/Submit lifecycle: `Cancel Edit` (owner `shesha.form`).
+
+A form you can save but not back out of is broken, not minimal — the minimalism rule below
+explicitly exempts the exit button from "unnecessary extras".
 
 **A `validationErrors` component is ALWAYS in the tree** (conventionally just above the
 action row) — mandatory the moment the form has **any required input**. Without it, a failed
@@ -110,11 +124,18 @@ reachable in the default state — not hidden inside a collapsed panel or a non-
 Two primaries = no primary.
 
 **Add only what the request needs — no padding.** Component count should match the request's
-complexity. A "simple form with N fields + Save + Back" is N inputs + one `validationErrors`
-+ one `buttonGroup` + the minimum structure (one `columns`/`sectionSeparator` only when >5
-inputs). Extra containers, decorative panels, duplicate wrappers, or headers the user never
-asked for fail review as unnecessary extras (harness check **C8**). Seeds are a starting
-point, not a floor — after copying a seed, delete every node the current request doesn't use.
+complexity. Every editable form has a fixed floor, no matter how terse the prompt: the input
+fields + one `validationErrors` + one `buttonGroup` holding **both** Submit **and** an exit
+(Back/Close/Cancel) button + the minimum structure (one `columns`/`sectionSeparator` only when
+>5 inputs). A prompt that names only fields — *"a form with one required first-name field"* —
+still gets the Submit **and** the exit button: they are part of a working form, never
+"unnecessary extras". A Submit with no exit button is the defect (fails **F-S2 / V-A3 / C6**),
+not an example of minimalism.
+
+What minimalism actually rules out is structure the request didn't call for: extra containers,
+decorative panels, duplicate wrappers, or headers the user never asked for (harness check
+**C8**). Seeds are a starting point, not a floor — after copying a seed, delete every node the
+current request doesn't use, but never the `validationErrors` or the Submit/exit pair.
 
 **Destructive actions are NEVER primary.** Delete / Cancel / Reset get `default` or `link`
 styling (e.g. `link` + `DeleteOutlined` icon). Primary is reserved for the main
@@ -147,7 +168,7 @@ not screenshots, and clear the FE IndexedDB form cache from a static page (e.g.
 - [ ] required fields carry `validate.required: true`
 - [ ] every dropdown has `dataSourceType`; reflists have `referenceListId` `{module, name}`
 - [ ] date properties use `dateField` (`showTime` for date-time)
-- [ ] Submit action (`Submit` / `shesha.form` or dialog footer) + Cancel/Close/Back where editable
+- [ ] Submit action (`Submit` / `shesha.form` or dialog footer) **and** a paired exit button on every editable form — standalone page → Back (`Navigate` / `shesha.common`), modal → `Close Dialog`, detail → `Cancel Edit` — even when the prompt never mentions buttons — **F-S2 / V-A3 / C6**
 - [ ] `validationErrors` component present whenever the form has any required input — **F-I7**
 - [ ] all action buttons wrapped in a `buttonGroup` (no standalone `button` nodes in the action row) — **V-A4**
 - [ ] component count matches the request — no padding containers/panels/wrappers — **C8**

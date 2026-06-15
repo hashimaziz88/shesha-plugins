@@ -20,26 +20,39 @@ These contain template tokens `{{GEN_KEY}}` / `{{NEW_KEY}}` for some ids — rep
 |---|---|---|
 | List/index page | `assets/examples/employee-table.json` | "table form", "list of X", "manage X" |
 | Create / edit in modal | `assets/examples/employee-create.json` | the form the table's **Add** button opens; submit comes from the modal footer (no in-form button row) |
-| Standalone create / edit **page** (own Save + Back) | `assets/examples/employee-create.json` **+ add a `buttonGroup`** | a full-page create/edit form the user opens directly (not in a modal), e.g. "create a person form with a Save and a Back button" — see note below |
+| Standalone create / edit **page** (own Save + Back) | `assets/examples/standalone-create.json` | a full-page create/edit form the user opens directly (not in a modal), e.g. "create a person form" or "a form with a required first-name field" — the Save + Back row is mandatory even when the prompt never mentions buttons; see note below |
 | Detail page, no children | `assets/examples/employee-detail-without-child-tables.json` | a standalone record view with the **Start Edit / Save / Cancel Edit toggle** lifecycle |
 | Detail page with child tables | `assets/examples/employee-detail-with-child-tables.json` | record view that also lists related child entities |
 
-### Standalone create / edit page (own Save + Back) — compose, don't improvise
+### Standalone create / edit page (own Save + Back) — copy the seed
 
-The seed set has a **dialog-hosted** create (`employee-create`, submit via modal footer) and a
-**toggle-lifecycle** detail (`employee-detail-*`, Start Edit / Save / Cancel Edit). It has **no**
-seed for a plain full-page create/edit form with its own explicit Save + Back row — the most
-common ad-hoc request ("create a person form with a Save and a Back button"). Build it by
-copying `employee-create`'s fields and **adding one `buttonGroup`** as the action row:
+`assets/examples/standalone-create.json` is the canonical full-page create/edit form: a
+`validationErrors`, a 2-column `detailsPanel`, and one `buttonGroup` with **Save** (primary,
+`Submit`/`shesha.form`) + **Back** (default, `Navigate`/`shesha.common`). It's a Person create
+page — swap `modelType`, the field `propertyName`s/labels, the title `content`, and the Back
+button's `actionArguments.url` to the target entity's list form. This is the seed to reach for
+on any "create a form for X" / "make me a person form" request, including terse ones.
 
-- **Save** item → `buttonType: "primary"`, `buttonAction: "submit"`, `actionConfiguration: { actionName: "Submit", actionOwner: "shesha.form" }`.
-- **Back** item → `buttonType: "default"`, `buttonAction: "navigate"`, `actionConfiguration: { actionName: "Navigate", actionOwner: "shesha.common", actionArguments: { navigationType: "url", url: "/dynamic/<module>/<list-form>" } }`.
-- `editMode: "editable"` on the inputs (a standalone create/edit page is always in edit mode — `inherited` renders dead inputs here; that mode is only for the toggle-lifecycle detail view).
-- Keep the `validationErrors` component (it's in the seed).
-- **Never** emit the buttons as standalone `type: "button"` components — the QA classifier reads form intent only from `buttonGroup` items, so loose buttons get the form misread as read-only and fail the button-grouping check. Full reasoning: [form-quality.md](form-quality.md).
+**The Save + Back row is mandatory even when the prompt says nothing about buttons.** Requests
+like *"a person form with one required first-name field"* describe only the fields, but a
+create form with no way out fails the deterministic harness check **F-S2** (and cascades into
+**V-A3** and **C6**). The exit button is implied by create/edit intent — don't wait for the
+user to ask for it. (This was a real eval miss: a one-field form shipped with Save but no
+Back and lost 3 checks.)
 
-Don't add anything the request didn't ask for — no extra panels, no header band, no `modelType`
-debug text. Match the component count to the field list + validationErrors + the one buttonGroup.
+Key points the seed already encodes — preserve them:
+
+- `editMode: "editable"` on the inputs (a standalone create/edit page is always in edit mode —
+  `inherited` renders dead inputs here; that mode is only for the toggle-lifecycle detail view).
+- The `validationErrors` component (mandatory once any field is required — **F-I7**).
+- Buttons live **inside the `buttonGroup`**, never as standalone `type: "button"` components —
+  the QA classifier reads form intent only from `buttonGroup` items, so loose buttons get the
+  form misread as read-only and fail the button-grouping check. Full reasoning:
+  [form-quality.md](form-quality.md).
+
+Beyond that floor, don't add what the request didn't ask for — no extra panels, no `modelType`
+debug text. Match the component count to the field list + validationErrors + the one buttonGroup
+(+ the optional title in the seed).
 
 ### Scope note — what these seeds do and don't cover
 
