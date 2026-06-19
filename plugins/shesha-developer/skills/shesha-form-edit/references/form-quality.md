@@ -12,6 +12,15 @@ symptom→fix catalog: [debug.md](debug.md) · render checks: [verification.md](
 
 ## Functional rules
 
+**The display component matches the requested noun.** A request for a **"list"** of records
+(or "cards", "feed", "tiles", "gallery", "directory") is satisfied by a `datalist` (card view);
+a request for a **"table"** / "grid" / "spreadsheet" by a `datatable` (column grid) — both bound
+through a `dataContext`. A "list" rendered as a `datatable`, or as stacked static `container`
+cards, is a **defect** (static cards don't page / filter / select / bind to the entity). "Select
+multiple" in a *list* is `selectionMode: "multiple"` on the `datalist`, not a switch to a table.
+When the prompt names neither noun and the layout is ambiguous, the right component was chosen by
+**asking** the user, not guessing. See [components/data-tables.md](components/data-tables.md).
+
 **Bind to a real entity — with the backend's exact class name.** `formSettings.modelType`
 must be the registered entity's **`fullClassName` as returned by
 `GET /api/services/app/EntityConfig/GetMainDataList`** for the running backend — resolve it
@@ -28,6 +37,8 @@ Backend missing entirely? [full-stack-prereqs.md](full-stack-prereqs.md).
 **Every input binds a property.** Non-empty `propertyName` (camelCase metadata path) on
 every input component. An unbound input renders fine but silently drops its value from the
 submit payload — invisible until data goes missing.
+
+**Every `propertyName` is camelCase — including datatable COLUMN `propertyName`s.** The entity's GQL field keys are camelCase, but `Metadata/GetProperties` returns the `path` in **PascalCase** (`ActionedBy`, `CreationTime`). Copy it verbatim into a column and the table fetches data + shows the right row count, yet every **cell renders blank** (the cell accessor reads the literal PascalCase key against camelCase rows). Lower-case the first letter of every `propertyName` (`ActionedBy`→`actionedBy`).
 
 **Required means `validate.required`.** Fields the requirements call required carry
 `validate: { "required": true }`. Without it the user discovers the rule via a server 400
@@ -161,6 +172,7 @@ not screenshots, and clear the FE IndexedDB form cache from a static page (e.g.
 
 ## Checklist before push
 
+- [ ] display component matches the requested noun — "list"/cards ⇒ `datalist`, "table"/"grid" ⇒ `datatable`; never static stacked `container` cards for a list; multi-select list ⇒ `selectionMode: "multiple"`- [ ] every `propertyName` is camelCase (incl. datatable column `propertyName`s) — metadata `path` is PascalCase; PascalCase columns render blank cells
 - [ ] `modelType` = exact `fullClassName` resolved from `EntityConfig/GetMainDataList` for this backend (no assumed `Core`/`Domain` namespace, no `object`, no invented names)
 - [ ] every input has a non-empty camelCase `propertyName` that exists in metadata
 - [ ] required fields carry `validate.required: true`
