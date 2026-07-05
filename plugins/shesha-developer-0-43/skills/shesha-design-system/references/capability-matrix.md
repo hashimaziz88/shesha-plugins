@@ -1,0 +1,74 @@
+# Shesha style capability matrix (measured live)
+
+Which v7 style channel actually **renders** on which component, measured against a live Shesha backend — not inferred from the props index (the index says what's *legal*; this says what *works*). Version-stamped; re-measure on a Shesha upgrade and diff. Machine-readable source: [`../assets/capability-matrix.json`](../assets/capability-matrix.json).
+
+> **`validate-blocks` rule:** a block (`shesha-form-edit/assets/blocks`) may only reference channels marked ✅ `renders` or ⚠️ `gotcha` (with the documented working key path). A block referencing a ❌ `no-op` channel must not compose.
+
+**Measured:** `@shesha-io/reactjs 0.43.x` · local 0.43 backend `:21021` · viewport 1440×900 · 2026-07-01 (versions re-probed live; style-channel verdicts carried over from the 0.43 measurement). Method: per-cell **control twin** (channel omitted) → a no-op is `rendered == control ≠ intended`. Probe forms (`-claude` suffix, disposable): `style-lab-flex-split / surface / inputs / controls`.
+
+> **Versions are the crux — probe, don't trust this file blindly.** The authoritative way to get 0.43 component versions is a **runtime version-probe**: census the live backend's own forms (`FormConfiguration/GetAll`, take the max version per component type) and author every component at THOSE versions. The integers below are a documented **fallback**; on any Shesha upgrade the probe wins.
+
+## ⚠️ Read first — two cross-cutting rules
+
+1. **Component VERSION must match the live framework, or the style block silently no-ops.** A stale version re-runs the migration chain and drops styling with NO error — e.g. authoring `numberField` at a version *below* the live one ignored its entire `desktop` block (a total no-op); at the live version `dimensions.width` applied. **The right move is a runtime version-probe** — census the running 0.43 app's own forms (`FormConfiguration/GetAll`, max version per type) and copy those versions. Fallback 0.43 versions from a full live census (probe is authoritative; **these drift across 0.43 point releases** — a newer 0.43 sits close to 0.45): container 7 · columns 5 · text 5 · textField 6 · textArea 4 · numberField 5 · dateField 7 · dropdown 10 · autocomplete 8 · checkbox 5 · datalist 8 (range 7–8) · datatable 11 (range 10–11) · datatableContext 8 · refListStatus 4 · button 9 · buttonGroup 13 · collapsiblePanel 9 · alert 2 · validationErrors 0. For `card`, `progress` (no form used them on the probed backend) — **probe the live backend**, do not hardcode a 0.45 integer.
+2. **A flex container MUST set `display:"flex"`** or `flexDirection`/`gap` are inert. Size flex-split children via `desktop.dimensions.width` (reaches the outer div); `customStyle:{flex}` is inert on the outer div.
+
+**Measuring live (two gotchas that will fool you):**
+- In **Live mode**, `text`/`refListStatus` components do **not** carry `data-sha-c-name` (only containers do). Querying by component name finds only containers — read a **container's `innerText`** to verify the text inside. (Edit mode stamps the attr on text, which misleads.)
+- A **dispatched DOM `MouseEvent` does NOT fire** a React/antd `onChange` (e.g. ant-select). Use a **real click** to trigger handlers, or your automated interaction silently no-ops (and you'll wrongly conclude the handler is broken).
+
+## Containers / surfaces  (all channels land on the outer `.sha-components-container` div)
+| Channel | Verdict | Working key path / note |
+|---|---|---|
+| `background.color` | ✅ | `desktop.background {type:'color', color}` |
+| `background.gradient` | ✅ | `desktop.background {type:'gradient', gradient:{direction, colors:{0,1}}}` (renders `linear-gradient`) |
+| `shadow` | ✅ | `desktop.shadow {offsetX,offsetY,blurRadius,spreadRadius,color}` — small `0 1 4 rgba(0,0,0,0.06)` AND heavy both render |
+| `border.all` | ✅ | `borderType:'all'` |
+| `border` per-side | ✅ | `borderType:'custom'` + only the wanted side (`left`/`bottom`); `'all'` does NOT enable per-side |
+| `border.radius` | ✅ | `radius.all` (12, 9999 pill) |
+| `dimensions.width` | ✅ | `%` AND `calc()` both render on outer div (the flex-split lever) |
+| `dimensions.minHeight:'fit-content'` | ⚠️ gotcha | the ONLY **dimensions** channel reaching the outer div. The `overflow` BOOLEAN prop is a no-op — but the legacy `style` overflow is NOT (next row). |
+| **`style` (legacy inline) `overflow`** | ⚠️ gotcha (deliberate) | `style:"return {overflow:'visible'}"` renders **inline on the element and reaches the inner `.sha-components-container-inner` div** — the ONLY channel that overrides the framework's hard-coded inner `overflow:auto`. **This is the datalist row-template card fix** (use `visible` on inner rows, `hidden` on the card root). Verified live 2026-06-30. Elsewhere the legacy `style` is a footgun (overrides designer props) — use it deliberately, scoped to this fix. |
+| `stylingBox` padding/margin | ✅ | JSON **string** `'{"paddingTop":"20",…}'` |
+| **`font` on a container** | ❌ no-op | size/weight/color/align on a *container* do NOT apply — **put font on the `text` child, not its container** |
+| `customStyle:{flex}` for sizing | ❌ no-op | lands on inner div; use `dimensions.width` |
+| pixel note | — | a `2px` border computes ~`1.6px`, `1px`→`0.8px` (~0.8× Shesha rem scaling) — renders, but slightly thinner |
+
+## Inputs  (style block lands on the input's outer wrapper — at the CORRECT version)
+| Component | Verdict | Working key path / note |
+|---|---|---|
+| `textField` (v6) | ✅ fully | bg/border/radius/`dimensions.width`/font all render on `.ant-input-affix-wrapper` |
+| `dateField` (v7) | ✅ fully | on `.ant-picker` |
+| `dropdown` (v10) | ✅ fully | style lands on the `.ant-select` wrapper (goes `borderless`; wrapper carries bg/border/radius/width/font) |
+| `autocomplete` (v8) | ✅ fully | same `.ant-select` wrapper mechanism |
+| `numberField` (**v5**) | ⚠️ partial | `dimensions.width` applies at the live 0.43 version; authoring at a stale lower version is a total no-op (version artifact — probe the live version). bg/border may need the affix-wrapper; if styling is critical, wrap in a styled `container`. |
+| Agent-C myth | — | "inputs can't be styled" is FALSE — 4/5 fully styleable; only numberField is finicky (version-sensitive) |
+
+## Display / controls
+| Component | Verdict | Note |
+|---|---|---|
+| `text` | ✅ | `fontSize` (Tailwind class) + `fontWeight` as DIRECT props; `desktop.font.{size,weight,color,align}` for exact control; `{{{triple-brace}}}` for raw content; renders inside `ant-form-item`/`ant-col-24` wrappers (`hideLabel:true` to drop the label cell) |
+| `text` `customStyle` (code-mode) | ✅ | `customStyle {_mode:'code',_code:'return {letterSpacing,textTransform,lineHeight,...}'}` — for `letter-spacing`/`text-transform`/`line-height` the `font` channel can't express (proven on the live status chip + KIB micro-labels) |
+| `progress` (probe) | ✅ | renders a bar; `strokeColor` applies (the completeness bar). No confirmed 0.43 version — **probe the live backend**. |
+| `refListStatus` (v4) | ✅ | status pill; per-item bg/fg/border from the reflist; pill radius via `customStyle` inline-flex (proven in the live form). (version differs from 0.45 — probe your backend.) |
+| `button` / `buttonGroup` (v13) | ✅ via APP THEME | `buttonType` primary = app-theme primary fill (Cobalt `#003BB2` in the Shesha default), default = white+hairline. **Colour is app-theme-driven, not per-button** — don't override per button. ⚠️ 0.43 `buttonGroup` tends to COLLAPSE to an overflow menu — set `isInline:true`, and after authoring verify buttons render inline; if collapsed, widen the container / shrink button sizing. |
+| `alert` (v2) | ❌ custom style no-op | colour is driven by `alertType` (info/success/warning/error); a `desktop` bg/border block does NOT override it. Use the right `alertType`, or wrap/replace with a styled `container` for a custom callout |
+| `checkbox` (v5) | ✅ renders | (app-theme styled) |
+| `sectionSeparator` (probe) | ✅ renders | no confirmed 0.43 version — **probe the live backend** |
+| `card` (probe) | ✅ (proven in live form) | rail panels are `card`s carrying white bg + hairline + shadow + radius; styled via its `desktop` block. No confirmed 0.43 version — **probe the live backend**. (Fresh-probe selector missed; production-confirmed.) |
+| **multi-element `datalist` row-template card (overflow / collapse)** | ✅ SOLVED (markup-only) | **RESOLVED 2026-06-30 — was previously, wrongly, recorded as a hard limit needing global CSS. It is fully fixable in form config.** Root cause: the framework forces `min-height:0` on each `form-item-control-input` (an atomic class), so multi-line content paints via `overflow:visible` *out of* a collapsed wrapper → cards overlap, and the container's hard-coded inner `overflow:auto` shows **▲▼ scroll arrows** for tall text. **The fix (no global CSS, no `htmlRender`):** (1) **`style` overflow on every container** — `style:"return {overflow:'visible'}"` on inner rows, `overflow:'hidden'` on the card root. The legacy `style` JS-string renders **inline on the element and reaches the inner `.sha-components-container-inner` div** — the only channel that overrides the framework `overflow:auto` (verified: inner computed overflow becomes the value you set). (2) **Reserve `dimensions.minHeight:'24px'` on the body text** + `style:"return {whiteSpace:'normal',wordBreak:'break-word',overflow:'hidden',display:'block',maxWidth:'100%'}"` → wraps full text, no collapse/overlap. (3) `dimensions.minHeight:'fit-content'` on containers. (4) refListStatus pills `style:"return {display:'inline-flex',alignItems:'center',height:'26px',overflow:'visible',whiteSpace:'nowrap'}"` + `solidBackground:true`. (5) header is a flex row with `justifyContent:'space-between'` (badges-left container `dimensions.maxWidth:'calc(100% - 80px)'`, actions right). **Canonical live examples:** `view-requirement-card`, `view-endpoint-row`, `view-role-row` (the row templates of `view-definition-details-claude`). Recipe: [`component-recipes.md` → Datalist row-template card]; block: `requirement-datalist-row`. |
+| **conditional visibility in a `datalist` row-template** | ⚠️ gotcha | **Use `hidden` (code-mode `{_mode:'code',_code:'return <hide?>;'}`), NOT `customVisibility`** — `customVisibility` is a **no-op** on datalist row-template components (proven on the requirement card: `customVisibility` left empty chips/badges visible; switching to `hidden` hid them). Hide-when-empty: `hidden` returns `true` when the bound value/array is empty. |
+| `datatable` / `datalist` (datatable v11 / datalist v8, wrapped by `datatableContext` v8) | ✅ (proven in live form) | header surfaceAlt, row hover tint, datalist card styling via the list's style channels. **The data wrapper on 0.43 is `datatableContext` (v8 on this backend; probe yours) — there is NO `dataContext` component; a 0.45 `dataContext` renders an empty data area on 0.43.** |
+
+## Data binding / filtering / counts  (measured 2026-06-30)
+| Concern | Verdict | Working approach / note |
+|---|---|---|
+| filter a subtable/list by the **parent record** | ✅ | datatableContext `permanentFilter` = `{and:[{"==":[{var:"<fk>.id"},{evaluate:[{expression:"{{data.id}}",required:false,type:"mustache"}]}]}]}`. **`required:false` DROPS the clause when empty** → show-all-if-none. Mustache for the record is `{{data.id}}`; field path is the camelCase FK + `.id` (backend-verify it — wrong path silently returns 0). |
+| filter by a **GLOBAL `appContext`/`globalState` value** (cross-screen, e.g. a project switcher) | ❌ config can't | **Proven for BOTH appContext and globalState.** (1) an autocomplete's `onChangeCustom` in the global `header` form does **not fire** on selection (the global value never gets written); (2) even when present, the datatable `permanentFilter` evaluates `{{contexts.appContext.X}}`/`{{globalState.X}}` as **empty** at query time, and tables **don't refetch** on a global change. A global cross-screen filter needs **frontend-source** app wiring (app-provider seed before render + a dispatching selector + reactive refetch). Filtering by the form's OWN `data.id` works (row above) — only global/session values fail. |
+| **collection count** in a header/badge | ✅ | Compute in `formSettings.onAfterDataLoad`: `var r = await http.get('…/Crud/GetAll?filter=<parentFk filter>&properties=id&maxResultCount=1000'); form.setFieldsValue({xCount:(r.data.result.items||[]).length});` then bind a text/badge to `{{data.xCount}}`. Use **`items.length`, NOT `result.totalCount`** (unreliable at small `maxResultCount`). Reading a live context value in a text for the count does NOT work (see the global-filter row). Proven on the rail count badges + "View Requirements · N". |
+
+## TODO — not yet freshly probed (probe if a block needs them)
+- Input styling in **readonly / Live mode** + the `enableStyleOnReadonly` flag (readonly inputs render empty without data — needs a bound value to measure).
+- Equal **N-cell distribution** (KIB strip): `customStyle flex:'1 1 0'` is inert on the outer div, so equal cells likely need `dimensions.width:'calc((100% - <gaps>)/N)'` — the meta strip works content-width + gap regardless.
+- ~~Legacy `style` / `desktop.style` override precedence~~ — **measured 2026-06-30**: the legacy `style` JS-string renders **inline on the element** and overrides designer props; crucially it **reaches the container inner div**, which is why it (and only it) fixes the datalist-card `overflow:auto` (see the row-template card row above). Footgun elsewhere; the deliberate fix here.
+- `tabs` active-ink styling; `collapsiblePanel` accent header.

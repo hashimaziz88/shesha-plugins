@@ -1,0 +1,256 @@
+{
+  "$schema": "shesha-style-capability-matrix/v2",
+  "measuredAt": {
+    "sheshaReactVersion": "0.43.x",
+    "backend": "local 0.43 backend :21021 (full live census, 1207 forms, 2026-07-01)",
+    "viewport": "1440x900",
+    "date": "2026-07-01"
+  },
+  "method": "per-cell control twin (channel omitted); no-op = rendered==control != intended. Probe forms: style-lab-{flex-split,surface,inputs,controls}-claude.",
+  "versionsAreFallback": "The `versions` map below is a FALLBACK. The authoritative way to get 0.43 versions is a RUNTIME VERSION-PROBE: census the live backend's own forms (FormConfiguration/GetAll, max version per component type) and author against THOSE. For any type not listed with a confirmed 0.43 value (card, progress, sectionSeparator), you MUST probe — do not reuse a 0.45 integer.",
+  "crossCuttingRules": [
+    "Component VERSION must match the live framework or the whole desktop style block silently no-ops (authoring numberField below its live 0.43 version = total no-op; at the live version it works). The right move on 0.43 is a RUNTIME VERSION-PROBE: census the running app's own forms (FormConfiguration/GetAll, max version per type) and copy those versions; the versions map here is a fallback.",
+    "A flex container MUST set display:'flex' or flexDirection/gap are inert.",
+    "Size flex-split children via desktop.dimensions.width (reaches outer div); customStyle:{flex} is inert on the outer div.",
+    "font on a CONTAINER is a no-op — put font on the text child.",
+    "MEASUREMENT: in LIVE mode, text/refListStatus components do NOT carry the data-sha-c-name attribute (only containers do). Query by component name only finds containers — read a CONTAINER's innerText to verify the text inside it. (Edit mode does stamp the attr on text, which is misleading.)",
+    "MEASUREMENT: a dispatched DOM MouseEvent does NOT fire a React/antd component's onChange (e.g. ant-select selection). Use a REAL click (Playwright browser_click) to trigger onChange handlers, or your interaction silently no-ops."
+  ],
+  "versions": {
+    "container": 7,
+    "text": 5,
+    "textField": 6,
+    "numberField": 5,
+    "dateField": 7,
+    "dropdown": 10,
+    "autocomplete": 8,
+    "checkbox": 5,
+    "datalist": 8,
+    "datatable": 11,
+    "datatableContext": 8,
+    "refListStatus": 4,
+    "buttonGroup": 13,
+    "alert": 2,
+    "validationErrors": 0,
+    "card": "probe",
+    "progress": "probe",
+    "sectionSeparator": 3,
+    "$note": "Full live census (FormConfiguration/GetAll, max version per type across ALL forms). Versions DRIFT across 0.43 point releases and this newer backend sits close to 0.45 for many types — the runtime version-probe against YOUR backend is authoritative; this is a fallback. card/progress had no form on the probed backend — probe yours. Walk EVERY form and EVERY nested value (a partial sample under-counts)."
+  },
+  "rows": [
+    {
+      "component": "container",
+      "channel": "background.color",
+      "verdict": "renders",
+      "key": "desktop.background{type:'color',color}"
+    },
+    {
+      "component": "container",
+      "channel": "background.gradient",
+      "verdict": "renders",
+      "key": "desktop.background{type:'gradient',gradient:{direction,colors:{0,1}}}"
+    },
+    {
+      "component": "container",
+      "channel": "shadow",
+      "verdict": "renders",
+      "key": "desktop.shadow{offsetX,offsetY,blurRadius,spreadRadius,color}"
+    },
+    {
+      "component": "container",
+      "channel": "border.all",
+      "verdict": "renders",
+      "key": "desktop.border.borderType:'all'"
+    },
+    {
+      "component": "container",
+      "channel": "border.perSide",
+      "verdict": "renders",
+      "key": "desktop.border.borderType:'custom' + only wanted side"
+    },
+    {
+      "component": "container",
+      "channel": "border.radius",
+      "verdict": "renders",
+      "key": "desktop.border.radius.all"
+    },
+    {
+      "component": "container",
+      "channel": "dimensions.width",
+      "verdict": "renders",
+      "key": "desktop.dimensions.width (% and calc) — the flex-split lever"
+    },
+    {
+      "component": "container",
+      "channel": "dimensions.minHeight",
+      "verdict": "gotcha",
+      "key": "desktop.dimensions.minHeight:'fit-content' — only DIMENSIONS channel reaching the outer div. NOTE: the `overflow` BOOLEAN prop is a no-op, but the legacy `style` overflow IS NOT (see 'container:style overflow') — that reaches the inner div."
+    },
+    {
+      "component": "container",
+      "channel": "stylingBox",
+      "verdict": "renders",
+      "key": "JSON string of padding*/margin*"
+    },
+    {
+      "component": "container",
+      "channel": "font",
+      "verdict": "no-op",
+      "fix": "put font on the text child, not the container"
+    },
+    {
+      "component": "container",
+      "channel": "customStyle.flex",
+      "verdict": "no-op",
+      "fix": "use desktop.dimensions.width"
+    },
+    {
+      "component": "textField",
+      "channel": "bg/border/radius/width/font",
+      "verdict": "renders",
+      "key": ".ant-input-affix-wrapper (at version 5)"
+    },
+    {
+      "component": "dateField",
+      "channel": "bg/border/radius/width/font",
+      "verdict": "renders",
+      "key": ".ant-picker (v5)"
+    },
+    {
+      "component": "dropdown",
+      "channel": "bg/border/radius/width/font",
+      "verdict": "renders",
+      "key": ".ant-select wrapper goes borderless + carries style (v7)"
+    },
+    {
+      "component": "autocomplete",
+      "channel": "bg/border/radius/width/font",
+      "verdict": "renders",
+      "key": ".ant-select wrapper (v6)"
+    },
+    {
+      "component": "numberField",
+      "channel": "dimensions.width",
+      "verdict": "partial",
+      "key": "applies at the live 0.43 version (v4); authoring below the live version is a total no-op — version artifact",
+      "fix": "author at the live 0.43 numberField version (probe it); wrap in styled container for full bg/border control"
+    },
+    {
+      "component": "text",
+      "channel": "fontSize/fontWeight/color/align",
+      "verdict": "renders",
+      "key": "fontSize (Tailwind class) + fontWeight DIRECT props; desktop.font for exact; {{{triple-brace}}} raw"
+    },
+    {
+      "component": "text",
+      "channel": "customStyle code-mode (letterSpacing/textTransform)",
+      "verdict": "renders",
+      "key": "text customStyle {_mode:'code',_code:'return {letterSpacing,textTransform,lineHeight,...}'} — proven on the live statusChip + KIB micro-labels (use for letter-spacing/uppercase the font channel can't express)"
+    },
+    {
+      "component": "progress",
+      "channel": "strokeColor + bar",
+      "verdict": "renders",
+      "key": "percent + strokeColor (probe the live 0.43 version)"
+    },
+    {
+      "component": "refListStatus",
+      "channel": "pill colours",
+      "verdict": "renders",
+      "key": "per-item bg/fg/border from reflist + customStyle pill (v4, proven live — 0.43 is HIGHER than 0.45, an inversion)"
+    },
+    {
+      "component": "buttonGroup",
+      "channel": "buttonType colour",
+      "verdict": "renders-via-app-theme",
+      "key": "primary=app-theme primary fill; colour is app-theme, NOT per-button (v10). GOTCHA: v10 tends to COLLAPSE to an overflow menu on 0.43 — verify buttons render inline after authoring; widen container / shrink button sizing if collapsed."
+    },
+    {
+      "component": "alert",
+      "channel": "custom desktop bg/border",
+      "verdict": "no-op",
+      "fix": "colour is alertType-driven; use the right alertType or a styled container for a custom callout (v2)"
+    },
+    {
+      "component": "checkbox",
+      "channel": "render",
+      "verdict": "renders",
+      "key": "v4 (app-theme styled)"
+    },
+    {
+      "component": "sectionSeparator",
+      "channel": "render",
+      "verdict": "renders",
+      "key": "probe the live 0.43 version"
+    },
+    {
+      "component": "card",
+      "channel": "bg/border/shadow/radius",
+      "verdict": "renders",
+      "key": "desktop block on the card; proven in the live form's rail panels (probe the live 0.43 version)"
+    },
+    {
+      "component": "datatable/datalist",
+      "channel": "header/row/card styling",
+      "verdict": "renders",
+      "key": "via datatableContext + list style channels; proven in live form (datatable v10 / datalist v7). NOTE: the 0.43 data wrapper is datatableContext v7 — there is NO dataContext component."
+    },
+    {
+      "component": "datalist-row-template",
+      "channel": "conditional visibility",
+      "verdict": "gotcha",
+      "key": "use `hidden` code-mode {_mode:'code',_code:'return <hide?>'} — NOT customStyle visibility",
+      "fix": "customVisibility is a NO-OP on row-template components (proven: empty chips/badges stayed visible); `hidden` hides correctly. Hide-when-empty: hidden returns true when the bound array/value is empty."
+    },
+    {
+      "component": "container",
+      "channel": "style overflow",
+      "verdict": "gotcha",
+      "key": "the LEGACY `style` JS-string ('return {overflow:\\'visible\\'}') renders INLINE and reaches the .sha-components-container-inner div — the ONLY channel that overrides the framework's hard-coded inner overflow:auto. VERIFIED 2026-06-30 live: setting it makes the inner's computed overflow match the value (no ▲▼ scroll arrows). Use overflow:'visible' on inner card rows, overflow:'hidden' on the card root.",
+      "fix": "THIS is the datalist-card scroll-arrow fix — NOT a global CSS override, NOT htmlRender. The `overflow` boolean prop and `customStyle` do NOT do this; the `style` channel does."
+    },
+    {
+      "component": "text",
+      "channel": "style whiteSpace/wordBreak/overflow",
+      "verdict": "gotcha",
+      "key": "multi-line body text in a datalist row card: style 'return {whiteSpace:\\'normal\\',wordBreak:\\'break-word\\',overflow:\\'hidden\\',display:\\'block\\',maxWidth:\\'100%\\'}' + dimensions.minHeight '24px' (reserve) → text wraps to full height, no form-item collapse, no overlap with the meta row below.",
+      "fix": "the form-item wrappers still report a short height, but with overflow:visible on the parent rows + the minHeight reserve that is harmless — content paints fully and siblings don't overlap."
+    },
+    {
+      "component": "refListStatus",
+      "channel": "style inline-flex pill",
+      "verdict": "gotcha",
+      "key": "in a row card: style 'return {display:\\'inline-flex\\',alignItems:\\'center\\',height:\\'26px\\',overflow:\\'visible\\',whiteSpace:\\'nowrap\\'}' + solidBackground:true → uniform, vertically-centred pill that doesn't collapse."
+    },
+    {
+      "component": "datalist-row-template",
+      "channel": "multi-element card overflow/collapse",
+      "verdict": "gotcha",
+      "key": "RESOLVED 2026-06-30 (was wrongly recorded as a hard limit needing global CSS). Root cause: the framework forces min-height:0 on each form-item-control-input (atomic class), so multi-line content paints via overflow:visible out of a collapsed wrapper → overlap + the container inner overflow:auto shows scroll arrows. FIX is markup-only: (1) `style` overflow on every container (visible on rows, hidden on card root); (2) dimensions.minHeight '24px' + style whiteSpace:normal/wordBreak on the body text; (3) dimensions.minHeight:'fit-content' on containers; (4) refListStatus pills styled inline-flex height 26px; (5) header flex row justifyContent:'space-between' for badges-left/actions-right.",
+      "fix": "canonical live examples: view-requirement-card, view-endpoint-row, view-role-row (rows of view-definition-details-claude). See component-recipes.md → 'Datalist row-template card' and the requirement-datalist-row block + overlay."
+    },
+    {
+      "component": "datatable/datalist",
+      "channel": "permanentFilter by parent data.id",
+      "verdict": "renders",
+      "key": "datatableContext.permanentFilter = {and:[{'==':[{var:'<fk>.id'},{evaluate:[{expression:'{{data.id}}',required:false,type:'mustache'}]}]}]}. `required:false` DROPS the clause when the value is empty (show-all-if-none). Mustache path for the form record is {{data.id}}; field path is the camelCase FK + '.id' (backend-verify it). Proven 2026-06-30."
+    },
+    {
+      "component": "datatable/datalist",
+      "channel": "filter by a GLOBAL appContext/globalState value",
+      "verdict": "no-op",
+      "fix": "CONFIG-ONLY DOES NOT WORK (proven 2026-06-30, BOTH appContext and globalState). Two walls: (1) an autocomplete's onChangeCustom in the global `header` form does NOT fire on selection — the global value is never written; (2) even when present, the datatable permanentFilter evaluates {{contexts.appContext.X}} / {{globalState.X}} as EMPTY at query time and tables do NOT refetch on a global change. A global cross-screen filter needs FRONTEND-SOURCE app wiring (app-provider seed from storage before render + a dispatching selector + reactive refetch). NOTE: filtering by the form's OWN record (data.id) works fine (row above) — only GLOBAL/session values fail. See memory reference-appcontext-project-filter."
+    },
+    {
+      "component": "text/refListStatus",
+      "channel": "collection count (badge/title)",
+      "verdict": "renders",
+      "key": "Compute counts in formSettings.onAfterDataLoad: `var r = await http.get('/api/dynamic/<Mod>/<Entity>/Crud/GetAll?filter='+<parentFk filter>+'&properties=id&maxResultCount=1000'); form.setFieldsValue({xCount: (r.data.result.items||[]).length});` then bind a text/badge content to `data.xCount`. Use items.length, NOT result.totalCount (unreliable at small maxResultCount). The reliable way to show a live collection count in a header/badge (the live appContext/context read in a text is NOT — see the global-filter row). Proven on the rail count badges + the View Requirements count."
+    }
+  ],
+  "todo": [
+    "input styling in readonly + enableStyleOnReadonly (needs bound value)",
+    "equal N-cell distribution (dimensions.width calc vs content-width)",
+    "tabs active-ink, collapsiblePanel accent"
+  ]
+}

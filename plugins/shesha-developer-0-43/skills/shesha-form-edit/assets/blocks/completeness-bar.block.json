@@ -1,0 +1,75 @@
+{
+  "$block": "completeness-bar",
+  "$archetype": "fragment",
+  "$styleOverlay": "completeness-bar",
+  "$slots": {
+    "label": "subtree.components.0.content",
+    "labelComponent": "subtree.components.0",
+    "progress": "subtree.components.1"
+  },
+  "$bindings": [
+    {
+      "placeholder": "$percentProperty",
+      "appliesTo": "subtree.components.1.propertyName",
+      "note": "Property on the bound entity holding the completeness percent (0-100). The progress bar reads its value from this property. For a static bar, omit propertyName and set subtree.components.1.percent to a literal number instead."
+    }
+  ],
+  "$validatedAgainst": [
+    "container:dimensions.width",
+    "container:stylingBox",
+    "container:font(no-op -> font on text child)",
+    "text:fontSize/fontWeight/color/align",
+    "progress:strokeColor + bar"
+  ],
+  "subtree": {
+    "type": "container",
+    "version": 7,
+    "propertyName": "kcell_completeness",
+    "componentName": "kcell_completeness",
+    "hidden": false,
+    "display": "flex",
+    "flexDirection": "column",
+    "justifyContent": "flex-start",
+    "alignItems": "stretch",
+    "gap": "2",
+    "components": [
+      {
+        "type": "text",
+        "version": 5,
+        "propertyName": "mlbl_completeness",
+        "componentName": "mlbl_completeness",
+        "hidden": false,
+        "textType": "span",
+        "content": "COMPLETENESS",
+        "contentDisplay": "content",
+        "dataType": "string",
+        "fontSize": "text-xs",
+        "fontWeight": "600",
+        "customStyle": {
+          "_mode": "code",
+          "_code": "return { letterSpacing: '0.06em', textTransform: 'uppercase' };"
+        }
+      },
+      {
+        "type": "progress",
+        "version": 3,
+        "propertyName": "$percentProperty",
+        "componentName": "completenessProgress",
+        "hidden": false,
+        "editMode": "readOnly",
+        "label": "Completeness",
+        "hideLabel": true,
+        "percent": 0,
+        "showInfo": true,
+        "progressType": "line",
+        "strokeColor": "$role:progressAccent",
+        "trailColor": "#e5e7eb",
+        "strokeLinecap": "round",
+        "customStyle": {
+          "_mode": "code",
+          "_code": "return { display: 'block', width: '100%', minWidth: '110px' };"
+        }
+      }
+    ]
+  }
+}

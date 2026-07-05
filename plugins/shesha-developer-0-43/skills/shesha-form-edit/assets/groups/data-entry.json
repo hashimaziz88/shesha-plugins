@@ -1,0 +1,460 @@
+{
+  "_meta": {
+    "version": 3,
+    "generated": "2026-05-22T08:44:41.645Z",
+    "group": "data-entry"
+  },
+  "button": {
+    "props": [
+      "actionConfiguration",
+      "buttonType",
+      "customStyle",
+      "icon",
+      "iconPosition"
+    ],
+    "types": {
+      "actionConfiguration": "object",
+      "icon": "string"
+    }
+  },
+  "buttonGroup": {
+    "props": [
+      "customStyle",
+      "gap",
+      "isInline",
+      "items"
+    ],
+    "types": {}
+  },
+  "dropdown": {
+    "props": [
+      "customStyle",
+      "dataSourceType",
+      "defaultTagStyle",
+      "disabledValues",
+      "disableItemValue",
+      "displayStyle",
+      "filter",
+      "ignoredValues",
+      "incomeCustomJs",
+      "labelCustomJs",
+      "mode",
+      "outcomeCustomJs",
+      "referenceListId",
+      "showIcon",
+      "showItemName",
+      "solidColor",
+      "tag",
+      "tagBackgroundStyle",
+      "tagBorderStyle",
+      "tagCustomStyle",
+      "tagDimensionStyle",
+      "tagFontStyle",
+      "tagShadowStyle",
+      "valueFormat",
+      "values"
+    ],
+    "types": {
+      "filter": "object",
+      "ignoredValues": "string",
+      "incomeCustomJs": "string",
+      "labelCustomJs": "string",
+      "solidColor": "boolean",
+      "tag": "string",
+      "customStyle": "script",
+      "dataSourceType": "string",
+      "defaultTagStyle": "object",
+      "disabledValues": "array",
+      "disableItemValue": "string",
+      "displayStyle": "string",
+      "mode": "string",
+      "outcomeCustomJs": "script",
+      "referenceListId": "string",
+      "showIcon": "boolean",
+      "showItemName": "boolean",
+      "tagBackgroundStyle": "object",
+      "tagBorderStyle": "object",
+      "tagCustomStyle": "string",
+      "tagDimensionStyle": "object",
+      "tagFontStyle": "object",
+      "tagShadowStyle": "object",
+      "values": "array",
+      "valueFormat": "string"
+    },
+    "scripts": {
+      "outcomeCustomJs": {
+        "returns": "any",
+        "async": false,
+        "context": [
+          "selectedValue",
+          "item",
+          "data",
+          "formData",
+          "contexts",
+          "globalState"
+        ],
+        "description": "Transform the selected value before it is stored on the form."
+      }
+    },
+    "constraints": {
+      "dataSourceType": {
+        "enum": [
+          "values",
+          "referenceList",
+          "url"
+        ]
+      },
+      "mode": {
+        "enum": [
+          "single",
+          "multiple",
+          "tags"
+        ]
+      },
+      "valueFormat": {
+        "enum": [
+          "simple",
+          "referenceListItem",
+          "custom"
+        ]
+      }
+    }
+  },
+  "numberField": {
+    "props": [
+      "customStyle",
+      "highPrecision",
+      "prefix",
+      "prefixIcon",
+      "stepNumeric",
+      "stepString",
+      "suffix",
+      "suffixIcon"
+    ],
+    "types": {
+      "highPrecision": "boolean",
+      "prefix": "string",
+      "suffix": "string",
+      "customStyle": "script",
+      "prefixIcon": "string",
+      "stepNumeric": "number",
+      "stepString": "string",
+      "suffixIcon": "string"
+    }
+  },
+  "textField": {
+    "props": [
+      "customStyle",
+      "prefix",
+      "prefixIcon",
+      "regExp",
+      "spellCheck",
+      "suffix",
+      "suffixIcon",
+      "textType"
+    ],
+    "types": {
+      "prefix": "string",
+      "regExp": "string",
+      "spellCheck": "boolean",
+      "suffix": "string",
+      "customStyle": "script",
+      "prefixIcon": "string",
+      "suffixIcon": "string",
+      "textType": "string"
+    },
+    "constraints": {
+      "textType": {
+        "enum": [
+          "text",
+          "password",
+          "email",
+          "url",
+          "search",
+          "tel"
+        ]
+      }
+    }
+  },
+  "textArea": {
+    "props": [
+      "allowClear",
+      "autoSize",
+      "passEmptyStringByDefault",
+      "showCount",
+      "spellCheck"
+    ],
+    "types": {
+      "autoSize": "boolean",
+      "passEmptyStringByDefault": "boolean",
+      "showCount": "boolean",
+      "allowClear": "boolean",
+      "spellCheck": "boolean"
+    }
+  },
+  "checkbox": {
+    "props": [
+      "customStyle"
+    ],
+    "types": {
+      "customStyle": "script"
+    }
+  },
+  "checkboxGroup": {
+    "props": [
+      "customStyle",
+      "dataSourceType",
+      "dataSourceUrl",
+      "direction",
+      "items",
+      "mode",
+      "reducerFunc",
+      "referenceListId"
+    ],
+    "types": {
+      "customStyle": "script",
+      "dataSourceType": "string",
+      "dataSourceUrl": "string",
+      "direction": "string",
+      "items": "array",
+      "mode": "string",
+      "reducerFunc": "script",
+      "referenceListId": "string"
+    },
+    "scripts": {
+      "reducerFunc": {
+        "returns": "array",
+        "async": false,
+        "context": [
+          "items",
+          "data",
+          "formData",
+          "contexts",
+          "globalState"
+        ],
+        "description": "Receives the raw items list; return a transformed array of { label, value } items."
+      }
+    },
+    "constraints": {
+      "direction": {
+        "enum": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "dataSourceType": {
+        "enum": [
+          "values",
+          "referenceList",
+          "url"
+        ]
+      }
+    }
+  },
+  "radio": {
+    "props": [
+      "customStyle",
+      "dataSourceType",
+      "dataSourceUrl",
+      "direction",
+      "items",
+      "reducerFunc",
+      "referenceListId"
+    ],
+    "types": {
+      "customStyle": "script",
+      "dataSourceType": "string",
+      "dataSourceUrl": "string",
+      "direction": "string",
+      "items": "array",
+      "reducerFunc": "script",
+      "referenceListId": "string"
+    },
+    "scripts": {
+      "reducerFunc": {
+        "returns": "array",
+        "async": false,
+        "context": [
+          "items",
+          "data",
+          "formData",
+          "contexts",
+          "globalState"
+        ],
+        "description": "Receives the raw items list; return a transformed array of { label, value } items."
+      }
+    },
+    "constraints": {
+      "direction": {
+        "enum": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "dataSourceType": {
+        "enum": [
+          "values",
+          "referenceList",
+          "url"
+        ]
+      }
+    }
+  },
+  "slider": {
+    "props": [
+      "customStyle",
+      "max",
+      "min"
+    ],
+    "types": {
+      "min": "number",
+      "customStyle": "script",
+      "max": "number"
+    }
+  },
+  "switch": {
+    "props": [
+      "customStyle"
+    ],
+    "types": {
+      "customStyle": "script"
+    }
+  },
+  "dateField": {
+    "props": [
+      "customStyle",
+      "dateFormat",
+      "defaultToMidnight",
+      "disabledDateFunc",
+      "disabledDateMode",
+      "disabledDateTemplate",
+      "disabledTimeFunc",
+      "disabledTimeMode",
+      "disabledTimeTemplate",
+      "monthFormat",
+      "picker",
+      "quarterFormat",
+      "range",
+      "resolveToUTC",
+      "showNow",
+      "showTime",
+      "timeFormat",
+      "weekFormat",
+      "yearFormat"
+    ],
+    "types": {
+      "range": "boolean",
+      "customStyle": "script",
+      "dateFormat": "string",
+      "defaultToMidnight": "boolean",
+      "disabledDateFunc": "script",
+      "disabledDateMode": "string",
+      "disabledDateTemplate": "string",
+      "disabledTimeFunc": "script",
+      "disabledTimeMode": "string",
+      "disabledTimeTemplate": "string",
+      "monthFormat": "string",
+      "picker": "string",
+      "quarterFormat": "string",
+      "resolveToUTC": "boolean",
+      "showNow": "boolean",
+      "showTime": "boolean",
+      "timeFormat": "string",
+      "weekFormat": "string",
+      "yearFormat": "string"
+    },
+    "scripts": {
+      "disabledDateFunc": {
+        "returns": "boolean",
+        "async": false,
+        "context": [
+          "current",
+          "data",
+          "formData",
+          "contexts",
+          "globalState"
+        ],
+        "description": "Receives current (moment); return true to disable that date."
+      },
+      "disabledTimeFunc": {
+        "returns": "object",
+        "async": false,
+        "context": [
+          "current",
+          "data",
+          "formData",
+          "contexts",
+          "globalState"
+        ],
+        "description": "Return { disabledHours, disabledMinutes, disabledSeconds } functions."
+      }
+    },
+    "constraints": {
+      "picker": {
+        "enum": [
+          "date",
+          "week",
+          "month",
+          "quarter",
+          "year"
+        ]
+      },
+      "disabledDateMode": {
+        "enum": [
+          "none",
+          "functionTemplate",
+          "customFunction"
+        ]
+      },
+      "disabledTimeMode": {
+        "enum": [
+          "none",
+          "functionTemplate",
+          "customFunction"
+        ]
+      }
+    }
+  },
+  "timePicker": {
+    "props": [
+      "allowClear",
+      "autoFocus",
+      "customStyle",
+      "format",
+      "hideDisabledOptions",
+      "hourStep",
+      "inputReadOnly",
+      "minuteStep",
+      "range",
+      "secondStep",
+      "showNow",
+      "use12Hours"
+    ],
+    "types": {
+      "allowClear": "boolean",
+      "autoFocus": "boolean",
+      "hourStep": "number",
+      "inputReadOnly": "boolean",
+      "range": "boolean",
+      "secondStep": "number",
+      "customStyle": "script",
+      "format": "string",
+      "hideDisabledOptions": "boolean",
+      "minuteStep": "number",
+      "showNow": "boolean",
+      "use12Hours": "boolean"
+    }
+  },
+  "rate": {
+    "props": [
+      "count",
+      "customStyle",
+      "icon"
+    ],
+    "types": {
+      "count": "number",
+      "customStyle": "script",
+      "icon": "string"
+    }
+  }
+}

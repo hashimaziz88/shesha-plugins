@@ -1,0 +1,110 @@
+{
+  "_meta": {
+    "version": 3,
+    "generated": "2026-05-22T08:44:41.645Z",
+    "group": "data-display"
+  },
+  "alert": {
+    "props": [
+      "alertType",
+      "banner",
+      "closable",
+      "customStyle",
+      "icon",
+      "marquee",
+      "showIcon",
+      "text"
+    ],
+    "types": {
+      "marquee": "boolean",
+      "showIcon": "boolean",
+      "text": "string"
+    }
+  },
+  "link": {
+    "props": [
+      "alignItems",
+      "content",
+      "customStyle",
+      "direction",
+      "hasChildren",
+      "href",
+      "justifyContent",
+      "justifyItems",
+      "target"
+    ],
+    "types": {
+      "hasChildren": "boolean",
+      "href": "string"
+    }
+  },
+  "statistic": {
+    "props": [
+      "precision",
+      "prefix",
+      "prefixIcon",
+      "suffix",
+      "suffixIcon",
+      "title",
+      "titleFont",
+      "titleStyle",
+      "value",
+      "valueFont",
+      "valueStyle"
+    ],
+    "types": {
+      "prefix": "string",
+      "suffix": "string",
+      "title": "string",
+      "titleStyle": "string",
+      "value": "number",
+      "valueStyle": "string"
+    }
+  },
+  "text": {
+    "props": [
+      "code",
+      "content",
+      "contentDisplay",
+      "contentType",
+      "copyable",
+      "dataType",
+      "dateFormat",
+      "delete",
+      "ellipsis",
+      "italic",
+      "keyboard",
+      "level",
+      "mark",
+      "numberFormat",
+      "textType",
+      "underline"
+    ],
+    "types": {
+      "delete": "boolean",
+      "ellipsis": "boolean",
+      "italic": "boolean",
+      "keyboard": "boolean"
+    }
+  },
+  "validationErrors": {
+    "props": [],
+    "types": {}
+  },
+  "barChart": {
+    "props": [],
+    "types": {}
+  },
+  "lineChart": {
+    "props": [],
+    "types": {}
+  },
+  "pieChart": {
+    "props": [],
+    "types": {}
+  },
+  "polarAreaChart": {
+    "props": [],
+    "types": {}
+  }
+}
