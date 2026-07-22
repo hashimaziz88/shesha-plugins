@@ -2,6 +2,529 @@
   "generation": "0.45",
   "sheshaVersion": "0.45.0",
   "components": {
+    "autocomplete": {
+      "renderStatus": "renders",
+      "settings": {
+        "size=small": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "983.5px",
+              "variant": "991.5px"
+            },
+            "height": {
+              "baseline": "30px",
+              "variant": "22px"
+            },
+            "wrapper.height": {
+              "baseline": "44px",
+              "variant": "34px"
+            },
+            "control.width": {
+              "baseline": "983.5px",
+              "variant": "991.5px"
+            },
+            "control.height": {
+              "baseline": "30px",
+              "variant": "22px"
+            }
+          }
+        },
+        "size=middle": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "size=large": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "height": {
+              "baseline": "30px",
+              "variant": "38px"
+            },
+            "fontSize": {
+              "baseline": "14px",
+              "variant": "16px"
+            },
+            "wrapper.height": {
+              "baseline": "44px",
+              "variant": "50px"
+            },
+            "control.height": {
+              "baseline": "30px",
+              "variant": "38px"
+            },
+            "control.fontSize": {
+              "baseline": "14px",
+              "variant": "16px"
+            }
+          }
+        },
+        "height=17px": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "wrapper.height": {
+              "baseline": "44px",
+              "variant": "33.5px"
+            }
+          }
+        },
+        "width=17px": {
+          "effect": "changes-style",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "983.5px",
+              "variant": "0px"
+            },
+            "control.width": {
+              "baseline": "983.5px",
+              "variant": "0px"
+            }
+          }
+        },
+        "hideBorder=true": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderSize=17": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "983.5px",
+              "variant": "951.5px"
+            },
+            "wrapper.height": {
+              "baseline": "44px",
+              "variant": "76px"
+            },
+            "control.width": {
+              "baseline": "983.5px",
+              "variant": "951.5px"
+            }
+          }
+        },
+        "borderRadius=17": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderType=solid": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderType=dashed": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderType=dotted": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderColor=#ff00aa": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundColor=#ff00aa": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "stylingBox=stylingBox17": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "983.5px",
+              "variant": "966.5px"
+            },
+            "wrapper.height": {
+              "baseline": "44px",
+              "variant": "56px"
+            },
+            "control.width": {
+              "baseline": "983.5px",
+              "variant": "966.5px"
+            }
+          }
+        },
+        "validate.required=true": {
+          "effect": "changes-geometry",
+          "bucket": "validation"
+        },
+        "dataSourceType=entitiesList": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "dataSourceType=url": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "dataSourceUrl=txt": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "keyPropName=txt": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "valuePropName=txt": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "useRawValues=true": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "allowFreeText=true": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "label=txt": {
+          "effect": "renders",
+          "bucket": "display",
+          "notes": "text/attribute difference only"
+        },
+        "labelAlign=left": {
+          "effect": "no-op",
+          "bucket": "display"
+        },
+        "labelAlign=right": {
+          "effect": "no-op",
+          "bucket": "display"
+        },
+        "hideLabel=true": {
+          "effect": "changes-geometry",
+          "bucket": "display",
+          "cssDelta": {
+            "width": {
+              "baseline": "983.5px",
+              "variant": "1326px"
+            },
+            "control.width": {
+              "baseline": "983.5px",
+              "variant": "1326px"
+            }
+          }
+        },
+        "description=txt": {
+          "effect": "changes-geometry",
+          "bucket": "display"
+        },
+        "placeholder=txt": {
+          "effect": "renders",
+          "bucket": "display",
+          "notes": "text/attribute difference only"
+        },
+        "defaultValue": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "entityTypeShortAlias": {
+          "effect": "not-measured",
+          "notes": "editorType autocomplete not visually measurable"
+        },
+        "entityDisplayProperty": {
+          "effect": "not-measured",
+          "notes": "editorType propertyAutocomplete not visually measurable"
+        },
+        "filter": {
+          "effect": "not-measured",
+          "notes": "editorType queryBuilder not visually measurable"
+        },
+        "onChangeCustom": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "quickviewFormPath": {
+          "effect": "not-measured",
+          "notes": "editorType formAutocomplete not visually measurable"
+        },
+        "permissions": {
+          "effect": "not-measured",
+          "notes": "group Security skipped"
+        },
+        "style": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "mode=single": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "mode=multiple": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "disableSearch=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "hidden=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "editMode=readOnly": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "quickviewEnabled=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "quickviewGetEntityUrl=txt": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "quickviewDisplayPropertyName=txt": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "quickviewWidth=17px": {
+          "effect": "not-measured",
+          "notes": "capped"
+        }
+      }
+    },
+    "chart": {
+      "renderStatus": "not-registered",
+      "settings": {
+        "height=17": {
+          "effect": "unknown",
+          "bucket": "appearance",
+          "notes": "component not registered"
+        },
+        "width=17": {
+          "effect": "unknown",
+          "bucket": "appearance",
+          "notes": "component not registered"
+        },
+        "url=txt": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "axisProperty=txt": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "valueProperty=txt": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "isAxisTimeSeries=true": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "timeSeriesFormat=day": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "timeSeriesFormat=month": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "timeSeriesFormat=year": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "timeSeriesFormat=day-month": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "timeSeriesFormat=day-month-year": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "timeSeriesFormat=month-year": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "orderDirection=asc": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "orderDirection=desc": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "allowFilter=true": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "aggregationMethod=sum": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "aggregationMethod=count": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "aggregationMethod=average": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "aggregationMethod=min": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "aggregationMethod=max": {
+          "effect": "unknown",
+          "bucket": "data",
+          "notes": "component not registered"
+        },
+        "label=txt": {
+          "effect": "unknown",
+          "bucket": "display",
+          "notes": "component not registered"
+        },
+        "hideLabel=true": {
+          "effect": "unknown",
+          "bucket": "display",
+          "notes": "component not registered"
+        },
+        "hidden=true": {
+          "effect": "unknown",
+          "bucket": "display",
+          "notes": "component not registered"
+        },
+        "dataMode=url": {
+          "effect": "unknown",
+          "bucket": "display",
+          "notes": "component not registered"
+        },
+        "dataMode=entityType": {
+          "effect": "unknown",
+          "bucket": "display",
+          "notes": "component not registered"
+        },
+        "showBorder=true": {
+          "effect": "unknown",
+          "bucket": "display",
+          "notes": "component not registered"
+        },
+        "chartType=pie": {
+          "effect": "unknown",
+          "bucket": "display",
+          "notes": "component not registered"
+        },
+        "chartType=bar": {
+          "effect": "unknown",
+          "bucket": "display",
+          "notes": "component not registered"
+        },
+        "entityType": {
+          "effect": "not-measured",
+          "notes": "editorType autocomplete not visually measurable"
+        },
+        "legendProperty": {
+          "effect": "not-measured",
+          "notes": "editorType propertyAutocomplete not visually measurable"
+        },
+        "orderBy": {
+          "effect": "not-measured",
+          "notes": "editorType propertyAutocomplete not visually measurable"
+        },
+        "filterProperties": {
+          "effect": "not-measured",
+          "notes": "editorType propertyAutocomplete not visually measurable"
+        },
+        "filters": {
+          "effect": "not-measured",
+          "notes": "editorType queryBuilder not visually measurable"
+        },
+        "chartType=polarArea": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "isDoughnut=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "simpleOrPivot=simple": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "simpleOrPivot=pivot": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "stacked=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "title=txt": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "showTitle=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "showLegend=false": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "legendPosition=bottom": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "legendPosition=left": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "legendPosition=right": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "showXAxisScale=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "showXAxisTitle=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "showYAxisScale=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "showYAxisTitle=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "tension=17": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "strokeWidth=17": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "strokeColor=#ff00aa": {
+          "effect": "not-measured",
+          "notes": "capped"
+        }
+      },
+      "notes": "component type not registered in this runtime — all settings unknown"
+    },
     "container": {
       "renderStatus": "renders",
       "settings": {
@@ -367,6 +890,227 @@
         }
       }
     },
+    "datatable": {
+      "renderStatus": "renders",
+      "settings": {
+        "minHeight=17": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "display": {
+              "baseline": "inline-block",
+              "variant": "block"
+            },
+            "position": {
+              "baseline": "static",
+              "variant": "relative"
+            },
+            "width": {
+              "baseline": "1352px",
+              "variant": "1368px"
+            },
+            "height": {
+              "baseline": "178px",
+              "variant": "68px"
+            },
+            "backgroundColor": {
+              "baseline": "rgb(255, 255, 255)",
+              "variant": "rgba(0, 0, 0, 0)"
+            },
+            "borderTopWidth": {
+              "baseline": "1px",
+              "variant": "0px"
+            }
+          }
+        },
+        "maxHeight=17": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "display": {
+              "baseline": "inline-block",
+              "variant": "block"
+            },
+            "position": {
+              "baseline": "static",
+              "variant": "relative"
+            },
+            "width": {
+              "baseline": "1352px",
+              "variant": "1368px"
+            },
+            "height": {
+              "baseline": "178px",
+              "variant": "39px"
+            },
+            "backgroundColor": {
+              "baseline": "rgb(255, 255, 255)",
+              "variant": "rgba(0, 0, 0, 0)"
+            },
+            "borderTopWidth": {
+              "baseline": "1px",
+              "variant": "0px"
+            }
+          }
+        },
+        "noDataText=txt": {
+          "effect": "changes-geometry",
+          "bucket": "display",
+          "cssDelta": {
+            "display": {
+              "baseline": "inline-block",
+              "variant": "block"
+            },
+            "position": {
+              "baseline": "static",
+              "variant": "relative"
+            },
+            "width": {
+              "baseline": "1352px",
+              "variant": "1368px"
+            },
+            "height": {
+              "baseline": "178px",
+              "variant": "68px"
+            },
+            "backgroundColor": {
+              "baseline": "rgb(255, 255, 255)",
+              "variant": "rgba(0, 0, 0, 0)"
+            },
+            "borderTopWidth": {
+              "baseline": "1px",
+              "variant": "0px"
+            }
+          }
+        },
+        "noDataSecondaryText=txt": {
+          "effect": "changes-geometry",
+          "bucket": "display",
+          "cssDelta": {
+            "display": {
+              "baseline": "inline-block",
+              "variant": "block"
+            },
+            "position": {
+              "baseline": "static",
+              "variant": "relative"
+            },
+            "width": {
+              "baseline": "1352px",
+              "variant": "1368px"
+            },
+            "height": {
+              "baseline": "178px",
+              "variant": "68px"
+            },
+            "backgroundColor": {
+              "baseline": "rgb(255, 255, 255)",
+              "variant": "rgba(0, 0, 0, 0)"
+            },
+            "borderTopWidth": {
+              "baseline": "1px",
+              "variant": "0px"
+            }
+          }
+        },
+        "items": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "useMultiselect": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "freezeHeaders": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "canEditInline": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "canEditInlineExpression": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "inlineEditMode": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "inlineSaveMode": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "customUpdateUrl": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "canAddInline": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "canAddInlineExpression": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "newRowCapturePosition": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "newRowInsertPosition": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "customCreateUrl": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "onNewRowInitialize": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "onRowSave": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "onRowSaveSuccessAction": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "canDeleteInline": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "customDeleteUrl": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "onRowDeleteSuccessAction": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "canDeleteInlineExpression": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "containerStyle": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "tableStyle": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "noDataIcon": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "permissions": {
+          "effect": "not-measured",
+          "notes": "group Security skipped"
+        }
+      }
+    },
     "dropdown": {
       "renderStatus": "renders",
       "settings": {
@@ -672,6 +1416,67 @@
         }
       },
       "consoleErrors": 4
+    },
+    "tabs": {
+      "renderStatus": "renders",
+      "settings": {
+        "size=small": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "wrapper.height": {
+              "baseline": "116px",
+              "variant": "108px"
+            }
+          }
+        },
+        "size=middle": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "size=large": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "wrapper.height": {
+              "baseline": "116px",
+              "variant": "126px"
+            }
+          }
+        },
+        "defaultActiveKey": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "tabType": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "position": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "hidden": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "tabs": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "style": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "stylingBox": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "permissions": {
+          "effect": "not-measured",
+          "notes": "group Security skipped"
+        }
+      }
     },
     "textField": {
       "renderStatus": "renders",
@@ -1003,7 +1808,88 @@
           "notes": "capped"
         }
       }
+    },
+    "wizard": {
+      "renderStatus": "renders",
+      "settings": {
+        "size=small": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "wrapper.height": {
+              "baseline": "136px",
+              "variant": "128px"
+            }
+          }
+        },
+        "size=middle": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "size=large": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "direction=horizontal": {
+          "effect": "no-op",
+          "bucket": "display"
+        },
+        "direction=vertical": {
+          "effect": "changes-geometry",
+          "bucket": "display",
+          "cssDelta": {
+            "wrapper.height": {
+              "baseline": "136px",
+              "variant": "164px"
+            }
+          }
+        },
+        "labelPlacement=left": {
+          "effect": "no-op",
+          "bucket": "display"
+        },
+        "labelPlacement=top": {
+          "effect": "no-op",
+          "bucket": "display"
+        },
+        "wizardType": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "persistStep": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "defaultActiveStep": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "buttonsLayout": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "hidden": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "steps": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "style": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "stylingBox": {
+          "effect": "not-measured",
+          "notes": "no editorType and no heuristic match"
+        },
+        "permissions": {
+          "effect": "not-measured",
+          "notes": "group Security skipped"
+        }
+      }
     }
   },
-  "measuredAt": "2026-07-22T09:27:16.447Z"
+  "measuredAt": "2026-07-22T09:34:56.361Z"
 }

@@ -11,8 +11,976 @@
     "discoveredAt": "2026-07-22T09:24:45.509Z",
     "matched": 60
   },
-  "helperForms": {},
+  "helperForms": {
+    "gym-item-card": {
+      "backendId": "675acab5-f594-4dd4-9679-f8248846b360"
+    }
+  },
   "forms": {
+    "gym-autocomplete": {
+      "type": "autocomplete",
+      "componentVersion": 6,
+      "markupSha1": "9dbb43a4ba40c989f8008d7f64fedfa80bdc67af",
+      "backendId": "4c986373-0d3d-4b01-8550-c62920e605fb",
+      "lastPushedAt": "2026-07-22T09:32:58.250Z",
+      "instances": [
+        {
+          "variantId": "gym-autocomplete-baseline",
+          "kind": "baseline"
+        },
+        {
+          "variantId": "gym-autocomplete-v-4e66562d",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "size",
+          "value": "small",
+          "valueKey": "small"
+        },
+        {
+          "variantId": "gym-autocomplete-v-ca52e19b",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "size",
+          "value": "middle",
+          "valueKey": "middle"
+        },
+        {
+          "variantId": "gym-autocomplete-v-15638072",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "size",
+          "value": "large",
+          "valueKey": "large"
+        },
+        {
+          "variantId": "gym-autocomplete-v-8c130e7d",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "height",
+          "value": "17px",
+          "valueKey": "17px"
+        },
+        {
+          "variantId": "gym-autocomplete-v-e36b2407",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "width",
+          "value": "17px",
+          "valueKey": "17px"
+        },
+        {
+          "variantId": "gym-autocomplete-v-f65d35ed",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "hideBorder",
+          "value": true,
+          "valueKey": "true"
+        },
+        {
+          "variantId": "gym-autocomplete-v-6f73168d",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "borderSize",
+          "value": 17,
+          "valueKey": "17"
+        },
+        {
+          "variantId": "gym-autocomplete-v-8040eb3f",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "borderRadius",
+          "value": 17,
+          "valueKey": "17"
+        },
+        {
+          "variantId": "gym-autocomplete-v-21c00290",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "borderType",
+          "value": "solid",
+          "valueKey": "solid"
+        },
+        {
+          "variantId": "gym-autocomplete-v-09c05b85",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "borderType",
+          "value": "dashed",
+          "valueKey": "dashed"
+        },
+        {
+          "variantId": "gym-autocomplete-v-bc41e63c",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "borderType",
+          "value": "dotted",
+          "valueKey": "dotted"
+        },
+        {
+          "variantId": "gym-autocomplete-v-42379e09",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "borderColor",
+          "value": "#ff00aa",
+          "valueKey": "#ff00aa"
+        },
+        {
+          "variantId": "gym-autocomplete-v-b6de732b",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "backgroundColor",
+          "value": "#ff00aa",
+          "valueKey": "#ff00aa"
+        },
+        {
+          "variantId": "gym-autocomplete-v-5f60c225",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "stylingBox",
+          "value": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+          "valueKey": "stylingBox17"
+        },
+        {
+          "variantId": "gym-autocomplete-v-9d11999c",
+          "kind": "variant",
+          "bucket": "validation",
+          "path": "validate.required",
+          "value": true,
+          "valueKey": "true"
+        },
+        {
+          "variantId": "gym-autocomplete-v-269982ed",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "dataSourceType",
+          "value": "entitiesList",
+          "valueKey": "entitiesList"
+        },
+        {
+          "variantId": "gym-autocomplete-v-349ca2df",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "dataSourceType",
+          "value": "url",
+          "valueKey": "url"
+        },
+        {
+          "variantId": "gym-autocomplete-v-6d776014",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "dataSourceUrl",
+          "value": "GYM-TXT-dataSourceUrl",
+          "valueKey": "txt"
+        },
+        {
+          "variantId": "gym-autocomplete-v-f2c796dc",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "keyPropName",
+          "value": "GYM-TXT-keyPropName",
+          "valueKey": "txt"
+        },
+        {
+          "variantId": "gym-autocomplete-v-5432d121",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "valuePropName",
+          "value": "GYM-TXT-valuePropName",
+          "valueKey": "txt"
+        },
+        {
+          "variantId": "gym-autocomplete-v-8b96834f",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "useRawValues",
+          "value": true,
+          "valueKey": "true"
+        },
+        {
+          "variantId": "gym-autocomplete-v-f92469d9",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "allowFreeText",
+          "value": true,
+          "valueKey": "true"
+        },
+        {
+          "variantId": "gym-autocomplete-v-1b640f90",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "label",
+          "value": "GYM-TXT-label",
+          "valueKey": "txt"
+        },
+        {
+          "variantId": "gym-autocomplete-v-ba90c652",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "labelAlign",
+          "value": "left",
+          "valueKey": "left"
+        },
+        {
+          "variantId": "gym-autocomplete-v-9014b9af",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "labelAlign",
+          "value": "right",
+          "valueKey": "right"
+        },
+        {
+          "variantId": "gym-autocomplete-v-8ae8db35",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "hideLabel",
+          "value": true,
+          "valueKey": "true"
+        },
+        {
+          "variantId": "gym-autocomplete-v-a76e668c",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "description",
+          "value": "GYM-TXT-description",
+          "valueKey": "txt"
+        },
+        {
+          "variantId": "gym-autocomplete-v-ae8981bd",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "placeholder",
+          "value": "GYM-TXT-placeholder",
+          "valueKey": "txt"
+        }
+      ],
+      "notMeasured": [
+        {
+          "path": "defaultValue",
+          "reason": "editorType codeEditor not visually measurable"
+        },
+        {
+          "path": "entityTypeShortAlias",
+          "reason": "editorType autocomplete not visually measurable"
+        },
+        {
+          "path": "entityDisplayProperty",
+          "reason": "editorType propertyAutocomplete not visually measurable"
+        },
+        {
+          "path": "filter",
+          "reason": "editorType queryBuilder not visually measurable"
+        },
+        {
+          "path": "onChangeCustom",
+          "reason": "editorType codeEditor not visually measurable"
+        },
+        {
+          "path": "quickviewFormPath",
+          "reason": "editorType formAutocomplete not visually measurable"
+        },
+        {
+          "path": "permissions",
+          "reason": "group Security skipped"
+        },
+        {
+          "path": "style",
+          "reason": "editorType codeEditor not visually measurable"
+        },
+        {
+          "path": "mode=single",
+          "reason": "capped"
+        },
+        {
+          "path": "mode=multiple",
+          "reason": "capped"
+        },
+        {
+          "path": "disableSearch=true",
+          "reason": "capped"
+        },
+        {
+          "path": "hidden=true",
+          "reason": "capped"
+        },
+        {
+          "path": "editMode=readOnly",
+          "reason": "capped"
+        },
+        {
+          "path": "quickviewEnabled=true",
+          "reason": "capped"
+        },
+        {
+          "path": "quickviewGetEntityUrl=txt",
+          "reason": "capped"
+        },
+        {
+          "path": "quickviewDisplayPropertyName=txt",
+          "reason": "capped"
+        },
+        {
+          "path": "quickviewWidth=17px",
+          "reason": "capped"
+        }
+      ],
+      "lastMeasuredAt": "2026-07-22T09:35:06.838Z"
+    },
+    "gym-chart": {
+      "type": "chart",
+      "componentVersion": 2,
+      "markupSha1": "dd89f1f6bacb6cfeb441e7d6ad11bdde46a2cecf",
+      "backendId": "b457417c-1a9f-4d7c-91bd-ebe36db988c6",
+      "lastPushedAt": "2026-07-22T09:32:58.597Z",
+      "instances": [
+        {
+          "variantId": "gym-chart-baseline",
+          "kind": "baseline"
+        },
+        {
+          "variantId": "gym-chart-v-74da65a7",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "height",
+          "value": 17,
+          "valueKey": "17"
+        },
+        {
+          "variantId": "gym-chart-v-c296d8bc",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "width",
+          "value": 17,
+          "valueKey": "17"
+        },
+        {
+          "variantId": "gym-chart-v-88b03ad6",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "url",
+          "value": "GYM-TXT-url",
+          "valueKey": "txt"
+        },
+        {
+          "variantId": "gym-chart-v-1c5eee36",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "axisProperty",
+          "value": "GYM-TXT-axisProperty",
+          "valueKey": "txt"
+        },
+        {
+          "variantId": "gym-chart-v-d3739e3a",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "valueProperty",
+          "value": "GYM-TXT-valueProperty",
+          "valueKey": "txt"
+        },
+        {
+          "variantId": "gym-chart-v-e50de9ed",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "isAxisTimeSeries",
+          "value": true,
+          "valueKey": "true"
+        },
+        {
+          "variantId": "gym-chart-v-c9da32b7",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "timeSeriesFormat",
+          "value": "day",
+          "valueKey": "day"
+        },
+        {
+          "variantId": "gym-chart-v-d925f5ac",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "timeSeriesFormat",
+          "value": "month",
+          "valueKey": "month"
+        },
+        {
+          "variantId": "gym-chart-v-1239cb50",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "timeSeriesFormat",
+          "value": "year",
+          "valueKey": "year"
+        },
+        {
+          "variantId": "gym-chart-v-60219c0f",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "timeSeriesFormat",
+          "value": "day-month",
+          "valueKey": "day-month"
+        },
+        {
+          "variantId": "gym-chart-v-f84ff523",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "timeSeriesFormat",
+          "value": "day-month-year",
+          "valueKey": "day-month-year"
+        },
+        {
+          "variantId": "gym-chart-v-4da039a0",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "timeSeriesFormat",
+          "value": "month-year",
+          "valueKey": "month-year"
+        },
+        {
+          "variantId": "gym-chart-v-99b67563",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "orderDirection",
+          "value": "asc",
+          "valueKey": "asc"
+        },
+        {
+          "variantId": "gym-chart-v-6d8df4af",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "orderDirection",
+          "value": "desc",
+          "valueKey": "desc"
+        },
+        {
+          "variantId": "gym-chart-v-61e619d8",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "allowFilter",
+          "value": true,
+          "valueKey": "true"
+        },
+        {
+          "variantId": "gym-chart-v-fa784aa6",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "aggregationMethod",
+          "value": "sum",
+          "valueKey": "sum"
+        },
+        {
+          "variantId": "gym-chart-v-c8932a39",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "aggregationMethod",
+          "value": "count",
+          "valueKey": "count"
+        },
+        {
+          "variantId": "gym-chart-v-1099468a",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "aggregationMethod",
+          "value": "average",
+          "valueKey": "average"
+        },
+        {
+          "variantId": "gym-chart-v-d607f82d",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "aggregationMethod",
+          "value": "min",
+          "valueKey": "min"
+        },
+        {
+          "variantId": "gym-chart-v-f1e71d42",
+          "kind": "variant",
+          "bucket": "data",
+          "path": "aggregationMethod",
+          "value": "max",
+          "valueKey": "max"
+        },
+        {
+          "variantId": "gym-chart-v-1b640f90",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "label",
+          "value": "GYM-TXT-label",
+          "valueKey": "txt"
+        },
+        {
+          "variantId": "gym-chart-v-8ae8db35",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "hideLabel",
+          "value": true,
+          "valueKey": "true"
+        },
+        {
+          "variantId": "gym-chart-v-a058f647",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "hidden",
+          "value": true,
+          "valueKey": "true"
+        },
+        {
+          "variantId": "gym-chart-v-21736af6",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "dataMode",
+          "value": "url",
+          "valueKey": "url"
+        },
+        {
+          "variantId": "gym-chart-v-2486b146",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "dataMode",
+          "value": "entityType",
+          "valueKey": "entityType"
+        },
+        {
+          "variantId": "gym-chart-v-e0bbf3be",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "showBorder",
+          "value": true,
+          "valueKey": "true"
+        },
+        {
+          "variantId": "gym-chart-v-448ee191",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "chartType",
+          "value": "pie",
+          "valueKey": "pie"
+        },
+        {
+          "variantId": "gym-chart-v-5053dd8d",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "chartType",
+          "value": "bar",
+          "valueKey": "bar"
+        }
+      ],
+      "notMeasured": [
+        {
+          "path": "entityType",
+          "reason": "editorType autocomplete not visually measurable"
+        },
+        {
+          "path": "legendProperty",
+          "reason": "editorType propertyAutocomplete not visually measurable"
+        },
+        {
+          "path": "orderBy",
+          "reason": "editorType propertyAutocomplete not visually measurable"
+        },
+        {
+          "path": "filterProperties",
+          "reason": "editorType propertyAutocomplete not visually measurable"
+        },
+        {
+          "path": "filters",
+          "reason": "editorType queryBuilder not visually measurable"
+        },
+        {
+          "path": "chartType=polarArea",
+          "reason": "capped"
+        },
+        {
+          "path": "isDoughnut=true",
+          "reason": "capped"
+        },
+        {
+          "path": "simpleOrPivot=simple",
+          "reason": "capped"
+        },
+        {
+          "path": "simpleOrPivot=pivot",
+          "reason": "capped"
+        },
+        {
+          "path": "stacked=true",
+          "reason": "capped"
+        },
+        {
+          "path": "title=txt",
+          "reason": "capped"
+        },
+        {
+          "path": "showTitle=true",
+          "reason": "capped"
+        },
+        {
+          "path": "showLegend=false",
+          "reason": "capped"
+        },
+        {
+          "path": "legendPosition=bottom",
+          "reason": "capped"
+        },
+        {
+          "path": "legendPosition=left",
+          "reason": "capped"
+        },
+        {
+          "path": "legendPosition=right",
+          "reason": "capped"
+        },
+        {
+          "path": "showXAxisScale=true",
+          "reason": "capped"
+        },
+        {
+          "path": "showXAxisTitle=true",
+          "reason": "capped"
+        },
+        {
+          "path": "showYAxisScale=true",
+          "reason": "capped"
+        },
+        {
+          "path": "showYAxisTitle=true",
+          "reason": "capped"
+        },
+        {
+          "path": "tension=17",
+          "reason": "capped"
+        },
+        {
+          "path": "strokeWidth=17",
+          "reason": "capped"
+        },
+        {
+          "path": "strokeColor=#ff00aa",
+          "reason": "capped"
+        }
+      ],
+      "lastMeasuredAt": "2026-07-22T09:35:20.303Z"
+    },
+    "gym-datatable": {
+      "type": "datatable",
+      "componentVersion": 11,
+      "markupSha1": "8c68359b1cea5b46e9aadaad29b6bbfb5b4deeb1",
+      "backendId": "20318e0f-0536-4b40-b809-8ddcd391ef07",
+      "lastPushedAt": "2026-07-22T09:32:58.861Z",
+      "instances": [
+        {
+          "variantId": "gym-datatable-baseline",
+          "kind": "baseline"
+        },
+        {
+          "variantId": "gym-datatable-v-803c7d11",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "minHeight",
+          "value": 17,
+          "valueKey": "17"
+        },
+        {
+          "variantId": "gym-datatable-v-39c77f73",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "maxHeight",
+          "value": 17,
+          "valueKey": "17"
+        },
+        {
+          "variantId": "gym-datatable-v-1c4205db",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "noDataText",
+          "value": "GYM-TXT-noDataText",
+          "valueKey": "txt"
+        },
+        {
+          "variantId": "gym-datatable-v-43dd0578",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "noDataSecondaryText",
+          "value": "GYM-TXT-noDataSecondaryText",
+          "valueKey": "txt"
+        }
+      ],
+      "notMeasured": [
+        {
+          "path": "items",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "useMultiselect",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "freezeHeaders",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "canEditInline",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "canEditInlineExpression",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "inlineEditMode",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "inlineSaveMode",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "customUpdateUrl",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "canAddInline",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "canAddInlineExpression",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "newRowCapturePosition",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "newRowInsertPosition",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "customCreateUrl",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "onNewRowInitialize",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "onRowSave",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "onRowSaveSuccessAction",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "canDeleteInline",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "customDeleteUrl",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "onRowDeleteSuccessAction",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "canDeleteInlineExpression",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "containerStyle",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "tableStyle",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "noDataIcon",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "permissions",
+          "reason": "group Security skipped"
+        }
+      ],
+      "lastMeasuredAt": "2026-07-22T09:35:35.959Z"
+    },
+    "gym-tabs": {
+      "type": "tabs",
+      "componentVersion": 3,
+      "markupSha1": "f2a2fe02dedc4e5223f7879523a7ac691489d12d",
+      "backendId": "e32dc86f-5c66-4763-a37c-a6464daf26dd",
+      "lastPushedAt": "2026-07-22T09:32:59.239Z",
+      "instances": [
+        {
+          "variantId": "gym-tabs-baseline",
+          "kind": "baseline"
+        },
+        {
+          "variantId": "gym-tabs-v-4e66562d",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "size",
+          "value": "small",
+          "valueKey": "small"
+        },
+        {
+          "variantId": "gym-tabs-v-ca52e19b",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "size",
+          "value": "middle",
+          "valueKey": "middle"
+        },
+        {
+          "variantId": "gym-tabs-v-15638072",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "size",
+          "value": "large",
+          "valueKey": "large"
+        }
+      ],
+      "notMeasured": [
+        {
+          "path": "defaultActiveKey",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "tabType",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "position",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "hidden",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "tabs",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "style",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "stylingBox",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "permissions",
+          "reason": "group Security skipped"
+        }
+      ],
+      "lastMeasuredAt": "2026-07-22T09:35:50.904Z"
+    },
+    "gym-wizard": {
+      "type": "wizard",
+      "componentVersion": 10,
+      "markupSha1": "b51532e644ea2df7ec8b43c2bf4efff76cddc1f0",
+      "backendId": "22d1612b-0621-4fb9-a87e-7f2cf53e8487",
+      "lastPushedAt": "2026-07-22T09:32:59.471Z",
+      "instances": [
+        {
+          "variantId": "gym-wizard-baseline",
+          "kind": "baseline"
+        },
+        {
+          "variantId": "gym-wizard-v-4e66562d",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "size",
+          "value": "small",
+          "valueKey": "small"
+        },
+        {
+          "variantId": "gym-wizard-v-ca52e19b",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "size",
+          "value": "middle",
+          "valueKey": "middle"
+        },
+        {
+          "variantId": "gym-wizard-v-15638072",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "size",
+          "value": "large",
+          "valueKey": "large"
+        },
+        {
+          "variantId": "gym-wizard-v-8331f582",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "direction",
+          "value": "horizontal",
+          "valueKey": "horizontal"
+        },
+        {
+          "variantId": "gym-wizard-v-86babe7f",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "direction",
+          "value": "vertical",
+          "valueKey": "vertical"
+        },
+        {
+          "variantId": "gym-wizard-v-2a1b2715",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "labelPlacement",
+          "value": "left",
+          "valueKey": "left"
+        },
+        {
+          "variantId": "gym-wizard-v-fb64e864",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "labelPlacement",
+          "value": "top",
+          "valueKey": "top"
+        }
+      ],
+      "notMeasured": [
+        {
+          "path": "wizardType",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "persistStep",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "defaultActiveStep",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "buttonsLayout",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "hidden",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "steps",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "style",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "stylingBox",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "permissions",
+          "reason": "group Security skipped"
+        }
+      ],
+      "lastMeasuredAt": "2026-07-22T09:36:05.300Z"
+    },
     "gym-container": {
       "type": "container",
       "componentVersion": 6,

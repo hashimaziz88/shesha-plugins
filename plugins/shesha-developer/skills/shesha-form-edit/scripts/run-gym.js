@@ -186,12 +186,22 @@ for (const formName of formNames) {
     }
 
     const baseline = snaps[`gym-${type}-baseline`];
-    comp.renderStatus = baseline
-      ? (baseline.childCount > 0 ? 'renders' : 'renders-degraded')
-      : 'error';
+    const notRegistered = baseline && /not registered/i.test(baseline.text || '');
+    comp.renderStatus = !baseline
+      ? 'error'
+      : notRegistered
+        ? 'not-registered'
+        : baseline.childCount > 0 ? 'renders' : 'renders-degraded';
     if (!baseline) comp.notes = 'baseline wrapper not found in DOM';
+    if (notRegistered) comp.notes = 'component type not registered in this runtime — all settings unknown';
 
     for (const inst of entry.instances) {
+      if (notRegistered) {
+        if (inst.kind === 'variant') {
+          comp.settings[`${inst.path}=${inst.valueKey}`] = { effect: 'unknown', bucket: inst.bucket, notes: 'component not registered' };
+        }
+        continue;
+      }
       if (inst.kind !== 'variant') continue;
       const verdict = classify(baseline, snaps[inst.variantId], { expectTokens: expectTokensFor(inst.value) });
       const key = `${inst.path}=${inst.valueKey}`;

@@ -47,9 +47,19 @@ export function probeFn(cfg) {
       }
     }
 
+    let canvasSig = null;
+    const canvas = w.querySelector('canvas');
+    if (canvas) {
+      try {
+        const durl = canvas.toDataURL();
+        canvasSig = `${durl.length}:${durl.slice(-40)}`;
+      } catch { canvasSig = 'tainted'; }
+    }
+
     out[name] = {
       rect: { x: round(r.x), y: round(r.y), w: round(r.width), h: round(r.height) },
       childCount: w.querySelectorAll('*').length,
+      canvasSig,
       wrapperStyle: snapshotEl(w),
       style: snapshotEl(measured),
       controlStyle: control ? snapshotEl(control) : null,

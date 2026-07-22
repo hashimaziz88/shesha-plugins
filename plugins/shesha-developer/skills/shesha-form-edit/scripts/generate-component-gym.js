@@ -12,7 +12,9 @@ import { fileURLToPath } from 'node:url';
 import { gymUuid, shortHash, sha1 } from './gym-lib/ids.js';
 import { bucketFor, BUCKET_PRIORITY } from './gym-lib/groups.js';
 import { representativeValues } from './gym-lib/value-reps.js';
-import { scaffoldFor, makeChild, NEVER_VARY, GYM_ENTITY, GYM_MODULE } from './gym-lib/scaffolds.js';
+import {
+  scaffoldFor, makeChild, NEVER_VARY, GYM_ENTITY, GYM_MODULE, HELPER_FORM, buildHelperForm,
+} from './gym-lib/scaffolds.js';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const KB_DIR = path.join(SCRIPT_DIR, '..', 'assets', 'components-kb');
@@ -61,6 +63,7 @@ function buildInstance(type, kb, variantKey, override) {
     instance[slot] = scaffold.children(type, makeChild(type, variantKey));
     for (const child of instance[slot]) child.parentId = instance.id;
   }
+  if (scaffold.build) scaffold.build(instance, makeChild(type, `${variantKey}-build`));
   if (override) setDeep(instance, override.path, override.value);
   return { instance, scaffold };
 }
@@ -224,10 +227,19 @@ const manifest = {
   forms: {},
 };
 
+// helper form referenced by datalist/subForm scaffolds
+{
+  const helperJson = JSON.stringify(buildHelperForm(index.textField?.version ?? 5), null, 2) + '\n';
+  fs.writeFileSync(path.join(OUT_DIR, 'forms', `${HELPER_FORM}.json`), helperJson);
+  manifest.helperForms[HELPER_FORM] = {
+    backendId: prior.helperForms?.[HELPER_FORM]?.backendId ?? null,
+  };
+}
+
 let totalVariants = 0;
 for (const type of types) {
   const { form, instances, notMeasured, componentVersion } = generateForType(type, index[type]);
-  const formName = `gym-${type.toLowerCase()}`;
+  const formName = `gym-${type.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
   const json = JSON.stringify(form, null, 2) + '\n';
   fs.writeFileSync(path.join(OUT_DIR, 'forms', `${formName}.json`), json);
   const priorForm = prior.forms?.[formName];

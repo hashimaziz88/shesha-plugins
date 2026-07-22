@@ -79,6 +79,9 @@ export function classify(baselineSnap, variantSnap, opts = {}) {
   ) {
     return { effect: 'renders', notes: 'text/attribute difference only' };
   }
+  if (baselineSnap.canvasSig && variantSnap.canvasSig && baselineSnap.canvasSig !== variantSnap.canvasSig) {
+    return { effect: 'renders', notes: 'canvas pixels differ (visual change not visible in CSS)' };
+  }
   return { effect: 'no-op' };
 }
 
