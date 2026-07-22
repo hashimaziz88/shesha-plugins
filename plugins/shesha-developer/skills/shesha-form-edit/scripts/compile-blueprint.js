@@ -90,6 +90,29 @@ function titleCase(prop) {
   return last.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (c) => c.toUpperCase());
 }
 
+// ---- React-design-intuition scales ------------------------------------------
+// The model designs in React terms (Stack/Row/Grid/Card, gap/padding, heading
+// levels); these map each to the measured Shesha channel. Colour/brand is the
+// Style pass's job — here we set only structural layout + hierarchy defaults.
+const SPACE = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, '2xl': 32 };
+const resolveSpace = (v, dflt) => {
+  if (v === undefined || v === null) return dflt;
+  if (typeof v === 'number') return v;
+  if (SPACE[v] !== undefined) return SPACE[v];
+  const n = parseInt(v, 10);
+  return Number.isFinite(n) ? n : dflt;
+};
+const ALIGN = { start: 'flex-start', center: 'center', end: 'flex-end', stretch: 'stretch', baseline: 'baseline' };
+const JUSTIFY = { start: 'flex-start', center: 'center', end: 'flex-end', 'space-between': 'space-between', 'space-around': 'space-around' };
+// structural heading hierarchy (px/weight); the brand type scale overrides in the Style pass
+const HEADING = { 1: { size: 24, weight: '600' }, 2: { size: 20, weight: '600' }, 3: { size: 16, weight: '600' }, 4: { size: 14, weight: '600' } };
+
+// pad a stylingBox JSON string from a padding spec (uniform px)
+function paddingBox(v) {
+  const p = String(resolveSpace(v, 0));
+  return JSON.stringify({ paddingTop: p, paddingRight: p, paddingBottom: p, paddingLeft: p });
+}
+
 const bindingIndex = new Map((bp.bindings ?? []).map((b) => [b.property, b]));
 
 function fieldComponent(node, idKey) {
@@ -107,6 +130,9 @@ function fieldComponent(node, idKey) {
     version: ver(type),
     propertyName: prop,
     label: binding.label ?? node.title ?? titleCase(prop),
+    labelAlign: 'left',
+    // fields fill their column; minWidth:0 lets flex columns shrink cleanly [flexbox min-content trap]
+    desktop: { dimensions: { width: '100%', minWidth: '0px' } },
   };
   if (type === 'dropdown' || type === 'radio' || type === 'refListStatus') {
     const p = propsMeta?.get(String(prop).toLowerCase());
@@ -138,7 +164,19 @@ function compileNode(node, idPrefix) {
         componentName: node.name ?? `text${seq}`,
         content: node.content ?? node.title ?? '', textType: 'span', contentDisplay: 'content',
       };
+    case 'heading': {
+      const h = HEADING[node.level ?? 2] ?? HEADING[2];
+      return {
+        id: gymUuid('bp', bp.form.name, idKey),
+        type: 'text', version: ver('text'),
+        componentName: node.name ?? `heading${seq}`,
+        content: node.content ?? node.title ?? '', textType: 'span', contentDisplay: 'content',
+        // structural hierarchy so the page reads even before the brand Style pass [R-030]
+        desktop: { font: { size: h.size, weight: h.weight } },
+      };
+    }
     case 'buttonGroup':
+    case 'actions':
       return floorButtonGroup(idKey);
     case 'datatable': {
       const table = {
@@ -205,46 +243,114 @@ function compileNode(node, idPrefix) {
       for (const t of tabs.tabs) for (const c of t.components) c.parentId = tabs.id;
       return tabs;
     }
-    default: { // region | container | row | card | inline containers
-      const isRow = node.kind === 'row';
-      const container = {
-        id: gymUuid('bp', bp.form.name, idKey),
-        type: 'container', version: ver('container'),
-        componentName: node.name ?? `${node.kind}${seq}`,
-        direction: isRow ? 'horizontal' : 'vertical',
-        display: 'flex',
-        flexDirection: isRow ? 'row' : 'column',
-        gap: '12',
-        components: (node.children ?? []).map((c) => compileNode(c, idKey)),
-      };
-      for (const c of container.components) c.parentId = container.id;
-      if (node.width) container.desktop = { ...(container.desktop ?? {}), dimensions: { width: node.width } };
-      return container;
-    }
+    // region | stack | container | row | grid | card | section — all flex containers [R-028/R-029]
+    default:
+      return buildContainer(node, idKey);
   }
 }
 
+// One flex-container builder for every layout kind. Reads the React-style props
+// (gap/padding/align/justify/width) and maps each to a measured channel; a
+// container ALWAYS sets display:flex so the flex props aren't inert [R-029].
+function buildContainer(node, idKey) {
+  const isRow = node.kind === 'row' || node.kind === 'grid';
+  let children = (node.children ?? []).map((c) => compileNode(c, idKey));
+
+  // grid: equal-width columns via calc() on each child (measured lever: dimensions.width).
+  // minWidth:0 lets a flex item shrink below its content width instead of overflowing/wrapping.
+  if (node.kind === 'grid') {
+    const cols = Number.isInteger(node.columns) ? node.columns : (children.length || 1);
+    const g = resolveSpace(node.gap, 16);
+    const w = `calc((100% - ${(cols - 1) * g}px) / ${cols})`;
+    children = children.map((c) => {
+      c.desktop = { ...(c.desktop ?? {}), dimensions: { ...(c.desktop?.dimensions ?? {}), width: w, minWidth: '0px' } };
+      return c;
+    });
+  }
+  // row: children keep their author width but need minWidth:0 so a 66/33 split
+  // doesn't overflow and wrap to stacked (the #1 split-failure cause).
+  if (node.kind === 'row') {
+    children = children.map((c) => {
+      if (c.desktop?.dimensions?.width) c.desktop.dimensions.minWidth = '0px';
+      return c;
+    });
+  }
+
+  // section/card with a title gets a heading child prepended (before parentId stamp)
+  if ((node.kind === 'section' || node.kind === 'card') && node.title) {
+    const heading = compileNode({ kind: 'heading', level: 3, content: node.title, name: `${node.name ?? node.kind}Title` }, idKey);
+    children.unshift(heading);
+  }
+
+  // The 0.45 renderer reads the flex model from the `desktop` breakpoint block,
+  // NOT from root-level props — this is THE reason root display/flexDirection did
+  // nothing and rows stacked. Build the full desktop style object (mirrors the
+  // container's own defaultStyles shape) so layout is honoured. [R-030/R-032]
+  const desktop = {
+    display: 'flex',
+    flexDirection: isRow ? 'row' : 'column',
+    flexWrap: node.kind === 'grid' ? 'wrap' : 'nowrap',
+    justifyContent: node.justify ? (JUSTIFY[node.justify] ?? node.justify) : 'flex-start',
+    alignItems: node.align ? (ALIGN[node.align] ?? node.align) : (isRow ? 'flex-start' : 'stretch'),
+    gap: `${resolveSpace(node.gap, isRow ? 16 : 12)}px`,
+    dimensions: {
+      width: node.width ?? (isRow ? '100%' : 'auto'),
+      height: 'auto', minHeight: 'auto', maxHeight: 'auto',
+      minWidth: '0px', maxWidth: '100%',
+    },
+    stylingBox: node.padding !== undefined ? paddingBox(node.padding) : '{}',
+  };
+
+  // card: neutral surface so it reads as a card before the brand Style pass [R-030]
+  if (node.kind === 'card') {
+    desktop.background = { type: 'color', color: '#ffffff' };
+    desktop.border = { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', color: '#e5e7eb', style: 'solid' } }, radius: { all: '8' } };
+    desktop.shadow = { offsetX: 0, offsetY: 1, blurRadius: 3, spreadRadius: 0, color: 'rgba(0,0,0,0.06)' };
+    if (node.padding === undefined) desktop.stylingBox = paddingBox('lg');
+  }
+
+  const container = {
+    id: gymUuid('bp', bp.form.name, idKey),
+    type: 'container', version: ver('container'),
+    componentName: node.name ?? `${node.kind}${seq}`,
+    // root duplicates kept for migration compatibility; desktop is authoritative
+    direction: isRow ? 'horizontal' : 'vertical',
+    display: 'flex', flexDirection: isRow ? 'row' : 'column',
+    gap: resolveSpace(node.gap, isRow ? 16 : 12),
+    flexWrap: node.kind === 'grid' ? 'wrap' : 'nowrap',
+    stylingBox: desktop.stylingBox,
+    desktop,
+    components: children,
+  };
+  for (const c of container.components) c.parentId = container.id;
+  return container;
+}
+
 function floorButtonGroup(idKey) {
-  const bg = {
+  // isInline:true is what renders Save/Back as an inline button row; without it
+  // the group collapses to an overflow "…" menu (proven by the golden shape).
+  return {
     id: gymUuid('bp', bp.form.name, `${idKey}/actions`),
     type: 'buttonGroup', version: ver('buttonGroup'),
-    componentName: 'formActions',
+    componentName: 'formActions', propertyName: 'formActions',
+    label: 'Form Actions', hideLabel: true, isInline: true, editMode: 'editable',
     items: [
       {
         id: gymUuid('bp', bp.form.name, `${idKey}/actions/save`),
         itemType: 'item', itemSubType: 'button', sortOrder: 0,
-        name: 'btnSave', label: 'Save', buttonType: 'primary',
-        actionConfiguration: { actionName: 'Submit', actionOwner: 'shesha.form' },
+        name: 'btnSave', label: 'Save', buttonType: 'primary', icon: 'SaveOutlined',
+        buttonAction: 'submit', editMode: 'inherited',
+        actionConfiguration: { _type: 'action-config', actionName: 'Submit', actionOwner: 'shesha.form', handleSuccess: false, handleFail: false },
       },
       {
         id: gymUuid('bp', bp.form.name, `${idKey}/actions/back`),
         itemType: 'item', itemSubType: 'button', sortOrder: 1,
-        name: 'btnBack', label: 'Back', buttonType: 'default',
-        actionConfiguration: { actionName: 'Navigate', actionOwner: 'shesha.common', actionArguments: { target: '/' } },
+        name: 'btnBack', label: 'Back', buttonType: 'default', icon: 'ArrowLeftOutlined',
+        buttonAction: 'navigate', editMode: 'inherited',
+        actionConfiguration: { _type: 'action-config', actionName: 'Navigate', actionOwner: 'shesha.common', actionArguments: { navigationType: 'url', url: '/' } },
       },
     ],
   };
-  return bg;
 }
 
 // ---- assemble ------------------------------------------------------------------
@@ -268,10 +374,12 @@ for (const c of rootChildren) c.parentId = 'root';
 const form = {
   components: rootChildren,
   formSettings: {
-    layout: 'horizontal',
-    colon: true,
-    labelCol: { span: 6 },
-    wrapperCol: { span: 18 },
+    // vertical (top) labels: clean modern layout that stays aligned in any column
+    // width — horizontal labelCol/wrapperCol cram in multi-column splits.
+    layout: 'vertical',
+    colon: false,
+    labelCol: { span: 24 },
+    wrapperCol: { span: 24 },
     modelType: bp.entity.modelType ?? bp.entity.fullClassName,
   },
 };

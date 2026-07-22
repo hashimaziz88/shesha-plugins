@@ -57,18 +57,27 @@
   },
   "$defs": {
     "node": {
+      "description": "A layout node — think of it as a React element. Compose the screen the way you would a React page: Stack/Row/Grid/Card for structure, Field/Text/Heading for content, Actions for buttons. The compiler maps each to the measured Shesha channel, so your flex/spacing/hierarchy instincts translate 1:1. See references/designing-like-react.md.",
       "type": "object",
       "required": ["kind"],
       "properties": {
-        "kind": { "enum": ["region", "container", "row", "card", "tabs", "tab", "datatable", "datalist", "field", "text", "buttonGroup", "chip"] },
+        "kind": {
+          "description": "layout | region: page root · stack: vertical flex · row: horizontal flex · grid: equal-width columns · card: surfaced panel · section: titled group · tabs/tab · field · text · heading · datatable · datalist · actions (Submit+exit buttonGroup) · chip. (container = alias of stack.)",
+          "enum": ["region", "container", "stack", "row", "grid", "card", "section", "tabs", "tab", "datatable", "datalist", "field", "text", "heading", "buttonGroup", "actions", "chip"]
+        },
         "name": { "type": "string" },
-        "title": { "type": "string" },
-        "width": { "type": "string", "description": "native width for split children — %, px or calc(); compiled to desktop.dimensions.width [R-028]" },
-        "property": { "type": "string", "description": "kind=field: the bound entity property" },
-        "component": { "type": "string", "description": "kind=field: explicit component type override" },
-        "content": { "type": "string", "description": "kind=text: literal content" },
-        "columns": { "type": "array", "items": { "type": "string" }, "description": "kind=datatable: bound column properties" },
-        "itemForm": { "type": "string", "description": "kind=datalist: item form name" },
+        "title": { "type": "string", "description": "card/section/tab heading, or a field's label override" },
+        "width": { "type": "string", "description": "flex-child width — %, px, fr or calc(); compiled to desktop.dimensions.width (the ONLY split lever [R-028])" },
+        "gap": { "description": "space between children — px number or scale token xs|sm|md|lg|xl|2xl; compiled to container gap", "type": ["string", "number"] },
+        "padding": { "description": "inner padding — px number, scale token, or CSS shorthand; compiled to stylingBox", "type": ["string", "number"] },
+        "align": { "enum": ["start", "center", "end", "stretch", "baseline"], "description": "cross-axis (alignItems)" },
+        "justify": { "enum": ["start", "center", "end", "space-between", "space-around"], "description": "main-axis (justifyContent)" },
+        "columns": { "description": "kind=grid: column count (number); kind=datatable: bound column properties (string[])", "type": ["integer", "array"], "items": { "type": "string" } },
+        "level": { "description": "kind=heading: 1–4 (h1=page title … h4=label)", "type": "integer", "minimum": 1, "maximum": 4 },
+        "property": { "type": "string", "description": "kind=field: the bound entity property (camelCase / dotted path)" },
+        "component": { "type": "string", "description": "kind=field: explicit component type override (else by-datatype)" },
+        "content": { "type": "string", "description": "kind=text/heading: literal content" },
+        "itemForm": { "type": "string", "description": "kind=datalist: item card form name" },
         "children": { "type": "array", "items": { "$ref": "#/$defs/node" } }
       }
     }
