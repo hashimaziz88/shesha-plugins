@@ -29,7 +29,12 @@ const MAX_VARIANTS = Number(argVal('--max-variants', '28'));
 
 const index = JSON.parse(fs.readFileSync(path.join(KB_DIR, '_index.json'), 'utf8'));
 const enumsAll = JSON.parse(fs.readFileSync(path.join(KB_DIR, '_enums.json'), 'utf8'));
-const sharedStyle = JSON.parse(fs.readFileSync(path.join(KB_DIR, '_shared-style-fields.json'), 'utf8'));
+// legacy 0.43 shared appearance catalog — optional; the 0.45 KB carries
+// appearance fields inline in each component's settingsFields
+const sharedStylePath = path.join(KB_DIR, '_shared-style-fields.json');
+const sharedStyle = fs.existsSync(sharedStylePath)
+  ? JSON.parse(fs.readFileSync(sharedStylePath, 'utf8'))
+  : { fields: [] };
 
 fs.mkdirSync(path.join(OUT_DIR, 'forms'), { recursive: true });
 

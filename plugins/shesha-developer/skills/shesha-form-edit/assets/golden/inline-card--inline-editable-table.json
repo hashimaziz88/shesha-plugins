@@ -6,7 +6,7 @@
       "propertyName": "inventoryTablePage",
       "componentName": "inventoryTablePage",
       "parentId": "root",
-      "version": 6,
+      "version": 7,
       "flexDirection": "column",
       "display": "flex",
       "alignItems": "stretch",
@@ -14,15 +14,16 @@
       "components": [
         {
           "id": "6ba72a4b-7005-47b0-b31a-6dcfc4d067d8",
-          "type": "datatableContext",
+          "type": "dataContext",
           "propertyName": "inventoryCtx",
           "componentName": "inventoryCtx",
           "parentId": "5422e967-7b2f-4011-a604-8f958210adcc",
-          "version": 7,
+          "version": 8,
           "entityType": "boxfusion.test.Domain.InventoryItems.InventoryItem",
           "sourceType": "Entity",
           "dataFetchingMode": "paging",
           "defaultPageSize": 10,
+          "uniqueStateId": "inventoryCtx",
           "sortMode": "standard",
           "strictSortBy": "creationTime",
           "strictSortOrder": "desc",
@@ -35,7 +36,7 @@
               "propertyName": "inventoryToolbar",
               "componentName": "inventoryToolbar",
               "parentId": "6ba72a4b-7005-47b0-b31a-6dcfc4d067d8",
-              "version": 6,
+              "version": 7,
               "flexDirection": "row",
               "display": "flex",
               "justifyContent": "space-between",
@@ -48,7 +49,7 @@
                   "propertyName": "quickSearch",
                   "componentName": "quickSearch",
                   "parentId": "d840dae0-b658-4d64-83a7-cbd5d7a00310",
-                  "version": 2,
+                  "version": 3,
                   "hidden": false
                 },
                 {
@@ -57,7 +58,7 @@
                   "propertyName": "pager",
                   "componentName": "pager",
                   "parentId": "d840dae0-b658-4d64-83a7-cbd5d7a00310",
-                  "version": 3,
+                  "version": 4,
                   "hidden": false
                 }
               ]
@@ -68,7 +69,7 @@
               "propertyName": "inventoryContent",
               "componentName": "inventoryContent",
               "parentId": "6ba72a4b-7005-47b0-b31a-6dcfc4d067d8",
-              "version": 6,
+              "version": 7,
               "flexDirection": "column",
               "display": "flex",
               "alignItems": "stretch",
@@ -77,7 +78,7 @@
                 {
                   "id": "Kw65oSx72UWN3UXHSfJCS",
                   "type": "datatable",
-                  "version": 11,
+                  "version": 29,
                   "propertyName": "inventoryTable",
                   "componentName": "inventoryTable",
                   "items": [
@@ -109,11 +110,12 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "validate": {
                             "maxLength": 200
                           },
                           "textType": "text",
-                          "version": 5,
+                          "version": 6,
                           "editMode": "inherited",
                           "description": "Label of the item, can be used in lists as a user friendly name",
                           "hideLabel": true
@@ -126,11 +128,12 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "validate": {
                             "maxLength": 200
                           },
                           "textType": "text",
-                          "version": 5,
+                          "version": 6,
                           "editMode": "inherited",
                           "description": "Label of the item, can be used in lists as a user friendly name",
                           "hideLabel": true
@@ -157,11 +160,12 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "validate": {
                             "maxLength": 200
                           },
                           "textType": "text",
-                          "version": 5,
+                          "version": 6,
                           "editMode": "inherited",
                           "description": "Label of the item, can be used in lists as a user friendly name",
                           "hideLabel": true
@@ -174,11 +178,12 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "validate": {
                             "maxLength": 200
                           },
                           "textType": "text",
-                          "version": 5,
+                          "version": 6,
                           "editMode": "inherited",
                           "description": "Label of the item, can be used in lists as a user friendly name",
                           "hideLabel": true
@@ -205,8 +210,10 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "version": 7,
                           "dataSourceType": "referenceList",
+                          "useRawValues": false,
                           "referenceListId": {
                             "module": "boxfusion.test",
                             "name": "InventoryCategory"
@@ -229,8 +236,10 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "version": 7,
                           "dataSourceType": "referenceList",
+                          "useRawValues": false,
                           "referenceListId": {
                             "module": "boxfusion.test",
                             "name": "InventoryCategory"
@@ -267,6 +276,7 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "placeholder": "",
                           "description": "",
                           "validate": {
@@ -276,7 +286,7 @@
                           },
                           "stepNumeric": 1,
                           "stepString": "0.1",
-                          "version": 4,
+                          "version": 3,
                           "hideLabel": true,
                           "editMode": "inherited"
                         }
@@ -288,6 +298,7 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "placeholder": "",
                           "description": "",
                           "validate": {
@@ -297,7 +308,7 @@
                           },
                           "stepNumeric": 1,
                           "stepString": "0.1",
-                          "version": 4,
+                          "version": 3,
                           "hideLabel": true,
                           "editMode": "inherited"
                         }
@@ -323,11 +334,12 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "validate": {
                             "maxLength": 200
                           },
                           "textType": "text",
-                          "version": 5,
+                          "version": 6,
                           "editMode": "inherited",
                           "description": "Label of the item, can be used in lists as a user friendly name",
                           "hideLabel": true
@@ -340,11 +352,12 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "validate": {
                             "maxLength": 200
                           },
                           "textType": "text",
-                          "version": 5,
+                          "version": 6,
                           "editMode": "inherited",
                           "description": "Label of the item, can be used in lists as a user friendly name",
                           "hideLabel": true
@@ -371,8 +384,10 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "version": 7,
                           "dataSourceType": "referenceList",
+                          "useRawValues": false,
                           "referenceListId": {
                             "module": "boxfusion.test",
                             "name": "InventoryCondition"
@@ -395,8 +410,10 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "version": 7,
                           "dataSourceType": "referenceList",
+                          "useRawValues": false,
                           "referenceListId": {
                             "module": "boxfusion.test",
                             "name": "InventoryCondition"
@@ -433,10 +450,12 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
-                          "version": 6,
+                          "isDynamic": false,
+                          "version": 8,
                           "dataSourceType": "entitiesList",
                           "useRawValues": false,
                           "mode": "single",
+                          "valueFormat": "simple",
                           "keyPropName": "value",
                           "description": "Specifies the type of 'Model Type' you want the form to bind to. This determines the information that the form will be able to access and display.",
                           "dataSourceUrl": "/api/services/app/Metadata/EntityTypeAutocomplete",
@@ -446,7 +465,10 @@
                           },
                           "onChangeCustom": "    form.setFieldValue('description',`Displays details of a ${value}`)",
                           "hideLabel": true,
-                          "entityTypeShortAlias": "Shesha.Domain.Person"
+                          "entityType": {
+                            "name": "Person",
+                            "module": "Shesha"
+                          }
                         }
                       },
                       "createComponent": {
@@ -456,10 +478,12 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
-                          "version": 6,
+                          "isDynamic": false,
+                          "version": 8,
                           "dataSourceType": "entitiesList",
                           "useRawValues": false,
                           "mode": "single",
+                          "valueFormat": "simple",
                           "keyPropName": "value",
                           "description": "Specifies the type of 'Model Type' you want the form to bind to. This determines the information that the form will be able to access and display.",
                           "dataSourceUrl": "/api/services/app/Metadata/EntityTypeAutocomplete",
@@ -469,7 +493,10 @@
                           },
                           "onChangeCustom": "    form.setFieldValue('description',`Displays details of a ${value}`)",
                           "hideLabel": true,
-                          "entityTypeShortAlias": "Shesha.Domain.Person"
+                          "entityType": {
+                            "name": "Person",
+                            "module": "Shesha"
+                          }
                         }
                       }
                     },
@@ -493,13 +520,15 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "picker": "date",
                           "showTime": true,
                           "dateFormat": "DD/MM/YYYY",
                           "timeFormat": "HH:mm:ss",
                           "defaultToMidnight": true,
-                          "version": 5,
+                          "version": 7,
                           "description": null,
+                          "readOnly": true,
                           "disabledDateMode": "none",
                           "validate": {},
                           "editMode": "inherited",
@@ -514,13 +543,15 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "picker": "date",
                           "showTime": true,
                           "dateFormat": "DD/MM/YYYY",
                           "timeFormat": "HH:mm:ss",
                           "defaultToMidnight": true,
-                          "version": 5,
+                          "version": 7,
                           "description": null,
+                          "readOnly": true,
                           "disabledDateMode": "none",
                           "validate": {},
                           "editMode": "inherited",
@@ -549,11 +580,12 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "validate": {
                             "maxLength": 200
                           },
                           "textType": "text",
-                          "version": 5,
+                          "version": 6,
                           "editMode": "inherited",
                           "description": "Label of the item, can be used in lists as a user friendly name",
                           "hideLabel": true
@@ -566,11 +598,12 @@
                           "label": "",
                           "labelAlign": "right",
                           "hidden": false,
+                          "isDynamic": false,
                           "validate": {
                             "maxLength": 200
                           },
                           "textType": "text",
-                          "version": 5,
+                          "version": 6,
                           "editMode": "inherited",
                           "description": "Label of the item, can be used in lists as a user friendly name",
                           "hideLabel": true

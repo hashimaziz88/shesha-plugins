@@ -1,0 +1,38 @@
+{
+  "$overlay": "page-header-band",
+  "notes": "Overlay for the page header band: surface band with bottom hairline, breadcrumb micro-text, title in heading scale, status chip left as reflist-item colour [R-036], header actions themed via the app theme. font lives on the text children (font on a container is a no-op). $role tokens resolve from the active theme at stamp time.",
+  "targets": {
+    "pageHeaderBand": {
+      "desktop": {
+        "background": { "type": "color", "color": "$role:surfaceCard" },
+        "border": {
+          "border": { "bottom": { "width": "1px", "style": "solid", "color": "$role:hairline" } },
+          "borderType": "custom"
+        },
+        "shadow": {},
+        "stylingBox": "{\"paddingTop\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"16\",\"paddingRight\":\"16\"}"
+      },
+      "tablet": {},
+      "mobile": {}
+    },
+    "breadcrumbTrail": {
+      "desktop": {
+        "font": { "size": 12, "weight": "400", "color": "$role:inkSoft", "align": "left" }
+      },
+      "tablet": {},
+      "mobile": {}
+    },
+    "titleRow": {
+      "desktop": { "background": {}, "border": {}, "shadow": {} },
+      "tablet": {},
+      "mobile": {}
+    },
+    "titleText": {
+      "desktop": {
+        "font": { "size": 20, "weight": "600", "color": "$role:sectionHeading", "align": "left" }
+      },
+      "tablet": {},
+      "mobile": {}
+    }
+  }
+}
