@@ -19,7 +19,6 @@
       "savePlacement",
       "autoSize",
       "allowDelete",
-      "onCreated",
       "category",
       "showCharCount",
       "minLength",
@@ -33,54 +32,79 @@
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
       "allowDelete",
       "allowEdit",
+      "autoHeight",
       "autoSize",
+      "autoWidth",
+      "background",
+      "border",
       "category",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
       "maxLength",
+      "menuItemShadow",
       "minLength",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onCreateAction",
-      "onCreated",
       "onDeleteAction",
       "onFocusCustom",
+      "onSelectCustom",
       "onUpdateAction",
+      "overflow",
       "ownerId",
       "ownerType",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
       "savePlacement",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "showCharCount",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
-      "validate"
+      "validate",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
@@ -101,16 +125,9 @@
       "group": "Display"
     },
     {
-      "path": "category",
-      "label": "Notes Category",
+      "path": "label",
+      "label": "Label",
       "editorType": "textField",
-      "group": "Display",
-      "description": "This is used to group notes into categories"
-    },
-    {
-      "path": "showCharCount",
-      "label": "Show Chars Count",
-      "editorType": "checkbox",
       "group": "Display"
     },
     {
@@ -123,14 +140,6 @@
       "path": "editMode",
       "label": "Edit mode",
       "editorType": "editModeSelector",
-      "defaultValue": "inherited",
-      "group": "Display"
-    },
-    {
-      "path": "allowEdit",
-      "label": "Allow Edit",
-      "editorType": "checkbox",
-      "defaultValue": false,
       "group": "Display"
     },
     {
@@ -144,64 +153,26 @@
       "label": "Save Placement",
       "editorType": "dropdown",
       "defaultValue": "left",
-      "group": "Style",
-      "description": "This is used to place the save button (Left, Right)."
+      "group": "Styling",
+      "description": "This used to place the save button (Left, Right)."
     },
     {
       "path": "autoSize",
       "label": "Auto Size",
       "editorType": "checkbox",
-      "group": "Style"
+      "group": "Styling"
     },
     {
       "path": "ownerId",
       "label": "Owner Id",
       "editorType": "textField",
-      "defaultValue": "{data.id}",
-      "group": "Data",
-      "description": "The unique identifier of the entity that owns these notes"
+      "group": "Notes"
     },
     {
       "path": "ownerType",
       "label": "Owner Type",
-      "editorType": "autocomplete",
-      "group": "Data",
-      "description": "The type of entity that owns these notes"
-    },
-    {
-      "path": "onCreated",
-      "label": "On Create",
-      "editorType": "codeEditor",
-      "group": "Events",
-      "description": "Triggered after successfully creating a new note. The createdNotes array is available in the execution context."
-    },
-    {
-      "path": "onUpdateAction",
-      "label": "On Update",
-      "editorType": "codeEditor",
-      "group": "Events",
-      "description": "Triggered after successfully updating a note"
-    },
-    {
-      "path": "onDeleteAction",
-      "label": "On Delete",
-      "editorType": "codeEditor",
-      "group": "Events",
-      "description": "Triggered after successfully deleting a note"
-    },
-    {
-      "path": "minLength",
-      "label": "Min Length",
-      "editorType": "numberField",
-      "group": "Validation",
-      "description": "Minimum number of characters required for a note"
-    },
-    {
-      "path": "maxLength",
-      "label": "Max Length",
-      "editorType": "numberField",
-      "group": "Validation",
-      "description": "Maximum number of characters allowed for a note"
+      "editorType": "textField",
+      "group": "Notes"
     },
     {
       "path": "permissions",

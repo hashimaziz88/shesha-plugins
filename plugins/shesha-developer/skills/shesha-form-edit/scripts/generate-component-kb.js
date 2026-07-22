@@ -98,10 +98,26 @@ function readFile(p) {
 // Interface index (best-effort): designer-components tree + shared model files
 // ---------------------------------------------------------------------------
 const interfaceIndex = new Map(); // name -> { file, extends: [], props: [] }
+// 0.45 style: `export type XComponentDefinition = IToolboxComponent<IXProps>;`
+// alias name -> props interface name from the generic parameter
+const toolboxAliasIndex = new Map();
+
+function indexToolboxAliasesInFile(file, text) {
+  // matches `type X = IToolboxComponent<IProps>` and the 0.45 helper
+  // `type X = ComponentDefinition<"type", IProps, ICalculatedValues>`
+  const re = /(?:export\s+)?type\s+([A-Za-z_$][\w$]*)\s*=\s*(?:IToolboxComponent|ComponentDefinition)\s*<([^>;]*)>/g;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    const args = m[2].replace(/["'][^"']*["']/g, ''); // drop string-literal type args
+    const ident = args.match(/[A-Za-z_$][\w$]*/);
+    if (ident && !toolboxAliasIndex.has(m[1])) toolboxAliasIndex.set(m[1], ident[0]);
+  }
+}
 
 function indexInterfacesInFile(file) {
   let text;
   try { text = readFile(file); } catch { return; }
+  indexToolboxAliasesInFile(file, text);
   const re = /(?:export\s+)?interface\s+([A-Za-z_$][\w$]*)\s*(?:<[^>{]*>)?\s*(extends\s+[^\{]+)?\{/g;
   let m;
   while ((m = re.exec(text)) !== null) {
@@ -616,15 +632,26 @@ function processFile(file) {
   let text;
   try { text = readFile(file); } catch { return; }
   // generic content may nest (e.g. Omit<IWizardComponentProps, 'size'>) — anything but `=`/`{`/`;`
-  const re = /(?:const|export\s+const|let|var)\s+([A-Za-z_$][\w$]*)\s*:\s*IToolboxComponent\s*(<[^={};]*>)?\s*=\s*\{/g;
+  // Two annotation styles: 0.43 `: IToolboxComponent<IProps>`, 0.45 `: XComponentDefinition`
+  // (a per-component alias declared as `type XComponentDefinition = IToolboxComponent<IProps>`).
+  const re = /(?:const|export\s+const|let|var)\s+([A-Za-z_$][\w$]*)\s*:\s*(IToolboxComponent\s*(<[^={};]*>)?|[A-Za-z_$][\w$]*Definition)\s*=\s*\{/g;
   const UTILITY_TYPES = new Set(['Omit', 'Partial', 'Pick', 'Required', 'Readonly', 'any', 'unknown']);
+  // 'dataContext' is registered by BOTH the app-context component (v2) and the
+  // datatable wrapper (dataTable/tableContext, v8). Authored table markup uses
+  // the wrapper — that definition wins the KB entry.
+  const DUPLICATE_PREFERENCE = { dataContext: /tableContext/ };
   let m;
   while ((m = re.exec(text)) !== null) {
     const varName = m[1];
+    const annotation = m[2];
     let propsInterface = null;
-    if (m[2]) {
-      const ids = [...m[2].matchAll(/[A-Za-z_$][\w$]*/g)].map((x) => x[0]).filter((x) => !UTILITY_TYPES.has(x));
+    if (m[3]) {
+      const ids = [...m[3].matchAll(/[A-Za-z_$][\w$]*/g)].map((x) => x[0]).filter((x) => !UTILITY_TYPES.has(x));
       propsInterface = ids[0] || null;
+    } else if (!annotation.startsWith('IToolboxComponent')) {
+      // alias annotation — resolve generic via the alias index, else skip (not a toolbox def)
+      propsInterface = toolboxAliasIndex.get(annotation.trim()) || null;
+      if (!propsInterface && !toolboxAliasIndex.has(annotation.trim())) continue;
     }
     const braceIdx = m.index + m[0].length - 1;
     const objSrc = balancedSpan(text, braceIdx);
@@ -639,8 +666,16 @@ function processFile(file) {
       continue;
     }
     if (entries.has(type)) {
-      gaps.push({ file: rel(file), variable: varName, type, reason: `Duplicate type '${type}' — first definition kept (${entries.get(type).sourceFiles[0]})` });
-      continue;
+      // Some type strings are registered by two components. Where the runtime
+      // resolves a specific one for authored markup, prefer that definition.
+      const preferred = DUPLICATE_PREFERENCE[type];
+      if (preferred && preferred.test(rel(file))) {
+        gaps.push({ file: rel(file), variable: varName, type, reason: `Duplicate type '${type}' — this definition PREFERRED over ${entries.get(type).sourceFiles[0]} (runtime resolves this one for authored markup)` });
+        entries.delete(type);
+      } else {
+        gaps.push({ file: rel(file), variable: varName, type, reason: `Duplicate type '${type}' — first definition kept (${entries.get(type).sourceFiles[0]})` });
+        continue;
+      }
     }
 
     const componentDir = path.dirname(file);
@@ -661,6 +696,19 @@ function processFile(file) {
       }
       if (max >= 0) version = max;
       else gaps.push({ file: rel(file), type, reason: 'migrator present but no .add(N, ...) indices found' });
+    }
+    if (version === null) {
+      // No inline migrator at all — the chain may live in a sibling definition
+      // (e.g. dataTable/tableContext keeps its .add chain in the legacy file).
+      let max = -1;
+      for (const f of componentDirFiles) {
+        if (f === file) continue;
+        max = Math.max(max, highestAddIndex(readFile(f)));
+      }
+      if (max >= 0) {
+        version = max;
+        gaps.push({ file: rel(file), type, reason: `version ${max} resolved from sibling file(s) — no inline migrator on the definition` });
+      }
     }
 
     // --- initModel ---

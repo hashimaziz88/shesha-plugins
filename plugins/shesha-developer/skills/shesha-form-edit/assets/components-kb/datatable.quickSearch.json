@@ -5,63 +5,92 @@
   "isOutput": null,
   "canBeJsSetting": null,
   "icon": "SearchOutlined",
-  "version": 2,
+  "version": 3,
   "initModel": {
-    "defaults": null,
-    "raw": "(model: IQuickSearchComponentProps) => {\r\n    return {\r\n      ...model,\r\n      items: [],\r\n    };\r\n  }"
+    "defaults": {
+      "size": "small"
+    },
+    "raw": "(model: IQuickSearchComponentProps) => {\r\n    return {\r\n      ...model,\r\n      items: [],\r\n      size: 'small',\r\n    };\r\n  }"
   },
   "settingsProps": {
     "interfaceName": "IQuickSearchComponentProps",
-    "interfaceFile": "designer-components/dataTable/quickSearch/quickSearchComponent.tsx",
+    "interfaceFile": "designer-components/dataTable/quickSearch/interfaces.ts",
     "ownProps": [
-      "block"
+      "block",
+      "dimensions"
     ],
     "extends": [
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
       "block",
+      "border",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
-      "validate"
+      "validate",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "dataTable/quickSearch/settingsForm.ts",
+    "source": "dataTable/quickSearch/tabbedSettingsForm.ts",
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
@@ -69,17 +98,27 @@
   "appearanceFieldPaths": [],
   "settingsFields": [
     {
-      "path": "block",
-      "label": "Block",
-      "editorType": "checkbox",
-      "defaultValue": false,
-      "group": "Display"
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {
@@ -89,6 +128,7 @@
     "usesComponentsContainer": false
   },
   "sourceFiles": [
-    "dataTable/quickSearch/quickSearchComponent.tsx"
+    "dataTable/quickSearch/quickSearchComponent.tsx",
+    "dataTable/quickSearch/interfaces.ts"
   ]
 }

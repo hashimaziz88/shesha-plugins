@@ -5,7 +5,7 @@
   "isOutput": null,
   "canBeJsSetting": null,
   "icon": "UnorderedListOutlined",
-  "version": 8,
+  "version": 11,
   "initModel": null,
   "settingsProps": {
     "interfaceName": "IDataListComponentProps",
@@ -17,6 +17,12 @@
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
       "canAddInline",
       "canDeleteInline",
       "canEditInline",
@@ -27,6 +33,7 @@
       "collapseByDefault",
       "collapsible",
       "componentName",
+      "container",
       "context",
       "createFormId",
       "createFormType",
@@ -39,272 +46,432 @@
       "customWidth",
       "dataSource",
       "dblClickActionConfiguration",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
       "entityType",
+      "font",
       "formId",
       "formIdExpression",
       "formSelectionMode",
       "formType",
+      "gap",
       "groupStyle",
       "grouping",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
       "inlineEditMode",
       "inlineSaveMode",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
       "listItemWidth",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "modalWidth",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onListItemClick",
+      "onListItemHover",
       "onListItemSave",
       "onListItemSaveSuccessAction",
+      "onListItemSelect",
       "onNewListItemInitialize",
       "onRowDeleteSuccessAction",
+      "onSelectCustom",
+      "onSelectionChange",
       "orientation",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "selectionMode",
       "settingsValidationErrors",
+      "shadow",
       "showBorder",
       "showEditIcons",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
       "validate",
-      "widthUnits"
+      "widthUnits",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "dataList/dataListSettings.tsx",
-    "mechanism": "react-factory",
-    "parseQuality": "partial"
+    "source": "dataList/settingsForm.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
   },
   "hasStandardAppearance": false,
-  "appearanceFieldPaths": [],
+  "appearanceFieldPaths": [
+    "stylingBox",
+    "style"
+  ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Enter code to get form identifier. You must return { name: string; module?: string; version?: number; } object. The global variable data is provided, and allows you to access the data of any form component, by using its API key."
+    },
+    {
       "path": "componentName",
-      "label": "Component name"
+      "label": "Component Name",
+      "editorType": "settingsInput"
     },
     {
-      "path": "dblClickActionConfiguration"
-    },
-    {
-      "path": "selectionMode",
-      "label": "Selection mode"
+      "path": "hidden",
+      "label": "Hide",
+      "editorType": "settingsInput"
     },
     {
       "path": "formSelectionMode",
-      "label": "Form selection mode",
-      "group": "Render"
+      "label": "Form Selection Mode",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "formType",
+      "label": "Form Type",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "formId",
       "label": "Form",
-      "group": "Render"
-    },
-    {
-      "path": "formType",
-      "label": "Form type",
-      "group": "Render"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "formIdExpression",
-      "label": "Form identifier expression",
-      "group": "Render"
+      "label": "Form Identifier Expression",
+      "editorType": "settingsInputRow",
+      "description": "Enter code to get form identifier. You must return { name: string; module?: string; version?: number; } object. The global variable data is provided, and allows you to access the data of any form component, by using its API key."
+    },
+    {
+      "path": "selectionMode",
+      "label": "Selection Mode",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "canAddInline",
+      "label": "Can Add Inline",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "createFormId",
+      "label": "Form",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "createFormType",
+      "label": "Form Type",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "customCreateUrl",
+      "label": "Custom Create URL",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "onNewListItemInitialize",
+      "label": "New List Item Init",
+      "editorType": "settingsInputRow",
+      "description": "Custom code to initialize new list items with default values or setup logic"
+    },
+    {
+      "path": "modalWidth",
+      "label": "Dialog Width",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "canEditInline",
+      "label": "Can Edit Inline",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "showEditIcons",
+      "label": "Show Edit Icon",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "inlineEditMode",
+      "label": "Edit Mode",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "customUpdateUrl",
+      "label": "Custom Update URL",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "canDeleteInline",
+      "label": "Can Delete Inline",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "customDeleteUrl",
+      "label": "Custom Delete URL",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "onListItemSave",
+      "label": "On List Item Save",
+      "editorType": "settingsInputRow",
+      "description": "Custom business logic executed when saving list items (validation, calculations, etc.)"
+    },
+    {
+      "path": "dblClickActionConfiguration",
+      "label": "On Double-Click",
+      "editorType": "configurableActionConfigurator",
+      "description": "Action to execute when a list item is double-clicked"
+    },
+    {
+      "path": "onListItemSaveSuccessAction",
+      "label": "On List Item Save Success",
+      "editorType": "configurableActionConfigurator",
+      "description": "Custom Action configuration executed when saving list items (validation, calculations, etc.)"
+    },
+    {
+      "path": "onRowSave",
+      "label": "On Row Save",
+      "editorType": "settingsInput",
+      "description": "Custom business logic to be executed on saving of new/updated row (e.g. custom validation / calculations). This handler should return an object or a Promise<object>."
+    },
+    {
+      "path": "onRowDeleteSuccessAction",
+      "label": "On List Item Delete Success",
+      "editorType": "configurableActionConfigurator",
+      "description": "Custom business logic to be executed after successful deletion of a list item."
+    },
+    {
+      "path": "onListItemClick",
+      "label": "On List Item Click",
+      "editorType": "configurableActionConfigurator",
+      "description": "Action to execute when a list item is clicked"
+    },
+    {
+      "path": "onListItemHover",
+      "label": "On List Item Hover",
+      "editorType": "configurableActionConfigurator",
+      "description": "Action to execute when hovering over a list item"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "description": "Offset X",
+      "group": "Shadow"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
+      "shared": true
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
+      "shared": true
     },
     {
       "path": "orientation",
       "label": "Orientation",
-      "group": "Render"
+      "editorType": "settingsInput",
+      "group": "Container Styles"
     },
     {
-      "path": "listItemWidth",
-      "label": "List Item Width",
-      "group": "Render"
+      "path": "gap",
+      "label": "Gap",
+      "editorType": "settingsInputRow",
+      "description": "The gap between the datalist cards.",
+      "group": "Container Styles"
     },
     {
-      "path": "customListItemWidth",
-      "label": "Custom List Item Width (px)",
-      "group": "Render"
+      "path": "container.dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "container.dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "container.stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding"
+    },
+    {
+      "path": "container.style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles"
     },
     {
       "path": "cardMinWidth",
       "label": "Card Minimum Width",
-      "group": "Render",
-      "description": "You can use any unit (%, px, em, etc)"
-    },
-    {
-      "path": "cardMaxWidth",
-      "label": "Card Maximum Width",
-      "group": "Render",
+      "editorType": "settingsInputRow",
       "description": "You can use any unit (%, px, em, etc)"
     },
     {
       "path": "cardHeight",
       "label": "Card Height",
-      "group": "Render",
-      "description": "You can use any unit (%, px, em, etc)"
-    },
-    {
-      "path": "cardSpacing",
-      "label": "Card Spacing",
-      "group": "Render",
+      "editorType": "settingsInputRow",
       "description": "You can use any unit (%, px, em, etc)"
     },
     {
       "path": "showBorder",
       "label": "Show Border",
-      "group": "Render"
+      "editorType": "settingsInputRow",
+      "description": "Selected form values"
     },
     {
-      "path": "hidden",
-      "label": "Hidden",
-      "group": "Render"
+      "path": "listItemWidth",
+      "label": "List Item Width",
+      "editorType": "settingsInputRow",
+      "description": "Selected form values"
     },
     {
-      "path": "canEditInline",
-      "label": "Can edit inline",
-      "group": "CRUD"
-    },
-    {
-      "path": "showEditIcons",
-      "label": "Show edit icon",
-      "group": "CRUD"
-    },
-    {
-      "path": "inlineEditMode",
-      "label": "List edit mode",
-      "group": "CRUD"
-    },
-    {
-      "path": "inlineSaveMode",
-      "label": "Save mode",
-      "group": "CRUD"
-    },
-    {
-      "path": "customUpdateUrl",
-      "label": "Custom update url",
-      "group": "CRUD"
-    },
-    {
-      "path": "canAddInline",
-      "label": "Can add inline",
-      "group": "CRUD"
-    },
-    {
-      "path": "createFormId",
-      "label": "Create form",
-      "group": "CRUD"
-    },
-    {
-      "path": "createFormType",
-      "label": "Create form type",
-      "group": "CRUD"
-    },
-    {
-      "path": "modalWidth",
-      "label": "Dialog Width (%)",
-      "group": "CRUD"
-    },
-    {
-      "path": "widthUnits",
-      "label": "Units",
-      "group": "CRUD"
-    },
-    {
-      "path": "customWidth",
-      "label": "Enter Custom Width",
-      "group": "CRUD"
-    },
-    {
-      "path": "customCreateUrl",
-      "label": "Custom create url",
-      "group": "CRUD"
-    },
-    {
-      "path": "onNewListItemInitialize",
-      "label": "New list item init",
-      "group": "CRUD",
-      "description": "Allows configurators to specify logic to initialise the object bound to a new list item."
-    },
-    {
-      "path": "onListItemSave",
-      "label": "On list item save",
-      "group": "CRUD"
-    },
-    {
-      "path": "onListItemSaveSuccessAction",
-      "group": "CRUD"
-    },
-    {
-      "path": "canDeleteInline",
-      "label": "Can delete inline",
-      "group": "CRUD"
-    },
-    {
-      "path": "customDeleteUrl",
-      "label": "Custom delete url",
-      "group": "CRUD"
-    },
-    {
-      "path": "onRowDeleteSuccessAction",
-      "group": "CRUD"
+      "path": "customListItemWidth",
+      "label": "Custom List Item Width (px)",
+      "editorType": "settingsInputRow",
+      "description": "Selected form values"
     },
     {
       "path": "collapsible",
       "label": "Collapsible",
-      "group": "Grouping"
-    },
-    {
-      "path": "collapseByDefault",
-      "label": "Collapse by default",
-      "group": "Grouping"
+      "editorType": "settingsInputRow",
+      "group": "Group Styles"
     },
     {
       "path": "groupStyle",
-      "label": "Style of group headers",
-      "group": "Grouping"
-    },
-    {
-      "path": "noDataText",
-      "label": "Primary Text",
-      "group": "Empty List"
-    },
-    {
-      "path": "noDataSecondaryText",
-      "label": "Secondary Text",
-      "group": "Empty List"
+      "label": "Header Style",
+      "editorType": "settingsInputRow",
+      "description": "Selected form values",
+      "group": "Group Styles"
     },
     {
       "path": "noDataIcon",
       "label": "Icon",
-      "group": "Empty List"
+      "editorType": "settingsInput",
+      "group": "Empty State"
+    },
+    {
+      "path": "noDataText",
+      "label": "Primary Text",
+      "editorType": "settingsInput",
+      "group": "Empty State"
+    },
+    {
+      "path": "noDataSecondaryText",
+      "label": "Secondary Text",
+      "editorType": "settingsInput",
+      "group": "Empty State"
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "group": "Security",
+      "editorType": "settingsInput",
       "description": "Enter a list of permissions that should be associated with this component"
     }
   ],

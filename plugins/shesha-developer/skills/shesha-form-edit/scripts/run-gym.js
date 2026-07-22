@@ -36,7 +36,22 @@ const RETRIES = 2;
 
 const manifestPath = path.join(GYM_DIR, 'manifest.json');
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-const saveManifest = () => fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
+
+// Windows file writes occasionally fail transiently (AV/indexer locks) — retry.
+function writeFileRetry(file, content, attempts = 4) {
+  for (let i = 0; i < attempts; i++) {
+    try {
+      fs.writeFileSync(file, content);
+      return;
+    } catch (err) {
+      if (i === attempts - 1) throw err;
+      const wait = 200 * (i + 1);
+      const until = Date.now() + wait;
+      while (Date.now() < until) { /* brief sync backoff */ }
+    }
+  }
+}
+const saveManifest = () => writeFileRetry(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
 
 const formNames = Object.keys(manifest.forms).sort()
   .filter((n) => !ONLY.length || ONLY.includes(manifest.forms[n].type));
@@ -117,7 +132,7 @@ matrix.measuredAt = new Date().toISOString();
 const saveMatrix = () => {
   const sorted = { ...matrix, components: {} };
   for (const k of Object.keys(matrix.components).sort()) sorted.components[k] = matrix.components[k];
-  fs.writeFileSync(MATRIX_FILE, JSON.stringify(sorted, null, 2) + '\n');
+  writeFileRetry(MATRIX_FILE, JSON.stringify(sorted, null, 2) + '\n');
 };
 
 const browser = await chromium.launch({ headless: !has('--headed') });
@@ -141,10 +156,20 @@ const CANDIDATE_SELECTORS = [
   { selector: '[id]', attr: 'id' },
 ];
 
+// NOTE: '.sha-form' alone is not enough — the app header is itself a sha-form,
+// so it matches before the page's dynamic form loads. Wait for gym markers too.
 async function openForm(page, formName, waitMs = WAIT_MS) {
   const url = `${PORTAL}/dynamic/${manifest.module.name}/${formName}?mode=edit`;
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: waitMs });
   await page.waitForSelector('.sha-form', { timeout: waitMs }); // throws → retry loop
+  if (manifest.probeConfig?.selector) {
+    await page.waitForFunction(
+      ({ selector, attr, prefix }) =>
+        [...document.querySelectorAll(selector)].some((el) => (el.getAttribute(attr) || '').startsWith(prefix)),
+      manifest.probeConfig,
+      { timeout: waitMs },
+    ).catch(() => {}); // some forms legitimately render nothing — probe records that
+  }
   await page.addStyleTag({ content: '*{transition:none!important;animation:none!important;}' }).catch(() => {});
   await page.waitForTimeout(1500); // settle async data (reflists etc.)
 }
@@ -154,11 +179,12 @@ async function discoverProbeConfig(page) {
   // first load compiles the Next dev route — give it a bigger budget
   await openForm(page, formNames[0], 60000);
   for (const cand of CANDIDATE_SELECTORS) {
-    const count = await page.evaluate(
+    const count = await page.waitForFunction(
       ({ selector, attr }) =>
-        [...document.querySelectorAll(selector)].filter((el) => (el.getAttribute(attr) || '').startsWith('gym-')).length,
+        [...document.querySelectorAll(selector)].filter((el) => (el.getAttribute(attr) || '').startsWith('gym-')).length || false,
       cand,
-    );
+      { timeout: 15000 },
+    ).then((h) => h.jsonValue()).catch(() => 0);
     if (count >= 2) {
       manifest.probeConfig = { ...cand, prefix: 'gym-', discoveredAt: new Date().toISOString(), matched: count };
       saveManifest();

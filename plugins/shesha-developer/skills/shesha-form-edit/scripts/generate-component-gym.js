@@ -131,7 +131,16 @@ function generateForType(type, entry) {
       notMeasured.push({ path: field.path, reason: reps.skip });
       continue;
     }
-    for (const rep of reps) byBucket.get(bucket).push({ field, bucket, ...rep });
+    for (const rep of reps) {
+      let effPath = rep.pathOverride ?? field.path;
+      // 0.45 renderer reads appearance from the desktop.* breakpoint block (the
+      // channel the designer itself writes); root-level style paths are dead
+      // unless a migration lifts them. Author what the designer authors.
+      if (bucket === 'appearance' && /^(font|dimensions|background|shadow|border)([.]|$)/.test(effPath)) {
+        effPath = `desktop.${effPath}`;
+      }
+      byBucket.get(bucket).push({ field: { ...field, path: effPath }, bucket, value: rep.value, valueKey: rep.valueKey });
+    }
   }
 
   let budget = MAX_VARIANTS;
@@ -264,5 +273,6 @@ if (prior.forms) {
 
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
 console.log(`generated ${types.length} gym forms (${totalVariants} variant instances) → ${OUT_DIR}`);
-const capped = types.filter((t) => manifest.forms[`gym-${t.toLowerCase()}`].notMeasured.some((n) => n.reason === 'capped'));
+const capped = types.filter((t) =>
+  manifest.forms[`gym-${t.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`]?.notMeasured.some((n) => n.reason === 'capped'));
 if (capped.length) console.log(`capped components (${capped.length}): ${capped.join(', ')}`);

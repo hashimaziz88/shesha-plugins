@@ -33,7 +33,53 @@ export const KNOWN_ENUMS = {
   textJustify: ['auto', 'inter-word'],
   fontSize: ['14', '17', '24'],
   padding: ['8px', '17px'],
+  display: ['flex', 'block', 'inline-block', 'grid'],
+  'background.type': ['color', 'gradient', 'url', 'image', 'storedFile'],
+  'background.size': ['cover', 'contain', 'auto'],
+  'background.repeat': ['no-repeat', 'repeat', 'repeat-x'],
+  'position.value': ['relative', 'absolute'],
+  'dimensions.width': ['317px'],
+  'dimensions.height': ['117px'],
 };
+
+// 0.45 meta-editors that wrap a real input — fall through to path heuristics.
+const META_EDITORS = new Set(['settingsInput', 'settingsInputRow']);
+// settings-form chrome, never variable settings
+const CHROME_EDITORS = new Set(['searchableTabs', 'labelConfigurator']);
+
+// Object-valued setting paths expanded into measurable sub-path variants.
+export const PATH_EXPANSIONS = {
+  font: [
+    { pathOverride: 'font.size', value: GYM_NUMBER, valueKey: 'size17' },
+    { pathOverride: 'font.color', value: GYM_COLOR, valueKey: 'color' },
+    { pathOverride: 'font.weight', value: '700', valueKey: 'weight700' },
+  ],
+  border: [
+    { pathOverride: 'border.border.all.width', value: `${GYM_NUMBER}px`, valueKey: 'width17' },
+    { pathOverride: 'border.border.all.color', value: GYM_COLOR, valueKey: 'color' },
+    { pathOverride: 'border.radius.all', value: GYM_NUMBER, valueKey: 'radius17' },
+  ],
+  // background/shadow render only as COMPLETE objects (partial writes are dead —
+  // measured: desktop.background.color alone no-ops; type must be present).
+  'background.color': [{
+    pathOverride: 'background',
+    value: { type: 'color', color: GYM_COLOR },
+    valueKey: 'color#ff00aa',
+  }],
+  'background.gradient.colors': [{
+    pathOverride: 'background',
+    value: { type: 'gradient', gradient: { direction: 'to right', colors: { 0: GYM_COLOR, 1: '#00ff00' } } },
+    valueKey: 'gradient',
+  }],
+  'shadow.offsetX': [{
+    pathOverride: 'shadow',
+    value: { offsetX: GYM_NUMBER, offsetY: GYM_NUMBER, blurRadius: GYM_NUMBER, spreadRadius: 0, color: '#000000' },
+    valueKey: 'shadow17',
+  }],
+};
+
+// Sub-paths of compound-only channels — measured via the object expansion above.
+const COMPOUND_ONLY = /^background\.(type|size|repeat|url|uploadFile|storedFile)/;
 
 // editorTypes that cannot be visually measured in the gym.
 const NOT_MEASURABLE = new Set([
@@ -48,7 +94,7 @@ const NOT_MEASURABLE = new Set([
 
 const TEXTY_PATHS = /^(label|placeholder|prefix|suffix|tooltip|description|title|text|emptyText|noDataText|noDataSecondaryText|value|content)$|(Label|Placeholder|Text|Title|Message)$/;
 const COLOR_PATH = /color/i;
-const PX_PATH = /(size|width|height|gap|radius|gutter|padding|margin|spacing|thickness)/i;
+const PX_PATH = /(size|width|height|gap|radius|gutter|padding|margin|spacing|thickness|offset|blur|spread)/i;
 const BOOL_PREFIX = /^(hide|is|show|disable|enable|allow|read|required|bordered|ghost|block|danger|loading|collapsible|collaps|expand|wrap|strong|italic|underline|delete|mark|keep|code)/i;
 
 /**
@@ -58,8 +104,16 @@ const BOOL_PREFIX = /^(hide|is|show|disable|enable|allow|read|required|bordered|
  * defaults: component initModel defaults.
  */
 export function representativeValues(field, enums = {}, defaults = {}) {
-  const { path, editorType } = field;
+  const { path } = field;
+  let { editorType } = field;
   const currentDefault = enums[path]?.default ?? defaults[path];
+
+  if (editorType && CHROME_EDITORS.has(editorType)) {
+    return { skip: `editorType ${editorType} is settings-form chrome` };
+  }
+  if (PATH_EXPANSIONS[path]) return PATH_EXPANSIONS[path];
+  if (COMPOUND_ONLY.test(path)) return { skip: 'compound-only channel — measured via the whole-object variant' };
+  if (editorType && META_EDITORS.has(editorType)) editorType = undefined; // path heuristics
 
   if (editorType && NOT_MEASURABLE.has(editorType)) {
     return { skip: `editorType ${editorType} not visually measurable` };

@@ -5,199 +5,45 @@
   "isOutput": true,
   "canBeJsSetting": null,
   "icon": "FormOutlined",
-  "version": 3,
+  "version": 4,
   "initModel": {
     "defaults": null,
-    "raw": "model => {\r\n    const customProps: ISubFormComponentProps = {\r\n      ...model,\r\n      dataSource: 'form',\r\n      apiMode: 'entityName',\r\n      labelCol: 8,\r\n      wrapperCol: 16,\r\n    };\r\n    return customProps;\r\n  }"
+    "raw": "(model) => {\r\n    const customProps: ISubFormComponentProps = {\r\n      ...model,\r\n      dataSource: 'form',\r\n      apiMode: 'entityName',\r\n      labelCol: 8,\r\n      wrapperCol: 16,\r\n    };\r\n    return customProps;\r\n  }"
   },
   "settingsProps": {
     "interfaceName": "ISubFormComponentProps",
     "interfaceFile": "designer-components/subForm/index.tsx",
     "ownProps": [
       "labelCol",
-      "wrapperCol"
+      "wrapperCol",
+      "queryParams"
     ],
     "extends": [
       "Omit<ISubFormProviderProps",
       "'labelCol' | 'wrapperCol'>",
-      "IConfigurableFormComponent"
+      "Omit<IConfigurableFormComponent",
+      "'queryParams'>"
     ],
     "resolvedProps": [
-      "componentName",
-      "context",
-      "customEnabled",
-      "customVisibility",
-      "defaultValue",
-      "description",
-      "editMode",
-      "hidden",
-      "hideLabel",
-      "id",
-      "initialContext",
-      "injectedDefaultValue",
-      "injectedTableRow",
-      "isDynamic",
-      "jsSetting",
-      "label",
-      "labelAlign",
       "labelCol",
-      "noDataIcon",
-      "noDataSecondaryText",
-      "noDataText",
-      "onBlurCustom",
-      "onChangeCustom",
-      "onFocusCustom",
-      "parentId",
-      "permissions",
-      "propertyName",
-      "readOnly",
-      "settingsValidationErrors",
-      "size",
-      "style",
-      "stylingBox",
-      "subscribedEventNames",
-      "type",
-      "validate",
+      "queryParams",
       "wrapperCol"
     ],
     "unresolvedExtends": [
       "'labelCol' | 'wrapperCol'>",
-      "IHasVersion",
+      "'queryParams'>",
+      "Omit<IConfigurableFormComponent",
       "Omit<ISubFormProviderProps"
     ]
   },
   "settingsForm": {
-    "source": "subForm/settings.tsx",
-    "mechanism": "react-factory",
-    "parseQuality": "partial"
+    "source": "subForm/index.tsx",
+    "mechanism": "fluent-builder",
+    "parseQuality": "none"
   },
   "hasStandardAppearance": false,
-  "appearanceFieldPaths": [
-    "style"
-  ],
-  "settingsFields": [
-    {
-      "path": "label",
-      "label": "Label",
-      "group": "Display"
-    },
-    {
-      "path": "editMode",
-      "label": "Edit mode",
-      "group": "Display"
-    },
-    {
-      "path": "hideLabel",
-      "label": "Hide Label",
-      "group": "Display"
-    },
-    {
-      "path": "hidden",
-      "label": "Hidden",
-      "group": "Display"
-    },
-    {
-      "path": "uniqueStateId",
-      "label": "Unique State ID",
-      "group": "Display",
-      "description": "Important for accessing the "
-    },
-    {
-      "path": "formSelectionMode",
-      "label": "Form selection mode",
-      "group": "Display"
-    },
-    {
-      "path": "formType",
-      "label": "Form type",
-      "group": "Display"
-    },
-    {
-      "path": "formId",
-      "label": "Form",
-      "group": "Display"
-    },
-    {
-      "path": "dataSource",
-      "label": "Data source",
-      "group": "Data source",
-      "description": "The list data to be used can be the data that comes with the form of can be fetched from the API"
-    },
-    {
-      "path": "apiMode",
-      "label": "API Mode",
-      "group": "Data source",
-      "description": "The API mode to use to fetch data"
-    },
-    {
-      "path": "entityType",
-      "label": "Entity type",
-      "group": "Data source"
-    },
-    {
-      "path": "properties",
-      "label": "Properties",
-      "group": "Data source"
-    },
-    {
-      "path": "queryParams",
-      "label": "Query Params",
-      "group": "Data source",
-      "description": "The code that returns the query parameters to be used to fetch the data. Ideally this should be a function that returns an object with the entity id"
-    },
-    {
-      "path": "getUrl",
-      "label": "GET Url",
-      "group": "Data source",
-      "description": "The API url that will be used to fetch the data. Write the code that returns the string"
-    },
-    {
-      "path": "postUrl",
-      "label": "POST Url",
-      "group": "Data source",
-      "description": "The API url that will be used to update data. Write the code that returns the string"
-    },
-    {
-      "path": "putUrl",
-      "label": "PUT Url",
-      "group": "Data source",
-      "description": "The API url that will be used to update data. Write the code that returns the string"
-    },
-    {
-      "path": "onCreated",
-      "label": "On Created",
-      "group": "Actions",
-      "description": "Triggered after successfully creating a new sub-form object in the back-end"
-    },
-    {
-      "path": "onUpdated",
-      "label": "On Updated",
-      "group": "Actions",
-      "description": "Triggered after successfully creating a new sub-form object in the back-end"
-    },
-    {
-      "path": "labelCol",
-      "label": "Label Col",
-      "group": "Layout"
-    },
-    {
-      "path": "wrapperCol",
-      "label": "Wrapper Col",
-      "group": "Layout"
-    },
-    {
-      "path": "style",
-      "label": "Style",
-      "group": "Layout",
-      "shared": true
-    },
-    {
-      "path": "permissions",
-      "label": "Permissions",
-      "group": "Security",
-      "description": "Enter a list of permissions that should be associated with this component"
-    }
-  ],
+  "appearanceFieldPaths": [],
+  "settingsFields": [],
   "slots": {
     "hostsChildren": true,
     "customContainerNames": null,

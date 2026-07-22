@@ -5,7 +5,7 @@
   "isOutput": true,
   "canBeJsSetting": null,
   "icon": "HomeOutlined",
-  "version": 4,
+  "version": 5,
   "initModel": null,
   "settingsProps": {
     "interfaceName": "IAddressCompomentProps",
@@ -22,187 +22,294 @@
       "prefix",
       "radiusPriority",
       "showPriorityBounds",
-      "onSelectCustom"
+      "onSelectCustom",
+      "onFocusCustom",
+      "onBlurCustom"
     ],
     "extends": [
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
       "componentName",
       "context",
       "countryRestriction",
       "customEnabled",
       "customVisibility",
       "debounce",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "googleMapsApiKey",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
       "latPriority",
+      "layout",
+      "listType",
       "lngPriority",
+      "menuItemShadow",
       "minCharactersSearch",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
       "onSelectCustom",
       "openCageApiKey",
+      "overflow",
       "parentId",
       "permissions",
       "placeholder",
       "prefix",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "radiusPriority",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "showPriorityBounds",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
-      "validate"
+      "validate",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "address/settings.tsx",
-    "mechanism": "react-factory",
-    "parseQuality": "partial"
+    "source": "address/formSettings.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
   },
   "hasStandardAppearance": false,
-  "appearanceFieldPaths": [],
+  "appearanceFieldPaths": [
+    "stylingBox",
+    "style"
+  ],
   "settingsFields": [
     {
-      "path": "label",
-      "label": "Label",
-      "group": "Display"
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "The minimum characters required before an api call can be made."
     },
     {
-      "path": "labelAlign",
-      "label": "Label align",
-      "group": "Display"
+      "path": "propertyName",
+      "label": "Property Name",
+      "editorType": "contextPropertyAutocomplete"
+    },
+    {
+      "path": "hideLabel",
+      "label": "Label",
+      "editorType": "labelConfigurator"
     },
     {
       "path": "placeholder",
       "label": "Placeholder",
-      "group": "Display"
-    },
-    {
-      "path": "description",
-      "label": "Description",
-      "group": "Display"
-    },
-    {
-      "path": "hideLabel",
-      "label": "Hide Label",
-      "group": "Display"
-    },
-    {
-      "path": "hidden",
-      "label": "Hidden",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "editMode",
-      "label": "Edit mode",
-      "group": "Display"
+      "label": "Edit Mode",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "minCharactersSearch",
       "label": "Min Characters Before Search",
-      "group": "Configuration",
+      "editorType": "settingsInputRow",
       "description": "The minimum characters required before an api call can be made."
-    },
-    {
-      "path": "debounce",
-      "label": "Debounce (MS)",
-      "group": "Configuration",
-      "description": "Debouncing prevents extra activations/inputs from triggering too often. This is the time in milliseconds the call will be delayed by."
     },
     {
       "path": "googleMapsApiKey",
       "label": "Google Maps Key",
-      "group": "Configuration",
+      "editorType": "settingsInput",
       "description": "API key for authorization. Google Maps key which is required to make successful calls to Google services."
     },
     {
       "path": "openCageApiKey",
       "label": "OpenCage Key",
-      "group": "Configuration",
+      "editorType": "settingsInput",
       "description": "API key for authorization. Go to (https://opencagedata.com/api) to learn about OpenCage. OpenCage key which is required to make successful calls to OpenCage services."
     },
     {
       "path": "countryRestriction",
       "label": "Country Restriction",
-      "group": "Configuration",
+      "editorType": "settingsInputRow",
       "description": "A filter which is based on the country/countries, multiple countries can be selected."
-    },
-    {
-      "path": "prefix",
-      "label": "Prefix (Area Restriction)",
-      "group": "Configuration",
-      "description": "A simple prefix which is appended in the search but not the input search field, often used to create a biased search in address."
     },
     {
       "path": "showPriorityBounds",
       "label": "Priority Bounds (Advanced)",
-      "group": "Configuration",
+      "editorType": "settingsInput",
       "description": "Advanced search options, not required if a search priority is not needed. Note this will be discarded unless all values are provided."
     },
     {
       "path": "latPriority",
       "label": "Latitude (Priority Bound)",
-      "group": "Configuration",
+      "editorType": "settingsInputRow",
       "description": "Latitude value which the search will be prioritized from."
-    },
-    {
-      "path": "lngPriority",
-      "label": "Longitude (Priority Bound)",
-      "group": "Configuration",
-      "description": "Longitude value which the search will be prioritized from."
     },
     {
       "path": "radiusPriority",
       "label": "Radius (Priority Bound)",
-      "group": "Configuration",
+      "editorType": "settingsInputRow",
       "description": "The radius in which the latitude and longitude will be priorities from."
-    },
-    {
-      "path": "onChangeCustom",
-      "label": "On Change",
-      "group": "Events",
-      "description": "Enter custom visibility code.  You must return true to show the component. The global variable data is provided, and allows you to access the data of any form component, by using its API key."
-    },
-    {
-      "path": "onSelectCustom",
-      "label": "On Select",
-      "group": "Events",
-      "description": "Enter custom visibility code.  You must return true to show the component. The global variable data is provided, and allows you to access the data of any form component, by using its API key."
     },
     {
       "path": "validate.required",
       "label": "Required",
-      "group": "Validation"
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "onChangeCustom",
+      "label": "On Change",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on changing of event."
+    },
+    {
+      "path": "onSelectCustom",
+      "label": "On Select",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on selection of address."
+    },
+    {
+      "path": "onFocusCustom",
+      "label": "On Focus",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on focusing of event."
+    },
+    {
+      "path": "enableStyleOnReadonly",
+      "label": "Enable Style On Readonly",
+      "editorType": "settingsInput",
+      "description": "Removes all visual styling except typography when the component becomes read-only"
+    },
+    {
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "description": "Offset X",
+      "group": "Shadow"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
+      "shared": true
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
+      "shared": true
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "group": "Security",
+      "editorType": "settingsInput",
       "description": "Enter a list of permissions that should be associated with this component"
     }
   ],

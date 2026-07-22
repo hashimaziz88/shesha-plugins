@@ -5,7 +5,7 @@
   "isOutput": null,
   "canBeJsSetting": null,
   "icon": "FolderOpenOutlined",
-  "version": null,
+  "version": 1,
   "initModel": null,
   "settingsProps": {
     "interfaceName": "IChevronProps",
@@ -18,31 +18,38 @@
       "imageSize",
       "referenceList",
       "activeColor",
-      "fontColor",
       "showIcons",
       "colorSource",
       "width",
       "height",
-      "fontSize"
+      "font"
     ],
     "extends": [
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
       "activeColor",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
       "colorSource",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
-      "fontColor",
-      "fontSize",
+      "enableStyleOnReadonly",
+      "font",
       "height",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "image",
       "imageSize",
@@ -50,123 +57,146 @@
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "items",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
       "referenceList",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "showIcons",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
       "validate",
-      "width"
+      "width",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "chevron/settings.tsx",
-    "mechanism": "react-factory",
-    "parseQuality": "partial"
+    "source": "chevron/settingsForm.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
   },
   "hasStandardAppearance": false,
   "appearanceFieldPaths": [
-    "fontColor",
     "width",
-    "height",
-    "fontSize"
+    "stylingBox"
   ],
   "settingsFields": [
     {
-      "path": "label",
-      "label": "Label",
-      "group": "Display"
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Make sure to reselect the reference list if any changes are made to its items"
     },
     {
-      "path": "labelAlign",
-      "label": "Label align",
-      "group": "Display"
+      "path": "propertyName",
+      "label": "Property Name",
+      "editorType": "contextPropertyAutocomplete"
     },
     {
       "path": "hideLabel",
-      "label": "Hide Label",
-      "group": "Display"
-    },
-    {
-      "path": "hidden",
-      "label": "Hidden",
-      "group": "Display"
+      "label": "Label",
+      "editorType": "labelConfigurator"
     },
     {
       "path": "description",
-      "label": "Description",
-      "group": "Display"
+      "label": "Tooltip",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "referenceList",
       "label": "Reference List",
-      "group": "Items",
+      "editorType": "settingsInput",
       "description": "Make sure to reselect the reference list if any changes are made to its items"
     },
     {
       "path": "items",
-      "group": "Items"
+      "label": "Items",
+      "editorType": "settingsInput"
     },
     {
-      "path": "colorSource",
-      "label": "Color Source",
-      "group": "Styles",
-      "description": "Hex and RGB colors are supported"
-    },
-    {
-      "path": "activeColor",
-      "label": "Active Color",
-      "group": "Styles"
-    },
-    {
-      "path": "fontColor",
-      "label": "Font Color",
-      "group": "Styles",
-      "shared": true
-    },
-    {
-      "path": "showIcons",
-      "label": "Show Icons?",
-      "group": "Styles"
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
     },
     {
       "path": "width",
       "label": "Width",
-      "group": "Styles",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions",
       "shared": true
     },
     {
-      "path": "height",
-      "label": "Height",
-      "group": "Styles",
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
       "shared": true
     },
     {
-      "path": "fontSize",
-      "label": "Font Size",
-      "group": "Styles",
-      "shared": true
+      "path": "colorSource",
+      "label": "Color Source",
+      "editorType": "settingsInput",
+      "description": "Hex and RGB colors are supported",
+      "group": "Color Settings"
+    },
+    {
+      "path": "activeColor",
+      "label": "Active Color",
+      "editorType": "settingsInputRow",
+      "group": "Color Settings"
+    },
+    {
+      "path": "showIcons",
+      "label": "Show Icons",
+      "editorType": "settingsInput",
+      "group": "Color Settings"
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "settingsInput",
+      "description": "Enter a list of permissions that should be associated with this component"
     }
   ],
   "slots": {

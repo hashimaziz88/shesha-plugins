@@ -5,48 +5,68 @@
   "isOutput": true,
   "canBeJsSetting": true,
   "icon": "CodeOutlined",
-  "version": 5,
+  "version": 6,
   "initModel": {
     "defaults": {
       "textType": "text"
     },
-    "raw": "(model) => ({\r\n    textType: 'text',\r\n    ...model,\r\n  })"
+    "raw": "(model) => ({ ...model, textType: 'text' })"
   },
   "settingsProps": {
     "interfaceName": "ITextFieldComponentProps",
     "interfaceFile": "designer-components/textField/interfaces.ts",
     "ownProps": [
-      "desktop",
-      "tablet",
-      "mobile",
       "placeholder",
       "prefix",
       "suffix",
       "suffixIcon",
       "prefixIcon",
       "initialValue",
-      "passEmptyStringByDefault",
       "textType",
-      "spellCheck"
+      "desktop",
+      "mobile",
+      "tablet",
+      "spellCheck",
+      "regExp"
     ],
     "extends": [
       "IConfigurableFormComponent",
       "IInputStyles"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "backgroundBase64",
       "backgroundColor",
+      "backgroundCover",
+      "backgroundDataSource",
+      "backgroundPosition",
+      "backgroundRepeat",
+      "backgroundStoredFileId",
+      "backgroundType",
+      "backgroundUrl",
+      "border",
       "borderColor",
       "borderRadius",
       "borderSize",
+      "borderStyle",
       "borderType",
+      "borderWidth",
+      "className",
+      "color",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
       "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "fontColor",
       "fontSize",
       "fontWeight",
@@ -54,31 +74,45 @@
       "hidden",
       "hideBorder",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "initialValue",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
       "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
-      "passEmptyStringByDefault",
       "permissions",
       "placeholder",
       "prefix",
       "prefixIcon",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "regExp",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "spellCheck",
       "style",
@@ -90,189 +124,211 @@
       "textType",
       "type",
       "validate",
-      "width"
+      "width",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "textField/settingsForm.json",
-    "mechanism": "json-markup",
+    "source": "textField/settingsForm.ts",
+    "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": true,
+  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
-    "style",
-    "size",
-    "height",
-    "width",
-    "hideBorder",
-    "borderSize",
-    "borderRadius",
-    "borderType",
-    "borderColor",
-    "fontSize",
-    "fontColor",
-    "backgroundColor",
-    "stylingBox"
+    "stylingBox",
+    "style"
   ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Enter custom validator logic for form.item rules. Returns a Promise"
+    },
+    {
       "path": "propertyName",
-      "label": "Property name",
-      "editorType": "contextPropertyAutocomplete",
-      "group": "Display"
+      "label": "Property Name",
+      "editorType": "contextPropertyAutocomplete"
     },
     {
-      "path": "label",
+      "path": "hideLabel",
       "label": "Label",
-      "editorType": "textField",
-      "group": "Display"
-    },
-    {
-      "path": "textType",
-      "label": "Type",
-      "editorType": "dropdown",
-      "group": "Display"
-    },
-    {
-      "path": "labelAlign",
-      "label": "Label align",
-      "editorType": "dropdown",
-      "group": "Display"
+      "editorType": "labelConfigurator"
     },
     {
       "path": "placeholder",
       "label": "Placeholder",
-      "editorType": "textField",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "description",
-      "label": "Description",
-      "editorType": "textArea",
-      "group": "Display"
+      "path": "editMode",
+      "label": "Edit Mode",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "textType",
+      "label": "Type",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "prefix",
       "label": "Prefix",
-      "editorType": "textField",
-      "group": "Display"
-    },
-    {
-      "path": "prefixIcon",
-      "label": "Prefix Icon",
-      "editorType": "iconPicker",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "suffix",
       "label": "Suffix",
-      "editorType": "textField",
-      "group": "Display"
-    },
-    {
-      "path": "suffixIcon",
-      "label": "Suffix Icon",
-      "editorType": "iconPicker",
-      "group": "Display"
-    },
-    {
-      "path": "initialValue",
-      "label": "Default Value",
-      "editorType": "textField",
-      "group": "Display",
-      "description": "Enter default value of component. (formData, formMode, globalState) are exposed"
-    },
-    {
-      "path": "passEmptyStringByDefault",
-      "label": "Empty as default",
-      "editorType": "checkbox",
-      "group": "Display",
-      "description": "Whether the component should be initialized with an empty string"
-    },
-    {
-      "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "hideLabel",
-      "label": "Hide Label",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "editMode",
-      "label": "Edit mode",
-      "editorType": "editModeSelector",
-      "group": "Display"
-    },
-    {
-      "path": "onChangeCustom",
-      "label": "On Change",
-      "editorType": "codeEditor",
-      "group": "Events",
-      "description": "Enter custom eventhandler on changing of event. (form, event) are exposed"
-    },
-    {
-      "path": "onFocusCustom",
-      "label": "On Focus",
-      "editorType": "codeEditor",
-      "group": "Events",
-      "description": "Enter custom eventhandler on focus of event. (form, event) are exposed"
-    },
-    {
-      "path": "onBlurCustom",
-      "label": "On Blur",
-      "editorType": "codeEditor",
-      "group": "Events",
-      "description": "Enter custom eventhandler on blur of event. (form, event) are exposed"
-    },
-    {
-      "path": "validate.required",
-      "label": "Required",
-      "editorType": "checkbox",
-      "group": "Validation"
-    },
-    {
-      "path": "validate.minLength",
-      "label": "Min Length",
-      "editorType": "numberField",
-      "group": "Validation"
-    },
-    {
-      "path": "validate.maxLength",
-      "label": "Max Length",
-      "editorType": "numberField",
-      "group": "Validation"
-    },
-    {
-      "path": "validate.message",
-      "label": "Message",
-      "editorType": "textField",
-      "group": "Validation"
-    },
-    {
-      "path": "validate.validator",
-      "label": "Validator",
-      "editorType": "codeEditor",
-      "group": "Validation",
-      "description": "Enter custom validator logic for form.item rules. Returns a Promise"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "spellCheck",
       "label": "Spell Check",
-      "editorType": "checkbox",
-      "group": "Validation"
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "validate.required",
+      "label": "Required",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "validate.minLength",
+      "label": "Min Length",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "regExp",
+      "label": "Regular expression",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "validate.message",
+      "label": "Message",
+      "editorType": "settingsInputRow",
+      "description": "Enter custom validator logic for form.item rules. Returns a Promise"
+    },
+    {
+      "path": "onChangeCustom",
+      "label": "On Change",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on changing of event."
+    },
+    {
+      "path": "onFocusCustom",
+      "label": "On Focus",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on focus of event."
+    },
+    {
+      "path": "onBlurCustom",
+      "label": "On Blur",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on blur of event."
+    },
+    {
+      "path": "enableStyleOnReadonly",
+      "label": "Enable Style On Readonly",
+      "editorType": "settingsInput",
+      "description": "Removes all visual styling except typography when the component becomes read-only"
+    },
+    {
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "description": "Offset X",
+      "group": "Shadow"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
+      "shared": true
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
+      "shared": true
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {

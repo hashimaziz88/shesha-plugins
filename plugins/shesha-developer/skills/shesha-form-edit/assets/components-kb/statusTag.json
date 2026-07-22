@@ -23,42 +23,68 @@
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
       "mappings",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
       "validate",
-      "valueSource"
+      "valueSource",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "'mappings' | 'style'>",
@@ -77,73 +103,62 @@
   ],
   "settingsFields": [
     {
-      "path": "propertyName",
-      "label": "Property name",
-      "editorType": "contextPropertyAutocomplete",
-      "group": "Display"
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Enter the JSON object that should match the structure of the default one provided"
     },
     {
-      "path": "label",
-      "label": "Label",
-      "editorType": "textField",
-      "group": "Display"
+      "path": "propertyName",
+      "label": "Property Name",
+      "editorType": "contextPropertyAutocomplete"
     },
     {
       "path": "hideLabel",
-      "label": "Hide Label",
-      "editorType": "checkbox",
-      "group": "Display"
+      "label": "Label",
+      "editorType": "labelConfigurator"
     },
     {
       "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
+      "label": "Hide",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "valueSource",
-      "label": "Value source",
-      "editorType": "dropdown",
-      "defaultValue": "manual",
-      "group": "Display"
+      "label": "Value Source",
+      "editorType": "settingsInput"
     },
     {
       "path": "override",
       "label": "Override",
-      "editorType": "textField",
-      "group": "Display"
+      "editorType": "settingsInput"
     },
     {
       "path": "value",
       "label": "Value",
-      "editorType": "textField",
-      "group": "Display"
-    },
-    {
-      "path": "color",
-      "label": "Color",
-      "editorType": "textField",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "mappings",
       "label": "Default Mappings",
-      "editorType": "codeEditor",
-      "description": "Enter the JSON object that should match the structure of the default one provided",
-      "group": "Display"
+      "editorType": "settingsInput",
+      "description": "Enter the JSON object that should match the structure of the default one provided"
+    },
+    {
+      "path": "color",
+      "label": "Color",
+      "editorType": "settingsInput"
     },
     {
       "path": "style",
       "label": "Style",
-      "editorType": "codeEditor",
-      "group": "Display",
+      "editorType": "settingsInput",
       "shared": true
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {

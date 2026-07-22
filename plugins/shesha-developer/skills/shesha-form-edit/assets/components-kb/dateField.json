@@ -5,7 +5,7 @@
   "isOutput": true,
   "canBeJsSetting": true,
   "icon": "CalendarOutlined",
-  "version": 5,
+  "version": 7,
   "initModel": {
     "defaults": null,
     "raw": "(model) => {\r\n    const customModel: IDateFieldProps = {\r\n      ...model,\r\n      picker: 'date',\r\n      showTime: false,\r\n      dateFormat: DATE_TIME_FORMATS?.date,\r\n      timeFormat: DATE_TIME_FORMATS.time,\r\n      defaultToMidnight: true,\r\n    };\r\n    return customModel;\r\n  }"
@@ -36,20 +36,47 @@
       "disabledDateFunc",
       "disabledTimeMode",
       "disabledTimeTemplate",
-      "disabledTimeFunc"
+      "disabledTimeFunc",
+      "additionalStyles"
     ],
     "extends": [
-      "IConfigurableFormComponent"
+      "IConfigurableFormComponent",
+      "IInputStyles"
     ],
     "resolvedProps": [
+      "_formFields",
+      "additionalStyles",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "backgroundBase64",
+      "backgroundColor",
+      "backgroundCover",
+      "backgroundDataSource",
+      "backgroundPosition",
+      "backgroundRepeat",
+      "backgroundStoredFileId",
+      "backgroundType",
+      "backgroundUrl",
+      "border",
+      "borderColor",
+      "borderRadius",
+      "borderSize",
+      "borderStyle",
+      "borderType",
+      "borderWidth",
+      "className",
+      "color",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
       "dateFormat",
       "defaultToMidnight",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "disablePastDates",
       "disabledDateFunc",
       "disabledDateMode",
@@ -58,17 +85,29 @@
       "disabledTimeMode",
       "disabledTimeTemplate",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
+      "fontColor",
+      "fontSize",
+      "fontWeight",
+      "height",
       "hidden",
       "hideBorder",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "monthFormat",
       "noDataIcon",
       "noDataSecondaryText",
@@ -76,16 +115,25 @@
       "onBlurCustom",
       "onChange",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
       "picker",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
       "quarterFormat",
+      "queryParams",
       "range",
       "readOnly",
       "resolveToUTC",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "showNow",
       "showTime",
       "showToday",
@@ -93,11 +141,14 @@
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "timeFormat",
       "type",
       "validate",
       "value",
       "weekFormat",
+      "width",
+      "wrapperStyle",
       "yearFormat"
     ],
     "unresolvedExtends": [
@@ -105,229 +156,213 @@
     ]
   },
   "settingsForm": {
-    "source": "dateField/settingsForm.json",
-    "mechanism": "json-markup",
+    "source": "dateField/settingsForm.ts",
+    "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
   "hasStandardAppearance": false,
   "appearanceFieldPaths": [
-    "hideBorder",
-    "style",
-    "size"
+    "stylingBox",
+    "style"
   ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Enter disabled date code. You must return true to hide the date. Two objects are exposed to work with, namely 'current' and 'moment'. Use these variables to write the code that will hide the dates you want."
+    },
+    {
       "path": "propertyName",
-      "label": "Property name",
-      "editorType": "contextPropertyAutocomplete",
-      "group": "Display"
+      "label": "Property Name",
+      "editorType": "contextPropertyAutocomplete"
     },
     {
-      "path": "label",
+      "path": "hideLabel",
       "label": "Label",
-      "editorType": "textField",
-      "group": "Display"
-    },
-    {
-      "path": "range",
-      "label": "Range?",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "resolveToUTC",
-      "label": "Resolve to UTC",
-      "editorType": "switch",
-      "group": "Display",
-      "description": "If switched on the selected time will be converted to UTC"
-    },
-    {
-      "path": "labelAlign",
-      "label": "Label align",
-      "editorType": "dropdown",
-      "group": "Display"
-    },
-    {
-      "path": "picker",
-      "label": "Picker",
-      "editorType": "dropdown",
-      "defaultValue": "",
-      "group": "Display"
+      "editorType": "labelConfigurator"
     },
     {
       "path": "placeholder",
       "label": "Placeholder",
-      "editorType": "textField",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "description",
-      "label": "Description",
-      "editorType": "textArea",
-      "group": "Display"
-    },
-    {
-      "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "hideLabel",
-      "label": "Hide Label",
-      "editorType": "checkbox",
-      "group": "Display"
+      "path": "range",
+      "label": "Range",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "editMode",
-      "label": "Edit mode",
-      "editorType": "editModeSelector",
-      "group": "Display"
+      "label": "Edit Mode",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "picker",
+      "label": "Picker",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "showTime",
+      "label": "Show Time",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "showNow",
+      "label": "Show Today/Now",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "disabledDateMode",
+      "label": "Disabled Date Mode",
+      "editorType": "settingsInputRow",
+      "description": "Enter disabled date code. You must return true to hide the date. Two objects are exposed to work with, namely 'current' and 'moment'. Use these variables to write the code that will hide the dates you want."
+    },
+    {
+      "path": "disabledTimeMode",
+      "label": "Disabled Time Mode",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "dateFormat",
       "label": "Date Format",
-      "editorType": "textField",
-      "defaultValue": "DD/MM/YYYY",
-      "group": "Formats"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "timeFormat",
       "label": "Time Format",
-      "editorType": "textField",
-      "defaultValue": "HH:mm:ss",
-      "group": "Formats"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "yearFormat",
       "label": "Year Format",
-      "editorType": "textField",
-      "defaultValue": "YYYY",
-      "group": "Formats"
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "quarterFormat",
-      "label": "Quarter Format",
-      "editorType": "textField",
-      "defaultValue": "YYYY-\\QQ",
-      "group": "Formats"
+      "path": "onChangeCustom",
+      "label": "On Change",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on changing of event."
     },
     {
-      "path": "monthFormat",
-      "label": "Month Format",
-      "editorType": "textField",
-      "defaultValue": "YYYY-MM",
-      "group": "Formats"
+      "path": "onFocusCustom",
+      "label": "On Focus",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on focus of event."
     },
     {
-      "path": "weekFormat",
-      "label": "Week Format",
-      "editorType": "textField",
-      "defaultValue": "YYYY-wo",
-      "group": "Formats"
+      "path": "onBlurCustom",
+      "label": "On Blur",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on blur of event."
     },
     {
-      "path": "hideBorder",
-      "label": "Hide border",
-      "editorType": "checkbox",
-      "group": "Style",
+      "path": "validate.required",
+      "label": "Required",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "enableStyleOnReadonly",
+      "label": "Enable Style On Readonly",
+      "editorType": "settingsInput",
+      "description": "Removes all visual styling except typography when the component becomes read-only"
+    },
+    {
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "description": "Offset X",
+      "group": "Shadow"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
       "shared": true
     },
     {
       "path": "style",
       "label": "Style",
-      "editorType": "codeEditor",
-      "group": "Style",
+      "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
       "shared": true
-    },
-    {
-      "path": "size",
-      "label": "Size",
-      "editorType": "dropdown",
-      "group": "Style",
-      "shared": true
-    },
-    {
-      "path": "showTime",
-      "label": "Show Time",
-      "editorType": "checkbox",
-      "defaultValue": false,
-      "group": "Control Visibility"
-    },
-    {
-      "path": "defaultToMidnight",
-      "label": "Default time to midnight",
-      "editorType": "checkbox",
-      "defaultValue": true,
-      "group": "Control Visibility",
-      "description": "If checked the default time will be '00:00:00', else it will be the current time on the machine"
-    },
-    {
-      "path": "showNow",
-      "label": "Show Today/Now",
-      "editorType": "checkbox",
-      "defaultValue": false,
-      "group": "Control Visibility"
-    },
-    {
-      "path": "disabledDateMode",
-      "label": "Disabled date mode",
-      "editorType": "dropdown",
-      "defaultValue": "none",
-      "group": "Control Visibility"
-    },
-    {
-      "path": "disabledDateTemplate",
-      "label": "Disabled date templates",
-      "editorType": "dropdown",
-      "group": "Control Visibility"
-    },
-    {
-      "path": "disabledDateFunc",
-      "label": "Disabled Date Func",
-      "editorType": "codeEditor",
-      "group": "Control Visibility",
-      "description": "Enter disabled date code. You must return true to hide the date. Two objects are exposed to work with, namely 'current' and 'moment'. Use these variables to write the code that will hide the dates you want."
-    },
-    {
-      "path": "disabledTimeMode",
-      "label": "Disabled time mode",
-      "editorType": "dropdown",
-      "defaultValue": "none",
-      "group": "Control Visibility"
-    },
-    {
-      "path": "disabledTimeTemplate",
-      "label": "Disabled time templates",
-      "editorType": "dropdown",
-      "group": "Control Visibility"
-    },
-    {
-      "path": "disabledTimeFunc",
-      "label": "Disabled Time Func",
-      "editorType": "codeEditor",
-      "group": "Control Visibility",
-      "description": "Enter disabled time code. You must return a lamda function with object of DisabledTimes(disabledHours, disabledMinutes, disabledSeconds). Two objects is exposed to work with, namely 'range', 'moment'. Use these variables to write the code that will hide the dates you want."
-    },
-    {
-      "path": "onChangeCustom",
-      "label": "On Change",
-      "editorType": "codeEditor",
-      "group": "Events",
-      "description": "Enter custom eventhandler on changing of event. (form, value, dateString) are exposed"
-    },
-    {
-      "path": "validate.required",
-      "label": "Required",
-      "editorType": "checkbox",
-      "group": "Validation"
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {

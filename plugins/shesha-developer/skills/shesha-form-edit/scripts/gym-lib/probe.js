@@ -47,6 +47,27 @@ export function probeFn(cfg) {
       }
     }
 
+    // Subtree style union: per prop, the set of distinct computed values across
+    // ALL descendants — a style change on ANY node shows up, not just the three
+    // sampled nodes (measured: background renders on middle nodes like
+    // ant-input-affix-wrapper that wrapper/deepest/control sampling misses).
+    const styleUnion = {};
+    {
+      // geometry props excluded — computed sizes ripple with layout and are
+      // already covered by the wrapper rect diff
+      const unionProps = cfg.styleProps.filter(
+        (p) => !['width', 'height', 'minHeight', 'maxWidth', 'lineHeight'].includes(p),
+      );
+      const els = [w, ...w.querySelectorAll('*')].slice(0, 300);
+      const sets = {};
+      for (const p of unionProps) sets[p] = new Set();
+      for (const el of els) {
+        const cs = getComputedStyle(el);
+        for (const p of unionProps) sets[p].add(cs[p]);
+      }
+      for (const p of unionProps) styleUnion[p] = [...sets[p]].sort().join(' | ');
+    }
+
     let canvasSig = null;
     const canvas = w.querySelector('canvas');
     if (canvas) {
@@ -59,6 +80,7 @@ export function probeFn(cfg) {
     out[name] = {
       rect: { x: round(r.x), y: round(r.y), w: round(r.width), h: round(r.height) },
       childCount: w.querySelectorAll('*').length,
+      styleUnion,
       canvasSig,
       wrapperStyle: snapshotEl(w),
       style: snapshotEl(measured),

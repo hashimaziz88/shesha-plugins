@@ -5,132 +5,180 @@
   "isOutput": true,
   "canBeJsSetting": true,
   "icon": "CheckSquareOutlined",
-  "version": 4,
+  "version": 5,
   "initModel": null,
   "settingsProps": {
     "interfaceName": "ICheckboxComponentProps",
-    "interfaceFile": "designer-components/checkbox/interfaces.ts",
+    "interfaceFile": null,
     "ownProps": [],
-    "extends": [
-      "IConfigurableFormComponent"
-    ],
-    "resolvedProps": [
-      "componentName",
-      "context",
-      "customEnabled",
-      "customVisibility",
-      "defaultValue",
-      "description",
-      "editMode",
-      "hidden",
-      "hideLabel",
-      "id",
-      "initialContext",
-      "injectedDefaultValue",
-      "injectedTableRow",
-      "isDynamic",
-      "jsSetting",
-      "label",
-      "labelAlign",
-      "noDataIcon",
-      "noDataSecondaryText",
-      "noDataText",
-      "onBlurCustom",
-      "onChangeCustom",
-      "onFocusCustom",
-      "parentId",
-      "permissions",
-      "propertyName",
-      "readOnly",
-      "settingsValidationErrors",
-      "size",
-      "style",
-      "stylingBox",
-      "subscribedEventNames",
-      "type",
-      "validate"
-    ],
+    "extends": [],
+    "resolvedProps": [],
     "unresolvedExtends": [
-      "IHasVersion"
+      "ICheckboxComponentProps"
     ]
   },
   "settingsForm": {
-    "source": "checkbox/settingsForm.json",
-    "mechanism": "json-markup",
+    "source": "checkbox/settingsForm.ts",
+    "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
   "hasStandardAppearance": false,
   "appearanceFieldPaths": [
+    "stylingBox",
     "style"
   ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Enter custom eventhandler on changing of event."
+    },
+    {
       "path": "propertyName",
-      "label": "Property name",
-      "editorType": "contextPropertyAutocomplete",
-      "group": "Display"
-    },
-    {
-      "path": "label",
-      "label": "Label",
-      "editorType": "textField",
-      "group": "Display"
-    },
-    {
-      "path": "labelAlign",
-      "label": "Label align",
-      "editorType": "dropdown",
-      "group": "Display"
-    },
-    {
-      "path": "description",
-      "label": "Description",
-      "editorType": "textArea",
-      "group": "Display"
-    },
-    {
-      "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "defaultValue",
-      "label": "Default Checked",
-      "editorType": "checkbox",
-      "group": "Display"
+      "label": "Property Name",
+      "editorType": "contextPropertyAutocomplete"
     },
     {
       "path": "hideLabel",
-      "label": "Hide Label",
-      "editorType": "checkbox",
-      "group": "Display"
+      "label": "Label",
+      "editorType": "labelConfigurator"
+    },
+    {
+      "path": "description",
+      "label": "Tooltip",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "editMode",
-      "label": "Edit mode",
-      "editorType": "editModeSelector",
-      "group": "Display"
+      "label": "Edit Mode",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "validate.required",
       "label": "Required",
-      "editorType": "checkbox",
-      "group": "Validation"
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "onChangeCustom",
+      "label": "On Change",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on changing of event."
+    },
+    {
+      "path": "onFocusCustom",
+      "label": "On Focus",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on focus of event."
+    },
+    {
+      "path": "onBlurCustom",
+      "label": "On Blur",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on blur of event."
+    },
+    {
+      "path": "enableStyleOnReadonly",
+      "label": "Enable Style On Readonly",
+      "editorType": "settingsInput",
+      "description": "Removes all visual styling except typography when the component becomes read-only"
+    },
+    {
+      "path": "font",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Check Mark"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "description": "Offset X",
+      "group": "Shadow"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
+      "shared": true
     },
     {
       "path": "style",
       "label": "Style",
-      "editorType": "codeEditor",
-      "group": "Style",
+      "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
       "shared": true
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {
@@ -140,7 +188,6 @@
     "usesComponentsContainer": false
   },
   "sourceFiles": [
-    "checkbox/checkbox.tsx",
-    "checkbox/interfaces.ts"
+    "checkbox/checkbox.tsx"
   ]
 }

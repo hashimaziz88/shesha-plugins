@@ -5,14 +5,14 @@
   "isOutput": null,
   "canBeJsSetting": null,
   "icon": "LinkOutlined",
-  "version": 4,
+  "version": 5,
   "initModel": {
     "defaults": null,
-    "raw": "(model: ILinkProps) => {\r\n    const customProps: ILinkProps = {\r\n      ...model,\r\n      direction: 'vertical',\r\n      target: '_self',\r\n      justifyContent: 'left',\r\n    };\r\n\r\n    return customProps;\r\n  }"
+    "raw": "(model: ILinkProps) => {\r\n    const customProps: ILinkProps = {\r\n      ...model,\r\n      direction: 'vertical',\r\n      target: '_self',\r\n      justifyContent: 'left',\r\n      hideLabel: true,\r\n    };\r\n\r\n    return customProps;\r\n  }"
   },
   "settingsProps": {
     "interfaceName": "ILinkProps",
-    "interfaceFile": "designer-components/link/index.tsx",
+    "interfaceFile": "designer-components/link/interfaces.ts",
     "ownProps": [
       "href",
       "content",
@@ -26,13 +26,20 @@
       "justifyItems",
       "className",
       "icon",
+      "font",
       "components"
     ],
     "extends": [
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
       "alignItems",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
       "className",
       "componentName",
       "components",
@@ -40,44 +47,64 @@
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "direction",
       "download",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "hasChildren",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "href",
       "icon",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "justifyContent",
       "justifyItems",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "target",
       "type",
-      "validate"
+      "validate",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
@@ -192,6 +219,7 @@
     "usesComponentsContainer": true
   },
   "sourceFiles": [
-    "link/index.tsx"
+    "link/index.tsx",
+    "link/interfaces.ts"
   ]
 }

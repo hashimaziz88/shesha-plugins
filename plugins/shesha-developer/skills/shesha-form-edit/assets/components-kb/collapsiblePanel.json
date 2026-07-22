@@ -5,13 +5,8 @@
   "isOutput": null,
   "canBeJsSetting": null,
   "icon": "GroupOutlined",
-  "version": 8,
-  "initModel": {
-    "defaults": {
-      "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}"
-    },
-    "raw": "(model) => ({\r\n    ...model,\r\n    stylingBox: \"{\\\"marginBottom\\\":\\\"5\\\"}\"\r\n  })"
-  },
+  "version": 9,
+  "initModel": null,
   "settingsProps": {
     "interfaceName": "ICollapsiblePanelComponentProps",
     "interfaceFile": "designer-components/collapsiblePanel/interfaces.ts",
@@ -22,6 +17,7 @@
       "content",
       "collapsible",
       "ghost",
+      "accentStyle",
       "hideWhenEmpty",
       "className",
       "marginBottom",
@@ -31,17 +27,28 @@
       "isSimpleDesign",
       "hideCollapseContent",
       "borderRadius",
+      "noMargin",
       "hasCustomHeader",
       "customHeader",
       "panelHeadType",
-      "accent"
+      "headerStyles",
+      "desktop",
+      "mobile",
+      "tablet"
     ],
     "extends": [
-      "IConfigurableFormComponent"
+      "IConfigurableFormComponent",
+      "IStyleType"
     ],
     "resolvedProps": [
-      "accent",
+      "_formFields",
+      "accentStyle",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
       "bodyColor",
+      "border",
       "borderRadius",
       "className",
       "collapsedByDefault",
@@ -52,186 +59,291 @@
       "customEnabled",
       "customHeader",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
       "expandIconPosition",
+      "font",
       "ghost",
       "hasCustomHeader",
       "header",
       "headerColor",
+      "headerStyles",
       "hidden",
       "hideCollapseContent",
       "hideLabel",
+      "hideScrollBar",
       "hideWhenEmpty",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "isSimpleDesign",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
       "marginBottom",
       "marginTop",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
+      "noMargin",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "panelHeadType",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
-      "validate"
+      "validate",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "collapsiblePanel/settingsForm.json",
-    "mechanism": "json-markup",
+    "source": "collapsiblePanel/settingsForm.ts",
+    "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
   "hasStandardAppearance": false,
   "appearanceFieldPaths": [
-    "borderRadius",
-    "style",
-    "stylingBox"
+    "stylingBox",
+    "style"
   ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs"
+    },
+    {
       "path": "componentName",
-      "label": "Component name",
-      "editorType": "textField",
-      "group": "Display"
+      "label": "Component Name",
+      "editorType": "settingsInput"
     },
     {
       "path": "label",
       "label": "Label",
-      "editorType": "textField",
-      "group": "Display"
-    },
-    {
-      "path": "hasCustomHeader",
-      "label": "Custom Header",
-      "editorType": "checkbox",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "expandIconPosition",
-      "label": "Icon position",
-      "editorType": "dropdown",
-      "group": "Display"
-    },
-    {
-      "path": "collapsible",
-      "label": "Collapsible",
-      "editorType": "dropdown",
-      "group": "Display"
+      "label": "Icon Position",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "collapsedByDefault",
-      "label": "Collapsed by default",
-      "editorType": "checkbox",
-      "group": "Display"
+      "label": "Collapsed By Default",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
+      "label": "Hide",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "ghost",
       "label": "Ghost",
-      "editorType": "checkbox",
-      "group": "Display",
-      "description": "Make the collapse borderless and its background transparent"
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "hideCollapseContent",
-      "label": "Hide Top Bar",
-      "editorType": "checkbox",
-      "group": "Display",
-      "description": "Hides the collapsible panel"
-    },
-    {
-      "path": "isSimpleDesign",
-      "label": "Simple Design",
-      "editorType": "checkbox",
-      "group": "Display",
-      "description": "Make the collapse borderless, background transparent and simple design"
-    },
-    {
-      "path": "accent",
+      "path": "accentStyle",
       "label": "Accent",
-      "editorType": "checkbox",
-      "group": "Display",
-      "description": "Make the primary colored border visible"
+      "editorType": "settingsInputRow",
+      "description": "Applies accent styling to panel borders using the primary color"
     },
     {
-      "path": "borderRadius",
-      "label": "Border Radius",
-      "editorType": "numberField",
-      "defaultValue": 8,
-      "group": "Display",
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "description": "Offset X",
+      "group": "Shadow"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
       "shared": true
-    },
-    {
-      "path": "headerColor",
-      "label": "Header Background Color",
-      "editorType": "colorPicker",
-      "group": "Display"
-    },
-    {
-      "path": "bodyColor",
-      "label": "Body Background Color",
-      "editorType": "colorPicker",
-      "group": "Display"
-    },
-    {
-      "path": "className",
-      "label": "Custom CSS Class",
-      "editorType": "textField",
-      "group": "Style",
-      "description": "Custom CSS Class to add to this component"
     },
     {
       "path": "style",
       "label": "Style",
-      "editorType": "codeEditor",
-      "group": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
       "shared": true
     },
     {
-      "path": "stylingBox",
+      "path": "font",
+      "label": "Font",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
+    },
+    {
+      "path": "headerStyles.dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "headerStyles.background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "headerStyles.background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "headerStyles.background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "headerStyles.background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "headerStyles.background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "headerStyles.background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "headerStyles.background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "headerStyles.background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "headerStyles.stylingBox",
+      "label": "Margin Padding",
       "editorType": "styleBox",
-      "group": "Style",
-      "shared": true
+      "group": "Margin and Padding"
     },
     {
-      "path": "hideWhenEmpty",
-      "label": "Hide when empty",
-      "editorType": "checkbox",
-      "group": "Visibility",
-      "description": "Allows to hide the panel when all components are hidden due to some conditions"
+      "path": "headerStyles.style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles"
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {

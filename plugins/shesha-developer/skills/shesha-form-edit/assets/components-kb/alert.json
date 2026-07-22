@@ -21,58 +21,88 @@
       "showIcon",
       "alertType",
       "closable",
-      "icon"
+      "icon",
+      "banner",
+      "marquee"
     ],
     "extends": [
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
       "alertType",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "banner",
+      "border",
       "closable",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "icon",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "marquee",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "showIcon",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "text",
       "type",
-      "validate"
+      "validate",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "alert/settings.ts",
+    "source": "alert/settingsForm.ts",
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
@@ -82,68 +112,61 @@
   ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "The message to display in the alert. You can use variables and expressions."
+    },
+    {
       "path": "componentName",
-      "label": "Component name",
-      "editorType": "textField",
-      "group": "Display"
+      "label": "Component Name",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "alertType",
       "label": "Type",
-      "editorType": "dropdown",
-      "defaultValue": "info",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "text",
-      "label": "Text",
-      "editorType": "textArea",
-      "description": "Accepts {{mustache}} syntax",
-      "group": "Display"
+      "label": "Message",
+      "editorType": "settingsInputRow",
+      "description": "The message to display in the alert. You can use variables and expressions."
     },
     {
       "path": "description",
       "label": "Description",
-      "editorType": "textArea",
-      "description": "Accepts {{mustache}} syntax",
-      "group": "Display"
+      "editorType": "settingsInputRow",
+      "description": "Additional information about the alert."
     },
     {
       "path": "showIcon",
       "label": "Show Icon",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "closable",
-      "label": "Closable",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "icon",
-      "label": "Icon",
-      "editorType": "iconPicker",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
+      "label": "Hide",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "marquee",
+      "label": "Marquee",
+      "editorType": "settingsInputRow",
+      "description": "If enabled, the content will scroll horizontally."
     },
     {
       "path": "style",
       "label": "Style",
-      "editorType": "codeEditor",
-      "group": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
       "shared": true
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {

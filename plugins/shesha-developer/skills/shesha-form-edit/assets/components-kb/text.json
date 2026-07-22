@@ -5,7 +5,7 @@
   "isOutput": true,
   "canBeJsSetting": null,
   "icon": "LineHeightOutlined",
-  "version": 2,
+  "version": 5,
   "initModel": {
     "defaults": {
       "code": false,
@@ -16,9 +16,11 @@
       "italic": false,
       "underline": false,
       "level": 1,
-      "textType": "span"
+      "textType": "span",
+      "content": "Your text here...",
+      "contentDisplay": "content"
     },
-    "raw": "model => ({\r\n    code: false,\r\n    copyable: false,\r\n    delete: false,\r\n    ellipsis: false,\r\n    mark: false,\r\n    italic: false,\r\n    underline: false,\r\n    level: 1,\r\n    textType: 'span',\r\n    ...model,\r\n  })"
+    "raw": "(model) => ({\r\n    code: false,\r\n    copyable: false,\r\n    delete: false,\r\n    ellipsis: false,\r\n    mark: false,\r\n    italic: false,\r\n    underline: false,\r\n    level: 1,\r\n    textType: 'span',\r\n    content: 'Your text here...',\r\n    contentDisplay: 'content',\r\n    ...model,\r\n  })"
   },
   "settingsProps": {
     "interfaceName": "ITextTypographyProps",
@@ -46,13 +48,21 @@
       "keyboard",
       "strong",
       "value",
-      "textAlign"
+      "textAlign",
+      "styles",
+      "shadow"
     ],
     "extends": [
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
       "backgroundColor",
+      "border",
       "code",
       "color",
       "componentName",
@@ -65,232 +75,257 @@
       "customVisibility",
       "dataType",
       "dateFormat",
-      "defaultValue",
       "delete",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
       "ellipsis",
+      "enableStyleOnReadonly",
+      "font",
       "fontSize",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "italic",
       "jsSetting",
       "keyboard",
       "label",
       "labelAlign",
+      "layout",
       "level",
+      "listType",
       "mark",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "numberFormat",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "padding",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "strong",
       "style",
+      "styles",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "textAlign",
       "textType",
       "type",
       "underline",
       "validate",
-      "value"
+      "value",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "text/settings.ts",
+    "source": "text/settingsForm.ts",
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
   "hasStandardAppearance": false,
   "appearanceFieldPaths": [
-    "backgroundColor",
-    "fontSize",
+    "stylingBox",
     "style"
   ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Controls text thickness (light, normal, bold, etc.)"
+    },
+    {
       "path": "propertyName",
-      "label": "Property name",
-      "editorType": "contextPropertyAutocomplete",
-      "group": "Display"
+      "label": "Property Name",
+      "editorType": "contextPropertyAutocomplete"
     },
     {
       "path": "textType",
       "label": "Type",
-      "editorType": "dropdown",
-      "group": "Display"
-    },
-    {
-      "path": "contentDisplay",
-      "label": "Content Display",
-      "editorType": "dropdown",
-      "defaultValue": "content",
-      "group": "Display"
-    },
-    {
-      "path": "textAlign",
-      "label": "Text Align",
-      "editorType": "dropdown",
-      "defaultValue": "start",
-      "group": "Display"
-    },
-    {
-      "path": "content",
-      "label": "Content",
-      "editorType": "textArea",
-      "group": "Display"
-    },
-    {
-      "path": "hidden",
-      "label": "Hidden?",
-      "editorType": "checkbox",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "dataType",
       "label": "Data Type",
-      "editorType": "dropdown",
-      "defaultValue": "string",
-      "group": "Data type and format"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "dateFormat",
-      "label": "Format",
-      "editorType": "textField",
-      "group": "Data type and format"
+      "label": "Date Format",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "numberFormat",
-      "label": "Number format",
-      "editorType": "dropdown",
-      "defaultValue": "round",
-      "group": "Data type and format"
+      "label": "Number Format",
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "contentType",
-      "label": "Color",
-      "editorType": "dropdown",
-      "defaultValue": "",
-      "group": "Color"
-    },
-    {
-      "path": "color",
-      "label": "Custom Color",
-      "editorType": "colorPicker",
-      "group": "Color"
-    },
-    {
-      "path": "backgroundColor",
-      "label": "Background Color",
-      "editorType": "colorPicker",
-      "group": "Color",
-      "shared": true
-    },
-    {
-      "path": "level",
-      "label": "Font Size",
-      "editorType": "dropdown",
-      "group": "Font"
-    },
-    {
-      "path": "fontSize",
-      "label": "Font Size",
-      "editorType": "dropdown",
-      "group": "Font",
-      "shared": true
-    },
-    {
-      "path": "padding",
-      "label": "Padding",
-      "editorType": "dropdown",
-      "defaultValue": "none",
-      "group": "Font"
-    },
-    {
-      "path": "code",
-      "label": "Code style?",
-      "editorType": "checkbox",
-      "group": "Font"
+      "path": "content",
+      "label": "Content",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "italic",
       "label": "Italic",
-      "editorType": "checkbox",
-      "group": "Font"
-    },
-    {
-      "path": "copyable",
-      "label": "Copyable?",
-      "editorType": "checkbox",
-      "group": "Font"
-    },
-    {
-      "path": "keyboard",
-      "label": "Keyboard style?",
-      "editorType": "checkbox",
-      "group": "Font"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "delete",
-      "label": "Delete?",
-      "editorType": "checkbox",
-      "group": "Font"
+      "label": "Strikethrough",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "ellipsis",
-      "label": "Ellipsis?",
-      "editorType": "checkbox",
+      "label": "Ellipsis",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "keyboard",
+      "label": "Keyboard",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
       "group": "Font"
     },
     {
-      "path": "mark",
-      "label": "Marked style?",
-      "editorType": "checkbox",
+      "path": "contentType",
+      "label": "Type",
+      "editorType": "settingsInputRow",
       "group": "Font"
     },
     {
-      "path": "strong",
-      "label": "Strong?",
-      "editorType": "checkbox",
+      "path": "font.color",
+      "label": "Custom Color",
+      "editorType": "settingsInputRow",
       "group": "Font"
     },
     {
-      "path": "underline",
-      "label": "Underline?",
-      "editorType": "checkbox",
-      "group": "Font"
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "border.hideBorder",
+      "label": "Border",
+      "editorType": "settingsInputRow",
+      "group": "Border"
+    },
+    {
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "description": "Offset X",
+      "group": "Shadow"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
+      "shared": true
     },
     {
       "path": "style",
       "label": "Style",
-      "editorType": "codeEditor",
+      "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "group": "Style",
+      "group": "Custom Styles",
       "shared": true
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {

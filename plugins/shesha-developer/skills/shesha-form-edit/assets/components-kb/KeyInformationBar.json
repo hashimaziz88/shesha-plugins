@@ -5,10 +5,10 @@
   "isOutput": null,
   "canBeJsSetting": null,
   "icon": "BorderLeftOutlined",
-  "version": 2,
+  "version": 4,
   "initModel": {
     "defaults": null,
-    "raw": "(model) => {\r\n    const tabsModel: IKeyInformationBarProps = {\r\n      ...model,\r\n      propertyName: 'column 1',\r\n      columns: [\r\n        {\r\n          id: nanoid(),\r\n          width: 200,\r\n          textAlign: 'center',\r\n          flexDirection: 'column',\r\n          components: [],\r\n          padding: '0px',\r\n        }\r\n      ],\r\n      orientation: 'horizontal',\r\n      stylingBox: \"{\\\"marginBottom\\\":\\\"5\\\"}\"\r\n    };\r\n\r\n    return tabsModel;\r\n  }"
+    "raw": "(model) => {\r\n    const tabsModel: IKeyInformationBarProps = {\r\n      ...model,\r\n      propertyName: 'column 1',\r\n      columns: [\r\n        {\r\n          id: nanoid(),\r\n          width: 200,\r\n          textAlign: 'center',\r\n          flexDirection: 'column',\r\n          components: [],\r\n          padding: '0px',\r\n        },\r\n      ],\r\n    };\r\n\r\n    return tabsModel;\r\n  }"
   },
   "settingsProps": {
     "interfaceName": "IKeyInformationBarProps",
@@ -31,134 +31,247 @@
       "backgroundColor"
     ],
     "extends": [
-      "IConfigurableFormComponent"
+      "IConfigurableFormComponent",
+      "IInputStyles"
     ],
     "resolvedProps": [
+      "_formFields",
       "alignItems",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "backgroundBase64",
       "backgroundColor",
+      "backgroundCover",
+      "backgroundDataSource",
+      "backgroundPosition",
+      "backgroundRepeat",
+      "backgroundStoredFileId",
+      "backgroundType",
+      "backgroundUrl",
+      "border",
+      "borderColor",
+      "borderRadius",
+      "borderSize",
+      "borderStyle",
+      "borderType",
+      "borderWidth",
+      "className",
+      "color",
       "columns",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "dividerColor",
       "dividerHeight",
       "dividerMargin",
       "dividerThickness",
       "dividerWidth",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
+      "fontColor",
+      "fontSize",
+      "fontWeight",
       "gap",
       "height",
       "hidden",
+      "hideBorder",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
       "orientation",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
       "validate",
-      "width"
+      "width",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "keyInformationBar/settings.tsx",
-    "mechanism": "react-factory",
-    "parseQuality": "partial"
+    "source": "keyInformationBar/settingsForm.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
   },
   "hasStandardAppearance": false,
   "appearanceFieldPaths": [
-    "backgroundColor",
-    "style",
-    "stylingBox"
+    "stylingBox",
+    "style"
   ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit"
+    },
+    {
       "path": "componentName",
-      "label": "Component Name"
-    },
-    {
-      "path": "hidden",
-      "label": "Hidden"
-    },
-    {
-      "path": "orientation",
-      "label": "Orientation"
-    },
-    {
-      "path": "backgroundColor",
-      "label": "Background Color",
-      "shared": true
+      "label": "Component Name",
+      "editorType": "settingsInput"
     },
     {
       "path": "columns",
-      "label": "Columns"
+      "label": "Columns",
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "alignItems",
-      "label": "Align Items"
+      "path": "orientation",
+      "label": "Orientation",
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "dividerMargin",
-      "label": "Divider Margin"
+      "path": "gap",
+      "label": "Gap",
+      "editorType": "settingsInput"
     },
     {
-      "path": "dividerHeight",
-      "label": "Divider Height"
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
     },
     {
-      "path": "dividerWidth",
-      "label": "Divider Width"
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
     },
     {
-      "path": "dividerThickness",
-      "label": "Divider Thickness"
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
     },
     {
-      "path": "dividerColor",
-      "label": "Divider Color"
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "description": "Offset X",
+      "group": "Shadow"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
+      "shared": true
     },
     {
       "path": "style",
       "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
       "shared": true
     },
     {
-      "path": "gap",
-      "label": "Gap"
+      "path": "dividerMargin",
+      "label": "Divider Margin",
+      "editorType": "settingsInputRow",
+      "description": "Sets the margin around the divider",
+      "group": "Divider"
     },
     {
-      "path": "stylingBox",
-      "shared": true
+      "path": "dividerThickness",
+      "label": "Divider Thickness",
+      "editorType": "settingsInputRow",
+      "description": "Sets the thickness of the divider line",
+      "group": "Divider"
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "group": "Security",
+      "editorType": "settingsInput",
       "description": "Enter a list of permissions that should be associated with this component"
     }
   ],

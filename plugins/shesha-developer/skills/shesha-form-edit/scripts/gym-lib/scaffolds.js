@@ -21,7 +21,7 @@ export const ASSET_PROPS = {
 // Fields the generator must never vary regardless of KB groups.
 export const NEVER_VARY = new Set([
   'propertyName', 'componentName', 'id', 'type', 'version', 'parentId',
-  'context', 'queryParams', 'name',
+  'context', 'queryParams', 'name', 'settingsTabs', 'className', 'wrapperStyle',
 ]);
 
 // 1x1 transparent png for image baselines.
@@ -261,18 +261,17 @@ export const SCAFFOLDS = {
       }];
     },
   },
-  chart: {
+  ...Object.fromEntries(['barChart', 'lineChart', 'pieChart', 'polarAreaChart'].map((t) => [t, {
     props: {
       dataMode: 'entityType',
       entityType: GYM_ENTITY,
-      chartType: 'bar',
       axisProperty: 'category',
       valueProperty: 'id',
       aggregationMethod: 'count',
       simulatedData: false,
       showTitle: false,
     },
-  },
+  }])),
   fileUpload: { props: { ownerId: '', allowUpload: true, allowReplace: false, allowDelete: false } },
   attachmentsEditor: { props: { ownerId: '', filesCategory: 'gym', allowAdd: true } },
   address: { props: { showPriorityBounds: false, minCharactersSearch: 3 } },

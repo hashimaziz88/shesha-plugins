@@ -1,4 +1,21 @@
 {
+  "KeyInformationBar": {
+    "alignItems": {
+      "values": [
+        "flex-start",
+        "flex-end",
+        "center"
+      ],
+      "source": "source-parsed"
+    },
+    "orientation": {
+      "values": [
+        "horizontal",
+        "vertical"
+      ],
+      "source": "source-parsed"
+    }
+  },
   "alert": {
     "alertType": {
       "values": [
@@ -11,28 +28,14 @@
     }
   },
   "attachmentsEditor": {
-    "borderType": {
+    "extraFormSelectionMode": {
       "values": [
-        "dashed",
-        "solid"
+        "name",
+        "dynamic"
       ],
       "source": "source-parsed"
     },
-    "downloadedFileStyles.borderStyle": {
-      "values": [
-        "dashed",
-        "solid"
-      ],
-      "source": "source-parsed"
-    },
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    },
-    "layout": {
+    "filesLayout": {
       "values": [
         "vertical",
         "horizontal",
@@ -49,25 +52,10 @@
     }
   },
   "autocomplete": {
-    "borderType": {
-      "values": [
-        "solid",
-        "dashed",
-        "dotted"
-      ],
-      "source": "source-parsed"
-    },
     "dataSourceType": {
       "values": [
         "entitiesList",
         "url"
-      ],
-      "source": "source-parsed"
-    },
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
       ],
       "source": "source-parsed"
     },
@@ -77,63 +65,9 @@
         "multiple"
       ],
       "source": "source-parsed"
-    },
-    "size": {
-      "values": [
-        "small",
-        "middle",
-        "large"
-      ],
-      "source": "source-parsed"
     }
   },
-  "button": {
-    "borderStyle": {
-      "values": [
-        "solid",
-        "dashed",
-        "dotted"
-      ],
-      "source": "source-parsed"
-    },
-    "buttonType": {
-      "values": [
-        "primary",
-        "ghost",
-        "dashed",
-        "link",
-        "text",
-        "default"
-      ],
-      "source": "source-parsed"
-    },
-    "fontWeight": {
-      "values": [
-        "100",
-        "400",
-        "500",
-        "700",
-        "900"
-      ],
-      "source": "source-parsed"
-    },
-    "iconPosition": {
-      "values": [
-        "start",
-        "end"
-      ],
-      "source": "source-parsed"
-    },
-    "size": {
-      "values": [
-        "small",
-        "middle",
-        "large"
-      ],
-      "source": "source-parsed"
-    }
-  },
-  "chart": {
+  "barChart": {
     "aggregationMethod": {
       "values": [
         "sum",
@@ -144,19 +78,21 @@
       ],
       "source": "source-parsed"
     },
-    "chartType": {
-      "values": [
-        "pie",
-        "line",
-        "bar",
-        "polarArea"
-      ],
-      "source": "source-parsed"
-    },
     "dataMode": {
       "values": [
         "url",
         "entityType"
+      ],
+      "source": "source-parsed"
+    },
+    "groupingTimeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
       ],
       "source": "source-parsed"
     },
@@ -195,11 +131,24 @@
       "source": "source-parsed"
     }
   },
-  "checkbox": {
-    "labelAlign": {
+  "buttonGroup": {
+    "gap": {
       "values": [
-        "left",
-        "right"
+        "small",
+        "middle",
+        "large"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "calendar": {
+    "displayPeriod": {
+      "values": [
+        "month",
+        "week",
+        "work_week",
+        "day",
+        "agenda"
       ],
       "source": "source-parsed"
     }
@@ -231,6 +180,16 @@
       "values": [
         "single",
         "multiple"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "chevron": {
+    "colorSource": {
+      "values": [
+        "primary",
+        "custom",
+        "reflist"
       ],
       "source": "source-parsed"
     }
@@ -268,6 +227,28 @@
     }
   },
   "collapsiblePanel": {
+    "background.position": {
+      "values": [
+        "center",
+        "top",
+        "left",
+        "right",
+        "bottom",
+        "top left",
+        "top right",
+        "bottom left",
+        "bottom right"
+      ],
+      "source": "source-parsed"
+    },
+    "background.size": {
+      "values": [
+        "cover",
+        "contain",
+        "auto"
+      ],
+      "source": "source-parsed"
+    },
     "collapsible": {
       "values": [
         "header",
@@ -286,10 +267,11 @@
     }
   },
   "colorPicker": {
-    "labelAlign": {
+    "size": {
       "values": [
-        "left",
-        "right"
+        "small",
+        "middle",
+        "large"
       ],
       "source": "source-parsed"
     }
@@ -328,75 +310,10 @@
     }
   },
   "container": {
-    "backgroundCover": {
+    "position.value": {
       "values": [
-        "contain",
-        "cover"
-      ],
-      "source": "source-parsed"
-    },
-    "backgroundDataSource": {
-      "values": [
-        "storedFileId",
-        "url",
-        "base64"
-      ],
-      "source": "source-parsed"
-    },
-    "backgroundRepeat": {
-      "values": [
-        "repeat",
-        "no-repeat",
-        "repeat-x",
-        "repeat-y",
-        "round"
-      ],
-      "source": "source-parsed"
-    },
-    "backgroundType": {
-      "values": [
-        "color",
-        "image"
-      ],
-      "source": "source-parsed"
-    },
-    "borderStyle": {
-      "values": [
-        "solid",
-        "dashed",
-        "dotted"
-      ],
-      "source": "source-parsed"
-    },
-    "direction": {
-      "values": [
-        "horizontal",
-        "vertical"
-      ],
-      "source": "source-parsed"
-    },
-    "display": {
-      "values": [
-        "grid",
-        "block",
-        "flex",
-        "inline-grid"
-      ],
-      "source": "source-parsed"
-    },
-    "overflow": {
-      "values": [
-        "auto",
-        "hidden",
-        "scroll"
-      ],
-      "source": "source-parsed"
-    },
-    "shadowStyle": {
-      "values": [
-        "none",
-        "above",
-        "below"
+        "relative",
+        "absolute"
       ],
       "source": "source-parsed"
     }
@@ -418,37 +335,7 @@
       "source": "source-parsed"
     }
   },
-  "dataSortingEditor": {
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    }
-  },
-  "datatable.filter": {
-    "buttonType": {
-      "values": [
-        "primary",
-        "ghost",
-        "dashed",
-        "link",
-        "text",
-        "default"
-      ],
-      "source": "source-parsed"
-    },
-    "size": {
-      "values": [
-        "small",
-        "middle",
-        "large"
-      ],
-      "source": "source-parsed"
-    }
-  },
-  "datatableContext": {
+  "dataContext": {
     "allowReordering": {
       "values": [
         "yes",
@@ -499,6 +386,162 @@
       "source": "source-parsed"
     }
   },
+  "dataSortingEditor": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "datalist": {
+    "canAddInline": {
+      "values": [
+        "yes",
+        "no",
+        "inherit"
+      ],
+      "source": "source-parsed"
+    },
+    "canDeleteInline": {
+      "values": [
+        "yes",
+        "no",
+        "inherit"
+      ],
+      "source": "source-parsed"
+    },
+    "canEditInline": {
+      "values": [
+        "yes",
+        "no",
+        "inherit"
+      ],
+      "source": "source-parsed"
+    },
+    "formSelectionMode": {
+      "values": [
+        "name",
+        "view",
+        "expression"
+      ],
+      "source": "source-parsed"
+    },
+    "inlineEditMode": {
+      "values": [
+        "all-at-once",
+        "one-by-one"
+      ],
+      "source": "source-parsed"
+    },
+    "inlineSaveMode": {
+      "values": [
+        "auto",
+        "manual"
+      ],
+      "source": "source-parsed"
+    },
+    "listItemWidth": {
+      "values": [
+        "1",
+        "0.5",
+        "0.33",
+        "0.25",
+        "custom"
+      ],
+      "source": "source-parsed"
+    },
+    "modalWidth": {
+      "values": [
+        "40%",
+        "60%",
+        "80%"
+      ],
+      "source": "source-parsed"
+    },
+    "orientation": {
+      "values": [
+        "vertical",
+        "horizontal",
+        "wrap"
+      ],
+      "source": "source-parsed"
+    },
+    "selectionMode": {
+      "values": [
+        "none",
+        "single",
+        "multiple"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "datatable": {
+    "canAddInline": {
+      "values": [
+        "yes",
+        "no",
+        "inherit",
+        "js"
+      ],
+      "source": "source-parsed"
+    },
+    "canDeleteInline": {
+      "values": [
+        "yes",
+        "no",
+        "inherit",
+        "js"
+      ],
+      "source": "source-parsed"
+    },
+    "canEditInline": {
+      "values": [
+        "yes",
+        "no",
+        "inherit",
+        "js"
+      ],
+      "source": "source-parsed"
+    },
+    "inlineEditMode": {
+      "values": [
+        "one-by-one",
+        "all-at-once"
+      ],
+      "source": "source-parsed"
+    },
+    "inlineSaveMode": {
+      "values": [
+        "auto",
+        "manual"
+      ],
+      "source": "source-parsed"
+    },
+    "newRowCapturePosition": {
+      "values": [
+        "top",
+        "bottom"
+      ],
+      "source": "source-parsed"
+    },
+    "newRowInsertPosition": {
+      "values": [
+        "top",
+        "bottom"
+      ],
+      "source": "source-parsed"
+    },
+    "selectionMode": {
+      "values": [
+        "none",
+        "single",
+        "multiple"
+      ],
+      "source": "source-parsed"
+    }
+  },
   "dateField": {
     "disabledDateMode": {
       "values": [
@@ -510,8 +553,8 @@
     },
     "disabledDateTemplate": {
       "values": [
-        "return current && current < moment().startOf('day');",
-        "return current && current > moment().endOf('day');"
+        "return current && current < moment().startOf(",
+        "return current && current > moment().endOf("
       ],
       "source": "source-parsed"
     },
@@ -530,13 +573,6 @@
       ],
       "source": "source-parsed"
     },
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    },
     "picker": {
       "values": [
         "date",
@@ -544,14 +580,6 @@
         "month",
         "quarter",
         "year"
-      ],
-      "source": "source-parsed"
-    },
-    "size": {
-      "values": [
-        "small",
-        "middle",
-        "large"
       ],
       "source": "source-parsed"
     }
@@ -584,26 +612,17 @@
       ],
       "source": "source-parsed"
     },
-    "labelAlign": {
+    "displayStyle": {
       "values": [
-        "left",
-        "right"
+        "text",
+        "tags"
       ],
       "source": "source-parsed"
     },
     "mode": {
       "values": [
         "single",
-        "tags",
         "multiple"
-      ],
-      "source": "source-parsed"
-    },
-    "size": {
-      "values": [
-        "small",
-        "middle",
-        "large"
       ],
       "source": "source-parsed"
     },
@@ -658,19 +677,11 @@
       ],
       "source": "source-parsed"
     },
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    },
     "modalWidth": {
       "values": [
         "40%",
         "60%",
-        "80%",
-        "custom"
+        "80%"
       ],
       "source": "source-parsed"
     },
@@ -678,14 +689,6 @@
       "values": [
         "single",
         "multiple"
-      ],
-      "source": "source-parsed"
-    },
-    "size": {
-      "values": [
-        "small",
-        "middle",
-        "large"
       ],
       "source": "source-parsed"
     },
@@ -703,37 +706,85 @@
         "custom"
       ],
       "source": "source-parsed"
-    },
-    "widthUnits": {
+    }
+  },
+  "entityReference": {
+    "displayType": {
       "values": [
-        "%",
-        "px"
+        "displayProperty",
+        "icon",
+        "textTitle"
+      ],
+      "source": "source-parsed"
+    },
+    "entityReferenceType": {
+      "values": [
+        "Quickview",
+        "NavigateLink",
+        "Dialog"
+      ],
+      "source": "source-parsed"
+    },
+    "footerButtons": {
+      "values": [
+        "default",
+        "custom",
+        "none"
+      ],
+      "source": "source-parsed"
+    },
+    "formSelectionMode": {
+      "values": [
+        "name",
+        "dynamic"
+      ],
+      "source": "source-parsed"
+    },
+    "modalWidth": {
+      "values": [
+        "40%",
+        "60%",
+        "80%"
+      ],
+      "source": "source-parsed"
+    },
+    "submitHttpVerb": {
+      "values": [
+        "POST",
+        "PUT"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "entityTypeAutocomplete": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "mode": {
+      "values": [
+        "single",
+        "multiple"
+      ],
+      "source": "source-parsed"
+    },
+    "size": {
+      "values": [
+        "small",
+        "middle",
+        "large"
       ],
       "source": "source-parsed"
     }
   },
   "fileUpload": {
-    "labelAlign": {
+    "listType": {
       "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    }
-  },
-  "iconPicker": {
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    },
-    "textAlign": {
-      "values": [
-        "start",
-        "center",
-        "end"
+        "text",
+        "thumbnail"
       ],
       "source": "source-parsed"
     }
@@ -795,15 +846,6 @@
       "source": "source-parsed"
     }
   },
-  "imageAnnotation": {
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    }
-  },
   "imagePicker": {
     "labelAlign": {
       "values": [
@@ -825,6 +867,70 @@
       "values": [
         "dialog",
         "inline"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "lineChart": {
+    "aggregationMethod": {
+      "values": [
+        "sum",
+        "count",
+        "average",
+        "min",
+        "max"
+      ],
+      "source": "source-parsed"
+    },
+    "dataMode": {
+      "values": [
+        "url",
+        "entityType"
+      ],
+      "source": "source-parsed"
+    },
+    "groupingTimeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
+      ],
+      "source": "source-parsed"
+    },
+    "legendPosition": {
+      "values": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "orderDirection": {
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "source": "source-parsed"
+    },
+    "simpleOrPivot": {
+      "values": [
+        "simple",
+        "pivot"
+      ],
+      "source": "source-parsed"
+    },
+    "timeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
       ],
       "source": "source-parsed"
     }
@@ -911,6 +1017,16 @@
       "source": "source-parsed"
     }
   },
+  "menuList": {
+    "menuOverflow": {
+      "values": [
+        "dropdown",
+        "menu",
+        "scroll"
+      ],
+      "source": "source-parsed"
+    }
+  },
   "metadataEditor": {
     "labelAlign": {
       "values": [
@@ -925,40 +1041,6 @@
       "values": [
         "left",
         "right"
-      ],
-      "source": "source-parsed"
-    }
-  },
-  "numberField": {
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    },
-    "size": {
-      "values": [
-        "small",
-        "middle",
-        "large"
-      ],
-      "source": "source-parsed"
-    }
-  },
-  "passwordCombo": {
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    },
-    "size": {
-      "values": [
-        "small",
-        "middle",
-        "large"
       ],
       "source": "source-parsed"
     }
@@ -990,27 +1072,130 @@
       "source": "source-parsed"
     }
   },
-  "phoneNumberInput": {
-    "labelAlign": {
+  "pieChart": {
+    "aggregationMethod": {
       "values": [
+        "sum",
+        "count",
+        "average",
+        "min",
+        "max"
+      ],
+      "source": "source-parsed"
+    },
+    "dataMode": {
+      "values": [
+        "url",
+        "entityType"
+      ],
+      "source": "source-parsed"
+    },
+    "groupingTimeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
+      ],
+      "source": "source-parsed"
+    },
+    "legendPosition": {
+      "values": [
+        "top",
+        "bottom",
         "left",
         "right"
       ],
       "source": "source-parsed"
     },
-    "size": {
+    "orderDirection": {
       "values": [
-        "small",
-        "middle",
-        "large"
+        "asc",
+        "desc"
       ],
       "source": "source-parsed"
     },
-    "valueFormat": {
+    "simpleOrPivot": {
       "values": [
-        "string",
-        "national",
-        "object"
+        "simple",
+        "pivot"
+      ],
+      "source": "source-parsed"
+    },
+    "timeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "polarAreaChart": {
+    "aggregationMethod": {
+      "values": [
+        "sum",
+        "count",
+        "average",
+        "min",
+        "max"
+      ],
+      "source": "source-parsed"
+    },
+    "dataMode": {
+      "values": [
+        "url",
+        "entityType"
+      ],
+      "source": "source-parsed"
+    },
+    "groupingTimeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
+      ],
+      "source": "source-parsed"
+    },
+    "legendPosition": {
+      "values": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "orderDirection": {
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "source": "source-parsed"
+    },
+    "simpleOrPivot": {
+      "values": [
+        "simple",
+        "pivot"
+      ],
+      "source": "source-parsed"
+    },
+    "timeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
       ],
       "source": "source-parsed"
     }
@@ -1086,58 +1271,15 @@
     },
     "direction": {
       "values": [
-        "vertical",
-        "horizontal"
-      ],
-      "source": "source-parsed"
-    },
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    }
-  },
-  "rate": {
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    }
-  },
-  "refListStatus": {
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
+        "horizontal",
+        "vertical"
       ],
       "source": "source-parsed"
     }
   },
   "richTextEditor": {
-    "defaultActionOnPaste": {
-      "values": [
-        "insert_as_html",
-        "insert_clear_html",
-        "insert_as_text",
-        "Insert only text"
-      ],
-      "source": "source-parsed"
-    },
-    "defaultMode": {
-      "values": [
-        "1",
-        "2",
-        "3"
-      ],
-      "source": "source-parsed"
-    },
     "direction": {
       "values": [
-        "",
         "rtl",
         "ltr"
       ],
@@ -1242,11 +1384,11 @@
     }
   },
   "sectionSeparator": {
-    "labelAlign": {
+    "lineType": {
       "values": [
-        "left",
-        "right",
-        "center"
+        "solid",
+        "dashed",
+        "dotted"
       ],
       "source": "source-parsed"
     },
@@ -1302,6 +1444,24 @@
       "source": "source-parsed"
     }
   },
+  "tabs": {
+    "tabPosition": {
+      "values": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "tabType": {
+      "values": [
+        "line",
+        "card"
+      ],
+      "source": "source-parsed"
+    }
+  },
   "text": {
     "contentDisplay": {
       "values": [
@@ -1350,14 +1510,6 @@
       ],
       "source": "source-parsed"
     },
-    "textAlign": {
-      "values": [
-        "start",
-        "center",
-        "end"
-      ],
-      "source": "source-parsed"
-    },
     "textType": {
       "values": [
         "span",
@@ -1368,60 +1520,20 @@
     }
   },
   "textArea": {
-    "borderType": {
-      "values": [
-        "solid",
-        "dashed",
-        "dotted"
-      ],
-      "source": "source-parsed"
-    },
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    },
     "size": {
       "values": [
         "small",
-        "middle",
+        "medium",
         "large"
       ],
       "source": "source-parsed"
     }
   },
   "textField": {
-    "borderType": {
-      "values": [
-        "solid",
-        "dashed",
-        "dotted"
-      ],
-      "source": "source-parsed"
-    },
-    "labelAlign": {
-      "values": [
-        "left",
-        "right"
-      ],
-      "source": "source-parsed"
-    },
-    "size": {
-      "values": [
-        "small",
-        "middle",
-        "large"
-      ],
-      "source": "source-parsed"
-    },
     "textType": {
       "values": [
         "text",
-        "password",
-        "email",
-        "number"
+        "password"
       ],
       "source": "source-parsed"
     }
@@ -1435,43 +1547,53 @@
       "source": "source-parsed"
     }
   },
-  "timePicker": {
+  "threeStateSwitch": {
     "labelAlign": {
       "values": [
         "left",
         "right"
       ],
       "source": "source-parsed"
-    },
-    "size": {
+    }
+  },
+  "wizard": {
+    "buttonsLayout": {
       "values": [
-        "small",
-        "middle",
-        "large"
+        "left",
+        "right",
+        "spaceBetween"
+      ],
+      "source": "source-parsed"
+    },
+    "direction": {
+      "values": [
+        "vertical",
+        "horizontal"
+      ],
+      "source": "source-parsed"
+    },
+    "labelPlacement": {
+      "values": [
+        "vertical",
+        "horizontal"
+      ],
+      "source": "source-parsed"
+    },
+    "wizardType": {
+      "values": [
+        "default",
+        "navigation"
       ],
       "source": "source-parsed"
     }
   },
   "_meta": {
-    "generatedAt": "2026-07-22T09:08:45.679Z",
-    "sourceDir": "C:/Users/Hashim/Documents/Git Repos/shesha-framework/shesha-reactjs-043/shesha-reactjs/src/designer-components",
-    "resolvedFields": 160,
-    "unresolvedFields": 14,
+    "generatedAt": "2026-07-22T10:48:24.784Z",
+    "sourceDir": "C:/Users/Hashim/Documents/Git Repos/shesha-framework/shesha-reactjs/src/designer-components",
+    "resolvedFields": 60,
+    "unresolvedFields": 1,
     "unresolved": [
-      "buttonGroup.size",
-      "container.alignItems",
-      "container.alignSelf",
-      "container.flexDirection",
-      "container.flexWrap",
-      "container.justifyContent",
-      "container.justifyItems",
-      "container.justifySelf",
-      "container.textJustify",
-      "tabs.size",
-      "text.fontSize",
-      "text.padding",
-      "textArea.fontWeight",
-      "wizard.size"
+      "searchableTabs.size"
     ]
   }
 }

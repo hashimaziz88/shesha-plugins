@@ -48,6 +48,8 @@ export function classify(baselineSnap, variantSnap, opts = {}) {
     ...prefixKeys(diffStyles(baselineSnap.style, variantSnap.style), ''),
     ...prefixKeys(diffStyles(baselineSnap.wrapperStyle, variantSnap.wrapperStyle), 'wrapper.'),
     ...prefixKeys(diffStyles(baselineSnap.controlStyle, variantSnap.controlStyle), 'control.'),
+    // subtree union catches changes on nodes the samples miss
+    ...prefixKeys(diffStyles(baselineSnap.styleUnion, variantSnap.styleUnion), 'subtree.'),
   };
   const styleChanged = Object.keys(cssDelta).length > 0;
 

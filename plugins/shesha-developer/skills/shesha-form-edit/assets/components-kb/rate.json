@@ -5,14 +5,13 @@
   "isOutput": true,
   "canBeJsSetting": null,
   "icon": "LikeOutlined",
-  "version": 3,
+  "version": 4,
   "initModel": null,
   "settingsProps": {
     "interfaceName": "IRateProps",
     "interfaceFile": "designer-components/rate/index.tsx",
     "ownProps": [
       "value",
-      "defaultValue",
       "allowClear",
       "allowHalf",
       "icon",
@@ -25,55 +24,81 @@
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
       "allowClear",
       "allowHalf",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
       "className",
       "componentName",
       "context",
       "count",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "icon",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChange",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "tooltips",
       "type",
       "validate",
-      "value"
+      "value",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "rate/settings.ts",
+    "source": "rate/settingsForm.ts",
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
@@ -83,78 +108,72 @@
   ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Enter custom eventhandler on changing of event."
+    },
+    {
       "path": "propertyName",
       "label": "Property name",
-      "editorType": "contextPropertyAutocomplete",
-      "group": "Display"
-    },
-    {
-      "path": "label",
-      "label": "Label",
-      "editorType": "textField",
-      "group": "Display"
-    },
-    {
-      "path": "labelAlign",
-      "label": "Label align",
-      "editorType": "dropdown",
-      "group": "Display"
-    },
-    {
-      "path": "count",
-      "label": "Count",
-      "editorType": "numberField",
-      "group": "Display"
-    },
-    {
-      "path": "icon",
-      "label": "Icon",
-      "editorType": "iconPicker",
-      "group": "Display"
-    },
-    {
-      "path": "description",
-      "label": "Description",
-      "editorType": "textArea",
-      "group": "Display"
-    },
-    {
-      "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
+      "editorType": "contextPropertyAutocomplete"
     },
     {
       "path": "hideLabel",
-      "label": "Hide Label",
-      "editorType": "checkbox",
-      "group": "Display"
+      "label": "Label",
+      "editorType": "labelConfigurator"
+    },
+    {
+      "path": "description",
+      "label": "Tooltip",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "count",
+      "label": "Max Rating",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "editMode",
-      "label": "Edit mode",
-      "editorType": "editModeSelector",
-      "group": "Display"
+      "label": "Edit Mode",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "onChangeCustom",
       "label": "On Change",
-      "editorType": "codeEditor",
-      "description": "Enter custom eventhandler on changing of event. (form, value, option) are exposed",
-      "group": "Event"
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on changing of event."
+    },
+    {
+      "path": "onFocusCustom",
+      "label": "On Focus",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on focus of event."
+    },
+    {
+      "path": "onBlurCustom",
+      "label": "On Blur",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on blur of event."
+    },
+    {
+      "path": "onClickCustom",
+      "label": "On Click",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on click of event."
     },
     {
       "path": "style",
       "label": "Style",
-      "editorType": "codeEditor",
-      "group": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
       "shared": true
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {

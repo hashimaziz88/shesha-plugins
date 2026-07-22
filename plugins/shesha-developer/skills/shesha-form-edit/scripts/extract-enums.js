@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const KB_DIR = path.join(SCRIPT_DIR, '..', 'assets', 'components-kb');
-const DEFAULT_SOURCE = 'C:/Users/Hashim/Documents/Git Repos/shesha-framework/shesha-reactjs-043/shesha-reactjs/src/designer-components';
+const DEFAULT_SOURCE = 'C:/Users/Hashim/Documents/Git Repos/shesha-framework/shesha-reactjs/src/designer-components';
 
 const args = process.argv.slice(2);
 const argVal = (name, dflt) => {
@@ -82,8 +82,12 @@ let resolvedFields = 0;
 let unresolvedFields = 0;
 const unresolvedList = [];
 
-const sharedStyle = JSON.parse(fs.readFileSync(path.join(KB_DIR, '_shared-style-fields.json'), 'utf8'));
-const sharedDropdownPaths = sharedStyle.fields.filter((f) => f.editorType === 'dropdown').map((f) => f.path);
+// legacy 0.43 shared-style catalog — optional; 0.45 KB carries appearance fields inline
+const sharedStylePath = path.join(KB_DIR, '_shared-style-fields.json');
+const sharedDropdownPaths = fs.existsSync(sharedStylePath)
+  ? JSON.parse(fs.readFileSync(sharedStylePath, 'utf8')).fields
+      .filter((f) => f.editorType === 'dropdown').map((f) => f.path)
+  : [];
 
 for (const [type, entry] of Object.entries(index)) {
   if (type.startsWith('_')) continue;

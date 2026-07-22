@@ -5,13 +5,8 @@
   "isOutput": null,
   "canBeJsSetting": null,
   "icon": "FolderAddOutlined",
-  "version": 7,
-  "initModel": {
-    "defaults": {
-      "allowViewHistory": true
-    },
-    "raw": "(model) => ({\r\n    ...model,\r\n    allowViewHistory: true,\r\n    customActions: [],  \r\n  })"
-  },
+  "version": 14,
+  "initModel": null,
   "settingsProps": {
     "interfaceName": "IAttachmentsEditorProps",
     "interfaceFile": "designer-components/attachmentsEditor/attachmentsEditor.tsx",
@@ -29,51 +24,76 @@
       "customActions",
       "customContent",
       "extraFormId",
+      "isDynamic",
       "isDragger",
       "maxHeight",
       "onFileChanged",
       "onDownload",
       "downloadZip",
-      "layout",
+      "filesLayout",
       "listType",
       "thumbnailWidth",
       "thumbnailHeight",
       "borderRadius",
       "hideFileName",
-      "removeFieldFromPayload",
+      "container",
       "downloadedFileStyles",
-      "itemStyle",
-      "iconSize"
+      "styleDownloadedFiles",
+      "downloadedIcon"
     ],
     "extends": [
       "IConfigurableFormComponent",
       "IInputStyles"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
       "allowAdd",
       "allowDelete",
       "allowRename",
       "allowReplace",
       "allowViewHistory",
       "allowedFileTypes",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "backgroundBase64",
       "backgroundColor",
+      "backgroundCover",
+      "backgroundDataSource",
+      "backgroundPosition",
+      "backgroundRepeat",
+      "backgroundStoredFileId",
+      "backgroundType",
+      "backgroundUrl",
+      "border",
       "borderColor",
       "borderRadius",
       "borderSize",
+      "borderStyle",
       "borderType",
+      "borderWidth",
+      "className",
+      "color",
       "componentName",
+      "container",
       "context",
       "customActions",
       "customContent",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "downloadZip",
       "downloadedFileStyles",
+      "downloadedIcon",
       "editMode",
+      "enableStyleOnReadonly",
       "extraFormId",
       "filesCategory",
+      "filesLayout",
+      "font",
       "fontColor",
       "fontSize",
       "fontWeight",
@@ -82,46 +102,59 @@
       "hideBorder",
       "hideFileName",
       "hideLabel",
-      "iconSize",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDragger",
       "isDynamic",
-      "itemStyle",
       "jsSetting",
       "label",
       "labelAlign",
       "layout",
       "listType",
       "maxHeight",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onDownload",
       "onFileChanged",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "ownerId",
       "ownerName",
       "ownerType",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
-      "removeFieldFromPayload",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "style",
+      "styleDownloadedFiles",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "thumbnailHeight",
       "thumbnailWidth",
       "type",
       "validate",
-      "width"
+      "width",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
@@ -132,267 +165,270 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": true,
+  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
-    "fontSize",
-    "fontColor",
-    "borderSize",
-    "borderColor",
-    "borderType",
-    "borderRadius",
-    "width",
-    "height",
-    "stylingBox",
     "style"
   ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Where the uploader should show a dragger instead of a button"
+    },
+    {
       "path": "componentName",
       "label": "Component name",
-      "editorType": "propertyAutocomplete",
-      "group": "Display"
+      "editorType": "settingsInput"
     },
     {
-      "path": "label",
+      "path": "hideLabel",
       "label": "Label",
-      "editorType": "textField",
-      "group": "Display"
-    },
-    {
-      "path": "labelAlign",
-      "label": "Label align",
-      "editorType": "dropdown",
-      "group": "Display"
+      "editorType": "labelConfigurator"
     },
     {
       "path": "description",
-      "label": "Description",
-      "editorType": "textArea",
-      "group": "Display"
-    },
-    {
-      "path": "isDragger",
-      "label": "Is Dragger",
-      "editorType": "checkbox",
-      "description": "Where the uploader should show a dragger instead of buttom",
-      "group": "Display"
+      "label": "Tooltip",
+      "editorType": "settingsInputRow",
+      "description": "Where the uploader should show a dragger instead of a button"
     },
     {
       "path": "listType",
       "label": "List Type",
-      "editorType": "dropdown",
-      "group": "Display"
-    },
-    {
-      "path": "hideFileName",
-      "label": "Hide File Name",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "layout",
-      "label": "Layout",
-      "editorType": "dropdown",
-      "group": "Display"
-    },
-    {
-      "path": "gap",
-      "label": "Gap",
-      "editorType": "numberField",
-      "description": "The gap between the thumbnails.",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "hideLabel",
-      "label": "Hide Label",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "editMode",
-      "label": "Edit mode",
-      "editorType": "editModeSelector",
-      "group": "Display"
+      "label": "Hide",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "allowAdd",
       "label": "Allow Add",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "allowDelete",
-      "label": "Allow Remove",
-      "editorType": "checkbox",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "allowReplace",
       "label": "Allow Replace",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "allowViewHistory",
-      "label": "Allow View History",
-      "editorType": "checkbox",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "downloadZip",
       "label": "Download Zip",
-      "editorType": "checkbox",
-      "group": "Display"
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "onFileChanged",
-      "label": "On File List Changed",
-      "editorType": "codeEditor",
-      "description": "Callback that is triggered when the file is changed.",
-      "group": "Display"
+      "path": "customActions",
+      "label": "Custom Actions",
+      "editorType": "settingsInputRow",
+      "description": "Configure custom actions that appear when hovering over files. Each action should have: id, name, label, icon (optional), tooltip (optional), hidden (optional), and actionConfiguration.",
+      "group": "Custom"
     },
     {
-      "path": "onDownload",
-      "label": "On Download",
-      "editorType": "codeEditor",
-      "description": "Callback that is triggered when a file is downloaded.",
-      "group": "Display"
+      "path": "extraFormSelectionMode",
+      "label": "Form Selection Mode",
+      "editorType": "settingsInput",
+      "description": "Choose how to select the form for custom content",
+      "group": "Custom"
     },
     {
-      "path": "customContent",
-      "label": "Show Custom Content",
-      "editorType": "checkbox",
-      "description": "Enable to show custom content below each file.",
+      "path": "extraFormType",
+      "label": "Form Type",
+      "editorType": "settingsInputRow",
       "group": "Custom"
     },
     {
       "path": "extraFormId",
-      "label": "Custom Content Form",
-      "editorType": "formAutocomplete",
-      "description": "Select a form to display custom content under each file.",
+      "label": "Form",
+      "editorType": "settingsInputRow",
       "group": "Custom"
     },
     {
       "path": "ownerName",
       "label": "Owner",
-      "editorType": "propertyAutocomplete",
-      "group": "Files"
-    },
-    {
-      "path": "ownerId",
-      "label": "Owner Id",
-      "editorType": "textField",
-      "group": "Files"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "ownerType",
       "label": "Owner Type",
-      "editorType": "autocomplete",
-      "group": "Files"
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "filesCategory",
-      "label": "Files Category",
-      "editorType": "textField",
-      "group": "Files"
+      "path": "ownerId",
+      "label": "Owner ID",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "allowedFileTypes",
       "label": "Allowed File Types",
-      "editorType": "editableTagGroup",
-      "description": "File types that can be accepted.",
-      "group": "Files"
+      "editorType": "settingsInputRow",
+      "description": "File types that can be accepted."
     },
     {
       "path": "validate.required",
       "label": "Required",
-      "editorType": "checkbox",
-      "group": "Validation"
+      "editorType": "settingsInput"
     },
     {
-      "path": "iconSize",
-      "label": "Icon Size",
-      "editorType": "textField",
-      "group": "Item Styles"
+      "path": "onChangeCustom",
+      "label": "On File List Changed",
+      "editorType": "settingsInput",
+      "description": "Callback that is triggered when the file is changed."
     },
     {
-      "path": "thumbnailWidth",
-      "label": "Thumbnail Width",
-      "editorType": "textField",
-      "group": "Item Styles"
+      "path": "onDownload",
+      "label": "On Download",
+      "editorType": "settingsInput",
+      "description": "Callback that is triggered when a file is downloaded."
     },
     {
-      "path": "thumbnailHeight",
-      "label": "Thumbnail Height",
-      "editorType": "textField",
-      "group": "Item Styles"
+      "path": "enableStyleOnReadonly",
+      "label": "Enable Style On Readonly",
+      "editorType": "settingsInput",
+      "description": "Removes all visual styling except typography when the component becomes read-only"
     },
     {
-      "path": "itemStyle",
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "group": "Shadow"
+    },
+    {
+      "path": "style",
       "label": "Style",
-      "editorType": "codeEditor",
-      "group": "Item Styles"
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
+      "shared": true
+    },
+    {
+      "path": "filesLayout",
+      "label": "Layout",
+      "editorType": "settingsInputRow",
+      "description": "The gap between the thumbnails.",
+      "group": "Container Styles"
+    },
+    {
+      "path": "container.dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "container.dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "container.stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding"
+    },
+    {
+      "path": "container.style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles"
     },
     {
       "path": "styleDownloadedFiles",
       "label": "Style Downloaded File",
-      "editorType": "checkbox",
-      "group": "Downloaded File Style"
+      "editorType": "settingsInputRow",
+      "group": "Downloaded File Styles"
     },
     {
-      "path": "downloadedIcon",
-      "label": "Icon",
-      "editorType": "iconPicker",
-      "group": "Downloaded File Style"
-    },
-    {
-      "path": "downloadedFileStyles.fontSize",
-      "label": "Font Size",
-      "editorType": "numberField",
-      "group": "Downloaded File Style"
-    },
-    {
-      "path": "downloadedFileStyles.color",
-      "label": "Font Color",
-      "editorType": "colorPicker",
-      "group": "Downloaded File Style"
-    },
-    {
-      "path": "downloadedFileStyles.borderWidth",
-      "label": "Border Width",
-      "editorType": "textField",
-      "group": "Downloaded File Style"
-    },
-    {
-      "path": "downloadedFileStyles.borderColor",
-      "label": "Border Color",
-      "editorType": "colorPicker",
-      "group": "Downloaded File Style"
-    },
-    {
-      "path": "downloadedFileStyles.borderStyle",
-      "label": "Border Type",
-      "editorType": "dropdown",
-      "group": "Downloaded File Style"
+      "path": "downloadedFileStyles.font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
     },
     {
       "path": "downloadedFileStyles.style",
       "label": "Style",
-      "editorType": "codeEditor",
+      "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "group": "Downloaded File Style"
+      "group": "Custom Styles"
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {

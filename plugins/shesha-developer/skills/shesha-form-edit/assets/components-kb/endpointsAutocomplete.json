@@ -19,43 +19,69 @@
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
       "availableHttpVerbs",
+      "background",
+      "border",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "httpVerb",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "mode",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
-      "validate"
+      "validate",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
@@ -141,7 +167,7 @@
     },
     {
       "path": "httpVerb",
-      "label": "Http Verb",
+      "label": "HTTP Verb",
       "editorType": "textField",
       "description": "Is used to filter the autocomplete by http verb"
     },
@@ -154,19 +180,19 @@
       "path": "onChangeCustom",
       "label": "On Change",
       "editorType": "codeEditor",
-      "description": "Enter custom event handler on changing of event. (form, event) are exposed"
+      "description": "Enter custom event handler on changing of event."
     },
     {
       "path": "onFocusCustom",
       "label": "On Focus",
       "editorType": "codeEditor",
-      "description": "Enter custom event handler on focus of event. (form, event) are exposed"
+      "description": "Enter custom event handler on focus of event."
     },
     {
       "path": "onBlurCustom",
       "label": "On Blur",
       "editorType": "codeEditor",
-      "description": "Enter custom event handler on blur of event. (form, event) are exposed"
+      "description": "Enter custom event handler on blur of event."
     },
     {
       "path": "validate.required",

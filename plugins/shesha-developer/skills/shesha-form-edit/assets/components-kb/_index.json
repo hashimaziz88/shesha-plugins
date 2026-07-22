@@ -1,20 +1,20 @@
 {
   "KeyInformationBar": {
-    "version": 2,
+    "version": 4,
     "name": "Key Information Bar",
     "isInput": false,
     "file": "KeyInformationBar.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 15,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 21,
     "hasStandardAppearance": false
   },
   "address": {
-    "version": 4,
+    "version": 5,
     "name": "Address",
     "isInput": true,
     "file": "address.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 21,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 32,
     "hasStandardAppearance": false
   },
   "alert": {
@@ -27,22 +27,22 @@
     "hasStandardAppearance": false
   },
   "attachmentsEditor": {
-    "version": 7,
+    "version": 14,
     "name": "File list",
     "isInput": true,
     "file": "attachmentsEditor.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 50,
-    "hasStandardAppearance": true
+    "settingsFieldCount": 43,
+    "hasStandardAppearance": false
   },
   "autocomplete": {
-    "version": 6,
+    "version": 8,
     "name": "Autocomplete",
     "isInput": true,
     "file": "autocomplete.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 40,
-    "hasStandardAppearance": true
+    "settingsFieldCount": 46,
+    "hasStandardAppearance": false
   },
   "autocompleteTagGroup": {
     "version": 2,
@@ -53,22 +53,31 @@
     "settingsFieldCount": 9,
     "hasStandardAppearance": false
   },
+  "barChart": {
+    "version": 9,
+    "name": "Bar Chart",
+    "isInput": false,
+    "file": "barChart.json",
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 43,
+    "hasStandardAppearance": false
+  },
   "button": {
-    "version": 7,
+    "version": 9,
     "name": "Button",
     "isInput": false,
     "file": "button.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 24,
-    "hasStandardAppearance": true
+    "settingsFieldCount": 22,
+    "hasStandardAppearance": false
   },
   "buttonGroup": {
-    "version": 10,
+    "version": 15,
     "name": "Button Group",
     "isInput": false,
     "file": "buttonGroup.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 8,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 19,
     "hasStandardAppearance": false
   },
   "buttons": {
@@ -80,31 +89,31 @@
     "settingsFieldCount": 3,
     "hasStandardAppearance": false
   },
+  "calendar": {
+    "version": 1,
+    "name": "Calendar",
+    "isInput": true,
+    "file": "calendar.json",
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 14,
+    "hasStandardAppearance": false
+  },
   "card": {
-    "version": 2,
+    "version": 3,
     "name": "Card",
     "isInput": false,
     "file": "card.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 9,
-    "hasStandardAppearance": false
-  },
-  "chart": {
-    "version": 2,
-    "name": "Chart",
-    "isInput": false,
-    "file": "chart.json",
-    "settingsParseQuality": "full",
-    "settingsFieldCount": 36,
+    "settingsFieldCount": 19,
     "hasStandardAppearance": false
   },
   "checkbox": {
-    "version": 4,
+    "version": 5,
     "name": "Checkbox",
     "isInput": true,
     "file": "checkbox.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 11,
+    "settingsFieldCount": 25,
     "hasStandardAppearance": false
   },
   "checkboxGroup": {
@@ -117,21 +126,12 @@
     "hasStandardAppearance": false
   },
   "chevron": {
-    "version": null,
+    "version": 1,
     "name": "Chevron",
     "isInput": true,
     "file": "chevron.json",
-    "settingsParseQuality": "partial",
+    "settingsParseQuality": "full",
     "settingsFieldCount": 14,
-    "hasStandardAppearance": false
-  },
-  "childEntitiesTagGroup": {
-    "version": 3,
-    "name": "Child Entities Tag Group",
-    "isInput": true,
-    "file": "childEntitiesTagGroup.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 12,
     "hasStandardAppearance": false
   },
   "childTable": {
@@ -153,12 +153,12 @@
     "hasStandardAppearance": false
   },
   "collapsiblePanel": {
-    "version": 8,
+    "version": 9,
     "name": "Panel",
     "isInput": false,
     "file": "collapsiblePanel.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 19,
+    "settingsFieldCount": 34,
     "hasStandardAppearance": false
   },
   "colorPicker": {
@@ -167,16 +167,16 @@
     "isInput": true,
     "file": "colorPicker.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 11,
+    "settingsFieldCount": 13,
     "hasStandardAppearance": false
   },
   "columns": {
-    "version": 2,
+    "version": 5,
     "name": "Columns",
     "isInput": false,
     "file": "columns.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 8,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 19,
     "hasStandardAppearance": false
   },
   "columnsEditorComponent": {
@@ -216,13 +216,13 @@
     "hasStandardAppearance": false
   },
   "container": {
-    "version": 6,
+    "version": 7,
     "name": "Container",
     "isInput": false,
     "file": "container.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 41,
-    "hasStandardAppearance": true
+    "settingsFieldCount": 28,
+    "hasStandardAppearance": false
   },
   "contextPropertyAutocomplete": {
     "version": 0,
@@ -234,12 +234,12 @@
     "hasStandardAppearance": false
   },
   "dataContext": {
-    "version": 2,
-    "name": "DataContext ",
-    "isInput": false,
+    "version": 8,
+    "name": "Data Context",
+    "isInput": true,
     "file": "dataContext.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 7,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 21,
     "hasStandardAppearance": false
   },
   "dataContextSelector": {
@@ -270,48 +270,48 @@
     "hasStandardAppearance": false
   },
   "datalist": {
-    "version": 8,
+    "version": 11,
     "name": "DataList",
     "isInput": true,
     "file": "datalist.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 41,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 57,
     "hasStandardAppearance": false
   },
   "datatable": {
-    "version": 11,
+    "version": 29,
     "name": "Data Table",
     "isInput": true,
     "file": "datatable.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 29,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 55,
     "hasStandardAppearance": false
   },
   "datatable.filter": {
-    "version": null,
+    "version": 5,
     "name": "Table Filter",
     "isInput": false,
     "file": "datatable.filter.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 13,
+    "settingsFieldCount": 22,
     "hasStandardAppearance": false
   },
   "datatable.pager": {
-    "version": 3,
+    "version": 4,
     "name": "Table Pager",
     "isInput": false,
     "file": "datatable.pager.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 5,
+    "settingsFieldCount": 8,
     "hasStandardAppearance": false
   },
   "datatable.quickSearch": {
-    "version": 2,
+    "version": 3,
     "name": "Quick Search",
     "isInput": false,
     "file": "datatable.quickSearch.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 2,
+    "settingsFieldCount": 4,
     "hasStandardAppearance": false
   },
   "datatable.selectColumnsButton": {
@@ -324,30 +324,21 @@
     "hasStandardAppearance": false
   },
   "datatableContext": {
-    "version": 7,
-    "name": "DataTable Context",
+    "version": 8,
+    "name": "Data Context (Legacy)",
     "isInput": true,
     "file": "datatableContext.json",
-    "settingsParseQuality": "full",
-    "settingsFieldCount": 21,
-    "hasStandardAppearance": false
-  },
-  "datatable_template": {
-    "version": null,
-    "name": "DataTable (Full)",
-    "isInput": false,
-    "file": "datatable_template.json",
     "settingsParseQuality": "none",
     "settingsFieldCount": 0,
     "hasStandardAppearance": false
   },
   "dateField": {
-    "version": 5,
+    "version": 7,
     "name": "Date field",
     "isInput": true,
     "file": "dateField.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 32,
+    "settingsFieldCount": 34,
     "hasStandardAppearance": false
   },
   "divider": {
@@ -360,21 +351,21 @@
     "hasStandardAppearance": false
   },
   "drawer": {
-    "version": 2,
+    "version": 4,
     "name": "Drawer",
     "isInput": false,
     "file": "drawer.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 14,
+    "settingsFieldCount": 45,
     "hasStandardAppearance": false
   },
   "dropdown": {
-    "version": 7,
+    "version": 11,
     "name": "Dropdown",
     "isInput": true,
     "file": "dropdown.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 28,
+    "settingsFieldCount": 48,
     "hasStandardAppearance": false
   },
   "dynamicItemsConfigurator": {
@@ -392,7 +383,7 @@
     "isInput": false,
     "file": "dynamicView.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 3,
+    "settingsFieldCount": 4,
     "hasStandardAppearance": false
   },
   "editModeSelector": {
@@ -423,30 +414,39 @@
     "hasStandardAppearance": false
   },
   "entityPicker": {
-    "version": 9,
+    "version": 12,
     "name": "Entity Picker",
     "isInput": true,
     "file": "entityPicker.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 30,
+    "settingsFieldCount": 34,
     "hasStandardAppearance": false
   },
   "entityReference": {
-    "version": 6,
+    "version": 11,
     "name": "Entity Reference",
     "isInput": true,
     "file": "entityReference.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 33,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 36,
+    "hasStandardAppearance": false
+  },
+  "entityTypeAutocomplete": {
+    "version": 0,
+    "name": "Entity Type Autocomplete",
+    "isInput": true,
+    "file": "entityTypeAutocomplete.json",
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 17,
     "hasStandardAppearance": false
   },
   "fileUpload": {
-    "version": 5,
+    "version": 6,
     "name": "File",
     "isInput": true,
     "file": "fileUpload.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 17,
+    "settingsFieldCount": 27,
     "hasStandardAppearance": false
   },
   "formAutocomplete": {
@@ -458,50 +458,32 @@
     "settingsFieldCount": 0,
     "hasStandardAppearance": false
   },
-  "headerAppControl": {
-    "version": null,
-    "name": "Header App Control",
-    "isInput": false,
-    "file": "headerAppControl.json",
-    "settingsParseQuality": "full",
-    "settingsFieldCount": 3,
-    "hasStandardAppearance": false
-  },
   "htmlRender": {
     "version": 1,
     "name": "HTML Render",
     "isInput": false,
     "file": "htmlRender.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 4,
+    "settingsFieldCount": 5,
     "hasStandardAppearance": false
   },
   "iconPicker": {
-    "version": 3,
+    "version": 5,
     "name": "Icon",
     "isInput": true,
     "file": "iconPicker.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 17,
+    "settingsFieldCount": 9,
     "hasStandardAppearance": false
   },
   "image": {
-    "version": 5,
+    "version": 6,
     "name": "Image",
     "isInput": true,
     "file": "image.json",
     "settingsParseQuality": "full",
     "settingsFieldCount": 31,
     "hasStandardAppearance": true
-  },
-  "imageAnnotation": {
-    "version": 3,
-    "name": "ImageAnnotation",
-    "isInput": true,
-    "file": "imageAnnotation.json",
-    "settingsParseQuality": "full",
-    "settingsFieldCount": 16,
-    "hasStandardAppearance": false
   },
   "imagePicker": {
     "version": null,
@@ -513,12 +495,21 @@
     "hasStandardAppearance": false
   },
   "kanban": {
-    "version": null,
+    "version": 8,
     "name": "Kanban",
     "isInput": false,
     "file": "kanban.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 28,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 36,
+    "hasStandardAppearance": false
+  },
+  "labelConfigurator": {
+    "version": null,
+    "name": "Label Configurator",
+    "isInput": true,
+    "file": "labelConfigurator.json",
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 4,
     "hasStandardAppearance": false
   },
   "labelValueEditor": {
@@ -530,8 +521,17 @@
     "settingsFieldCount": 14,
     "hasStandardAppearance": false
   },
+  "lineChart": {
+    "version": 9,
+    "name": "Line Chart",
+    "isInput": false,
+    "file": "lineChart.json",
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 43,
+    "hasStandardAppearance": false
+  },
   "link": {
-    "version": 4,
+    "version": 5,
     "name": "link",
     "isInput": false,
     "file": "link.json",
@@ -567,12 +567,21 @@
     "hasStandardAppearance": false
   },
   "markdown": {
-    "version": 2,
+    "version": 3,
     "name": "Markdown",
     "isInput": false,
     "file": "markdown.json",
     "settingsParseQuality": "full",
     "settingsFieldCount": 5,
+    "hasStandardAppearance": false
+  },
+  "menuList": {
+    "version": 1,
+    "name": "Menu List",
+    "isInput": false,
+    "file": "menuList.json",
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 28,
     "hasStandardAppearance": false
   },
   "metadataEditor": {
@@ -590,7 +599,7 @@
     "isInput": false,
     "file": "notes.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 17,
+    "settingsFieldCount": 10,
     "hasStandardAppearance": false
   },
   "notificationAutocomplete": {
@@ -603,12 +612,12 @@
     "hasStandardAppearance": false
   },
   "numberField": {
-    "version": 4,
+    "version": 5,
     "name": "Number field",
     "isInput": true,
     "file": "numberField.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 20,
+    "settingsFieldCount": 31,
     "hasStandardAppearance": false
   },
   "paragraph": {
@@ -621,12 +630,12 @@
     "hasStandardAppearance": false
   },
   "passwordCombo": {
-    "version": 6,
+    "version": 7,
     "name": "Password combo",
     "isInput": true,
     "file": "passwordCombo.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 19,
+    "settingsFieldCount": 28,
     "hasStandardAppearance": false
   },
   "permissionAutocomplete": {
@@ -636,6 +645,15 @@
     "file": "permissionAutocomplete.json",
     "settingsParseQuality": "full",
     "settingsFieldCount": 12,
+    "hasStandardAppearance": false
+  },
+  "permissionTagGroup": {
+    "version": null,
+    "name": "Permission Tag Group",
+    "isInput": null,
+    "file": "permissionTagGroup.json",
+    "settingsParseQuality": "none",
+    "settingsFieldCount": 0,
     "hasStandardAppearance": false
   },
   "permissionedObjectsTree": {
@@ -656,13 +674,22 @@
     "settingsFieldCount": 8,
     "hasStandardAppearance": false
   },
-  "phoneNumberInput": {
-    "version": 0,
-    "name": "Phone Number",
-    "isInput": true,
-    "file": "phoneNumberInput.json",
+  "pieChart": {
+    "version": 9,
+    "name": "Pie Chart",
+    "isInput": false,
+    "file": "pieChart.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 35,
+    "settingsFieldCount": 43,
+    "hasStandardAppearance": false
+  },
+  "polarAreaChart": {
+    "version": 9,
+    "name": "Polar Area Chart",
+    "isInput": false,
+    "file": "polarAreaChart.json",
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 43,
     "hasStandardAppearance": false
   },
   "processMonitor": {
@@ -675,21 +702,21 @@
     "hasStandardAppearance": false
   },
   "profileDropdown": {
-    "version": null,
+    "version": 2,
     "name": "Profile Dropdown",
     "isInput": false,
     "file": "profileDropdown.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 7,
+    "settingsFieldCount": 10,
     "hasStandardAppearance": false
   },
   "progress": {
-    "version": 1,
+    "version": 3,
     "name": "Progress",
     "isInput": true,
     "file": "progress.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 20,
+    "settingsFieldCount": 16,
     "hasStandardAppearance": false
   },
   "propertyAutocomplete": {
@@ -725,11 +752,11 @@
     "isInput": true,
     "file": "radio.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 18,
+    "settingsFieldCount": 17,
     "hasStandardAppearance": false
   },
   "rate": {
-    "version": 3,
+    "version": 4,
     "name": "Rate",
     "isInput": true,
     "file": "rate.json",
@@ -738,12 +765,12 @@
     "hasStandardAppearance": false
   },
   "refListStatus": {
-    "version": 4,
+    "version": 6,
     "name": "Reference list status",
-    "isInput": false,
+    "isInput": true,
     "file": "refListStatus.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 12,
+    "settingsFieldCount": 23,
     "hasStandardAppearance": false
   },
   "referenceListAutocomplete": {
@@ -756,12 +783,12 @@
     "hasStandardAppearance": false
   },
   "richTextEditor": {
-    "version": 3,
+    "version": 6,
     "name": "Rich Text Editor",
     "isInput": true,
     "file": "richTextEditor.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 42,
+    "settingsFieldCount": 24,
     "hasStandardAppearance": false
   },
   "scheduledJobExecutionLog": {
@@ -771,6 +798,15 @@
     "file": "scheduledJobExecutionLog.json",
     "settingsParseQuality": "none",
     "settingsFieldCount": 0,
+    "hasStandardAppearance": false
+  },
+  "searchableTabs": {
+    "version": null,
+    "name": "SearchableTabs",
+    "isInput": false,
+    "file": "searchableTabs.json",
+    "settingsParseQuality": "partial",
+    "settingsFieldCount": 10,
     "hasStandardAppearance": false
   },
   "section": {
@@ -783,12 +819,12 @@
     "hasStandardAppearance": false
   },
   "sectionSeparator": {
-    "version": 3,
+    "version": 5,
     "name": "Section Separator",
     "isInput": false,
     "file": "sectionSeparator.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 20,
+    "settingsFieldCount": 14,
     "hasStandardAppearance": false
   },
   "setting": {
@@ -800,22 +836,40 @@
     "settingsFieldCount": 6,
     "hasStandardAppearance": false
   },
+  "settingsInput": {
+    "version": null,
+    "name": "SettingsInput",
+    "isInput": true,
+    "file": "settingsInput.json",
+    "settingsParseQuality": "none",
+    "settingsFieldCount": 0,
+    "hasStandardAppearance": false
+  },
+  "settingsInputRow": {
+    "version": null,
+    "name": "SettingsInputRow",
+    "isInput": true,
+    "file": "settingsInputRow.json",
+    "settingsParseQuality": "none",
+    "settingsFieldCount": 0,
+    "hasStandardAppearance": false
+  },
   "sizableColumns": {
-    "version": 2,
+    "version": 5,
     "name": "SizableColumns",
     "isInput": false,
     "file": "sizableColumns.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 6,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 18,
     "hasStandardAppearance": false
   },
   "slider": {
-    "version": null,
+    "version": 1,
     "name": "Slider",
     "isInput": true,
     "file": "slider.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 9,
+    "settingsFieldCount": 8,
     "hasStandardAppearance": false
   },
   "space": {
@@ -828,12 +882,12 @@
     "hasStandardAppearance": false
   },
   "statistic": {
-    "version": 2,
+    "version": 3,
     "name": "Statistic",
     "isInput": true,
     "file": "statistic.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 8,
+    "settingsFieldCount": 26,
     "hasStandardAppearance": false
   },
   "statusTag": {
@@ -855,12 +909,12 @@
     "hasStandardAppearance": false
   },
   "subForm": {
-    "version": 3,
+    "version": 4,
     "name": "Sub Form",
     "isInput": true,
     "file": "subForm.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 22,
+    "settingsParseQuality": "none",
+    "settingsFieldCount": 0,
     "hasStandardAppearance": false
   },
   "switch": {
@@ -869,53 +923,53 @@
     "isInput": true,
     "file": "switch.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 8,
+    "settingsFieldCount": 10,
     "hasStandardAppearance": false
   },
   "tableViewSelector": {
     "version": 2,
-    "name": "Table view selector",
+    "name": "Table View Selector",
     "isInput": false,
     "file": "tableViewSelector.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 3,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 5,
     "hasStandardAppearance": false
   },
   "tabs": {
-    "version": 3,
+    "version": 4,
     "name": "Tabs",
     "isInput": false,
     "file": "tabs.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 10,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 33,
     "hasStandardAppearance": false
   },
   "text": {
-    "version": 2,
+    "version": 5,
     "name": "Text",
     "isInput": false,
     "file": "text.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 26,
+    "settingsFieldCount": 29,
     "hasStandardAppearance": false
   },
   "textArea": {
-    "version": 4,
+    "version": 5,
     "name": "Text Area",
     "isInput": true,
     "file": "textArea.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 37,
-    "hasStandardAppearance": true
+    "settingsFieldCount": 31,
+    "hasStandardAppearance": false
   },
   "textField": {
-    "version": 5,
+    "version": 6,
     "name": "Text field",
     "isInput": true,
     "file": "textField.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 38,
-    "hasStandardAppearance": true
+    "settingsFieldCount": 32,
+    "hasStandardAppearance": false
   },
   "themeEditor": {
     "version": null,
@@ -926,13 +980,22 @@
     "settingsFieldCount": 8,
     "hasStandardAppearance": false
   },
+  "threeStateSwitch": {
+    "version": null,
+    "name": "Edit mode Selector",
+    "isInput": true,
+    "file": "threeStateSwitch.json",
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 8,
+    "hasStandardAppearance": false
+  },
   "timePicker": {
-    "version": 4,
+    "version": 5,
     "name": "Time Picker",
     "isInput": true,
     "file": "timePicker.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 25,
+    "settingsFieldCount": 31,
     "hasStandardAppearance": false
   },
   "title": {
@@ -959,16 +1022,16 @@
     "isInput": false,
     "file": "validationErrors.json",
     "settingsParseQuality": "full",
-    "settingsFieldCount": 5,
+    "settingsFieldCount": 18,
     "hasStandardAppearance": false
   },
   "wizard": {
-    "version": 10,
+    "version": 8,
     "name": "Wizard",
     "isInput": false,
     "file": "wizard.json",
-    "settingsParseQuality": "partial",
-    "settingsFieldCount": 13,
+    "settingsParseQuality": "full",
+    "settingsFieldCount": 24,
     "hasStandardAppearance": false
   }
 }

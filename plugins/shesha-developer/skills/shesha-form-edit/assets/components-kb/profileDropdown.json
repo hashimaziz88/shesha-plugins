@@ -5,7 +5,7 @@
   "isOutput": null,
   "canBeJsSetting": false,
   "icon": "UserOutlined",
-  "version": null,
+  "version": 2,
   "initModel": null,
   "settingsProps": {
     "interfaceName": "IProfileDropdown",
@@ -15,51 +15,91 @@
       "subText",
       "subTextColor",
       "subTextFontSize",
-      "subTextStyle"
+      "subTextFontWeight",
+      "subTextFontFamily",
+      "subTextTextAlign",
+      "subTextStyle",
+      "showUserInfo",
+      "popOverTitle",
+      "popOverFormId",
+      "popOverContentStyle"
     ],
     "extends": [
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "items",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
+      "popOverContentStyle",
+      "popOverFormId",
+      "popOverTitle",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
+      "showUserInfo",
       "size",
       "style",
       "stylingBox",
       "subText",
       "subTextColor",
+      "subTextFontFamily",
       "subTextFontSize",
+      "subTextFontWeight",
       "subTextStyle",
+      "subTextTextAlign",
       "subscribedEventNames",
+      "tablet",
       "type",
-      "validate"
+      "validate",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
@@ -74,47 +114,60 @@
   "appearanceFieldPaths": [],
   "settingsFields": [
     {
-      "path": "propertyName",
-      "label": "Property name",
-      "editorType": "contextPropertyAutocomplete",
-      "group": "Display"
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Controls text thickness (light, normal, bold, etc.)"
     },
     {
-      "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
+      "path": "propertyName",
+      "editorType": "contextPropertyAutocomplete"
     },
     {
       "path": "subText",
       "label": "Sub Text",
-      "editorType": "textField",
-      "group": "Display"
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "items",
+      "label": "Configure Menu Buttons",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "showUserInfo",
+      "label": "Show User Info",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
     },
     {
       "path": "subTextStyle",
-      "label": "Sub Text Style",
-      "editorType": "codeEditor",
-      "group": "Style"
+      "label": "Custom Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the sub text as an object. This should conform to CSSProperties",
+      "group": "Sub Text Style"
     },
     {
-      "path": "subTextColor",
-      "label": "Sub Text Color",
-      "editorType": "colorPicker",
-      "group": "Style"
-    },
-    {
-      "path": "subTextFontSize",
-      "label": "Sub Text Size",
-      "editorType": "slider",
-      "defaultValue": "12",
-      "group": "Style"
+      "path": "popOverContentStyle",
+      "label": "Content Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the popover content as an object. This should conform to CSSProperties",
+      "group": "Popover Style"
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {

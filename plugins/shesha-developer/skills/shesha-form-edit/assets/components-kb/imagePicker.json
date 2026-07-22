@@ -9,7 +9,7 @@
   "initModel": null,
   "settingsProps": {
     "interfaceName": "IFileUploadProps",
-    "interfaceFile": "designer-components/fileUpload/index.tsx",
+    "interfaceFile": "designer-components/fileUpload/interfaces.ts",
     "ownProps": [
       "ownerId",
       "ownerType",
@@ -18,56 +18,92 @@
       "allowDelete",
       "useSync",
       "allowedFileTypes",
-      "isDragger"
+      "isDragger",
+      "listType",
+      "thumbnailWidth",
+      "thumbnailHeight",
+      "borderRadius",
+      "hideFileName"
     ],
     "extends": [
       "IConfigurableFormComponent",
       "Omit<IFormItem",
-      "'name'>"
+      "'name'>",
+      "IStyleType"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
       "allowDelete",
       "allowReplace",
       "allowUpload",
       "allowedFileTypes",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
+      "borderRadius",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "hidden",
+      "hideFileName",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDragger",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "ownerId",
       "ownerType",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
+      "thumbnailHeight",
+      "thumbnailWidth",
       "type",
       "useSync",
-      "validate"
+      "validate",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "'name'>",
@@ -116,7 +152,7 @@
     },
     {
       "path": "hidden",
-      "label": "Hidden",
+      "label": "hide",
       "editorType": "checkbox",
       "group": "Display"
     },
@@ -171,7 +207,7 @@
     {
       "path": "ownerType",
       "label": "Owner Type",
-      "editorType": "autocomplete",
+      "editorType": "entityTypeAutocomplete",
       "group": "Files"
     },
     {
@@ -196,6 +232,6 @@
   },
   "sourceFiles": [
     "imagePicker/index.tsx",
-    "fileUpload/index.tsx"
+    "fileUpload/interfaces.ts"
   ]
 }

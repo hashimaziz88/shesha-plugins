@@ -5,7 +5,7 @@
   "isOutput": null,
   "canBeJsSetting": null,
   "icon": "FilterOutlined",
-  "version": null,
+  "version": 5,
   "initModel": {
     "defaults": {
       "buttonType": "link",
@@ -14,52 +14,21 @@
     "raw": "(model) => {\r\n    return {\r\n      ...model,\r\n      buttonType: 'link',\r\n      label: '',\r\n    };\r\n  }"
   },
   "settingsProps": {
-    "interfaceName": "IButtonComponentProps",
-    "interfaceFile": "designer-components/button/interfaces.ts",
-    "ownProps": [],
+    "interfaceName": "IAdvancedFilterButtonComponentProps",
+    "interfaceFile": "designer-components/dataTable/advancedFilterButton/types.ts",
+    "ownProps": [
+      "buttonType"
+    ],
     "extends": [
-      "IButtonItem",
-      "IConfigurableFormComponent"
+      "Omit<IButtonComponentProps",
+      "'buttonType'>"
     ],
     "resolvedProps": [
-      "componentName",
-      "context",
-      "customEnabled",
-      "customVisibility",
-      "defaultValue",
-      "description",
-      "editMode",
-      "hidden",
-      "hideLabel",
-      "id",
-      "initialContext",
-      "injectedDefaultValue",
-      "injectedTableRow",
-      "isDynamic",
-      "jsSetting",
-      "label",
-      "labelAlign",
-      "noDataIcon",
-      "noDataSecondaryText",
-      "noDataText",
-      "onBlurCustom",
-      "onChangeCustom",
-      "onFocusCustom",
-      "parentId",
-      "permissions",
-      "propertyName",
-      "readOnly",
-      "settingsValidationErrors",
-      "size",
-      "style",
-      "stylingBox",
-      "subscribedEventNames",
-      "type",
-      "validate"
+      "buttonType"
     ],
     "unresolvedExtends": [
-      "IButtonItem",
-      "IHasVersion"
+      "'buttonType'>",
+      "Omit<IButtonComponentProps"
     ]
   },
   "settingsForm": {
@@ -69,90 +38,141 @@
   },
   "hasStandardAppearance": false,
   "appearanceFieldPaths": [
-    "style",
-    "size"
+    "stylingBox",
+    "style"
   ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Controls text thickness (light, normal, bold, etc.)"
+    },
+    {
       "path": "componentName",
       "label": "Component name",
-      "editorType": "textField",
-      "group": "Display"
+      "editorType": "settingsInput"
     },
     {
       "path": "label",
       "label": "Label",
-      "editorType": "textField",
-      "group": "Display"
+      "editorType": "settingsInput"
     },
     {
       "path": "tooltip",
       "label": "Tooltip",
-      "editorType": "textArea",
-      "group": "Display"
+      "editorType": "settingsInput"
     },
     {
       "path": "icon",
       "label": "Icon",
-      "editorType": "iconPicker",
-      "group": "Display"
-    },
-    {
-      "path": "buttonType",
-      "label": "Button Type",
-      "editorType": "dropdown",
-      "group": "Display"
-    },
-    {
-      "path": "danger",
-      "label": "Danger",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "block",
-      "label": "Block",
-      "editorType": "checkbox",
-      "group": "Display"
+      "editorType": "settingsInput"
     },
     {
       "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
+      "label": "Hide",
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "editMode",
-      "label": "Edit mode",
-      "editorType": "editModeSelector",
-      "group": "Display"
+      "path": "buttonType",
+      "label": "Type",
+      "editorType": "settingsInput"
     },
     {
-      "path": "actionConfiguration",
-      "label": "Action configuration",
-      "editorType": "configurableActionConfigurator",
-      "group": "Display"
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "group": "Shadow"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
+      "shared": true
     },
     {
       "path": "style",
       "label": "Style",
-      "editorType": "codeEditor",
+      "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "group": "Style",
-      "shared": true
-    },
-    {
-      "path": "size",
-      "label": "Size",
-      "editorType": "dropdown",
-      "group": "Style",
+      "group": "Custom Styles",
       "shared": true
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {
@@ -163,6 +183,6 @@
   },
   "sourceFiles": [
     "dataTable/advancedFilterButton/advancedFilterButtonComponent.tsx",
-    "button/interfaces.ts"
+    "dataTable/advancedFilterButton/types.ts"
   ]
 }

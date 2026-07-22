@@ -1,0 +1,139 @@
+{
+  "type": "labelConfigurator",
+  "name": "Label Configurator",
+  "isInput": true,
+  "isOutput": true,
+  "canBeJsSetting": true,
+  "icon": "ColumnWidthOutlined",
+  "version": null,
+  "initModel": null,
+  "settingsProps": {
+    "interfaceName": "ILabelComponentProps",
+    "interfaceFile": "designer-components/styleLabel/interfaces.ts",
+    "ownProps": [
+      "value",
+      "onChange",
+      "alignPropName",
+      "labelPropName",
+      "hideLabelPropName",
+      "labelAlignOptions"
+    ],
+    "extends": [
+      "IConfigurableFormComponent"
+    ],
+    "resolvedProps": [
+      "_formFields",
+      "alignPropName",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
+      "componentName",
+      "context",
+      "customEnabled",
+      "customVisibility",
+      "description",
+      "desktop",
+      "dimensions",
+      "editMode",
+      "enableStyleOnReadonly",
+      "font",
+      "hidden",
+      "hideLabel",
+      "hideLabelPropName",
+      "hideScrollBar",
+      "id",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "inputStyles",
+      "isDynamic",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "labelAlignOptions",
+      "labelPropName",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChange",
+      "onChangeCustom",
+      "onClickCustom",
+      "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
+      "parentId",
+      "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
+      "propertyName",
+      "queryParams",
+      "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
+      "settingsValidationErrors",
+      "shadow",
+      "size",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "tablet",
+      "type",
+      "validate",
+      "value",
+      "wrapperStyle"
+    ],
+    "unresolvedExtends": [
+      "IHasVersion"
+    ]
+  },
+  "settingsForm": {
+    "source": "styleLabel/settings.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [],
+  "settingsFields": [
+    {
+      "path": "propertyName",
+      "label": "Property name",
+      "editorType": "contextPropertyAutocomplete",
+      "group": "Display"
+    },
+    {
+      "path": "label",
+      "label": "Label",
+      "editorType": "textField",
+      "group": "Display"
+    },
+    {
+      "path": "hideLabel",
+      "label": "Hide Label",
+      "editorType": "checkbox",
+      "group": "Display"
+    },
+    {
+      "path": "hidden",
+      "label": "hide",
+      "editorType": "checkbox",
+      "group": "Display"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "styleLabel/index.tsx",
+    "styleLabel/interfaces.ts"
+  ]
+}

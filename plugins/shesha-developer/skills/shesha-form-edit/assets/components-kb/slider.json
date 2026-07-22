@@ -5,7 +5,7 @@
   "isOutput": true,
   "canBeJsSetting": true,
   "icon": "SlidersFilled",
-  "version": null,
+  "version": 1,
   "initModel": {
     "defaults": {
       "label": "Slider"
@@ -16,7 +16,6 @@
     "interfaceName": "ISliderComponentProps",
     "interfaceFile": "designer-components/slider/interfaces.ts",
     "ownProps": [
-      "defaultValue",
       "min",
       "max"
     ],
@@ -24,49 +23,75 @@
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
       "max",
+      "menuItemShadow",
       "min",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
-      "validate"
+      "validate",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "slider/settings.ts",
+    "source": "slider/settingsForm.ts",
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
@@ -76,59 +101,50 @@
   ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Removes all visual styling except typography when the component becomes read-only"
+    },
+    {
       "path": "propertyName",
       "label": "Property name",
-      "editorType": "contextPropertyAutocomplete",
-      "group": "Display"
-    },
-    {
-      "path": "label",
-      "label": "Label",
-      "editorType": "textField",
-      "group": "Display"
-    },
-    {
-      "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
+      "editorType": "contextPropertyAutocomplete"
     },
     {
       "path": "hideLabel",
-      "label": "Hide Label",
-      "editorType": "checkbox",
-      "group": "Display"
+      "label": "Label",
+      "editorType": "labelConfigurator"
     },
     {
       "path": "editMode",
-      "label": "Edit mode",
-      "editorType": "editModeSelector",
-      "group": "Display"
-    },
-    {
-      "path": "defaultValue",
-      "label": "Default Value",
-      "editorType": "numberField",
-      "group": "Data"
+      "label": "Edit Mode",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "min",
       "label": "Minimum",
-      "editorType": "numberField",
-      "group": "Data"
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "max",
-      "label": "Maximum",
-      "editorType": "numberField",
-      "group": "Data"
+      "path": "enableStyleOnReadonly",
+      "label": "Enable Style On Readonly",
+      "editorType": "settingsInput",
+      "description": "Removes all visual styling except typography when the component becomes read-only"
     },
     {
       "path": "style",
       "label": "Style",
-      "editorType": "codeEditor",
-      "group": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
       "shared": true
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "settingsInput",
+      "description": "Enter a list of permissions that should be associated with this component"
     }
   ],
   "slots": {

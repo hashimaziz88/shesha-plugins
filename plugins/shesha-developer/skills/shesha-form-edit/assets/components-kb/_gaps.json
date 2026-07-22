@@ -20,9 +20,9 @@
     "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
   },
   {
-    "file": "button/buttonGroup/buttonsComponent/index.tsx",
-    "type": "buttons",
-    "reason": "Props interface 'IButtonsComponentProps' declaration not found in indexed sources"
+    "file": "checkbox/checkbox.tsx",
+    "type": "checkbox",
+    "reason": "Props interface 'ICheckboxComponentProps' declaration not found in indexed sources"
   },
   {
     "file": "checkboxGroup/checkboxGroup.tsx",
@@ -42,6 +42,11 @@
   {
     "file": "dataContextSelector/index.tsx",
     "type": "dataContextSelector",
+    "reason": "Props interface 'IDataContextSelectorComponentProps' declaration not found in indexed sources"
+  },
+  {
+    "file": "dataContextSelector/index.tsx",
+    "type": "dataContextSelector",
     "reason": "Settings catalog: no fields extracted (mechanism: none)"
   },
   {
@@ -50,14 +55,14 @@
     "reason": "Settings catalog: no fields extracted (mechanism: react-factory)"
   },
   {
-    "file": "dataTable/quickSearch/quickSearchComponent.tsx",
-    "type": "datatable.quickSearch",
+    "file": "dataTable/selectColumnsButton/selectColumnsButtonComponent.tsx",
+    "type": "datatable.selectColumnsButton",
     "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
   },
   {
     "file": "dataTable/selectColumnsButton/selectColumnsButtonComponent.tsx",
     "type": "datatable.selectColumnsButton",
-    "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
+    "reason": "Props interface 'ISelectColumnsButtonComponentProps' declaration not found in indexed sources"
   },
   {
     "file": "dataTable/table/columnsEditor/index.tsx",
@@ -75,14 +80,30 @@
     "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
   },
   {
-    "file": "dataTable/table/tableTemplateComponent.tsx",
-    "type": "datatable_template",
-    "reason": "IToolboxComponent has no generic props interface parameter"
+    "file": "dataTable/tableContext/tableContextComponent.tsx",
+    "variable": "TableContextComponent",
+    "type": "dataContext",
+    "reason": "Duplicate type 'dataContext' — this definition PREFERRED over dataContextComponent/index.tsx (runtime resolves this one for authored markup)"
   },
   {
-    "file": "dataTable/table/tableTemplateComponent.tsx",
-    "type": "datatable_template",
+    "file": "dataTable/tableContext/tableContextComponent.tsx",
+    "type": "dataContext",
+    "reason": "version 8 resolved from sibling file(s) — no inline migrator on the definition"
+  },
+  {
+    "file": "dataTable/tableContext/tableContextComponent.tsx",
+    "type": "dataContext",
+    "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
+  },
+  {
+    "file": "dataTable/tableContext/tableContextComponentLegacy.tsx",
+    "type": "datatableContext",
     "reason": "Settings catalog: no fields extracted (mechanism: none)"
+  },
+  {
+    "file": "dataTable/tableViewSelector/tableViewSelectorComponent.tsx",
+    "type": "tableViewSelector",
+    "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
   },
   {
     "file": "dateField/dateField.tsx",
@@ -95,9 +116,14 @@
     "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
   },
   {
-    "file": "editModeToggler/index.tsx",
-    "type": "headerAppControl",
-    "reason": "IToolboxComponent has no generic props interface parameter"
+    "file": "dynamicActionsConfigurator/index.tsx",
+    "type": "dynamicItemsConfigurator",
+    "reason": "Props interface 'IDynamicActionsConfiguratorComponentProps' declaration not found in indexed sources"
+  },
+  {
+    "file": "dynamicView/index.tsx",
+    "type": "dynamicView",
+    "reason": "Props interface 'DynamicViewComponentProps' declaration not found in indexed sources"
   },
   {
     "file": "fileUpload/index.tsx",
@@ -107,16 +133,16 @@
   {
     "file": "formAutocomplete/index.tsx",
     "type": "formAutocomplete",
+    "reason": "Props interface 'IFormAutocompleteComponentProps' declaration not found in indexed sources"
+  },
+  {
+    "file": "formAutocomplete/index.tsx",
+    "type": "formAutocomplete",
     "reason": "Settings catalog: no fields extracted (mechanism: none)"
   },
   {
     "file": "image/index.tsx",
     "type": "image",
-    "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
-  },
-  {
-    "file": "imageAnnotation/index.tsx",
-    "type": "imageAnnotation",
     "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
   },
   {
@@ -130,6 +156,22 @@
     "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
   },
   {
+    "file": "logViewer/logViewer.tsx",
+    "type": "logViewer",
+    "reason": "Props interface 'ILogViewerProps' declaration not found in indexed sources"
+  },
+  {
+    "file": "markdown/index.tsx",
+    "type": "markdown",
+    "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
+  },
+  {
+    "file": "menuList/index.tsx",
+    "variable": "MenuListComponent",
+    "type": "menuList",
+    "reason": "Duplicate type 'menuList' — first definition kept (horizontalMenu/index.tsx)"
+  },
+  {
     "file": "notes/notesComponent.tsx",
     "type": "notes",
     "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
@@ -137,7 +179,17 @@
   {
     "file": "notificationAutocomplete/index.tsx",
     "type": "notificationAutocomplete",
+    "reason": "Props interface 'INotificationAutocompleteComponentProps' declaration not found in indexed sources"
+  },
+  {
+    "file": "notificationAutocomplete/index.tsx",
+    "type": "notificationAutocomplete",
     "reason": "Settings catalog: no fields extracted (mechanism: none)"
+  },
+  {
+    "file": "permissions/permissionAutocomplete/index.tsx",
+    "type": "permissionAutocomplete",
+    "reason": "Props interface 'IPermissionAutocompleteComponentProps' declaration not found in indexed sources"
   },
   {
     "file": "permissions/permissionedObjectsTree/permissionedObjectsTree.tsx",
@@ -150,9 +202,24 @@
     "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
   },
   {
-    "file": "phoneNumber/phoneNumber.tsx",
-    "type": "phoneNumberInput",
+    "file": "permissions/permissionTagGroup/index.tsx",
+    "type": "permissionTagGroup",
     "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
+  },
+  {
+    "file": "permissions/permissionTagGroup/index.tsx",
+    "type": "permissionTagGroup",
+    "reason": "Settings catalog: no fields extracted (mechanism: none)"
+  },
+  {
+    "file": "propertiesTabs/index.tsx",
+    "type": "searchableTabs",
+    "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
+  },
+  {
+    "file": "referenceListAutocomplete/index.tsx",
+    "type": "referenceListAutocomplete",
+    "reason": "Props interface 'IReferenceListAutocompleteProps' declaration not found in indexed sources"
   },
   {
     "file": "referenceListAutocomplete/index.tsx",
@@ -170,9 +237,29 @@
     "reason": "Settings catalog: no fields extracted (mechanism: none)"
   },
   {
+    "file": "section/index.tsx",
+    "type": "section",
+    "reason": "Props interface 'ISectionProps' declaration not found in indexed sources"
+  },
+  {
     "file": "settingsEditor/themeEditor.tsx",
     "type": "themeEditor",
     "reason": "IToolboxComponent has no generic props interface parameter"
+  },
+  {
+    "file": "settingsInput/index.tsx",
+    "type": "settingsInput",
+    "reason": "Props interface 'SettingsInputComponentProps' declaration not found in indexed sources"
+  },
+  {
+    "file": "settingsInput/index.tsx",
+    "type": "settingsInput",
+    "reason": "Settings catalog: no fields extracted (mechanism: none)"
+  },
+  {
+    "file": "settingsInputRow/index.tsx",
+    "type": "settingsInputRow",
+    "reason": "Settings catalog: no fields extracted (mechanism: none)"
   },
   {
     "file": "sizableColumns/sizableColumns.tsx",
@@ -183,6 +270,11 @@
     "file": "subForm/index.tsx",
     "type": "subForm",
     "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
+  },
+  {
+    "file": "subForm/index.tsx",
+    "type": "subForm",
+    "reason": "Settings catalog: no fields extracted (mechanism: fluent-builder)"
   },
   {
     "file": "tabs/index.tsx",
@@ -200,6 +292,19 @@
     "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
   },
   {
+    "file": "wizard/index.tsx",
+    "type": "wizard",
+    "reason": "initModel present but no statically-readable literal defaults parsed (raw snippet recorded)"
+  },
+  {
+    "file": "dataContextComponent/",
+    "reason": "No IToolboxComponent definition found in this component folder"
+  },
+  {
+    "file": "editModeToggler/",
+    "reason": "No IToolboxComponent definition found in this component folder"
+  },
+  {
     "file": "htmlContent/",
     "reason": "No IToolboxComponent definition found in this component folder"
   },
@@ -208,7 +313,19 @@
     "reason": "No IToolboxComponent definition found in this component folder"
   },
   {
+    "file": "inputComponent/",
+    "reason": "No IToolboxComponent definition found in this component folder"
+  },
+  {
     "file": "itemListConfigurator/",
+    "reason": "No IToolboxComponent definition found in this component folder"
+  },
+  {
+    "file": "menuList/",
+    "reason": "No IToolboxComponent definition found in this component folder"
+  },
+  {
+    "file": "multiColorInput/",
     "reason": "No IToolboxComponent definition found in this component folder"
   }
 ]

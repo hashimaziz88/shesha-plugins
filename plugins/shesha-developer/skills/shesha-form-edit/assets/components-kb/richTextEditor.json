@@ -5,7 +5,7 @@
   "isOutput": true,
   "canBeJsSetting": null,
   "icon": "EditOutlined",
-  "version": 3,
+  "version": 6,
   "initModel": {
     "defaults": {
       "showCharsCounter": true,
@@ -21,7 +21,7 @@
       "askBeforePasteFromWord": true,
       "disablePlugins": null
     },
-    "raw": "model => ({\r\n    ...model,\r\n    showCharsCounter: true,\r\n    showWordsCounter: true,\r\n    showXPathInStatusbar: true,\r\n    minHeight: 200,\r\n    minWidth: 200,\r\n    toolbar: true,\r\n    useSearch: true,\r\n    autoHeight: true,\r\n    autoWidth: true,\r\n    askBeforePasteHTML: true,\r\n    askBeforePasteFromWord: true,\r\n    disablePlugins: null,\r\n  })"
+    "raw": "(model) => ({\r\n    ...model,\r\n    showCharsCounter: true,\r\n    showWordsCounter: true,\r\n    showXPathInStatusbar: true,\r\n    minHeight: 200,\r\n    minWidth: 200,\r\n    toolbar: true,\r\n    useSearch: true,\r\n    autoHeight: true,\r\n    autoWidth: true,\r\n    askBeforePasteHTML: true,\r\n    askBeforePasteFromWord: true,\r\n    disablePlugins: null,\r\n  })"
   },
   "settingsProps": {
     "interfaceName": "IRichTextEditorProps",
@@ -66,6 +66,8 @@
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
       "allowResizeX",
       "allowResizeY",
       "askBeforePasteFromWord",
@@ -73,49 +75,69 @@
       "autoHeight",
       "autoWidth",
       "autofocus",
+      "background",
+      "border",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
       "defaultMode",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "direction",
       "disablePlugins",
       "editMode",
+      "enableStyleOnReadonly",
       "enter",
+      "font",
       "height",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "iframe",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "insertImageAsBase64URI",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
       "maxHeight",
       "maxWidth",
+      "menuItemShadow",
       "minHeight",
       "minWidth",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
       "placeholder",
       "preset",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
       "saveHeightInStorage",
       "saveModeInStorage",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "showCharsCounter",
       "showWordsCounter",
       "showXPathInStatusbar",
@@ -124,6 +146,7 @@
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "textIcons",
       "theme",
       "toolbar",
@@ -133,280 +156,168 @@
       "type",
       "useSearch",
       "validate",
-      "width"
+      "width",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "richTextEditor/settingsForm.json",
-    "mechanism": "json-markup",
+    "source": "richTextEditor/formSettings.ts",
+    "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
   "hasStandardAppearance": false,
   "appearanceFieldPaths": [
-    "height",
-    "width",
     "style"
   ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "If yes, will automatically be focused (be selected component) when the page loads"
+    },
+    {
       "path": "propertyName",
-      "label": "Property name",
-      "editorType": "contextPropertyAutocomplete",
-      "group": "Display"
-    },
-    {
-      "path": "label",
-      "label": "Label",
-      "editorType": "textField",
-      "group": "Display"
-    },
-    {
-      "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
+      "label": "Property Name",
+      "editorType": "contextPropertyAutocomplete"
     },
     {
       "path": "hideLabel",
-      "label": "Hide Label",
-      "editorType": "checkbox",
-      "group": "Display"
-    },
-    {
-      "path": "editMode",
-      "label": "Edit mode",
-      "editorType": "editModeSelector",
-      "group": "Display"
+      "label": "Label",
+      "editorType": "labelConfigurator"
     },
     {
       "path": "placeholder",
       "label": "Placeholder",
-      "editorType": "textField",
-      "group": "Display"
+      "editorType": "settingsInput"
     },
     {
-      "path": "saveHeightInStorage",
-      "label": "Save height in storage",
-      "editorType": "checkbox",
-      "group": "State"
+      "path": "description",
+      "label": "Tooltip",
+      "editorType": "settingsInput"
     },
     {
-      "path": "saveModeInStorage",
-      "label": "Save mode in storage",
-      "editorType": "checkbox",
-      "group": "State"
-    },
-    {
-      "path": "askBeforePasteHTML",
-      "label": "Ask before paste HTML",
-      "editorType": "checkbox",
-      "group": "State"
-    },
-    {
-      "path": "askBeforePasteFromWord",
-      "label": "Ask before paste from Word/Excel",
-      "editorType": "checkbox",
-      "group": "State"
-    },
-    {
-      "path": "defaultActionOnPaste",
-      "label": "Default insert method",
-      "editorType": "dropdown",
-      "group": "State"
+      "path": "editMode",
+      "label": "Edit Mode",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "toolbar",
-      "label": "Show toolbar?",
-      "editorType": "checkbox",
-      "defaultValue": true,
+      "label": "Show Toolbar",
+      "editorType": "settingsInputRow",
+      "group": "Toolbar"
+    },
+    {
+      "path": "toolbarButtonSize",
+      "label": "Size Of Icons",
+      "editorType": "settingsInput",
+      "group": "Toolbar"
+    },
+    {
+      "path": "disablePlugins",
+      "label": "Hidden Actions",
+      "editorType": "settingsInput",
+      "group": "Toolbar"
+    },
+    {
+      "path": "autofocus",
+      "label": "Auto Focus",
+      "editorType": "settingsInputRow",
+      "description": "If yes, will automatically be focused (be selected component) when the page loads",
       "group": "Options"
     },
     {
       "path": "preset",
       "label": "Presets",
-      "editorType": "dropdown",
-      "group": "Options"
-    },
-    {
-      "path": "textIcons",
-      "label": "Text icons?",
-      "editorType": "checkbox",
-      "group": "Options"
-    },
-    {
-      "path": "toolbarButtonSize",
-      "label": "Size of icons",
-      "editorType": "dropdown",
-      "group": "Options"
-    },
-    {
-      "path": "toolbarSticky",
-      "label": "Sticky Toolbar?",
-      "editorType": "checkbox",
-      "group": "Options"
-    },
-    {
-      "path": "toolbarStickyOffset",
-      "label": "Sticky offset",
-      "editorType": "numberField",
-      "group": "Options"
-    },
-    {
-      "path": "autofocus",
-      "label": "Auto-focus",
-      "editorType": "checkbox",
-      "group": "Options"
-    },
-    {
-      "path": "useSearch",
-      "label": "Use search",
-      "editorType": "checkbox",
-      "group": "Options"
-    },
-    {
-      "path": "iframe",
-      "label": "Iframe mode",
-      "editorType": "checkbox",
-      "group": "Options"
-    },
-    {
-      "path": "spellcheck",
-      "label": "Spell-check",
-      "editorType": "checkbox",
+      "editorType": "settingsInputRow",
+      "description": "Choose a pre-configured toolbar layout",
       "group": "Options"
     },
     {
       "path": "direction",
       "label": "Direction",
-      "editorType": "dropdown",
-      "group": "Options"
-    },
-    {
-      "path": "enter",
-      "label": "Element that will be created on Enter",
-      "editorType": "dropdown",
-      "group": "Options"
-    },
-    {
-      "path": "defaultMode",
-      "label": "Default mode",
-      "editorType": "dropdown",
-      "group": "Options"
+      "editorType": "settingsInput",
+      "group": "Display"
     },
     {
       "path": "showCharsCounter",
-      "label": "Show characters counter",
-      "editorType": "checkbox",
-      "group": "Options"
+      "label": "Show Characters Counter",
+      "editorType": "settingsInputRow",
+      "group": "Display"
     },
     {
-      "path": "showWordsCounter",
-      "label": "Show words counter",
-      "editorType": "checkbox",
-      "group": "Options"
-    },
-    {
-      "path": "showXPathInStatusbar",
-      "label": "Show path to selected element",
-      "editorType": "checkbox",
-      "group": "Options"
+      "path": "enter",
+      "label": "Element That Will Be Created On Enter",
+      "editorType": "settingsInput",
+      "group": "Advanced"
     },
     {
       "path": "insertImageAsBase64URI",
-      "label": "Insert image as Base64 URI",
-      "editorType": "checkbox",
-      "group": "Options"
+      "label": "Insert Image As Base64 URI",
+      "editorType": "settingsInputRow",
+      "description": "Isolates the editor content in a separate iframe for better style separation",
+      "group": "Advanced"
     },
     {
-      "path": "autoHeight",
-      "label": "Auto height",
-      "editorType": "checkbox",
-      "group": "Sizes"
+      "path": "saveHeightInStorage",
+      "label": "Remember Height",
+      "editorType": "settingsInputRow",
+      "description": "Remembers the editor height for the next session",
+      "group": "Advanced"
     },
     {
-      "path": "allowResizeY",
-      "label": "Allow Height resize",
-      "editorType": "checkbox",
-      "group": "Sizes"
-    },
-    {
-      "path": "height",
-      "label": "Height(px)",
-      "editorType": "numberField",
-      "group": "Sizes",
-      "shared": true
-    },
-    {
-      "path": "minHeight",
-      "label": "Min height(px)",
-      "editorType": "numberField",
-      "group": "Sizes"
-    },
-    {
-      "path": "maxHeight",
-      "label": "Max height(px)",
-      "editorType": "numberField",
-      "group": "Sizes"
-    },
-    {
-      "path": "autoWidth",
-      "label": "Auto width",
-      "editorType": "checkbox",
-      "group": "Sizes"
-    },
-    {
-      "path": "allowResizeX",
-      "label": "Allow Width resize",
-      "editorType": "checkbox",
-      "group": "Sizes"
-    },
-    {
-      "path": "width",
-      "label": "Width(px)",
-      "editorType": "numberField",
-      "group": "Sizes",
-      "shared": true
-    },
-    {
-      "path": "minWidth",
-      "label": "Min width(px)",
-      "editorType": "numberField",
-      "group": "Sizes"
-    },
-    {
-      "path": "maxWidth",
-      "label": "Max width(px)",
-      "editorType": "numberField",
-      "group": "Sizes"
-    },
-    {
-      "path": "disablePlugins",
-      "label": "Disabled plugins",
-      "editorType": "dropdown",
-      "group": "Plugins"
-    },
-    {
-      "path": "style",
-      "label": "Style",
-      "editorType": "codeEditor",
-      "group": "Theme",
-      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "shared": true
+      "path": "askBeforePasteHTML",
+      "label": "Ask Before Paste HTML",
+      "editorType": "settingsInputRow",
+      "description": "If yes, will ask the user to confirm before allowing content copied from a Web page to be pasted in",
+      "group": "Advanced"
     },
     {
       "path": "theme",
       "label": "Theme",
-      "editorType": "dropdown",
-      "group": "Theme"
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "autoWidth",
+      "label": "Auto Width",
+      "editorType": "settingsInputRow",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "allowResizeX",
+      "label": "Allow Width Resize",
+      "editorType": "settingsInputRow",
+      "group": "Dimensions"
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
+      "shared": true
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {

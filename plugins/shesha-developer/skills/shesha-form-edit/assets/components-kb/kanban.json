@@ -5,7 +5,7 @@
   "isOutput": null,
   "canBeJsSetting": null,
   "icon": "FormOutlined",
-  "version": null,
+  "version": 8,
   "initModel": {
     "defaults": {
       "hideLabel": true
@@ -20,10 +20,6 @@
       "referenceList",
       "fontColor",
       "showIcons",
-      "width",
-      "height",
-      "minHeight",
-      "maxHeight",
       "fontSize",
       "entityType",
       "allowNewRecord",
@@ -35,244 +31,331 @@
       "groupingProperty",
       "modalFormId",
       "createFormId",
-      "headerBackgroundColor",
       "actionConfiguration",
       "kanbanReadonly",
       "componentName",
       "editFormId",
       "allowEdit",
       "allowDelete",
-      "maxResultCount",
-      "maxWidth",
-      "minWidth"
+      "columnStyles"
     ],
     "extends": [
-      "IConfigurableFormComponent"
+      "IConfigurableFormComponent",
+      "IStyleType"
     ],
     "resolvedProps": [
+      "_formFields",
       "actionConfiguration",
+      "allStyles",
       "allowDelete",
       "allowEdit",
       "allowNewRecord",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
       "collapsible",
       "columnStyle",
+      "columnStyles",
       "componentName",
       "context",
       "createFormId",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editFormId",
       "editMode",
+      "enableStyleOnReadonly",
       "entityType",
+      "font",
       "fontColor",
       "fontSize",
       "gap",
       "groupingProperty",
-      "headerBackgroundColor",
       "headerStyles",
-      "height",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "items",
       "jsSetting",
       "kanbanReadonly",
       "label",
       "labelAlign",
-      "maxHeight",
-      "maxResultCount",
-      "maxWidth",
-      "minHeight",
-      "minWidth",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "modalFormId",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
       "readonly",
       "referenceList",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "showIcons",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
       "validate",
-      "width"
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
     ]
   },
   "settingsForm": {
-    "source": "kanban/settings.tsx",
-    "mechanism": "react-factory",
-    "parseQuality": "partial"
+    "source": "kanban/settingsForm.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
   },
   "hasStandardAppearance": false,
-  "appearanceFieldPaths": [
-    "height",
-    "width",
-    "fontSize",
-    "fontColor"
-  ],
+  "appearanceFieldPaths": [],
   "settingsFields": [
     {
-      "path": "entityType",
-      "label": "Entity Type",
-      "group": "Display"
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Make sure to reselect the reference list if any changes are made to its items"
     },
     {
       "path": "componentName",
       "label": "Component Name",
-      "group": "Display"
+      "editorType": "settingsInput"
     },
     {
       "path": "modalFormId",
       "label": "Render Form",
-      "group": "Display"
-    },
-    {
-      "path": "groupingProperty",
-      "label": "Grouping property",
-      "group": "Display"
-    },
-    {
-      "path": "maxResultCount",
-      "label": "Max Result Count",
-      "group": "Display"
-    },
-    {
-      "path": "referenceList",
-      "label": "Reference List",
-      "group": "Columns",
-      "description": "Make sure to reselect the reference list if any changes are made to its items"
-    },
-    {
-      "path": "items",
-      "group": "Columns"
-    },
-    {
-      "path": "kanbanReadonly",
-      "label": "Readonly",
-      "group": "Columns"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "collapsible",
       "label": "Collapsible",
-      "group": "Columns"
-    },
-    {
-      "path": "allowNewRecord",
-      "label": "Allow New Record",
-      "group": "Columns"
-    },
-    {
-      "path": "createFormId",
-      "label": "Create Form",
-      "group": "Columns"
-    },
-    {
-      "path": "allowEdit",
-      "label": "Allow Edit",
-      "group": "Columns"
-    },
-    {
-      "path": "editFormId",
-      "label": "Edit Form",
-      "group": "Columns"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "allowDelete",
       "label": "Allow Delete",
-      "group": "Columns"
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "showIcons",
-      "label": "Show Icons",
-      "group": "Columns"
+      "path": "allowNewRecord",
+      "label": "Allow New Record",
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "columnStyle",
-      "label": "Style",
-      "group": "Column Styles"
+      "path": "allowEdit",
+      "label": "Allow Edit",
+      "editorType": "settingsInputRow"
     },
     {
-      "path": "gap",
-      "label": "Gap",
-      "group": "Column Styles"
+      "path": "referenceList",
+      "label": "Reference List",
+      "editorType": "settingsInput",
+      "description": "Make sure to reselect the reference list if any changes are made to its items"
     },
     {
-      "path": "height",
-      "label": "Height",
-      "group": "Column Styles",
-      "shared": true
+      "path": "items",
+      "label": "Items",
+      "editorType": "settingsInput"
     },
     {
-      "path": "minHeight",
-      "label": "Min Height",
-      "group": "Column Styles"
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
     },
     {
-      "path": "maxHeight",
-      "label": "Max Height",
-      "group": "Column Styles"
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
     },
     {
-      "path": "width",
-      "label": "Width",
-      "group": "Column Styles",
-      "shared": true
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
     },
     {
-      "path": "minWidth",
-      "label": "Min Width",
-      "group": "Column Styles"
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
     },
     {
-      "path": "maxWidth",
-      "label": "Max Width",
-      "group": "Column Styles"
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
     },
     {
-      "path": "columnBackgroundColor",
-      "label": "Background Color",
-      "group": "Column Styles"
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "description": "Offset X",
+      "group": "Shadow"
     },
     {
       "path": "headerStyles",
       "label": "Style",
-      "group": "Header Styles"
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles"
     },
     {
-      "path": "fontSize",
-      "label": "Font Size",
-      "group": "Header Styles",
-      "shared": true
+      "path": "gap",
+      "label": "Gap",
+      "editorType": "settingsInput",
+      "description": "The gap between the columns",
+      "group": "Column Styles"
     },
     {
-      "path": "headerBackgroundColor",
-      "label": "Background Color",
-      "group": "Header Styles"
+      "path": "columnStyles.dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
     },
     {
-      "path": "fontColor",
-      "label": "Font Color",
-      "group": "Header Styles",
-      "shared": true
+      "path": "columnStyles.dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "columnStyles.background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "columnStyles.background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "columnStyles.background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "columnStyles.background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "columnStyles.background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "columnStyles.background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "columnStyles.background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "columnStyles.background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "columnStyles.shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "description": "Offset X",
+      "group": "Shadow"
+    },
+    {
+      "path": "columnStyles.border.hideBorder",
+      "label": "Border",
+      "editorType": "settingsInputRow",
+      "group": "Border"
+    },
+    {
+      "path": "columnStyles.stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin and Padding"
+    },
+    {
+      "path": "columnStyle",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles"
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "settingsInput",
+      "description": "Enter a list of permissions that should be associated with this component"
     }
   ],
   "slots": {

@@ -11,53 +11,16 @@
       "hideLabel": true,
       "label": "Log Viewer"
     },
-    "raw": "model => {\r\n    return {\r\n      ...model,\r\n      hideLabel: true,\r\n      label: \"Log Viewer\"\r\n    };\r\n  }"
+    "raw": "(model) => {\r\n    return {\r\n      ...model,\r\n      hideLabel: true,\r\n      label: \"Log Viewer\",\r\n    };\r\n  }"
   },
   "settingsProps": {
     "interfaceName": "ILogViewerProps",
-    "interfaceFile": "designer-components/logViewer/interfaces.ts",
+    "interfaceFile": null,
     "ownProps": [],
-    "extends": [
-      "IConfigurableFormComponent"
-    ],
-    "resolvedProps": [
-      "componentName",
-      "context",
-      "customEnabled",
-      "customVisibility",
-      "defaultValue",
-      "description",
-      "editMode",
-      "hidden",
-      "hideLabel",
-      "id",
-      "initialContext",
-      "injectedDefaultValue",
-      "injectedTableRow",
-      "isDynamic",
-      "jsSetting",
-      "label",
-      "labelAlign",
-      "noDataIcon",
-      "noDataSecondaryText",
-      "noDataText",
-      "onBlurCustom",
-      "onChangeCustom",
-      "onFocusCustom",
-      "parentId",
-      "permissions",
-      "propertyName",
-      "readOnly",
-      "settingsValidationErrors",
-      "size",
-      "style",
-      "stylingBox",
-      "subscribedEventNames",
-      "type",
-      "validate"
-    ],
+    "extends": [],
+    "resolvedProps": [],
     "unresolvedExtends": [
-      "IHasVersion"
+      "ILogViewerProps"
     ]
   },
   "settingsForm": {
@@ -96,7 +59,6 @@
     "usesComponentsContainer": false
   },
   "sourceFiles": [
-    "logViewer/logViewer.tsx",
-    "logViewer/interfaces.ts"
+    "logViewer/logViewer.tsx"
   ]
 }

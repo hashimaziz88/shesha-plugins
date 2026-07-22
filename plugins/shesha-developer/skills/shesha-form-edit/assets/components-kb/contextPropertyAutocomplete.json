@@ -9,36 +9,52 @@
   "initModel": null,
   "settingsProps": {
     "interfaceName": "IContextPropertyAutocompleteComponentProps",
-    "interfaceFile": "designer-components/contextPropertyAutocomplete/index.tsx",
+    "interfaceFile": "designer-components/contextPropertyAutocomplete/interfaces.ts",
     "ownProps": [
       "dropdownStyle",
       "mode",
       "modelType",
-      "autoFillProps"
+      "autoFillProps",
+      "styledLabel"
     ],
     "extends": [
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
       "autoFillProps",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "dropdownStyle",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "mode",
       "modelType",
       "noDataIcon",
@@ -46,18 +62,30 @@
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
+      "shadow",
       "size",
       "style",
+      "styledLabel",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
-      "validate"
+      "validate",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
       "IHasVersion"
@@ -172,6 +200,7 @@
     "usesComponentsContainer": false
   },
   "sourceFiles": [
-    "contextPropertyAutocomplete/index.tsx"
+    "contextPropertyAutocomplete/index.tsx",
+    "contextPropertyAutocomplete/interfaces.ts"
   ]
 }

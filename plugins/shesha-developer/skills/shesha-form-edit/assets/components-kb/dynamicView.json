@@ -9,76 +9,41 @@
   "initModel": null,
   "settingsProps": {
     "interfaceName": "DynamicViewComponentProps",
-    "interfaceFile": "designer-components/dynamicView/index.tsx",
+    "interfaceFile": null,
     "ownProps": [],
-    "extends": [
-      "IConfigurableFormComponent"
-    ],
-    "resolvedProps": [
-      "componentName",
-      "context",
-      "customEnabled",
-      "customVisibility",
-      "defaultValue",
-      "description",
-      "editMode",
-      "hidden",
-      "hideLabel",
-      "id",
-      "initialContext",
-      "injectedDefaultValue",
-      "injectedTableRow",
-      "isDynamic",
-      "jsSetting",
-      "label",
-      "labelAlign",
-      "noDataIcon",
-      "noDataSecondaryText",
-      "noDataText",
-      "onBlurCustom",
-      "onChangeCustom",
-      "onFocusCustom",
-      "parentId",
-      "permissions",
-      "propertyName",
-      "readOnly",
-      "settingsValidationErrors",
-      "size",
-      "style",
-      "stylingBox",
-      "subscribedEventNames",
-      "type",
-      "validate"
-    ],
+    "extends": [],
+    "resolvedProps": [],
     "unresolvedExtends": [
-      "IHasVersion"
+      "DynamicViewComponentProps"
     ]
   },
   "settingsForm": {
-    "source": "dynamicView/settingsForm.json",
-    "mechanism": "json-markup",
+    "source": "dynamicView/settings.ts",
+    "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
   "hasStandardAppearance": false,
   "appearanceFieldPaths": [],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs"
+    },
+    {
       "path": "componentName",
       "label": "Component name",
-      "editorType": "textField",
-      "group": "Display"
+      "editorType": "settingsInput"
     },
     {
       "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Display"
+      "label": "Hide",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {

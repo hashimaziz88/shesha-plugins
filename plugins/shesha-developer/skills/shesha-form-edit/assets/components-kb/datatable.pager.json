@@ -5,7 +5,7 @@
   "isOutput": null,
   "canBeJsSetting": null,
   "icon": "ControlOutlined",
-  "version": 3,
+  "version": 4,
   "initModel": {
     "defaults": {
       "showSizeChanger": true,
@@ -15,52 +15,79 @@
   },
   "settingsProps": {
     "interfaceName": "IPagerComponentProps",
-    "interfaceFile": "designer-components/dataTable/pager/pagerComponent.tsx",
+    "interfaceFile": "designer-components/dataTable/pager/interfaces.ts",
     "ownProps": [],
     "extends": [
-      "ITablePagerProps",
+      "Omit<ITablePagerProps",
+      "'style'>",
       "IConfigurableFormComponent"
     ],
     "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
       "componentName",
       "context",
       "customEnabled",
       "customVisibility",
-      "defaultValue",
       "description",
+      "desktop",
+      "dimensions",
       "editMode",
+      "enableStyleOnReadonly",
+      "font",
       "hidden",
       "hideLabel",
+      "hideScrollBar",
       "id",
       "initialContext",
       "injectedDefaultValue",
       "injectedTableRow",
+      "inputStyles",
       "isDynamic",
       "jsSetting",
       "label",
       "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
       "noDataIcon",
       "noDataSecondaryText",
       "noDataText",
       "onBlurCustom",
       "onChangeCustom",
+      "onClickCustom",
       "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
       "parentId",
       "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
       "propertyName",
+      "queryParams",
       "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
       "settingsValidationErrors",
-      "showSizeChanger",
-      "showTotalItems",
+      "shadow",
       "size",
       "style",
       "stylingBox",
       "subscribedEventNames",
+      "tablet",
       "type",
-      "validate"
+      "validate",
+      "wrapperStyle"
     ],
     "unresolvedExtends": [
-      "IHasVersion"
+      "'style'>",
+      "IHasVersion",
+      "Omit<ITablePagerProps"
     ]
   },
   "settingsForm": {
@@ -69,39 +96,58 @@
     "parseQuality": "full"
   },
   "hasStandardAppearance": false,
-  "appearanceFieldPaths": [],
+  "appearanceFieldPaths": [
+    "stylingBox",
+    "style"
+  ],
   "settingsFields": [
     {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Controls text thickness (light, normal, bold, etc.)"
+    },
+    {
       "path": "componentName",
-      "label": "Component name",
-      "editorType": "textField",
-      "group": "Display"
+      "label": "Component Name",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "showSizeChanger",
       "label": "Show Size Changer",
-      "editorType": "checkbox",
-      "defaultValue": true,
-      "group": "Page Sizes"
-    },
-    {
-      "path": "showTotalItems",
-      "label": "Show Total Items",
-      "editorType": "checkbox",
-      "defaultValue": true,
-      "group": "Page Sizes"
+      "editorType": "settingsInputRow"
     },
     {
       "path": "hidden",
-      "label": "Hidden",
-      "editorType": "checkbox",
-      "group": "Page Sizes"
+      "label": "Hide",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
+      "shared": true
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
+      "shared": true
     },
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "permissionAutocomplete",
-      "group": "Security"
+      "editorType": "settingsInput"
     }
   ],
   "slots": {
@@ -111,6 +157,7 @@
     "usesComponentsContainer": false
   },
   "sourceFiles": [
-    "dataTable/pager/pagerComponent.tsx"
+    "dataTable/pager/pagerComponent.tsx",
+    "dataTable/pager/interfaces.ts"
   ]
 }
