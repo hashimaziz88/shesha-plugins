@@ -42,11 +42,16 @@ Viewport captured:  <w>x<h>      Source:  <probe file / source path / screenshot
 ```blueprint-json …```   (conforms to schemas/blueprint.schema.json)
 ```
 
-## The eight archetypes (target vocabulary)
+## The archetypes (target vocabulary)
 
-The blueprint's `Archetype` must be one of `shesha-form-edit`'s archetypes, so the builder picks the right seed:
-`record-detail` · `hub` · `list-card` · `capture` · `dashboard` · `solution-map` · `wizard` · `inline-card`.
-(See `shesha-form-edit/references/archetypes.md` for each one's seed + structure.)
+The blueprint's `Archetype` must be one of the values in the IR schema's
+`archetype` enum (`schemas/blueprint.schema.json`), so the compiler picks the
+right seed:
+`table-worklist` · `record-detail` · `hub` · `capture` · `modal-dialog` · `list-card` · `inline-card` · `dashboard` · `solution-map` · `wizard`.
+Each one's clonable seed is catalogued in
+`shesha-form-edit/assets/golden/_index.json` (grep it — never read a golden
+whole). `solution-map` and `wizard` have no golden seed yet, so the compiler
+falls back to hand-composition for those.
 
 ## `layout-tree` grammar
 
