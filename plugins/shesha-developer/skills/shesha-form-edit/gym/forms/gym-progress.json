@@ -1,0 +1,649 @@
+{
+  "components": [
+    {
+      "id": "86724556-bd9c-5a63-a0ba-e5c6a13273a6",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-progress-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "7f6ad071-c31f-5b3d-9053-07ef787d6cf1",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-progress-validation-errors",
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "12538141-a8b5-5cac-abab-0f0cf739f6dd",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "94f36496-ec8d-5999-9049-b12c04d09b72",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "parentId": "12538141-a8b5-5cac-abab-0f0cf739f6dd"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "052a1741-f4a4-5cb6-baa8-b9d1025a80a6",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-progress-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "b4e7f7b4-6386-510e-94f8-901251be070a",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-c296d8bc",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ea230254-8697-52fe-9835-3428a16e4749",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "width": 17,
+              "parentId": "b4e7f7b4-6386-510e-94f8-901251be070a"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "cbe697df-0819-5b07-b63e-2f5c5c56b967",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-progress-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "0afd5516-b021-56aa-9f5a-67cbf1058005",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9c128ab1-dfde-5c2d-8b57-563a999e5f8b",
+              "type": "progress",
+              "version": 1,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "parentId": "0afd5516-b021-56aa-9f5a-67cbf1058005"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "6ccb9026-5c23-56d8-b4a2-ca1be45b59ed",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-8ae8db35",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5fa82f5c-888e-52cf-a634-cdf18997c02e",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "hideLabel": true,
+              "parentId": "6ccb9026-5c23-56d8-b4a2-ca1be45b59ed"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "ca5b5908-140a-55ac-af86-651b7845f52b",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-1a329c4f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "55a7a457-5ce5-5606-aaff-1c6ce8316858",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 17,
+              "propertyName": "gymValue",
+              "parentId": "ca5b5908-140a-55ac-af86-651b7845f52b"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "0f2f9f5a-4d0e-5ac0-a1eb-23847d62e15a",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-1fddc122",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "383a6e0c-821a-5768-9914-07e89e84071b",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "showInfo": true,
+              "parentId": "0f2f9f5a-4d0e-5ac0-a1eb-23847d62e15a"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "89acdf23-bb13-5e75-969f-720a8a797ed4",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-4491f9eb",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "36145b1d-46ca-549a-924b-119edd6c940a",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "status": "success",
+              "parentId": "89acdf23-bb13-5e75-969f-720a8a797ed4"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "1d80456d-6839-53a1-9ef6-d3a56f352874",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-9693710c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9e972e05-a790-5f80-96a9-75992eabda3d",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "status": "exception",
+              "parentId": "1d80456d-6839-53a1-9ef6-d3a56f352874"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "2a93e776-3707-519d-bdee-b3ca3ed16529",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-c012bbcd",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3e78fc9e-8c3c-54b7-b8f6-1d08af1cab44",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "status": "normal",
+              "parentId": "2a93e776-3707-519d-bdee-b3ca3ed16529"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "9cff076d-1ad4-5ea2-a120-45190422b79b",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-8d1926ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "055492d3-268c-5d12-ad4b-bc936304b82b",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "status": "active",
+              "parentId": "9cff076d-1ad4-5ea2-a120-45190422b79b"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "3ac6cf1d-f1d2-50e4-a01a-01fb4a10fe27",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-b113480c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6dcd5ae8-6d99-5599-8093-f3a41560de5d",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "strokeColor": "#ff00aa",
+              "parentId": "3ac6cf1d-f1d2-50e4-a01a-01fb4a10fe27"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "2ca848e0-ab28-5044-92b2-d49414ec84a0",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-e396e6da",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e591bdda-d46a-5e1e-bbfb-f208223f8d54",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "strokeLinecap": "round",
+              "parentId": "2ca848e0-ab28-5044-92b2-d49414ec84a0"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "aede59c5-d365-5f0e-b732-28717ce6f6c6",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-4896d046",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "90926255-7b07-5eef-8814-c4e3e44fd1ec",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "strokeLinecap": "butt",
+              "parentId": "aede59c5-d365-5f0e-b732-28717ce6f6c6"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "7ea12227-3007-5e1f-bd4f-0746bf83fcd6",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-c193b036",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "29ed4639-d3c8-53c3-9058-6140bfc615f0",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "strokeLinecap": "square",
+              "parentId": "7ea12227-3007-5e1f-bd4f-0746bf83fcd6"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "f4c23b69-04ae-5db6-8fa1-12c81a9fe186",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-c4e84b7e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f91dfddc-12a8-5a82-b556-7075aab8003b",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "trailColor": "#ff00aa",
+              "parentId": "f4c23b69-04ae-5db6-8fa1-12c81a9fe186"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "eb0b39c6-7d71-5fd7-8d49-2e147e9859a8",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-268debe2",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "85f975b8-ea55-567d-b3d3-cce8baac8f3d",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "parentId": "eb0b39c6-7d71-5fd7-8d49-2e147e9859a8"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "e5330cc7-ff31-5fc9-be00-393757c37af4",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-11526c80",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "678a54a3-ab16-50e8-92a6-37b1251055a6",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "circle",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "parentId": "e5330cc7-ff31-5fc9-be00-393757c37af4"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "07eb4a5d-6d82-5b80-8928-3b1447550570",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-42c7a3e9",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a2fe900a-cd28-50a6-a16a-647341cdc5fe",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "dashboard",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "parentId": "07eb4a5d-6d82-5b80-8928-3b1447550570"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "77ee3c90-04e0-5868-86bc-03c1ca44fb4c",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-211852f0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "aafab075-c8d6-58e8-98b8-769f42fa360b",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "steps": 17,
+              "parentId": "77ee3c90-04e0-5868-86bc-03c1ca44fb4c"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "fce2e029-cbaa-5d0c-a4e4-93727dd228c1",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-3a0dd425",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f2b62d25-c4f5-5264-9e92-738ea05ef2e2",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "gapDegree": 17,
+              "parentId": "fce2e029-cbaa-5d0c-a4e4-93727dd228c1"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "421028af-d26e-52a9-9705-b9827e62a0c7",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-0be1050e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9fd0b1d6-d908-5d0f-bf48-1e3442ed2a76",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "gapPosition": "top",
+              "parentId": "421028af-d26e-52a9-9705-b9827e62a0c7"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "4dd42eea-57d2-5492-8c7a-c54e850d59bf",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-1bb61f0a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c550709d-a153-5324-90a4-65a0e64e591e",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "gapPosition": "bottom",
+              "parentId": "4dd42eea-57d2-5492-8c7a-c54e850d59bf"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "590494b4-c6e4-58c0-a36d-0513f9857726",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-a8db6047",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ee062a37-bbfd-59eb-89fc-c290dddc1a20",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "gapPosition": "left",
+              "parentId": "590494b4-c6e4-58c0-a36d-0513f9857726"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "99862792-4252-5718-8f96-0fea80c348d9",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-cac89f3d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "80438f73-282f-5fc5-9ed9-0970a5913351",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "gapPosition": "right",
+              "parentId": "99862792-4252-5718-8f96-0fea80c348d9"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        },
+        {
+          "id": "8b9a7f90-56f4-595b-b6ee-54e3f1d30ef6",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-progress-v-de56d955",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0b5b849c-66d8-5e2c-b036-5354122c416f",
+              "type": "progress",
+              "version": 1,
+              "label": "gym progress",
+              "hidden": false,
+              "progressType": "line",
+              "percent": 42,
+              "propertyName": "gymValue",
+              "strokeWidth": 17,
+              "parentId": "8b9a7f90-56f4-595b-b6ee-54e3f1d30ef6"
+            }
+          ],
+          "parentId": "86724556-bd9c-5a63-a0ba-e5c6a13273a6"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

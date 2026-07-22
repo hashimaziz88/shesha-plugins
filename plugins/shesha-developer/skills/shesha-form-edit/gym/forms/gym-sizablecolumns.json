@@ -1,0 +1,90 @@
+{
+  "components": [
+    {
+      "id": "c08a4fa6-c76e-591f-a7af-8f134b7964a6",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-sizableColumns-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "d21f52e8-8744-5ecf-b7cb-4899672aa9ab",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-sizableColumns-validation-errors",
+          "parentId": "c08a4fa6-c76e-591f-a7af-8f134b7964a6"
+        },
+        {
+          "id": "12ec553d-d367-5935-85cf-72178c3eeeed",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-sizableColumns-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "98865d9f-3add-51d3-9b98-aa2bc7d23c48",
+              "type": "sizableColumns",
+              "version": 2,
+              "label": "gym sizableColumns",
+              "hidden": false,
+              "componentName": "gym-sizableColumns-inst-baseline",
+              "columns": [
+                {
+                  "id": "4da3ac8c-2122-5554-9b77-06301b9cab1f",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "cb4f6ac6-9441-5268-913f-c3f426e976e0",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "98865d9f-3add-51d3-9b98-aa2bc7d23c48"
+                    }
+                  ]
+                },
+                {
+                  "id": "f5b8db09-1fae-56c7-9d7f-fda67ae938a0",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "23924bb8-a81d-5560-b2c7-0bc6dc62fec2",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "98865d9f-3add-51d3-9b98-aa2bc7d23c48"
+                    }
+                  ]
+                }
+              ],
+              "parentId": "12ec553d-d367-5935-85cf-72178c3eeeed"
+            }
+          ],
+          "parentId": "c08a4fa6-c76e-591f-a7af-8f134b7964a6"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "components": [
+    {
+      "id": "5b5e85df-13f5-53d0-b5a4-8a2fd43756a9",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-permissionedObjectsTree-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "0e054402-1411-5234-b65b-b8b7afe41b6f",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-permissionedObjectsTree-validation-errors",
+          "parentId": "5b5e85df-13f5-53d0-b5a4-8a2fd43756a9"
+        },
+        {
+          "id": "8fcc2c70-0aaf-5785-a809-572e93a13953",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionedObjectsTree-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3438a3cb-46d6-5132-8df9-1ded894af21e",
+              "type": "permissionedObjectsTree",
+              "version": 0,
+              "label": "gym permissionedObjectsTree",
+              "hidden": false,
+              "componentName": "gym-permissionedObjectsTree-inst-baseline",
+              "parentId": "8fcc2c70-0aaf-5785-a809-572e93a13953"
+            }
+          ],
+          "parentId": "5b5e85df-13f5-53d0-b5a4-8a2fd43756a9"
+        },
+        {
+          "id": "ab09bde0-adbc-5fbb-aa00-a8bf6af9aea2",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-permissionedObjectsTree-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "5b5e85df-13f5-53d0-b5a4-8a2fd43756a9"
+        },
+        {
+          "id": "be2a826f-85e0-5c64-8496-f4dabe65331c",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionedObjectsTree-v-8c130e7d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6076f0fe-4c4a-5224-81d3-56b14c498e2c",
+              "type": "permissionedObjectsTree",
+              "version": 0,
+              "label": "gym permissionedObjectsTree",
+              "hidden": false,
+              "componentName": "gym-permissionedObjectsTree-inst-height=17px",
+              "height": "17px",
+              "parentId": "be2a826f-85e0-5c64-8496-f4dabe65331c"
+            }
+          ],
+          "parentId": "5b5e85df-13f5-53d0-b5a4-8a2fd43756a9"
+        },
+        {
+          "id": "6346d7be-43fb-502c-a1d8-0dc81eed5620",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-permissionedObjectsTree-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "5b5e85df-13f5-53d0-b5a4-8a2fd43756a9"
+        },
+        {
+          "id": "c9578366-21dc-5c98-8abb-250daaef0571",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionedObjectsTree-v-86ca50c6",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "03939db0-44f0-5cae-8d97-ce06003c9674",
+              "type": "permissionedObjectsTree",
+              "version": 0,
+              "label": "gym permissionedObjectsTree",
+              "hidden": false,
+              "componentName": "gym-permissionedObjectsTree-inst-objectsType=txt",
+              "objectsType": "GYM-TXT-objectsType",
+              "parentId": "c9578366-21dc-5c98-8abb-250daaef0571"
+            }
+          ],
+          "parentId": "5b5e85df-13f5-53d0-b5a4-8a2fd43756a9"
+        },
+        {
+          "id": "339306a8-7904-52be-8f15-389c9e02e0fe",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionedObjectsTree-v-e3de8bc7",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "79b23c53-99d9-55bc-b561-282fb3be40da",
+              "type": "permissionedObjectsTree",
+              "version": 0,
+              "label": "gym permissionedObjectsTree",
+              "hidden": false,
+              "componentName": "gym-permissionedObjectsTree-inst-defaultAccess=17",
+              "defaultAccess": 17,
+              "parentId": "339306a8-7904-52be-8f15-389c9e02e0fe"
+            }
+          ],
+          "parentId": "5b5e85df-13f5-53d0-b5a4-8a2fd43756a9"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "components": [
+    {
+      "id": "6bc1f42f-0a2e-54d8-bf98-d465e95f0932",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-toolbar-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "f2213998-3405-56f0-bb94-34b12eb97426",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-toolbar-validation-errors",
+          "parentId": "6bc1f42f-0a2e-54d8-bf98-d465e95f0932"
+        },
+        {
+          "id": "3e1aa16c-2247-5492-853f-1aee0f73843e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-toolbar-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b53404fd-4510-5012-ad4e-023f11ff9dc7",
+              "type": "toolbar",
+              "version": 4,
+              "label": "gym toolbar",
+              "hidden": false,
+              "componentName": "gym-toolbar-inst-baseline",
+              "parentId": "3e1aa16c-2247-5492-853f-1aee0f73843e"
+            }
+          ],
+          "parentId": "6bc1f42f-0a2e-54d8-bf98-d465e95f0932"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

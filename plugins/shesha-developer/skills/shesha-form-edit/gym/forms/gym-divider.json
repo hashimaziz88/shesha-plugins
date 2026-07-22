@@ -1,0 +1,148 @@
+{
+  "components": [
+    {
+      "id": "747bf96a-084b-5612-af89-eb3d8dd09584",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-divider-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "3bd28973-e3b2-5500-ac24-da142078cd67",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-divider-validation-errors",
+          "parentId": "747bf96a-084b-5612-af89-eb3d8dd09584"
+        },
+        {
+          "id": "8d4ce54b-2c24-5b70-9234-d5f98680d1d6",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-divider-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "86b6b50f-38b2-5e9f-a282-c745ef3bca59",
+              "type": "divider",
+              "version": 3,
+              "label": "gym divider",
+              "hidden": false,
+              "dividerType": "horizontal",
+              "dashed": false,
+              "componentName": "gym-divider-inst-baseline",
+              "parentId": "8d4ce54b-2c24-5b70-9234-d5f98680d1d6"
+            }
+          ],
+          "parentId": "747bf96a-084b-5612-af89-eb3d8dd09584"
+        },
+        {
+          "id": "593165df-9a5e-5555-80a5-68af47c1f1bb",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-divider-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "747bf96a-084b-5612-af89-eb3d8dd09584"
+        },
+        {
+          "id": "cf624084-4602-53b1-b356-e7e020b1e0ef",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-divider-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0963940d-696c-55df-8cb3-5a7caadaf36a",
+              "type": "divider",
+              "version": 3,
+              "label": "gym divider",
+              "hidden": false,
+              "dividerType": "horizontal",
+              "dashed": false,
+              "componentName": "gym-divider-inst-stylingBox=stylingBox17",
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "cf624084-4602-53b1-b356-e7e020b1e0ef"
+            }
+          ],
+          "parentId": "747bf96a-084b-5612-af89-eb3d8dd09584"
+        },
+        {
+          "id": "cb51f306-2a0d-5080-8e13-cf38e809a887",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-divider-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "747bf96a-084b-5612-af89-eb3d8dd09584"
+        },
+        {
+          "id": "fb11086e-6821-539d-afb0-577896456ee3",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-divider-v-1e93c71f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "cba5c530-74b3-547e-bd2f-6ae196fc0687",
+              "type": "divider",
+              "version": 3,
+              "label": "gym divider",
+              "hidden": false,
+              "dividerType": "vertical",
+              "dashed": false,
+              "componentName": "gym-divider-inst-dividerType=vertical",
+              "parentId": "fb11086e-6821-539d-afb0-577896456ee3"
+            }
+          ],
+          "parentId": "747bf96a-084b-5612-af89-eb3d8dd09584"
+        },
+        {
+          "id": "2f3586a6-bffc-50ed-b3c0-4c15fbc8e9b5",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-divider-v-dc5e46e3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7520bc6e-4701-52e9-bc3f-2113793e69ef",
+              "type": "divider",
+              "version": 3,
+              "label": "gym divider",
+              "hidden": false,
+              "dividerType": "horizontal",
+              "dashed": true,
+              "componentName": "gym-divider-inst-dashed=true",
+              "parentId": "2f3586a6-bffc-50ed-b3c0-4c15fbc8e9b5"
+            }
+          ],
+          "parentId": "747bf96a-084b-5612-af89-eb3d8dd09584"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

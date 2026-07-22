@@ -1,0 +1,163 @@
+{
+  "components": [
+    {
+      "id": "d7b805c8-1d96-510c-abcf-6cdfa985f7a7",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-profileDropdown-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "7b66be2d-5592-5a9d-bed5-7e858938467a",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-profileDropdown-validation-errors",
+          "parentId": "d7b805c8-1d96-510c-abcf-6cdfa985f7a7"
+        },
+        {
+          "id": "25340ec1-1308-527a-810f-21f31fba368d",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-profileDropdown-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9da6ad5d-4619-5ed4-89ce-71db502aad86",
+              "type": "profileDropdown",
+              "version": 1,
+              "label": "gym profileDropdown",
+              "hidden": false,
+              "componentName": "gym-profileDropdown-inst-baseline",
+              "parentId": "25340ec1-1308-527a-810f-21f31fba368d"
+            }
+          ],
+          "parentId": "d7b805c8-1d96-510c-abcf-6cdfa985f7a7"
+        },
+        {
+          "id": "fab5be2d-7161-5a8f-86aa-234c484754fb",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-profileDropdown-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d7b805c8-1d96-510c-abcf-6cdfa985f7a7"
+        },
+        {
+          "id": "608e42b1-f6b6-5f79-9f7c-01bfe791f52a",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-profileDropdown-v-7a224abb",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "caaf1819-e184-5c07-943b-e214c10a073d",
+              "type": "profileDropdown",
+              "version": 1,
+              "label": "gym profileDropdown",
+              "hidden": false,
+              "componentName": "gym-profileDropdown-inst-subTextColor=#ff00aa",
+              "subTextColor": "#ff00aa",
+              "parentId": "608e42b1-f6b6-5f79-9f7c-01bfe791f52a"
+            }
+          ],
+          "parentId": "d7b805c8-1d96-510c-abcf-6cdfa985f7a7"
+        },
+        {
+          "id": "57dd0bf8-f163-5693-955c-e072641fd171",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-profileDropdown-v-663d1178",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a68b40e7-5928-5ddd-b9bc-a2c885b9b189",
+              "type": "profileDropdown",
+              "version": 1,
+              "label": "gym profileDropdown",
+              "hidden": false,
+              "componentName": "gym-profileDropdown-inst-subTextFontSize=17",
+              "subTextFontSize": 17,
+              "parentId": "57dd0bf8-f163-5693-955c-e072641fd171"
+            }
+          ],
+          "parentId": "d7b805c8-1d96-510c-abcf-6cdfa985f7a7"
+        },
+        {
+          "id": "58a001e9-d428-54e1-acda-8c8c13622d4b",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-profileDropdown-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d7b805c8-1d96-510c-abcf-6cdfa985f7a7"
+        },
+        {
+          "id": "70f21ca0-6135-5c00-b6d0-8b0632b3c3c1",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-profileDropdown-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d4fb372d-678c-5341-9509-e3f846f452b3",
+              "type": "profileDropdown",
+              "version": 1,
+              "label": "gym profileDropdown",
+              "hidden": true,
+              "componentName": "gym-profileDropdown-inst-hidden=true",
+              "parentId": "70f21ca0-6135-5c00-b6d0-8b0632b3c3c1"
+            }
+          ],
+          "parentId": "d7b805c8-1d96-510c-abcf-6cdfa985f7a7"
+        },
+        {
+          "id": "a76217bf-21f2-5d21-bcf4-406609552942",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-profileDropdown-v-3b5ff6fb",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "739d26a6-6318-54af-816f-bc0229b66505",
+              "type": "profileDropdown",
+              "version": 1,
+              "label": "gym profileDropdown",
+              "hidden": false,
+              "componentName": "gym-profileDropdown-inst-subText=txt",
+              "subText": "GYM-TXT-subText",
+              "parentId": "a76217bf-21f2-5d21-bcf4-406609552942"
+            }
+          ],
+          "parentId": "d7b805c8-1d96-510c-abcf-6cdfa985f7a7"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

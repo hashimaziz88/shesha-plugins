@@ -1,0 +1,86 @@
+{
+  "components": [
+    {
+      "id": "04eb1e52-c51a-5cb6-a0f5-9bf33d00e732",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-headerAppControl-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "fe50a5f8-bac5-5791-840b-e53da9d5cbad",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-headerAppControl-validation-errors",
+          "parentId": "04eb1e52-c51a-5cb6-a0f5-9bf33d00e732"
+        },
+        {
+          "id": "17a036e1-190c-5cfe-9061-03868b89415e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-headerAppControl-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e708528a-81b3-5ccf-ab77-c998681777fc",
+              "type": "headerAppControl",
+              "version": 1,
+              "label": "gym headerAppControl",
+              "hidden": false,
+              "componentName": "gym-headerAppControl-inst-baseline",
+              "parentId": "17a036e1-190c-5cfe-9061-03868b89415e"
+            }
+          ],
+          "parentId": "04eb1e52-c51a-5cb6-a0f5-9bf33d00e732"
+        },
+        {
+          "id": "169e591c-e167-5af0-a103-139afa0e67c5",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-headerAppControl-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "04eb1e52-c51a-5cb6-a0f5-9bf33d00e732"
+        },
+        {
+          "id": "3bae6d0b-bdf1-5eac-90a5-45f28b684710",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-headerAppControl-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d7831116-b312-5ba6-b1cc-7a392ed8f826",
+              "type": "headerAppControl",
+              "version": 1,
+              "label": "gym headerAppControl",
+              "hidden": true,
+              "componentName": "gym-headerAppControl-inst-hidden=true",
+              "parentId": "3bae6d0b-bdf1-5eac-90a5-45f28b684710"
+            }
+          ],
+          "parentId": "04eb1e52-c51a-5cb6-a0f5-9bf33d00e732"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

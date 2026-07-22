@@ -1,0 +1,152 @@
+{
+  "components": [
+    {
+      "id": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-statistic-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "36356ed7-e00c-5938-9e29-d2dcd4dc5e63",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-statistic-validation-errors",
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "d30cd341-6745-58be-b8c9-9fcc59f0ea03",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-statistic-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2307d0c9-daf1-5c11-aaa4-0f3e2cd0560b",
+              "type": "statistic",
+              "version": 2,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "d30cd341-6745-58be-b8c9-9fcc59f0ea03"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "451f2bb7-e01a-5168-b3a9-07875694f4a8",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-statistic-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "a7e5d03c-1c85-591c-9c45-7a65b6e31402",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-statistic-v-883431f1",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9b0dd6c1-1d51-51fe-b8a0-69a35149ce75",
+              "type": "statistic",
+              "version": 2,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "title": "GYM-TXT-title",
+              "parentId": "a7e5d03c-1c85-591c-9c45-7a65b6e31402"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "6a17d984-2ebc-5d28-af12-2258ebdbef4e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-statistic-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "24d53258-31c7-5fa9-8dd8-a204744c92ed",
+              "type": "statistic",
+              "version": 2,
+              "label": "gym statistic",
+              "hidden": true,
+              "propertyName": "gymValue",
+              "parentId": "6a17d984-2ebc-5d28-af12-2258ebdbef4e"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "a3581cc8-0aa3-5f1d-b210-d672f3a31a10",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-statistic-v-fe64500a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b53f8859-ca0b-5425-8c37-b2de09f3009a",
+              "type": "statistic",
+              "version": 2,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "prefix": "StarFilled",
+              "parentId": "a3581cc8-0aa3-5f1d-b210-d672f3a31a10"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "dac5f0a6-1377-5a16-ac13-e8436067c282",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-statistic-v-bd1181b7",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a2bfaf9f-b1e6-589c-ad4f-f6840119edde",
+              "type": "statistic",
+              "version": 2,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "suffix": "StarFilled",
+              "parentId": "dac5f0a6-1377-5a16-ac13-e8436067c282"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

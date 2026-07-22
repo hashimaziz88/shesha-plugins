@@ -1,0 +1,278 @@
+{
+  "components": [
+    {
+      "id": "ccbae1eb-e65f-5355-9667-eddb1d82774e",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-alert-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "54d22d17-4199-5743-b58d-2744c49baa2e",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-alert-validation-errors",
+          "parentId": "ccbae1eb-e65f-5355-9667-eddb1d82774e"
+        },
+        {
+          "id": "d433a85e-9d8b-556d-a381-6a883bd00ce2",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-alert-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "bca1d7ac-6343-52df-bd2e-58e7fc81852f",
+              "type": "alert",
+              "version": 2,
+              "label": "gym alert",
+              "hidden": false,
+              "alertType": "info",
+              "text": "GYM alert text",
+              "componentName": "gym-alert-inst-baseline",
+              "parentId": "d433a85e-9d8b-556d-a381-6a883bd00ce2"
+            }
+          ],
+          "parentId": "ccbae1eb-e65f-5355-9667-eddb1d82774e"
+        },
+        {
+          "id": "6138a0b8-9cd9-5a4c-8152-3cbb1a7d27ec",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-alert-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ccbae1eb-e65f-5355-9667-eddb1d82774e"
+        },
+        {
+          "id": "a385593c-e3cb-507d-bb60-4be355fcdccf",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-alert-v-4738c09a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e97c8eca-f573-5679-9c13-2bf4e746c665",
+              "type": "alert",
+              "version": 2,
+              "label": "gym alert",
+              "hidden": false,
+              "alertType": "success",
+              "text": "GYM alert text",
+              "componentName": "gym-alert-inst-alertType=success",
+              "parentId": "a385593c-e3cb-507d-bb60-4be355fcdccf"
+            }
+          ],
+          "parentId": "ccbae1eb-e65f-5355-9667-eddb1d82774e"
+        },
+        {
+          "id": "dc9f0203-7afc-5ee8-81d1-6b32a02cb11b",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-alert-v-464cc4bf",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9bec17b1-a011-5870-b3cb-568a0876e0a8",
+              "type": "alert",
+              "version": 2,
+              "label": "gym alert",
+              "hidden": false,
+              "alertType": "warning",
+              "text": "GYM alert text",
+              "componentName": "gym-alert-inst-alertType=warning",
+              "parentId": "dc9f0203-7afc-5ee8-81d1-6b32a02cb11b"
+            }
+          ],
+          "parentId": "ccbae1eb-e65f-5355-9667-eddb1d82774e"
+        },
+        {
+          "id": "e7ff61de-7954-5e53-bba7-2cf2f0499990",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-alert-v-3f965d71",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "140b8bc6-7b90-5c8a-b99e-8a53f8ee8ce9",
+              "type": "alert",
+              "version": 2,
+              "label": "gym alert",
+              "hidden": false,
+              "alertType": "error",
+              "text": "GYM alert text",
+              "componentName": "gym-alert-inst-alertType=error",
+              "parentId": "e7ff61de-7954-5e53-bba7-2cf2f0499990"
+            }
+          ],
+          "parentId": "ccbae1eb-e65f-5355-9667-eddb1d82774e"
+        },
+        {
+          "id": "b50af626-e436-5637-8e40-c7fb19543f17",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-alert-v-d56ae014",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4010684b-f076-5ae5-afd9-eeb3adfdb4be",
+              "type": "alert",
+              "version": 2,
+              "label": "gym alert",
+              "hidden": false,
+              "alertType": "info",
+              "text": "GYM-TXT-text",
+              "componentName": "gym-alert-inst-text=txt",
+              "parentId": "b50af626-e436-5637-8e40-c7fb19543f17"
+            }
+          ],
+          "parentId": "ccbae1eb-e65f-5355-9667-eddb1d82774e"
+        },
+        {
+          "id": "bc10bc8d-b502-5315-a36f-cb5f78b65042",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-alert-v-a76e668c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7219d766-50a8-588b-a1ec-bff57a632e53",
+              "type": "alert",
+              "version": 2,
+              "label": "gym alert",
+              "hidden": false,
+              "alertType": "info",
+              "text": "GYM alert text",
+              "componentName": "gym-alert-inst-description=txt",
+              "description": "GYM-TXT-description",
+              "parentId": "bc10bc8d-b502-5315-a36f-cb5f78b65042"
+            }
+          ],
+          "parentId": "ccbae1eb-e65f-5355-9667-eddb1d82774e"
+        },
+        {
+          "id": "30d3111e-b9ba-525a-8418-5901869f1f52",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-alert-v-d5382b22",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "fc3e53a7-54dd-5312-a482-08a8ef2bda9f",
+              "type": "alert",
+              "version": 2,
+              "label": "gym alert",
+              "hidden": false,
+              "alertType": "info",
+              "text": "GYM alert text",
+              "componentName": "gym-alert-inst-showIcon=true",
+              "showIcon": true,
+              "parentId": "30d3111e-b9ba-525a-8418-5901869f1f52"
+            }
+          ],
+          "parentId": "ccbae1eb-e65f-5355-9667-eddb1d82774e"
+        },
+        {
+          "id": "f174c7f6-f05a-5441-ae2e-2f7ba7dc5458",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-alert-v-93b36715",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9dd79508-0328-56a2-b913-b7d2c8dfb113",
+              "type": "alert",
+              "version": 2,
+              "label": "gym alert",
+              "hidden": false,
+              "alertType": "info",
+              "text": "GYM alert text",
+              "componentName": "gym-alert-inst-closable=true",
+              "closable": true,
+              "parentId": "f174c7f6-f05a-5441-ae2e-2f7ba7dc5458"
+            }
+          ],
+          "parentId": "ccbae1eb-e65f-5355-9667-eddb1d82774e"
+        },
+        {
+          "id": "d107596b-7bce-5071-8277-087a730c6622",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-alert-v-856279e5",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "29c9bd10-fc5f-5658-87aa-f8ff915943a9",
+              "type": "alert",
+              "version": 2,
+              "label": "gym alert",
+              "hidden": false,
+              "alertType": "info",
+              "text": "GYM alert text",
+              "componentName": "gym-alert-inst-icon=StarFilled",
+              "icon": "StarFilled",
+              "parentId": "d107596b-7bce-5071-8277-087a730c6622"
+            }
+          ],
+          "parentId": "ccbae1eb-e65f-5355-9667-eddb1d82774e"
+        },
+        {
+          "id": "336e2aa4-5952-588e-95e5-9de9be157b27",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-alert-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e4618ef3-a5a1-55e6-b130-bb08101a1faf",
+              "type": "alert",
+              "version": 2,
+              "label": "gym alert",
+              "hidden": true,
+              "alertType": "info",
+              "text": "GYM alert text",
+              "componentName": "gym-alert-inst-hidden=true",
+              "parentId": "336e2aa4-5952-588e-95e5-9de9be157b27"
+            }
+          ],
+          "parentId": "ccbae1eb-e65f-5355-9667-eddb1d82774e"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

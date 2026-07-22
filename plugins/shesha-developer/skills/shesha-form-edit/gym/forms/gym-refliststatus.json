@@ -1,0 +1,319 @@
+{
+  "components": [
+    {
+      "id": "29d1ee56-3da4-572d-a756-89bc0081185d",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-refListStatus-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "cfb6d765-5b61-5f4e-b477-41076b64da02",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-refListStatus-validation-errors",
+          "parentId": "29d1ee56-3da4-572d-a756-89bc0081185d"
+        },
+        {
+          "id": "c0a40b42-79e5-581c-9256-f3fc6b73a665",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-refListStatus-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "831f3328-20a7-5f11-9047-5be389334743",
+              "type": "refListStatus",
+              "version": 4,
+              "label": "gym refListStatus",
+              "hidden": false,
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "showIcon": false,
+              "solidBackground": true,
+              "componentName": "gym-refListStatus-inst-baseline",
+              "parentId": "c0a40b42-79e5-581c-9256-f3fc6b73a665"
+            }
+          ],
+          "parentId": "29d1ee56-3da4-572d-a756-89bc0081185d"
+        },
+        {
+          "id": "7e8a7f18-f47a-5e12-bb28-f341510ca6b5",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-refListStatus-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "29d1ee56-3da4-572d-a756-89bc0081185d"
+        },
+        {
+          "id": "a43d446a-c7e4-5684-b05b-53f510e1c870",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-refListStatus-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3bfd164b-cf6a-543b-82b5-21341079860c",
+              "type": "refListStatus",
+              "version": 4,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "showIcon": false,
+              "solidBackground": true,
+              "componentName": "gym-refListStatus-inst-label=txt",
+              "parentId": "a43d446a-c7e4-5684-b05b-53f510e1c870"
+            }
+          ],
+          "parentId": "29d1ee56-3da4-572d-a756-89bc0081185d"
+        },
+        {
+          "id": "f4cf1a7b-69f6-5f99-8895-1ec8b69559fb",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-refListStatus-v-ba90c652",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "826a2b09-7ba7-54fb-ae60-e7a3c9ee9fd5",
+              "type": "refListStatus",
+              "version": 4,
+              "label": "gym refListStatus",
+              "hidden": false,
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "showIcon": false,
+              "solidBackground": true,
+              "componentName": "gym-refListStatus-inst-labelAlign=left",
+              "labelAlign": "left",
+              "parentId": "f4cf1a7b-69f6-5f99-8895-1ec8b69559fb"
+            }
+          ],
+          "parentId": "29d1ee56-3da4-572d-a756-89bc0081185d"
+        },
+        {
+          "id": "eafaf576-70c0-5e53-917d-86a0c4a9d563",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-refListStatus-v-9014b9af",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a4566cc5-8145-5a38-83b4-33253d021300",
+              "type": "refListStatus",
+              "version": 4,
+              "label": "gym refListStatus",
+              "hidden": false,
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "showIcon": false,
+              "solidBackground": true,
+              "componentName": "gym-refListStatus-inst-labelAlign=right",
+              "labelAlign": "right",
+              "parentId": "eafaf576-70c0-5e53-917d-86a0c4a9d563"
+            }
+          ],
+          "parentId": "29d1ee56-3da4-572d-a756-89bc0081185d"
+        },
+        {
+          "id": "489b0fe0-4b4e-558d-a574-e0ec13595e75",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-refListStatus-v-a76e668c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "10e9097e-b665-50ec-8312-825c5b9f8ca9",
+              "type": "refListStatus",
+              "version": 4,
+              "label": "gym refListStatus",
+              "hidden": false,
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "showIcon": false,
+              "solidBackground": true,
+              "componentName": "gym-refListStatus-inst-description=txt",
+              "description": "GYM-TXT-description",
+              "parentId": "489b0fe0-4b4e-558d-a574-e0ec13595e75"
+            }
+          ],
+          "parentId": "29d1ee56-3da4-572d-a756-89bc0081185d"
+        },
+        {
+          "id": "bc6b2ea6-2228-5963-83be-42176123a7b6",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-refListStatus-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a25c8a6e-ead8-5b54-861d-f1afb948d7c8",
+              "type": "refListStatus",
+              "version": 4,
+              "label": "gym refListStatus",
+              "hidden": true,
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "showIcon": false,
+              "solidBackground": true,
+              "componentName": "gym-refListStatus-inst-hidden=true",
+              "parentId": "bc6b2ea6-2228-5963-83be-42176123a7b6"
+            }
+          ],
+          "parentId": "29d1ee56-3da4-572d-a756-89bc0081185d"
+        },
+        {
+          "id": "9f15c2c9-4dbb-582b-a0fe-fe00dccab3d2",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-refListStatus-v-8ae8db35",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2cd8fa7b-eb8c-53da-8641-921bcca0e7ca",
+              "type": "refListStatus",
+              "version": 4,
+              "label": "gym refListStatus",
+              "hidden": false,
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "showIcon": false,
+              "solidBackground": true,
+              "componentName": "gym-refListStatus-inst-hideLabel=true",
+              "hideLabel": true,
+              "parentId": "9f15c2c9-4dbb-582b-a0fe-fe00dccab3d2"
+            }
+          ],
+          "parentId": "29d1ee56-3da4-572d-a756-89bc0081185d"
+        },
+        {
+          "id": "86821938-ff74-5ece-818a-5da82dba6f69",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-refListStatus-v-6efa3a26",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1d195aff-629d-5795-b771-ada8bff07aeb",
+              "type": "refListStatus",
+              "version": 4,
+              "label": "gym refListStatus",
+              "hidden": false,
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "showIcon": false,
+              "solidBackground": true,
+              "componentName": "gym-refListStatus-inst-showReflistName=true",
+              "showReflistName": true,
+              "parentId": "86821938-ff74-5ece-818a-5da82dba6f69"
+            }
+          ],
+          "parentId": "29d1ee56-3da4-572d-a756-89bc0081185d"
+        },
+        {
+          "id": "711b77df-8dae-5d45-b645-45fd4cd7a54f",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-refListStatus-v-d5382b22",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "29839c7b-68f4-5eb5-a668-d18b26681ae1",
+              "type": "refListStatus",
+              "version": 4,
+              "label": "gym refListStatus",
+              "hidden": false,
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "showIcon": true,
+              "solidBackground": true,
+              "componentName": "gym-refListStatus-inst-showIcon=true",
+              "parentId": "711b77df-8dae-5d45-b645-45fd4cd7a54f"
+            }
+          ],
+          "parentId": "29d1ee56-3da4-572d-a756-89bc0081185d"
+        },
+        {
+          "id": "0f3e0a90-3c0d-5a34-8b2c-4fdbeb308e23",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-refListStatus-v-41d385fb",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1d440d63-0997-5783-8d07-37ae7b421bd3",
+              "type": "refListStatus",
+              "version": 4,
+              "label": "gym refListStatus",
+              "hidden": false,
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "showIcon": false,
+              "solidBackground": true,
+              "componentName": "gym-refListStatus-inst-solidBackground=true",
+              "parentId": "0f3e0a90-3c0d-5a34-8b2c-4fdbeb308e23"
+            }
+          ],
+          "parentId": "29d1ee56-3da4-572d-a756-89bc0081185d"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

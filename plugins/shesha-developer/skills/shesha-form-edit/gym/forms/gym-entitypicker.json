@@ -1,0 +1,825 @@
+{
+  "components": [
+    {
+      "id": "908de60e-684d-5908-aec8-1f5b6f6c01ad",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-entityPicker-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "7c1f1c25-5aa6-53ed-ae50-30dcb68834ac",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-entityPicker-validation-errors",
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "194e0734-7d41-5f02-a37e-76d23c21a092",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b7710ec8-922c-5e01-aab2-1706ca58a438",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "parentId": "194e0734-7d41-5f02-a37e-76d23c21a092"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "e3d6f1b5-c076-5a03-abbc-5ebc1f313764",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-entityPicker-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "8180074f-9154-5d2c-bd72-3208bc77c15f",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-4e66562d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2e748619-f27b-513a-b486-45b3fd9d9c70",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "size": "small",
+              "parentId": "8180074f-9154-5d2c-bd72-3208bc77c15f"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "45bcd2a7-3f58-5599-a22f-54abff7e34cf",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-ca52e19b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7c8b4699-4dea-50df-bf5c-ee71e6c4890e",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "size": "middle",
+              "parentId": "45bcd2a7-3f58-5599-a22f-54abff7e34cf"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "968da17c-c799-5c10-9334-4b7f3565afbe",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-15638072",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "055d7af5-1d46-54ae-994a-6860dee03da5",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "size": "large",
+              "parentId": "968da17c-c799-5c10-9334-4b7f3565afbe"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "45697be6-9b11-52ff-8308-d946c16dca74",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-entityPicker-h-validation",
+          "content": "— validation —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "b2741b85-c725-5dfe-a9f0-b63853291ff9",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-9d11999c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f83e9fd7-bf15-5645-aabf-b57eef03d7c0",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "validate": {
+                "required": true
+              },
+              "parentId": "b2741b85-c725-5dfe-a9f0-b63853291ff9"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "8e67574b-90e5-5803-9042-0a07ddcfef85",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-entityPicker-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "5aa5e6d8-dea6-5b3d-85c0-84975ed2a235",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-145243a0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d7895d8e-e2ee-57b2-9547-90a2af5a89a3",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "allowNewRecord": true,
+              "parentId": "5aa5e6d8-dea6-5b3d-85c0-84975ed2a235"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "0a8df0bf-fea8-5759-9741-7d2d227f66ed",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-entityPicker-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "4c1b6a21-9e04-5f92-aca9-21159be9b77d",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c6647673-1df5-5410-a3ad-de41202e8b60",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "parentId": "4c1b6a21-9e04-5f92-aca9-21159be9b77d"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "da724e91-d180-589b-90ff-36eaad08ddc5",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-ba90c652",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b546ef4d-1442-5f87-8484-7137d9adc3d8",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "labelAlign": "left",
+              "parentId": "da724e91-d180-589b-90ff-36eaad08ddc5"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "70a532fb-54dd-59b7-80ea-9928402efe65",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-9014b9af",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8c4d9a70-4f94-5ef0-8841-01a9035cd397",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "labelAlign": "right",
+              "parentId": "70a532fb-54dd-59b7-80ea-9928402efe65"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "06a68098-6070-5bea-8df4-97698104090c",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-a76e668c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "df43799b-0e83-54a0-996e-6c604016587a",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "description": "GYM-TXT-description",
+              "parentId": "06a68098-6070-5bea-8df4-97698104090c"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "b564f857-a417-562b-b188-e09befb4f342",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-ae8981bd",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "41e0ac3d-f38e-5301-b0d0-ede7b978cc7e",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "placeholder": "GYM-TXT-placeholder",
+              "parentId": "b564f857-a417-562b-b188-e09befb4f342"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "6422240f-c656-5237-b7cc-f6d45398a55f",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-cc559fb6",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4ea4d261-a0cb-5de4-a4c7-775ac8f836d9",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "parentId": "6422240f-c656-5237-b7cc-f6d45398a55f"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "042e05a6-6dda-5c22-ad7c-8fe127c5b3d5",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-b3c1b7ce",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "64a0673f-e426-527c-9caf-cf72e49c1a30",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "multiple",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "parentId": "042e05a6-6dda-5c22-ad7c-8fe127c5b3d5"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "51dba8c4-c84d-5aa1-be2d-5924d5462a6a",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-41617c9d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "dcf8f5b3-d710-58d7-8d69-16fbb5a68aac",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "simple",
+              "propertyName": "assignedEmployee",
+              "parentId": "51dba8c4-c84d-5aa1-be2d-5924d5462a6a"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "c1c75a68-d09c-54e6-985e-b7d51c82a474",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-158a380f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f0f7603b-d77b-5064-afd8-221ed537ebe2",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "parentId": "c1c75a68-d09c-54e6-985e-b7d51c82a474"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "41ed29f4-3530-56da-bac9-572e4cca27ba",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-3a5ae193",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e24b5994-c80d-526e-bf02-1b4a00245f80",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "custom",
+              "propertyName": "assignedEmployee",
+              "parentId": "41ed29f4-3530-56da-bac9-572e4cca27ba"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "41c0c383-9feb-5543-84d1-d6d81b1d7930",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "dee2b0a8-6b4a-5d97-86e6-054800425e47",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": true,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "parentId": "41c0c383-9feb-5543-84d1-d6d81b1d7930"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "5b0dffc6-b062-5213-b19f-6a363919d03d",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-8ae8db35",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "00762dd6-c514-53b5-a8b8-6892f707f2f3",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "hideLabel": true,
+              "parentId": "5b0dffc6-b062-5213-b19f-6a363919d03d"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "049da109-ffa6-50aa-8f3b-404e18ada166",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-cb7e2795",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "02cfdc2f-5c3c-5d9c-8d2a-b22de9867f14",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "editMode": "readOnly",
+              "parentId": "049da109-ffa6-50aa-8f3b-404e18ada166"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "ea9a5a78-566c-59e7-b59b-9e2a473f313a",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-b4e206ef",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f90190f2-cd86-5d85-8ed7-2595862a1f9f",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "modalTitle": "GYM-TXT-modalTitle",
+              "parentId": "ea9a5a78-566c-59e7-b59b-9e2a473f313a"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "8829cd8d-0fab-5f94-b54d-48ea24b2ea56",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-e72e11dc",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "34e70de6-dc81-5225-b8cf-3409d4f71a5b",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "footerButtons": "default",
+              "parentId": "8829cd8d-0fab-5f94-b54d-48ea24b2ea56"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "fe4657a1-224e-54f5-b1f6-60baa7eebb9b",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-f0f528ed",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ce04ff4e-0a59-5932-85c0-5b74d3d8ca2c",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "footerButtons": "custom",
+              "parentId": "fe4657a1-224e-54f5-b1f6-60baa7eebb9b"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "8d5840f0-25d1-5e84-9043-14fdcd1cf7d1",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-0f83bdbf",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b5d3fbf4-ed51-511e-84f6-7d7bebbdad53",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "footerButtons": "none",
+              "parentId": "8d5840f0-25d1-5e84-9043-14fdcd1cf7d1"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "b84cac04-c2e0-5c5d-b399-d8ecd9d11aa1",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-a4c6e35d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6df5a85e-fc9f-55d6-a4ed-458314e7f8da",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "submitHttpVerb": "POST",
+              "parentId": "b84cac04-c2e0-5c5d-b399-d8ecd9d11aa1"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "e6df3fff-b404-5da2-8bff-52fa8aa6f341",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-6e6896b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7ff3edf5-778e-5817-8b3b-ad7ffbcab111",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "submitHttpVerb": "PUT",
+              "parentId": "e6df3fff-b404-5da2-8bff-52fa8aa6f341"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "2b596d70-2037-506b-b4cd-f1309a2b1f55",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-eaef6e12",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "679031d6-7979-574f-86ac-1ec899742a65",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "onSuccessRedirectUrl": "GYM-TXT-onSuccessRedirectUrl",
+              "parentId": "2b596d70-2037-506b-b4cd-f1309a2b1f55"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "150d1edd-4a68-5272-bc62-64797ed68234",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-cf3576b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d470df2e-1e49-5856-bcc2-4040604c143d",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "modalWidth": "40%",
+              "parentId": "150d1edd-4a68-5272-bc62-64797ed68234"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "757267ae-866d-5f70-ad57-f23c2602f7fe",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-a585f417",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ca76a25d-b5ca-52b1-bf63-f97b029ffcf0",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "modalWidth": "60%",
+              "parentId": "757267ae-866d-5f70-ad57-f23c2602f7fe"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        },
+        {
+          "id": "08bc5ed9-8b0f-5a58-b7a0-6351707484d8",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-entityPicker-v-908e6e37",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c8344404-26e0-5a3f-b1f8-7edfcaf62296",
+              "type": "entityPicker",
+              "version": 9,
+              "label": "gym entityPicker",
+              "hidden": false,
+              "entityType": "Shesha.Domain.Person",
+              "displayEntityKey": "fullName",
+              "mode": "single",
+              "valueFormat": "entityReference",
+              "propertyName": "assignedEmployee",
+              "modalWidth": "80%",
+              "parentId": "08bc5ed9-8b0f-5a58-b7a0-6351707484d8"
+            }
+          ],
+          "parentId": "908de60e-684d-5908-aec8-1f5b6f6c01ad"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

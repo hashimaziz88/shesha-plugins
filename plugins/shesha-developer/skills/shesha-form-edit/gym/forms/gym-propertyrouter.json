@@ -1,0 +1,182 @@
+{
+  "components": [
+    {
+      "id": "c8fe25dc-ce8d-5592-9a2a-4a53c36a9e72",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-propertyRouter-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "1c38acb4-4e1e-5700-aaeb-e9c9793805bb",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-propertyRouter-validation-errors",
+          "parentId": "c8fe25dc-ce8d-5592-9a2a-4a53c36a9e72"
+        },
+        {
+          "id": "568b8cf2-b1ff-59d2-b2ab-69a0a43a3747",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-propertyRouter-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4e99c346-9370-5b43-acfd-c278bcad08c9",
+              "type": "propertyRouter",
+              "version": 1,
+              "label": "gym propertyRouter",
+              "hidden": false,
+              "componentName": "gym-propertyRouter-inst-baseline",
+              "components": [
+                {
+                  "id": "990cd547-bef9-5042-a3cf-9195f019c2ce",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of propertyRouter",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "4e99c346-9370-5b43-acfd-c278bcad08c9"
+                }
+              ],
+              "parentId": "568b8cf2-b1ff-59d2-b2ab-69a0a43a3747"
+            }
+          ],
+          "parentId": "c8fe25dc-ce8d-5592-9a2a-4a53c36a9e72"
+        },
+        {
+          "id": "be7834ef-f309-5dda-9f0a-1f5e822cd300",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-propertyRouter-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "c8fe25dc-ce8d-5592-9a2a-4a53c36a9e72"
+        },
+        {
+          "id": "0e1309dc-60a7-5687-a27a-71dd9777ad1c",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-propertyRouter-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2dfe1b69-a264-5f3d-a3cc-b79dbe758fc4",
+              "type": "propertyRouter",
+              "version": 1,
+              "label": "gym propertyRouter",
+              "hidden": true,
+              "componentName": "gym-propertyRouter-inst-hidden=true",
+              "components": [
+                {
+                  "id": "2b8ecf0e-2a80-501c-bc59-861f4597a01c",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of propertyRouter",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "2dfe1b69-a264-5f3d-a3cc-b79dbe758fc4"
+                }
+              ],
+              "parentId": "0e1309dc-60a7-5687-a27a-71dd9777ad1c"
+            }
+          ],
+          "parentId": "c8fe25dc-ce8d-5592-9a2a-4a53c36a9e72"
+        },
+        {
+          "id": "9108880f-269c-567a-87b6-fe09b04a829d",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-propertyRouter-v-cb7e2795",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c60fb0d5-3102-57c9-a14d-efc7097b5acd",
+              "type": "propertyRouter",
+              "version": 1,
+              "label": "gym propertyRouter",
+              "hidden": false,
+              "componentName": "gym-propertyRouter-inst-editMode=readOnly",
+              "components": [
+                {
+                  "id": "562ade2a-d5a9-5330-85a8-012860bf880e",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of propertyRouter",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "c60fb0d5-3102-57c9-a14d-efc7097b5acd"
+                }
+              ],
+              "editMode": "readOnly",
+              "parentId": "9108880f-269c-567a-87b6-fe09b04a829d"
+            }
+          ],
+          "parentId": "c8fe25dc-ce8d-5592-9a2a-4a53c36a9e72"
+        },
+        {
+          "id": "03594c89-0552-5238-badd-b4efefc62970",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-propertyRouter-v-9701f492",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e5207220-654e-5c8a-aa25-db8cd8f65eb1",
+              "type": "propertyRouter",
+              "version": 1,
+              "label": "gym propertyRouter",
+              "hidden": false,
+              "componentName": "gym-propertyRouter-inst-propertyRouteName=txt",
+              "components": [
+                {
+                  "id": "bef1ae4f-26ad-5dc9-8520-4110d92f9cec",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of propertyRouter",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "e5207220-654e-5c8a-aa25-db8cd8f65eb1"
+                }
+              ],
+              "propertyRouteName": "GYM-TXT-propertyRouteName",
+              "parentId": "03594c89-0552-5238-badd-b4efefc62970"
+            }
+          ],
+          "parentId": "c8fe25dc-ce8d-5592-9a2a-4a53c36a9e72"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

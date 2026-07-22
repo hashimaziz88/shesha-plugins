@@ -1,0 +1,132 @@
+{
+  "components": [
+    {
+      "id": "4f8217ca-393c-595d-ab9e-645ee6d2a840",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-logViewer-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "5d81a863-bafa-5b76-8728-0b4225efa935",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-logViewer-validation-errors",
+          "parentId": "4f8217ca-393c-595d-ab9e-645ee6d2a840"
+        },
+        {
+          "id": "27846d0f-d170-5cf5-a165-4951699bd2b5",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-logViewer-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b128321c-33e7-5ea7-ba69-4f493d4c59c8",
+              "type": "logViewer",
+              "version": 1,
+              "label": "Log Viewer",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-logViewer-inst-baseline",
+              "parentId": "27846d0f-d170-5cf5-a165-4951699bd2b5"
+            }
+          ],
+          "parentId": "4f8217ca-393c-595d-ab9e-645ee6d2a840"
+        },
+        {
+          "id": "5711ed8f-6316-5b88-80cc-f119dbbb7592",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-logViewer-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "4f8217ca-393c-595d-ab9e-645ee6d2a840"
+        },
+        {
+          "id": "d67930c0-5302-5192-8994-4ea764458127",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-logViewer-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "146be892-0e6b-54ef-a6c6-9bf9cf22cc58",
+              "type": "logViewer",
+              "version": 1,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-logViewer-inst-label=txt",
+              "parentId": "d67930c0-5302-5192-8994-4ea764458127"
+            }
+          ],
+          "parentId": "4f8217ca-393c-595d-ab9e-645ee6d2a840"
+        },
+        {
+          "id": "7a1dde5e-2703-5ad2-9703-7120a4e7c565",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-logViewer-v-1232507c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4544d511-be33-5332-b4fc-d185106f0321",
+              "type": "logViewer",
+              "version": 1,
+              "label": "Log Viewer",
+              "hidden": false,
+              "hideLabel": false,
+              "componentName": "gym-logViewer-inst-hideLabel=false",
+              "parentId": "7a1dde5e-2703-5ad2-9703-7120a4e7c565"
+            }
+          ],
+          "parentId": "4f8217ca-393c-595d-ab9e-645ee6d2a840"
+        },
+        {
+          "id": "d1bb1d58-adea-5532-81c3-2155a80cb304",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-logViewer-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "854b8af9-a7eb-5186-8bd7-e5ee20b2819d",
+              "type": "logViewer",
+              "version": 1,
+              "label": "Log Viewer",
+              "hidden": true,
+              "hideLabel": true,
+              "componentName": "gym-logViewer-inst-hidden=true",
+              "parentId": "d1bb1d58-adea-5532-81c3-2155a80cb304"
+            }
+          ],
+          "parentId": "4f8217ca-393c-595d-ab9e-645ee6d2a840"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

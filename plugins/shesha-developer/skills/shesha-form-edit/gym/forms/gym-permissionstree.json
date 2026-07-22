@@ -1,0 +1,250 @@
+{
+  "components": [
+    {
+      "id": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-permissionsTree-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "b788dd91-9f3f-588a-915f-6db24e8daf0b",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-permissionsTree-validation-errors",
+          "parentId": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7"
+        },
+        {
+          "id": "ff16ddbd-8b07-571a-b31d-570388233a92",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionsTree-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d8a49860-ba9e-552f-9ee2-48b4d6ccde3e",
+              "type": "permissionsTree",
+              "version": 2,
+              "label": "gym permissionsTree",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "ff16ddbd-8b07-571a-b31d-570388233a92"
+            }
+          ],
+          "parentId": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7"
+        },
+        {
+          "id": "8446932b-b84c-5187-9e34-171c2aa22a2f",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-permissionsTree-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7"
+        },
+        {
+          "id": "1e66d84e-742f-53b7-9e46-4df59349121f",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionsTree-v-74da65a7",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5071a308-48d7-50ae-b4d6-b17f85d839db",
+              "type": "permissionsTree",
+              "version": 2,
+              "label": "gym permissionsTree",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "height": 17,
+              "parentId": "1e66d84e-742f-53b7-9e46-4df59349121f"
+            }
+          ],
+          "parentId": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7"
+        },
+        {
+          "id": "e90913ea-668c-5526-9e55-0f8490a9bbb3",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-permissionsTree-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7"
+        },
+        {
+          "id": "fd2b6b62-2da2-54e5-bfad-969e63ed092e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionsTree-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "233d19e4-d7c7-54cb-b14b-00306e4516f6",
+              "type": "permissionsTree",
+              "version": 2,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "fd2b6b62-2da2-54e5-bfad-969e63ed092e"
+            }
+          ],
+          "parentId": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7"
+        },
+        {
+          "id": "5f6c2f66-bd7b-584c-aa0b-49dd1dca2d44",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionsTree-v-81f32d5a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "45e96f64-0d8a-5daf-b6f0-95cacd6a5f27",
+              "type": "permissionsTree",
+              "version": 2,
+              "label": "gym permissionsTree",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "mode": "Edit",
+              "parentId": "5f6c2f66-bd7b-584c-aa0b-49dd1dca2d44"
+            }
+          ],
+          "parentId": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7"
+        },
+        {
+          "id": "1dd19225-f3a7-5c59-b30e-a6909623ddc4",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionsTree-v-3a5d2d25",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "bd0c8da9-1af7-56ac-b553-85b55e8cc76a",
+              "type": "permissionsTree",
+              "version": 2,
+              "label": "gym permissionsTree",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "mode": "Select",
+              "parentId": "1dd19225-f3a7-5c59-b30e-a6909623ddc4"
+            }
+          ],
+          "parentId": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7"
+        },
+        {
+          "id": "b3bb5a09-2703-56e0-b0f8-5cd189e39e45",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionsTree-v-6b4416d0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f129bdf4-b5d4-5c2f-b7e8-8867baf4c7f1",
+              "type": "permissionsTree",
+              "version": 2,
+              "label": "gym permissionsTree",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "mode": "View",
+              "parentId": "b3bb5a09-2703-56e0-b0f8-5cd189e39e45"
+            }
+          ],
+          "parentId": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7"
+        },
+        {
+          "id": "f6084c8b-a74c-5900-9d39-8139ed59da70",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionsTree-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ef35784a-8b5d-57e4-af3d-38b1c34106a4",
+              "type": "permissionsTree",
+              "version": 2,
+              "label": "gym permissionsTree",
+              "hidden": true,
+              "propertyName": "gymValue",
+              "parentId": "f6084c8b-a74c-5900-9d39-8139ed59da70"
+            }
+          ],
+          "parentId": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7"
+        },
+        {
+          "id": "46a4fde0-5e5c-5778-af15-6f12828a4331",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionsTree-v-8ae8db35",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "75ea75b6-672d-5645-afbd-bd8205d82662",
+              "type": "permissionsTree",
+              "version": 2,
+              "label": "gym permissionsTree",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "hideLabel": true,
+              "parentId": "46a4fde0-5e5c-5778-af15-6f12828a4331"
+            }
+          ],
+          "parentId": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7"
+        },
+        {
+          "id": "5a3c7f8d-9405-5001-a0fd-6d3e31faf89d",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-permissionsTree-v-cb7e2795",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c117553d-7846-5cbe-8847-8b131a1e8c5a",
+              "type": "permissionsTree",
+              "version": 2,
+              "label": "gym permissionsTree",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "editMode": "readOnly",
+              "parentId": "5a3c7f8d-9405-5001-a0fd-6d3e31faf89d"
+            }
+          ],
+          "parentId": "fb2a2b1c-64c9-553f-b3f2-ee14430151c7"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

@@ -1,0 +1,933 @@
+{
+  "components": [
+    {
+      "id": "34153131-f41d-5781-9bf7-44a2a8ec45a5",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-datalist-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "40ab49c8-581d-5fe5-8989-9153f761e885",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-datalist-validation-errors",
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "0c0a51d0-6756-5c5b-b826-a3456d1201d9",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f42a69ae-af0d-5e71-8f65-c60a069fb393",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "6a9dc271-e506-5b72-ae5e-e37b99bcb7a4",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "parentId": "f42a69ae-af0d-5e71-8f65-c60a069fb393"
+                }
+              ],
+              "componentName": "gymCtxf42a69ae",
+              "propertyName": "gymCtxf42a69ae",
+              "parentId": "0c0a51d0-6756-5c5b-b826-a3456d1201d9"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "8ad07cb4-8383-5e56-be70-e37151a3395f",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-datalist-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "4e61ee97-0a38-5662-897a-5e26756e56e7",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-c63da817",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5a86fd96-0467-53d8-8654-c60cb929db06",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "3437f9d4-4853-5afc-af18-eabe0d8185ca",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "showEditIcons": true,
+                  "parentId": "5a86fd96-0467-53d8-8654-c60cb929db06"
+                }
+              ],
+              "componentName": "gymCtx5a86fd96",
+              "propertyName": "gymCtx5a86fd96",
+              "parentId": "4e61ee97-0a38-5662-897a-5e26756e56e7"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "3d9049fb-0ce6-535a-b652-21122b14224d",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-7bb8f3bb",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "998fe8b8-79f5-5430-adc7-5a996df5e1b4",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "f3159086-f39f-5118-b81c-4dbe436a5114",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "modalWidth": 17,
+                  "parentId": "998fe8b8-79f5-5430-adc7-5a996df5e1b4"
+                }
+              ],
+              "componentName": "gymCtx998fe8b8",
+              "propertyName": "gymCtx998fe8b8",
+              "parentId": "3d9049fb-0ce6-535a-b652-21122b14224d"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "841e0a7c-6033-5af2-9051-36abdd436763",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-c3c10360",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b51319ed-90d0-599e-ba77-4531304fcab4",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "67e3803e-e89c-5de7-99dd-9a35053a2dde",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "widthUnits": 17,
+                  "parentId": "b51319ed-90d0-599e-ba77-4531304fcab4"
+                }
+              ],
+              "componentName": "gymCtxb51319ed",
+              "propertyName": "gymCtxb51319ed",
+              "parentId": "841e0a7c-6033-5af2-9051-36abdd436763"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "4afdfea8-237d-5b73-a7df-82fa833d7fae",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-8a3d8e25",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a5dfdaf9-d3fa-503f-8cf7-4ec9281a1239",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "ebe4702e-f60a-5ccc-87c7-d0766638bf63",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "customWidth": 17,
+                  "parentId": "a5dfdaf9-d3fa-503f-8cf7-4ec9281a1239"
+                }
+              ],
+              "componentName": "gymCtxa5dfdaf9",
+              "propertyName": "gymCtxa5dfdaf9",
+              "parentId": "4afdfea8-237d-5b73-a7df-82fa833d7fae"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "c49976c6-4373-5a7b-8e52-55d416332365",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-datalist-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "45cee068-30a8-5c0a-bc38-020327211f5c",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-98bd9f4a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "66986377-b56b-5869-a192-1031c021ee60",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "226eed14-9d95-5559-b98f-555f293be26c",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "horizontal",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "parentId": "66986377-b56b-5869-a192-1031c021ee60"
+                }
+              ],
+              "componentName": "gymCtx66986377",
+              "propertyName": "gymCtx66986377",
+              "parentId": "45cee068-30a8-5c0a-bc38-020327211f5c"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "3b912fe1-43b1-5ecf-a3b2-1434c985f460",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-b0fa6a49",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c691e10d-b1b2-570b-9dac-54b4be02277d",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "d0c60d60-be06-51be-b922-d2e0e6e4a9fd",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "parentId": "c691e10d-b1b2-570b-9dac-54b4be02277d"
+                }
+              ],
+              "componentName": "gymCtxc691e10d",
+              "propertyName": "gymCtxc691e10d",
+              "parentId": "3b912fe1-43b1-5ecf-a3b2-1434c985f460"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "93cdddbd-79dc-5045-b6e8-09978f71a5c8",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-d69a4a24",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "083fdac5-faed-54a5-928c-53f82c6bbc1c",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "4b8341e6-31c9-56b4-8da8-8f43b409604a",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "listItemWidth": 17,
+                  "parentId": "083fdac5-faed-54a5-928c-53f82c6bbc1c"
+                }
+              ],
+              "componentName": "gymCtx083fdac5",
+              "propertyName": "gymCtx083fdac5",
+              "parentId": "93cdddbd-79dc-5045-b6e8-09978f71a5c8"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "d6a203e1-eb30-5489-8021-55419cc378ba",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-2412dd4e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0d994967-87b5-5c24-8561-a70771f715b3",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "97e05830-ae0d-5b1b-8a27-1d32a3ad18ad",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "customListItemWidth": 17,
+                  "parentId": "0d994967-87b5-5c24-8561-a70771f715b3"
+                }
+              ],
+              "componentName": "gymCtx0d994967",
+              "propertyName": "gymCtx0d994967",
+              "parentId": "d6a203e1-eb30-5489-8021-55419cc378ba"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "e29a85e0-5eb7-573e-bb29-e2907d9e8df0",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-c8c37431",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "271f307e-4c83-5a86-9d53-5981539811fd",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "eae5f5a8-cbad-5a12-b107-ea366f7f8f0a",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "cardMinWidth": 17,
+                  "parentId": "271f307e-4c83-5a86-9d53-5981539811fd"
+                }
+              ],
+              "componentName": "gymCtx271f307e",
+              "propertyName": "gymCtx271f307e",
+              "parentId": "e29a85e0-5eb7-573e-bb29-e2907d9e8df0"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "8a4f65af-146c-57ef-bb1d-15352ed6cdb4",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-a2bfb45b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8b42010e-a9cb-5a25-afcb-d4d2237b4d69",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "df917c75-14dc-5b70-9f2a-adba4a3b5406",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "cardMaxWidth": 17,
+                  "parentId": "8b42010e-a9cb-5a25-afcb-d4d2237b4d69"
+                }
+              ],
+              "componentName": "gymCtx8b42010e",
+              "propertyName": "gymCtx8b42010e",
+              "parentId": "8a4f65af-146c-57ef-bb1d-15352ed6cdb4"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "2d3b5560-bb1d-5402-9823-a533c78537fc",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-cb269f58",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e61ebc47-68ef-5319-86ec-f00739ce2204",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "4f0f11da-8fad-532e-a65a-38d16918b54e",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "cardHeight": 17,
+                  "parentId": "e61ebc47-68ef-5319-86ec-f00739ce2204"
+                }
+              ],
+              "componentName": "gymCtxe61ebc47",
+              "propertyName": "gymCtxe61ebc47",
+              "parentId": "2d3b5560-bb1d-5402-9823-a533c78537fc"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "d9d76e57-2992-53a6-b9c8-e867279a002e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-1ebbd9f4",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "79140550-4faa-5fd0-9c00-175e81fe5626",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "20e49c47-13bd-5f1e-be58-54084832030d",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": 17,
+                  "propertyName": "gymValue",
+                  "parentId": "79140550-4faa-5fd0-9c00-175e81fe5626"
+                }
+              ],
+              "componentName": "gymCtx79140550",
+              "propertyName": "gymCtx79140550",
+              "parentId": "d9d76e57-2992-53a6-b9c8-e867279a002e"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "f7c3d46f-85ab-5962-a6c2-a7b0f97fc5dd",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-e0bbf3be",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "05af37bb-30a1-5c18-80f2-b0f19168fff6",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "4f3c6eb3-1133-5a92-802b-b384c308ec9c",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "showBorder": true,
+                  "parentId": "05af37bb-30a1-5c18-80f2-b0f19168fff6"
+                }
+              ],
+              "componentName": "gymCtx05af37bb",
+              "propertyName": "gymCtx05af37bb",
+              "parentId": "f7c3d46f-85ab-5962-a6c2-a7b0f97fc5dd"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "84a120fe-c4ae-5f86-8342-3060f681ea7e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-8e521e3c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "349b4fa0-12ae-5355-b938-675191011734",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "87bbfc1c-8eef-5488-9d6b-eb189d1f92f9",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "collapsible": true,
+                  "parentId": "349b4fa0-12ae-5355-b938-675191011734"
+                }
+              ],
+              "componentName": "gymCtx349b4fa0",
+              "propertyName": "gymCtx349b4fa0",
+              "parentId": "84a120fe-c4ae-5f86-8342-3060f681ea7e"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "161212a6-4401-5357-b981-e34509d81fbd",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-a9928dfc",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1900e3b0-8cee-57dc-99dd-f6fe26afea3b",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "48bee2b2-6401-5607-9ba8-84484686ab5f",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "collapseByDefault": true,
+                  "parentId": "1900e3b0-8cee-57dc-99dd-f6fe26afea3b"
+                }
+              ],
+              "componentName": "gymCtx1900e3b0",
+              "propertyName": "gymCtx1900e3b0",
+              "parentId": "161212a6-4401-5357-b981-e34509d81fbd"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "3f069a8f-006b-51b3-9fce-9635e0f36353",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-1c4205db",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6dae245a-7a3d-5015-a566-a8f109af14dd",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "6acddac8-e81a-532b-aa2c-f641cf7ca0e8",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "noDataText": "GYM-TXT-noDataText",
+                  "parentId": "6dae245a-7a3d-5015-a566-a8f109af14dd"
+                }
+              ],
+              "componentName": "gymCtx6dae245a",
+              "propertyName": "gymCtx6dae245a",
+              "parentId": "3f069a8f-006b-51b3-9fce-9635e0f36353"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        },
+        {
+          "id": "825b689a-6a5f-5dd6-8050-3c681dd79895",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datalist-v-43dd0578",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "dc2d01e8-e263-58b3-82c7-e172b9eb72c1",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "bb8a3e83-99d7-5a2f-a8ea-dee4bce7e159",
+                  "type": "datalist",
+                  "version": 8,
+                  "label": "gym datalist",
+                  "hidden": false,
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-item-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "cardSpacing": "12",
+                  "propertyName": "gymValue",
+                  "noDataSecondaryText": "GYM-TXT-noDataSecondaryText",
+                  "parentId": "dc2d01e8-e263-58b3-82c7-e172b9eb72c1"
+                }
+              ],
+              "componentName": "gymCtxdc2d01e8",
+              "propertyName": "gymCtxdc2d01e8",
+              "parentId": "825b689a-6a5f-5dd6-8050-3c681dd79895"
+            }
+          ],
+          "parentId": "34153131-f41d-5781-9bf7-44a2a8ec45a5"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

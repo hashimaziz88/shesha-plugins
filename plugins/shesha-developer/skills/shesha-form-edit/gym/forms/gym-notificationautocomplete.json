@@ -1,0 +1,54 @@
+{
+  "components": [
+    {
+      "id": "803e5d79-43be-5e63-b2a6-3aa0b1c0a637",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-notificationAutocomplete-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "e9f77c33-cf04-5741-9f7a-a93949b290b3",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-notificationAutocomplete-validation-errors",
+          "parentId": "803e5d79-43be-5e63-b2a6-3aa0b1c0a637"
+        },
+        {
+          "id": "898a9c2e-9a24-50c3-a180-b2cd8e985781",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notificationAutocomplete-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8c5dfadf-e0c3-565c-bb66-8bc9d056ab64",
+              "type": "notificationAutocomplete",
+              "version": 0,
+              "label": "gym notificationAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "898a9c2e-9a24-50c3-a180-b2cd8e985781"
+            }
+          ],
+          "parentId": "803e5d79-43be-5e63-b2a6-3aa0b1c0a637"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

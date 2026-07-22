@@ -1,0 +1,129 @@
+{
+  "components": [
+    {
+      "id": "0e625a23-31a7-5cfd-a76a-85f6ad4cc4ff",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-styleBox-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "957a285b-9345-551c-aff6-6aa7ef0f9dc2",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-styleBox-validation-errors",
+          "parentId": "0e625a23-31a7-5cfd-a76a-85f6ad4cc4ff"
+        },
+        {
+          "id": "db12be13-cb1f-5696-8446-e0b71bc0aa5e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-styleBox-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a80134db-d648-57f9-b0ec-e5473a665532",
+              "type": "styleBox",
+              "version": 2,
+              "label": "Style Box",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "db12be13-cb1f-5696-8446-e0b71bc0aa5e"
+            }
+          ],
+          "parentId": "0e625a23-31a7-5cfd-a76a-85f6ad4cc4ff"
+        },
+        {
+          "id": "a88d19be-1bb5-5ee0-9411-8a4e76751449",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-styleBox-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "0e625a23-31a7-5cfd-a76a-85f6ad4cc4ff"
+        },
+        {
+          "id": "dfda9d35-64ef-5b5a-8621-bed020ce6d3e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-styleBox-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f5dafe17-85ef-5647-9842-1055187b81b1",
+              "type": "styleBox",
+              "version": 2,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "dfda9d35-64ef-5b5a-8621-bed020ce6d3e"
+            }
+          ],
+          "parentId": "0e625a23-31a7-5cfd-a76a-85f6ad4cc4ff"
+        },
+        {
+          "id": "1c1acaea-b92c-5cc7-b2e5-18f42063a053",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-styleBox-v-8ae8db35",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0a2815c3-47ec-5a2d-a6f6-6a4f7bdc902f",
+              "type": "styleBox",
+              "version": 2,
+              "label": "Style Box",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "hideLabel": true,
+              "parentId": "1c1acaea-b92c-5cc7-b2e5-18f42063a053"
+            }
+          ],
+          "parentId": "0e625a23-31a7-5cfd-a76a-85f6ad4cc4ff"
+        },
+        {
+          "id": "e4d2bbcd-9fbe-5984-bb51-d5498110c0a5",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-styleBox-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5650f47a-93dc-5c6e-ab4d-01fd1a575ed8",
+              "type": "styleBox",
+              "version": 2,
+              "label": "Style Box",
+              "hidden": true,
+              "propertyName": "gymValue",
+              "parentId": "e4d2bbcd-9fbe-5984-bb51-d5498110c0a5"
+            }
+          ],
+          "parentId": "0e625a23-31a7-5cfd-a76a-85f6ad4cc4ff"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

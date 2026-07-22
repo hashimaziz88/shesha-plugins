@@ -1,0 +1,467 @@
+{
+  "components": [
+    {
+      "id": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-radio-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "7cde4719-fe4c-5dc5-9638-614306d735d2",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-radio-validation-errors",
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "129f3367-a555-54a2-b9c0-aecab55d3260",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9c19299c-da20-53f5-9d9b-ac48cbcfe7ab",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "parentId": "129f3367-a555-54a2-b9c0-aecab55d3260"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "b33d6507-f17e-5d12-a9cd-52520e27e461",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-radio-h-validation",
+          "content": "— validation —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "bf93e727-c36b-5d20-93f8-8a1ab9c4a86e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-9d11999c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "555d7f59-8c0f-5994-9651-0b841f98f9bd",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "validate": {
+                "required": true
+              },
+              "parentId": "bf93e727-c36b-5d20-93f8-8a1ab9c4a86e"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "df2cc4d1-37ee-55f8-93a5-c32a04b98a1e",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-radio-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "cc8e4d58-e8ab-57fb-9685-575ff725cf1b",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-a7b7f388",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "88380913-dc15-55bd-a18a-46cae9eeb54a",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "defaultValue": "GYM-TXT-defaultValue",
+              "parentId": "cc8e4d58-e8ab-57fb-9685-575ff725cf1b"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "be30ecda-7b60-50a4-8f5c-86a5f41c48e9",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-ef31296b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3f865e7d-5dc0-53d0-9d3a-6349b44e67e0",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "values",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "parentId": "be30ecda-7b60-50a4-8f5c-86a5f41c48e9"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "8ce98143-3458-532a-84f1-5c1b24f1267a",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-9fca8559",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "91e8bd18-17e4-5a81-bee7-004576f4b6f7",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "parentId": "8ce98143-3458-532a-84f1-5c1b24f1267a"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "581708ae-63cf-5bdd-b014-365ed56604e9",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-349ca2df",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b56a375b-744e-5022-b661-9a8e99de38dd",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "url",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "parentId": "581708ae-63cf-5bdd-b014-365ed56604e9"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "bbd37f0b-f3a8-566a-b3c9-0e7bf0a57cd8",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-86babe7f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "70c220a0-3d39-5a40-8a59-173d02c9c2f8",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "direction": "vertical",
+              "parentId": "bbd37f0b-f3a8-566a-b3c9-0e7bf0a57cd8"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "2d054ce5-f94e-59af-b171-dc5361ca323b",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-8331f582",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "71fa6b08-b4d2-5fef-ba65-bed8065e56ed",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "direction": "horizontal",
+              "parentId": "2d054ce5-f94e-59af-b171-dc5361ca323b"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "d65672ec-aad0-5d67-956b-1bea3cc845c8",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-radio-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "760b47bf-6103-5792-a179-212446fb6bab",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "87b844c1-3d1b-53e8-a5ce-13dcf3526595",
+              "type": "radio",
+              "version": 6,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "parentId": "760b47bf-6103-5792-a179-212446fb6bab"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "1c21f7e4-fa2e-51d0-b9be-fee729abf15e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-ba90c652",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a2536866-40a1-59f3-8732-fbbe03b20b46",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "labelAlign": "left",
+              "parentId": "1c21f7e4-fa2e-51d0-b9be-fee729abf15e"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "f41f49e4-615f-5b90-8ab2-7b6b5049135f",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-9014b9af",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b840a1f2-788a-547a-b3ed-e69375ddc599",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "labelAlign": "right",
+              "parentId": "f41f49e4-615f-5b90-8ab2-7b6b5049135f"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "cfce05be-5ab6-56e1-99d1-d87fa8ea6d09",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-a76e668c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e2f5fde0-769d-5f7f-b8f8-ca0935749b2d",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "description": "GYM-TXT-description",
+              "parentId": "cfce05be-5ab6-56e1-99d1-d87fa8ea6d09"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "df68df0c-70d4-5e2a-8150-ae3dcfbc0dbd",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1ca76417-f6f9-5e43-a9ed-01ded0045a5c",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": true,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "parentId": "df68df0c-70d4-5e2a-8150-ae3dcfbc0dbd"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "f0c3b7ee-af8f-5e4a-b436-201c88001af7",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-8ae8db35",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a3b97e24-0b43-5c8a-b40e-e26833f90ccf",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "hideLabel": true,
+              "parentId": "f0c3b7ee-af8f-5e4a-b436-201c88001af7"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        },
+        {
+          "id": "bcb67a4b-61ca-58c9-a899-16ffdff17b21",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-radio-v-cb7e2795",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "455193e6-164e-5dee-8662-2ede8655001f",
+              "type": "radio",
+              "version": 6,
+              "label": "gym radio",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "editMode": "readOnly",
+              "parentId": "bcb67a4b-61ca-58c9-a899-16ffdff17b21"
+            }
+          ],
+          "parentId": "28084a1e-0fed-5bf4-ba52-fc6578afe6fa"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

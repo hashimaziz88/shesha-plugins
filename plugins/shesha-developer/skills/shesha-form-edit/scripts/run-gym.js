@@ -48,6 +48,18 @@ const api = new GymApi(BACKEND);
 await api.authenticate();
 if (!manifest.module.id) manifest.module.id = await api.resolveModuleId(manifest.module.name);
 
+// --baseline-only: salvage mode for forms where a variant crashes the whole
+// render — push markup stripped to validationErrors + baseline, measure that.
+const BASELINE_ONLY = has('--baseline-only');
+const stripToBaseline = (markupStr, type) => {
+  const form = JSON.parse(markupStr);
+  const root = form.components[0];
+  root.components = root.components.filter(
+    (c) => c.type === 'validationErrors' || c.componentName === `gym-${type}-baseline`,
+  );
+  return JSON.stringify(form);
+};
+
 if (!has('--skip-push')) {
   for (const [name, helper] of Object.entries(manifest.helperForms ?? {})) {
     const file = path.join(GYM_DIR, 'forms', `${name}.json`);
@@ -62,7 +74,8 @@ if (!has('--skip-push')) {
   let pushed = 0;
   for (const formName of formNames) {
     const entry = manifest.forms[formName];
-    const markup = fs.readFileSync(path.join(GYM_DIR, 'forms', `${formName}.json`), 'utf8');
+    let markup = fs.readFileSync(path.join(GYM_DIR, 'forms', `${formName}.json`), 'utf8');
+    if (BASELINE_ONLY) markup = stripToBaseline(markup, entry.type);
     try {
       const { id, action } = await api.upsertForm({
         moduleName: manifest.module.name, moduleId: manifest.module.id,
@@ -195,7 +208,19 @@ for (const formName of formNames) {
     if (!baseline) comp.notes = 'baseline wrapper not found in DOM';
     if (notRegistered) comp.notes = 'component type not registered in this runtime — all settings unknown';
 
+    if (BASELINE_ONLY && baseline) {
+      comp.notes = 'at least one variant crashes the whole form render — baseline measured via salvage, per-setting effects unknown';
+    }
     for (const inst of entry.instances) {
+      if (BASELINE_ONLY) {
+        if (inst.kind === 'variant') {
+          comp.settings[`${inst.path}=${inst.valueKey}`] = {
+            effect: 'unknown', bucket: inst.bucket,
+            notes: baseline ? 'form crashes with full variant set; not individually measured' : 'form crashes even baseline-only',
+          };
+        }
+        continue;
+      }
       if (notRegistered) {
         if (inst.kind === 'variant') {
           comp.settings[`${inst.path}=${inst.valueKey}`] = { effect: 'unknown', bucket: inst.bucket, notes: 'component not registered' };

@@ -1,0 +1,470 @@
+{
+  "components": [
+    {
+      "id": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-iconPicker-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "7080e01f-8b6e-5507-8009-58b6d1b5ca01",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-iconPicker-validation-errors",
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "70af7c2a-618f-527e-9aa3-af970acbbd1f",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d4599714-6d36-56ea-b0fb-2d3a509d71c1",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "70af7c2a-618f-527e-9aa3-af970acbbd1f"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "aaebd197-21cf-5f3b-98d3-3c8e31a4d9f3",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-iconPicker-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "67968e03-f1c8-5a0f-a691-e1b2b666a60d",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "bab8ab3d-a3e9-5e8e-91d5-669a7afb16f3",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": true,
+              "propertyName": "gymValue",
+              "parentId": "67968e03-f1c8-5a0f-a691-e1b2b666a60d"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "8b9f4cb5-1b7c-5ecd-bf16-d1c4cf2766fa",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-8ae8db35",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5dc508a6-5132-599f-8d5b-2356e2935aae",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "hideLabel": true,
+              "parentId": "8b9f4cb5-1b7c-5ecd-bf16-d1c4cf2766fa"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "8536edae-fe51-5016-8e75-ece969522aae",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-cb7e2795",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "48ced781-e04c-5523-9c20-6c1b9f63d56c",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "editMode": "readOnly",
+              "parentId": "8536edae-fe51-5016-8e75-ece969522aae"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "d51e04ba-13bf-5776-957f-6c20e0430a74",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-bb2b7880",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9a242b11-e87f-5aa3-9955-35bd678dced7",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "defaultValue": "StarFilled",
+              "parentId": "d51e04ba-13bf-5776-957f-6c20e0430a74"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "411ec49a-d225-56ff-8ab1-74b810dfdab2",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-89e4505a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9b3656ec-f6d9-5f2e-8cd4-c6ec5fde0b64",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "color": "#ff00aa",
+              "parentId": "411ec49a-d225-56ff-8ab1-74b810dfdab2"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "b684ff9f-96c3-5e91-b3b3-d3f356ef1844",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-269592fc",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "aaf938e0-5a22-5cc2-9cb9-fae590f5abcd",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "borderWidth": 17,
+              "parentId": "b684ff9f-96c3-5e91-b3b3-d3f356ef1844"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "336b857d-aeb7-582d-85c8-8e71907bb7c2",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-42379e09",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "706c5bbb-a2d2-57d6-9b2b-cdd0fada70a1",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "borderColor": "#ff00aa",
+              "parentId": "336b857d-aeb7-582d-85c8-8e71907bb7c2"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "b19ff480-8beb-5504-a036-a72ff5de14b6",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-8040eb3f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "cdda281e-cfd7-59aa-bfc0-2774d3f0ddd6",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "borderRadius": 17,
+              "parentId": "b19ff480-8beb-5504-a036-a72ff5de14b6"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "b15d87c2-c5d3-522d-a661-a2f5d38eb822",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-2784bdb5",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "11daa2f8-62cd-501f-b079-0917f14e58c2",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "fontSize": 17,
+              "parentId": "b15d87c2-c5d3-522d-a661-a2f5d38eb822"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "ee17d669-3756-53d8-a2d8-fd1ab1cd60b1",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-b6de732b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9e3357f8-4f96-503f-841d-0dd75abe3f82",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "backgroundColor": "#ff00aa",
+              "parentId": "ee17d669-3756-53d8-a2d8-fd1ab1cd60b1"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "e246de68-281a-5544-ae5b-c02bc160c5bf",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f86a4a7c-a9c8-5a65-be48-60823abfa098",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "e246de68-281a-5544-ae5b-c02bc160c5bf"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "3019d66b-e6d0-533b-a885-b07d8ba24e1f",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-iconPicker-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "7a66f18d-b7de-53d7-ad8d-a586498c11d7",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1244a44b-e2f7-59bb-9686-4d06099f088a",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "7a66f18d-b7de-53d7-ad8d-a586498c11d7"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "cdd7bd3c-6665-540f-8830-d1002a892e3e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-ba90c652",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "40c25852-5c15-542a-a40e-40917e88ec78",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "labelAlign": "left",
+              "parentId": "cdd7bd3c-6665-540f-8830-d1002a892e3e"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "fe9b9dbd-2ef8-50d6-9bc4-674c11e8f233",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-9014b9af",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "bde24e32-d604-567b-af92-5c9d47e0afe8",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "labelAlign": "right",
+              "parentId": "fe9b9dbd-2ef8-50d6-9bc4-674c11e8f233"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "e15e504c-70f2-5313-a35c-218caf5c61d5",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-8a19dfd5",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "87546e6a-c7ce-524d-a2f4-80a67ff18bb3",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "textAlign": "start",
+              "parentId": "e15e504c-70f2-5313-a35c-218caf5c61d5"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "c5f8ea6c-6f81-54dd-8308-f22eff0eb7ed",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-a9b851f2",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "35dd4c5a-9719-550b-8e71-a2bc075a4e0e",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "textAlign": "center",
+              "parentId": "c5f8ea6c-6f81-54dd-8308-f22eff0eb7ed"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "49b4a447-fcd6-5876-aaab-e96a854f60cb",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-cda05ce2",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d8144786-732e-56a4-ac6e-960bcb70abab",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "textAlign": "end",
+              "parentId": "49b4a447-fcd6-5876-aaab-e96a854f60cb"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        },
+        {
+          "id": "004047da-1728-58ff-a1c5-300b1f423d0c",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-iconPicker-v-a76e668c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f56059ca-f142-5a38-aaf5-e980cfa3127a",
+              "type": "iconPicker",
+              "version": 3,
+              "label": "gym iconPicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "description": "GYM-TXT-description",
+              "parentId": "004047da-1728-58ff-a1c5-300b1f423d0c"
+            }
+          ],
+          "parentId": "e91dab33-88ab-5105-81b3-f8ccaa25ca9e"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

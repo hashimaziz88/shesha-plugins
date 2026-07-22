@@ -1,0 +1,714 @@
+{
+  "components": [
+    {
+      "id": "c837b9ee-f577-50db-853b-d64cf7f2c654",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-phoneNumberInput-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "c6cd537b-ca1a-5687-a9e9-941ff411115e",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-phoneNumberInput-validation-errors",
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "5c70d876-75ce-5f1d-b98e-961159b222e9",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a5959a77-f2e7-5d1c-bd34-e2668c8372a1",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "5c70d876-75ce-5f1d-b98e-961159b222e9"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "29e826f6-0105-5067-b6fd-f0d033d6dccc",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-phoneNumberInput-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "1b9c2289-163f-55b3-87e5-928bcc076d17",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-4e66562d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "08d2ca2c-1331-59e5-a2d3-8c53debfc695",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "size": "small",
+              "parentId": "1b9c2289-163f-55b3-87e5-928bcc076d17"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "c99a91f1-3598-5d65-b6f9-e8133bcdeb11",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-ca52e19b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6a3d19e2-5970-5ad6-aef1-c4b2914df74a",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "size": "middle",
+              "parentId": "c99a91f1-3598-5d65-b6f9-e8133bcdeb11"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "86b5fd20-3681-5218-bfd1-ba07be18057d",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-15638072",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "521738a7-d921-58e3-af2f-d7331bfa26c7",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "size": "large",
+              "parentId": "86b5fd20-3681-5218-bfd1-ba07be18057d"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "77c69ca9-da16-5bd3-99ba-7b005a240287",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-phoneNumberInput-h-validation",
+          "content": "— validation —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "903b841d-58aa-55ad-a3c3-b1ee0c727a7d",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-9d11999c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "dfa299a8-36bf-56b3-869f-eaa5e0c91350",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "validate": {
+                "required": true
+              },
+              "parentId": "903b841d-58aa-55ad-a3c3-b1ee0c727a7d"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "a9c2f545-505d-5b93-8c87-9b56935019ca",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-phoneNumberInput-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "c2553beb-a00c-5b60-9631-cd1d7c46105a",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-f3a3d24a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "16e747ec-3b56-5df9-b1db-bd5740b2d0db",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "initialValue": "GYM-TXT-initialValue",
+              "parentId": "c2553beb-a00c-5b60-9631-cd1d7c46105a"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "998584c1-1801-5fa5-817a-b627c2867bc5",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-phoneNumberInput-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "a25e2b35-f839-5b01-829c-1b602864bcbe",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "dac02e3e-8168-577b-a813-1604616560c7",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "a25e2b35-f839-5b01-829c-1b602864bcbe"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "8deeac8d-4b6b-51ea-b85b-6834c836e8f8",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-ba90c652",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "14700aaf-a46b-53f4-af46-c543a6c8905f",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "labelAlign": "left",
+              "parentId": "8deeac8d-4b6b-51ea-b85b-6834c836e8f8"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "94f63230-7b0a-52a5-947c-ab0e68499f8a",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-9014b9af",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e93efb17-b89f-56e4-8adc-35a55e76f9e5",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "labelAlign": "right",
+              "parentId": "94f63230-7b0a-52a5-947c-ab0e68499f8a"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "c0490c5f-9253-5c40-afe6-fafd8e71b33c",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-ae8981bd",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "caf16e39-1313-5555-9a67-2552607af3d7",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "placeholder": "GYM-TXT-placeholder",
+              "parentId": "c0490c5f-9253-5c40-afe6-fafd8e71b33c"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "0a3f1f72-2329-59fc-8ac4-b1633683876e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-a76e668c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "02449b3e-1472-5055-9f4a-0bf4e1ddbfb6",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "description": "GYM-TXT-description",
+              "parentId": "0a3f1f72-2329-59fc-8ac4-b1633683876e"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "0f22b2d8-6e28-50fe-b84e-b47d610b3553",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-a2d95d7b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e9d21b16-7892-57bd-bc30-88cf13086d3d",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "valueFormat": "string",
+              "parentId": "0f22b2d8-6e28-50fe-b84e-b47d610b3553"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "f6248a56-8390-5e12-b0be-1e09f2c5820c",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-121cb8e1",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ea7d5d25-96e6-59db-ac0b-40d7f902a532",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "valueFormat": "national",
+              "parentId": "f6248a56-8390-5e12-b0be-1e09f2c5820c"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "79a5fee3-adaa-5f06-889a-d39065622666",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-80694c8c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "558b2396-215a-554b-932a-203f00c423ac",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "valueFormat": "object",
+              "parentId": "79a5fee3-adaa-5f06-889a-d39065622666"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "b9216b23-d1f0-5420-94fc-6deff57f6393",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-4031b8be",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "faeeedc7-5681-545f-a81a-f441fc5662e0",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "stripCountryCode": true,
+              "parentId": "b9216b23-d1f0-5420-94fc-6deff57f6393"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "221ccd71-a535-57b9-ba25-e77b0137ae59",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ea84a9ce-f258-53b9-a8d6-420520d64317",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": true,
+              "propertyName": "gymValue",
+              "parentId": "221ccd71-a535-57b9-ba25-e77b0137ae59"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "2300910f-c754-58c0-b0a7-9f14fadf8085",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-8ae8db35",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3d2dddb4-c500-5805-9bce-d3248b55d261",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "hideLabel": true,
+              "parentId": "2300910f-c754-58c0-b0a7-9f14fadf8085"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "f5321302-b650-5727-bbfb-29392ce025e9",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-091b60eb",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2b26c6a8-e18f-55b0-b591-b1d12bd780a9",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "defaultCountry": "GYM-TXT-defaultCountry",
+              "parentId": "f5321302-b650-5727-bbfb-29392ce025e9"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "e93add56-9f28-562c-af92-ec47f9878636",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-39248fd0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "50c957c7-0678-50f1-a462-a136f8de96d2",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "preferredCountries": "GYM-TXT-preferredCountries",
+              "parentId": "e93add56-9f28-562c-af92-ec47f9878636"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "de0ae332-aa0e-55e4-b4e4-d1d0586777dd",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-0443750f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "79beaa28-91b0-5b9a-ad7c-e0c9025b24ef",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "onlyCountries": "GYM-TXT-onlyCountries",
+              "parentId": "de0ae332-aa0e-55e4-b4e4-d1d0586777dd"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "5af18521-7ffb-5912-9f40-c7f55acbeca8",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-24158afc",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d20f305e-771f-5b61-8d30-1d463ea53d0e",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "excludeCountries": "GYM-TXT-excludeCountries",
+              "parentId": "5af18521-7ffb-5912-9f40-c7f55acbeca8"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "a2d7803e-6867-5b60-9cd0-4915fe19ec50",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-cb7e2795",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9920c55f-aa63-5d2f-a82b-77b56c693cfe",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "editMode": "readOnly",
+              "parentId": "a2d7803e-6867-5b60-9cd0-4915fe19ec50"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "8a6dc504-6b42-57c1-94be-7f69263c3360",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-3118296d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "924f9bf2-5fa3-5199-97c9-2b46e58326dd",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "allowClear": true,
+              "parentId": "8a6dc504-6b42-57c1-94be-7f69263c3360"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "2dc5d139-8fc7-5687-b575-044c145061f0",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-fccc7695",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7420ecf1-7b74-5c5f-b4c0-55e006744ac4",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "enableArrow": true,
+              "parentId": "2dc5d139-8fc7-5687-b575-044c145061f0"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "9d175d96-cfef-5833-9f12-825eae9f0931",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-57c32b65",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d7ec567f-3474-5b9a-9aad-48e72aa11118",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "enableSearch": true,
+              "parentId": "9d175d96-cfef-5833-9f12-825eae9f0931"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "f304396f-170a-54e9-bad7-a7a4ac01342c",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-0e9e83af",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e7df3b08-950d-5603-93be-c26a9b7193a5",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "distinct": true,
+              "parentId": "f304396f-170a-54e9-bad7-a7a4ac01342c"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "294af933-1944-5bb3-974b-b1025d3817ed",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-049349df",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "54e43991-8147-5012-9a9c-c185fabfd781",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "disableDropdown": true,
+              "parentId": "294af933-1944-5bb3-974b-b1025d3817ed"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "00289aad-4c1c-5828-9087-0eafcc05ed56",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-5af4d67b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6d4725c3-14cc-5462-99e9-239a739758bb",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "disableParentheses": true,
+              "parentId": "00289aad-4c1c-5828-9087-0eafcc05ed56"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        },
+        {
+          "id": "1abb29f0-a984-5568-8b78-0b61601ea0ef",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-phoneNumberInput-v-df045fe9",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "bebb2cda-dcca-5b6b-aa10-bd621ba8d966",
+              "type": "phoneNumberInput",
+              "version": 0,
+              "label": "gym phoneNumberInput",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "searchPlaceholder": "GYM-TXT-searchPlaceholder",
+              "parentId": "1abb29f0-a984-5568-8b78-0b61601ea0ef"
+            }
+          ],
+          "parentId": "c837b9ee-f577-50db-853b-d64cf7f2c654"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

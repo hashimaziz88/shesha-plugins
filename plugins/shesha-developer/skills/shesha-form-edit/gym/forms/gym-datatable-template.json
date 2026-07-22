@@ -1,0 +1,54 @@
+{
+  "components": [
+    {
+      "id": "16eeae13-ee7a-5b7c-97e1-601fcb8150a7",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-datatable_template-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "0ab35078-6ef8-51e6-be5c-75db9ec935bb",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-datatable_template-validation-errors",
+          "parentId": "16eeae13-ee7a-5b7c-97e1-601fcb8150a7"
+        },
+        {
+          "id": "8a9162c4-66fd-5b7f-b99c-aa61575931d1",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-datatable_template-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8c83c664-7f80-59d7-ae27-1adfdb11518d",
+              "type": "datatable_template",
+              "version": 1,
+              "label": "gym datatable_template",
+              "hidden": false,
+              "componentName": "gym-datatable_template-inst-baseline",
+              "parentId": "8a9162c4-66fd-5b7f-b99c-aa61575931d1"
+            }
+          ],
+          "parentId": "16eeae13-ee7a-5b7c-97e1-601fcb8150a7"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

@@ -1,0 +1,361 @@
+{
+  "components": [
+    {
+      "id": "f464fa3f-6712-5500-9660-0e9451a08a45",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-notes-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "1f6c7e0c-94ff-5a5c-964a-418cbd4138df",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-notes-validation-errors",
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "a3c18006-8a16-59f8-8af5-68755c28bbab",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5b72ed6c-f492-52e2-aba6-d1244e0e18ef",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": false,
+              "componentName": "gym-notes-inst-baseline",
+              "parentId": "a3c18006-8a16-59f8-8af5-68755c28bbab"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "4f5fb14f-837f-5f84-b610-e993c4894b60",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-notes-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "0c4a1225-5f9b-51ac-be5b-7acf1bcb7c9b",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-v-cc5bc3d7",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "094604d0-5856-5c05-a055-20463ad0625f",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": false,
+              "componentName": "gym-notes-inst-savePlacement=left",
+              "savePlacement": "left",
+              "parentId": "0c4a1225-5f9b-51ac-be5b-7acf1bcb7c9b"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "b8224253-ae6a-5519-acf3-d426f96d018f",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-v-02d0d607",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3187d02a-da4a-5383-9eea-f2307b00f91a",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": false,
+              "componentName": "gym-notes-inst-savePlacement=right",
+              "savePlacement": "right",
+              "parentId": "b8224253-ae6a-5519-acf3-d426f96d018f"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "e7cbd7ce-2ef5-5afa-b8ab-4795de276d2c",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-v-4c737757",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0b6e80fd-cce5-5ddd-a1fa-b9579b9c5522",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": false,
+              "componentName": "gym-notes-inst-autoSize=true",
+              "autoSize": true,
+              "parentId": "e7cbd7ce-2ef5-5afa-b8ab-4795de276d2c"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "95070175-be4d-584c-a100-abd392b8d1d5",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-notes-h-validation",
+          "content": "— validation —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "946755fd-228e-54ba-9d5f-4f31a69b1237",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-v-b11c5196",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "90606230-4003-508b-bd3e-79ae42a4c6c6",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": false,
+              "componentName": "gym-notes-inst-minLength=17",
+              "minLength": 17,
+              "parentId": "946755fd-228e-54ba-9d5f-4f31a69b1237"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "b5986b33-a111-5c00-bbbb-a2ef7530e854",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-v-28fb55b3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0750b954-76ac-57e2-85c1-797c97fe6a07",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": false,
+              "componentName": "gym-notes-inst-maxLength=17",
+              "maxLength": 17,
+              "parentId": "b5986b33-a111-5c00-bbbb-a2ef7530e854"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "ed3233f6-0aa2-5e0a-897b-7e358a9958a4",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-notes-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "7554c127-081a-5ec8-a515-a5e328bd997e",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-v-fd7010fe",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "626b6284-1fae-56c3-8ef5-ab00753d7508",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": false,
+              "componentName": "gym-notes-inst-ownerId=txt",
+              "ownerId": "GYM-TXT-ownerId",
+              "parentId": "7554c127-081a-5ec8-a515-a5e328bd997e"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "3d4536c0-94f5-552c-850b-8ce2eba2ccd3",
+          "type": "text",
+          "version": 2,
+          "componentName": "gym-notes-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "f0fc848b-d347-5288-afa2-ee401ef91e00",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-v-54872a12",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ffd388c8-8ede-5d9d-846d-e1d72799d85c",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": false,
+              "componentName": "gym-notes-inst-category=txt",
+              "category": "GYM-TXT-category",
+              "parentId": "f0fc848b-d347-5288-afa2-ee401ef91e00"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "076c3e99-ea76-52f4-a9a9-c3d44da3d22d",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-v-91ae175d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ec4873f2-e929-5f1e-8b6e-151b827902dc",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": false,
+              "componentName": "gym-notes-inst-showCharCount=true",
+              "showCharCount": true,
+              "parentId": "076c3e99-ea76-52f4-a9a9-c3d44da3d22d"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "262b048d-51b7-571d-9469-9dae7506ca9a",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3350b01e-ef6c-5785-9ac2-b7ac48b494eb",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": true,
+              "componentName": "gym-notes-inst-hidden=true",
+              "parentId": "262b048d-51b7-571d-9469-9dae7506ca9a"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "58039957-f296-5fbd-8965-acabad63b222",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-v-cb7e2795",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2cce4256-703e-5ffb-afa6-a1b457a75ede",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": false,
+              "componentName": "gym-notes-inst-editMode=readOnly",
+              "editMode": "readOnly",
+              "parentId": "58039957-f296-5fbd-8965-acabad63b222"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "a33214c1-c0a4-5f3b-8623-df57e11a4a29",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-v-390fad66",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "dd125f8a-978e-51e6-a12d-0a34314432d7",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": false,
+              "componentName": "gym-notes-inst-allowEdit=true",
+              "allowEdit": true,
+              "parentId": "a33214c1-c0a4-5f3b-8623-df57e11a4a29"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        },
+        {
+          "id": "4e5bd119-bfbb-57ef-9759-61de485db38f",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-notes-v-e8f40294",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "04315eb1-17f6-515e-9564-cf94a452202d",
+              "type": "notes",
+              "version": 4,
+              "label": "gym notes",
+              "hidden": false,
+              "componentName": "gym-notes-inst-allowDelete=true",
+              "allowDelete": true,
+              "parentId": "4e5bd119-bfbb-57ef-9759-61de485db38f"
+            }
+          ],
+          "parentId": "f464fa3f-6712-5500-9660-0e9451a08a45"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

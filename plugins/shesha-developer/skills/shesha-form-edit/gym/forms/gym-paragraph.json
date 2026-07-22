@@ -1,0 +1,56 @@
+{
+  "components": [
+    {
+      "id": "0f797719-19be-5d8b-9db3-d960e699d3e5",
+      "type": "container",
+      "version": 6,
+      "componentName": "gym-paragraph-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "00ca38c5-67d2-520a-9e6d-ff3a3ed62d39",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-paragraph-validation-errors",
+          "parentId": "0f797719-19be-5d8b-9db3-d960e699d3e5"
+        },
+        {
+          "id": "35a9ef80-b09a-50a3-b355-376fff743026",
+          "type": "container",
+          "version": 6,
+          "componentName": "gym-paragraph-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3644bacb-d94a-5f85-b952-90c57cbeaf8c",
+              "type": "paragraph",
+              "version": 1,
+              "label": "gym paragraph",
+              "hidden": false,
+              "content": "GYM paragraph content",
+              "contentDisplay": "content",
+              "componentName": "gym-paragraph-inst-baseline",
+              "parentId": "35a9ef80-b09a-50a3-b355-376fff743026"
+            }
+          ],
+          "parentId": "0f797719-19be-5d8b-9db3-d960e699d3e5"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}
