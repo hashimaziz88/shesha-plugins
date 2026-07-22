@@ -1,6 +1,6 @@
 # Styling mechanics — v7 blocks, the five channels, and why a prop doesn't render
 
-The 0.45-generation style system this skill authors against. Block shapes + patterns first; then the channel/precedence model and the debug procedure. Capability verdicts (which channel actually renders per component) are in [capability-matrix.md](capability-matrix.md); the 0.43-vs-0.45 lever split is `shesha-form-edit/references/renderer-physics.md`. Layout/structure idioms live in `shesha-form-edit` — this skill owns appearance only.
+The 0.45 style system this skill authors against. Block shapes + patterns first; then the channel/precedence model and the debug procedure. Capability verdicts (which channel actually renders per component) are in [capability-matrix.md](capability-matrix.md). Layout/structure idioms live in `shesha-form-edit` — this skill owns appearance only. Appearance goes through the breakpoint blocks [R-030]; rule ids cite `shesha-form-edit/references/_rules.json`.
 
 ## v6 vs v7
 
@@ -59,9 +59,9 @@ Apply the same block to all three breakpoints unless the design is genuinely res
 "border": { "borderType":"custom", "border": { "top": { "width":1, "color":"#e5e7eb", "style":"solid" }, "bottom": { "width":1, "color":"#f0f0f0", "style":"solid" } } }
 ```
 
-**Full-width child recipe:** a single child sizes to content, and the v7 renderer ignores legacy `direction:"vertical"` — make the parent `{ "flexDirection": "column", "display": "flex", "alignItems": "stretch" }` (verified: turns a 700px list full-width). Set it up front for any "stretch across the page" request; don't rediscover it in a browser loop.
+**Full-width child recipe:** a single child sizes to content, and the v7 renderer ignores legacy `direction:"vertical"` — make the parent `{ "flexDirection": "column", "display": "flex", "alignItems": "stretch" }` [R-029] (verified: turns a 700px list full-width). Set it up front for any "stretch across the page" request; don't rediscover it in a browser loop.
 
-**Text escaping:** the `text` component renders `content` via Mustache — `{{double}}` HTML-escapes (`2023/11/17` → `2023&#x2F;11&#x2F;17`); use `{{{triple}}}` for raw output (and don't stack a `date-time` dataType on top — double-renders).
+**Text escaping:** the `text` component renders `content` via Mustache — `{{double}}` HTML-escapes (`2023/11/17` → `2023&#x2F;11&#x2F;17`); use `{{{triple}}}` for raw output [R-035] (and don't stack a `date-time` dataType on top — double-renders).
 
 ## The five style channels (lowest → highest)
 
@@ -70,7 +70,7 @@ Apply the same block to all three breakpoints unless the design is genuinely res
 | 1 | Designer props | top-level `alignItems`, `display`, `background`, `border`, `font`, `shadow`, `dimensions`, … | — (base) |
 | 2 | `stylingBox` | JSON string of margins/paddings | merges with 1 |
 | 3 | Breakpoint objects `desktop`/`tablet`/`mobile` | same keys, nested | overrides base **PER-KEY** |
-| 4 | Legacy `style` prop | JS-expression STRING → rendered **INLINE** | wins over everything |
+| 4 | Legacy `style` prop | JS-expression STRING → rendered **INLINE** | wins over everything [R-030] |
 | 5 | Framework CSS via `className` | `sha-page`, `.sha-page-content:not(.no-padding){padding:12px}`, `sha-index-table-control` | applies regardless; some `!important` |
 
 - Channel 3 is per-key: base `border.radius=0` is dead if the breakpoints carry `radius=8`; base `borderType:"custom"` is dead if `desktop.border.borderType:"all"`.
@@ -79,7 +79,7 @@ Apply the same block to all three breakpoints unless the design is genuinely res
 
 ## Channel→div mapping
 
-A container renders **TWO divs**: the outer (`sha-components-container`, the actual flex item) receives ONLY `dimensions` (+ `shadow`); the inner gets the legacy `style` string + layout props. Consequence: a `style`-channel `flexShrink:0` renders on the inner div but **cannot stop flex squeeze** — sizing fixes must go through `dimensions`:
+A container renders **TWO divs** [R-032]: the outer (`sha-components-container`, the actual flex item) receives ONLY `dimensions` (+ `shadow`); the inner gets the legacy `style` string + layout props. Consequence: a `style`-channel `flexShrink:0` renders on the inner div but **cannot stop flex squeeze** — sizing fixes must go through `dimensions`:
 
 ```json
 "dimensions": { "minHeight": "fit-content", "height": "auto", "maxHeight": "auto" }

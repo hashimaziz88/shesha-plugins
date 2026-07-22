@@ -10,7 +10,13 @@ The blueprint has two audiences. A **human** reviews and approves placement at t
 - ` ```bindings ` — a table mapping each label to its entity property, component type and datatype.
 - ` ```assertions ` — the placement contract: the statements the verification loop re-measures against.
 
-Pure JSON would be unreviewable; pure prose is the thing that drifts. The fenced blocks recover everything the machine needs without making the whole doc machine-only.
+Pure JSON alone would be unreviewable; pure prose is the thing that drifts. The fenced blocks recover everything the machine needs without making the whole doc machine-only.
+
+## Machine twin (blueprint-json)
+
+Every blueprint `.md` ALSO carries one fenced ` ```blueprint-json ` block — a single JSON document conforming to [`../schemas/blueprint.schema.json`](../schemas/blueprint.schema.json) (screen, entity `{fullClassName, modelType}` [R-016], form identity, archetype, layout node tree, bindings, assertions). **That block is what `shesha-form-edit`'s `compile-blueprint.js` consumes** — its "no spec, no build" rule means a blueprint without a valid blueprint-json block cannot be built. Validate the block against the schema before handing off.
+
+The Markdown blocks (`layout-tree` / `bindings` / `assertions`) remain the human-readable view a reviewer signs off — and they MUST agree with the JSON twin: same regions and nesting, same widths, same bindings, same assertion ids. When they diverge, the JSON twin is what gets built, so fix the divergence, never ship it.
 
 ## Document structure
 
@@ -31,6 +37,9 @@ Viewport captured:  <w>x<h>      Source:  <probe file / source path / screenshot
 
 ## Assertions  (placement contract — verified by verification-loop.md)
 ```assertions …```
+
+## Machine twin
+```blueprint-json …```   (conforms to schemas/blueprint.schema.json)
 ```
 
 ## The eight archetypes (target vocabulary)
@@ -133,7 +142,7 @@ A7  header actions (Mockup, Trace) sit in the header band, right-aligned on the 
 ```
 ````
 
-This one document is simultaneously: the thing a reviewer signs off (prose + tree), the requirements brief the builder works from (archetype → seed `rs-detail-with-header.json`, splits → flex-row `container`s with per-child `desktop.dimensions.width`, bindings → component+propertyName), and the contract the verification loop measures (`assertions` A1–A7).
+This one document is simultaneously: the thing a reviewer signs off (prose + tree), the compiler input the builder consumes (the `blueprint-json` twin — archetype → golden fixture, splits → flex-row `container`s with per-child `desktop.dimensions.width` [R-028], bindings → component+propertyName), and the contract the verification loop measures (`assertions` A1–A7).
 
 ## Authoring checklist
 
@@ -142,3 +151,4 @@ This one document is simultaneously: the thing a reviewer signs off (prose + tre
 - [ ] Every bound field has `← Entity.property`; every region names its design-system `recipe`.
 - [ ] `assertions` cover: split-cell membership, row grouping, nesting depth, tab assignment — the things that drift. No pixel asserts.
 - [ ] Fidelity tier + confidence + viewport stamped at the top.
+- [ ] A ` ```blueprint-json ` block is present, validates against `schemas/blueprint.schema.json`, and agrees with the Markdown blocks (regions, widths, bindings, assertion ids).

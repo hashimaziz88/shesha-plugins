@@ -20,27 +20,27 @@ Most of the waste in a design run is the same setup repeated per screen. Establi
 |---|---|---|
 | `shesha-claude-designer` | ingest, comprehend→plan, sequence, gate, verify end-to-end | author form JSON, pick hexes, push |
 | `shesha-design-comprehension` | per-screen measured blueprint + placement verification (probe + diff) | author form JSON, pick hexes, push |
-| `shesha-form-edit` | structure, CRUD wiring, validation, push, publish; flex-row splits (never `columns`) | apply v7 appearance blocks; pick tokens/hexes |
+| `shesha-form-edit` | compile the blueprint-json → gates → push → oracle; CRUD wiring; flex-row splits (never `columns` [R-028]) | apply v7 appearance blocks; pick tokens/hexes |
 | `shesha-design-system` | ALL appearance: app theme + per-component v7 blocks + capability matrix; audit | author structure, wire CRUD, push |
 | `form-author` (agent) | draft NEW structure markup from a seed; return JSON only | style / apply a theme (dispatching it with a styling prompt is a contract violation), push |
 
 ## Contracts
 
-**Designer → comprehension (Step 2, per screen):** provide design source(s) + fidelity tier + screen name + (Tier A) source paths + pinned viewport. Returns `<workdir>/blueprints/<screen>.blueprint.md` (archetype + `layout-tree` + `bindings` + `assertions`) and the saved probe `*.layout.json`.
+**Designer → comprehension (Step 2, per screen):** provide design source(s) + fidelity tier + screen name + (Tier A) source paths + pinned viewport. Returns `<workdir>/blueprints/<screen>.blueprint.md` — archetype + `layout-tree` + `bindings` + `assertions` **plus the `blueprint-json` machine twin, validated against `shesha-design-comprehension/schemas/blueprint.schema.json`** — and the saved probe `*.layout.json`.
 
-**Designer → shesha-form-edit (Step 4a, per screen) — "Contract A":** provide the blueprint path, entity modelType (or "resolve from module"), form identity (module + name), the headless backend context, the pinned shell/tool, and `<workdir>` (locates the cached token). Returns: form created/edited (module + name + id), version-profile facts, resolved modelType, pushed/published state, structural-integrity confirmation.
+**Designer → shesha-form-edit (Step 4, per screen) — "Contract A" (the compiler handoff):** provide the **blueprint-json path** (the extracted twin, or the `.blueprint.md` carrying it), entity modelType (or "resolve from module"), form identity (module + name), the headless backend context, the pinned shell/tool, and `<workdir>` (locates the cached token). Form-edit compiles the blueprint (`compile-blueprint.js`), runs its gates, pushes through its one gated path, and runs its oracle. Returns: **form id (module + name + id) + gate results (schema/guardrails/bindings/styledness) + oracle verdict (re-fetch diff, render instrument)**. It NEVER pushes unstyled [R-042] or reports an unverified form as done [R-046].
 
 **Designer → shesha-design-system (Step 3 theme + Step 4b style):** provide token set / theme name, the built form, version-profile facts, recipe list. Returns styled JSON (style blocks only, structure untouched) + app-theme changes + role→colour trace — it does NOT push; the styled JSON routes through `shesha-form-edit`.
 
 **Comprehension ↔ form-edit (gate 5a.5, per screen):** after build+publish, re-probe the rendered form, diff against the blueprint `assertions`; each mismatch becomes a routed fix in `shesha-form-edit`'s vocabulary. **Capped at 2 routed-fix iterations** — then a placement report (see the comprehension verification loop).
 
-### Dispatch prompt (Contract A) — every per-screen agent
+### Dispatch prompt (Contract A) — every per-screen build dispatch
 
 A dispatched agent does NOT read this skill — the dispatch prompt is its only binding:
 
-> SKILL_ROOT: `<path>`. Pinned tool: **PowerShell tool only** (Windows) — never Bash. `<workdir>`: `<path>` (cached bearer token at `<workdir>/access-token` — reuse it, never re-authenticate). Screen: `<name>`. Blueprint: `<workdir>/blueprints/<screen>.blueprint.md`. Entity modelType: `<type>`. Form identity: module `<module>`, name `<name>`. **Return markup ONLY — NEVER push, NEVER style, NEVER author `columns`.** Write all scratch under `<workdir>`.
+> SKILL_ROOT: `<path>`. Pinned tool: **PowerShell tool only** (Windows) — never Bash. `<workdir>`: `<path>` (cached bearer token at `<workdir>/access-token` — reuse it, never re-authenticate). Screen: `<name>`. **Compile the attached blueprint**: `<workdir>/blueprints/<screen>.blueprint.json` (schema: `shesha-design-comprehension/schemas/blueprint.schema.json`). Entity modelType: `<type>`. Form identity: module `<module>`, name `<name>`. Run the full form-edit pipeline — compile → gates → style → push → oracle. **Return pushed+verified form facts: form id + gate results + oracle verdict. Never author `columns`; never report an unpushed or unverified form as done.** Write all scratch under `<workdir>`.
 
-Omit any of these and the agent re-picks a shell, re-authenticates, or pushes/styles out of contract — the observed failure modes.
+Omit any of these and the agent re-picks a shell, re-authenticates, or skips the oracle — the observed failure modes.
 
 ## Fan-out map (the parallel axis is the SCREEN)
 
@@ -49,9 +49,8 @@ Omit any of these and the agent re-picks a shell, re-authenticates, or pushes/st
 | 1 Ingest | serial, once | one design source → one token set + screen inventory |
 | **2 Comprehend** | **∥ one agent per screen** | read-only, fully independent |
 | 3 Theme | **BARRIER, once** | app theme set once before any screen is styled |
-| **4a Structure author** | **∥ one agent per screen** | distinct forms; each returns markup only |
-| 4a Push | serial / central | the one gated push path |
-| 4b Style | central | `shesha-design-system` styles centrally for coherence |
+| **4 Build (form-edit run)** | **∥ one dispatch per screen** | distinct forms; each compiles its blueprint and owns its gated push + oracle |
+| 4 Style | central | `shesha-design-system` styles centrally for coherence; styled JSON re-pushes through form-edit |
 | 5 Verify | **serial** | placement + visual are browser-bound (one Playwright session) |
 
 Cross-link ordering (list → detail → create) governs the **push + verify** sequence, not the authoring. Within one screen's build, `shesha-form-edit` may fan out its own `form-author`s (its orchestration.md) — one level down; the conductor stays at the screen axis. Orchestrate with `superpowers:dispatching-parallel-agents`.

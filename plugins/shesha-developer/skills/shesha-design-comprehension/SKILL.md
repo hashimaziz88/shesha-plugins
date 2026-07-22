@@ -1,6 +1,6 @@
 ---
 name: shesha-design-comprehension
-description: Use when a Shesha form must match a specific visual design and container/component placement keeps drifting — columns, nesting, tabs, or grouping landing in the wrong place versus the design. Also use to diagnose why an already-built form doesn't match its design. Turns a design source (readable HTML/JSX, a runnable prototype, or screenshots/PDF) into a measured, annotated layout blueprint, and verifies a built Shesha form against it by measurement. Invoked by shesha-claude-designer; pairs with shesha-form-edit (structure) and shesha-design-system (style).
+description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns the blueprint IR — turns a design source (readable HTML/JSX, a runnable prototype, or screenshots/PDF) into a measured layout blueprint (Markdown + schema-validated blueprint-json twin) that shesha-form-edit's compiler consumes, and verifies a built form against the blueprint's assertions by re-measurement. Invoke directly only for targeted work: diagnosing placement drift on an already-built form, or producing/refreshing a single screen's blueprint.
 ---
 
 # Shesha Design Comprehension
@@ -21,7 +21,7 @@ This is the layer between "I have a design" and "build the form". It does **not*
 
 ## The three things this skill produces
 
-1. A **layout blueprint** per screen — `<workdir>/blueprints/<screen>.blueprint.md`. Format spec + worked example: [references/blueprint-ir.md](references/blueprint-ir.md).
+1. A **layout blueprint** per screen — `<workdir>/blueprints/<screen>.blueprint.md`: human-reviewable Markdown blocks (`layout-tree`/`bindings`/`assertions`) **plus a fenced ` ```blueprint-json ` machine twin** conforming to [schemas/blueprint.schema.json](schemas/blueprint.schema.json). The JSON twin is what `shesha-form-edit`'s `compile-blueprint.js` consumes ("no spec, no build"); the Markdown view must agree with it. Format spec + worked example: [references/blueprint-ir.md](references/blueprint-ir.md).
 2. A **capture** of the design's real layout — via one of three fidelity tiers (source / runnable / screenshot). How, and where markitdown fits: [references/capture-pipeline.md](references/capture-pipeline.md).
 3. A **placement verification** of the built form against the blueprint. Method + the routed-fix loop: [references/verification-loop.md](references/verification-loop.md).
 
@@ -42,7 +42,7 @@ digraph { rankdir=LR;
 1. **Detect the fidelity tier** of the design source — readable source (A, best), runnable app (B), screenshots/PDF only (C). [capture-pipeline.md](references/capture-pipeline.md).
 2. **Capture the layout.** For a runnable design or any rendered page, use the measurement instrument [scripts/layout-probe.js](scripts/layout-probe.js): it walks the DOM at a **pinned viewport** and emits column counts, spans, nesting and row grouping per container. For readable source, parse the grid templates directly. For screenshots/PDF, normalise content with markitdown and read spatial layout from the image.
 3. **Write the blueprint** — narrate the captured signal into [blueprint-ir.md](references/blueprint-ir.md) format: a human-reviewable Markdown doc with three fenced machine blocks per region — `layout-tree`, `bindings`, `assertions`.
-4. **Hand the blueprint to `shesha-form-edit`** as the build's requirements (archetype + seed selection + column spans + per-field binding). **REQUIRED PARTNER:** `shesha-developer:shesha-form-edit` builds the structure.
+4. **Hand the blueprint to `shesha-form-edit`** — it compiles the `blueprint-json` twin via `compile-blueprint.js` (archetype + layout tree + bindings). **REQUIRED PARTNER:** `shesha-developer:shesha-form-edit` builds the structure.
 5. **Verify by measurement.** Re-probe the built, published, table→details-navigated Shesha form; diff actual placement against the blueprint's `assertions`; route concrete mismatches back to `shesha-form-edit`. [verification-loop.md](references/verification-loop.md).
 
 ## How markitdown fits (one layer, not the engine)
@@ -63,7 +63,7 @@ Pin **one** viewport (default 1440×900) for *both* capture and verification. Pr
 
 - **Measure, don't guess.** Every split-child count / span in a blueprint must come from a probe measurement, a parsed source grid template, or (Tier C only) explicit vision reading — never from prose intuition. Stamp the blueprint with its fidelity tier and confidence.
 - **The blueprint is a contract.** Whatever the `assertions` block states MUST be re-verified after the build. A blueprint without verification is just a prettier prose brief.
-- **Express splits as flex-container children — NEVER the Shesha `columns` component.** A split is a `container` with `display:"flex"` + `flexDirection:"row"` + `gap` (without an explicit `display:"flex"` the flex props are inert and children stack). Record spans in **native units (px/fr/%)** and map each child to its width lever for the target generation — `desktop.dimensions.width` on 0.45 (fill = `calc(100% - <rail+gap>px)`, rail = fixed px), the `wrapperStyle` fn on 0.43; `customStyle:{flex}` is inert on both. Full sizing physics: `shesha-form-edit/references/renderer-physics.md`. The diff asserts cluster membership / grouping / nesting depth / tab key — never pixels.
+- **Express splits as flex-container children — NEVER the Shesha `columns` component** [R-028]. A split is a `container` with `display:"flex"` + `flexDirection:"row"` + `gap` (without an explicit `display:"flex"` the flex props are inert and children stack [R-029]). Record spans in **native units (px/fr/%)** and map each child to `desktop.dimensions.width` (fill = `calc(100% - <rail+gap>px)`, rail = fixed px); `customStyle:{flex}` is inert. Full sizing physics: `shesha-form-edit/references/renderer-physics.md`. The diff asserts cluster membership / grouping / nesting depth / tab key — never pixels.
 - **Stay in your lane.** Produce blueprints + verification verdicts. Never author form JSON, never set colours, never push — route those to `shesha-form-edit` and `shesha-design-system`.
 - **One viewport.** Never compare measurements taken at different viewports; record the viewport in every capture.
 

@@ -7,7 +7,6 @@ The **cost-capped** styling pass applied to every new form built with **no brand
 - Do NOT run a browser measurement loop.
 - Do NOT rewrite the app-level theme — if `$antdTheme` was never applied to the app, note it in the summary and move on (app theme is a once-per-project action, see [app-theme.md](app-theme.md)).
 - One pass over the tree; mirror every block across `desktop`/`tablet`/`mobile`; done.
-- **0.43 backends: no breakpoint blocks exist** — write the same values as FLAT props on the component model (`backgroundColor`, `borderColor`, `borderRadius`, `height`, `stylingBox`, …) per `shesha-form-edit/assets/components-kb/_shared-style-fields.json`; `desktop.*` blocks are inert there.
 
 ## The five treatments
 

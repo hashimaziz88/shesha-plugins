@@ -25,10 +25,24 @@ You audit ONE Shesha form. **Assume something is wrong and try to prove it** —
 
 Recurse ALL of: `components[]`, `content.components[]`, `header.components[]`, `columns[i].components[]`, `tabs[i].components[]`, and buttonGroup **`items[]`** (buttons live in items, not components). Datatable columns live under `items[]` too.
 
+## Mechanical families — run the real gates first
+
+The registry `SKILL_ROOT/references/_rules.json` is the single source; the
+gate scripts already walk the tree and cite rule ids. Run them and fold their
+findings into your verdict before hand-checking anything:
+
+```
+node SKILL_ROOT/scripts/validate-schema.js <markup.json>
+node SKILL_ROOT/scripts/validate-guardrails.js <markup.json> [metadata.json]
+```
+
+(With a backend URL + token also `node SKILL_ROOT/scripts/resolve-bindings.js <markup.json>`.)
+Your added value is the JUDGMENT families below, not re-implementing walkers.
+
 ## Check families (run the ones the spec names)
 
-- **structure** — unique UUID ids; every component's `parentId` equals its actual parent's id (root children = `"root"`); top-level `components` is an array.
-- **types-and-props** — every `type` exists in `SKILL_ROOT/assets/groups/index.json`; flag any `type` absent from the index as invalid (e.g. a mis-cased or non-canonical component name); props validated against the group file (template-origin props the index lacks are documented false positives — flag as `info`, not `fail`).
+- **structure** — generated unique ids (uuid or nanoid — short placeholder ids fail [R-002]); every component's `parentId` equals its actual parent's id (root children = `"root"`) [R-001]; versions match the KB [R-003]; top-level `components` is an array. (Covered by the gates — verify their findings, spot-check their blind spots.)
+- **types-and-props** — every `type` exists in `SKILL_ROOT/assets/components-kb/_index.json` (the schema gate enforces the enum); props validated against the KB entry (template-origin props the KB lacks are documented false positives — flag as `info`, not `fail`).
 - **crud-wiring** — Add button = Show Dialog with resolvable formId + onSuccess Refresh table (actionOwner = dataContext id); detail lifecycle = Start Edit / Submit / Cancel Edit; action identifiers use spaced names + lowercase owners.
 - **subtable-canon** — per `SKILL_ROOT/references/components/junction-subtables.md`: dataContext sourceType/entityType/code-object endpoint, toolbar classes, drill-down column targeting, delete recipe (never `Delete row`/`table`).
 - **submit-mechanics** — any dialog presetting a required FK has BOTH a bound component AND `formSettings.onPrepareSubmitData` (per `references/components/add-dialogs.md`).
