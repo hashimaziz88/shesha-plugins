@@ -131,16 +131,23 @@ Push: `POST FormConfiguration/Create` (new) / `PUT UpdateMarkup` (existing) —
 (`.claude/cache/shesha-form-edit/push-ledger.json`); the Stop hook blocks
 session end while any entry is unverified [R-046].
 
-The oracle judges the deliverable, fail-closed:
+The oracle judges the deliverable through four fail-closed layers — a green
+render alone never means done. Full model: [references/quality-gates.md](references/quality-gates.md).
 1. **Re-fetch + diff** — the pushed markup equals what you sent; a 200 alone
    proves nothing [R-047] ([references/verification.md](references/verification.md)).
-2. **Render instrument** (unless `--no-browser`):
-   `node scripts/render-instrument.js --form <module>/<name>` — one scripted
-   pass: navigate, probe, single screenshot, console/network dump, binding
-   smoke (bound regions non-empty when the entity has data). Exit ≠ 0 → fix
-   and re-run; diagnose via [references/debug.md](references/debug.md).
-3. Blueprint builds: expect a placement re-measure against the blueprint's
-   `assertions` (comprehension owns it) and/or a `design-critic` verdict.
+2. **Render instrument** (objective, unless `--no-browser`):
+   `node scripts/render-instrument.js --form <module>/<name>` — navigate, probe,
+   screenshot, console/network dump, binding smoke, and layout-quality checks
+   (stacked splits, collapsed inputs/buttons, overflow). Exit ≠ 0 → fix and
+   re-run; diagnose via [references/debug.md](references/debug.md).
+3. **Placement diff** (intent) — blueprint builds re-probe against the
+   blueprint's `assertions`; this is what catches "the layout I intended didn't
+   happen" (comprehension owns it).
+4. **Design-critic** (visual quality, MANDATORY) — dispatch the
+   `design-critic` agent with the screenshot + assertions + theme tokens; it
+   returns a strict verdict (per-assertion, styled-ness, top-3 fixes). The
+   build is NOT done until the critic PASSes (styled ≥ acceptable). A green
+   render-instrument does not substitute for it.
 
 ## 7 · Report
 
