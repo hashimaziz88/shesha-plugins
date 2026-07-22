@@ -2,17 +2,23 @@
   "$schema": "shesha-gym-manifest/v1",
   "module": {
     "name": "boxfusion.test",
-    "id": null
+    "id": "60f10280-7364-4e25-9a9b-b0cb40eb57dc"
   },
-  "probeConfig": null,
+  "probeConfig": {
+    "selector": "[data-sha-c-name]",
+    "attr": "data-sha-c-name",
+    "prefix": "gym-",
+    "discoveredAt": "2026-07-22T09:24:45.509Z",
+    "matched": 60
+  },
   "helperForms": {},
   "forms": {
     "gym-container": {
       "type": "container",
       "componentVersion": 6,
       "markupSha1": "e0d190624f39b32b1180baefa9037862c9a0088a",
-      "backendId": null,
-      "lastPushedAt": null,
+      "backendId": "8a173204-9e91-491c-b1d6-fb6ed6a41cad",
+      "lastPushedAt": "2026-07-22T09:19:28.720Z",
       "instances": [
         {
           "variantId": "gym-container-baseline",
@@ -432,14 +438,15 @@
           "path": "shadowStyle=below",
           "reason": "capped"
         }
-      ]
+      ],
+      "lastMeasuredAt": "2026-07-22T09:27:26.574Z"
     },
     "gym-dropdown": {
       "type": "dropdown",
       "componentVersion": 7,
       "markupSha1": "19cc063dee0eafadce9b96248ddd5597dca20a1a",
-      "backendId": null,
-      "lastPushedAt": null,
+      "backendId": "f54aee76-f885-4e24-aee9-7c726081f863",
+      "lastPushedAt": "2026-07-22T09:19:29.014Z",
       "instances": [
         {
           "variantId": "gym-dropdown-baseline",
@@ -691,14 +698,15 @@
           "path": "permissions",
           "reason": "group Security skipped"
         }
-      ]
+      ],
+      "lastMeasuredAt": "2026-07-22T09:27:35.774Z"
     },
     "gym-textfield": {
       "type": "textField",
       "componentVersion": 5,
       "markupSha1": "0f338cc8c99fa5556b31d27f194483e28a8d40f8",
-      "backendId": null,
-      "lastPushedAt": null,
+      "backendId": "b398314c-7158-4f6f-b26d-32877c67c305",
+      "lastPushedAt": "2026-07-22T09:19:29.323Z",
       "instances": [
         {
           "variantId": "gym-textField-baseline",
@@ -994,7 +1002,8 @@
           "path": "editMode=readOnly",
           "reason": "capped"
         }
-      ]
+      ],
+      "lastMeasuredAt": "2026-07-22T09:27:47.441Z"
     }
   }
 }

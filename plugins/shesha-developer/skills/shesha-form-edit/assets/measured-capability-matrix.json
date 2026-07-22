@@ -1,0 +1,1009 @@
+{
+  "generation": "0.45",
+  "sheshaVersion": "0.45.0",
+  "components": {
+    "container": {
+      "renderStatus": "renders",
+      "settings": {
+        "borderWidth=17px": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderStyle=solid": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "1370px",
+              "variant": "1368px"
+            },
+            "wrapper.height": {
+              "baseline": "32px",
+              "variant": "34px"
+            }
+          }
+        },
+        "borderStyle=dashed": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "1370px",
+              "variant": "1368px"
+            },
+            "wrapper.height": {
+              "baseline": "32px",
+              "variant": "34px"
+            }
+          }
+        },
+        "borderStyle=dotted": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "1370px",
+              "variant": "1368px"
+            },
+            "wrapper.height": {
+              "baseline": "32px",
+              "variant": "34px"
+            }
+          }
+        },
+        "backgroundType=color": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundType=image": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundDataSource=storedFileId": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundDataSource=url": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundDataSource=base64": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundCover=contain": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundCover=cover": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundRepeat=repeat": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundRepeat=no-repeat": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundRepeat=repeat-x": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundRepeat=repeat-y": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundRepeat=round": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundUrl=txt": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundStoredFileId=txt": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "minWidth=17px": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "maxWidth=17px": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "1370px",
+              "variant": "17px"
+            },
+            "height": {
+              "baseline": "22px",
+              "variant": "242px"
+            },
+            "wrapper.height": {
+              "baseline": "32px",
+              "variant": "252px"
+            }
+          },
+          "notes": "expected value observed (17px)"
+        },
+        "minHeight=17px": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "maxHeight=17px": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "className=txt": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderColor=#ff00aa": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderRadius=17": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundColor=#ff00aa": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "width=17px": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "1370px",
+              "variant": "17px"
+            },
+            "height": {
+              "baseline": "22px",
+              "variant": "242px"
+            },
+            "wrapper.height": {
+              "baseline": "32px",
+              "variant": "252px"
+            }
+          },
+          "notes": "expected value observed (17px)"
+        },
+        "height=17px": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "backgroundBase64": {
+          "effect": "not-measured",
+          "notes": "editorType imagePicker not visually measurable"
+        },
+        "wrapperStyle": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "permissions": {
+          "effect": "not-measured",
+          "notes": "group Security skipped"
+        },
+        "style": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "stylingBox=stylingBox17": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "hidden=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "editMode=readOnly": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "noDefaultStyling=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "display=grid": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "display=block": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "display=flex": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "display=inline-grid": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "flexDirection=row": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "flexDirection=column": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "flexDirection=row-reverse": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "flexDirection=column-reverse": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "flexWrap=wrap": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "flexWrap=nowrap": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "gap=17px": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "gridColumnsCount=17": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "direction=horizontal": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "direction=vertical": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "alignItems=flex-start": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "alignItems=center": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "alignItems=flex-end": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "alignItems=stretch": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "alignSelf=flex-start": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "alignSelf=center": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "alignSelf=flex-end": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "justifyContent=flex-start": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "justifyContent=center": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "justifyContent=flex-end": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "justifyContent=space-between": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "justifySelf=start": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "justifySelf=center": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "justifySelf=end": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "textJustify=auto": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "textJustify=inter-word": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "justifyItems=start": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "justifyItems=center": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "justifyItems=end": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "overflow=auto": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "overflow=hidden": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "overflow=scroll": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "shadowStyle=none": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "shadowStyle=above": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "shadowStyle=below": {
+          "effect": "not-measured",
+          "notes": "capped"
+        }
+      }
+    },
+    "dropdown": {
+      "renderStatus": "renders",
+      "settings": {
+        "hideBorder=true": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "size=small": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "983.5px",
+              "variant": "991.5px"
+            },
+            "height": {
+              "baseline": "30px",
+              "variant": "22px"
+            },
+            "wrapper.height": {
+              "baseline": "44px",
+              "variant": "42px"
+            },
+            "control.width": {
+              "baseline": "983.5px",
+              "variant": "991.5px"
+            },
+            "control.height": {
+              "baseline": "30px",
+              "variant": "22px"
+            }
+          }
+        },
+        "size=middle": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "size=large": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "height": {
+              "baseline": "30px",
+              "variant": "38px"
+            },
+            "fontSize": {
+              "baseline": "14px",
+              "variant": "16px"
+            },
+            "wrapper.height": {
+              "baseline": "44px",
+              "variant": "50px"
+            },
+            "control.height": {
+              "baseline": "30px",
+              "variant": "38px"
+            },
+            "control.fontSize": {
+              "baseline": "14px",
+              "variant": "16px"
+            }
+          }
+        },
+        "validate.required=true": {
+          "effect": "changes-geometry",
+          "bucket": "validation"
+        },
+        "defaultValue=17": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "mode=single": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "mode=tags": {
+          "effect": "changes-geometry",
+          "bucket": "data",
+          "cssDelta": {
+            "display": {
+              "baseline": "inline-block",
+              "variant": "block"
+            },
+            "width": {
+              "baseline": "983.5px",
+              "variant": "4.09375px"
+            },
+            "height": {
+              "baseline": "30px",
+              "variant": "24px"
+            },
+            "minHeight": {
+              "baseline": "0px",
+              "variant": "auto"
+            },
+            "lineHeight": {
+              "baseline": "normal",
+              "variant": "24px"
+            },
+            "control.display": {
+              "baseline": "inline-block",
+              "variant": "block"
+            }
+          }
+        },
+        "mode=multiple": {
+          "effect": "changes-geometry",
+          "bucket": "data",
+          "cssDelta": {
+            "display": {
+              "baseline": "inline-block",
+              "variant": "block"
+            },
+            "width": {
+              "baseline": "983.5px",
+              "variant": "4.09375px"
+            },
+            "height": {
+              "baseline": "30px",
+              "variant": "24px"
+            },
+            "minHeight": {
+              "baseline": "0px",
+              "variant": "auto"
+            },
+            "lineHeight": {
+              "baseline": "normal",
+              "variant": "24px"
+            },
+            "opacity": {
+              "baseline": "1",
+              "variant": "0"
+            }
+          }
+        },
+        "dataSourceType=values": {
+          "effect": "changes-geometry",
+          "bucket": "data"
+        },
+        "dataSourceType=referenceList": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "valueFormat=simple": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "valueFormat=listItem": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "valueFormat=custom": {
+          "effect": "renders",
+          "bucket": "data",
+          "notes": "text/attribute difference only"
+        },
+        "disableItemValue=true": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "disabledValues=txt": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "ignoredValues=txt": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "dataSourceUrl=txt": {
+          "effect": "no-op",
+          "bucket": "data"
+        },
+        "label=txt": {
+          "effect": "renders",
+          "bucket": "display",
+          "notes": "text/attribute difference only"
+        },
+        "labelAlign=left": {
+          "effect": "no-op",
+          "bucket": "display"
+        },
+        "labelAlign=right": {
+          "effect": "no-op",
+          "bucket": "display"
+        },
+        "placeholder=txt": {
+          "effect": "no-op",
+          "bucket": "display"
+        },
+        "description=txt": {
+          "effect": "changes-geometry",
+          "bucket": "display"
+        },
+        "hidden=true": {
+          "effect": "changes-geometry",
+          "bucket": "display",
+          "cssDelta": {
+            "display": {
+              "baseline": "inline-block",
+              "variant": "block"
+            },
+            "width": {
+              "baseline": "983.5px",
+              "variant": "1370px"
+            },
+            "height": {
+              "baseline": "30px",
+              "variant": "0px"
+            },
+            "fontFamily": {
+              "baseline": "\"Segoe UI\"",
+              "variant": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+            },
+            "lineHeight": {
+              "baseline": "normal",
+              "variant": "22px"
+            },
+            "color": {
+              "baseline": "rgb(0, 0, 0)",
+              "variant": "rgba(0, 0, 0, 0.88)"
+            }
+          }
+        },
+        "hideLabel=true": {
+          "effect": "changes-geometry",
+          "bucket": "display",
+          "cssDelta": {
+            "width": {
+              "baseline": "983.5px",
+              "variant": "1326px"
+            },
+            "control.width": {
+              "baseline": "983.5px",
+              "variant": "1326px"
+            }
+          }
+        },
+        "editMode=readOnly": {
+          "effect": "changes-geometry",
+          "bucket": "display",
+          "cssDelta": {
+            "display": {
+              "baseline": "inline-block",
+              "variant": "flex"
+            },
+            "width": {
+              "baseline": "983.5px",
+              "variant": "1370px"
+            },
+            "height": {
+              "baseline": "30px",
+              "variant": "32px"
+            },
+            "flexWrap": {
+              "baseline": "nowrap",
+              "variant": "wrap"
+            },
+            "marginBottom": {
+              "baseline": "0px",
+              "variant": "5px"
+            },
+            "fontFamily": {
+              "baseline": "\"Segoe UI\"",
+              "variant": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+            }
+          }
+        },
+        "referenceListId": {
+          "effect": "not-measured",
+          "notes": "editorType referenceListAutocomplete not visually measurable"
+        },
+        "filter": {
+          "effect": "not-measured",
+          "notes": "editorType queryBuilder not visually measurable"
+        },
+        "incomeCustomJs": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "outcomeCustomJs": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "labelCustomJs": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "values": {
+          "effect": "not-measured",
+          "notes": "editorType labelValueEditor not visually measurable"
+        },
+        "onChangeCustom": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "style": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "permissions": {
+          "effect": "not-measured",
+          "notes": "group Security skipped"
+        }
+      },
+      "consoleErrors": 4
+    },
+    "textField": {
+      "renderStatus": "renders",
+      "settings": {
+        "size=small": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "995.5px",
+              "variant": "1003.5px"
+            },
+            "wrapper.height": {
+              "baseline": "42px",
+              "variant": "34px"
+            },
+            "control.width": {
+              "baseline": "995.5px",
+              "variant": "1003.5px"
+            }
+          }
+        },
+        "size=middle": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "size=large": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "height": {
+              "baseline": "22px",
+              "variant": "24px"
+            },
+            "fontSize": {
+              "baseline": "14px",
+              "variant": "16px"
+            },
+            "lineHeight": {
+              "baseline": "22px",
+              "variant": "24px"
+            },
+            "wrapper.height": {
+              "baseline": "42px",
+              "variant": "50px"
+            },
+            "control.height": {
+              "baseline": "22px",
+              "variant": "24px"
+            },
+            "control.fontSize": {
+              "baseline": "14px",
+              "variant": "16px"
+            }
+          }
+        },
+        "height=17px": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "height": {
+              "baseline": "22px",
+              "variant": "7px"
+            },
+            "wrapper.height": {
+              "baseline": "42px",
+              "variant": "37px"
+            },
+            "control.height": {
+              "baseline": "22px",
+              "variant": "7px"
+            }
+          }
+        },
+        "width=17px": {
+          "effect": "changes-style",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "995.5px",
+              "variant": "0px"
+            },
+            "control.width": {
+              "baseline": "995.5px",
+              "variant": "0px"
+            }
+          }
+        },
+        "hideBorder=true": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderSize=17": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "995.5px",
+              "variant": "963.5px"
+            },
+            "height": {
+              "baseline": "22px",
+              "variant": "0px"
+            },
+            "wrapper.height": {
+              "baseline": "42px",
+              "variant": "53px"
+            },
+            "control.width": {
+              "baseline": "995.5px",
+              "variant": "963.5px"
+            },
+            "control.height": {
+              "baseline": "22px",
+              "variant": "0px"
+            }
+          }
+        },
+        "borderRadius=17": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderType=solid": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderType=dashed": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderType=dotted": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "borderColor=#ff00aa": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "fontSize=17": {
+          "effect": "changes-style",
+          "bucket": "appearance",
+          "cssDelta": {
+            "fontSize": {
+              "baseline": "14px",
+              "variant": "17px"
+            },
+            "lineHeight": {
+              "baseline": "22px",
+              "variant": "26.7143px"
+            },
+            "control.fontSize": {
+              "baseline": "14px",
+              "variant": "17px"
+            },
+            "control.lineHeight": {
+              "baseline": "22px",
+              "variant": "26.7143px"
+            }
+          },
+          "notes": "expected value observed (17px)"
+        },
+        "fontColor=#ff00aa": {
+          "effect": "changes-style",
+          "bucket": "appearance",
+          "cssDelta": {
+            "color": {
+              "baseline": "rgb(0, 0, 0)",
+              "variant": "rgb(255, 0, 170)"
+            },
+            "borderTopColor": {
+              "baseline": "rgb(0, 0, 0)",
+              "variant": "rgb(255, 0, 170)"
+            },
+            "control.color": {
+              "baseline": "rgb(0, 0, 0)",
+              "variant": "rgb(255, 0, 170)"
+            },
+            "control.borderTopColor": {
+              "baseline": "rgb(0, 0, 0)",
+              "variant": "rgb(255, 0, 170)"
+            }
+          },
+          "notes": "expected value observed (rgb(255, 0, 170))"
+        },
+        "backgroundColor=#ff00aa": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "stylingBox=stylingBox17": {
+          "effect": "changes-geometry",
+          "bucket": "appearance",
+          "cssDelta": {
+            "width": {
+              "baseline": "995.5px",
+              "variant": "989.5px"
+            },
+            "wrapper.height": {
+              "baseline": "42px",
+              "variant": "54px"
+            },
+            "control.width": {
+              "baseline": "995.5px",
+              "variant": "989.5px"
+            }
+          }
+        },
+        "validate.required=true": {
+          "effect": "changes-geometry",
+          "bucket": "validation"
+        },
+        "validate.minLength=17": {
+          "effect": "no-op",
+          "bucket": "validation"
+        },
+        "validate.maxLength=17": {
+          "effect": "no-op",
+          "bucket": "validation"
+        },
+        "validate.message=txt": {
+          "effect": "no-op",
+          "bucket": "validation"
+        },
+        "spellCheck=true": {
+          "effect": "no-op",
+          "bucket": "validation"
+        },
+        "label=txt": {
+          "effect": "renders",
+          "bucket": "display",
+          "notes": "text/attribute difference only"
+        },
+        "textType=password": {
+          "effect": "changes-geometry",
+          "bucket": "display",
+          "cssDelta": {
+            "width": {
+              "baseline": "995.5px",
+              "variant": "981.5px"
+            },
+            "control.width": {
+              "baseline": "995.5px",
+              "variant": "981.5px"
+            }
+          }
+        },
+        "textType=email": {
+          "effect": "no-op",
+          "bucket": "display"
+        },
+        "textType=number": {
+          "effect": "no-op",
+          "bucket": "display"
+        },
+        "labelAlign=left": {
+          "effect": "no-op",
+          "bucket": "display"
+        },
+        "labelAlign=right": {
+          "effect": "no-op",
+          "bucket": "display"
+        },
+        "placeholder=txt": {
+          "effect": "renders",
+          "bucket": "display",
+          "notes": "text/attribute difference only"
+        },
+        "onChangeCustom": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "onFocusCustom": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "onBlurCustom": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "validate.validator": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "permissions": {
+          "effect": "not-measured",
+          "notes": "group Security skipped"
+        },
+        "style": {
+          "effect": "not-measured",
+          "notes": "editorType codeEditor not visually measurable"
+        },
+        "description=txt": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "prefix=txt": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "prefixIcon=StarFilled": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "suffix=txt": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "suffixIcon=StarFilled": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "initialValue=txt": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "passEmptyStringByDefault=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "hidden=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "hideLabel=true": {
+          "effect": "not-measured",
+          "notes": "capped"
+        },
+        "editMode=readOnly": {
+          "effect": "not-measured",
+          "notes": "capped"
+        }
+      }
+    }
+  },
+  "measuredAt": "2026-07-22T09:27:16.447Z"
+}
