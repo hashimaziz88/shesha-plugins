@@ -1,7 +1,39 @@
 {
-  "description": "Mechanical gates for Shesha form authoring: validate-on-write (guardrails + styled-ness on any form markup written to disk) and a Stop-time persistence gate (a session that authored forms may not end while the push ledger shows unpushed/unverified work).",
+  "description": "Mechanical gates for Shesha form authoring: validate-on-write (guardrails + styled-ness on any form markup written to disk) and a Stop-time persistence gate (a session that authored forms may not end while the push ledger shows unpushed/unverified work). Plus permanent session-activity logging to <cwd>/.claude-designer-logs/logs/<sessionId>/log.DDMMYYYY.txt.",
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-logger.cjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-logger.cjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-logger.cjs\"",
+            "timeout": 10
+          }
+        ]
+      },
       {
         "matcher": "Write|Edit",
         "hooks": [
@@ -14,6 +46,15 @@
       }
     ],
     "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-logger.cjs\"",
+            "timeout": 10
+          }
+        ]
+      },
       {
         "hooks": [
           {
