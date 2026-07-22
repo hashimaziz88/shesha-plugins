@@ -3,7 +3,7 @@
     {
       "id": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-wizard-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "da53f97c-e9cd-5282-956c-7f7329cd77c5",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-wizard-baseline",
           "label": "",
           "hideLabel": true,
@@ -28,13 +28,9 @@
             {
               "id": "ccb88cef-0d18-54ff-81ef-57975e13b08a",
               "type": "wizard",
-              "version": 10,
+              "version": 8,
               "label": "gym wizard",
               "hidden": false,
-              "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
-              "showBackButton": true,
-              "showDoneButton": true,
-              "persistStep": true,
               "componentName": "gym-wizard-inst-baseline",
               "steps": [
                 {
@@ -86,7 +82,7 @@
         {
           "id": "1f00e056-ab12-5999-8353-ce67276c7bb5",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-wizard-h-appearance",
           "content": "— appearance —",
           "textType": "span",
@@ -95,35 +91,31 @@
           "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
         },
         {
-          "id": "de04634c-ae33-528d-b8aa-f2eda7021cc5",
+          "id": "20498108-218a-5ee6-96f8-273ed728e79d",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-wizard-v-4e66562d",
+          "version": 7,
+          "componentName": "gym-wizard-v-074fd9c2",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "5c800448-fc24-536c-80ed-bcbfe29d9742",
+              "id": "bc6767ce-b61c-5622-8a49-22e4debad513",
               "type": "wizard",
-              "version": 10,
+              "version": 8,
               "label": "gym wizard",
               "hidden": false,
-              "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
-              "showBackButton": true,
-              "showDoneButton": true,
-              "persistStep": true,
-              "componentName": "gym-wizard-inst-size=small",
+              "componentName": "gym-wizard-inst-desktop.font.size=size17",
               "steps": [
                 {
-                  "id": "85890640-43fc-5635-b57b-df74772d2e2c",
+                  "id": "fd80142d-2b36-595c-82b5-b5e1a0d44cf1",
                   "key": "gymStep1",
                   "title": "Gym Step 1",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "b0e36a29-4d94-5fc8-9d67-355e05c479b6",
+                      "id": "5c44ada2-dd14-5825-a674-57242aee795b",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -131,19 +123,19 @@
                       "content": "GYM child of wizard step1",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "5c800448-fc24-536c-80ed-bcbfe29d9742"
+                      "parentId": "bc6767ce-b61c-5622-8a49-22e4debad513"
                     }
                   ]
                 },
                 {
-                  "id": "0657d2e6-98d9-59b8-a1bd-739ff1bf07e4",
+                  "id": "581719a8-41aa-5f48-9ae2-39f5b59d2e46",
                   "key": "gymStep2",
                   "title": "Gym Step 2",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "7ed28017-91c7-55f5-a730-2df1c9fa34df",
+                      "id": "aef4d2c6-7fdc-503a-a692-334169059215",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -151,47 +143,47 @@
                       "content": "GYM child of wizard step2",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "5c800448-fc24-536c-80ed-bcbfe29d9742"
+                      "parentId": "bc6767ce-b61c-5622-8a49-22e4debad513"
                     }
                   ]
                 }
               ],
-              "size": "small",
-              "parentId": "de04634c-ae33-528d-b8aa-f2eda7021cc5"
+              "desktop": {
+                "font": {
+                  "size": 17
+                }
+              },
+              "parentId": "20498108-218a-5ee6-96f8-273ed728e79d"
             }
           ],
           "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
         },
         {
-          "id": "5c57e3c9-a53b-5e94-9460-04c9ddfe0eeb",
+          "id": "f7118e27-8efb-50f3-8038-d32af3469123",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-wizard-v-ca52e19b",
+          "version": 7,
+          "componentName": "gym-wizard-v-1a3af3ee",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "c73030b1-be02-5c16-9f03-7a02ad92f353",
+              "id": "4814c64f-d685-5911-9d85-da72814a1908",
               "type": "wizard",
-              "version": 10,
+              "version": 8,
               "label": "gym wizard",
               "hidden": false,
-              "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
-              "showBackButton": true,
-              "showDoneButton": true,
-              "persistStep": true,
-              "componentName": "gym-wizard-inst-size=middle",
+              "componentName": "gym-wizard-inst-desktop.font.color=color",
               "steps": [
                 {
-                  "id": "6ad63110-f1fa-5108-8ba0-655729d8c819",
+                  "id": "87628993-6359-54b1-8b10-4b828a2d5191",
                   "key": "gymStep1",
                   "title": "Gym Step 1",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "2f5f6f80-1dc4-5211-8a9b-72c5c18a501c",
+                      "id": "09d21263-b853-54fc-8aa6-1d7ccaf5f0e1",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -199,19 +191,19 @@
                       "content": "GYM child of wizard step1",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "c73030b1-be02-5c16-9f03-7a02ad92f353"
+                      "parentId": "4814c64f-d685-5911-9d85-da72814a1908"
                     }
                   ]
                 },
                 {
-                  "id": "92abb837-6cd5-5be7-b2ef-d4f70c14ac2d",
+                  "id": "a23ad18a-8774-54c2-8a89-49f9a74590f4",
                   "key": "gymStep2",
                   "title": "Gym Step 2",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "6491f964-0772-5fa3-b114-41b5e3e5a7bc",
+                      "id": "e23c5eb1-1755-518f-9079-51f4048fad78",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -219,47 +211,47 @@
                       "content": "GYM child of wizard step2",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "c73030b1-be02-5c16-9f03-7a02ad92f353"
+                      "parentId": "4814c64f-d685-5911-9d85-da72814a1908"
                     }
                   ]
                 }
               ],
-              "size": "middle",
-              "parentId": "5c57e3c9-a53b-5e94-9460-04c9ddfe0eeb"
+              "desktop": {
+                "font": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "f7118e27-8efb-50f3-8038-d32af3469123"
             }
           ],
           "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
         },
         {
-          "id": "9f518b41-68bf-5424-b7a1-b18c9efdde57",
+          "id": "78bbd0b2-43c6-51f8-97f8-f89eb9a0a35d",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-wizard-v-15638072",
+          "version": 7,
+          "componentName": "gym-wizard-v-346fd5ac",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "4928ca67-080c-5c5a-baf6-7c4ef66cc18e",
+              "id": "c7345081-c0da-59de-824c-98a0c3f4c89d",
               "type": "wizard",
-              "version": 10,
+              "version": 8,
               "label": "gym wizard",
               "hidden": false,
-              "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
-              "showBackButton": true,
-              "showDoneButton": true,
-              "persistStep": true,
-              "componentName": "gym-wizard-inst-size=large",
+              "componentName": "gym-wizard-inst-desktop.font.weight=weight700",
               "steps": [
                 {
-                  "id": "8924f1f6-7faf-500b-94de-1c3cf50d96ea",
+                  "id": "bb0b791a-ba8e-52a1-85cc-b2f7b94acd6d",
                   "key": "gymStep1",
                   "title": "Gym Step 1",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "47312447-1366-5d49-8a98-bce663d3818a",
+                      "id": "53d0e841-d6cf-5540-9b32-4b8762441a44",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -267,19 +259,19 @@
                       "content": "GYM child of wizard step1",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "4928ca67-080c-5c5a-baf6-7c4ef66cc18e"
+                      "parentId": "c7345081-c0da-59de-824c-98a0c3f4c89d"
                     }
                   ]
                 },
                 {
-                  "id": "45e11f14-dd90-5b5a-9b5d-166abc823f3d",
+                  "id": "4c5f9ee9-cde6-5c58-90e5-58d820b993fc",
                   "key": "gymStep2",
                   "title": "Gym Step 2",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "9f8d4601-337c-5ec0-ad88-f442f993d9be",
+                      "id": "8a04f38c-64c5-5eb6-a6ff-c7e9b7cbb1c8",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -287,13 +279,817 @@
                       "content": "GYM child of wizard step2",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "4928ca67-080c-5c5a-baf6-7c4ef66cc18e"
+                      "parentId": "c7345081-c0da-59de-824c-98a0c3f4c89d"
                     }
                   ]
                 }
               ],
-              "size": "large",
-              "parentId": "9f518b41-68bf-5424-b7a1-b18c9efdde57"
+              "desktop": {
+                "font": {
+                  "weight": "700"
+                }
+              },
+              "parentId": "78bbd0b2-43c6-51f8-97f8-f89eb9a0a35d"
+            }
+          ],
+          "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
+        },
+        {
+          "id": "b9bb8cf1-93af-52f8-bd31-8ba879239f10",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-wizard-v-0baf713f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1b3867e7-38ee-5e54-b7a9-d09ea248cc26",
+              "type": "wizard",
+              "version": 8,
+              "label": "gym wizard",
+              "hidden": false,
+              "componentName": "gym-wizard-inst-desktop.dimensions.width=317px",
+              "steps": [
+                {
+                  "id": "1122fe0a-e6e4-5b79-9f65-7ea6f1a2af10",
+                  "key": "gymStep1",
+                  "title": "Gym Step 1",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "dec19be4-8924-531d-9a83-c165ae3f2b7c",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "1b3867e7-38ee-5e54-b7a9-d09ea248cc26"
+                    }
+                  ]
+                },
+                {
+                  "id": "0f5c45b3-434b-5705-8811-bbc040cca7f6",
+                  "key": "gymStep2",
+                  "title": "Gym Step 2",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "2fb57b33-0126-54dd-8487-08cbad8b68c9",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "1b3867e7-38ee-5e54-b7a9-d09ea248cc26"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
+              },
+              "parentId": "b9bb8cf1-93af-52f8-bd31-8ba879239f10"
+            }
+          ],
+          "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
+        },
+        {
+          "id": "cb573ecc-b219-5644-b3fa-f07068d49280",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-wizard-v-529ccf25",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "af88e5e0-1f8d-585b-875d-0c4f3f631bc5",
+              "type": "wizard",
+              "version": 8,
+              "label": "gym wizard",
+              "hidden": false,
+              "componentName": "gym-wizard-inst-desktop.dimensions.height=117px",
+              "steps": [
+                {
+                  "id": "dcf9e386-96ab-54eb-809e-89f972b18085",
+                  "key": "gymStep1",
+                  "title": "Gym Step 1",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "d04c442e-3ad9-5670-a754-e89d9bbf997d",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "af88e5e0-1f8d-585b-875d-0c4f3f631bc5"
+                    }
+                  ]
+                },
+                {
+                  "id": "5f589462-c7be-5199-9b76-43d549949f77",
+                  "key": "gymStep2",
+                  "title": "Gym Step 2",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "ea2da415-d05c-52e0-80b0-3438a50bd6b3",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "af88e5e0-1f8d-585b-875d-0c4f3f631bc5"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "cb573ecc-b219-5644-b3fa-f07068d49280"
+            }
+          ],
+          "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
+        },
+        {
+          "id": "a568495d-9d05-5e3d-abcf-04b42f32fcb5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-wizard-v-f1866be0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5609bc31-8f70-5ac0-973b-5cc0a6e22249",
+              "type": "wizard",
+              "version": 8,
+              "label": "gym wizard",
+              "hidden": false,
+              "componentName": "gym-wizard-inst-desktop.background=color#ff00aa",
+              "steps": [
+                {
+                  "id": "a6f3b083-e456-5707-a7dc-028faa9b09c0",
+                  "key": "gymStep1",
+                  "title": "Gym Step 1",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "63713eb4-9cf4-576a-aed1-46781933b7ca",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "5609bc31-8f70-5ac0-973b-5cc0a6e22249"
+                    }
+                  ]
+                },
+                {
+                  "id": "a23b312d-e56f-5f36-aad8-1f4b65e71ae9",
+                  "key": "gymStep2",
+                  "title": "Gym Step 2",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "ad3d5526-6f4f-503a-bf23-04bd07a3a445",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "5609bc31-8f70-5ac0-973b-5cc0a6e22249"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "a568495d-9d05-5e3d-abcf-04b42f32fcb5"
+            }
+          ],
+          "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
+        },
+        {
+          "id": "a28ddf49-dc2d-561f-84d4-4f7889fac9b8",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-wizard-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9e725b25-6632-5858-8a22-e4084c39e33b",
+              "type": "wizard",
+              "version": 8,
+              "label": "gym wizard",
+              "hidden": false,
+              "componentName": "gym-wizard-inst-desktop.background=gradient",
+              "steps": [
+                {
+                  "id": "619c0d66-79b2-5a8c-bb7f-1d0a7f6e08f3",
+                  "key": "gymStep1",
+                  "title": "Gym Step 1",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "b6373f6c-ca2e-5638-a44c-b41954d3bc8d",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "9e725b25-6632-5858-8a22-e4084c39e33b"
+                    }
+                  ]
+                },
+                {
+                  "id": "ce0620ea-c04d-5ed2-9177-48a01fcb31f2",
+                  "key": "gymStep2",
+                  "title": "Gym Step 2",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "2264ff98-461a-5768-9066-67d15dfac406",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "9e725b25-6632-5858-8a22-e4084c39e33b"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "a28ddf49-dc2d-561f-84d4-4f7889fac9b8"
+            }
+          ],
+          "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
+        },
+        {
+          "id": "f836adc4-f4a3-520c-a373-72f393ac14d5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-wizard-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3c9ea5ca-87f1-5fe9-a159-1c51b2b17a3e",
+              "type": "wizard",
+              "version": 8,
+              "label": "gym wizard",
+              "hidden": false,
+              "componentName": "gym-wizard-inst-desktop.shadow=shadow17",
+              "steps": [
+                {
+                  "id": "d16155cb-62e4-579b-9d5a-3cad95dced8c",
+                  "key": "gymStep1",
+                  "title": "Gym Step 1",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "3ab6e2e9-c618-5ac2-8021-457926079340",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "3c9ea5ca-87f1-5fe9-a159-1c51b2b17a3e"
+                    }
+                  ]
+                },
+                {
+                  "id": "6c09e2d6-e5aa-5873-a82c-a707f278f899",
+                  "key": "gymStep2",
+                  "title": "Gym Step 2",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "c638accd-4204-59b6-b85d-7af38755dd9f",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "3c9ea5ca-87f1-5fe9-a159-1c51b2b17a3e"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "f836adc4-f4a3-520c-a373-72f393ac14d5"
+            }
+          ],
+          "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
+        },
+        {
+          "id": "5616bcc3-5d46-582d-a47c-82c2497d6c69",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-wizard-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5746dea9-211c-5068-bac9-67d538b78172",
+              "type": "wizard",
+              "version": 8,
+              "label": "gym wizard",
+              "hidden": false,
+              "componentName": "gym-wizard-inst-stylingBox=stylingBox17",
+              "steps": [
+                {
+                  "id": "6996119a-2a32-5e74-af02-4b1c458ea499",
+                  "key": "gymStep1",
+                  "title": "Gym Step 1",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "bfa33f43-3d11-50c2-bd66-e9494762e3dc",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "5746dea9-211c-5068-bac9-67d538b78172"
+                    }
+                  ]
+                },
+                {
+                  "id": "c7dec3fc-5593-5772-8aac-161b64f1aa7c",
+                  "key": "gymStep2",
+                  "title": "Gym Step 2",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "fd652043-d5a3-5e6d-aee2-da3d4cb01269",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "5746dea9-211c-5068-bac9-67d538b78172"
+                    }
+                  ]
+                }
+              ],
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "5616bcc3-5d46-582d-a47c-82c2497d6c69"
+            }
+          ],
+          "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
+        },
+        {
+          "id": "f538f82a-e253-519d-adb3-bb0f8e4780f1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-wizard-v-f5ce25d4",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "fc2b530e-8597-5549-b1eb-68564ab04e7b",
+              "type": "wizard",
+              "version": 8,
+              "label": "gym wizard",
+              "hidden": false,
+              "componentName": "gym-wizard-inst-stepWidth=17",
+              "steps": [
+                {
+                  "id": "34b64870-9dfc-52ae-ae18-3e6fc1e033c2",
+                  "key": "gymStep1",
+                  "title": "Gym Step 1",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "9107d664-3f55-5e2b-b749-f50d7cb0ca8c",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "fc2b530e-8597-5549-b1eb-68564ab04e7b"
+                    }
+                  ]
+                },
+                {
+                  "id": "e2e0d43d-a54e-5233-a2e1-e23be8285449",
+                  "key": "gymStep2",
+                  "title": "Gym Step 2",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "f46eda99-7567-5eae-a0aa-557d1114ecbf",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "fc2b530e-8597-5549-b1eb-68564ab04e7b"
+                    }
+                  ]
+                }
+              ],
+              "stepWidth": 17,
+              "parentId": "f538f82a-e253-519d-adb3-bb0f8e4780f1"
+            }
+          ],
+          "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
+        },
+        {
+          "id": "9b302054-c0ba-58d3-a454-f5af68b20aba",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-wizard-v-235e9a59",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "41eae30a-826d-5c92-af49-bc49b242f28e",
+              "type": "wizard",
+              "version": 8,
+              "label": "gym wizard",
+              "hidden": false,
+              "componentName": "gym-wizard-inst-buttonsLayout=left",
+              "steps": [
+                {
+                  "id": "6256e4d2-45ed-59fb-b378-819ad25429f4",
+                  "key": "gymStep1",
+                  "title": "Gym Step 1",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "612d413c-61fa-5385-bd0e-2cb27dfee9f3",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "41eae30a-826d-5c92-af49-bc49b242f28e"
+                    }
+                  ]
+                },
+                {
+                  "id": "723bf909-618f-57dd-b908-c3842b4e45b1",
+                  "key": "gymStep2",
+                  "title": "Gym Step 2",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "2e9ed121-aa2b-5288-aea5-cce2e517ac14",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "41eae30a-826d-5c92-af49-bc49b242f28e"
+                    }
+                  ]
+                }
+              ],
+              "buttonsLayout": "left",
+              "parentId": "9b302054-c0ba-58d3-a454-f5af68b20aba"
+            }
+          ],
+          "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
+        },
+        {
+          "id": "b7a7ceb2-93eb-5521-a1dd-71190c52c193",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-wizard-v-73eabb72",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c06c357c-0fce-529e-a73a-cf077c2483f5",
+              "type": "wizard",
+              "version": 8,
+              "label": "gym wizard",
+              "hidden": false,
+              "componentName": "gym-wizard-inst-buttonsLayout=right",
+              "steps": [
+                {
+                  "id": "a0b6b564-10c6-584a-8e53-5ee9aea39c13",
+                  "key": "gymStep1",
+                  "title": "Gym Step 1",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "2a377ea2-d3b1-5afa-9827-fd9d68207f44",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "c06c357c-0fce-529e-a73a-cf077c2483f5"
+                    }
+                  ]
+                },
+                {
+                  "id": "0a19890f-e09c-5a16-93d2-cbc65745b208",
+                  "key": "gymStep2",
+                  "title": "Gym Step 2",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "786c93cc-4ba3-507a-9532-3d2728c5d066",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "c06c357c-0fce-529e-a73a-cf077c2483f5"
+                    }
+                  ]
+                }
+              ],
+              "buttonsLayout": "right",
+              "parentId": "b7a7ceb2-93eb-5521-a1dd-71190c52c193"
+            }
+          ],
+          "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
+        },
+        {
+          "id": "07901572-a0ec-5299-929f-60044c653a0b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-wizard-v-5d168bea",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "61ee5f3a-6c34-5643-a064-34305f633dfc",
+              "type": "wizard",
+              "version": 8,
+              "label": "gym wizard",
+              "hidden": false,
+              "componentName": "gym-wizard-inst-buttonsLayout=spaceBetween",
+              "steps": [
+                {
+                  "id": "d66cab7f-09af-545d-a043-04e5b77f4347",
+                  "key": "gymStep1",
+                  "title": "Gym Step 1",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "44db13e6-8fe7-504a-bd13-605d9fa3b500",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "61ee5f3a-6c34-5643-a064-34305f633dfc"
+                    }
+                  ]
+                },
+                {
+                  "id": "229c0a5a-d1af-5307-aea9-50add1fbe9ea",
+                  "key": "gymStep2",
+                  "title": "Gym Step 2",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "e87d5327-c59f-5c12-85e0-09985b433bcb",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "61ee5f3a-6c34-5643-a064-34305f633dfc"
+                    }
+                  ]
+                }
+              ],
+              "buttonsLayout": "spaceBetween",
+              "parentId": "07901572-a0ec-5299-929f-60044c653a0b"
+            }
+          ],
+          "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
+        },
+        {
+          "id": "5c33b91f-0203-5892-9973-2e3af86b674c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-wizard-v-7f22a749",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ab6e4090-f9e5-5890-8f38-002094a3a65d",
+              "type": "wizard",
+              "version": 8,
+              "label": "gym wizard",
+              "hidden": false,
+              "componentName": "gym-wizard-inst-primaryBgColor=#ff00aa",
+              "steps": [
+                {
+                  "id": "bdb91142-1ea1-5b36-876e-be576ac305c3",
+                  "key": "gymStep1",
+                  "title": "Gym Step 1",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "4378e864-b5fa-550e-bf5d-dd98537cb59f",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "ab6e4090-f9e5-5890-8f38-002094a3a65d"
+                    }
+                  ]
+                },
+                {
+                  "id": "07afe0fe-1f05-5065-abb4-8be910c56f17",
+                  "key": "gymStep2",
+                  "title": "Gym Step 2",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "ccd5fec1-e01d-524e-a4aa-b750f786b32d",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "ab6e4090-f9e5-5890-8f38-002094a3a65d"
+                    }
+                  ]
+                }
+              ],
+              "primaryBgColor": "#ff00aa",
+              "parentId": "5c33b91f-0203-5892-9973-2e3af86b674c"
+            }
+          ],
+          "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
+        },
+        {
+          "id": "073ea5ee-c92b-5555-8591-588ca61bab54",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-wizard-v-de695e60",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "85d4c17c-b673-596e-b3e6-e7c3b8acf672",
+              "type": "wizard",
+              "version": 8,
+              "label": "gym wizard",
+              "hidden": false,
+              "componentName": "gym-wizard-inst-secondaryBgColor=#ff00aa",
+              "steps": [
+                {
+                  "id": "f31714a6-621d-59a8-a3be-f4959cac614c",
+                  "key": "gymStep1",
+                  "title": "Gym Step 1",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "68663500-1f9d-5448-899f-97a9d8eb6b0a",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "85d4c17c-b673-596e-b3e6-e7c3b8acf672"
+                    }
+                  ]
+                },
+                {
+                  "id": "be0b97b5-cfcd-5b6f-9b73-ba11ef2d48e9",
+                  "key": "gymStep2",
+                  "title": "Gym Step 2",
+                  "subTitle": "",
+                  "description": "",
+                  "components": [
+                    {
+                      "id": "968cfcff-dfac-511a-8f0a-df1f3ea0ddd1",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of wizard step2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "85d4c17c-b673-596e-b3e6-e7c3b8acf672"
+                    }
+                  ]
+                }
+              ],
+              "secondaryBgColor": "#ff00aa",
+              "parentId": "073ea5ee-c92b-5555-8591-588ca61bab54"
             }
           ],
           "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
@@ -301,7 +1097,7 @@
         {
           "id": "99fd7e0d-e961-534c-a11d-bc0dca8c36dd",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-wizard-h-display",
           "content": "— display —",
           "textType": "span",
@@ -310,35 +1106,31 @@
           "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
         },
         {
-          "id": "ee9222fe-e41d-5cf4-9015-c2578af83b72",
+          "id": "c5700f2b-9347-594c-820d-8989acbcb453",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-wizard-v-8331f582",
+          "version": 7,
+          "componentName": "gym-wizard-v-4aa31cb4",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "c08ae00c-e738-543a-8830-115fccb8b635",
+              "id": "888e4778-2c49-5543-8e57-39c2514f83e1",
               "type": "wizard",
-              "version": 10,
+              "version": 8,
               "label": "gym wizard",
               "hidden": false,
-              "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
-              "showBackButton": true,
-              "showDoneButton": true,
-              "persistStep": true,
-              "componentName": "gym-wizard-inst-direction=horizontal",
+              "componentName": "gym-wizard-inst-wizardType=default",
               "steps": [
                 {
-                  "id": "df471819-2b95-5f6c-9104-1d1a75f059f7",
+                  "id": "e6a0b5be-0bb6-5983-842f-67b04c623f58",
                   "key": "gymStep1",
                   "title": "Gym Step 1",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "0eeacb1f-61c9-54e6-929c-3b6555f54443",
+                      "id": "bf21585c-cb42-5914-87a4-4df893f0fdd7",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -346,19 +1138,19 @@
                       "content": "GYM child of wizard step1",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "c08ae00c-e738-543a-8830-115fccb8b635"
+                      "parentId": "888e4778-2c49-5543-8e57-39c2514f83e1"
                     }
                   ]
                 },
                 {
-                  "id": "2e8acd3f-27ba-5385-b21f-25b062f888eb",
+                  "id": "3863aa7e-e9b8-5337-b209-18246ce24c27",
                   "key": "gymStep2",
                   "title": "Gym Step 2",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "23c3c2a7-da6d-54c4-899a-814ce1845b90",
+                      "id": "367dd316-0c0f-53cf-8c4b-446f5f1ba7c2",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -366,47 +1158,43 @@
                       "content": "GYM child of wizard step2",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "c08ae00c-e738-543a-8830-115fccb8b635"
+                      "parentId": "888e4778-2c49-5543-8e57-39c2514f83e1"
                     }
                   ]
                 }
               ],
-              "direction": "horizontal",
-              "parentId": "ee9222fe-e41d-5cf4-9015-c2578af83b72"
+              "wizardType": "default",
+              "parentId": "c5700f2b-9347-594c-820d-8989acbcb453"
             }
           ],
           "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
         },
         {
-          "id": "0b4173d1-4559-5f55-8339-d688b12ab1e1",
+          "id": "3b6d54e0-0181-5a1e-809b-d17e365e9a96",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-wizard-v-86babe7f",
+          "version": 7,
+          "componentName": "gym-wizard-v-6f0759cb",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "fce61268-f5ca-5308-ab79-75f1ec426b7f",
+              "id": "ad0a09fe-2fcf-53e7-aead-fcfc46ca36e2",
               "type": "wizard",
-              "version": 10,
+              "version": 8,
               "label": "gym wizard",
               "hidden": false,
-              "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
-              "showBackButton": true,
-              "showDoneButton": true,
-              "persistStep": true,
-              "componentName": "gym-wizard-inst-direction=vertical",
+              "componentName": "gym-wizard-inst-wizardType=navigation",
               "steps": [
                 {
-                  "id": "8328f5d6-b117-503c-87d1-4161cea0d85c",
+                  "id": "6dda88e6-3c04-5206-bf50-9e779160e7ec",
                   "key": "gymStep1",
                   "title": "Gym Step 1",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "a7acc975-103f-5f23-a2cc-724b913831be",
+                      "id": "6e66da88-4b6c-59a5-9fe5-c26cd0d3aca1",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -414,19 +1202,19 @@
                       "content": "GYM child of wizard step1",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "fce61268-f5ca-5308-ab79-75f1ec426b7f"
+                      "parentId": "ad0a09fe-2fcf-53e7-aead-fcfc46ca36e2"
                     }
                   ]
                 },
                 {
-                  "id": "900e57c0-749e-574b-b180-d3b55335bacb",
+                  "id": "013f295a-6a71-5b86-a34f-369815dc0ea9",
                   "key": "gymStep2",
                   "title": "Gym Step 2",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "e347912b-7576-5ee6-8e3d-9d941aa64e59",
+                      "id": "51152a26-a732-5172-9ccc-3f1753856a21",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -434,47 +1222,43 @@
                       "content": "GYM child of wizard step2",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "fce61268-f5ca-5308-ab79-75f1ec426b7f"
+                      "parentId": "ad0a09fe-2fcf-53e7-aead-fcfc46ca36e2"
                     }
                   ]
                 }
               ],
-              "direction": "vertical",
-              "parentId": "0b4173d1-4559-5f55-8339-d688b12ab1e1"
+              "wizardType": "navigation",
+              "parentId": "3b6d54e0-0181-5a1e-809b-d17e365e9a96"
             }
           ],
           "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
         },
         {
-          "id": "b2e28c15-7424-57c7-9127-398d3d157012",
+          "id": "8cb7879a-bed9-5ac6-a986-d86b0dcec64c",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-wizard-v-2a1b2715",
+          "version": 7,
+          "componentName": "gym-wizard-v-a3f5622c",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "bca0689d-5c86-5bce-b650-a57ef85318ff",
+              "id": "7ebff266-96bf-56a7-925b-f6b7661b6988",
               "type": "wizard",
-              "version": 10,
+              "version": 8,
               "label": "gym wizard",
               "hidden": false,
-              "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
-              "showBackButton": true,
-              "showDoneButton": true,
-              "persistStep": true,
-              "componentName": "gym-wizard-inst-labelPlacement=left",
+              "componentName": "gym-wizard-inst-labelPlacement=vertical",
               "steps": [
                 {
-                  "id": "262b5bf4-f03e-5280-bc69-c874ddfda28e",
+                  "id": "3ff4a85a-2c69-54f1-9c4b-4db1fa690b59",
                   "key": "gymStep1",
                   "title": "Gym Step 1",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "b8f887fd-a903-5160-bba0-c4c6c2081f9c",
+                      "id": "a3b9e93b-f5ab-5df4-801a-c6cafd106f34",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -482,19 +1266,19 @@
                       "content": "GYM child of wizard step1",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "bca0689d-5c86-5bce-b650-a57ef85318ff"
+                      "parentId": "7ebff266-96bf-56a7-925b-f6b7661b6988"
                     }
                   ]
                 },
                 {
-                  "id": "0d1f2189-3395-5461-a802-c697deec3a32",
+                  "id": "87ee1d12-b3e4-5063-a28e-3b6c88aaa9ac",
                   "key": "gymStep2",
                   "title": "Gym Step 2",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "b52950a1-f95d-5b9c-9095-d038fb7f7d9b",
+                      "id": "303c7acb-867c-5fb9-a5ca-5e18b8e40729",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -502,47 +1286,43 @@
                       "content": "GYM child of wizard step2",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "bca0689d-5c86-5bce-b650-a57ef85318ff"
+                      "parentId": "7ebff266-96bf-56a7-925b-f6b7661b6988"
                     }
                   ]
                 }
               ],
-              "labelPlacement": "left",
-              "parentId": "b2e28c15-7424-57c7-9127-398d3d157012"
+              "labelPlacement": "vertical",
+              "parentId": "8cb7879a-bed9-5ac6-a986-d86b0dcec64c"
             }
           ],
           "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"
         },
         {
-          "id": "a24c3bfc-24e8-53b8-8a24-71cf69949487",
+          "id": "08eb36a9-3266-50e0-8e2d-dcae81e30401",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-wizard-v-fb64e864",
+          "version": 7,
+          "componentName": "gym-wizard-v-b4cade70",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "9186f330-4b9e-5b92-9d94-311088538bdd",
+              "id": "85a2d7bb-4205-5360-bb87-0405facd2232",
               "type": "wizard",
-              "version": 10,
+              "version": 8,
               "label": "gym wizard",
               "hidden": false,
-              "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
-              "showBackButton": true,
-              "showDoneButton": true,
-              "persistStep": true,
-              "componentName": "gym-wizard-inst-labelPlacement=top",
+              "componentName": "gym-wizard-inst-labelPlacement=horizontal",
               "steps": [
                 {
-                  "id": "26571589-8603-5d2c-b6c8-a289f7812eb5",
+                  "id": "9d7aa71d-00c2-5aea-843f-24e3c3d2746e",
                   "key": "gymStep1",
                   "title": "Gym Step 1",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "931c23e8-f53d-587f-a3b1-418cb20d492a",
+                      "id": "17fd7354-da40-5827-9450-6adf3f6496a3",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -550,19 +1330,19 @@
                       "content": "GYM child of wizard step1",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "9186f330-4b9e-5b92-9d94-311088538bdd"
+                      "parentId": "85a2d7bb-4205-5360-bb87-0405facd2232"
                     }
                   ]
                 },
                 {
-                  "id": "90dd773e-811c-5dd6-ad57-a875fab730e1",
+                  "id": "f6d0475e-ffef-5d7f-925f-d2e8430a45c0",
                   "key": "gymStep2",
                   "title": "Gym Step 2",
                   "subTitle": "",
                   "description": "",
                   "components": [
                     {
-                      "id": "bbeb5301-2a2b-51e3-8feb-9a096b83574b",
+                      "id": "d1f8bf87-38fd-5355-91dc-8ff62e53cc45",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -570,13 +1350,13 @@
                       "content": "GYM child of wizard step2",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "9186f330-4b9e-5b92-9d94-311088538bdd"
+                      "parentId": "85a2d7bb-4205-5360-bb87-0405facd2232"
                     }
                   ]
                 }
               ],
-              "labelPlacement": "top",
-              "parentId": "a24c3bfc-24e8-53b8-8a24-71cf69949487"
+              "labelPlacement": "horizontal",
+              "parentId": "08eb36a9-3266-50e0-8e2d-dcae81e30401"
             }
           ],
           "parentId": "e95f0a0a-5ec5-5f79-b7b9-fa02d6479df0"

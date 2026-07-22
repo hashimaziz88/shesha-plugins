@@ -3,7 +3,7 @@
     {
       "id": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-tabs-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "d5efe850-d9fd-5bbb-8a5d-c91121b2cb8f",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-tabs-baseline",
           "label": "",
           "hideLabel": true,
@@ -28,7 +28,7 @@
             {
               "id": "7e12e947-5b68-50fe-8127-2803d063769a",
               "type": "tabs",
-              "version": 3,
+              "version": 4,
               "label": "gym tabs",
               "hidden": false,
               "tabType": "line",
@@ -80,7 +80,7 @@
         {
           "id": "ed902e7a-f592-501d-8ea8-fb014634d2f3",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-tabs-h-appearance",
           "content": "— appearance —",
           "textType": "span",
@@ -89,31 +89,31 @@
           "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
         },
         {
-          "id": "66468a1f-d0cc-501d-bdca-2fa199dbf332",
+          "id": "86ebcdd1-7290-53a8-be87-704ef79d4bff",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-tabs-v-4e66562d",
+          "version": 7,
+          "componentName": "gym-tabs-v-074fd9c2",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "e8b97ffa-3ae4-57ab-896d-aa4c78bb2e42",
+              "id": "a681d221-0584-5e27-942a-d9d14a128b5e",
               "type": "tabs",
-              "version": 3,
+              "version": 4,
               "label": "gym tabs",
               "hidden": false,
               "tabType": "line",
               "defaultActiveKey": "gymTab1",
-              "componentName": "gym-tabs-inst-size=small",
+              "componentName": "gym-tabs-inst-desktop.font.size=size17",
               "tabs": [
                 {
-                  "id": "091059e9-b7fa-53be-a540-95b6f06d5df8",
+                  "id": "79d67415-cc4a-51e5-8745-39a76945b970",
                   "key": "gymTab1",
                   "title": "Gym Tab 1",
                   "components": [
                     {
-                      "id": "67cf8293-0aca-5814-9ea6-f357acb0c9fb",
+                      "id": "26729b3d-9b9a-5d1e-98dc-eddf2c556d6b",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -121,17 +121,17 @@
                       "content": "GYM child of tabs tab1",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "e8b97ffa-3ae4-57ab-896d-aa4c78bb2e42"
+                      "parentId": "a681d221-0584-5e27-942a-d9d14a128b5e"
                     }
                   ]
                 },
                 {
-                  "id": "fbf8e5e9-9ff1-5ff0-b995-e05ad5ee5dbb",
+                  "id": "b6d12b29-d236-580b-be09-98c7f4a21e2a",
                   "key": "gymTab2",
                   "title": "Gym Tab 2",
                   "components": [
                     {
-                      "id": "67990e12-9dea-52a2-858a-bb57697df446",
+                      "id": "8b0a2203-8b69-5138-8d9f-ccbdd6c7faf2",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -139,43 +139,47 @@
                       "content": "GYM child of tabs tab2",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "e8b97ffa-3ae4-57ab-896d-aa4c78bb2e42"
+                      "parentId": "a681d221-0584-5e27-942a-d9d14a128b5e"
                     }
                   ]
                 }
               ],
-              "size": "small",
-              "parentId": "66468a1f-d0cc-501d-bdca-2fa199dbf332"
+              "desktop": {
+                "font": {
+                  "size": 17
+                }
+              },
+              "parentId": "86ebcdd1-7290-53a8-be87-704ef79d4bff"
             }
           ],
           "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
         },
         {
-          "id": "a227c727-9df2-5e9a-bcbf-11cb2ff09ea2",
+          "id": "89f2d6ae-3c59-50ea-aa15-b279e812aa98",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-tabs-v-ca52e19b",
+          "version": 7,
+          "componentName": "gym-tabs-v-1a3af3ee",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "bd389170-947f-5235-b163-9e3226f3fe25",
+              "id": "efbcb1d7-4c16-542a-92d5-6d8e9bfe4a5b",
               "type": "tabs",
-              "version": 3,
+              "version": 4,
               "label": "gym tabs",
               "hidden": false,
               "tabType": "line",
               "defaultActiveKey": "gymTab1",
-              "componentName": "gym-tabs-inst-size=middle",
+              "componentName": "gym-tabs-inst-desktop.font.color=color",
               "tabs": [
                 {
-                  "id": "03893684-c2c0-5b11-96c2-5b16d2046cd0",
+                  "id": "c978e269-2aa9-57c9-84c2-ce18a3220be7",
                   "key": "gymTab1",
                   "title": "Gym Tab 1",
                   "components": [
                     {
-                      "id": "6cb80b9e-bff8-59bc-aa45-4bf4646a4347",
+                      "id": "1ad0acc3-a695-5dfb-86b6-3b21db70909f",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -183,17 +187,17 @@
                       "content": "GYM child of tabs tab1",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "bd389170-947f-5235-b163-9e3226f3fe25"
+                      "parentId": "efbcb1d7-4c16-542a-92d5-6d8e9bfe4a5b"
                     }
                   ]
                 },
                 {
-                  "id": "5ba66670-a5b8-5138-8dc4-dc0700b606af",
+                  "id": "f2a0eb4c-7d19-5100-a1c1-7a724880f65e",
                   "key": "gymTab2",
                   "title": "Gym Tab 2",
                   "components": [
                     {
-                      "id": "056dff31-b188-5695-b2c9-088f02b5bdc0",
+                      "id": "51bb6762-ec62-5b9e-ae08-05847956a7b4",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -201,43 +205,47 @@
                       "content": "GYM child of tabs tab2",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "bd389170-947f-5235-b163-9e3226f3fe25"
+                      "parentId": "efbcb1d7-4c16-542a-92d5-6d8e9bfe4a5b"
                     }
                   ]
                 }
               ],
-              "size": "middle",
-              "parentId": "a227c727-9df2-5e9a-bcbf-11cb2ff09ea2"
+              "desktop": {
+                "font": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "89f2d6ae-3c59-50ea-aa15-b279e812aa98"
             }
           ],
           "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
         },
         {
-          "id": "33822784-7140-56a3-9822-fa5ab208e0e8",
+          "id": "07e355d5-751a-52d1-9c27-4d9b0ff747c5",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-tabs-v-15638072",
+          "version": 7,
+          "componentName": "gym-tabs-v-346fd5ac",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "4d327d7f-0e52-5461-a689-05a228143693",
+              "id": "e0b61cbc-41a4-54ce-a891-8f1ca95917e1",
               "type": "tabs",
-              "version": 3,
+              "version": 4,
               "label": "gym tabs",
               "hidden": false,
               "tabType": "line",
               "defaultActiveKey": "gymTab1",
-              "componentName": "gym-tabs-inst-size=large",
+              "componentName": "gym-tabs-inst-desktop.font.weight=weight700",
               "tabs": [
                 {
-                  "id": "1e8de596-1005-53d1-bca6-53e13cc73654",
+                  "id": "62521ab2-e691-541f-8a1f-b91c40db941b",
                   "key": "gymTab1",
                   "title": "Gym Tab 1",
                   "components": [
                     {
-                      "id": "1dd7c7c1-af19-5031-b700-9701950df829",
+                      "id": "9d3fa683-8cbf-5034-8c0b-e0c682ea4714",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -245,17 +253,17 @@
                       "content": "GYM child of tabs tab1",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "4d327d7f-0e52-5461-a689-05a228143693"
+                      "parentId": "e0b61cbc-41a4-54ce-a891-8f1ca95917e1"
                     }
                   ]
                 },
                 {
-                  "id": "5c8a70f6-d4b8-5e19-9781-f6eed3efe746",
+                  "id": "e80c3b32-ca9f-581f-871a-4dbc921f31ae",
                   "key": "gymTab2",
                   "title": "Gym Tab 2",
                   "components": [
                     {
-                      "id": "7523f53f-027e-535d-bff2-ea906f880111",
+                      "id": "c80c4467-5901-5c02-88a2-36ce076c35bd",
                       "type": "text",
                       "version": 2,
                       "label": "",
@@ -263,13 +271,1074 @@
                       "content": "GYM child of tabs tab2",
                       "textType": "span",
                       "contentDisplay": "content",
-                      "parentId": "4d327d7f-0e52-5461-a689-05a228143693"
+                      "parentId": "e0b61cbc-41a4-54ce-a891-8f1ca95917e1"
                     }
                   ]
                 }
               ],
-              "size": "large",
-              "parentId": "33822784-7140-56a3-9822-fa5ab208e0e8"
+              "desktop": {
+                "font": {
+                  "weight": "700"
+                }
+              },
+              "parentId": "07e355d5-751a-52d1-9c27-4d9b0ff747c5"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "da52b983-f0c4-54e8-8805-dd94b1d8a951",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-0baf713f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c21c6942-b00b-5123-ae81-384a9542df1b",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-desktop.dimensions.width=317px",
+              "tabs": [
+                {
+                  "id": "662d06bf-3f34-5a8a-9c51-f8a71dd0125d",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "b232daeb-3493-5b82-9624-6af7db114124",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "c21c6942-b00b-5123-ae81-384a9542df1b"
+                    }
+                  ]
+                },
+                {
+                  "id": "51dea81e-75e4-5cf2-af1e-6c9eedd7110b",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "8744021e-6f8b-57b3-87c4-e547acc9cec5",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "c21c6942-b00b-5123-ae81-384a9542df1b"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
+              },
+              "parentId": "da52b983-f0c4-54e8-8805-dd94b1d8a951"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "686667b6-8963-5fdf-bcbc-405addc18ede",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-529ccf25",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9ab9e956-6e42-5ccd-9a5e-7dc47718b858",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-desktop.dimensions.height=117px",
+              "tabs": [
+                {
+                  "id": "9f7f7de1-ec4a-53f0-9f49-e6460abb101d",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "c116eb51-edca-50b0-ab7b-234b9d763b0c",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "9ab9e956-6e42-5ccd-9a5e-7dc47718b858"
+                    }
+                  ]
+                },
+                {
+                  "id": "0c32f36c-e7cd-56bd-b749-4bf5920e73fe",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "acb27255-d2c9-5ac3-87fa-4a6b92c6abfd",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "9ab9e956-6e42-5ccd-9a5e-7dc47718b858"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "686667b6-8963-5fdf-bcbc-405addc18ede"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "49eb6e5c-3650-55ed-850d-abefe83785cc",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-f1866be0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2c50467f-d0da-56b4-b96a-d4033aad2168",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-desktop.background=color#ff00aa",
+              "tabs": [
+                {
+                  "id": "b0f7799c-8da8-53cc-aa5f-4e8943cc6f3c",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "67c8ec19-a15a-5c81-9639-5cc1d2d56652",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "2c50467f-d0da-56b4-b96a-d4033aad2168"
+                    }
+                  ]
+                },
+                {
+                  "id": "4de1d4a9-b634-517f-9e94-36b4be2babd7",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "da54121a-e89e-53e1-b160-4500d5985986",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "2c50467f-d0da-56b4-b96a-d4033aad2168"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "49eb6e5c-3650-55ed-850d-abefe83785cc"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "8227c19a-8ba7-5df7-9df1-b3a757089dd6",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "59d145a8-bcb8-5dee-8747-42eb04084bb6",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-desktop.background=gradient",
+              "tabs": [
+                {
+                  "id": "c3df49a7-dba9-514f-a636-c7455c84740a",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "ceef8597-7a3a-5be8-a784-ab0fc4ed6265",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "59d145a8-bcb8-5dee-8747-42eb04084bb6"
+                    }
+                  ]
+                },
+                {
+                  "id": "baff0ae7-5df5-568f-9a23-c937b0e3dcfe",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "3274793d-094a-54c3-b7ba-37f72aae2551",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "59d145a8-bcb8-5dee-8747-42eb04084bb6"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "8227c19a-8ba7-5df7-9df1-b3a757089dd6"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "6faa690c-aef4-5275-8b4f-12a75ea0bd3c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ad54dd39-b4a6-5597-b501-a5f46727cef3",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-desktop.shadow=shadow17",
+              "tabs": [
+                {
+                  "id": "fe09f0a5-e28e-5cf0-b39b-74c0893bc98d",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "830e8b07-b8f2-5df9-b8b4-bd553874acb2",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "ad54dd39-b4a6-5597-b501-a5f46727cef3"
+                    }
+                  ]
+                },
+                {
+                  "id": "68b3f726-5ea2-57d5-981b-9a623ef74f52",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "b7698e97-789f-5487-9ed8-e4fd16c64c07",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "ad54dd39-b4a6-5597-b501-a5f46727cef3"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "6faa690c-aef4-5275-8b4f-12a75ea0bd3c"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "21319cac-bab9-5e1c-96a2-ec1275768fd1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f32435fb-1300-5c0f-9db9-32174da72039",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-stylingBox=stylingBox17",
+              "tabs": [
+                {
+                  "id": "ca08d5a3-5d7b-572c-834e-041219372d5d",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "6d5109dd-885c-53cf-ab0b-d5a72453b8cb",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "f32435fb-1300-5c0f-9db9-32174da72039"
+                    }
+                  ]
+                },
+                {
+                  "id": "2ed72f23-253f-593a-8d55-81bd7cb185fd",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "c3466a49-6dbc-5f15-970b-c7b183810603",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "f32435fb-1300-5c0f-9db9-32174da72039"
+                    }
+                  ]
+                }
+              ],
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "21319cac-bab9-5e1c-96a2-ec1275768fd1"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "8767f27a-a7f7-5fa3-8507-3a9da11ab177",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-f604dc5d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9039682b-90bb-529b-97d6-053ac9eaf245",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-card.dimensions.width=17",
+              "tabs": [
+                {
+                  "id": "702f9ecc-779e-5b0e-8e8f-1b5e18429187",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "4af32661-a782-54a1-b331-230b0ed88cf3",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "9039682b-90bb-529b-97d6-053ac9eaf245"
+                    }
+                  ]
+                },
+                {
+                  "id": "dc19bc74-34bc-5304-922d-bb8433ad78cb",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "7693cb7e-c920-5f92-8d7d-18bf3bfe5936",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "9039682b-90bb-529b-97d6-053ac9eaf245"
+                    }
+                  ]
+                }
+              ],
+              "card": {
+                "dimensions": {
+                  "width": 17
+                }
+              },
+              "parentId": "8767f27a-a7f7-5fa3-8507-3a9da11ab177"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "9c9a761c-f017-5978-98f7-4b1ac01f1355",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-37874db7",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "87e2fb62-b846-5eda-8639-21c24ffcaafb",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-card.dimensions.height=17",
+              "tabs": [
+                {
+                  "id": "91e48802-8573-5130-ae6f-9421c798f2e4",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "753102b4-6c38-5608-844a-a9d120d5a19b",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "87e2fb62-b846-5eda-8639-21c24ffcaafb"
+                    }
+                  ]
+                },
+                {
+                  "id": "8bf758a4-9ff9-509b-93d5-5e9af28951e3",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "6112dbbc-376f-585d-be4c-03dd614e52de",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "87e2fb62-b846-5eda-8639-21c24ffcaafb"
+                    }
+                  ]
+                }
+              ],
+              "card": {
+                "dimensions": {
+                  "height": 17
+                }
+              },
+              "parentId": "9c9a761c-f017-5978-98f7-4b1ac01f1355"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "656ca3c4-928a-5a24-b8c4-53ee73c51cee",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-f9c1355c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ffabd2c5-e9bc-5af6-bd53-bd8f3baa4e6f",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-card.background.color=#ff00aa",
+              "tabs": [
+                {
+                  "id": "9937d46f-cadd-53f4-a4dc-d70021c7e282",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "e6d6ef7e-17af-5a5c-9fd2-296e84fd7d9b",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "ffabd2c5-e9bc-5af6-bd53-bd8f3baa4e6f"
+                    }
+                  ]
+                },
+                {
+                  "id": "9ad7d6ba-28f3-5ef9-b7ae-9ea07eaf5e16",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "b16cb717-f2b0-586b-ac93-d88d84b9d732",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "ffabd2c5-e9bc-5af6-bd53-bd8f3baa4e6f"
+                    }
+                  ]
+                }
+              ],
+              "card": {
+                "background": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "656ca3c4-928a-5a24-b8c4-53ee73c51cee"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "71c5942d-0097-5042-be00-a422ebb7c90b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-b6ce9f3a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "00585622-df8f-5f62-8e2c-233637ccfdb9",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-card.background.gradient.colors=#ff00aa",
+              "tabs": [
+                {
+                  "id": "08a80c6d-9b96-5845-a839-14c5bd7dbd20",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "1b92960d-82cf-5433-81e3-46b6158b9792",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "00585622-df8f-5f62-8e2c-233637ccfdb9"
+                    }
+                  ]
+                },
+                {
+                  "id": "12a56015-9aa0-5128-a2e9-deba8e8d0252",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "a038d0ca-c783-5cc8-b5da-2b529a94fc6d",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "00585622-df8f-5f62-8e2c-233637ccfdb9"
+                    }
+                  ]
+                }
+              ],
+              "card": {
+                "background": {
+                  "gradient": {
+                    "colors": "#ff00aa"
+                  }
+                }
+              },
+              "parentId": "71c5942d-0097-5042-be00-a422ebb7c90b"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "8d9229fd-1cf5-52b8-ad52-a732584db325",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-2a179b09",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f5bd67b1-a7ff-5b5b-9cbc-433e7a0367cb",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-card.background.size=17",
+              "tabs": [
+                {
+                  "id": "aee4c1c0-2947-5b02-b3d4-241cb3dd7480",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "5eedbe6c-8dbc-5107-addb-0ca03f9b5984",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "f5bd67b1-a7ff-5b5b-9cbc-433e7a0367cb"
+                    }
+                  ]
+                },
+                {
+                  "id": "1c23bb27-4752-5f41-bffa-eddbc8ade8a0",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "302a8b86-f8a4-56bf-bb69-3b2da10e2edf",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "f5bd67b1-a7ff-5b5b-9cbc-433e7a0367cb"
+                    }
+                  ]
+                }
+              ],
+              "card": {
+                "background": {
+                  "size": 17
+                }
+              },
+              "parentId": "8d9229fd-1cf5-52b8-ad52-a732584db325"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "2b13e66a-7354-5bd7-86b7-8ba8912151cb",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-tabs-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "0e659ae9-7e9e-5b6a-9a5c-844651a1c112",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-96fd6d40",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8b935e70-d699-541e-b820-0bbc3385c47e",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-tabPosition=top",
+              "tabs": [
+                {
+                  "id": "75f28ae7-85ab-5c02-8667-d640a3711948",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "cbc0b778-375f-5b24-aa8a-4669051bf661",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "8b935e70-d699-541e-b820-0bbc3385c47e"
+                    }
+                  ]
+                },
+                {
+                  "id": "7ad78021-071e-5d5a-8102-b8b3faeae670",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "664a2ae8-6494-5d58-b5cc-91177e9185a0",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "8b935e70-d699-541e-b820-0bbc3385c47e"
+                    }
+                  ]
+                }
+              ],
+              "tabPosition": "top",
+              "parentId": "0e659ae9-7e9e-5b6a-9a5c-844651a1c112"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "e5610ddd-d4e4-5a18-9892-01def40fc353",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-4a6899c8",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2a1ca9ae-b0e7-5944-a2be-90209eaf6c69",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-tabPosition=bottom",
+              "tabs": [
+                {
+                  "id": "534be4ec-b4fa-56ec-8ccd-8afbef4a0eee",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "5395d31c-1aad-53c1-aa88-53b5c6037363",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "2a1ca9ae-b0e7-5944-a2be-90209eaf6c69"
+                    }
+                  ]
+                },
+                {
+                  "id": "334014be-232b-53a6-891a-df6234f216cc",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "aaf6540d-1a25-56c4-b2c2-7c6088f9ac5a",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "2a1ca9ae-b0e7-5944-a2be-90209eaf6c69"
+                    }
+                  ]
+                }
+              ],
+              "tabPosition": "bottom",
+              "parentId": "e5610ddd-d4e4-5a18-9892-01def40fc353"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "7229fa0d-eb78-5d54-9916-603b726019e7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-3da05691",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0acb9323-3e80-594a-a5cc-86325b039a93",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-tabPosition=left",
+              "tabs": [
+                {
+                  "id": "41ae2f1c-fa3e-50e8-9ed1-cffc38c7ed80",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "2e574311-1295-5a54-a5b7-5f3c0d911bcc",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "0acb9323-3e80-594a-a5cc-86325b039a93"
+                    }
+                  ]
+                },
+                {
+                  "id": "82f611d0-4cb8-597d-9c26-71e8023fad21",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "033832eb-05ba-52f8-9f5b-d367e7b09b21",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "0acb9323-3e80-594a-a5cc-86325b039a93"
+                    }
+                  ]
+                }
+              ],
+              "tabPosition": "left",
+              "parentId": "7229fa0d-eb78-5d54-9916-603b726019e7"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "0a6edaf4-ed40-5a18-af3a-ca245ac1be9c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-9d340289",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ed4dffd6-ff37-5695-b18e-42401ce43905",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-tabPosition=right",
+              "tabs": [
+                {
+                  "id": "f88dfa90-2869-5002-8cde-bdcf90d534fd",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "ea026f8a-48f8-50f3-8ba1-35f3276cbd4f",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "ed4dffd6-ff37-5695-b18e-42401ce43905"
+                    }
+                  ]
+                },
+                {
+                  "id": "94a94c21-24cf-58b8-9417-c1ead0d697f7",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "784cf7cc-1e40-5ad3-9c79-7cc08962846f",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "ed4dffd6-ff37-5695-b18e-42401ce43905"
+                    }
+                  ]
+                }
+              ],
+              "tabPosition": "right",
+              "parentId": "0a6edaf4-ed40-5a18-af3a-ca245ac1be9c"
+            }
+          ],
+          "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"
+        },
+        {
+          "id": "5e0fe858-5699-5975-86a7-d3401d29d8e2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tabs-v-bc68e172",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6b3cd0f3-304b-5da7-b0e8-6cf2ce9a076a",
+              "type": "tabs",
+              "version": 4,
+              "label": "gym tabs",
+              "hidden": false,
+              "tabType": "line",
+              "defaultActiveKey": "gymTab1",
+              "componentName": "gym-tabs-inst-tabLineColor=#ff00aa",
+              "tabs": [
+                {
+                  "id": "978af135-4c5e-59e2-9644-805014fc885c",
+                  "key": "gymTab1",
+                  "title": "Gym Tab 1",
+                  "components": [
+                    {
+                      "id": "dd942c34-771b-55a2-9108-c5fd12f24873",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "6b3cd0f3-304b-5da7-b0e8-6cf2ce9a076a"
+                    }
+                  ]
+                },
+                {
+                  "id": "1b11f255-1039-5b11-b2f9-4ec2e697fef5",
+                  "key": "gymTab2",
+                  "title": "Gym Tab 2",
+                  "components": [
+                    {
+                      "id": "bc61df59-f767-58fb-ae0c-4dc1f8f8442c",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of tabs tab2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "6b3cd0f3-304b-5da7-b0e8-6cf2ce9a076a"
+                    }
+                  ]
+                }
+              ],
+              "tabLineColor": "#ff00aa",
+              "parentId": "5e0fe858-5699-5975-86a7-d3401d29d8e2"
             }
           ],
           "parentId": "5d585c2d-20c0-5e64-9a9c-bdabb6c34ec5"

@@ -16,7 +16,11 @@ records what each setting measurably does. Output:
 | `gym/merge-report.json` | Contradictions vs the hand-noted matrix |
 | `gym/screenshots/`, `gym/errors/` | One PNG per component; console/network errors per form (git-ignored) |
 
-## Rerun procedure (per Shesha version)
+## Rerun procedure (per 0.45.x release)
+
+The matrix is regenerated per release: the KB is rebuilt from that release's
+renderer source, then the gym is regenerated and re-measured against a backend
+running that release.
 
 Prerequisites: backend running (default `http://localhost:21021`, admin/123qwe),
 adminportal running (default `http://localhost:3000`), and in this skill folder:
@@ -24,26 +28,26 @@ adminportal running (default `http://localhost:3000`), and in this skill folder:
 
 ```
 node scripts/extract-enums.js --source <designer-components dir of the renderer source matching the KB>
-node scripts/generate-component-gym.js            # all 108; or --only textField,container
+node scripts/generate-component-gym.js            # all KB types; or --only textField,container
 node scripts/run-gym.js                           # push + measure; --only / --skip-push / --headed
 node scripts/merge-capability.js                  # overlay hand matrix; --dry-run first
 ```
 
-On a NEW Shesha version:
-1. Regenerate the components-kb from that version's source (`generate-component-kb.js`),
+On a new release:
+1. Regenerate the components-kb from that release's source (`generate-component-kb.js`),
    then re-run `extract-enums.js` against the same checkout — settings paths must
-   match the KB generation (0.43 KB = flat `fontSize`; 0.45 source = nested `font.size`).
+   match the KB generation.
 2. Regenerate + rerun. Deterministic uuids mean `git diff gym/` shows exactly what changed.
-3. Set `generation`/`sheshaVersion` via the runner defaults (edit `run-gym.js` constants
-   or pass `--backend`/`--portal`). Compare matrices across generations before trusting
+3. Set `sheshaVersion` via the runner defaults (edit `run-gym.js` constants
+   or pass `--backend`/`--portal`). Compare matrices across releases before trusting
    version-specific styling advice.
 
 ## How measurement works
 
-- Markup is authored **KB-shaped with KB versions** (0.43 flat props); a newer runtime
-  migrates it on load. The gym therefore measures exactly what skill-authored markup
-  does on that runtime — including migration losses (e.g. flat `borderColor` is a
-  measured no-op on 0.45, while `fontColor`/`fontSize` migrate correctly).
+- Markup is authored **KB-shaped with KB versions**; the runtime migrates it on
+  load. The gym therefore measures exactly what skill-authored markup does on
+  that runtime — including migration losses (a setting the migrator drops shows
+  up as a measured no-op).
 - Every instance sits in its own named container; the runner discovers the DOM marker
   (`[data-sha-c-name]`) automatically and diffs variant vs baseline: geometry (rect,
   descendant count), ~40 computed-style props (colors normalized, 0.1px rounding),
@@ -53,7 +57,7 @@ On a NEW Shesha version:
 - Distinctive variant values are greppable in the deltas: numbers `17` → `17px`,
   colors `#ff00aa` → `rgb(255, 0, 170)`, text `GYM-TXT-<path>`.
 - `not-registered` renderStatus = the component type does not exist in the target
-  runtime (e.g. `chart` on 0.45); its settings are `unknown`, never `no-op`.
+  runtime; its settings are `unknown`, never `no-op`.
 
 ## Budget guards
 

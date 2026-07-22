@@ -3,7 +3,7 @@
     {
       "id": "42cd51c1-58c3-58a7-8035-fa9ea6d99ba6",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-switch-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "0cf69966-5178-5a68-9e41-9806789c2597",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-switch-baseline",
           "label": "",
           "hideLabel": true,
@@ -40,7 +40,7 @@
         {
           "id": "1a5e91b2-9505-5e05-bfc4-22fc8a340b71",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-switch-h-appearance",
           "content": "— appearance —",
           "textType": "span",
@@ -51,7 +51,7 @@
         {
           "id": "d72171eb-8e46-5263-acb0-574addae5715",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-switch-v-4e66562d",
           "label": "",
           "hideLabel": true,
@@ -73,7 +73,7 @@
         {
           "id": "2e334a07-dd1c-544d-b489-67e1d53aced6",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-switch-v-81a0850f",
           "label": "",
           "hideLabel": true,
@@ -95,7 +95,7 @@
         {
           "id": "8d141393-db75-5648-946f-aba4d71a65e3",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-switch-h-display",
           "content": "— display —",
           "textType": "span",
@@ -104,87 +104,45 @@
           "parentId": "42cd51c1-58c3-58a7-8035-fa9ea6d99ba6"
         },
         {
-          "id": "30cfbbf1-00aa-5736-9960-8cbbe858aa07",
+          "id": "b7743d72-0b3a-5417-a4da-3339bbbec792",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-switch-v-1b640f90",
+          "version": 7,
+          "componentName": "gym-switch-v-a76e668c",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "f7a1bec4-3108-5bcd-9bf3-5b80c6523615",
-              "type": "switch",
-              "version": 6,
-              "label": "GYM-TXT-label",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "parentId": "30cfbbf1-00aa-5736-9960-8cbbe858aa07"
-            }
-          ],
-          "parentId": "42cd51c1-58c3-58a7-8035-fa9ea6d99ba6"
-        },
-        {
-          "id": "8a61c173-6293-5c26-b18f-2cf14162c92d",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-switch-v-a058f647",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "6a7f408a-612d-56a4-92d6-8737d52e74b2",
-              "type": "switch",
-              "version": 6,
-              "label": "Switch",
-              "hidden": true,
-              "propertyName": "gymValue",
-              "parentId": "8a61c173-6293-5c26-b18f-2cf14162c92d"
-            }
-          ],
-          "parentId": "42cd51c1-58c3-58a7-8035-fa9ea6d99ba6"
-        },
-        {
-          "id": "5f23014f-7dfc-56c2-b32e-f2ff256ca40c",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-switch-v-8ae8db35",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "71bd4680-0c66-51ba-8e12-485db77dcd9d",
+              "id": "d1c87737-68d5-57fb-ad11-e16871157d22",
               "type": "switch",
               "version": 6,
               "label": "Switch",
               "hidden": false,
               "propertyName": "gymValue",
-              "hideLabel": true,
-              "parentId": "5f23014f-7dfc-56c2-b32e-f2ff256ca40c"
+              "description": "GYM-TXT-description",
+              "parentId": "b7743d72-0b3a-5417-a4da-3339bbbec792"
             }
           ],
           "parentId": "42cd51c1-58c3-58a7-8035-fa9ea6d99ba6"
         },
         {
-          "id": "508fbf51-f15c-56ff-b259-7a33adb3ab3a",
+          "id": "72ff70b0-4b83-55bf-9ea5-e2292a395b19",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-switch-v-cb7e2795",
+          "version": 7,
+          "componentName": "gym-switch-v-396a3c9c",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "92df3e32-dbc2-5f7c-9a58-338b5fe7ae5d",
+              "id": "97a66847-9c98-57ce-a2f2-c30deb2575a5",
               "type": "switch",
               "version": 6,
               "label": "Switch",
               "hidden": false,
               "propertyName": "gymValue",
-              "editMode": "readOnly",
-              "parentId": "508fbf51-f15c-56ff-b259-7a33adb3ab3a"
+              "enableStyleOnReadonly": true,
+              "parentId": "72ff70b0-4b83-55bf-9ea5-e2292a395b19"
             }
           ],
           "parentId": "42cd51c1-58c3-58a7-8035-fa9ea6d99ba6"

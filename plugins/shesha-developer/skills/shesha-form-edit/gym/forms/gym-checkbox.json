@@ -3,7 +3,7 @@
     {
       "id": "d00e1844-f234-5650-8cab-7d146073e366",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-checkbox-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "f688ef8b-dd9d-5b45-9cc4-b7dbce911bac",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-checkbox-baseline",
           "label": "",
           "hideLabel": true,
@@ -28,7 +28,7 @@
             {
               "id": "ab2a12d6-0b09-5b89-b1ed-1db6fc237f7e",
               "type": "checkbox",
-              "version": 4,
+              "version": 5,
               "label": "gym checkbox",
               "hidden": false,
               "propertyName": "gymValue",
@@ -38,36 +38,176 @@
           "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
         },
         {
-          "id": "e1dbc94d-1175-5854-8646-e04c133456f2",
+          "id": "7ce546de-a97e-52ca-a0cf-717b2a4a3f55",
           "type": "text",
-          "version": 2,
-          "componentName": "gym-checkbox-h-validation",
-          "content": "— validation —",
+          "version": 5,
+          "componentName": "gym-checkbox-h-appearance",
+          "content": "— appearance —",
           "textType": "span",
           "contentDisplay": "content",
           "hideLabel": true,
           "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
         },
         {
-          "id": "ce624a2e-d753-5028-986a-225108dfd52f",
+          "id": "a607b171-a7a0-5f63-abcc-a7595353d83e",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-checkbox-v-9d11999c",
+          "version": 7,
+          "componentName": "gym-checkbox-v-0baf713f",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "8067f74b-2385-5971-9fa7-cea8ce80ad0d",
+              "id": "5626a817-b5c8-5571-aafb-fe657773bfae",
               "type": "checkbox",
-              "version": 4,
+              "version": 5,
               "label": "gym checkbox",
               "hidden": false,
               "propertyName": "gymValue",
-              "validate": {
-                "required": true
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
               },
-              "parentId": "ce624a2e-d753-5028-986a-225108dfd52f"
+              "parentId": "a607b171-a7a0-5f63-abcc-a7595353d83e"
+            }
+          ],
+          "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
+        },
+        {
+          "id": "75916c3a-fb51-54da-aae1-844ea07e879c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-checkbox-v-529ccf25",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2b499c0d-57f7-5ba1-89a2-e8d5ccd3453b",
+              "type": "checkbox",
+              "version": 5,
+              "label": "gym checkbox",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "75916c3a-fb51-54da-aae1-844ea07e879c"
+            }
+          ],
+          "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
+        },
+        {
+          "id": "40d9b1ee-f5ee-5ac5-a2d9-b6c8a4647aee",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-checkbox-v-f1866be0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a9d15377-abf3-510d-8e7a-0e655e8bc91a",
+              "type": "checkbox",
+              "version": 5,
+              "label": "gym checkbox",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "40d9b1ee-f5ee-5ac5-a2d9-b6c8a4647aee"
+            }
+          ],
+          "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
+        },
+        {
+          "id": "26343486-c2b4-5d75-a3d2-535f04e4ed1b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-checkbox-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "fb93d662-aff3-5c51-81e3-c3355740ae69",
+              "type": "checkbox",
+              "version": 5,
+              "label": "gym checkbox",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "26343486-c2b4-5d75-a3d2-535f04e4ed1b"
+            }
+          ],
+          "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
+        },
+        {
+          "id": "d2115d35-a302-5109-a05f-197f535d3bf3",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-checkbox-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "41e0c063-c5f0-5dcf-9a07-e38578ce1677",
+              "type": "checkbox",
+              "version": 5,
+              "label": "gym checkbox",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "d2115d35-a302-5109-a05f-197f535d3bf3"
+            }
+          ],
+          "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
+        },
+        {
+          "id": "7a07d63f-94c9-5e08-b05e-3c2852ab58ae",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-checkbox-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3bd8195a-f9e5-5652-a9df-ffe0d5e58f12",
+              "type": "checkbox",
+              "version": 5,
+              "label": "gym checkbox",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "7a07d63f-94c9-5e08-b05e-3c2852ab58ae"
             }
           ],
           "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
@@ -75,7 +215,7 @@
         {
           "id": "baa62638-bf36-5dbe-90a2-3b7c5ce21775",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-checkbox-h-display",
           "content": "— display —",
           "textType": "span",
@@ -84,74 +224,9 @@
           "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
         },
         {
-          "id": "bda29372-d9aa-5e86-b4b5-59c8f9da5ff5",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-checkbox-v-1b640f90",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "b342789b-06f3-55cb-9915-24c449a214db",
-              "type": "checkbox",
-              "version": 4,
-              "label": "GYM-TXT-label",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "parentId": "bda29372-d9aa-5e86-b4b5-59c8f9da5ff5"
-            }
-          ],
-          "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
-        },
-        {
-          "id": "8da6fb43-2c2b-5bc7-b40e-5249299552a7",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-checkbox-v-ba90c652",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "dba1365c-2734-5371-be5f-b8b515323332",
-              "type": "checkbox",
-              "version": 4,
-              "label": "gym checkbox",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "labelAlign": "left",
-              "parentId": "8da6fb43-2c2b-5bc7-b40e-5249299552a7"
-            }
-          ],
-          "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
-        },
-        {
-          "id": "9133814c-35f6-5d83-88f1-482b6aa261af",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-checkbox-v-9014b9af",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "ec201c42-7e36-5dfa-b7b4-bd82c6a41dc3",
-              "type": "checkbox",
-              "version": 4,
-              "label": "gym checkbox",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "labelAlign": "right",
-              "parentId": "9133814c-35f6-5d83-88f1-482b6aa261af"
-            }
-          ],
-          "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
-        },
-        {
           "id": "2a18f311-ae14-5b3e-bcfd-4085b2a6585d",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-checkbox-v-a76e668c",
           "label": "",
           "hideLabel": true,
@@ -160,7 +235,7 @@
             {
               "id": "d1ac0311-cf14-5610-80ac-ebc552318303",
               "type": "checkbox",
-              "version": 4,
+              "version": 5,
               "label": "gym checkbox",
               "hidden": false,
               "propertyName": "gymValue",
@@ -171,88 +246,117 @@
           "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
         },
         {
-          "id": "567b4fec-cfb4-54f5-8bd2-c851eef64329",
+          "id": "72a8d73d-87c2-5cd7-8130-9c7df09e9f0a",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-checkbox-v-a058f647",
+          "version": 7,
+          "componentName": "gym-checkbox-v-32f19b3e",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "fcf3af91-0d81-5d7f-a6b9-5c811afa9fa5",
+              "id": "12e232ec-6163-5dca-b514-07967e3526f6",
               "type": "checkbox",
-              "version": 4,
+              "version": 5,
               "label": "gym checkbox",
-              "hidden": true,
+              "hidden": false,
               "propertyName": "gymValue",
-              "parentId": "567b4fec-cfb4-54f5-8bd2-c851eef64329"
+              "onBlurCustom": 17,
+              "parentId": "72a8d73d-87c2-5cd7-8130-9c7df09e9f0a"
             }
           ],
           "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
         },
         {
-          "id": "ed2334d9-f9cf-5760-9d93-5f3944741d8c",
+          "id": "b8f23f6d-2c05-55b9-8948-cd81a110f340",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-checkbox-v-1b5b1426",
+          "version": 7,
+          "componentName": "gym-checkbox-v-396a3c9c",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "d1c49eed-2faf-57da-b01c-30eddc89f467",
+              "id": "be7cffff-9e0b-5f0b-8606-79eecf1900aa",
               "type": "checkbox",
-              "version": 4,
+              "version": 5,
               "label": "gym checkbox",
               "hidden": false,
               "propertyName": "gymValue",
-              "defaultValue": true,
-              "parentId": "ed2334d9-f9cf-5760-9d93-5f3944741d8c"
+              "enableStyleOnReadonly": true,
+              "parentId": "b8f23f6d-2c05-55b9-8948-cd81a110f340"
             }
           ],
           "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
         },
         {
-          "id": "89b617f7-d0df-5485-9a39-456a27970d38",
+          "id": "22c487f8-9374-5b0e-9691-405e78c493e2",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-checkbox-v-8ae8db35",
+          "version": 7,
+          "componentName": "gym-checkbox-v-0b1337ae",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "86a6ce19-3cee-54b8-8436-c8730b07899f",
+              "id": "a5f7acae-c6bb-50f9-9d3e-7c2f217420ce",
               "type": "checkbox",
-              "version": 4,
+              "version": 5,
               "label": "gym checkbox",
               "hidden": false,
               "propertyName": "gymValue",
-              "hideLabel": true,
-              "parentId": "89b617f7-d0df-5485-9a39-456a27970d38"
+              "font": {
+                "size": 17
+              },
+              "parentId": "22c487f8-9374-5b0e-9691-405e78c493e2"
             }
           ],
           "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
         },
         {
-          "id": "c8c87b7f-931c-5c43-b795-cd16397062ee",
+          "id": "dbf62850-a61f-552a-9f17-ce7207b0ca3d",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-checkbox-v-cb7e2795",
+          "version": 7,
+          "componentName": "gym-checkbox-v-d7afca4f",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "4d0158f2-1f32-510a-b4a1-a0b8eae0ebb5",
+              "id": "c6596b24-e5eb-5068-8ddf-fa4a452dd982",
               "type": "checkbox",
-              "version": 4,
+              "version": 5,
               "label": "gym checkbox",
               "hidden": false,
               "propertyName": "gymValue",
-              "editMode": "readOnly",
-              "parentId": "c8c87b7f-931c-5c43-b795-cd16397062ee"
+              "font": {
+                "color": "#ff00aa"
+              },
+              "parentId": "dbf62850-a61f-552a-9f17-ce7207b0ca3d"
+            }
+          ],
+          "parentId": "d00e1844-f234-5650-8cab-7d146073e366"
+        },
+        {
+          "id": "64734c5b-5d8f-507a-859e-36c02932d689",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-checkbox-v-eeb337cc",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8257d79d-1a68-50bb-9b64-b54b7e154e8c",
+              "type": "checkbox",
+              "version": 5,
+              "label": "gym checkbox",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "font": {
+                "weight": "700"
+              },
+              "parentId": "64734c5b-5d8f-507a-859e-36c02932d689"
             }
           ],
           "parentId": "d00e1844-f234-5650-8cab-7d146073e366"

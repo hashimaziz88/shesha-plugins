@@ -3,7 +3,7 @@
     {
       "id": "3b8791ff-0fe5-598e-9aef-a32c2538c043",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-htmlRender-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "95d909d0-89af-5683-bbc3-e68a2cc159d4",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-htmlRender-baseline",
           "label": "",
           "hideLabel": true,
@@ -34,39 +34,6 @@
               "renderer": "return \"<div>GYM html</div>\";",
               "componentName": "gym-htmlRender-inst-baseline",
               "parentId": "95d909d0-89af-5683-bbc3-e68a2cc159d4"
-            }
-          ],
-          "parentId": "3b8791ff-0fe5-598e-9aef-a32c2538c043"
-        },
-        {
-          "id": "40b61daa-b0bf-5f3b-a181-11e4d5453a0f",
-          "type": "text",
-          "version": 2,
-          "componentName": "gym-htmlRender-h-display",
-          "content": "— display —",
-          "textType": "span",
-          "contentDisplay": "content",
-          "hideLabel": true,
-          "parentId": "3b8791ff-0fe5-598e-9aef-a32c2538c043"
-        },
-        {
-          "id": "679a6503-7a5b-5612-8875-efb13ab35523",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-htmlRender-v-a058f647",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "d62e9bb6-9ad0-5d51-900b-4991ec8e5d9e",
-              "type": "htmlRender",
-              "version": 1,
-              "label": "gym htmlRender",
-              "hidden": true,
-              "renderer": "return \"<div>GYM html</div>\";",
-              "componentName": "gym-htmlRender-inst-hidden=true",
-              "parentId": "679a6503-7a5b-5612-8875-efb13ab35523"
             }
           ],
           "parentId": "3b8791ff-0fe5-598e-9aef-a32c2538c043"

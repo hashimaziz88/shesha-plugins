@@ -3,7 +3,7 @@
     {
       "id": "1d34fcbb-0921-53eb-8c0a-08efc155a4f5",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-datatable.quickSearch-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "a0c6b9e0-badb-54d7-b90d-709f39748f1c",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-datatable.quickSearch-baseline",
           "label": "",
           "hideLabel": true,
@@ -42,9 +42,10 @@
                 {
                   "id": "783b9ce7-2d03-5a29-a900-c5a052c80168",
                   "type": "datatable.quickSearch",
-                  "version": 2,
+                  "version": 3,
                   "label": "gym datatable.quickSearch",
                   "hidden": false,
+                  "size": "small",
                   "componentName": "gym-datatable.quickSearch-inst-baseline",
                   "parentId": "34c9a130-bebb-54b8-9d01-19065659ee3e"
                 }
@@ -57,27 +58,27 @@
           "parentId": "1d34fcbb-0921-53eb-8c0a-08efc155a4f5"
         },
         {
-          "id": "8dfdd414-2fb4-505e-bc8d-95856d554e69",
+          "id": "64dcf76c-d1d8-593f-81fb-89938d018566",
           "type": "text",
-          "version": 2,
-          "componentName": "gym-datatable.quickSearch-h-display",
-          "content": "— display —",
+          "version": 5,
+          "componentName": "gym-datatable.quickSearch-h-appearance",
+          "content": "— appearance —",
           "textType": "span",
           "contentDisplay": "content",
           "hideLabel": true,
           "parentId": "1d34fcbb-0921-53eb-8c0a-08efc155a4f5"
         },
         {
-          "id": "1ac8e2aa-60e1-5298-99ec-a008ce699182",
+          "id": "9093c97c-aac8-524f-926c-8692a806b074",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-datatable.quickSearch-v-359a37d4",
+          "version": 7,
+          "componentName": "gym-datatable.quickSearch-v-0baf713f",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "02f179c4-a705-502f-af19-df54eb3c2be3",
+              "id": "1daaaff8-6310-564a-8494-5b800acc8ea6",
               "type": "datatableContext",
               "version": 7,
               "label": "",
@@ -91,19 +92,24 @@
               "hidden": false,
               "components": [
                 {
-                  "id": "607755c3-bfcf-58cd-ab8e-110f13e67c46",
+                  "id": "0bbed00f-9568-5e0d-8cb6-c7667b30dfaf",
                   "type": "datatable.quickSearch",
-                  "version": 2,
+                  "version": 3,
                   "label": "gym datatable.quickSearch",
                   "hidden": false,
-                  "componentName": "gym-datatable.quickSearch-inst-block=true",
-                  "block": true,
-                  "parentId": "02f179c4-a705-502f-af19-df54eb3c2be3"
+                  "size": "small",
+                  "componentName": "gym-datatable.quickSearch-inst-desktop.dimensions.width=317px",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "317px"
+                    }
+                  },
+                  "parentId": "1daaaff8-6310-564a-8494-5b800acc8ea6"
                 }
               ],
-              "componentName": "gymCtx02f179c4",
-              "propertyName": "gymCtx02f179c4",
-              "parentId": "1ac8e2aa-60e1-5298-99ec-a008ce699182"
+              "componentName": "gymCtx1daaaff8",
+              "propertyName": "gymCtx1daaaff8",
+              "parentId": "9093c97c-aac8-524f-926c-8692a806b074"
             }
           ],
           "parentId": "1d34fcbb-0921-53eb-8c0a-08efc155a4f5"

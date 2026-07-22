@@ -2,27 +2,29 @@
 // onto measured gym setting paths, and summarizes measured effects per row.
 // Shared by merge-capability.js and validate-blocks.js.
 
+// Values list every measured-path spelling: 0.45 nested desktop.* channels
+// (the current gym) plus the flat legacy spellings for older matrices.
 const TOKEN_TO_PATHS = {
-  bg: ['backgroundColor'],
-  background: ['backgroundColor'],
-  'background.color': ['backgroundColor'],
-  'background.gradient': ['backgroundColor'],
-  border: ['borderSize', 'borderType', 'borderColor', 'hideBorder'],
-  'border.all': ['borderSize', 'borderType', 'borderColor', 'hideBorder'],
-  'border.perside': ['borderSize', 'borderType', 'borderColor'],
-  radius: ['borderRadius'],
-  'border.radius': ['borderRadius'],
-  width: ['width'],
-  'dimensions.width': ['width'],
-  'dimensions.minheight': ['minHeight', 'height'],
-  height: ['height'],
-  font: ['fontSize', 'fontColor', 'fontWeight'],
-  fontsize: ['fontSize'],
-  fontweight: ['fontWeight'],
-  color: ['fontColor', 'color'],
-  align: ['labelAlign', 'textAlign'],
-  stylingbox: ['stylingBox'],
-  shadow: ['boxShadow', 'shadow'],
+  bg: ['desktop.background', 'backgroundColor'],
+  background: ['desktop.background', 'backgroundColor'],
+  'background.color': ['desktop.background', 'backgroundColor'],
+  'background.gradient': ['desktop.background', 'backgroundColor'],
+  border: ['desktop.border.border.all.width', 'desktop.border.border.all.color', 'hideBorder', 'borderSize', 'borderType', 'borderColor'],
+  'border.all': ['desktop.border.border.all.width', 'desktop.border.border.all.color', 'hideBorder', 'borderSize', 'borderType', 'borderColor'],
+  'border.perside': ['desktop.border.border.all.width', 'desktop.border.border.all.color', 'borderSize', 'borderType', 'borderColor'],
+  radius: ['desktop.border.radius.all', 'borderRadius'],
+  'border.radius': ['desktop.border.radius.all', 'borderRadius'],
+  width: ['desktop.dimensions.width', 'width'],
+  'dimensions.width': ['desktop.dimensions.width', 'width'],
+  'dimensions.minheight': ['desktop.dimensions.minHeight', 'minHeight', 'height'],
+  height: ['desktop.dimensions.height', 'height'],
+  font: ['desktop.font.size', 'desktop.font.color', 'desktop.font.weight', 'fontSize', 'fontColor', 'fontWeight'],
+  fontsize: ['desktop.font.size', 'fontSize'],
+  fontweight: ['desktop.font.weight', 'fontWeight'],
+  color: ['desktop.font.color', 'fontColor', 'color'],
+  align: ['desktop.font.align', 'labelAlign', 'textAlign'],
+  stylingbox: ['desktop.stylingBox', 'stylingBox'],
+  shadow: ['desktop.shadow', 'boxShadow', 'shadow'],
   strokecolor: ['strokeColor'],
   size: ['size'],
   render: ['__renderStatus'],
@@ -86,7 +88,7 @@ const GOOD_HAND = new Set(['renders', 'gotcha', 'renders-via-app-theme', 'partia
  * Verdicts across different channels can both be true — never a contradiction.
  */
 export function isChannelMismatch(row) {
-  return typeof row.key === 'string' && /desktop\./.test(row.key);
+  return typeof row.key === 'string' && /desktop[\s.]/.test(row.key);
 }
 
 /**

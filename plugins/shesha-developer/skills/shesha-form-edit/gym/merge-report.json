@@ -1,43 +1,13 @@
 {
-  "mergedAt": "2026-07-22T10:05:45.982Z",
-  "measuredAt": "2026-07-22T10:04:39.760Z",
+  "mergedAt": "2026-07-22T11:21:49.233Z",
+  "measuredAt": "2026-07-22T11:18:46.667Z",
   "matched": 15,
   "unmeasured": 19,
   "channelMismatches": [
     {
-      "component": "container",
-      "channel": "background.color",
-      "key": "desktop.background{type:'color',color}"
-    },
-    {
-      "component": "container",
-      "channel": "background.gradient",
-      "key": "desktop.background{type:'gradient',gradient:{direction,colors:{0,1}}}"
-    },
-    {
-      "component": "container",
-      "channel": "border.all",
-      "key": "desktop.border.borderType:'all'"
-    },
-    {
-      "component": "container",
-      "channel": "border.perSide",
-      "key": "desktop.border.borderType:'custom' + only wanted side"
-    },
-    {
-      "component": "container",
-      "channel": "border.radius",
-      "key": "desktop.border.radius.all"
-    },
-    {
-      "component": "container",
-      "channel": "dimensions.minHeight",
-      "key": "desktop.dimensions.minHeight:'fit-content' — only DIMENSIONS channel reaching the outer div. NOTE: the `overflow` BOOLEAN prop is a no-op, but the legacy `style` overflow IS NOT (see 'container:style overflow') — that reaches the inner div."
-    },
-    {
-      "component": "text",
-      "channel": "fontSize/fontWeight/color/align",
-      "key": "fontSize (Tailwind class) + fontWeight DIRECT props; desktop.font for exact; {{{triple-brace}}} raw"
+      "component": "card",
+      "channel": "bg/border/shadow/radius",
+      "key": "desktop block on the card; proven in the live form's rail panels (v3)"
     }
   ],
   "contradictions": []

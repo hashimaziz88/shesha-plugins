@@ -3,7 +3,7 @@
     {
       "id": "45aeca64-c4da-552f-9b12-008d78b6e16a",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-buttonGroup-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "45a60450-a510-5619-968b-22cb17d9c10b",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-buttonGroup-baseline",
           "label": "",
           "hideLabel": true,
@@ -28,7 +28,7 @@
             {
               "id": "d6b73523-36b7-5307-936f-f8d2f001b97c",
               "type": "buttonGroup",
-              "version": 10,
+              "version": 15,
               "label": "gym buttonGroup",
               "hidden": false,
               "spaceSize": "middle",
@@ -52,7 +52,7 @@
         {
           "id": "09c614c6-c981-5f89-b14c-3429ba587af3",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-buttonGroup-h-appearance",
           "content": "— appearance —",
           "textType": "span",
@@ -61,25 +61,25 @@
           "parentId": "45aeca64-c4da-552f-9b12-008d78b6e16a"
         },
         {
-          "id": "7a454b0d-34e3-5aad-aa90-03f98931d890",
+          "id": "25e124ad-f259-5a22-96ea-9aa3bb5dd4de",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-buttonGroup-v-4e66562d",
+          "version": 7,
+          "componentName": "gym-buttonGroup-v-0baf713f",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "8f1b8243-9d7c-5f07-b55c-938b50eb4de8",
+              "id": "3a8e295c-fec2-591b-ba39-9c2f9890c024",
               "type": "buttonGroup",
-              "version": 10,
+              "version": 15,
               "label": "gym buttonGroup",
               "hidden": false,
               "spaceSize": "middle",
-              "componentName": "gym-buttonGroup-inst-size=small",
+              "componentName": "gym-buttonGroup-inst-desktop.dimensions.width=317px",
               "items": [
                 {
-                  "id": "8bc18bc4-67c9-5707-8368-5e995733bf5a",
+                  "id": "705d9730-1206-5630-8dd6-286a371810d4",
                   "itemType": "item",
                   "itemSubType": "button",
                   "sortOrder": 0,
@@ -88,32 +88,36 @@
                   "buttonType": "default"
                 }
               ],
-              "size": "small",
-              "parentId": "7a454b0d-34e3-5aad-aa90-03f98931d890"
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
+              },
+              "parentId": "25e124ad-f259-5a22-96ea-9aa3bb5dd4de"
             }
           ],
           "parentId": "45aeca64-c4da-552f-9b12-008d78b6e16a"
         },
         {
-          "id": "58a11dca-0070-522a-a9c7-f281de3dac71",
+          "id": "79c8f3a1-197c-5278-8697-ba705069605a",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-buttonGroup-v-ca52e19b",
+          "version": 7,
+          "componentName": "gym-buttonGroup-v-529ccf25",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "9bf0085a-4ccc-5268-b841-b249bf6c51c6",
+              "id": "3acd551a-f0c5-5d52-b388-1b9f35da8329",
               "type": "buttonGroup",
-              "version": 10,
+              "version": 15,
               "label": "gym buttonGroup",
               "hidden": false,
               "spaceSize": "middle",
-              "componentName": "gym-buttonGroup-inst-size=middle",
+              "componentName": "gym-buttonGroup-inst-desktop.dimensions.height=117px",
               "items": [
                 {
-                  "id": "35256b29-11b6-555d-9444-2cceced5cb01",
+                  "id": "19efb728-8793-5446-842c-b53eb899c481",
                   "itemType": "item",
                   "itemSubType": "button",
                   "sortOrder": 0,
@@ -122,32 +126,36 @@
                   "buttonType": "default"
                 }
               ],
-              "size": "middle",
-              "parentId": "58a11dca-0070-522a-a9c7-f281de3dac71"
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "79c8f3a1-197c-5278-8697-ba705069605a"
             }
           ],
           "parentId": "45aeca64-c4da-552f-9b12-008d78b6e16a"
         },
         {
-          "id": "945b26a5-a485-52fa-b8ea-d7e72311bdf3",
+          "id": "16822fed-f9ee-5d1c-817b-9fa6a17b97a5",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-buttonGroup-v-15638072",
+          "version": 7,
+          "componentName": "gym-buttonGroup-v-f1866be0",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "237bbbf1-3cb4-5e9c-8f77-9b8a1928eb10",
+              "id": "b2fd43e4-ee22-5e73-a1ca-45ffd2c64110",
               "type": "buttonGroup",
-              "version": 10,
+              "version": 15,
               "label": "gym buttonGroup",
               "hidden": false,
               "spaceSize": "middle",
-              "componentName": "gym-buttonGroup-inst-size=large",
+              "componentName": "gym-buttonGroup-inst-desktop.background=color#ff00aa",
               "items": [
                 {
-                  "id": "975a1d5f-cd44-5ed3-96d7-766953342cc2",
+                  "id": "e22fc6e9-bb3e-5429-bca7-4391963dc405",
                   "itemType": "item",
                   "itemSubType": "button",
                   "sortOrder": 0,
@@ -156,8 +164,134 @@
                   "buttonType": "default"
                 }
               ],
-              "size": "large",
-              "parentId": "945b26a5-a485-52fa-b8ea-d7e72311bdf3"
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "16822fed-f9ee-5d1c-817b-9fa6a17b97a5"
+            }
+          ],
+          "parentId": "45aeca64-c4da-552f-9b12-008d78b6e16a"
+        },
+        {
+          "id": "b2bfe46a-9fb1-532c-9dc0-d610507f16d1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-buttonGroup-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "cde062b6-1ee4-55ef-877b-fce7004f59fc",
+              "type": "buttonGroup",
+              "version": 15,
+              "label": "gym buttonGroup",
+              "hidden": false,
+              "spaceSize": "middle",
+              "componentName": "gym-buttonGroup-inst-desktop.background=gradient",
+              "items": [
+                {
+                  "id": "3cff703c-5154-5426-84df-3e59a167b378",
+                  "itemType": "item",
+                  "itemSubType": "button",
+                  "sortOrder": 0,
+                  "name": "gymBtn",
+                  "label": "Gym Button",
+                  "buttonType": "default"
+                }
+              ],
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "b2bfe46a-9fb1-532c-9dc0-d610507f16d1"
+            }
+          ],
+          "parentId": "45aeca64-c4da-552f-9b12-008d78b6e16a"
+        },
+        {
+          "id": "0affb289-07be-57a0-a158-940b1f00af3f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-buttonGroup-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "10d061a5-8e92-5504-b05e-1b1ff1e716c4",
+              "type": "buttonGroup",
+              "version": 15,
+              "label": "gym buttonGroup",
+              "hidden": false,
+              "spaceSize": "middle",
+              "componentName": "gym-buttonGroup-inst-desktop.shadow=shadow17",
+              "items": [
+                {
+                  "id": "a47d7796-1c19-5a47-ab78-3bd3a26b395d",
+                  "itemType": "item",
+                  "itemSubType": "button",
+                  "sortOrder": 0,
+                  "name": "gymBtn",
+                  "label": "Gym Button",
+                  "buttonType": "default"
+                }
+              ],
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "0affb289-07be-57a0-a158-940b1f00af3f"
+            }
+          ],
+          "parentId": "45aeca64-c4da-552f-9b12-008d78b6e16a"
+        },
+        {
+          "id": "d737e1ad-55e4-58ce-aefb-eebcdc30afc9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-buttonGroup-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "441faa96-8333-5938-b4c0-2047bdc19e95",
+              "type": "buttonGroup",
+              "version": 15,
+              "label": "gym buttonGroup",
+              "hidden": false,
+              "spaceSize": "middle",
+              "componentName": "gym-buttonGroup-inst-stylingBox=stylingBox17",
+              "items": [
+                {
+                  "id": "2e57e3c5-f839-5f00-ad2d-712cd85c9092",
+                  "itemType": "item",
+                  "itemSubType": "button",
+                  "sortOrder": 0,
+                  "name": "gymBtn",
+                  "label": "Gym Button",
+                  "buttonType": "default"
+                }
+              ],
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "d737e1ad-55e4-58ce-aefb-eebcdc30afc9"
             }
           ],
           "parentId": "45aeca64-c4da-552f-9b12-008d78b6e16a"
@@ -165,7 +299,7 @@
         {
           "id": "e83309c3-3885-5843-8d1d-e513451a7056",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-buttonGroup-h-display",
           "content": "— display —",
           "textType": "span",
@@ -174,25 +308,25 @@
           "parentId": "45aeca64-c4da-552f-9b12-008d78b6e16a"
         },
         {
-          "id": "a9c08b7e-0915-53bd-885a-2e8aaeab5a2e",
+          "id": "058b179e-c994-587d-9e36-76f5282abe76",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-buttonGroup-v-51bc9eba",
+          "version": 7,
+          "componentName": "gym-buttonGroup-v-4fa02ac3",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "92d1f52c-c896-599e-89dc-84b27c79c044",
+              "id": "80e5a699-f3a2-522b-8586-0c59aa8b970b",
               "type": "buttonGroup",
-              "version": 10,
+              "version": 15,
               "label": "gym buttonGroup",
               "hidden": false,
-              "spaceSize": 17,
-              "componentName": "gym-buttonGroup-inst-spaceSize=17",
+              "spaceSize": "middle",
+              "componentName": "gym-buttonGroup-inst-gap=small",
               "items": [
                 {
-                  "id": "c439af68-5202-558d-87e5-3f45c96370b6",
+                  "id": "61c4006b-1c07-55d7-957a-6454505c112e",
                   "itemType": "item",
                   "itemSubType": "button",
                   "sortOrder": 0,
@@ -201,31 +335,32 @@
                   "buttonType": "default"
                 }
               ],
-              "parentId": "a9c08b7e-0915-53bd-885a-2e8aaeab5a2e"
+              "gap": "small",
+              "parentId": "058b179e-c994-587d-9e36-76f5282abe76"
             }
           ],
           "parentId": "45aeca64-c4da-552f-9b12-008d78b6e16a"
         },
         {
-          "id": "2d1d7f83-2aa5-5613-bb9b-ccc59b9bc5cb",
+          "id": "f3a4c2a0-533c-5041-8daf-488a782e3c0c",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-buttonGroup-v-2371b659",
+          "version": 7,
+          "componentName": "gym-buttonGroup-v-1b4efa4a",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "fdc780b5-58dd-5622-ac83-9c45fc1c510b",
+              "id": "1ab73a01-f0db-5820-86b3-b871a43faa20",
               "type": "buttonGroup",
-              "version": 10,
+              "version": 15,
               "label": "gym buttonGroup",
               "hidden": false,
               "spaceSize": "middle",
-              "componentName": "gym-buttonGroup-inst-isInline=true",
+              "componentName": "gym-buttonGroup-inst-gap=middle",
               "items": [
                 {
-                  "id": "eda1731d-5fc1-55e6-b76d-6a0a9861c652",
+                  "id": "66cf76f7-33ea-5ce8-9d65-98166eb82d05",
                   "itemType": "item",
                   "itemSubType": "button",
                   "sortOrder": 0,
@@ -234,8 +369,42 @@
                   "buttonType": "default"
                 }
               ],
-              "isInline": true,
-              "parentId": "2d1d7f83-2aa5-5613-bb9b-ccc59b9bc5cb"
+              "gap": "middle",
+              "parentId": "f3a4c2a0-533c-5041-8daf-488a782e3c0c"
+            }
+          ],
+          "parentId": "45aeca64-c4da-552f-9b12-008d78b6e16a"
+        },
+        {
+          "id": "2c30dd53-99fb-5a6f-8110-66d126d46414",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-buttonGroup-v-126a2764",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4f36bff9-b177-5098-80da-a1355b478caa",
+              "type": "buttonGroup",
+              "version": 15,
+              "label": "gym buttonGroup",
+              "hidden": false,
+              "spaceSize": "middle",
+              "componentName": "gym-buttonGroup-inst-gap=large",
+              "items": [
+                {
+                  "id": "b0b42ad9-12fd-580b-a12b-f3a247950085",
+                  "itemType": "item",
+                  "itemSubType": "button",
+                  "sortOrder": 0,
+                  "name": "gymBtn",
+                  "label": "Gym Button",
+                  "buttonType": "default"
+                }
+              ],
+              "gap": "large",
+              "parentId": "2c30dd53-99fb-5a6f-8110-66d126d46414"
             }
           ],
           "parentId": "45aeca64-c4da-552f-9b12-008d78b6e16a"

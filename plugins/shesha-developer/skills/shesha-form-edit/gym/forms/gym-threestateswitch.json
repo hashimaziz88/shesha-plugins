@@ -1,0 +1,230 @@
+{
+  "components": [
+    {
+      "id": "d3501996-2d9c-557a-ae66-99deb1e61321",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-threeStateSwitch-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "4a7a906d-44fa-5570-8ba5-b40e45500c66",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-threeStateSwitch-validation-errors",
+          "parentId": "d3501996-2d9c-557a-ae66-99deb1e61321"
+        },
+        {
+          "id": "4dd52b47-b5ee-5b7d-8a7e-0bc969f058f0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-threeStateSwitch-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2c415f96-801d-55f4-bee6-06f2e33c6a84",
+              "type": "threeStateSwitch",
+              "version": 1,
+              "label": "gym threeStateSwitch",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "4dd52b47-b5ee-5b7d-8a7e-0bc969f058f0"
+            }
+          ],
+          "parentId": "d3501996-2d9c-557a-ae66-99deb1e61321"
+        },
+        {
+          "id": "e2e9a375-629e-5398-b0ad-6904caad42b4",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-threeStateSwitch-h-validation",
+          "content": "— validation —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d3501996-2d9c-557a-ae66-99deb1e61321"
+        },
+        {
+          "id": "bd073316-d854-5cc1-8ca6-6be8720d5cf3",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-threeStateSwitch-v-9d11999c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "be3b705b-eca0-56d0-b697-f0aaab954382",
+              "type": "threeStateSwitch",
+              "version": 1,
+              "label": "gym threeStateSwitch",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "validate": {
+                "required": true
+              },
+              "parentId": "bd073316-d854-5cc1-8ca6-6be8720d5cf3"
+            }
+          ],
+          "parentId": "d3501996-2d9c-557a-ae66-99deb1e61321"
+        },
+        {
+          "id": "6cb8ad9d-af47-5124-8064-8efa3c4b6054",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-threeStateSwitch-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d3501996-2d9c-557a-ae66-99deb1e61321"
+        },
+        {
+          "id": "49c3daa2-2957-5481-9128-20c444df7971",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-threeStateSwitch-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "fe42935d-c8d8-58e0-a14c-38984e8c78aa",
+              "type": "threeStateSwitch",
+              "version": 1,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "49c3daa2-2957-5481-9128-20c444df7971"
+            }
+          ],
+          "parentId": "d3501996-2d9c-557a-ae66-99deb1e61321"
+        },
+        {
+          "id": "900189b9-9a54-5545-8756-b0591a19ed94",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-threeStateSwitch-v-ba90c652",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8b15d237-ddee-5a6b-a12e-f75279506610",
+              "type": "threeStateSwitch",
+              "version": 1,
+              "label": "gym threeStateSwitch",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "labelAlign": "left",
+              "parentId": "900189b9-9a54-5545-8756-b0591a19ed94"
+            }
+          ],
+          "parentId": "d3501996-2d9c-557a-ae66-99deb1e61321"
+        },
+        {
+          "id": "6331e168-2d13-509e-8289-07da63fb8e2a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-threeStateSwitch-v-9014b9af",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8b5a8ecb-6b9a-59e0-b9f7-3510b7d53ed3",
+              "type": "threeStateSwitch",
+              "version": 1,
+              "label": "gym threeStateSwitch",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "labelAlign": "right",
+              "parentId": "6331e168-2d13-509e-8289-07da63fb8e2a"
+            }
+          ],
+          "parentId": "d3501996-2d9c-557a-ae66-99deb1e61321"
+        },
+        {
+          "id": "f0f3efca-9d6c-535a-a921-f68439f60527",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-threeStateSwitch-v-a76e668c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "15bdca13-708f-5314-81c1-f927d0d98c1f",
+              "type": "threeStateSwitch",
+              "version": 1,
+              "label": "gym threeStateSwitch",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "description": "GYM-TXT-description",
+              "parentId": "f0f3efca-9d6c-535a-a921-f68439f60527"
+            }
+          ],
+          "parentId": "d3501996-2d9c-557a-ae66-99deb1e61321"
+        },
+        {
+          "id": "df4cbaa0-3d83-5780-8a6f-afcea643d67a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-threeStateSwitch-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "369f35ba-2773-5415-9005-b5ae06e8f69a",
+              "type": "threeStateSwitch",
+              "version": 1,
+              "label": "gym threeStateSwitch",
+              "hidden": true,
+              "propertyName": "gymValue",
+              "parentId": "df4cbaa0-3d83-5780-8a6f-afcea643d67a"
+            }
+          ],
+          "parentId": "d3501996-2d9c-557a-ae66-99deb1e61321"
+        },
+        {
+          "id": "7f21e6af-3bb9-5176-b52e-07d3e51f735a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-threeStateSwitch-v-8ae8db35",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "90ec87ac-1702-5fb7-90e0-a4db3dbebfaa",
+              "type": "threeStateSwitch",
+              "version": 1,
+              "label": "gym threeStateSwitch",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "hideLabel": true,
+              "parentId": "7f21e6af-3bb9-5176-b52e-07d3e51f735a"
+            }
+          ],
+          "parentId": "d3501996-2d9c-557a-ae66-99deb1e61321"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

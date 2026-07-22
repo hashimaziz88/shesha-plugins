@@ -3,7 +3,7 @@
     {
       "id": "8037d559-6a09-565c-befb-51086b7b7b87",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-timePicker-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "e7dbd2f6-211f-59c2-9e92-dccdb52dc0b1",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-timePicker-baseline",
           "label": "",
           "hideLabel": true,
@@ -28,7 +28,7 @@
             {
               "id": "dcbdfb53-3155-5148-9daa-df4fbb83b2d1",
               "type": "timePicker",
-              "version": 4,
+              "version": 5,
               "label": "gym timePicker",
               "hidden": false,
               "propertyName": "gymValue",
@@ -40,7 +40,7 @@
         {
           "id": "8990cd9c-020f-5c0a-8946-0d687a167e04",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-timePicker-h-appearance",
           "content": "— appearance —",
           "textType": "span",
@@ -49,124 +49,243 @@
           "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
         },
         {
-          "id": "877d649f-9aae-5abd-93ae-2899fa504bd8",
+          "id": "a6f995c1-16f6-5e51-b8d4-36bb4d5ebe4e",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-f65d35ed",
+          "version": 7,
+          "componentName": "gym-timePicker-v-074fd9c2",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "f8ab4c3a-ae39-545e-bf52-30e37db3772f",
+              "id": "0b73dd52-76b6-5bda-8cb5-f3ee40324e33",
               "type": "timePicker",
-              "version": 4,
+              "version": 5,
               "label": "gym timePicker",
               "hidden": false,
               "propertyName": "gymValue",
-              "hideBorder": true,
-              "parentId": "877d649f-9aae-5abd-93ae-2899fa504bd8"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "eeefcc64-d68a-5b43-8dd4-4e0f58cf6a97",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-4e66562d",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "9ba2d1ae-2ff7-574b-af25-ece3c7248e15",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "size": "small",
-              "parentId": "eeefcc64-d68a-5b43-8dd4-4e0f58cf6a97"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "96c096a2-6672-52a1-b01f-37d6243345b2",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-ca52e19b",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "cf47ce00-7459-514a-bbe2-0360235be804",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "size": "middle",
-              "parentId": "96c096a2-6672-52a1-b01f-37d6243345b2"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "90a2a98c-c3ab-5ff7-ac27-a88839d550fd",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-15638072",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "468d1258-435f-5deb-abf5-52b304fad981",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "size": "large",
-              "parentId": "90a2a98c-c3ab-5ff7-ac27-a88839d550fd"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "49a92ff9-ad58-589f-91ed-b9de1c095298",
-          "type": "text",
-          "version": 2,
-          "componentName": "gym-timePicker-h-validation",
-          "content": "— validation —",
-          "textType": "span",
-          "contentDisplay": "content",
-          "hideLabel": true,
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "36938006-4165-5b96-941c-eb220972866d",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-9d11999c",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "dd754374-660e-5a84-86b9-70fb958c74d5",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "validate": {
-                "required": true
+              "desktop": {
+                "font": {
+                  "size": 17
+                }
               },
-              "parentId": "36938006-4165-5b96-941c-eb220972866d"
+              "parentId": "a6f995c1-16f6-5e51-b8d4-36bb4d5ebe4e"
+            }
+          ],
+          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
+        },
+        {
+          "id": "737d6199-7130-5843-9294-e42816aa0f2d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-timePicker-v-1a3af3ee",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "69147e19-eb58-5197-9ddf-d4583906c474",
+              "type": "timePicker",
+              "version": 5,
+              "label": "gym timePicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "font": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "737d6199-7130-5843-9294-e42816aa0f2d"
+            }
+          ],
+          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
+        },
+        {
+          "id": "51a67f3f-60a2-56cd-8a29-dd02ea43767b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-timePicker-v-346fd5ac",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "600ea120-7037-5b92-8e20-9f566acc11e2",
+              "type": "timePicker",
+              "version": 5,
+              "label": "gym timePicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "font": {
+                  "weight": "700"
+                }
+              },
+              "parentId": "51a67f3f-60a2-56cd-8a29-dd02ea43767b"
+            }
+          ],
+          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
+        },
+        {
+          "id": "27a50eb5-2c26-5727-8eb9-a17bf3bbcae3",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-timePicker-v-0baf713f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d4ca09c9-e8b5-57d9-84fa-58bfaef74d02",
+              "type": "timePicker",
+              "version": 5,
+              "label": "gym timePicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
+              },
+              "parentId": "27a50eb5-2c26-5727-8eb9-a17bf3bbcae3"
+            }
+          ],
+          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
+        },
+        {
+          "id": "f9120dfe-7318-5333-9e2c-81bb75a62979",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-timePicker-v-529ccf25",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "927796fb-c495-5eff-89f6-a17840f935ad",
+              "type": "timePicker",
+              "version": 5,
+              "label": "gym timePicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "f9120dfe-7318-5333-9e2c-81bb75a62979"
+            }
+          ],
+          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
+        },
+        {
+          "id": "a3bedbac-c606-5cb2-92d9-ccc31983acd2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-timePicker-v-f1866be0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b2c743be-295b-5896-beda-074bb3c9e0fa",
+              "type": "timePicker",
+              "version": 5,
+              "label": "gym timePicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "a3bedbac-c606-5cb2-92d9-ccc31983acd2"
+            }
+          ],
+          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
+        },
+        {
+          "id": "e7e4d036-6ede-5cf5-91b8-c629a20c902d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-timePicker-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2e3d25c8-83fa-5eb9-a7fd-2caf210be852",
+              "type": "timePicker",
+              "version": 5,
+              "label": "gym timePicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "e7e4d036-6ede-5cf5-91b8-c629a20c902d"
+            }
+          ],
+          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
+        },
+        {
+          "id": "e3aafbbf-bf81-56d9-a238-ab67bdd5e5ec",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-timePicker-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5b256ca0-6edf-5ef4-8f62-dcae8620fab0",
+              "type": "timePicker",
+              "version": 5,
+              "label": "gym timePicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "e3aafbbf-bf81-56d9-a238-ab67bdd5e5ec"
+            }
+          ],
+          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
+        },
+        {
+          "id": "385b858c-dcc0-5ab1-b059-a13e79b6c17b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-timePicker-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a2b0ff44-bb7f-5ffc-a923-6695f4bd6b7f",
+              "type": "timePicker",
+              "version": 5,
+              "label": "gym timePicker",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "385b858c-dcc0-5ab1-b059-a13e79b6c17b"
             }
           ],
           "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
@@ -174,7 +293,7 @@
         {
           "id": "39bbabb7-aff0-56b5-bfae-8cc322f6b430",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-timePicker-h-display",
           "content": "— display —",
           "textType": "span",
@@ -183,228 +302,9 @@
           "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
         },
         {
-          "id": "3c428115-c7ec-56dd-b8fd-6e9f893801a5",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-1b640f90",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "99e6d6a8-0534-52cf-94bd-282045187242",
-              "type": "timePicker",
-              "version": 4,
-              "label": "GYM-TXT-label",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "parentId": "3c428115-c7ec-56dd-b8fd-6e9f893801a5"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "4b7b8a0f-faa2-55b1-9906-144a247a8e65",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-09312876",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "97c2eac4-dc76-5eed-9d75-8eb24d0a4bfb",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "inputReadOnly": true,
-              "parentId": "4b7b8a0f-faa2-55b1-9906-144a247a8e65"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "07a4431e-dbd5-529f-9dd4-d2d77d0fe6d8",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-8f15d211",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "79cbb524-2699-5772-9f94-ec4038b44404",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "range": true,
-              "parentId": "07a4431e-dbd5-529f-9dd4-d2d77d0fe6d8"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "2fe63d04-0920-5fbb-8597-0e312cd3d577",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-882ea9ab",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "01ebf0a7-10d2-54de-98e1-be8bfc796423",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "use12Hours": true,
-              "parentId": "2fe63d04-0920-5fbb-8597-0e312cd3d577"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "39b4ba9d-8a23-5334-8884-c138614f0abb",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-ba90c652",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "df0b22db-1563-5996-9443-a6352c142019",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "labelAlign": "left",
-              "parentId": "39b4ba9d-8a23-5334-8884-c138614f0abb"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "b2a6c968-0343-5a9b-9852-c52dd3c43801",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-9014b9af",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "504b45b6-79d2-5903-a39f-cbe28731b8c6",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "labelAlign": "right",
-              "parentId": "b2a6c968-0343-5a9b-9852-c52dd3c43801"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "4bc4069e-513f-57af-bda2-276ea60a3ed7",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-3118296d",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "4040599f-d641-580d-b202-665fd74d541f",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "allowClear": true,
-              "parentId": "4bc4069e-513f-57af-bda2-276ea60a3ed7"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "5c851d5b-37d5-5a74-a713-b54061346857",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-ec315da6",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "cf391050-08e7-5994-b790-4e91db9a7a08",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "showNow": true,
-              "parentId": "5c851d5b-37d5-5a74-a713-b54061346857"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "a1d7ce7e-ba7c-5565-920f-2e5664955a07",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-0dd841af",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "c624d29f-9780-553c-87cb-ab58cba468ef",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "autoFocus": true,
-              "parentId": "a1d7ce7e-ba7c-5565-920f-2e5664955a07"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "65850d35-d25c-58c2-83e0-e220af2d8acc",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-9cb0e4d4",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "c12f011e-d101-52c6-94a8-f8f8bae23230",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "hideDisabledOptions": true,
-              "parentId": "65850d35-d25c-58c2-83e0-e220af2d8acc"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
           "id": "643a51ba-a3a8-594f-acd1-dfcca3ec9d93",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-timePicker-v-ae8981bd",
           "label": "",
           "hideLabel": true,
@@ -413,7 +313,7 @@
             {
               "id": "cbd8ff52-047f-5c1b-bc09-a19350c6df15",
               "type": "timePicker",
-              "version": 4,
+              "version": 5,
               "label": "gym timePicker",
               "hidden": false,
               "propertyName": "gymValue",
@@ -424,176 +324,67 @@
           "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
         },
         {
-          "id": "e01f3d60-577d-5a83-90c3-e8bb58c2236b",
+          "id": "4bc4069e-513f-57af-bda2-276ea60a3ed7",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-a76e668c",
+          "version": 7,
+          "componentName": "gym-timePicker-v-3118296d",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "8a55aee8-3040-5ef7-ac02-5dbac6838fdd",
+              "id": "4040599f-d641-580d-b202-665fd74d541f",
               "type": "timePicker",
-              "version": 4,
+              "version": 5,
               "label": "gym timePicker",
               "hidden": false,
               "propertyName": "gymValue",
-              "description": "GYM-TXT-description",
-              "parentId": "e01f3d60-577d-5a83-90c3-e8bb58c2236b"
+              "allowClear": true,
+              "parentId": "4bc4069e-513f-57af-bda2-276ea60a3ed7"
             }
           ],
           "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
         },
         {
-          "id": "8cf64339-caad-5ba4-97f3-b53e64f85e07",
+          "id": "b6366028-2459-531a-9809-f76123ad4213",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-a058f647",
+          "version": 7,
+          "componentName": "gym-timePicker-v-32f19b3e",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "b77471d8-a320-55c8-90e2-53a47f287129",
+              "id": "28aa98ae-5c83-5bc9-bab1-0cb0e474e9d4",
               "type": "timePicker",
-              "version": 4,
+              "version": 5,
               "label": "gym timePicker",
-              "hidden": true,
+              "hidden": false,
               "propertyName": "gymValue",
-              "parentId": "8cf64339-caad-5ba4-97f3-b53e64f85e07"
+              "onBlurCustom": 17,
+              "parentId": "b6366028-2459-531a-9809-f76123ad4213"
             }
           ],
           "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
         },
         {
-          "id": "084afad4-e652-55c8-b279-f67985217eab",
+          "id": "7c14d207-7669-5d42-b937-174a99fe676b",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-8ae8db35",
+          "version": 7,
+          "componentName": "gym-timePicker-v-396a3c9c",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "689c4856-a7ca-535b-97cc-77ea6e543939",
+              "id": "af4fabbf-a7d4-59da-a2cb-5455e6825d72",
               "type": "timePicker",
-              "version": 4,
+              "version": 5,
               "label": "gym timePicker",
               "hidden": false,
               "propertyName": "gymValue",
-              "hideLabel": true,
-              "parentId": "084afad4-e652-55c8-b279-f67985217eab"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "61c17fcb-9c21-5645-8945-0634d95c0af9",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-cb7e2795",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "87b6886a-3710-5f16-9a26-843e930a8eea",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "editMode": "readOnly",
-              "parentId": "61c17fcb-9c21-5645-8945-0634d95c0af9"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "b26649a5-5be8-56c6-b247-1c5c8c8dbf96",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-98d8d69f",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "c572a7e3-af19-5fbc-ae64-c36a42a519f1",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "format": "GYM-TXT-format",
-              "parentId": "b26649a5-5be8-56c6-b247-1c5c8c8dbf96"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "43032deb-1beb-5e2d-aa42-e1ed8ea3ecff",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-2dc59349",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "03d48ede-9b88-5e58-822b-7027d6666537",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "hourStep": 17,
-              "parentId": "43032deb-1beb-5e2d-aa42-e1ed8ea3ecff"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "cf4168f5-abe1-58ef-bcd1-15a5090f375c",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-afbbca0d",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "40e6fcad-488c-5404-8b4e-9923db03934a",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "minuteStep": 17,
-              "parentId": "cf4168f5-abe1-58ef-bcd1-15a5090f375c"
-            }
-          ],
-          "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"
-        },
-        {
-          "id": "3c0ae477-9dac-5ff8-aa95-1c3cec9229fc",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-timePicker-v-b51f1f76",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "afc52f3a-1a46-5969-8dec-4980f3346235",
-              "type": "timePicker",
-              "version": 4,
-              "label": "gym timePicker",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "secondStep": 17,
-              "parentId": "3c0ae477-9dac-5ff8-aa95-1c3cec9229fc"
+              "enableStyleOnReadonly": true,
+              "parentId": "7c14d207-7669-5d42-b937-174a99fe676b"
             }
           ],
           "parentId": "8037d559-6a09-565c-befb-51086b7b7b87"

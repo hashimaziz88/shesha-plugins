@@ -3,7 +3,7 @@
     {
       "id": "00e96a5d-f414-5d1b-b622-3f980879d026",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-dateField-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "820cb010-14a9-5a7d-aa64-5a7609251abc",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-dateField-baseline",
           "label": "",
           "hideLabel": true,
@@ -28,7 +28,7 @@
             {
               "id": "e23c3865-b9e0-52d1-98f2-7c9fc982b38e",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
@@ -40,7 +40,7 @@
         {
           "id": "966fa07e-3d0d-53b4-b508-877729551872",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-dateField-h-appearance",
           "content": "— appearance —",
           "textType": "span",
@@ -49,267 +49,243 @@
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
         },
         {
-          "id": "6d8e1319-c1b9-5906-824a-7b6820d11d4f",
+          "id": "240d6867-a224-55cc-9283-5e08061bc777",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-f65d35ed",
+          "version": 7,
+          "componentName": "gym-dateField-v-074fd9c2",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "1eff17d3-eb88-504a-bb69-de0bbc9f58de",
+              "id": "dbe97247-453b-5678-8390-5a9d54626615",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
-              "hideBorder": true,
-              "parentId": "6d8e1319-c1b9-5906-824a-7b6820d11d4f"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "88077274-ed18-50ee-8537-a0a5b7e09ba4",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-4e66562d",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "53494b15-2bb7-534b-8009-7c464c3c5a9d",
-              "type": "dateField",
-              "version": 5,
-              "label": "gym dateField",
-              "hidden": false,
-              "propertyName": "purchaseDate",
-              "size": "small",
-              "parentId": "88077274-ed18-50ee-8537-a0a5b7e09ba4"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "84a0a7cd-41f8-5653-80b7-3ec85b935210",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-ca52e19b",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "2446bd33-cf6c-5d10-8a3f-46ace68eaf26",
-              "type": "dateField",
-              "version": 5,
-              "label": "gym dateField",
-              "hidden": false,
-              "propertyName": "purchaseDate",
-              "size": "middle",
-              "parentId": "84a0a7cd-41f8-5653-80b7-3ec85b935210"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "972761d5-070e-508e-8989-b79db49c8fc8",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-15638072",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "40937b48-bdc4-5027-b3a8-3b3c3b970c76",
-              "type": "dateField",
-              "version": 5,
-              "label": "gym dateField",
-              "hidden": false,
-              "propertyName": "purchaseDate",
-              "size": "large",
-              "parentId": "972761d5-070e-508e-8989-b79db49c8fc8"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "c7e8a70b-f322-5cd4-9f4f-b6deb0697cdd",
-          "type": "text",
-          "version": 2,
-          "componentName": "gym-dateField-h-validation",
-          "content": "— validation —",
-          "textType": "span",
-          "contentDisplay": "content",
-          "hideLabel": true,
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "ed3bc044-a772-5257-be68-2b823e8611fa",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-9d11999c",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "3161d442-a1e0-53a5-b714-59c88eb5452a",
-              "type": "dateField",
-              "version": 5,
-              "label": "gym dateField",
-              "hidden": false,
-              "propertyName": "purchaseDate",
-              "validate": {
-                "required": true
+              "desktop": {
+                "font": {
+                  "size": 17
+                }
               },
-              "parentId": "ed3bc044-a772-5257-be68-2b823e8611fa"
+              "parentId": "240d6867-a224-55cc-9283-5e08061bc777"
             }
           ],
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
         },
         {
-          "id": "bfb1fa10-f88a-50be-885c-1a802612af17",
-          "type": "text",
-          "version": 2,
-          "componentName": "gym-dateField-h-data",
-          "content": "— data —",
-          "textType": "span",
-          "contentDisplay": "content",
-          "hideLabel": true,
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "d993e6af-4a7d-5023-b766-899a63b3e6c2",
+          "id": "d1e5a313-77e9-510b-9013-02edaf3a8475",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-6ed549e4",
+          "version": 7,
+          "componentName": "gym-dateField-v-1a3af3ee",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "b6f59836-94f6-5635-a230-2bd8fff36355",
+              "id": "dfd40eb9-152c-5d32-9e6d-de61ac457c60",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
-              "dateFormat": "GYM-TXT-dateFormat",
-              "parentId": "d993e6af-4a7d-5023-b766-899a63b3e6c2"
+              "desktop": {
+                "font": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "d1e5a313-77e9-510b-9013-02edaf3a8475"
             }
           ],
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
         },
         {
-          "id": "928723c9-ea7c-5da5-a8f1-72a39bac8e32",
+          "id": "e3224737-8018-5865-93e2-ef0798e49e85",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-d7ee5614",
+          "version": 7,
+          "componentName": "gym-dateField-v-346fd5ac",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "4b5a5b6c-05c5-52c8-acc2-14087da7e29e",
+              "id": "2bd93441-7e4e-5607-b1a0-fd669e274936",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
-              "timeFormat": "GYM-TXT-timeFormat",
-              "parentId": "928723c9-ea7c-5da5-a8f1-72a39bac8e32"
+              "desktop": {
+                "font": {
+                  "weight": "700"
+                }
+              },
+              "parentId": "e3224737-8018-5865-93e2-ef0798e49e85"
             }
           ],
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
         },
         {
-          "id": "ff4d0674-65e2-5450-97dd-ed12bf1fa88e",
+          "id": "bed71ea4-2f5d-50a2-b2f5-e2e1c5f52d0c",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-51cba3a4",
+          "version": 7,
+          "componentName": "gym-dateField-v-0baf713f",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "14b7bdc9-8cc8-537a-9f4b-3a978ff9b355",
+              "id": "80335c77-6509-5c50-9ce3-3c5f9ad2a5a6",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
-              "yearFormat": "GYM-TXT-yearFormat",
-              "parentId": "ff4d0674-65e2-5450-97dd-ed12bf1fa88e"
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
+              },
+              "parentId": "bed71ea4-2f5d-50a2-b2f5-e2e1c5f52d0c"
             }
           ],
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
         },
         {
-          "id": "b47fe89b-b645-5195-a390-d69e9fa2630e",
+          "id": "1675dd3e-c169-5088-aaa0-31c5afdb941e",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-6235e809",
+          "version": 7,
+          "componentName": "gym-dateField-v-529ccf25",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "72abced0-bdfd-5a16-97f9-3135d3fd4b06",
+              "id": "fdbc8657-504f-5306-b165-e88210106059",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
-              "quarterFormat": "GYM-TXT-quarterFormat",
-              "parentId": "b47fe89b-b645-5195-a390-d69e9fa2630e"
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "1675dd3e-c169-5088-aaa0-31c5afdb941e"
             }
           ],
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
         },
         {
-          "id": "a8ea4362-a541-5151-ba9c-8135669b8c93",
+          "id": "bb8f1e29-da9b-50d8-9724-1ada8f7b5c5e",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-76411e7a",
+          "version": 7,
+          "componentName": "gym-dateField-v-f1866be0",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "f81be7db-4872-56d8-9f84-a5e6de788826",
+              "id": "e9787c77-77ee-5770-a8f4-ced1e2ab22fb",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
-              "monthFormat": "GYM-TXT-monthFormat",
-              "parentId": "a8ea4362-a541-5151-ba9c-8135669b8c93"
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "bb8f1e29-da9b-50d8-9724-1ada8f7b5c5e"
             }
           ],
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
         },
         {
-          "id": "5e90b9aa-0b3a-54c3-b9fa-637dafbb5906",
+          "id": "6b81d38e-aef6-5457-ad47-70065c346aab",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-7a6051ef",
+          "version": 7,
+          "componentName": "gym-dateField-v-8db175ab",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "59ed816d-dcb2-51ca-851d-232ffdb71fbf",
+              "id": "984901c5-5dff-58c8-a794-b4bcae3cb9bd",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
-              "weekFormat": "GYM-TXT-weekFormat",
-              "parentId": "5e90b9aa-0b3a-54c3-b9fa-637dafbb5906"
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "6b81d38e-aef6-5457-ad47-70065c346aab"
+            }
+          ],
+          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
+        },
+        {
+          "id": "d0848352-20c5-5452-a6bd-78d49637ee70",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dateField-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4f5644a9-79f0-51b5-b3e2-d49036d7727a",
+              "type": "dateField",
+              "version": 7,
+              "label": "gym dateField",
+              "hidden": false,
+              "propertyName": "purchaseDate",
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "d0848352-20c5-5452-a6bd-78d49637ee70"
+            }
+          ],
+          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
+        },
+        {
+          "id": "d5426690-e4d4-5322-b38c-f43625319044",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dateField-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1b0a8b79-360d-51ae-ad05-fa965c953aa2",
+              "type": "dateField",
+              "version": 7,
+              "label": "gym dateField",
+              "hidden": false,
+              "propertyName": "purchaseDate",
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "d5426690-e4d4-5322-b38c-f43625319044"
             }
           ],
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
@@ -317,7 +293,7 @@
         {
           "id": "e992a5e1-f18b-5d4f-ac71-cbb280d888d9",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-dateField-h-display",
           "content": "— display —",
           "textType": "span",
@@ -326,110 +302,23 @@
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
         },
         {
-          "id": "c0d65d8b-6ff2-50cc-80c1-c2a1bf68881a",
+          "id": "d39c3fbc-bfb2-5cd8-91f5-9da02c003ac0",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-1b640f90",
+          "version": 7,
+          "componentName": "gym-dateField-v-ae8981bd",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "4f68f733-a395-5e2c-be21-28dd1020dc1c",
+              "id": "c694d7bf-39a0-588e-9c62-c0bb722ecbb8",
               "type": "dateField",
-              "version": 5,
-              "label": "GYM-TXT-label",
-              "hidden": false,
-              "propertyName": "purchaseDate",
-              "parentId": "c0d65d8b-6ff2-50cc-80c1-c2a1bf68881a"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "bf2bb5a2-c4a7-517f-86b6-38f10a8f9a9d",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-8f15d211",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "c8fd8599-32de-5426-a1b0-1172a4faabf1",
-              "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
-              "range": true,
-              "parentId": "bf2bb5a2-c4a7-517f-86b6-38f10a8f9a9d"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "3ffb4b63-2d74-50a1-970d-5da4741a0ec3",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-98374450",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "344d886c-7827-5523-a5c3-0cf339deca15",
-              "type": "dateField",
-              "version": 5,
-              "label": "gym dateField",
-              "hidden": false,
-              "propertyName": "purchaseDate",
-              "resolveToUTC": true,
-              "parentId": "3ffb4b63-2d74-50a1-970d-5da4741a0ec3"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "7a8e2276-4c05-530d-83c3-90b8f96bf6e0",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-ba90c652",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "3829b3da-70e0-5ae3-a47c-c768092d07bf",
-              "type": "dateField",
-              "version": 5,
-              "label": "gym dateField",
-              "hidden": false,
-              "propertyName": "purchaseDate",
-              "labelAlign": "left",
-              "parentId": "7a8e2276-4c05-530d-83c3-90b8f96bf6e0"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "3dc688a0-210e-5ed8-865b-f34ad2aa7ce2",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-9014b9af",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "7cf02da0-cb64-5aed-8548-f5f36bbbb5ae",
-              "type": "dateField",
-              "version": 5,
-              "label": "gym dateField",
-              "hidden": false,
-              "propertyName": "purchaseDate",
-              "labelAlign": "right",
-              "parentId": "3dc688a0-210e-5ed8-865b-f34ad2aa7ce2"
+              "placeholder": "GYM-TXT-placeholder",
+              "parentId": "d39c3fbc-bfb2-5cd8-91f5-9da02c003ac0"
             }
           ],
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
@@ -437,7 +326,7 @@
         {
           "id": "c4fc5efc-e28b-5379-a86d-563960cb2ba4",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-dateField-v-488cdc6b",
           "label": "",
           "hideLabel": true,
@@ -446,7 +335,7 @@
             {
               "id": "f5baeb55-0a24-5cbc-ad67-f9a617dd8cfc",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
@@ -459,7 +348,7 @@
         {
           "id": "0b7aab43-0c5a-5745-8595-428b227c3f30",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-dateField-v-6b47cad3",
           "label": "",
           "hideLabel": true,
@@ -468,7 +357,7 @@
             {
               "id": "76785c5b-5ace-53b1-b4eb-b66f2ee7282e",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
@@ -481,7 +370,7 @@
         {
           "id": "2a61cd16-96b4-5230-ba30-9f488e70f776",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-dateField-v-a3fd8f93",
           "label": "",
           "hideLabel": true,
@@ -490,7 +379,7 @@
             {
               "id": "d84ceb03-5fff-50f9-8a95-e1c8f2edaabd",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
@@ -503,7 +392,7 @@
         {
           "id": "7ef639df-e8a4-5d34-8724-f88d3f32743d",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-dateField-v-97ea6500",
           "label": "",
           "hideLabel": true,
@@ -512,7 +401,7 @@
             {
               "id": "2cace8b7-221e-5248-a3cb-4cb4c7c3c885",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
@@ -525,7 +414,7 @@
         {
           "id": "0a2cc60d-8267-541b-9fdb-0c5b0cadaa83",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-dateField-v-995b457f",
           "label": "",
           "hideLabel": true,
@@ -534,7 +423,7 @@
             {
               "id": "099d5b9a-d289-5dff-866d-23aa629b4023",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
@@ -545,118 +434,9 @@
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
         },
         {
-          "id": "d39c3fbc-bfb2-5cd8-91f5-9da02c003ac0",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-ae8981bd",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "c694d7bf-39a0-588e-9c62-c0bb722ecbb8",
-              "type": "dateField",
-              "version": 5,
-              "label": "gym dateField",
-              "hidden": false,
-              "propertyName": "purchaseDate",
-              "placeholder": "GYM-TXT-placeholder",
-              "parentId": "d39c3fbc-bfb2-5cd8-91f5-9da02c003ac0"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "87e844f7-2873-5e03-8110-30a512e2219e",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-a76e668c",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "d9f9e036-1be6-52ca-ba53-50335c20cf90",
-              "type": "dateField",
-              "version": 5,
-              "label": "gym dateField",
-              "hidden": false,
-              "propertyName": "purchaseDate",
-              "description": "GYM-TXT-description",
-              "parentId": "87e844f7-2873-5e03-8110-30a512e2219e"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "2cbca097-92c7-53e3-9ca7-36a7da217fb7",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-a058f647",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "bc22501f-c16e-5d74-8036-a75ba780db29",
-              "type": "dateField",
-              "version": 5,
-              "label": "gym dateField",
-              "hidden": true,
-              "propertyName": "purchaseDate",
-              "parentId": "2cbca097-92c7-53e3-9ca7-36a7da217fb7"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "d3cacaad-8e57-5496-a138-731fbcaf414b",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-8ae8db35",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "ef75bb61-b64c-5aad-b98b-1a97ea3df59d",
-              "type": "dateField",
-              "version": 5,
-              "label": "gym dateField",
-              "hidden": false,
-              "propertyName": "purchaseDate",
-              "hideLabel": true,
-              "parentId": "d3cacaad-8e57-5496-a138-731fbcaf414b"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
-          "id": "2207414e-6f3f-5d6c-b44a-c69f206313c0",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-cb7e2795",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "2f2d7e14-138a-5486-b9d5-2378c261eedd",
-              "type": "dateField",
-              "version": 5,
-              "label": "gym dateField",
-              "hidden": false,
-              "propertyName": "purchaseDate",
-              "editMode": "readOnly",
-              "parentId": "2207414e-6f3f-5d6c-b44a-c69f206313c0"
-            }
-          ],
-          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
-        },
-        {
           "id": "9f315b92-aef4-5d5a-9ddb-ac090a493bcb",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-dateField-v-ad21fb3d",
           "label": "",
           "hideLabel": true,
@@ -665,7 +445,7 @@
             {
               "id": "d6321c3b-8125-55b1-bce5-1299ce56ba1d",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
@@ -676,23 +456,199 @@
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
         },
         {
-          "id": "f444535b-f885-5c23-ae4f-9750b2c5f09c",
+          "id": "4557c5fb-711e-5109-ba96-5510ee12097c",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-dateField-v-10fc596d",
+          "version": 7,
+          "componentName": "gym-dateField-v-ec315da6",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "b0ffb6a0-a9a2-54ed-bb6b-5d98d1c6ee63",
+              "id": "59ad431c-5f16-5154-89a7-d5c2772db810",
               "type": "dateField",
-              "version": 5,
+              "version": 7,
               "label": "gym dateField",
               "hidden": false,
               "propertyName": "purchaseDate",
-              "defaultToMidnight": true,
-              "parentId": "f444535b-f885-5c23-ae4f-9750b2c5f09c"
+              "showNow": true,
+              "parentId": "4557c5fb-711e-5109-ba96-5510ee12097c"
+            }
+          ],
+          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
+        },
+        {
+          "id": "5ae52cbd-c013-50cd-ac1b-619557bc9f51",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dateField-v-ae15a98f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a42165b3-4982-5ba7-8348-a34b81ef62f7",
+              "type": "dateField",
+              "version": 7,
+              "label": "gym dateField",
+              "hidden": false,
+              "propertyName": "purchaseDate",
+              "disabledDateMode": "none",
+              "parentId": "5ae52cbd-c013-50cd-ac1b-619557bc9f51"
+            }
+          ],
+          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
+        },
+        {
+          "id": "ed8c0649-7963-5d1f-9d55-d70cc1096af5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dateField-v-4f2f82be",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "49552c09-28a3-5136-84d9-4601e19399b5",
+              "type": "dateField",
+              "version": 7,
+              "label": "gym dateField",
+              "hidden": false,
+              "propertyName": "purchaseDate",
+              "disabledDateMode": "functionTemplate",
+              "parentId": "ed8c0649-7963-5d1f-9d55-d70cc1096af5"
+            }
+          ],
+          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
+        },
+        {
+          "id": "b23cf020-a0f1-5a94-919d-db0513c3cea1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dateField-v-4f884517",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "574dc86e-c0ff-5475-ac88-8720b51d31fe",
+              "type": "dateField",
+              "version": 7,
+              "label": "gym dateField",
+              "hidden": false,
+              "propertyName": "purchaseDate",
+              "disabledDateMode": "customFunction",
+              "parentId": "b23cf020-a0f1-5a94-919d-db0513c3cea1"
+            }
+          ],
+          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
+        },
+        {
+          "id": "5f71b50a-4c09-5bae-afe5-fa41edf2564d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dateField-v-00bb3470",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "22b8ee3a-62d7-5214-a564-79a4432a2078",
+              "type": "dateField",
+              "version": 7,
+              "label": "gym dateField",
+              "hidden": false,
+              "propertyName": "purchaseDate",
+              "disabledTimeMode": "none",
+              "parentId": "5f71b50a-4c09-5bae-afe5-fa41edf2564d"
+            }
+          ],
+          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
+        },
+        {
+          "id": "0fc7a564-dbf6-5317-a456-e035cc346c53",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dateField-v-27a522a3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d0c6ff70-753b-54ad-bcdd-e64e83a1544d",
+              "type": "dateField",
+              "version": 7,
+              "label": "gym dateField",
+              "hidden": false,
+              "propertyName": "purchaseDate",
+              "disabledTimeMode": "timeFunctionTemplate",
+              "parentId": "0fc7a564-dbf6-5317-a456-e035cc346c53"
+            }
+          ],
+          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
+        },
+        {
+          "id": "5370babf-c3e0-565e-8f5b-e394f1fce054",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dateField-v-868b3080",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "bd6a06e0-36f9-5f83-9880-9525bd5b30f5",
+              "type": "dateField",
+              "version": 7,
+              "label": "gym dateField",
+              "hidden": false,
+              "propertyName": "purchaseDate",
+              "disabledTimeMode": "customTimeFunction",
+              "parentId": "5370babf-c3e0-565e-8f5b-e394f1fce054"
+            }
+          ],
+          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
+        },
+        {
+          "id": "230140cb-e1a4-56c1-83ff-18e44e45a726",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dateField-v-32f19b3e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "73f10aef-b7ee-5fe8-8429-84193614771c",
+              "type": "dateField",
+              "version": 7,
+              "label": "gym dateField",
+              "hidden": false,
+              "propertyName": "purchaseDate",
+              "onBlurCustom": 17,
+              "parentId": "230140cb-e1a4-56c1-83ff-18e44e45a726"
+            }
+          ],
+          "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"
+        },
+        {
+          "id": "6bc6268f-9fca-5bc2-aaef-748a4f54d3f3",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dateField-v-396a3c9c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3cd71d6c-fbde-5512-bebf-13c58c2f11b2",
+              "type": "dateField",
+              "version": 7,
+              "label": "gym dateField",
+              "hidden": false,
+              "propertyName": "purchaseDate",
+              "enableStyleOnReadonly": true,
+              "parentId": "6bc6268f-9fca-5bc2-aaef-748a4f54d3f3"
             }
           ],
           "parentId": "00e96a5d-f414-5d1b-b622-3f980879d026"

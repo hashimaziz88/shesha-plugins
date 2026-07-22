@@ -3,7 +3,7 @@
     {
       "id": "bc5102a1-cf51-5eff-8c70-9d0595acbf57",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-tableViewSelector-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "fedbb3d2-06bc-561f-8da1-8202f781c112",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-tableViewSelector-baseline",
           "label": "",
           "hideLabel": true,
@@ -53,6 +53,59 @@
               "componentName": "gymCtxbe0381e0",
               "propertyName": "gymCtxbe0381e0",
               "parentId": "fedbb3d2-06bc-561f-8da1-8202f781c112"
+            }
+          ],
+          "parentId": "bc5102a1-cf51-5eff-8c70-9d0595acbf57"
+        },
+        {
+          "id": "814341bc-4cc2-5ed4-b91b-da3c043b6557",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-tableViewSelector-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "bc5102a1-cf51-5eff-8c70-9d0595acbf57"
+        },
+        {
+          "id": "96477fdc-5e82-5292-8ceb-6e850938cc0e",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-tableViewSelector-v-d5382b22",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "edb04dcb-c6f2-52a8-978c-c791e65ab276",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "a2adfcbc-5863-592b-a60e-44519b7208bb",
+                  "type": "tableViewSelector",
+                  "version": 2,
+                  "label": "gym tableViewSelector",
+                  "hidden": false,
+                  "filters": [],
+                  "componentName": "gym-tableViewSelector-inst-showIcon=true",
+                  "showIcon": true,
+                  "parentId": "edb04dcb-c6f2-52a8-978c-c791e65ab276"
+                }
+              ],
+              "componentName": "gymCtxedb04dcb",
+              "propertyName": "gymCtxedb04dcb",
+              "parentId": "96477fdc-5e82-5292-8ceb-6e850938cc0e"
             }
           ],
           "parentId": "bc5102a1-cf51-5eff-8c70-9d0595acbf57"

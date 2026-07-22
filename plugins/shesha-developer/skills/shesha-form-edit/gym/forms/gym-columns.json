@@ -3,7 +3,7 @@
     {
       "id": "05f1ee3c-8fb1-5e8c-8bb9-360616e64b23",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-columns-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "8b6bf447-f2ae-5d13-a099-a22126502f80",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-columns-baseline",
           "label": "",
           "hideLabel": true,
@@ -28,7 +28,7 @@
             {
               "id": "53292fde-4bee-59eb-a7dc-1275894077a4",
               "type": "columns",
-              "version": 2,
+              "version": 5,
               "label": "gym columns",
               "hidden": false,
               "gutterX": 16,
@@ -82,9 +82,448 @@
           "parentId": "05f1ee3c-8fb1-5e8c-8bb9-360616e64b23"
         },
         {
+          "id": "804cc6f3-0431-5ecf-8d59-1365dd9ba8bf",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-columns-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "05f1ee3c-8fb1-5e8c-8bb9-360616e64b23"
+        },
+        {
+          "id": "cbd02b13-ed98-581c-8a4b-96a51f8a0ff1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-columns-v-0baf713f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f0610e11-3aae-5a30-a5b7-32555df1aee5",
+              "type": "columns",
+              "version": 5,
+              "label": "gym columns",
+              "hidden": false,
+              "gutterX": 16,
+              "gutterY": 8,
+              "componentName": "gym-columns-inst-desktop.dimensions.width=317px",
+              "columns": [
+                {
+                  "id": "4c44b845-674c-5906-9b33-f1a1c4624fc2",
+                  "flex": 12,
+                  "offset": 0,
+                  "push": 0,
+                  "pull": 0,
+                  "components": [
+                    {
+                      "id": "6d943d28-d7f9-595a-b8df-de2702c5ed4e",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of columns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "f0610e11-3aae-5a30-a5b7-32555df1aee5"
+                    }
+                  ]
+                },
+                {
+                  "id": "b618b2db-92f9-5bee-a4b8-14c147a23138",
+                  "flex": 12,
+                  "offset": 0,
+                  "push": 0,
+                  "pull": 0,
+                  "components": [
+                    {
+                      "id": "ef9fac30-2552-5a44-9a0b-6fa3cd294f35",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of columns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "f0610e11-3aae-5a30-a5b7-32555df1aee5"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
+              },
+              "parentId": "cbd02b13-ed98-581c-8a4b-96a51f8a0ff1"
+            }
+          ],
+          "parentId": "05f1ee3c-8fb1-5e8c-8bb9-360616e64b23"
+        },
+        {
+          "id": "707a5024-461d-5ba5-97d6-d1026ce1b7c9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-columns-v-529ccf25",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "833a1468-362c-5033-b780-3ca4742fb280",
+              "type": "columns",
+              "version": 5,
+              "label": "gym columns",
+              "hidden": false,
+              "gutterX": 16,
+              "gutterY": 8,
+              "componentName": "gym-columns-inst-desktop.dimensions.height=117px",
+              "columns": [
+                {
+                  "id": "00abd321-0986-5d03-aae7-30c34c6482c3",
+                  "flex": 12,
+                  "offset": 0,
+                  "push": 0,
+                  "pull": 0,
+                  "components": [
+                    {
+                      "id": "07b76455-59d0-5430-93ce-a51451fa2ce3",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of columns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "833a1468-362c-5033-b780-3ca4742fb280"
+                    }
+                  ]
+                },
+                {
+                  "id": "2c154a9d-234f-5d10-baa3-e6a8cb85f91a",
+                  "flex": 12,
+                  "offset": 0,
+                  "push": 0,
+                  "pull": 0,
+                  "components": [
+                    {
+                      "id": "2fbb7e16-3427-5eed-bd60-db9e868c5b21",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of columns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "833a1468-362c-5033-b780-3ca4742fb280"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "707a5024-461d-5ba5-97d6-d1026ce1b7c9"
+            }
+          ],
+          "parentId": "05f1ee3c-8fb1-5e8c-8bb9-360616e64b23"
+        },
+        {
+          "id": "c57ba882-f6c6-534c-abd1-102cc9e4abac",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-columns-v-f1866be0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8681699a-3eb6-5b4f-b917-0513c16773a2",
+              "type": "columns",
+              "version": 5,
+              "label": "gym columns",
+              "hidden": false,
+              "gutterX": 16,
+              "gutterY": 8,
+              "componentName": "gym-columns-inst-desktop.background=color#ff00aa",
+              "columns": [
+                {
+                  "id": "d3ba46d8-06f1-57b1-9c0d-51ce9838aa7d",
+                  "flex": 12,
+                  "offset": 0,
+                  "push": 0,
+                  "pull": 0,
+                  "components": [
+                    {
+                      "id": "610efacc-177b-5781-b11b-5dcc706b1092",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of columns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "8681699a-3eb6-5b4f-b917-0513c16773a2"
+                    }
+                  ]
+                },
+                {
+                  "id": "7c7e817a-d36c-5411-870a-1869b4b50c4f",
+                  "flex": 12,
+                  "offset": 0,
+                  "push": 0,
+                  "pull": 0,
+                  "components": [
+                    {
+                      "id": "af654d0a-4333-5255-b0f6-601e06fb69c3",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of columns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "8681699a-3eb6-5b4f-b917-0513c16773a2"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "c57ba882-f6c6-534c-abd1-102cc9e4abac"
+            }
+          ],
+          "parentId": "05f1ee3c-8fb1-5e8c-8bb9-360616e64b23"
+        },
+        {
+          "id": "5c3223a6-40e4-5ec4-82cd-03349c4c12e6",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-columns-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6b5fa3bf-be51-590f-bcba-12bd803c9800",
+              "type": "columns",
+              "version": 5,
+              "label": "gym columns",
+              "hidden": false,
+              "gutterX": 16,
+              "gutterY": 8,
+              "componentName": "gym-columns-inst-desktop.background=gradient",
+              "columns": [
+                {
+                  "id": "8c19fdb9-f859-5cd8-8f5f-a52eb566a703",
+                  "flex": 12,
+                  "offset": 0,
+                  "push": 0,
+                  "pull": 0,
+                  "components": [
+                    {
+                      "id": "10feb529-d922-5c39-b559-4963382c42ea",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of columns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "6b5fa3bf-be51-590f-bcba-12bd803c9800"
+                    }
+                  ]
+                },
+                {
+                  "id": "81586b1e-dc9d-57f0-acb9-74292b2665da",
+                  "flex": 12,
+                  "offset": 0,
+                  "push": 0,
+                  "pull": 0,
+                  "components": [
+                    {
+                      "id": "91f9a858-21f1-5bff-9689-d164304572fb",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of columns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "6b5fa3bf-be51-590f-bcba-12bd803c9800"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "5c3223a6-40e4-5ec4-82cd-03349c4c12e6"
+            }
+          ],
+          "parentId": "05f1ee3c-8fb1-5e8c-8bb9-360616e64b23"
+        },
+        {
+          "id": "7a44bd18-0914-554c-9ce0-216a079d3862",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-columns-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "02f8b640-640d-5760-9103-b284e9597f19",
+              "type": "columns",
+              "version": 5,
+              "label": "gym columns",
+              "hidden": false,
+              "gutterX": 16,
+              "gutterY": 8,
+              "componentName": "gym-columns-inst-desktop.shadow=shadow17",
+              "columns": [
+                {
+                  "id": "9531c48f-4afc-5175-90c0-2e3daba06e49",
+                  "flex": 12,
+                  "offset": 0,
+                  "push": 0,
+                  "pull": 0,
+                  "components": [
+                    {
+                      "id": "65f2ae4d-b682-5fb2-bd89-0705253dd511",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of columns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "02f8b640-640d-5760-9103-b284e9597f19"
+                    }
+                  ]
+                },
+                {
+                  "id": "8294bc4b-4ae7-57f8-87b3-a23d5d86149f",
+                  "flex": 12,
+                  "offset": 0,
+                  "push": 0,
+                  "pull": 0,
+                  "components": [
+                    {
+                      "id": "fe0bc89e-f0a6-5e3f-a7df-72907c7bc1d8",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of columns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "02f8b640-640d-5760-9103-b284e9597f19"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "7a44bd18-0914-554c-9ce0-216a079d3862"
+            }
+          ],
+          "parentId": "05f1ee3c-8fb1-5e8c-8bb9-360616e64b23"
+        },
+        {
+          "id": "83a2dc4c-89a6-5bf6-8072-33a668f9a7e0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-columns-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "79e9ca5d-25f3-5922-9bf7-215c14d082ee",
+              "type": "columns",
+              "version": 5,
+              "label": "gym columns",
+              "hidden": false,
+              "gutterX": 16,
+              "gutterY": 8,
+              "componentName": "gym-columns-inst-stylingBox=stylingBox17",
+              "columns": [
+                {
+                  "id": "e05075b0-f256-50d1-a1de-9ff17eed9ff3",
+                  "flex": 12,
+                  "offset": 0,
+                  "push": 0,
+                  "pull": 0,
+                  "components": [
+                    {
+                      "id": "d941fd8e-1a7c-5fa5-9c95-688d9c1e17ff",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of columns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "79e9ca5d-25f3-5922-9bf7-215c14d082ee"
+                    }
+                  ]
+                },
+                {
+                  "id": "5849db4e-6a23-5bad-9f74-75ea53c65378",
+                  "flex": 12,
+                  "offset": 0,
+                  "push": 0,
+                  "pull": 0,
+                  "components": [
+                    {
+                      "id": "42802a7e-e684-5a74-a50a-093ad20eb07a",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of columns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "79e9ca5d-25f3-5922-9bf7-215c14d082ee"
+                    }
+                  ]
+                }
+              ],
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "83a2dc4c-89a6-5bf6-8072-33a668f9a7e0"
+            }
+          ],
+          "parentId": "05f1ee3c-8fb1-5e8c-8bb9-360616e64b23"
+        },
+        {
           "id": "87eb474a-f768-572d-991d-48860bb40a85",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-columns-h-display",
           "content": "— display —",
           "textType": "span",
@@ -95,7 +534,7 @@
         {
           "id": "b0d76255-37d5-5cd2-9d23-9e602cee756b",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-columns-v-e33e6f38",
           "label": "",
           "hideLabel": true,
@@ -104,7 +543,7 @@
             {
               "id": "e6c3d0d8-4a2f-5f3c-ba2d-7c166a53086a",
               "type": "columns",
-              "version": 2,
+              "version": 5,
               "label": "gym columns",
               "hidden": false,
               "gutterX": 17,
@@ -153,71 +592,6 @@
                 }
               ],
               "parentId": "b0d76255-37d5-5cd2-9d23-9e602cee756b"
-            }
-          ],
-          "parentId": "05f1ee3c-8fb1-5e8c-8bb9-360616e64b23"
-        },
-        {
-          "id": "81c74819-0850-53b4-870d-5473ad27561c",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-columns-v-da96f528",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "56b60b61-e224-5eb7-b7bb-bf64a769e2fe",
-              "type": "columns",
-              "version": 2,
-              "label": "gym columns",
-              "hidden": false,
-              "gutterX": 16,
-              "gutterY": 17,
-              "componentName": "gym-columns-inst-gutterY=17",
-              "columns": [
-                {
-                  "id": "4dd0170d-b3a0-54bf-ad36-c9a8e13968c1",
-                  "flex": 12,
-                  "offset": 0,
-                  "push": 0,
-                  "pull": 0,
-                  "components": [
-                    {
-                      "id": "96345cc0-c331-552f-8394-8c6d55f59853",
-                      "type": "text",
-                      "version": 2,
-                      "label": "",
-                      "hideLabel": true,
-                      "content": "GYM child of columns col1",
-                      "textType": "span",
-                      "contentDisplay": "content",
-                      "parentId": "56b60b61-e224-5eb7-b7bb-bf64a769e2fe"
-                    }
-                  ]
-                },
-                {
-                  "id": "0c76cc84-0605-5619-a421-ce0693e9641e",
-                  "flex": 12,
-                  "offset": 0,
-                  "push": 0,
-                  "pull": 0,
-                  "components": [
-                    {
-                      "id": "3285e839-29d8-5af9-bd5a-d02c89120b2b",
-                      "type": "text",
-                      "version": 2,
-                      "label": "",
-                      "hideLabel": true,
-                      "content": "GYM child of columns col2",
-                      "textType": "span",
-                      "contentDisplay": "content",
-                      "parentId": "56b60b61-e224-5eb7-b7bb-bf64a769e2fe"
-                    }
-                  ]
-                }
-              ],
-              "parentId": "81c74819-0850-53b4-870d-5473ad27561c"
             }
           ],
           "parentId": "05f1ee3c-8fb1-5e8c-8bb9-360616e64b23"

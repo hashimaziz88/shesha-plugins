@@ -3,7 +3,7 @@
     {
       "id": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-richTextEditor-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "ca3e77dc-9687-528f-842c-b3d2c07c38ad",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-richTextEditor-baseline",
           "label": "",
           "hideLabel": true,
@@ -28,7 +28,7 @@
             {
               "id": "ab1b3f02-2433-563a-b371-bd5b9cd8b8d1",
               "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -52,7 +52,7 @@
         {
           "id": "a4c45a3f-30f6-5966-91e7-aa9d92dd1321",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-richTextEditor-h-appearance",
           "content": "— appearance —",
           "textType": "span",
@@ -61,51 +61,18 @@
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
         },
         {
-          "id": "ee734e44-c4bc-5f2c-b5a2-a6ef709a263b",
+          "id": "28c53f93-9cb4-5a7f-8dc0-f0d8fcf871d8",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-2d016539",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-7ef1486e",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "19214c2d-e752-5cff-be7d-d3767ef3a1e9",
+              "id": "b2d1c3b0-5933-512e-a389-e8124adcb4b5",
               "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": false,
-              "autoWidth": true,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "parentId": "ee734e44-c4bc-5f2c-b5a2-a6ef709a263b"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
-          "id": "ba2ed0db-7f00-5914-9ca5-8b8199ec8eff",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-32b3b2bc",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "0981c7fe-a334-580e-831e-33a2645084a4",
-              "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -116,30 +83,29 @@
               "toolbar": true,
               "useSearch": true,
               "autoHeight": true,
-              "autoWidth": true,
+              "autoWidth": 17,
               "askBeforePasteHTML": true,
               "askBeforePasteFromWord": true,
               "disablePlugins": null,
               "propertyName": "gymValue",
-              "allowResizeY": true,
-              "parentId": "ba2ed0db-7f00-5914-9ca5-8b8199ec8eff"
+              "parentId": "28c53f93-9cb4-5a7f-8dc0-f0d8fcf871d8"
             }
           ],
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
         },
         {
-          "id": "94354649-0e5e-5481-8bad-554cf3d21b86",
+          "id": "bf51b2e5-b2ae-5ff5-8db4-f0982d09e78e",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-74da65a7",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-0baf713f",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "aa21798a-4cf2-5256-a2bf-959475983a57",
+              "id": "3d5c7c88-e300-55b5-a80e-e195451b168a",
               "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -155,58 +121,29 @@
               "askBeforePasteFromWord": true,
               "disablePlugins": null,
               "propertyName": "gymValue",
-              "height": 17,
-              "parentId": "94354649-0e5e-5481-8bad-554cf3d21b86"
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
+              },
+              "parentId": "bf51b2e5-b2ae-5ff5-8db4-f0982d09e78e"
             }
           ],
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
         },
         {
-          "id": "f87efcc1-acc2-59b0-a216-639fc99a7a40",
+          "id": "cc18a002-84a2-5d19-abef-5b958a370de4",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-803c7d11",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-529ccf25",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "fd081b11-7592-50ca-8c6f-91593860de0d",
+              "id": "8afc5c1f-caea-552f-ad1e-8971e508b48c",
               "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 17,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": true,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "parentId": "f87efcc1-acc2-59b0-a216-639fc99a7a40"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
-          "id": "ae77d862-c4ed-5751-b893-4104c99ee5b8",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-39c77f73",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "8cb09d43-4644-5aec-ad69-bf265f3edfdc",
-              "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -222,41 +159,12 @@
               "askBeforePasteFromWord": true,
               "disablePlugins": null,
               "propertyName": "gymValue",
-              "maxHeight": 17,
-              "parentId": "ae77d862-c4ed-5751-b893-4104c99ee5b8"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
-          "id": "cfe7c7d3-7d64-5868-8466-2dcb961d9e71",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-1b1764d3",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "fea31d30-5bcd-5dc9-86a9-1a3c726fe221",
-              "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": false,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "parentId": "cfe7c7d3-7d64-5868-8466-2dcb961d9e71"
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "cc18a002-84a2-5d19-abef-5b958a370de4"
             }
           ],
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
@@ -264,7 +172,7 @@
         {
           "id": "e8ba4204-b01c-5da1-baab-eb457057fb89",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-richTextEditor-v-8d70f269",
           "label": "",
           "hideLabel": true,
@@ -273,7 +181,7 @@
             {
               "id": "f61b73b8-6a2a-5010-a33b-b1c5a33a6d19",
               "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -296,178 +204,9 @@
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
         },
         {
-          "id": "4f8f8033-650e-51ed-93e8-be32d6a59c8a",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-c296d8bc",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "cece7135-7c68-5be9-910f-69dab0aa0988",
-              "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": true,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "width": 17,
-              "parentId": "4f8f8033-650e-51ed-93e8-be32d6a59c8a"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
-          "id": "c0371e2e-c5cc-5e80-85f4-b2c7844b7b1a",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-51bf5b14",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "2f3d7758-74aa-5873-96bf-b3254a25fbce",
-              "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 17,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": true,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "parentId": "c0371e2e-c5cc-5e80-85f4-b2c7844b7b1a"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
-          "id": "02d5d460-c241-5d91-9c5f-b7ac14e495d6",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-8460ce66",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "66387ae5-ad9b-58de-a637-2f6657945b80",
-              "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": true,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "maxWidth": 17,
-              "parentId": "02d5d460-c241-5d91-9c5f-b7ac14e495d6"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
-          "id": "8600752f-c1f9-53b6-add6-0c44341f2415",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-194df750",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "e5d99514-85df-5143-9645-dafbc1a391cb",
-              "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": true,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "theme": "default",
-              "parentId": "8600752f-c1f9-53b6-add6-0c44341f2415"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
-          "id": "4e5a4b7e-88c1-5822-b59b-8468fe6d9087",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-a5795c12",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "b95d4315-04a8-583b-99f5-a1dd059cce7d",
-              "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": true,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "theme": "dark",
-              "parentId": "4e5a4b7e-88c1-5822-b59b-8468fe6d9087"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
           "id": "a5cf03db-48d1-5bc1-ad4f-9466245a794e",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-richTextEditor-h-display",
           "content": "— display —",
           "textType": "span",
@@ -476,143 +215,9 @@
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
         },
         {
-          "id": "ff712867-5983-593c-929b-3e05835d689b",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-1b640f90",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "15c79bf2-d953-5cea-8e67-f10902c59a81",
-              "type": "richTextEditor",
-              "version": 3,
-              "label": "GYM-TXT-label",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": true,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "parentId": "ff712867-5983-593c-929b-3e05835d689b"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
-          "id": "08d40463-0fc2-5d94-a37a-6ea9164591e2",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-a058f647",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "841dcd8a-82b3-58bd-aa2a-710fdee604aa",
-              "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": true,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": true,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "parentId": "08d40463-0fc2-5d94-a37a-6ea9164591e2"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
-          "id": "2a9efe9c-56ce-5f8c-91c4-468d7a504fd7",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-8ae8db35",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "7b8916c0-5a5b-50a0-9f89-cb7eb33a0854",
-              "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": true,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "hideLabel": true,
-              "parentId": "2a9efe9c-56ce-5f8c-91c4-468d7a504fd7"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
-          "id": "64c8e5f4-7cf6-5b41-8e7d-f438264224d0",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-cb7e2795",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "751c00ea-4cce-54f6-ab0d-fd9724f34255",
-              "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": true,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "editMode": "readOnly",
-              "parentId": "64c8e5f4-7cf6-5b41-8e7d-f438264224d0"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
           "id": "cb334633-26a6-55b6-b44e-5f1539abd93b",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-richTextEditor-v-ae8981bd",
           "label": "",
           "hideLabel": true,
@@ -621,7 +226,7 @@
             {
               "id": "a0d603a8-43ca-538e-a7ad-5f33798fa336",
               "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -644,18 +249,18 @@
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
         },
         {
-          "id": "7c62ebc8-12d0-51ce-973b-0a9c71b6f36d",
+          "id": "807d8f51-7198-5ab2-911d-3ed5d382f0d8",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-fd64cd6c",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-a76e668c",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "43afd8d5-8571-5322-99f7-2aa90a7bedac",
+              "id": "240ec255-b2df-5d5f-b8c3-db8af66cf6fe",
               "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -671,25 +276,25 @@
               "askBeforePasteFromWord": true,
               "disablePlugins": null,
               "propertyName": "gymValue",
-              "saveHeightInStorage": true,
-              "parentId": "7c62ebc8-12d0-51ce-973b-0a9c71b6f36d"
+              "description": "GYM-TXT-description",
+              "parentId": "807d8f51-7198-5ab2-911d-3ed5d382f0d8"
             }
           ],
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
         },
         {
-          "id": "232dc52e-3a39-5e40-819c-34f5b4774f94",
+          "id": "7d4a288c-a06f-5cc7-8628-b6fc8b7631f5",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-fef339a3",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-e3073741",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "cf6ae9a1-a3a6-5b66-842b-38fcb425465f",
+              "id": "fa41d32e-27ec-5d30-b163-a83db08d3b9b",
               "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -705,91 +310,25 @@
               "askBeforePasteFromWord": true,
               "disablePlugins": null,
               "propertyName": "gymValue",
-              "saveModeInStorage": true,
-              "parentId": "232dc52e-3a39-5e40-819c-34f5b4774f94"
+              "toolbarButtonSize": "tiny",
+              "parentId": "7d4a288c-a06f-5cc7-8628-b6fc8b7631f5"
             }
           ],
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
         },
         {
-          "id": "b2203f4a-6b22-5136-b0b7-16d02698f371",
+          "id": "fc936aec-3c7f-5a43-9148-a750ff15d497",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-8629da8d",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-3dd29719",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "e97e3e99-f423-5329-a2d5-a6eab30c7ef5",
+              "id": "c37e073f-8eb2-5bfa-b1dd-6f07c97498ee",
               "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": true,
-              "askBeforePasteHTML": false,
-              "askBeforePasteFromWord": true,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "parentId": "b2203f4a-6b22-5136-b0b7-16d02698f371"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
-          "id": "601a21b8-57ac-5c81-b2ee-adcd48db2a0e",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-6d6881e4",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "5838faa3-36cd-5838-970a-4926590ee438",
-              "type": "richTextEditor",
-              "version": 3,
-              "label": "gym richTextEditor",
-              "hidden": false,
-              "showCharsCounter": true,
-              "showWordsCounter": true,
-              "showXPathInStatusbar": true,
-              "minHeight": 200,
-              "minWidth": 200,
-              "toolbar": true,
-              "useSearch": true,
-              "autoHeight": true,
-              "autoWidth": true,
-              "askBeforePasteHTML": true,
-              "askBeforePasteFromWord": false,
-              "disablePlugins": null,
-              "propertyName": "gymValue",
-              "parentId": "601a21b8-57ac-5c81-b2ee-adcd48db2a0e"
-            }
-          ],
-          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
-        },
-        {
-          "id": "cb378959-2e70-5485-836d-2641b2bf0f06",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-996de8c6",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "aea7226c-b5f6-52b5-aedf-a92c9eba7faa",
-              "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -805,25 +344,25 @@
               "askBeforePasteFromWord": true,
               "disablePlugins": null,
               "propertyName": "gymValue",
-              "defaultActionOnPaste": "insert_as_html",
-              "parentId": "cb378959-2e70-5485-836d-2641b2bf0f06"
+              "toolbarButtonSize": "xsmall",
+              "parentId": "fc936aec-3c7f-5a43-9148-a750ff15d497"
             }
           ],
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
         },
         {
-          "id": "d319faa3-5a04-5f54-85c9-60465c64139d",
+          "id": "53dcf0fe-99c6-547e-ba34-af24f296b97c",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-8ce84734",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-f294c3eb",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "af544d4d-9bc3-5bb3-8caa-1e07c9664503",
+              "id": "c1191e02-c002-5811-84c4-91dd1fa47b0d",
               "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -839,25 +378,25 @@
               "askBeforePasteFromWord": true,
               "disablePlugins": null,
               "propertyName": "gymValue",
-              "defaultActionOnPaste": "insert_clear_html",
-              "parentId": "d319faa3-5a04-5f54-85c9-60465c64139d"
+              "toolbarButtonSize": "middle",
+              "parentId": "53dcf0fe-99c6-547e-ba34-af24f296b97c"
             }
           ],
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
         },
         {
-          "id": "e6055ebe-e625-5843-b998-c793f23a9921",
+          "id": "d63bb0a8-77b1-5d95-9f2c-f5c0272f41fe",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-2323efbf",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-5e299319",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "fdf867fb-25e0-5336-ba8b-ca1529055992",
+              "id": "49418fcb-6e31-5f49-9135-115c99dc7596",
               "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -873,25 +412,25 @@
               "askBeforePasteFromWord": true,
               "disablePlugins": null,
               "propertyName": "gymValue",
-              "defaultActionOnPaste": "insert_as_text",
-              "parentId": "e6055ebe-e625-5843-b998-c793f23a9921"
+              "toolbarButtonSize": "large",
+              "parentId": "d63bb0a8-77b1-5d95-9f2c-f5c0272f41fe"
             }
           ],
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
         },
         {
-          "id": "a4503eed-e558-5723-a33c-d7e83d8366be",
+          "id": "0ef9e9d5-2e14-5dc3-a724-b5af71f46afc",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-b02573b0",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-5a6c6283",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "ace784b7-37cd-5388-a546-9da8d1de8f88",
+              "id": "d72520d7-05a5-5459-816e-8fd16b3d0347",
               "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -905,27 +444,26 @@
               "autoWidth": true,
               "askBeforePasteHTML": true,
               "askBeforePasteFromWord": true,
-              "disablePlugins": null,
+              "disablePlugins": "add-new-line",
               "propertyName": "gymValue",
-              "defaultActionOnPaste": "Insert only text",
-              "parentId": "a4503eed-e558-5723-a33c-d7e83d8366be"
+              "parentId": "0ef9e9d5-2e14-5dc3-a724-b5af71f46afc"
             }
           ],
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
         },
         {
-          "id": "a6476c49-5e05-5cb4-b4c4-dbf8c55dbc03",
+          "id": "08d9b22b-5316-5d2a-a593-f57a4a8a5962",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-richTextEditor-v-dc6b0f3b",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-306fcfb8",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "5b0f57b0-97a4-510f-a70e-e5db14b47ac0",
+              "id": "adff0810-c667-5cd8-8083-d9f6e3cca1d6",
               "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -933,15 +471,147 @@
               "showXPathInStatusbar": true,
               "minHeight": 200,
               "minWidth": 200,
-              "toolbar": false,
+              "toolbar": true,
               "useSearch": true,
               "autoHeight": true,
               "autoWidth": true,
               "askBeforePasteHTML": true,
               "askBeforePasteFromWord": true,
-              "disablePlugins": null,
+              "disablePlugins": "about",
               "propertyName": "gymValue",
-              "parentId": "a6476c49-5e05-5cb4-b4c4-dbf8c55dbc03"
+              "parentId": "08d9b22b-5316-5d2a-a593-f57a4a8a5962"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "1d652985-efc1-5ccf-b65c-ef2944831d60",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-59ed9383",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c5a1bfcc-6c91-5d37-91ed-4cfb101a0952",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": true,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": "focus",
+              "propertyName": "gymValue",
+              "parentId": "1d652985-efc1-5ccf-b65c-ef2944831d60"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "02a91e8b-cff6-5254-a2fa-fc23d8d55366",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-7cd0dd27",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "90d2d1a6-28d9-5f4d-913f-b85836d75257",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": true,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": "class-span",
+              "propertyName": "gymValue",
+              "parentId": "02a91e8b-cff6-5254-a2fa-fc23d8d55366"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "c65521b3-8f9f-5614-ac5e-05db691a6ea5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-d4d75500",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "650f47e3-eeba-5f22-a7c2-3dcdb3a2d213",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": true,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": "backspace",
+              "propertyName": "gymValue",
+              "parentId": "c65521b3-8f9f-5614-ac5e-05db691a6ea5"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "a25b6218-b6e7-53a8-8921-75133f8a4b3c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-e2cfeba9",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "83ebe005-e4e5-52f4-b4b9-32537ca4b276",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": true,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": "bold",
+              "propertyName": "gymValue",
+              "parentId": "a25b6218-b6e7-53a8-8921-75133f8a4b3c"
             }
           ],
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
@@ -949,7 +619,7 @@
         {
           "id": "716d0e2c-d74d-5488-a460-c7b6f171aa25",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-richTextEditor-v-840e7aba",
           "label": "",
           "hideLabel": true,
@@ -958,7 +628,7 @@
             {
               "id": "78599d2c-efa6-5d65-a9d0-f6db304400d2",
               "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -983,7 +653,7 @@
         {
           "id": "0520f219-c9c2-5435-833b-83745768aa24",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-richTextEditor-v-1a7216fc",
           "label": "",
           "hideLabel": true,
@@ -992,7 +662,7 @@
             {
               "id": "74b970ad-900f-5cf4-842a-6e4c8184562c",
               "type": "richTextEditor",
-              "version": 3,
+              "version": 6,
               "label": "gym richTextEditor",
               "hidden": false,
               "showCharsCounter": true,
@@ -1010,6 +680,311 @@
               "propertyName": "gymValue",
               "preset": "inline",
               "parentId": "0520f219-c9c2-5435-833b-83745768aa24"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "06900220-55a9-597b-b93c-8543587c4192",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-e022c39e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a9e6df3c-62d1-5aba-b709-a440120293df",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": true,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": null,
+              "propertyName": "gymValue",
+              "direction": "rtl",
+              "parentId": "06900220-55a9-597b-b93c-8543587c4192"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "c64f6364-2561-58f8-a273-c04ff167f903",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-0886ca21",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "25b4789a-fd95-5cf7-9424-1a73fca75ba1",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": true,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": null,
+              "propertyName": "gymValue",
+              "direction": "ltr",
+              "parentId": "c64f6364-2561-58f8-a273-c04ff167f903"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "eea7b3b4-a769-5fe7-9783-0b4cabb18eb9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-419b5c8c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e1ac00a5-a3e3-5964-94bc-c399ea736337",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": false,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": null,
+              "propertyName": "gymValue",
+              "parentId": "eea7b3b4-a769-5fe7-9783-0b4cabb18eb9"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "2451629c-4f2d-5012-b764-48a3fd6272d1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-373a0116",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1dc0dbd2-0e97-55d2-9808-cb9bea69dfb5",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": true,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": null,
+              "propertyName": "gymValue",
+              "enter": "BR",
+              "parentId": "2451629c-4f2d-5012-b764-48a3fd6272d1"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "1d5ce9c3-7cad-5c47-8a2b-2e877b494a6b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-fe84bf52",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "19f36921-b858-59a9-95c4-b6f2a432163f",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": true,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": null,
+              "propertyName": "gymValue",
+              "enter": "P",
+              "parentId": "1d5ce9c3-7cad-5c47-8a2b-2e877b494a6b"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "d8fbdc43-997d-5fd9-a338-597f764b802f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-ba624741",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c6ff0cc2-cbce-5517-b361-491b85f44294",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": true,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": null,
+              "propertyName": "gymValue",
+              "enter": "DIV",
+              "parentId": "d8fbdc43-997d-5fd9-a338-597f764b802f"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "cd9f9cec-32f0-5330-ad3e-9765cc3e7496",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-f681df18",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e83b4409-2f8c-52c3-9ecb-34f2c6ff9e9f",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": true,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": null,
+              "propertyName": "gymValue",
+              "saveHeightInStorage": 17,
+              "parentId": "cd9f9cec-32f0-5330-ad3e-9765cc3e7496"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "8600752f-c1f9-53b6-add6-0c44341f2415",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-194df750",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e5d99514-85df-5143-9645-dafbc1a391cb",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": true,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": null,
+              "propertyName": "gymValue",
+              "theme": "default",
+              "parentId": "8600752f-c1f9-53b6-add6-0c44341f2415"
+            }
+          ],
+          "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"
+        },
+        {
+          "id": "4e5a4b7e-88c1-5822-b59b-8468fe6d9087",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-richTextEditor-v-a5795c12",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b95d4315-04a8-583b-99f5-a1dd059cce7d",
+              "type": "richTextEditor",
+              "version": 6,
+              "label": "gym richTextEditor",
+              "hidden": false,
+              "showCharsCounter": true,
+              "showWordsCounter": true,
+              "showXPathInStatusbar": true,
+              "minHeight": 200,
+              "minWidth": 200,
+              "toolbar": true,
+              "useSearch": true,
+              "autoHeight": true,
+              "autoWidth": true,
+              "askBeforePasteHTML": true,
+              "askBeforePasteFromWord": true,
+              "disablePlugins": null,
+              "propertyName": "gymValue",
+              "theme": "dark",
+              "parentId": "4e5a4b7e-88c1-5822-b59b-8468fe6d9087"
             }
           ],
           "parentId": "5b02bfdf-e32b-5e3b-b66f-4959f117f73d"

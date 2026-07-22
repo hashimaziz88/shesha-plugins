@@ -3,7 +3,7 @@
     {
       "id": "65062d3f-b423-5c0b-97e2-abb0395dac29",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-card-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "88697cec-d5d3-5d40-852d-43e2315a67b4",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-card-baseline",
           "label": "",
           "hideLabel": true,
@@ -28,7 +28,7 @@
             {
               "id": "09770c3b-9439-57e1-92be-d650f3a78521",
               "type": "card",
-              "version": 2,
+              "version": 3,
               "label": "gym card",
               "hidden": false,
               "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
@@ -54,7 +54,7 @@
         {
           "id": "38af1ae1-9e69-5b3a-b5ce-ce23768a072c",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-card-h-appearance",
           "content": "— appearance —",
           "textType": "span",
@@ -63,25 +63,25 @@
           "parentId": "65062d3f-b423-5c0b-97e2-abb0395dac29"
         },
         {
-          "id": "60069801-03c0-5b90-81d7-32945a822e42",
+          "id": "fe37d12b-08fd-5395-83a2-c5d7ea5d67d8",
           "type": "container",
-          "version": 6,
-          "componentName": "gym-card-v-28611167",
+          "version": 7,
+          "componentName": "gym-card-v-f1866be0",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "92588363-47f5-5b97-abb2-47079fec2cc6",
+              "id": "0f817b0a-e9ab-555f-a8f6-b24fa33b79a7",
               "type": "card",
-              "version": 2,
+              "version": 3,
               "label": "gym card",
               "hidden": false,
               "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
-              "componentName": "gym-card-inst-className=txt",
+              "componentName": "gym-card-inst-desktop.background=color#ff00aa",
               "components": [
                 {
-                  "id": "c9be49ee-2e92-5cbe-89aa-1a684c52d941",
+                  "id": "ed45463f-4a2f-5d8e-a180-8dd52ef1348c",
                   "type": "text",
                   "version": 2,
                   "label": "",
@@ -89,11 +89,107 @@
                   "content": "GYM child of card",
                   "textType": "span",
                   "contentDisplay": "content",
-                  "parentId": "92588363-47f5-5b97-abb2-47079fec2cc6"
+                  "parentId": "0f817b0a-e9ab-555f-a8f6-b24fa33b79a7"
                 }
               ],
-              "className": "GYM-TXT-className",
-              "parentId": "60069801-03c0-5b90-81d7-32945a822e42"
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "fe37d12b-08fd-5395-83a2-c5d7ea5d67d8"
+            }
+          ],
+          "parentId": "65062d3f-b423-5c0b-97e2-abb0395dac29"
+        },
+        {
+          "id": "39a9b5e4-2b2d-55ae-998e-e28209d2e7e0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-card-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ae2913b0-816d-50dc-b004-87947a423ca6",
+              "type": "card",
+              "version": 3,
+              "label": "gym card",
+              "hidden": false,
+              "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
+              "componentName": "gym-card-inst-desktop.background=gradient",
+              "components": [
+                {
+                  "id": "d221ffc9-bc79-5e91-ab9b-f5683db49152",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of card",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "ae2913b0-816d-50dc-b004-87947a423ca6"
+                }
+              ],
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "39a9b5e4-2b2d-55ae-998e-e28209d2e7e0"
+            }
+          ],
+          "parentId": "65062d3f-b423-5c0b-97e2-abb0395dac29"
+        },
+        {
+          "id": "5ac34836-4855-507d-8c65-da5ea3f963af",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-card-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ac6be209-db45-5044-9d30-e066c39379f7",
+              "type": "card",
+              "version": 3,
+              "label": "gym card",
+              "hidden": false,
+              "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
+              "componentName": "gym-card-inst-desktop.shadow=shadow17",
+              "components": [
+                {
+                  "id": "630acc17-ea20-5243-b5f9-140fabf8766e",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of card",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "ac6be209-db45-5044-9d30-e066c39379f7"
+                }
+              ],
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "5ac34836-4855-507d-8c65-da5ea3f963af"
             }
           ],
           "parentId": "65062d3f-b423-5c0b-97e2-abb0395dac29"
@@ -101,7 +197,7 @@
         {
           "id": "d9383bc5-bdf0-518e-b0b8-b00f7bbcef61",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-card-v-5f60c225",
           "label": "",
           "hideLabel": true,
@@ -110,7 +206,7 @@
             {
               "id": "670f4014-cf98-5684-9b93-7ab42f7bf0d2",
               "type": "card",
-              "version": 2,
+              "version": 3,
               "label": "gym card",
               "hidden": false,
               "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
@@ -136,7 +232,7 @@
         {
           "id": "fa53ac00-8141-57fe-a781-87776139e31c",
           "type": "text",
-          "version": 2,
+          "version": 5,
           "componentName": "gym-card-h-display",
           "content": "— display —",
           "textType": "span",
@@ -147,7 +243,7 @@
         {
           "id": "c0794882-49e3-529e-bae4-a42e47417a33",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-card-v-1b640f90",
           "label": "",
           "hideLabel": true,
@@ -156,7 +252,7 @@
             {
               "id": "dd3aa9ae-6688-5486-82d3-e45a3fbb3436",
               "type": "card",
-              "version": 2,
+              "version": 3,
               "label": "GYM-TXT-label",
               "hidden": false,
               "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
@@ -180,44 +276,9 @@
           "parentId": "65062d3f-b423-5c0b-97e2-abb0395dac29"
         },
         {
-          "id": "f4a534bd-ce3e-5043-b6f0-3399a7974df5",
-          "type": "container",
-          "version": 6,
-          "componentName": "gym-card-v-a058f647",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "af26a5c2-c060-5dec-b6ae-4832b2a2b6cf",
-              "type": "card",
-              "version": 2,
-              "label": "gym card",
-              "hidden": true,
-              "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
-              "componentName": "gym-card-inst-hidden=true",
-              "components": [
-                {
-                  "id": "c8890e86-3b6d-58c9-a01f-514a0b7af340",
-                  "type": "text",
-                  "version": 2,
-                  "label": "",
-                  "hideLabel": true,
-                  "content": "GYM child of card",
-                  "textType": "span",
-                  "contentDisplay": "content",
-                  "parentId": "af26a5c2-c060-5dec-b6ae-4832b2a2b6cf"
-                }
-              ],
-              "parentId": "f4a534bd-ce3e-5043-b6f0-3399a7974df5"
-            }
-          ],
-          "parentId": "65062d3f-b423-5c0b-97e2-abb0395dac29"
-        },
-        {
           "id": "596d0749-1f05-54c2-9a03-71eec11e2766",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-card-v-4937a36a",
           "label": "",
           "hideLabel": true,
@@ -226,7 +287,7 @@
             {
               "id": "1542885c-42c8-52b7-8f9f-2c2d196b5bf7",
               "type": "card",
-              "version": 2,
+              "version": 3,
               "label": "gym card",
               "hidden": false,
               "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",
@@ -253,7 +314,7 @@
         {
           "id": "68a6ac3a-cd4f-56ce-965c-2e8f42960110",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-card-v-90c3fc2d",
           "label": "",
           "hideLabel": true,
@@ -262,7 +323,7 @@
             {
               "id": "df078354-55da-5a5c-a9fb-e41407e49a46",
               "type": "card",
-              "version": 2,
+              "version": 3,
               "label": "gym card",
               "hidden": false,
               "stylingBox": "{\\\"marginBottom\\\":\\\"5\\\"}",

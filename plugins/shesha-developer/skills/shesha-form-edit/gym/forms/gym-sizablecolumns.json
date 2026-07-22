@@ -3,7 +3,7 @@
     {
       "id": "c08a4fa6-c76e-591f-a7af-8f134b7964a6",
       "type": "container",
-      "version": 6,
+      "version": 7,
       "componentName": "gym-sizableColumns-root",
       "direction": "vertical",
       "label": "",
@@ -19,7 +19,7 @@
         {
           "id": "12ec553d-d367-5935-85cf-72178c3eeeed",
           "type": "container",
-          "version": 6,
+          "version": 7,
           "componentName": "gym-sizableColumns-baseline",
           "label": "",
           "hideLabel": true,
@@ -28,7 +28,7 @@
             {
               "id": "98865d9f-3add-51d3-9b98-aa2bc7d23c48",
               "type": "sizableColumns",
-              "version": 2,
+              "version": 5,
               "label": "gym sizableColumns",
               "hidden": false,
               "componentName": "gym-sizableColumns-inst-baseline",
@@ -69,6 +69,397 @@
                 }
               ],
               "parentId": "12ec553d-d367-5935-85cf-72178c3eeeed"
+            }
+          ],
+          "parentId": "c08a4fa6-c76e-591f-a7af-8f134b7964a6"
+        },
+        {
+          "id": "02737f38-cd9c-5701-853a-1dd962303bec",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-sizableColumns-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "c08a4fa6-c76e-591f-a7af-8f134b7964a6"
+        },
+        {
+          "id": "825b1ced-3ec1-5206-9ade-96e01fced45d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-sizableColumns-v-0baf713f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6fddc3d3-e44d-5a40-89e5-5d84f4f24160",
+              "type": "sizableColumns",
+              "version": 5,
+              "label": "gym sizableColumns",
+              "hidden": false,
+              "componentName": "gym-sizableColumns-inst-desktop.dimensions.width=317px",
+              "columns": [
+                {
+                  "id": "0cf32189-c0b1-5aa9-8730-e9bbf03c8614",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "7884c544-3e24-52bb-9f6b-226589f21507",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "6fddc3d3-e44d-5a40-89e5-5d84f4f24160"
+                    }
+                  ]
+                },
+                {
+                  "id": "4acd12db-30e8-5f3b-9625-f0d6be90cdee",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "6a25e8c9-cd5e-5398-8b05-25c8e7cab69b",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "6fddc3d3-e44d-5a40-89e5-5d84f4f24160"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
+              },
+              "parentId": "825b1ced-3ec1-5206-9ade-96e01fced45d"
+            }
+          ],
+          "parentId": "c08a4fa6-c76e-591f-a7af-8f134b7964a6"
+        },
+        {
+          "id": "8f86f5c6-ae51-5d9e-b78a-67104a5021e2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-sizableColumns-v-529ccf25",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9d6b8fc9-8ec0-593d-aa41-9a6eb752abd5",
+              "type": "sizableColumns",
+              "version": 5,
+              "label": "gym sizableColumns",
+              "hidden": false,
+              "componentName": "gym-sizableColumns-inst-desktop.dimensions.height=117px",
+              "columns": [
+                {
+                  "id": "5b89ccbe-46c4-5dcd-b680-de4e606548ae",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "7750c02f-5c1d-5cab-8031-97d4493e8cc2",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "9d6b8fc9-8ec0-593d-aa41-9a6eb752abd5"
+                    }
+                  ]
+                },
+                {
+                  "id": "7223e181-3409-5f6a-ad8d-0d9d8a8e6e7a",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "69cd1043-ec49-5932-8f16-c236278935f8",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "9d6b8fc9-8ec0-593d-aa41-9a6eb752abd5"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "8f86f5c6-ae51-5d9e-b78a-67104a5021e2"
+            }
+          ],
+          "parentId": "c08a4fa6-c76e-591f-a7af-8f134b7964a6"
+        },
+        {
+          "id": "0a86f270-d8cd-564d-9786-6b0b1c99cfe9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-sizableColumns-v-f1866be0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "29c4ad58-32cc-5066-96cf-6931cb40a8be",
+              "type": "sizableColumns",
+              "version": 5,
+              "label": "gym sizableColumns",
+              "hidden": false,
+              "componentName": "gym-sizableColumns-inst-desktop.background=color#ff00aa",
+              "columns": [
+                {
+                  "id": "d32eec6c-8b3b-55ab-8cc5-6b9eea05d4a6",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "2493b2df-b2e6-5f35-9e35-b365f26b95dd",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "29c4ad58-32cc-5066-96cf-6931cb40a8be"
+                    }
+                  ]
+                },
+                {
+                  "id": "961595dc-873a-5ea3-9a7b-2a39bf37eed2",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "d85b5327-41df-58a8-8073-6abec602802c",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "29c4ad58-32cc-5066-96cf-6931cb40a8be"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "0a86f270-d8cd-564d-9786-6b0b1c99cfe9"
+            }
+          ],
+          "parentId": "c08a4fa6-c76e-591f-a7af-8f134b7964a6"
+        },
+        {
+          "id": "1f7b28b8-c669-5a2a-9707-6e551225ef8b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-sizableColumns-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "da484abd-f831-5a99-b87a-3365794c16f5",
+              "type": "sizableColumns",
+              "version": 5,
+              "label": "gym sizableColumns",
+              "hidden": false,
+              "componentName": "gym-sizableColumns-inst-desktop.background=gradient",
+              "columns": [
+                {
+                  "id": "ffe90aa0-c4dd-5289-bfae-f112c8da9f18",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "f66cee6f-7ba7-5fc4-8083-5252902e152b",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "da484abd-f831-5a99-b87a-3365794c16f5"
+                    }
+                  ]
+                },
+                {
+                  "id": "a77e7a24-4504-53dc-96f5-12e4b2ec4ee6",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "f654a33b-81f9-5da0-8b4d-6a9684314ddf",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "da484abd-f831-5a99-b87a-3365794c16f5"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "1f7b28b8-c669-5a2a-9707-6e551225ef8b"
+            }
+          ],
+          "parentId": "c08a4fa6-c76e-591f-a7af-8f134b7964a6"
+        },
+        {
+          "id": "e6c4873c-cb36-5e60-b10b-68959e175f55",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-sizableColumns-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a696f16b-f007-5278-b7a9-6619b8b241db",
+              "type": "sizableColumns",
+              "version": 5,
+              "label": "gym sizableColumns",
+              "hidden": false,
+              "componentName": "gym-sizableColumns-inst-desktop.shadow=shadow17",
+              "columns": [
+                {
+                  "id": "602bc619-36be-5c71-a359-d43b32c5eaf3",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "7d7b297e-3976-5c0b-a04e-b3ab390efafa",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "a696f16b-f007-5278-b7a9-6619b8b241db"
+                    }
+                  ]
+                },
+                {
+                  "id": "8ddad2f2-a41c-5673-ad0f-9fbeb876f125",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "8513543a-7942-51c9-abfe-e94c90a9c0e7",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "a696f16b-f007-5278-b7a9-6619b8b241db"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "e6c4873c-cb36-5e60-b10b-68959e175f55"
+            }
+          ],
+          "parentId": "c08a4fa6-c76e-591f-a7af-8f134b7964a6"
+        },
+        {
+          "id": "de2ed58d-9168-5f39-a173-1e368e6e2d8d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-sizableColumns-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b5d543ae-3acd-505b-b1f1-66ed8b5ffc91",
+              "type": "sizableColumns",
+              "version": 5,
+              "label": "gym sizableColumns",
+              "hidden": false,
+              "componentName": "gym-sizableColumns-inst-stylingBox=stylingBox17",
+              "columns": [
+                {
+                  "id": "5389fccc-c9dc-5925-97f5-31671b1fc81a",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "59ea70bd-6841-5fa6-8ad0-f736c0e85da1",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "b5d543ae-3acd-505b-b1f1-66ed8b5ffc91"
+                    }
+                  ]
+                },
+                {
+                  "id": "9f8d1cd8-85a0-5ff7-beb0-bfcb16f751d2",
+                  "size": 50,
+                  "components": [
+                    {
+                      "id": "0fcf561a-d6c4-5956-bbac-31becb1c79c2",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of sizableColumns col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "b5d543ae-3acd-505b-b1f1-66ed8b5ffc91"
+                    }
+                  ]
+                }
+              ],
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "de2ed58d-9168-5f39-a173-1e368e6e2d8d"
             }
           ],
           "parentId": "c08a4fa6-c76e-591f-a7af-8f134b7964a6"

@@ -40,13 +40,13 @@
       "verdict": "renders",
       "key": "desktop.background{type:'color',color}",
       "measured": {
-        "summary": "no-op",
+        "summary": "works",
         "effects": {
-          "container:backgroundColor=#ff00aa": "no-op"
+          "container:desktop.background=color#ff00aa": "changes-style",
+          "container:desktop.background=gradient": "changes-style"
         },
         "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z",
-        "note": "gym measured flat 0.43 channel; hand verdict is for a desktop.* technique"
+        "measuredAt": "2026-07-22T11:18:46.667Z"
       }
     },
     {
@@ -55,65 +55,46 @@
       "verdict": "renders",
       "key": "desktop.background{type:'gradient',gradient:{direction,colors:{0,1}}}",
       "measured": {
-        "summary": "no-op",
+        "summary": "works",
         "effects": {
-          "container:backgroundColor=#ff00aa": "no-op"
+          "container:desktop.background=color#ff00aa": "changes-style",
+          "container:desktop.background=gradient": "changes-style"
         },
         "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z",
-        "note": "gym measured flat 0.43 channel; hand verdict is for a desktop.* technique"
+        "measuredAt": "2026-07-22T11:18:46.667Z"
       }
     },
     {
       "component": "container",
       "channel": "shadow",
       "verdict": "renders",
-      "key": "desktop.shadow{offsetX,offsetY,blurRadius,spreadRadius,color}"
+      "key": "desktop.shadow{offsetX,offsetY,blurRadius,spreadRadius,color}",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "container:desktop.shadow=shadow17": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:18:46.667Z"
+      }
     },
     {
       "component": "container",
       "channel": "border.all",
       "verdict": "renders",
-      "key": "desktop.border.borderType:'all'",
-      "measured": {
-        "summary": "no-op",
-        "effects": {
-          "container:borderColor=#ff00aa": "no-op"
-        },
-        "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z",
-        "note": "gym measured flat 0.43 channel; hand verdict is for a desktop.* technique"
-      }
+      "key": "desktop.border.borderType:'all'"
     },
     {
       "component": "container",
       "channel": "border.perSide",
       "verdict": "renders",
-      "key": "desktop.border.borderType:'custom' + only wanted side",
-      "measured": {
-        "summary": "no-op",
-        "effects": {
-          "container:borderColor=#ff00aa": "no-op"
-        },
-        "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z",
-        "note": "gym measured flat 0.43 channel; hand verdict is for a desktop.* technique"
-      }
+      "key": "desktop.border.borderType:'custom' + only wanted side"
     },
     {
       "component": "container",
       "channel": "border.radius",
       "verdict": "renders",
-      "key": "desktop.border.radius.all",
-      "measured": {
-        "summary": "no-op",
-        "effects": {
-          "container:borderRadius=17": "no-op"
-        },
-        "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z",
-        "note": "gym measured flat 0.43 channel; hand verdict is for a desktop.* technique"
-      }
+      "key": "desktop.border.radius.all"
     },
     {
       "component": "container",
@@ -123,33 +104,31 @@
       "measured": {
         "summary": "works",
         "effects": {
-          "container:width=17px": "changes-geometry"
+          "container:desktop.dimensions.width=317px": "changes-style"
         },
         "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z"
+        "measuredAt": "2026-07-22T11:18:46.667Z"
       }
     },
     {
       "component": "container",
       "channel": "dimensions.minHeight",
       "verdict": "gotcha",
-      "key": "desktop.dimensions.minHeight:'fit-content' — only DIMENSIONS channel reaching the outer div. NOTE: the `overflow` BOOLEAN prop is a no-op, but the legacy `style` overflow IS NOT (see 'container:style overflow') — that reaches the inner div.",
-      "measured": {
-        "summary": "no-op",
-        "effects": {
-          "container:minHeight=17px": "no-op",
-          "container:height=17px": "no-op"
-        },
-        "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z",
-        "note": "gym measured flat 0.43 channel; hand verdict is for a desktop.* technique"
-      }
+      "key": "desktop.dimensions.minHeight:'fit-content' — only DIMENSIONS channel reaching the outer div. NOTE: the `overflow` BOOLEAN prop is a no-op, but the legacy `style` overflow IS NOT (see 'container:style overflow') — that reaches the inner div."
     },
     {
       "component": "container",
       "channel": "stylingBox",
       "verdict": "renders",
-      "key": "JSON string of padding*/margin*"
+      "key": "JSON string of padding*/margin*",
+      "measured": {
+        "summary": "no-op",
+        "effects": {
+          "container:stylingBox=stylingBox17": "no-op"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:18:46.667Z"
+      }
     },
     {
       "component": "container",
@@ -169,22 +148,17 @@
       "verdict": "renders",
       "key": ".ant-input-affix-wrapper (at version 6)",
       "measured": {
-        "summary": "mixed",
+        "summary": "works",
         "effects": {
-          "textField:width=17px": "changes-style",
-          "textField:hideBorder=true": "no-op",
-          "textField:borderSize=17": "changes-geometry",
-          "textField:borderRadius=17": "no-op",
-          "textField:borderType=solid": "no-op",
-          "textField:borderType=dashed": "no-op",
-          "textField:borderType=dotted": "no-op",
-          "textField:borderColor=#ff00aa": "no-op",
-          "textField:fontSize=17": "changes-style",
-          "textField:fontColor=#ff00aa": "changes-style",
-          "textField:backgroundColor=#ff00aa": "no-op"
+          "textField:desktop.font.size=size17": "changes-geometry",
+          "textField:desktop.font.color=color": "changes-style",
+          "textField:desktop.font.weight=weight700": "changes-style",
+          "textField:desktop.dimensions.width=317px": "changes-style",
+          "textField:desktop.background=color#ff00aa": "changes-style",
+          "textField:desktop.background=gradient": "changes-style"
         },
         "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z"
+        "measuredAt": "2026-07-22T11:18:46.667Z"
       }
     },
     {
@@ -193,12 +167,17 @@
       "verdict": "renders",
       "key": ".ant-picker (v7)",
       "measured": {
-        "summary": "no-op",
+        "summary": "works",
         "effects": {
-          "dateField:hideBorder=true": "no-op"
+          "dateField:desktop.font.size=size17": "changes-style",
+          "dateField:desktop.font.color=color": "changes-style",
+          "dateField:desktop.font.weight=weight700": "changes-style",
+          "dateField:desktop.dimensions.width=317px": "changes-style",
+          "dateField:desktop.background=color#ff00aa": "changes-style",
+          "dateField:desktop.background=gradient": "changes-style"
         },
         "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z"
+        "measuredAt": "2026-07-22T11:18:46.667Z"
       }
     },
     {
@@ -207,12 +186,17 @@
       "verdict": "renders",
       "key": ".ant-select wrapper goes borderless + carries style (v11)",
       "measured": {
-        "summary": "no-op",
+        "summary": "mixed",
         "effects": {
-          "dropdown:hideBorder=true": "no-op"
+          "dropdown:desktop.font.size=size17": "changes-style",
+          "dropdown:desktop.font.color=color": "changes-style",
+          "dropdown:desktop.font.weight=weight700": "no-op",
+          "dropdown:desktop.dimensions.width=317px": "changes-style",
+          "dropdown:desktop.background=color#ff00aa": "changes-style",
+          "dropdown:desktop.background=gradient": "changes-style"
         },
         "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z"
+        "measuredAt": "2026-07-22T11:18:46.667Z"
       }
     },
     {
@@ -223,18 +207,15 @@
       "measured": {
         "summary": "mixed",
         "effects": {
-          "autocomplete:width=17px": "changes-style",
-          "autocomplete:hideBorder=true": "no-op",
-          "autocomplete:borderSize=17": "changes-geometry",
-          "autocomplete:borderRadius=17": "no-op",
-          "autocomplete:borderType=solid": "no-op",
-          "autocomplete:borderType=dashed": "no-op",
-          "autocomplete:borderType=dotted": "no-op",
-          "autocomplete:borderColor=#ff00aa": "no-op",
-          "autocomplete:backgroundColor=#ff00aa": "no-op"
+          "autocomplete:desktop.font.size=size17": "changes-style",
+          "autocomplete:desktop.font.color=color": "changes-style",
+          "autocomplete:desktop.font.weight=weight700": "no-op",
+          "autocomplete:desktop.dimensions.width=317px": "changes-style",
+          "autocomplete:desktop.background=color#ff00aa": "changes-style",
+          "autocomplete:desktop.background=gradient": "changes-style"
         },
         "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z"
+        "measuredAt": "2026-07-22T11:18:46.667Z"
       }
     },
     {
@@ -242,7 +223,15 @@
       "channel": "dimensions.width",
       "verdict": "partial",
       "key": "applies at version 5 (no-op at v3 — version artifact)",
-      "fix": "use version 5; wrap in styled container for full bg/border control"
+      "fix": "use version 5; wrap in styled container for full bg/border control",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "numberField:desktop.dimensions.width=317px": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:18:46.667Z"
+      }
     },
     {
       "component": "text",
@@ -250,19 +239,15 @@
       "verdict": "renders",
       "key": "fontSize (Tailwind class) + fontWeight DIRECT props; desktop.font for exact; {{{triple-brace}}} raw",
       "measured": {
-        "summary": "no-op",
+        "summary": "mixed",
         "effects": {
-          "text:color=#ff00aa": "no-op",
-          "text:fontSize=14": "no-op",
-          "text:fontSize=17": "no-op",
-          "text:fontSize=24": "no-op",
-          "text:textAlign=start": "not-measured",
-          "text:textAlign=center": "not-measured",
-          "text:textAlign=end": "not-measured"
+          "text:desktop.font.size=size17": "changes-geometry",
+          "text:desktop.font.color=color": "no-op",
+          "text:desktop.font.weight=weight700": "changes-style",
+          "text:desktop.font.color=#ff00aa": "no-op"
         },
         "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z",
-        "note": "gym measured flat 0.43 channel; hand verdict is for a desktop.* technique"
+        "measuredAt": "2026-07-22T11:18:46.667Z"
       }
     },
     {
@@ -277,12 +262,12 @@
       "verdict": "renders",
       "key": "percent + strokeColor (v3)",
       "measured": {
-        "summary": "no-op",
+        "summary": "works",
         "effects": {
-          "progress:strokeColor=#ff00aa": "no-op"
+          "progress:strokeColor=#ff00aa": "changes-style"
         },
         "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z"
+        "measuredAt": "2026-07-22T11:18:46.667Z"
       }
     },
     {
@@ -314,7 +299,7 @@
           "__renderStatus": "renders"
         },
         "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z"
+        "measuredAt": "2026-07-22T11:18:46.667Z"
       }
     },
     {
@@ -328,14 +313,25 @@
           "__renderStatus": "renders"
         },
         "generation": "0.45",
-        "measuredAt": "2026-07-22T10:04:39.760Z"
+        "measuredAt": "2026-07-22T11:18:46.667Z"
       }
     },
     {
       "component": "card",
       "channel": "bg/border/shadow/radius",
       "verdict": "renders",
-      "key": "desktop block on the card; proven in the live form's rail panels (v3)"
+      "key": "desktop block on the card; proven in the live form's rail panels (v3)",
+      "measured": {
+        "summary": "no-op",
+        "effects": {
+          "card:desktop.background=color#ff00aa": "no-op",
+          "card:desktop.background=gradient": "no-op",
+          "card:desktop.shadow=shadow17": "no-op"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:18:46.667Z",
+        "note": "gym measured flat 0.43 channel; hand verdict is for a desktop.* technique"
+      }
     },
     {
       "component": "datatable/datalist",
