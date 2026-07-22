@@ -17,6 +17,132 @@
     }
   },
   "forms": {
+    "gym-card": {
+      "type": "card",
+      "componentVersion": 3,
+      "markupSha1": "7648e906228822740c717dc9b2271c4e520a9961",
+      "backendId": "e33ebf8f-92c7-4a35-93d7-d4a244edc4f8",
+      "lastPushedAt": "2026-07-22T11:47:26.369Z",
+      "instances": [
+        {
+          "variantId": "gym-card-baseline",
+          "kind": "baseline"
+        },
+        {
+          "variantId": "gym-card-v-f1866be0",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "desktop.background",
+          "value": {
+            "type": "color",
+            "color": "#ff00aa"
+          },
+          "valueKey": "color#ff00aa"
+        },
+        {
+          "variantId": "gym-card-v-8db175ab",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "desktop.background",
+          "value": {
+            "type": "gradient",
+            "gradient": {
+              "direction": "to right",
+              "colors": {
+                "0": "#ff00aa",
+                "1": "#00ff00"
+              }
+            }
+          },
+          "valueKey": "gradient"
+        },
+        {
+          "variantId": "gym-card-v-ce6b48b0",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "desktop.shadow",
+          "value": {
+            "offsetX": 17,
+            "offsetY": 17,
+            "blurRadius": 17,
+            "spreadRadius": 0,
+            "color": "#000000"
+          },
+          "valueKey": "shadow17"
+        },
+        {
+          "variantId": "gym-card-v-5f60c225",
+          "kind": "variant",
+          "bucket": "appearance",
+          "path": "stylingBox",
+          "value": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+          "valueKey": "stylingBox17"
+        },
+        {
+          "variantId": "gym-card-v-1b640f90",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "label",
+          "value": "GYM-TXT-label",
+          "valueKey": "txt"
+        },
+        {
+          "variantId": "gym-card-v-4937a36a",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "hideHeading",
+          "value": true,
+          "valueKey": "true"
+        },
+        {
+          "variantId": "gym-card-v-90c3fc2d",
+          "kind": "variant",
+          "bucket": "display",
+          "path": "hideWhenEmpty",
+          "value": true,
+          "valueKey": "true"
+        }
+      ],
+      "notMeasured": [
+        {
+          "path": "hidden",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "background.type",
+          "reason": "compound-only channel — measured via the whole-object variant"
+        },
+        {
+          "path": "background.url",
+          "reason": "compound-only channel — measured via the whole-object variant"
+        },
+        {
+          "path": "background.uploadFile",
+          "reason": "compound-only channel — measured via the whole-object variant"
+        },
+        {
+          "path": "background.storedFile.id",
+          "reason": "compound-only channel — measured via the whole-object variant"
+        },
+        {
+          "path": "background.size",
+          "reason": "compound-only channel — measured via the whole-object variant"
+        },
+        {
+          "path": "background.repeat",
+          "reason": "compound-only channel — measured via the whole-object variant"
+        },
+        {
+          "path": "style",
+          "reason": "no editorType and no heuristic match"
+        },
+        {
+          "path": "permissions",
+          "reason": "no editorType and no heuristic match"
+        }
+      ],
+      "lastMeasuredAt": "2026-07-22T11:47:41.017Z"
+    },
     "gym-keyinformationbar": {
       "type": "KeyInformationBar",
       "componentVersion": 4,
@@ -1946,132 +2072,6 @@
         }
       ],
       "lastMeasuredAt": "2026-07-22T10:46:36.834Z"
-    },
-    "gym-card": {
-      "type": "card",
-      "componentVersion": 3,
-      "markupSha1": "c2c6351df2f0a5b47e9c1662c2107a8da99dfb89",
-      "backendId": "e33ebf8f-92c7-4a35-93d7-d4a244edc4f8",
-      "lastPushedAt": "2026-07-22T10:40:55.977Z",
-      "instances": [
-        {
-          "variantId": "gym-card-baseline",
-          "kind": "baseline"
-        },
-        {
-          "variantId": "gym-card-v-f1866be0",
-          "kind": "variant",
-          "bucket": "appearance",
-          "path": "desktop.background",
-          "value": {
-            "type": "color",
-            "color": "#ff00aa"
-          },
-          "valueKey": "color#ff00aa"
-        },
-        {
-          "variantId": "gym-card-v-8db175ab",
-          "kind": "variant",
-          "bucket": "appearance",
-          "path": "desktop.background",
-          "value": {
-            "type": "gradient",
-            "gradient": {
-              "direction": "to right",
-              "colors": {
-                "0": "#ff00aa",
-                "1": "#00ff00"
-              }
-            }
-          },
-          "valueKey": "gradient"
-        },
-        {
-          "variantId": "gym-card-v-ce6b48b0",
-          "kind": "variant",
-          "bucket": "appearance",
-          "path": "desktop.shadow",
-          "value": {
-            "offsetX": 17,
-            "offsetY": 17,
-            "blurRadius": 17,
-            "spreadRadius": 0,
-            "color": "#000000"
-          },
-          "valueKey": "shadow17"
-        },
-        {
-          "variantId": "gym-card-v-5f60c225",
-          "kind": "variant",
-          "bucket": "appearance",
-          "path": "stylingBox",
-          "value": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
-          "valueKey": "stylingBox17"
-        },
-        {
-          "variantId": "gym-card-v-1b640f90",
-          "kind": "variant",
-          "bucket": "display",
-          "path": "label",
-          "value": "GYM-TXT-label",
-          "valueKey": "txt"
-        },
-        {
-          "variantId": "gym-card-v-4937a36a",
-          "kind": "variant",
-          "bucket": "display",
-          "path": "hideHeading",
-          "value": true,
-          "valueKey": "true"
-        },
-        {
-          "variantId": "gym-card-v-90c3fc2d",
-          "kind": "variant",
-          "bucket": "display",
-          "path": "hideWhenEmpty",
-          "value": true,
-          "valueKey": "true"
-        }
-      ],
-      "notMeasured": [
-        {
-          "path": "hidden",
-          "reason": "no editorType and no heuristic match"
-        },
-        {
-          "path": "background.type",
-          "reason": "compound-only channel — measured via the whole-object variant"
-        },
-        {
-          "path": "background.url",
-          "reason": "compound-only channel — measured via the whole-object variant"
-        },
-        {
-          "path": "background.uploadFile",
-          "reason": "compound-only channel — measured via the whole-object variant"
-        },
-        {
-          "path": "background.storedFile.id",
-          "reason": "compound-only channel — measured via the whole-object variant"
-        },
-        {
-          "path": "background.size",
-          "reason": "compound-only channel — measured via the whole-object variant"
-        },
-        {
-          "path": "background.repeat",
-          "reason": "compound-only channel — measured via the whole-object variant"
-        },
-        {
-          "path": "style",
-          "reason": "no editorType and no heuristic match"
-        },
-        {
-          "path": "permissions",
-          "reason": "no editorType and no heuristic match"
-        }
-      ],
-      "lastMeasuredAt": "2026-07-22T10:46:56.813Z"
     },
     "gym-checkbox": {
       "type": "checkbox",

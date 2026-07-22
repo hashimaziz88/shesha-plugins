@@ -16,18 +16,17 @@ closest archetype from the blueprint's `Archetype:` header and re-types it
 is the fallback for hand-composition — pick via `_index.json` only, grep the
 fragment you need, and re-stamp every id + `parentId` [R-001/R-002/R-025].
 
-## 2. Canonical fragments (`assets/examples/`)
+## 2. Pattern fragments (`assets/examples/`)
 
-Small verbatim-captured forms for copying a specific mechanism:
+Whole-screen shapes (worklist table, card list, inline-CRUD table, standalone
+create) are golden archetypes — section 1. `examples/` holds only the two
+sub-screen **fragments** that no single archetype covers, for grafting into a
+hub/detail build:
 
 | File | Use for |
 |---|---|
-| `employee-table.json` | dataContext + datatable worklist wiring (toolbar Add = Show Dialog modal, Refresh with dataContext-id owner [R-043]) |
-| `entity-datalist.json` + `entity-card.json` | card list pair: the datalist (`dataContext` → `datalist`, `formSelectionMode: "name"`) and its row-template card form [R-048]. Copy BOTH; point the datalist's `formId` at your card form; `selectionMode: "multiple"` for multi-select. Do NOT use inline `items` — renders blank |
-| `inline-editable-table.json` | in-row CRUD: `crud-operations` column + `{type, settings}` editors [R-010] |
-| `standalone-create.json` | full-page create/edit floor: fields + validationErrors + Save (Submit/shesha.form) + Back (Navigate) [R-006/R-007/R-020] |
-| `rs-link-add-dialog.json` | link-existing dialog (M:M junction add) |
-| `rs-subtable-tab-fragment.json` | child-table tab fragment (dataContext + filtered datatable in a tab) |
+| `rs-link-add-dialog.json` | link-existing dialog (M:M junction add) — [components/junction-subtables.md](components/junction-subtables.md) |
+| `rs-subtable-tab-fragment.json` | child-table tab fragment (`dataContext` + filtered `datatable` in a tab) — [components/child-tables.md](components/child-tables.md) |
 
 ## When you clone anything, swap ALL of these (easy to miss)
 

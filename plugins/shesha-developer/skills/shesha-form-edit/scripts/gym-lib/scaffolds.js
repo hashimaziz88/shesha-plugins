@@ -119,7 +119,20 @@ export const SCAFFOLDS = {
     props: { direction: 'vertical', display: 'block' },
     children: (type, mk) => [textChild(type, mk)],
   },
-  card: { children: (type, mk) => [textChild(type, mk)] },
+  // Card renders its children from the `content` custom container (and title from
+  // `header`), NOT the generic `components` slot. Without a `content` object the
+  // renderer calls ComponentsContainer with containerId=undefined and crashes
+  // (undefined.replace) — the error boundary then blanks the whole card, so every
+  // variant measured identical (no-op). Mirror initModel: build content + header.
+  card: {
+    build: (instance, mk) => {
+      const child = textChild('card', mk);
+      const content = { id: gymUuid(instance.id, 'content'), components: [child] };
+      child.parentId = content.id;
+      instance.content = content;
+      instance.header = { id: gymUuid(instance.id, 'header'), components: [] };
+    },
+  },
   section: { children: (type, mk) => [textChild(type, mk)] },
   list: { children: (type, mk) => [textChild(type, mk)] },
   drawer: { children: (type, mk) => [textChild(type, mk)] },

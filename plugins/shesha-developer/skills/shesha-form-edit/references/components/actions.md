@@ -62,7 +62,7 @@ Common `buttonAction` → `actionConfiguration` pairings: `submit` → `Submit`/
 `startFormEdit` → `Start Edit`/`shesha.form`; `dialogue` → `Show Dialog`/`shesha.common`;
 `executeScript` → `Execute Script`/`shesha.common`. Exactly one item is `buttonType: "primary"`
 (the forward action); Back/Cancel/Delete are `default` or `link`. Copy a real `buttonGroup`
-from a seed in `../../assets/examples/` and swap the items.
+from a golden archetype in `../../assets/golden/` (every one carries a canonical action `buttonGroup`) and swap the items.
 
 ---
 

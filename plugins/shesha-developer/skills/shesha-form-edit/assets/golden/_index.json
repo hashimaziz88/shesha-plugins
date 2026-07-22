@@ -62,6 +62,12 @@
       "archetype": "dashboard",
       "description": "Entity-bound landing/dashboard: stat containers + chart placeholders + shortcut links.",
       "componentTypes": ["container", "text", "link"]
+    },
+    {
+      "file": "auth-page--auth-login.json",
+      "archetype": "auth-page",
+      "description": "Anonymous full-page form (access:5): login/register/OTP shell — branded page chrome, input fields, Submit wired to an app-service endpoint [R-041], no entity CRUD. Manual-clone archetype (the compiler does not wire anonymous auth).",
+      "componentTypes": ["container", "textField", "buttonGroup", "validationErrors"]
     }
   ]
 }

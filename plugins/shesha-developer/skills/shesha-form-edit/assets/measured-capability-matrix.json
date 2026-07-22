@@ -2522,28 +2522,85 @@
       "renderStatus": "renders",
       "settings": {
         "desktop.background=color#ff00aa": {
-          "effect": "no-op",
-          "bucket": "appearance"
+          "effect": "changes-style",
+          "bucket": "appearance",
+          "cssDelta": {
+            "backgroundColor": {
+              "baseline": "rgb(255, 255, 255)",
+              "variant": "rgb(255, 0, 170)"
+            },
+            "subtree.backgroundColor": {
+              "baseline": "rgb(255, 255, 255) | rgba(0, 0, 0, 0)",
+              "variant": "rgb(255, 0, 170) | rgba(0, 0, 0, 0)"
+            }
+          }
         },
         "desktop.background=gradient": {
-          "effect": "no-op",
-          "bucket": "appearance"
+          "effect": "changes-style",
+          "bucket": "appearance",
+          "cssDelta": {
+            "backgroundImage": {
+              "baseline": "none",
+              "variant": "linear-gradient(to right, rgb(255, 0, 170), rgb(0, 255, 0))"
+            },
+            "subtree.backgroundImage": {
+              "baseline": "none",
+              "variant": "linear-gradient(to right, rgb(255, 0, 170), rgb(0, 255, 0)) | none"
+            }
+          }
         },
         "desktop.shadow=shadow17": {
-          "effect": "no-op",
-          "bucket": "appearance"
+          "effect": "changes-style",
+          "bucket": "appearance",
+          "cssDelta": {
+            "boxShadow": {
+              "baseline": "none",
+              "variant": "rgb(0, 0, 0) 17px 17px 17px 0px"
+            },
+            "subtree.boxShadow": {
+              "baseline": "none",
+              "variant": "none | rgb(0, 0, 0) 17px 17px 17px 0px"
+            }
+          }
         },
         "stylingBox=stylingBox17": {
           "effect": "no-op",
           "bucket": "appearance"
         },
         "label=txt": {
-          "effect": "no-op",
-          "bucket": "display"
+          "effect": "renders",
+          "bucket": "display",
+          "notes": "text/attribute difference only"
         },
         "hideHeading=true": {
-          "effect": "no-op",
-          "bucket": "display"
+          "effect": "changes-geometry",
+          "bucket": "display",
+          "cssDelta": {
+            "display": {
+              "baseline": "block",
+              "variant": "flex"
+            },
+            "position": {
+              "baseline": "relative",
+              "variant": "static"
+            },
+            "width": {
+              "baseline": "1370px",
+              "variant": "1320px"
+            },
+            "height": {
+              "baseline": "137px",
+              "variant": "22px"
+            },
+            "justifyContent": {
+              "baseline": "normal",
+              "variant": "left"
+            },
+            "fontFamily": {
+              "baseline": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+              "variant": "\"Segoe UI\""
+            }
+          }
         },
         "hideWhenEmpty=true": {
           "effect": "no-op",
@@ -2585,8 +2642,7 @@
           "effect": "not-measured",
           "notes": "no editorType and no heuristic match"
         }
-      },
-      "consoleErrors": 25
+      }
     },
     "checkbox": {
       "renderStatus": "renders",
@@ -18545,5 +18601,5 @@
       }
     }
   },
-  "measuredAt": "2026-07-22T11:18:46.667Z"
+  "measuredAt": "2026-07-22T11:47:26.678Z"
 }
