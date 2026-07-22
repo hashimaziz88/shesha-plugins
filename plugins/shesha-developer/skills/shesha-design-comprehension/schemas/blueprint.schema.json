@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "shesha-blueprint.schema.json",
+  "title": "Shesha blueprint IR (machine twin)",
+  "description": "The JSON twin of a screen blueprint. Comprehension emits it alongside the Markdown blueprint (fenced ```blueprint-json block); form-edit's compile-blueprint.js accepts ONLY this as build input — no spec, no build (L2).",
+  "type": "object",
+  "required": ["screen", "entity", "form", "archetype", "layout"],
+  "properties": {
+    "screen": { "type": "string", "description": "human screen name" },
+    "entity": {
+      "type": "object",
+      "required": ["fullClassName"],
+      "properties": {
+        "fullClassName": { "type": "string", "description": "resolved entity type string (dataContext.entityType form)" },
+        "modelType": {
+          "type": "object",
+          "description": "the {name, module} object for formSettings.modelType [R-016]",
+          "properties": { "name": { "type": "string" }, "module": { "type": "string" } }
+        }
+      }
+    },
+    "form": {
+      "type": "object",
+      "required": ["module", "name"],
+      "properties": { "module": { "type": "string" }, "name": { "type": "string" }, "label": { "type": "string" } }
+    },
+    "archetype": {
+      "enum": ["record-detail", "hub", "list-card", "capture", "dashboard", "solution-map", "wizard", "inline-card", "table-worklist", "modal-dialog"],
+      "description": "golden archetype to clone (assets/golden/_index.json keys)"
+    },
+    "theme": { "type": "string", "description": "theme token file name (e.g. 'shesha'); styling pass resolves it" },
+    "fidelity": { "enum": ["A", "B", "C"] },
+    "viewport": { "type": "string" },
+    "layout": { "$ref": "#/$defs/node" },
+    "bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["property"],
+        "properties": {
+          "label": { "type": "string" },
+          "property": { "type": "string", "description": "camelCase entity property or dotted nav path [R-004, R-034]" },
+          "component": { "type": "string", "description": "explicit component type; omitted = by-datatype selection" },
+          "datatype": { "type": "string" }
+        }
+      }
+    },
+    "assertions": {
+      "type": "array",
+      "description": "placement contract verified after build (stable properties, never pixels)",
+      "items": {
+        "type": "object",
+        "required": ["id", "statement"],
+        "properties": { "id": { "type": "string" }, "statement": { "type": "string" } }
+      }
+    }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "enum": ["region", "container", "row", "card", "tabs", "tab", "datatable", "datalist", "field", "text", "buttonGroup", "chip"] },
+        "name": { "type": "string" },
+        "title": { "type": "string" },
+        "width": { "type": "string", "description": "native width for split children — %, px or calc(); compiled to desktop.dimensions.width [R-028]" },
+        "property": { "type": "string", "description": "kind=field: the bound entity property" },
+        "component": { "type": "string", "description": "kind=field: explicit component type override" },
+        "content": { "type": "string", "description": "kind=text: literal content" },
+        "columns": { "type": "array", "items": { "type": "string" }, "description": "kind=datatable: bound column properties" },
+        "itemForm": { "type": "string", "description": "kind=datalist: item form name" },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/node" } }
+      }
+    }
+  }
+}

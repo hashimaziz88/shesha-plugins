@@ -1,0 +1,57 @@
+{
+  "screen": "Asset registration",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-compiled-asset-capture", "label": "Register Asset" },
+  "archetype": "capture",
+  "theme": "shesha",
+  "layout": {
+    "kind": "region",
+    "name": "page",
+    "children": [
+      { "kind": "text", "name": "pageTitle", "content": "Register Asset" },
+      {
+        "kind": "row",
+        "name": "mainSplit",
+        "children": [
+          {
+            "kind": "container",
+            "name": "mainCol",
+            "width": "66%",
+            "children": [
+              { "kind": "field", "property": "name" },
+              { "kind": "field", "property": "serialNumber" },
+              { "kind": "field", "property": "category" },
+              { "kind": "field", "property": "purchaseDate" }
+            ]
+          },
+          {
+            "kind": "container",
+            "name": "railCol",
+            "width": "33%",
+            "children": [
+              { "kind": "field", "property": "status" },
+              { "kind": "field", "property": "location" },
+              { "kind": "field", "property": "assignedEmployee" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "bindings": [
+    { "label": "Asset Name", "property": "name" },
+    { "property": "serialNumber" },
+    { "property": "category" },
+    { "property": "purchaseDate" },
+    { "property": "status" },
+    { "property": "location" },
+    { "property": "assignedEmployee" }
+  ],
+  "assertions": [
+    { "id": "A1", "statement": "mainSplit has exactly two children; mainCol left of railCol" },
+    { "id": "A2", "statement": "status/location/assignedEmployee are inside railCol" }
+  ]
+}

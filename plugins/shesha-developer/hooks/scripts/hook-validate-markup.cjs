@@ -32,6 +32,10 @@ function main() {
   const skillScripts = path.join(__dirname, '..', '..', 'skills', 'shesha-form-edit', 'scripts');
   const problems = [];
 
+  // cheapest gate first: JSON Schema (known types, id/version/defaultValue shapes)
+  const schema = spawnSync('node', [path.join(skillScripts, 'validate-schema.js'), filePath], { encoding: 'utf8', timeout: 20000 });
+  if (schema.status === 1) problems.push(`validate-schema FAIL:\n${(schema.stdout + schema.stderr).trim().slice(0, 1500)}`);
+
   const guard = spawnSync('node', [path.join(skillScripts, 'validate-guardrails.js'), filePath], { encoding: 'utf8', timeout: 20000 });
   if (guard.status === 1) problems.push(`validate-guardrails FAIL:\n${(guard.stdout + guard.stderr).trim().slice(0, 2000)}`);
 
