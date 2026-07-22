@@ -61,7 +61,9 @@
     "verification":    { "files": ["verification.md"], "rules": ["re-fetch and diff; the 200 alone proves nothing"] },
     "bulk":            { "files": ["bulk-operations.md", "orchestration.md"] },
     "navigation":      { "files": ["navigation-menu.md"] },
-    "backend-prereqs": { "files": ["full-stack-prereqs.md", "backend-restart.md"] }
+    "backend-prereqs": { "files": ["full-stack-prereqs.md", "backend-restart.md"] },
+    "gym":               { "files": ["gym.md"], "scripts": ["generate-component-gym.js", "run-gym.js", "merge-capability.js", "extract-enums.js"], "rules": ["prefer assets/measured-capability-matrix.json over the hand-noted matrix when both exist; a setting measured no-op does not style — pick a measured channel instead"] },
+    "capability-matrix": { "files": ["gym.md"], "assets": ["measured-capability-matrix.json"], "rules": ["prefer assets/measured-capability-matrix.json over the hand-noted matrix when both exist"] }
   },
   "symptoms": {
     "blank form":              { "files": ["debug.md"], "hint": "short ids / missing parentIds — re-run stampTree; or PascalCase propertyName" },
