@@ -589,7 +589,8 @@ function buildSettingsSection(catalog) {
   const appearancePaths = fields.filter((f) => SHARED_STYLE_PATHS.has(f.path)).map((f) => f.path);
   const hasStandardAppearance = appearancePaths.length >= 6;
   // when the standard appearance panel is present, represent those fields by path
-  // only (full definitions live in _shared-style-fields.json); otherwise keep inline.
+  // only in appearanceFieldPaths; otherwise keep inline. (0.43 vestige — on 0.45
+  // appearance is nested inline, so this rarely fires.)
   const settingsFields = hasStandardAppearance
     ? fields.filter((f) => !SHARED_STYLE_PATHS.has(f.path))
     : fields.map((f) => (SHARED_STYLE_PATHS.has(f.path) ? { ...f, shared: true } : f));
@@ -823,17 +824,11 @@ for (const type of sortedTypes) {
 }
 fs.writeFileSync(path.join(outDir, '_index.json'), JSON.stringify(index, null, 2) + '\n');
 
-fs.writeFileSync(path.join(outDir, '_shared-style-fields.json'), JSON.stringify({
-  description: 'Standard 0.43 appearance/style settings shared by most input components. '
-    + 'Paths are FLAT on the component model (no desktop./tablet./mobile. breakpoint prefixes — that structure is 0.45+). '
-    + 'Components with hasStandardAppearance:true support the paths listed in their appearanceFieldPaths; full field definitions are below.',
-  stylingBoxShape: {
-    note: 'stylingBox is a JSON *string*. Keys (all string values, px implied):',
-    keys: ['marginTop', 'marginRight', 'marginBottom', 'marginLeft', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'],
-    example: '{"marginBottom":"5","paddingLeft":"16"}',
-  },
-  fields: SHARED_STYLE_FIELDS,
-}, null, 2) + '\n');
+// NOTE: the flat SHARED_STYLE_FIELDS catalog (a 0.43 IInputStyles panel) is NOT
+// emitted — this plugin is 0.45-only, where appearance lives inline in each
+// component's settingsFields as nested desktop.* channels. The flat-path
+// detection below is a near-inert 0.43 vestige (matches ~1 component on 0.45);
+// consumers treat a missing _shared-style-fields.json as empty.
 
 let commit = null;
 let sourceBranch = null;
