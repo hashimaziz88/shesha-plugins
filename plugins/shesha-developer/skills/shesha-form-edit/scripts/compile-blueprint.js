@@ -113,6 +113,28 @@ function paddingBox(v) {
   return JSON.stringify({ paddingTop: p, paddingRight: p, paddingBottom: p, paddingLeft: p });
 }
 
+// ---- theme tokens: DESIGN IS COMPILED IN, not a second pass -----------------
+// The brand token file is a compile-time input; the compiler resolves colour /
+// type / radius from it as it emits each node, so the first output is on-brand.
+// (App-level AntD chrome — input/table/button skin — is the separate one-time
+// `$antdTheme` app setup, not a per-form pass.)
+const THEME_DIR = path.join(SCRIPT_DIR, '..', '..', 'shesha-design-system', 'assets', 'themes');
+const themeName = argVal('--theme', bp.theme || 'shesha');
+let TOK = null;
+try { TOK = JSON.parse(fs.readFileSync(path.join(THEME_DIR, `${themeName}.tokens.json`), 'utf8')); }
+catch { console.error(`WARN: theme "${themeName}" not found in ${THEME_DIR} — emitting neutral defaults`); }
+
+const tkRaw = (dotted) => (dotted || '').split('.').reduce((o, k) => (o == null ? o : o[k]), TOK);
+// resolve a token path or a role (roles.* values are themselves token paths → resolve twice)
+function tk(pathOrRole, fallback) {
+  if (!TOK) return fallback;
+  const p = /^(roles|palette|type|spacing|radius|shadow|chrome)\./.test(pathOrRole) ? pathOrRole : `roles.${pathOrRole}`;
+  let v = tkRaw(p);
+  if (typeof v === 'string' && /^(palette|type|spacing|radius|shadow|chrome)\./.test(v)) v = tkRaw(v);
+  return v ?? fallback;
+}
+const HEADING_TOKEN = { 1: 'type.scale.title', 2: 'type.scale.subtitle', 3: 'type.scale.cardHeader', 4: 'type.scale.body' };
+
 const bindingIndex = new Map((bp.bindings ?? []).map((b) => [b.property, b]));
 
 function fieldComponent(node, idKey) {
@@ -131,8 +153,12 @@ function fieldComponent(node, idKey) {
     propertyName: prop,
     label: binding.label ?? node.title ?? titleCase(prop),
     labelAlign: 'left',
-    // fields fill their column; minWidth:0 lets flex columns shrink cleanly [flexbox min-content trap]
-    desktop: { dimensions: { width: '100%', minWidth: '0px' } },
+    // fields fill their column; minWidth:0 lets flex columns shrink cleanly [flexbox min-content trap];
+    // a token-driven border makes inputs visible on-brand in one pass, even before the app AntD theme
+    desktop: {
+      dimensions: { width: '100%', minWidth: '0px' },
+      border: { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', style: 'solid', color: tk('inputBorder', '#D0D5E0') } }, radius: { all: tk('baseRadius', 6) } },
+    },
   };
   if (type === 'dropdown' || type === 'radio' || type === 'refListStatus') {
     const p = propsMeta?.get(String(prop).toLowerCase());
@@ -163,16 +189,18 @@ function compileNode(node, idPrefix) {
         type: 'text', version: ver('text'),
         componentName: node.name ?? `text${seq}`,
         content: node.content ?? node.title ?? '', textType: 'span', contentDisplay: 'content',
+        desktop: { font: { size: tk('type.scale.body', 14), color: tk('bodyText', '#181818') } },
       };
     case 'heading': {
-      const h = HEADING[node.level ?? 2] ?? HEADING[2];
+      const lvl = node.level ?? 2;
+      const h = HEADING[lvl] ?? HEADING[2];
       return {
         id: gymUuid('bp', bp.form.name, idKey),
         type: 'text', version: ver('text'),
         componentName: node.name ?? `heading${seq}`,
         content: node.content ?? node.title ?? '', textType: 'span', contentDisplay: 'content',
-        // structural hierarchy so the page reads even before the brand Style pass [R-030]
-        desktop: { font: { size: h.size, weight: h.weight } },
+        // on-brand hierarchy from the theme type scale + heading ink [R-030]
+        desktop: { font: { size: tk(HEADING_TOKEN[lvl], h.size), weight: String(tk('type.weights.semibold', 600)), color: tk('sectionHeading', '#181818') } },
       };
     }
     case 'buttonGroup':
@@ -301,12 +329,13 @@ function buildContainer(node, idKey) {
     stylingBox: node.padding !== undefined ? paddingBox(node.padding) : '{}',
   };
 
-  // card: neutral surface so it reads as a card before the brand Style pass [R-030]
+  // card: on-brand surface from tokens (border-forward per the Shesha philosophy —
+  // hairline border, whisper shadow) so it's designed in the first output [R-030]
   if (node.kind === 'card') {
-    desktop.background = { type: 'color', color: '#ffffff' };
-    desktop.border = { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', color: '#e5e7eb', style: 'solid' } }, radius: { all: '8' } };
-    desktop.shadow = { offsetX: 0, offsetY: 1, blurRadius: 3, spreadRadius: 0, color: 'rgba(0,0,0,0.06)' };
-    if (node.padding === undefined) desktop.stylingBox = paddingBox('lg');
+    desktop.background = { type: 'color', color: tk('cardBg', '#ffffff') };
+    desktop.border = { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', color: tk('hairline', '#e5e7eb'), style: 'solid' } }, radius: { all: tk('cardRadius', 8) } };
+    desktop.shadow = { offsetX: 0, offsetY: 1, blurRadius: 4, spreadRadius: 0, color: 'rgba(0,0,0,0.08)' };
+    if (node.padding === undefined) desktop.stylingBox = paddingBox('4'); // spacing.4 = 16
   }
 
   const container = {

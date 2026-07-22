@@ -116,13 +116,22 @@ Entity-bound forms MUST pass `resolve-bindings.js` (live backend) before push.
 Fix findings by rule id; never bypass a gate. JSON-safety for embedded scripts:
 [R-013] + [references/components/scripts.md](references/components/scripts.md).
 
-## 5 · Style
+## 5 · Style — compiled in, not a second pass
 
-Every NEW form gets a styling pass via
-`Skill(shesha-developer:shesha-design-system)` — the shipped `shesha` theme
-when no brand was named. That skill hands back styled markup; **you still own
-push and verification** — receiving styled JSON is the middle of the pipeline,
-not the end. Only `--no-style` skips this.
+Design is a **compile-time input**: `compile-blueprint.js --theme <brand>`
+(default `shesha`) resolves brand colour, type scale, radius, spacing and
+borders from `shesha-design-system/assets/themes/<brand>.tokens.json` and bakes
+them into every node, so the first output is already on-brand [R-042]. No
+separate styling pass is needed for a compiled form.
+
+Two things still route to `Skill(shesha-developer:shesha-design-system)`:
+- **the one-time app AntD theme** (`$antdTheme` — input/table/button chrome), set
+  once per app, not per form ([references/app-theme via design-system]);
+- **re-styling a form you did NOT compile** (a hand-composed form, a small edit,
+  or matching a brand that has no token file yet).
+
+Either way **you still own push + verification**. `--no-style` / an unknown
+theme falls back to neutral tokens.
 
 ## 6 · Push + Oracle
 

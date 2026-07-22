@@ -40,7 +40,8 @@
           "desktop": {
             "font": {
               "size": 24,
-              "weight": "600"
+              "weight": "600",
+              "color": "#181818"
             }
           },
           "parentId": "177566ff-e1ab-58f4-aa87-f1dde4bef0eb"
@@ -103,7 +104,7 @@
                 "stylingBox": "{\"paddingTop\":\"12\",\"paddingRight\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"12\"}",
                 "background": {
                   "type": "color",
-                  "color": "#ffffff"
+                  "color": "#FFFFFF"
                 },
                 "border": {
                   "radiusType": "all",
@@ -111,20 +112,20 @@
                   "border": {
                     "all": {
                       "width": "1px",
-                      "color": "#e5e7eb",
+                      "color": "#E8EAF0",
                       "style": "solid"
                     }
                   },
                   "radius": {
-                    "all": "8"
+                    "all": 8
                   }
                 },
                 "shadow": {
                   "offsetX": 0,
                   "offsetY": 1,
-                  "blurRadius": 3,
+                  "blurRadius": 4,
                   "spreadRadius": 0,
-                  "color": "rgba(0,0,0,0.06)"
+                  "color": "rgba(0,0,0,0.08)"
                 }
               },
               "components": [
@@ -139,7 +140,8 @@
                   "desktop": {
                     "font": {
                       "size": 16,
-                      "weight": "600"
+                      "weight": "600",
+                      "color": "#181818"
                     }
                   },
                   "parentId": "7f238076-622a-577b-a48a-c923df925451"
@@ -155,6 +157,20 @@
                     "dimensions": {
                       "width": "100%",
                       "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#D0D5E0"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
                     }
                   },
                   "parentId": "7f238076-622a-577b-a48a-c923df925451"
@@ -170,6 +186,20 @@
                     "dimensions": {
                       "width": "100%",
                       "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#D0D5E0"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
                     }
                   },
                   "parentId": "7f238076-622a-577b-a48a-c923df925451"
@@ -214,6 +244,20 @@
                         "dimensions": {
                           "width": "calc((100% - 12px) / 2)",
                           "minWidth": "0px"
+                        },
+                        "border": {
+                          "radiusType": "all",
+                          "borderType": "all",
+                          "border": {
+                            "all": {
+                              "width": "1px",
+                              "style": "solid",
+                              "color": "#D0D5E0"
+                            }
+                          },
+                          "radius": {
+                            "all": 6
+                          }
                         }
                       },
                       "dataSourceType": "referenceList",
@@ -234,6 +278,20 @@
                         "dimensions": {
                           "width": "calc((100% - 12px) / 2)",
                           "minWidth": "0px"
+                        },
+                        "border": {
+                          "radiusType": "all",
+                          "borderType": "all",
+                          "border": {
+                            "all": {
+                              "width": "1px",
+                              "style": "solid",
+                              "color": "#D0D5E0"
+                            }
+                          },
+                          "radius": {
+                            "all": 6
+                          }
                         }
                       },
                       "parentId": "67c1741d-8a16-518b-9106-21e85688ed49"
@@ -284,7 +342,8 @@
                   "desktop": {
                     "font": {
                       "size": 16,
-                      "weight": "600"
+                      "weight": "600",
+                      "color": "#181818"
                     }
                   },
                   "parentId": "17572a1a-b990-50e3-8667-76a3882cdd9b"
@@ -300,6 +359,20 @@
                     "dimensions": {
                       "width": "100%",
                       "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#D0D5E0"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
                     }
                   },
                   "dataSourceType": "referenceList",
@@ -320,6 +393,20 @@
                     "dimensions": {
                       "width": "100%",
                       "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#D0D5E0"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
                     }
                   },
                   "dataSourceType": "referenceList",
@@ -340,6 +427,20 @@
                     "dimensions": {
                       "width": "100%",
                       "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#D0D5E0"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
                     }
                   },
                   "dataSourceType": "entitiesList",
