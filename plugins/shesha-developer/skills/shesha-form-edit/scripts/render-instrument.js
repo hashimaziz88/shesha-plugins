@@ -68,11 +68,26 @@ try {
   await page.goto(verdict.url, { waitUntil: 'domcontentloaded', timeout: BUDGET_MS });
   // the app header is itself a sha-form — wait for page components, not just .sha-form
   await page.waitForSelector('.sha-form', { timeout: BUDGET_MS });
-  await page.waitForFunction(
-    () => document.querySelectorAll('[data-sha-c-id]').length > 3,
-    null, { timeout: 15000 },
-  ).catch(() => {});
-  await page.waitForTimeout(1500);
+  // Fail-closed against a still-loading page: wait for the page-content spinner
+  // to disappear AND the component count to stabilise across two polls. A
+  // freshly-created form's config cache is cold, so this can take several
+  // seconds; a spinner still visible at the deadline is a FAIL, not a PASS.
+  const settleDeadline = Date.now() + 20000;
+  let stable = 0;
+  let lastCount = -1;
+  let spinnerGone = false;
+  while (Date.now() < settleDeadline) {
+    const s = await page.evaluate(() => ({
+      count: document.querySelectorAll('[data-sha-c-id]').length,
+      spinning: !!document.querySelector('.ant-spin-spinning, .sha-page-content .ant-spin'),
+    }));
+    spinnerGone = !s.spinning;
+    if (spinnerGone && s.count === lastCount && s.count > 3) { stable++; if (stable >= 2) break; }
+    else stable = 0;
+    lastCount = s.count;
+    await page.waitForTimeout(700);
+  }
+  verdict.settled = spinnerGone && stable >= 2;
 
   const probe = await page.evaluate(() => {
     const comps = [...document.querySelectorAll('[data-sha-c-id]')];
@@ -87,6 +102,7 @@ try {
       componentCount: comps.length,
       boundTotal: bound.length,
       boundNonEmpty: nonEmpty.length,
+      spinning: !!document.querySelector('.ant-spin-spinning, .sha-page-content .ant-spin'),
       errorToast: !!document.querySelector('[class*="error"] [class*="toast"], .ant-notification-notice-error'),
       bodySample: (document.body.innerText || '').slice(0, 200),
     };
@@ -94,14 +110,16 @@ try {
 
   verdict.componentCount = probe.componentCount;
   verdict.boundRegions = { total: probe.boundTotal, nonEmpty: probe.boundNonEmpty };
-  verdict.rendered = probe.componentCount > 3; // more than just the header chrome
+  // rendered = real form content present AND not still spinning
+  verdict.rendered = probe.componentCount > 3 && !probe.spinning && verdict.settled;
 
   const shot = path.join(OUT_DIR, `${module}--${formName.replace(/[^a-z0-9-]/gi, '-')}.png`);
   await page.screenshot({ path: shot, fullPage: false });
   if (fs.existsSync(shot)) verdict.screenshot = shot;
 
   // fail-closed judgments
-  if (!verdict.rendered) verdict.reasons.push(`only ${probe.componentCount} components rendered — the form did not load`);
+  if (probe.spinning || !verdict.settled) verdict.reasons.push('page still loading (spinner visible / component count unstable at the deadline) — form did not finish rendering');
+  if (!verdict.rendered && !probe.spinning) verdict.reasons.push(`only ${probe.componentCount} components rendered — the form did not load`);
   if (!verdict.screenshot) verdict.reasons.push('no screenshot captured');
   if (verdict.consoleErrors.length) verdict.reasons.push(`${verdict.consoleErrors.length} console error(s)`);
   const relevant404s = verdict.networkErrors.filter((e) => !/GetChecklists|notification/i.test(e));
