@@ -49,7 +49,7 @@ On a 0.45-class (versioned) renderer, legacy `customVisibility` ("return true to
 }
 ```
 
-The compiled `reactjs` bundle maps `customVisibility` → `hidden` through this same mechanism; authoring `hidden` directly is the reliable path. Full context: [modern-renderer-gotchas.md §2](../modern-renderer-gotchas.md).
+The compiled `reactjs` bundle maps `customVisibility` → `hidden` through this same mechanism; authoring `hidden` directly is the reliable path [R-031]. Full context: [renderer-physics.md](../renderer-physics.md).
 
 ---
 

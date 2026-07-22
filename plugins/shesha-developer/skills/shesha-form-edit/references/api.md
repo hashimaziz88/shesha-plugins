@@ -339,10 +339,11 @@ Validation pass: for every input component in the edit, confirm `propertyName` m
 
 ## 10.5 Verify a reference list exists + has items
 
-For every reflist-bound component, confirm the list is real and populated **before** push — a dropdown bound to a missing or empty reflist renders blank at runtime and passes every structural check. Use the property's metadata `referenceListName` (full dotted) + `referenceListModule`:
+For every reflist-bound component, confirm the list is real and populated **before** push — a dropdown bound to a missing or empty reflist renders blank at runtime and passes every structural check [R-015]. Reflists are fetched as configuration items (this is the route `scripts/resolve-bindings.js` uses; there is **no** `ReferenceList/GetByName` or `ReferenceList/GetItems` service on this backend generation). Use the property's metadata `referenceListName` (full dotted) + `referenceListModule`:
 
 ```bash
-curl -s -G "$BASE_URL/api/services/app/ReferenceList/GetByName" \
+curl -s -G "$BASE_URL/api/services/app/ConfigurationItem/GetCurrent" \
+  --data-urlencode "itemType=reference-list" \
   --data-urlencode "name=<referenceListName>" \
   --data-urlencode "module=<referenceListModule>" \
   -H "Authorization: Bearer $ACCESS_TOKEN"
@@ -350,13 +351,13 @@ curl -s -G "$BASE_URL/api/services/app/ReferenceList/GetByName" \
 
 - `404` / null `result` → the reflist does **not exist** (the `[ReferenceList]` attribute is missing, or the name was guessed). Do NOT ship the component — hand off to `shesha-developer:domain-model`.
 - `result.items` empty → the list exists but has **no items**; the dropdown will be empty. Same handoff.
-- The route is under `app`, not `Shesha`. There is **no** `ReferenceList/GetItems` endpoint — don't invent one.
+- The route is under `app`, not `Shesha` [R-026].
 
 ---
 
 ## 10.6 Combined one-shot backend probe
 
-A form build otherwise fires ~10 tiny round-trips — the module-id lookup (§7), the per-entity `EntityConfig` resolve (§10 / Step 4.5), each metadata route (§10, often with 404 retries), and one `ReferenceList/GetByName` per reflist-bound prop (§10.5). `scripts/backend-probe.mjs` **replaces all of them with a single run** (module id + entity resolve + metadata + reflist existence, per entity), so prefer it over issuing those calls separately.
+A form build otherwise fires ~10 tiny round-trips — the module-id lookup (§7), the per-entity `EntityConfig` resolve (§10 / Step 4.5), each metadata route (§10, often with 404 retries), and one reflist existence check per reflist-bound prop (§10.5). `scripts/backend-probe.mjs` **replaces all of them with a single run** (module id + entity resolve + metadata + reflist existence, per entity), so prefer it over issuing those calls separately.
 
 ```bash
 # spec.json: { "module": "<Mod>", "entities": [ { "name": "ShortlistResult", "reflistProps": ["outcome","status"] } ] }
@@ -368,7 +369,7 @@ It reuses the **cached** token file (§2) — strips a leading BOM + trims it, s
 - `GET app/Module/GetAll?MaxResultCount=200` → resolves `spec.module` → id.
 - `GET app/EntityConfig/GetMainDataList?maxResultCount=1000` **once** → each entity's `{ name, module, fullClassName }`.
 - Metadata routes tried **in order until a 200 property array**: `app/Metadata/GetProperties` → `app/Metadata/Get` (`result.properties[]`) → `Shesha/Metadata/Get`; records which route worked. A 404 on all three while EntityConfig *has* the class is wrong-route/namespace → reported as `metadataUnavailable`, **not** `entityMissing` (never triggers a bogus `domain-model` "create").
-- Each named `reflistProp` → reads its `referenceListName`/`referenceListModule` from the metadata, then `GET app/ReferenceList/GetByName` → `{ exists, itemCount }`.
+- Each named `reflistProp` → reads its `referenceListName`/`referenceListModule` from the metadata, then the §10.5 reflist existence check → `{ exists, itemCount }`.
 
 Emits ONE compact JSON summary to stdout (per entity: `modelType`, `fullClassName`, metadata route or `metadataUnavailable`, a distilled `properties[]` of `{ path, dataType, referenceListName }`, and per-reflistProp `{ name, module, exists, itemCount }`) and writes each entity's slice to `<tokenFile dir>/<Entity>.probe.json` for reuse. A single 404 (or any non-2xx / network error) never throws — the status is recorded and the run continues.
 

@@ -27,7 +27,7 @@ A dispatched authoring agent (`form-author`, a comprehension agent, any ad-hoc b
 
 ## 5. One gated push path
 
-ALL writes to the backend go through `shesha-form-edit` Step 7, and every push is preceded by the full Step 6 gate: `clean-form-config` + `scripts/validate-guardrails.js` (with the metadata arg) — both MUST, blocking, zero `fail` findings. On a versioned (0.43-class) backend the push follows the version lifecycle (CreateNewVersion → Draft → publish); never a bare UpdateMarkup on Live. If a form reached the backend without this gate, the gate did not run — that is a defect, not a shortcut.
+ALL writes to the backend go through the `shesha-form-edit` push step, and every push is preceded by the full gate chain (`validate-schema.js` → `validate-guardrails.js` with the metadata arg → `resolve-bindings.js` → `validate-styledness.js`) — blocking, zero `fail` findings. A versioned foreign backend is a handoff, not an adaptation ([versioning.md](versioning.md)). If a form reached the backend without this gate, the gate did not run — that is a defect, not a shortcut.
 
 ## 6. Cost discipline
 
