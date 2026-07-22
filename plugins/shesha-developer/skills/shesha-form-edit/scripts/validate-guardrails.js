@@ -178,9 +178,17 @@ function walkTree(nodes, parent) {
     // conditional visibility (R-031)
     if (node.customVisibility) add('R-031', label(node));
 
-    // flex without display (R-029) — containers only; other types manage their own flex internally
-    if (t === 'container' && (node.flexDirection || node.justifyContent || node.gap) && node.display !== 'flex' && node.display !== 'inline-flex' && node.display !== 'grid') {
-      add('R-029', label(node), `flex props set but display is "${node.display ?? '(unset)'}" — flexDirection/gap/justifyContent are inert without display:flex`, 'warn');
+    // flex model must live in the desktop block, not root (R-029). A container
+    // showing flex intent (flexDirection/justifyContent/gap at root or desktop)
+    // but no desktop.display:flex renders stacked — the renderer ignores root flex.
+    if (t === 'container') {
+      const dk = node.desktop ?? {};
+      const flexIntent = node.flexDirection || node.justifyContent || node.gap
+        || dk.flexDirection || dk.justifyContent || dk.gap;
+      const dkDisplay = dk.display;
+      if (flexIntent && dkDisplay !== 'flex' && dkDisplay !== 'inline-flex' && dkDisplay !== 'grid') {
+        add('R-029', label(node), `flex intent but desktop.display is "${dkDisplay ?? '(unset)'}" — the 0.45 renderer reads flex from desktop.*; children will stack`, 'warn');
+      }
     }
 
     if (t === 'button') {
