@@ -1,0 +1,125 @@
+#!/usr/bin/env node
+// render-instrument.js --form <module>/<name> [--portal http://localhost:3000]
+//                      [--backend http://localhost:21021] [--out <dir>]
+//                      [--expect-data] [--mode edit|readonly] [--headed]
+//
+// The ONE scripted browser pass (L5 oracle). Fail-closed: no screenshot = FAIL,
+// no rendered components = FAIL, console errors = FAIL, --expect-data with all
+// bound regions empty = FAIL. Budget ~30s. JSON verdict on stdout, exit code:
+// 0 PASS · 1 FAIL · 2 usage/infra.
+
+import fs from 'node:fs';
+import path from 'node:path';
+import { GymApi } from './gym-lib/api.js';
+
+const args = process.argv.slice(2);
+const argVal = (name, dflt) => {
+  const i = args.indexOf(name);
+  return i >= 0 && args[i + 1] ? args[i + 1] : dflt;
+};
+const formArg = argVal('--form', null);
+if (!formArg || !formArg.includes('/')) { console.error('usage: node render-instrument.js --form <module>/<name> [--portal url] [--expect-data]'); process.exit(2); }
+const [module, ...nameParts] = formArg.split('/');
+const formName = nameParts.join('/');
+const PORTAL = argVal('--portal', 'http://localhost:3000');
+const OUT_DIR = argVal('--out', path.join(process.cwd(), 'render-verdicts'));
+const MODE = argVal('--mode', 'edit');
+const BUDGET_MS = 30000;
+
+let chromium;
+try { ({ chromium } = await import('playwright')); }
+catch { console.error('playwright not installed — run: npm install && npx playwright install chromium'); process.exit(2); }
+
+const api = new GymApi(argVal('--backend', 'http://localhost:21021'));
+await api.authenticate();
+
+fs.mkdirSync(OUT_DIR, { recursive: true });
+const verdict = {
+  form: `${module}/${formName}`,
+  url: `${PORTAL}/dynamic/${module}/${formName}${MODE === 'edit' ? '?mode=edit' : ''}`,
+  capturedAt: new Date().toISOString(),
+  rendered: false,
+  componentCount: 0,
+  consoleErrors: [],
+  networkErrors: [],
+  boundRegions: { total: 0, nonEmpty: 0 },
+  screenshot: null,
+  reasons: [],
+  verdict: 'FAIL',
+};
+
+const TOKEN_KEY = 'xDFcxiooPQxazdndDsdRSerWQPlincytLDCarcxVxv';
+const tokenBlob = Buffer.from(JSON.stringify({
+  accessToken: api.token, expireInSeconds: 86400,
+  expireOn: new Date(Date.now() + 86400 * 1000).toISOString(),
+})).toString('base64');
+
+const browser = await chromium.launch({ headless: !args.includes('--headed') });
+try {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  await context.addInitScript(({ key, blob }) => {
+    try { localStorage.setItem(key, blob); } catch { /* init */ }
+  }, { key: TOKEN_KEY, blob: tokenBlob });
+  const page = await context.newPage();
+  page.on('console', (m) => { if (m.type() === 'error') verdict.consoleErrors.push(m.text().slice(0, 400)); });
+  page.on('pageerror', (e) => verdict.consoleErrors.push(`PAGEERROR: ${String(e).slice(0, 400)}`));
+  page.on('response', (r) => { if (r.status() >= 400) verdict.networkErrors.push(`${r.status()} ${r.url().slice(0, 180)}`); });
+
+  await page.goto(verdict.url, { waitUntil: 'domcontentloaded', timeout: BUDGET_MS });
+  // the app header is itself a sha-form — wait for page components, not just .sha-form
+  await page.waitForSelector('.sha-form', { timeout: BUDGET_MS });
+  await page.waitForFunction(
+    () => document.querySelectorAll('[data-sha-c-id]').length > 3,
+    null, { timeout: 15000 },
+  ).catch(() => {});
+  await page.waitForTimeout(1500);
+
+  const probe = await page.evaluate(() => {
+    const comps = [...document.querySelectorAll('[data-sha-c-id]')];
+    const bound = comps.filter((el) => el.getAttribute('data-sha-c-property-name'));
+    const nonEmpty = bound.filter((el) => {
+      const input = el.querySelector('input,textarea,select');
+      if (input && String(input.value ?? '').trim() !== '') return true;
+      const txt = (el.innerText || '').replace(/^[^:]*:\s*/, '').trim(); // strip "Label:" prefix
+      return txt.length > 0 && !/^:?$/.test(txt);
+    });
+    return {
+      componentCount: comps.length,
+      boundTotal: bound.length,
+      boundNonEmpty: nonEmpty.length,
+      errorToast: !!document.querySelector('[class*="error"] [class*="toast"], .ant-notification-notice-error'),
+      bodySample: (document.body.innerText || '').slice(0, 200),
+    };
+  });
+
+  verdict.componentCount = probe.componentCount;
+  verdict.boundRegions = { total: probe.boundTotal, nonEmpty: probe.boundNonEmpty };
+  verdict.rendered = probe.componentCount > 3; // more than just the header chrome
+
+  const shot = path.join(OUT_DIR, `${module}--${formName.replace(/[^a-z0-9-]/gi, '-')}.png`);
+  await page.screenshot({ path: shot, fullPage: false });
+  if (fs.existsSync(shot)) verdict.screenshot = shot;
+
+  // fail-closed judgments
+  if (!verdict.rendered) verdict.reasons.push(`only ${probe.componentCount} components rendered — the form did not load`);
+  if (!verdict.screenshot) verdict.reasons.push('no screenshot captured');
+  if (verdict.consoleErrors.length) verdict.reasons.push(`${verdict.consoleErrors.length} console error(s)`);
+  const relevant404s = verdict.networkErrors.filter((e) => !/GetChecklists|notification/i.test(e));
+  if (relevant404s.length) verdict.reasons.push(`${relevant404s.length} failed request(s)`);
+  if (probe.errorToast) verdict.reasons.push('error toast visible on the page');
+  if (args.includes('--expect-data') && probe.boundTotal > 0 && probe.boundNonEmpty === 0) {
+    verdict.reasons.push('binding smoke failed: every bound region is empty although the entity has data [R-034]');
+  }
+
+  verdict.verdict = verdict.reasons.length ? 'FAIL' : 'PASS';
+} catch (err) {
+  verdict.reasons.push(`instrument error: ${String(err.message).slice(0, 300)}`);
+  verdict.verdict = 'FAIL';
+} finally {
+  await browser.close();
+}
+
+const outFile = path.join(OUT_DIR, `${module}--${formName.replace(/[^a-z0-9-]/gi, '-')}.verdict.json`);
+fs.writeFileSync(outFile, JSON.stringify(verdict, null, 2) + '\n');
+console.log(JSON.stringify(verdict, null, 2));
+process.exit(verdict.verdict === 'PASS' ? 0 : 1);
