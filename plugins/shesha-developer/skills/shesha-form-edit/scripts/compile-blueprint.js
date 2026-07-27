@@ -284,15 +284,29 @@ function buildContainer(node, idKey) {
   const isRow = node.kind === 'row' || node.kind === 'grid';
   let children = (node.children ?? []).map((c) => compileNode(c, idKey));
 
-  // grid: equal-width columns via calc() on each child (measured lever: dimensions.width).
-  // minWidth:0 lets a flex item shrink below its content width instead of overflowing/wrapping.
+  // grid: N equal columns. Each child is WRAPPED in a width-carrying flex column
+  // (the same mechanism the 66/33 row split uses) rather than sizing the field
+  // directly — a form-item's own width doesn't stretch reliably, which collapses
+  // gridded controls to stubs. The field then fills its column at 100%.
   if (node.kind === 'grid') {
     const cols = Number.isInteger(node.columns) ? node.columns : (children.length || 1);
     const g = resolveSpace(node.gap, 16);
     const w = `calc((100% - ${(cols - 1) * g}px) / ${cols})`;
-    children = children.map((c) => {
-      c.desktop = { ...(c.desktop ?? {}), dimensions: { ...(c.desktop?.dimensions ?? {}), width: w, minWidth: '0px' } };
-      return c;
+    children = children.map((c, i) => {
+      const col = {
+        id: gymUuid('bp', bp.form.name, `${idKey}/gcol/${i}`),
+        type: 'container', version: ver('container'),
+        componentName: `${node.name ?? 'grid'}Col${i}`,
+        direction: 'vertical', display: 'flex', flexDirection: 'column', flexWrap: 'nowrap', gap: 0,
+        desktop: {
+          display: 'flex', flexDirection: 'column', flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'stretch',
+          gap: '0px', stylingBox: '{}',
+          dimensions: { width: w, minWidth: '0px', height: 'auto', minHeight: 'auto', maxHeight: 'auto', maxWidth: '100%' },
+        },
+        components: [c],
+      };
+      c.parentId = col.id;
+      return col;
     });
   }
   // row: children keep their author width but need minWidth:0 so a 66/33 split
