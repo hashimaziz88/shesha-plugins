@@ -49,10 +49,13 @@ end with a summary naming every form created or modified (module + name + id)
 - **Small edit to an existing form** (add/move/rewire a few components): skip
   the compiler; fetch → edit in place (preserve ids [R-025]) → GATES onward.
 - **New form(s) or a structural rebuild**: full pipeline below.
-- **2+ forms** → [references/orchestration.md](references/orchestration.md)
-  (fan out `form-author` agents; ONE `fleet-transformer` for bulk mutations).
+- **2+ forms** → fan out one `shesha-frontend-engineer` per form; for a bulk
+  mechanical change use exactly ONE, pilot-first
+  ([references/bulk-operations.md](references/bulk-operations.md)). Dispatch
+  contract + per-form manifest: [references/contracts.md](references/contracts.md) §4.
 - **Backend prerequisites in doubt** (new entity, missing reflist/endpoint) →
-  dispatch `fullstack-prereq-checker` first; plan backend changes in one
+  run `node scripts/backend-probe.mjs <baseUrl> <tokenFile> <spec.json>`; it exits 1
+  naming each blocker and the skill that fixes it. Plan backend changes in one
   build + double-boot [R-040].
 
 ## 1 · Pre-flight (once per session)
@@ -167,7 +170,7 @@ render alone never means done. Full model: [references/verification.md §0](refe
    blueprint's `assertions`; this is what catches "the layout I intended didn't
    happen" (comprehension owns it).
 4. **Design-critic** (visual quality, MANDATORY) — dispatch the
-   `design-critic` agent with the screenshot + assertions + theme tokens; it
+   `shesha-design-critic` agent with the screenshot + assertions + theme tokens; it
    returns a strict verdict (per-assertion, styled-ness, top-3 fixes). The
    build is NOT done until the critic PASSes (styled ≥ acceptable). A green
    render-instrument does not substitute for it.
@@ -187,10 +190,10 @@ never as done.
 | API routes + push recipes | [references/api.md](references/api.md) |
 | Entity binding + metadata probe | [references/entity-binding.md](references/entity-binding.md) |
 | Component recipes (per type) | [references/components/](references/components/) via `scripts/lookup.js` |
-| Renderer physics (0.45) | [references/renderer-physics.md](references/renderer-physics.md) |
+| Renderer facts + form JSON model (0.45) | [plugin knowledge/frontend-conventions.md](../../knowledge/frontend-conventions.md) |
 | Verification + browser rules | [references/verification.md](references/verification.md) |
 | Symptom → cause | [references/debug.md](references/debug.md) |
-| Bulk / multi-form orchestration | [references/orchestration.md](references/orchestration.md) |
+| Bulk / multi-form mechanics | [references/bulk-operations.md](references/bulk-operations.md) |
 | Ground-truth rerun (gym) | [references/gym.md](references/gym.md) |
 | Version facts / 0.43 handoff | [references/versioning.md](references/versioning.md) |
 | Quality floor + grading | [references/form-quality.md](references/form-quality.md) |

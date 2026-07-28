@@ -8,7 +8,7 @@ runbook instead of improvising.
 
 > **Order of operations — scan ALL prereqs first, build ONCE, forms last.** BEFORE writing any code,
 > run the single combined prereq scan (`scripts/backend-probe.mjs` + the
-> `shesha-developer:fullstack-prereq-checker` agent) to surface EVERY gap at once — missing entity,
+> `scripts/backend-probe.mjs`) to surface EVERY gap at once — missing entity,
 > reflist, endpoint, permissions. Enumerate all the domain + app-layer changes from that one scan, apply
 > them together, then do **one** rebuild + the (double-)boot. **Never discover→build→discover→build** —
 > that serial loop (one run did 5+ rebuild/boot cycles) is what turns a 10-minute change into an hour.

@@ -1,64 +1,79 @@
-# Shesha Claude Designer — the design → Shesha pipeline (v2, 0.45)
+# The Shesha designer surface — how the four skills fit together
 
-Four skills that turn a **design** (a runnable prototype, a screenshot set, a Figma-style kit, or an HTML/JSX mock) into **on-brand, correctly-built Shesha forms** — and prove the result by machine gates and measurement, not eyeballing. The v2 pipeline is a **compiler pipeline over artifacts**: every hop hands the next skill a typed artifact, not prose.
+Human orientation for maintainers. Not loaded as skill context; the authoritative intent table
+is [`instructions/routing.md`](../../instructions/routing.md) at the plugin root.
+
+Four skills turn a **design** into **on-brand, correctly-built Shesha forms**, and prove the
+result by scripted gates and measurement rather than by eyeballing. Each hop hands the next a
+typed artifact, not prose.
 
 ```
 design source
-   │ 1 ingest (conductor)
+   │ 1  ingest (conductor: tokens + screen inventory)
    ▼
-theme tokens + screen inventory
-   │ 2 comprehend (per screen, ∥)
+<brand>.tokens.json  +  screen inventory
+   │ 2  measure, one dispatch per screen
    ▼
-blueprint.md  ──  human view (layout-tree / bindings / assertions)
-              └─  machine twin: fenced ```blueprint-json  (schema-validated)
-   │ 3 theme once + plan {archetype, blocks}
-   │ 4 build: shesha-form-edit COMPILES the blueprint
+blueprint.md ── human view (layout-tree / bindings / assertions)
+             └─ machine twin: fenced ```blueprint-json
+   │ 3  plan + sequence + one approval gate
+   │ 4  build, one dispatch per screen
    ▼
-compile-blueprint.js → GATES (validate-schema → validate-guardrails →
-resolve-bindings → validate-styledness) → STYLE (design-system) →
-PUSH → ORACLE (re-fetch diff + render-instrument.js + design-critic verdict*)
-   │ 5 verify: structural (oracle) · placement diff (≤2 iter) · visual audit (≤2 cycles)
+compile-blueprint.js  (style plan baked in at compile time)
+   → GATES  validate-schema → validate-guardrails → resolve-bindings → validate-styledness
+   → PUSH   Create / UpdateMarkup
+   → ORACLE re-fetch diff → render-instrument.js → placement diff → shesha-design-critic
+   │ 5  aggregate the evidence
    ▼
-report envelope (form ids, gate results, verdicts, probe paths)
+report envelope (form ids, gate results, verdicts, probe + screenshot paths)
 ```
-\* render-instrument.js and the design-critic agent are being built; until present, the visual gate is the screenshot + design-system audit.
 
-## The four skills
+There is no separate styling step. `shesha-design-system` exposes tokens as a validated
+**style plan** and the compiler links that function, so the first emitted markup is already
+on-brand.
 
-| Skill | Owns | Must NOT |
+## Who owns what
+
+| Skill | Owns | Must not |
 |---|---|---|
-| **`shesha-claude-designer`** (conductor — start here) | Route by weight, ingest, sequence screens, move the artifacts, gate on verification | Author form JSON · pick colours · push |
-| **`shesha-design-comprehension`** | Measure each screen into a blueprint (`.md` + `blueprint-json` twin); re-measure the built form and diff against the `assertions` (placement gate) | Author JSON · push |
-| **`shesha-form-edit`** | The compiler: blueprint → markup via golden archetypes; the four gates; the one push path; the oracle | Pick tokens/hexes · ship unstyled or unverified |
-| **`shesha-design-system`** | All appearance: app-level Ant theme + brand token files + per-component v7 blocks + the capability annotations | Author structure · wire CRUD · push |
+| `shesha-claude-designer` | Route, ingest a design source, plan screens, aggregate evidence | Author form JSON · pick colours · push · re-verify a delegate's work |
+| `shesha-design-comprehension` | Measure a screen into a blueprint; re-measure the built form against its `assertions` | Author JSON · push |
+| `shesha-form-edit` | Compile → four gates → the one push path → the oracle (including the visual verdict) | Pick tokens/hexes · report unpushed or unverified work as done |
+| `shesha-design-system` | All appearance: brand token files, the style plan, the app AntD theme, v7 blocks | Author structure · wire CRUD · push |
 
 ## Where the shared machinery lives
 
-- **Rule registry (single source of every mechanical fact):** `shesha-form-edit/references/_rules.json` — validators and docs cite `[R-xxx]`; prose never restates more than a sentence.
-- **Blueprint schema (the build input):** `shesha-design-comprehension/schemas/blueprint.schema.json` — form-edit's `compile-blueprint.js` accepts only this ("no spec, no build").
-- **Measured capability matrix (style authority):** `shesha-form-edit/assets/measured-capability-matrix.json` — gym-generated per release; effects per `component × setting-path`. The hand matrix `shesha-design-system/assets/capability-matrix.json` is annotation only (technique keys, crossCuttingRules, fixes), overlaid by `merge-capability.js`.
-- **Brand token files:** `shesha-design-system/assets/themes/*.tokens.json` — `shesha` (default), `requirements-studio`, `wcg`. A new brand = copy the default, swap values, keep key names.
-- **Golden archetypes (compiler fixtures):** `shesha-form-edit/assets/golden/` (indexed by `_index.json`).
+- **Rule registry** — `shesha-form-edit/references/_rules.json`. Docs cite `[R-xxx]`. Each rule
+  carries a `validator` naming the script that enforces it, or is marked `practice` (a working
+  habit, nothing to assert) or `unenforced` (a real gap). `scripts/lint-claims.mjs` fails any
+  doc that asserts MUST/enforced/fail-closed without something backing it.
+- **Blueprint schema** — `shesha-design-comprehension/schemas/blueprint.schema.json`, the
+  build input.
+- **Style-plan contract** — `shesha-design-system/schemas/style-plan.schema.json`, produced by
+  `scripts/resolve-style-plan.mjs` and consumed by the compiler.
+- **Measured capability matrix** — `shesha-form-edit/assets/measured-capability-matrix.json`,
+  gym-generated per release; `shesha-design-system/assets/capability-matrix.json` is hand
+  annotation, overlaid by `merge-capability.js`.
+- **Component KB** — `shesha-form-edit/assets/components-kb/`; `_index.json` keys are the 115
+  valid type strings for this release.
+- **Golden archetypes** — `shesha-form-edit/assets/golden/`, indexed by `_index.json`.
+- **Plugin-level knowledge** — `knowledge/` (architecture, backend and frontend conventions).
+  Agents in `agents/` are roles that stand on it; they carry no procedure.
 
-## Firm rules (registry-backed)
+## Editing the pipeline
 
-- Splits are flex `container` rows sized via `desktop.dimensions.width`, never the `columns` component [R-028]; a flex container must set `display:"flex"` [R-029].
-- One gated push path; a form is delivered only when pushed AND oracle-verified [R-046]; no form ships unstyled [R-042].
-- Comprehend before building; placement is verified by re-measurement, capped at 2 routed-fix iterations.
-
-## How to edit the pipeline
-
-| You want to… | Edit |
+| To change… | Edit |
 |---|---|
-| Re-theme / add a brand | the token file in `shesha-design-system/assets/themes/` only |
-| Change a mechanical rule | `shesha-form-edit/references/_rules.json` (validators + docs follow it) |
-| Change what the compiler emits | `shesha-form-edit/scripts/compile-blueprint.js` + the golden archetypes |
-| Change blueprint vocabulary | `shesha-design-comprehension/schemas/blueprint.schema.json` + `references/blueprint-ir.md` (in lockstep) |
-| Record new style capability | re-run the gym (`shesha-form-edit/references/gym.md`) → regenerates the measured matrix; annotate techniques in the hand matrix |
-| Change an appearance recipe | `shesha-design-system/references/component-recipes.md` ($role tokens, no hexes) |
+| A brand, or add one | the token file in `shesha-design-system/assets/themes/`, then `resolve-style-plan.mjs <brand>` must exit 0 |
+| A mechanical rule | `_rules.json` — and the validator that enforces it |
+| What the compiler emits | `shesha-form-edit/scripts/compile-blueprint.js` |
+| Blueprint vocabulary | `blueprint.schema.json` + `references/blueprint-ir.md`, in lockstep |
+| Recorded style capability | rerun the gym ([workflows/upgrade-shesha-version.md](../../workflows/upgrade-shesha-version.md)) |
+| Which skill owns an intent | `instructions/routing.md`, then the four descriptions |
 
-## When to use which skill directly
+Run `npm --prefix plugins/shesha-developer run verify` before committing — it chains the claims
+lint, syntax and JSON checks, block validation and the unit tests.
 
-- A **design exists** → start at **`shesha-claude-designer`** (it routes lightweight cases away itself).
-- A **single form, no design source** → **`shesha-form-edit`** (mandatory default-theme pass keeps it styled).
-- **Style an already-working form** → **`shesha-design-system`**.
+## Slash commands
+
+`/shesha-build <archetype> <entity>` · `/shesha-audit <module>/<form>` · `/shesha-gym`

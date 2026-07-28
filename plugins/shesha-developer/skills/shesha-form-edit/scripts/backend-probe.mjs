@@ -251,14 +251,110 @@ async function main() {
       entry.reflistProps.push(record);
     }
 
+    // Step 7 — dynamic CRUD reachability + permissions, per entity.
+    // A form bound to an entity whose CRUD endpoint is down renders and then fails
+    // silently on submit, so this is a prerequisite, not a nicety.
+    if (entry.fullClassName && !entry.entityMissing) {
+      const crudPath = `/api/dynamic/${moduleSummary.name}/${entry.name}/Crud/GetAll?${qs({ maxResultCount: 1 })}`;
+      const crud = await getJson(crudPath);
+      const c = { route: crudPath, status: crud.status, reachable: crud.status === 200 };
+      if (crud.status === 400) {
+        c.note = 'HTTP 400 — dynamic CRUD (GraphQL) not enabled on this entity';
+        c.fixSkill = 'shesha-developer:domain-model';
+      } else if (crud.status === 401 || crud.status === 403) {
+        c.note = `HTTP ${crud.status} — the supplied identity cannot read this entity`;
+        c.fixSkill = 'shesha-utils:harden-permissions';
+        c.permissionDenied = true;
+      } else if (crud.status === 500) {
+        const body = JSON.stringify(crud.json ?? '').slice(0, 300);
+        c.note = /invalid object name/i.test(body)
+          ? 'HTTP 500 "Invalid object name" — migrations have not been run'
+          : `HTTP 500 from dynamic CRUD: ${body}`;
+        c.fixSkill = 'shesha-developer:domain-model';
+      } else if (crud.status !== 200) {
+        c.note = `unexpected HTTP ${crud.status}`;
+      }
+      entry.dynamicCrud = c;
+
+      // Guid FKs surfacing as numbers/booleans mean the junction extends Entity<Guid>
+      // rather than FullAuditedEntity<Guid> — the M:M typing trap.
+      const rows = c.reachable ? itemsOf(crud.json) : [];
+      if (rows.length) {
+        const suspect = Object.entries(rows[0])
+          .filter(([k, v]) => /id$/i.test(k) && v != null && typeof v !== 'string' && typeof v !== 'object')
+          .map(([k, v]) => `${k}=${typeof v}`);
+        if (suspect.length) {
+          entry.dtoTyping = {
+            pass: false,
+            suspect,
+            note: 'FK field(s) are not string/object — junction likely extends Entity<Guid> instead of FullAuditedEntity<Guid>',
+            fixSkill: 'shesha-developer:domain-model',
+          };
+        } else {
+          entry.dtoTyping = { pass: true };
+        }
+      }
+    }
+
     results.push(entry);
   }
 
+  // Step 8 — readiness verdict. `ready` is true only when every check that ran passed;
+  // a check that could not run is a failure with evidence "not verified", never a pass.
+  const checks = [];
+  for (const e of results) {
+    const at = e.name;
+    checks.push(e.entityMissing
+      ? { check: 'entity-registered', target: at, pass: false, evidence: e.note ?? 'not in EntityConfig', fixSkill: 'shesha-developer:domain-model' }
+      : { check: 'entity-registered', target: at, pass: true, evidence: `fullClassName ${e.fullClassName}` });
+
+    // A missing entity has nothing to read, so metadata cannot pass — reporting
+    // "0 properties" as a pass is exactly the kind of green-on-nothing this avoids.
+    const propCount = (e.properties ?? []).length;
+    checks.push(e.metadataUnavailable || e.entityMissing || propCount === 0
+      ? {
+        check: 'metadata-readable', target: at, pass: false,
+        evidence: e.entityMissing ? 'entity not registered — no metadata to read'
+          : (e.note ?? `no metadata route returned properties (${propCount} found)`),
+        fixSkill: 'shesha-developer:domain-model',
+      }
+      : { check: 'metadata-readable', target: at, pass: true, evidence: `${propCount} properties via ${e.metadataRoute ?? 'metadata'}` });
+
+    for (const r of e.reflistProps ?? []) {
+      const ok = r.exists && r.itemCount > 0;
+      checks.push({
+        check: 'reference-list', target: `${at}.${r.prop}`, pass: ok,
+        evidence: ok ? `${r.name} (${r.itemCount} items)`
+          : (r.note ?? (r.exists ? `${r.name} exists but has no items` : `${r.name ?? '?'} not found (HTTP ${r.status ?? '?'})`)),
+        ...(ok ? {} : { fixSkill: 'shesha-developer:domain-model' }),
+      });
+    }
+
+    if (e.dynamicCrud) {
+      checks.push({
+        check: e.dynamicCrud.permissionDenied ? 'permissions' : 'dynamic-crud',
+        target: at, pass: e.dynamicCrud.reachable,
+        evidence: e.dynamicCrud.note ?? `HTTP ${e.dynamicCrud.status}`,
+        ...(e.dynamicCrud.fixSkill ? { fixSkill: e.dynamicCrud.fixSkill } : {}),
+      });
+    } else if (!e.entityMissing) {
+      checks.push({ check: 'dynamic-crud', target: at, pass: false, evidence: 'not verified' });
+    }
+
+    if (e.dtoTyping && !e.dtoTyping.pass) {
+      checks.push({ check: 'dto-typing', target: at, pass: false, evidence: e.dtoTyping.note, fixSkill: e.dtoTyping.fixSkill });
+    }
+  }
+
+  const failed = checks.filter((c) => !c.pass);
   const summary = {
     baseUrl,
     generatedAt: new Date().toISOString(),
     module: moduleSummary,
     entities: results,
+    ready: failed.length === 0,
+    checks,
+    blockers: failed.map((c) => `${c.check}@${c.target}: ${c.evidence}${c.fixSkill ? ` → ${c.fixSkill}` : ''}`),
   };
 
   // Step 6 — per-entity probe files for reuse.
@@ -273,6 +369,15 @@ async function main() {
 
   // Step 6 — ONE compact summary to stdout.
   process.stdout.write(JSON.stringify(summary) + '\n');
+
+  // Exit 1 when the backend cannot support the planned form work, so a caller can
+  // gate on the exit code instead of parsing prose. This replaced the
+  // fullstack-prereq-checker agent: the checks are deterministic, so they are a script.
+  if (!summary.ready) {
+    console.error(`\nNOT READY — ${summary.blockers.length} blocker(s):`);
+    for (const b of summary.blockers) console.error(`  - ${b}`);
+    process.exit(1);
+  }
 }
 
 main().catch(err => {

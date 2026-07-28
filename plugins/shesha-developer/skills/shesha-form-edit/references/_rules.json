@@ -3,7 +3,7 @@
     "version": 1,
     "purpose": "Single-source rule registry (Shesha 0.45-only). Every mechanical fact lives HERE once; validators load this file and cite rule ids; prose docs cite [R-xxx] instead of restating. severity: fail = blocks push (machine-checked where check != null), warn = flagged, process = judgment/process rule enforced by the skill flow.",
     "generation": "0.45",
-    "sources": "renderer-physics.md, validate-guardrails.js, design-pipeline firm rules — consolidated 2026-07-22, deduped 2026-07-28",
+    "sources": "knowledge/frontend-conventions.md, validate-guardrails.js, design-pipeline firm rules — consolidated 2026-07-22, deduped 2026-07-28",
     "validatorField": "validator names the script(s) that mechanically enforce the rule, relative to the shesha-form-edit skill root, else null. enforcement=\"practice\" means the rule is a working practice with nothing to assert against a JSON tree; enforcement=\"unenforced\" is a real gap. Docs may only use MUST/enforced/fail-closed language for a rule with a validator — scripts/lint-claims.mjs at the plugin root checks this."
   },
   "rules": [

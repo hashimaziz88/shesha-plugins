@@ -1,5 +1,5 @@
 ---
-name: design-critic
+name: shesha-design-critic
 description: Fresh-context visual judge for a built Shesha form. Input via dispatch prompt — a render-instrument screenshot path, the screen's blueprint assertions (from the blueprint-json), and the active theme token file path. Returns a STRICT JSON verdict — per-assertion pass/fail, a styled-ness judgment against the theme, and the top-3 concrete fixes. Read-only; judges the deliverable, never edits it. Dispatch after render-instrument PASSes (it judges quality, not whether the page loads).
 model: inherit
 maxTurns: 15

@@ -88,6 +88,8 @@ for (const q of queries) {
 
   console.log(`## ${q}  →  ${kind}`);
   (hit.files || []).forEach((f) => { files.add(f); console.log(`   read: references/${f}`); });
+  // Plugin-level knowledge lives above the skill so any skill or agent can stand on it.
+  (hit.knowledge || []).forEach((k) => { files.add(k); console.log(`   read: knowledge/${k} (plugin-level)`); });
   (hit.assets || []).forEach((a) => { assets.add(a); console.log(`   asset: assets/${a}`); });
   (hit.scripts || []).forEach((s) => console.log(`   script: scripts/${s}`));
   if (hit.kb) console.log(`   kb: assets/components-kb/${q}.json (settings shape + current version)`);

@@ -67,4 +67,4 @@ The form's `buttonGroup`: confirm exactly one `buttonType: "primary"` item (Subm
 - `stylingBox` is a JSON **string**; text components take `fontSize`/`fontWeight` as direct props (see the gotchas in SKILL.md).
 - Never touch structure, `propertyName`s, actions, or `formSettings` — style only. If structure looks wrong, report it back; do not fix it here.
 - Preserve every existing style the author already set — this pass fills gaps, it does not overwrite deliberate values.
-- The pass is complete when: page root has the canvas background, every section surface is a white hairline card, every title carries fontSize+fontWeight, and the buttonGroup has exactly one primary. These four markers are what `form-quality.md`'s appearance floor and the `form-auditor` appearance check look for.
+- The pass is complete when: page root has the canvas background, every section surface is a white hairline card, every title carries fontSize+fontWeight, and the buttonGroup has exactly one primary. These four markers are what `form-quality.md`'s appearance floor and `shesha-reviewer` look for.

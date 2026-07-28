@@ -1,8 +1,38 @@
-# Renderer physics — live-verified 0.45 render behaviour
+# Frontend conventions — Shesha 0.45
+
+Plugin-level knowledge. Any skill or agent doing frontend work stands on this file;
+it holds **facts**, not procedure. The procedure for building a form lives in
+`skills/shesha-form-edit/`; the per-component recipes live in its
+`references/components/` and are routed by `scripts/lookup.js`.
 
 Every fact here was learned from a real form that silently mis-rendered — these
 are the facts trial-and-error repair loops rediscover at 1–3 push cycles each.
-Facts in the registry are cited by id; the registry statement is authoritative.
+Rule ids cite `skills/shesha-form-edit/references/_rules.json`, and the registry
+statement is authoritative where prose disagrees.
+
+## The form JSON model
+
+- A form config is `{ components: [...], formSettings: {...} }`. Component trees nest
+  through `components[]`, except `card` / `collapsiblePanel`, whose children live in
+  `content.components` **only** — leaving children in both slots renders the body twice,
+  usually with id collisions.
+- Every component carries `id` (uuid/nanoid), `type` (an exact string from the KB),
+  `parentId` set to its direct parent's `id` (root-level components use `"root"`), and an
+  integer `version` [R-001/R-002/R-003].
+- Inputs bind through `propertyName`, which must be **camelCase** and must exist in the
+  entity metadata — including `datatable` column `propertyName`s, where metadata's
+  PascalCase `path` renders blank cells.
+- A `datatable`'s columns live in its **`items[]`** array. There is no `columns` property;
+  an empty or missing `columns` is expected, not a defect.
+- Settable props can take an IPropertySetting wrapper — `{_mode:"code", _code:"return …"}`
+  — instead of a literal. A plain-string JS endpoint is stripped on save.
+
+## The component settings model
+
+`assets/components-kb/` in `shesha-form-edit` is the authority for exact `type` strings,
+the current `version`, and each component's `settingsFields`. `_index.json` keys are the
+115 valid type strings for this release; `node scripts/lookup.js <type>` resolves one and
+exits 1 only if the type does not exist. Author only fields the KB lists for that type.
 
 ## Styling levers (what actually renders)
 
@@ -72,10 +102,10 @@ Facts in the registry are cited by id; the registry statement is authoritative.
   and apply in ONE build + double-boot — a NEW entity needs TWO boots (its CRUD
   controller registers on the boot after EntityConfig seeds); reflist items +
   app-service code need one. Verify entity CRUD Create returns 200 BEFORE
-  authoring the form. Restart mechanics: [backend-restart.md](backend-restart.md).
+  authoring the form. Restart mechanics: [shesha-form-edit/references/backend-restart.md](../skills/shesha-form-edit/references/backend-restart.md).
 
 ## Publish model
 
 Mutable forms on 0.45 test builds: bare `UpdateMarkup` works, `UpdateStatus`
 may 404, `GetJson` returns the markup object directly (no `.result`). Version
-facts and the foreign-backend handoff: [versioning.md](versioning.md).
+facts and the foreign-backend handoff: [shesha-form-edit/references/versioning.md](../skills/shesha-form-edit/references/versioning.md).

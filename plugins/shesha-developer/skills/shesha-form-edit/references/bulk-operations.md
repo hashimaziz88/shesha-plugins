@@ -1,6 +1,6 @@
 # Bulk/fleet form transforms (pilot-first)
 
-Mechanics for changing many forms at once without losing fields or regressing working wiring. Routing thresholds (when to go fleet-mode at all) live in SKILL.md Step R (fleet mode past ~3 forms or a multi-page brief); agent dispatch lives in [orchestration.md](orchestration.md). This file is the HOW.
+Mechanics for changing many forms at once without losing fields or regressing working wiring. Routing thresholds (when to go fleet-mode at all) live in SKILL.md Step 0; the dispatch contract, the per-form manifest and the when-fan-out-pays table live in [contracts.md](contracts.md) §4. This file is the HOW.
 
 ---
 
@@ -21,7 +21,7 @@ Read this file when:
 2. **Prove uncertain markup on ONE pilot form** against the live runtime — browser-verified per [verification.md](verification.md) (computed styles, correct navigation path, cache cleared). Especially for un-attested mechanisms: link-existing dialogs, unlink actions, row drill-down, reflist chip columns.
 3. **Lock the template** — extract the verified pilot's style/structure objects to a JSON file the script reads.
 4. **Roll out via a deterministic transform script** — the SAME script that built the pilot, run over all targets.
-5. **Re-audit everything** (auditor fan-out — [orchestration.md](orchestration.md)).
+5. **Re-audit everything** — one `shesha-reviewer` dispatch per form ([contracts.md](contracts.md) §4).
 
 A wrong fleet rollout costs 2× (rollback + redo); the pilot caps the blast radius at 1 form. This is the only approach that has scaled to 17/33/68-target rollouts.
 
@@ -120,7 +120,7 @@ Clone the template's FULL style objects onto each target's analogous component �
 
 ## Verification at fleet scale
 
-- **Auditor fan-out**: one read-only auditor agent per form, strict JSON verdict schema (loose prose output can't be filtered/counted). Dispatch templates and the agent table live in [orchestration.md](orchestration.md) — do not restate them here.
+- **Auditor fan-out**: one read-only `shesha-reviewer` dispatch per form, strict verdict shape (loose prose cannot be filtered or counted). The dispatch contract lives in [contracts.md](contracts.md) §4 — do not restate it here.
 - **Compare exports by component count, not file size** — formatting/normalization changes size without changing structure.
 - **Re-fetch after every push** — `UpdateMarkup` returning 200 + empty `result` is not proof the markup persisted ([verification.md](verification.md) §1).
 - **Pilot/browser checks**: `getBoundingClientRect` / `getComputedStyle` exact-value assertions, never scaled screenshots; clear the IndexedDB form cache from `/favicon.ico` between re-tests ([verification.md](verification.md) §2/§4).
