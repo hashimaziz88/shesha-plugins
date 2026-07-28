@@ -2,7 +2,7 @@
 
 The measured component/layout anatomy every Shesha form is built to **by default** — extracted from the canonical Claude-designed prototypes (Requirements Studio + Asset Management System). This is the *structure and density* language; colours come from the active brand token file (`assets/themes/<brand>.tokens.json`) via the neutral roles used below (canvas / surface / surface-alt / hairline / divider / ink / ink-muted / ink-soft / primary / tint). **Layout values here are brand-independent — they do not change when the brand does.**
 
-Used by: `default-theme-quickpass.md` (the values behind the quick pass), `shesha-claude-designer` (default archetype vocabulary when interpreting designs), and `shesha-form-edit`'s construction rules (label placement, action rows, section grouping).
+Used by: `default-theme-quickpass.md` (the same values, for forms the compiler did not produce), `shesha-claude-designer` (default archetype vocabulary when interpreting designs), and `shesha-form-edit`'s construction rules (label placement, action rows, section grouping).
 
 ## Contents
 1. Spacing, type, borders (the system)

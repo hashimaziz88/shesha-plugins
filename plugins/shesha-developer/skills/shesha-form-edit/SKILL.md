@@ -1,6 +1,7 @@
 ---
 name: shesha-form-edit
-description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). The build executor of the v2 compiler pipeline — compiles a blueprint IR (or a spec synthesized from prose requirements) into markup from the generated 0.45 component KB and the brand theme tokens, gates it mechanically (schema → guardrails → bindings → styled-ness), pushes via Create/UpdateMarkup, and verifies the deliverable (re-fetch diff + render instrument). Invoke directly for targeted work when dispatched by the main skill or when the user names a specific form and edit ("add a sector dropdown above the email field", "wire the Save button"). 0.45-only — versioned 0.43-class backends belong to the shesha-developer-0-43 plugin. Brand tokens are resolved at compile time, so the first output is already themed — there is no separate styling pass.
+description: Builds and edits ONE Shesha 0.45 designer form against a live backend. Use when the user names a form and a change ("add a sector dropdown above the email field", "wire the Save button", "the table shows blank cells"), or asks for a single new form from prose requirements. Compiles a blueprint into markup from the generated component KB and brand theme tokens, runs four scripted gates (schema, guardrails, live bindings, styled-ness), pushes via Create/UpdateMarkup, then verifies by re-fetch diff and a render instrument before reporting anything as delivered. NOT for realising a design source or a multi-screen app (shesha-claude-designer), NOT for theme or brand work (shesha-design-system), and NOT for a 0.43-class backend (shesha-developer-0-43 plugin).
+
 allowed-tools:
   - Bash
   - PowerShell
@@ -116,22 +117,35 @@ Entity-bound forms MUST pass `resolve-bindings.js` (live backend) before push.
 Fix findings by rule id; never bypass a gate. JSON-safety for embedded scripts:
 [R-013] + [references/components/scripts.md](references/components/scripts.md).
 
-## 5 · Style — compiled in, not a second pass
+## 5 · Style — compiled in, never a second pass
 
-Design is a **compile-time input**: `compile-blueprint.js --theme <brand>`
-(default `shesha`) resolves brand colour, type scale, radius, spacing and
-borders from `shesha-design-system/assets/themes/<brand>.tokens.json` and bakes
-them into every node, so the first output is already on-brand [R-042]. No
-separate styling pass is needed for a compiled form.
+Appearance is owned by `shesha-design-system`, but it is **linked, not invoked**.
+It exposes a pure function — tokens → a normalized style plan validated against
+`shesha-design-system/schemas/style-plan.schema.json` — and
+`compile-blueprint.js --theme <brand>` (default `shesha`) consumes that plan and
+bakes concrete colour, type, radius and border values into every node. The first
+output is already on-brand [R-042]; there is no later free-form styling pass to
+schedule, and `shesha-design-system` never pushes.
 
-Two things still route to `Skill(shesha-developer:shesha-design-system)`:
-- **the one-time app AntD theme** (`$antdTheme` — input/table/button chrome), set
-  once per app, not per form ([references/app-theme via design-system]);
-- **re-styling a form you did NOT compile** (a hand-composed form, a small edit,
-  or matching a brand that has no token file yet).
+A theme that cannot resolve every key the plan requires falls back to neutral
+values **with a warning** rather than emitting half a brand — that half-styled
+state is what previously shipped "styled" forms that were still grey. Inspect any
+brand's plan directly:
 
-Either way **you still own push + verification**. `--no-style` / an unknown
-theme falls back to neutral tokens.
+```
+node ../shesha-design-system/scripts/resolve-style-plan.mjs <brand>
+```
+
+Two things still route to `Skill(shesha-developer:shesha-design-system)` as work,
+not as a pass over your output:
+- **authoring or changing a brand** — a new `<brand>.tokens.json`, or a token
+  value change; and **the one-time app AntD theme** (`$antdTheme` — input/table/
+  button chrome), set once per app, never per form;
+- **re-styling a form you did NOT compile** — a hand-composed form or a small
+  edit to a live one.
+
+Either way **you still own push + verification**. `--no-style` compiles with
+neutral tokens.
 
 ## 6 · Push + Oracle
 

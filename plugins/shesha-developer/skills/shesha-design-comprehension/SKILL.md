@@ -1,6 +1,7 @@
 ---
 name: shesha-design-comprehension
-description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns the blueprint IR — turns a design source (readable HTML/JSX, a runnable prototype, or screenshots/PDF) into a measured layout blueprint (Markdown plus a blueprint-json twin written against schemas/blueprint.schema.json) that shesha-form-edit's compiler consumes, and verifies a built form against the blueprint's assertions by re-measurement. Invoke directly only for targeted work: diagnosing placement drift on an already-built form, or producing/refreshing a single screen's blueprint.
+description: MEASURES layout rather than building it. Use when a built form does not line up with its design — wrong column counts, a collapsed rail, merged tabs, fields stacked that should sit side by side — or to produce/refresh one screen's blueprint before a build. Probes the rendered DOM at a pinned viewport (or parses the source grid templates) to emit a blueprint: container tree, flex split-child counts, native widths, tab keys and field bindings, plus assertions that are re-measured against the built form. Produces blueprints and placement verdicts only — it never authors form JSON, picks colours or pushes (shesha-form-edit and shesha-design-system own those), and a form with no design source to match does not need it.
+
 ---
 
 # Shesha Design Comprehension

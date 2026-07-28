@@ -1,11 +1,26 @@
 ---
 name: shesha-design-system
-description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns how forms LOOK — maps brand design tokens (colour, type, spacing, radius, shadow, status lifecycle) onto Shesha's app-level Ant Design theme and per-component v7 style blocks, annotated with gym-measured evidence of which style channels actually render. Ships three brand themes (shesha default, requirements-studio, wcg) and accepts new token files. The compiler resolves these token files itself at compile time; invoke this skill directly to author or change a theme, or to restyle a form the compiler did not produce. 0.45-only — 0.43 styling lives in the shesha-developer-0-43 plugin. Never authors structure/components, CRUD, or runtime fixes — that is shesha-form-edit's job.
+description: Owns APPEARANCE ONLY — brand tokens, the app-level Ant Design theme, and per-component v7 style blocks. Use for "apply our brand", "the buttons are the wrong blue", "make this look less default", or to author a new <brand>.tokens.json. Maps colour, type, spacing, radius, shadow and status-lifecycle tokens onto the props 0.45 components actually honour, annotated with gym-measured evidence of which style channels render. Ships shesha (default), requirements-studio and wcg. It exposes tokens as a validated style plan that the form compiler links directly, so a compiled form arrives already themed. NEVER authors structure, wires CRUD, or pushes to the backend — structure and every push belong to shesha-form-edit; layout choices belong to shesha-design-comprehension.
+
 ---
 
 # Shesha Design System (0.45)
 
-Turn "make it look good / match the design" into **concrete Shesha style values**. This skill owns *how forms look*, never *what they contain*. It reads a brand **theme token file** and emits the exact props 0.45 components expect, in **two layers that must BOTH be applied**:
+Turn "make it look good / match the design" into **concrete Shesha style values**. This skill owns *how forms look*, never *what they contain*.
+
+## How the compiler uses this skill — linked, not invoked
+
+For a **compiled** form, this skill is a **pure function, not an actor**. `scripts/resolve-style-plan.mjs` turns a `<brand>.tokens.json` into a normalized **style plan** — every `roles.*` indirection dereferenced to a concrete value — validated against [schemas/style-plan.schema.json](schemas/style-plan.schema.json). `shesha-form-edit`'s `compile-blueprint.js` imports that function and bakes the plan into every node as it emits.
+
+So there is no styling *pass* over a compiled form, and this skill never pushes. Inspect any brand's plan:
+
+```
+node scripts/resolve-style-plan.mjs shesha
+```
+
+A token file missing a key the plan requires fails there — loudly — instead of silently producing an unbranded form. When you author a new brand, run it and get exit 0 before considering the brand done.
+
+Direct invocation is for **authoring appearance**: a new or changed brand, the one-time app theme, or restyling a form the compiler did not produce. That work emits the props 0.45 components expect, in **two layers that must BOTH be applied**:
 
 1. **App-level Ant Design theme (set once):** brand primary, base font, base radius, semantic colours — the whole portal inherits them. Mechanism: [references/app-theme.md](references/app-theme.md). Don't repaint every button per form.
 2. **Per-component v7 style blocks (per form):** surfaces, cards, section headers, density, status chips, header bands, rails — what the global theme can't express. Recipes: [references/component-recipes.md](references/component-recipes.md).
@@ -23,7 +38,7 @@ A form looks "cheap" when only one layer is done (AntD still default-blue, or no
 
    | Brand | File | What it is |
    |---|---|---|
-   | `shesha` | `shesha.tokens.json` | **The default** — Cobalt `#003BB2` interactive anchor, Navy chrome, Nero ink, white cards on Athens Grey canvas, borders-not-shadows, ready `$antdTheme` block. Used whenever no brand is named — including form-edit's mandatory no-design pass [R-042] via the cost-capped [default-theme-quickpass.md](references/default-theme-quickpass.md) (for that pass, follow that file only). |
+   | `shesha` | `shesha.tokens.json` | **The default** — Cobalt `#003BB2` interactive anchor, Navy chrome, Nero ink, white cards on Athens Grey canvas, borders-not-shadows, ready `$antdTheme` block. The compiler's default when a blueprint names no brand. |
    | `requirements-studio` | `requirements-studio.tokens.json` | Example custom brand (LandBank green, Inter, RsStatus lifecycle). |
    | `wcg` | `wcg.tokens.json` | Additional shipped brand. |
 
@@ -57,8 +72,9 @@ Design conventions every recipe respects: [references/shesha-design-standards.md
 | Token → prop resolution | [references/token-to-prop-mapping.md](references/token-to-prop-mapping.md) |
 | v7 blocks + channels + debug | [references/styling-mechanics.md](references/styling-mechanics.md) |
 | Capability (measured + annotations) | [references/capability-matrix.md](references/capability-matrix.md) |
+| Default look for un-compiled forms | [references/default-theme-quickpass.md](references/default-theme-quickpass.md) |
+| Style-plan contract (compiler input) | [schemas/style-plan.schema.json](schemas/style-plan.schema.json) |
 | Canonical layout anatomy | [references/default-layout-patterns.md](references/default-layout-patterns.md) |
-| Default no-design quick pass | [references/default-theme-quickpass.md](references/default-theme-quickpass.md) |
 | Design conventions | [references/shesha-design-standards.md](references/shesha-design-standards.md) |
 
 | Concern | Skill |
@@ -66,4 +82,4 @@ Design conventions every recipe respects: [references/shesha-design-standards.md
 | Ingest design, plan, orchestrate, verify | `shesha-developer:shesha-claude-designer` |
 | Design → measured blueprint + placement verify | `shesha-developer:shesha-design-comprehension` |
 | Build structure, CRUD, gates, push | `shesha-developer:shesha-form-edit` |
-| **Tokens → app theme + v7 style blocks** | **this skill** |
+| **Tokens → validated style plan, app theme, v7 style blocks** | **this skill** |

@@ -1,6 +1,19 @@
-# Default-theme quick pass (invoked by `shesha-form-edit` Step 6.5)
+# Default-theme quick pass — for forms the compiler did not produce
 
-The **cost-capped** styling pass applied to every new form built with **no brand and no design source**, so no form ships unstyled. It is a small, fixed subset of [component-recipes.md](component-recipes.md), pre-resolved with the default `shesha` theme values from `assets/themes/shesha.tokens.json`, and its numbers follow the canonical build style in [default-layout-patterns.md](default-layout-patterns.md). Apply it in **one pass** and hand the styled markup back to `shesha-form-edit` for its push step (Step 7) — this is a floor, not a design project. Returning the markup is a *handback*, not the end of the task: the form still has to be pushed and verified by the caller, so do not treat "styled markup returned" as completion.
+**A compiled form does not need this.** `compile-blueprint.js` consumes the validated style
+plan (see the SKILL.md "linked, not invoked" section) and bakes these values in as it emits.
+Use this file only for the cases the compiler never touched: a hand-composed form, or a small
+edit to an already-live form that is still default-grey.
+
+It is a **cost-capped** floor — a small, fixed subset of
+[component-recipes.md](component-recipes.md) pre-resolved with the default `shesha` values
+from `assets/themes/shesha.tokens.json`, following the canonical build style in
+[default-layout-patterns.md](default-layout-patterns.md). Apply it in **one pass**; it is a
+floor, not a design project.
+
+Styled markup is a **handback, not a delivery.** This skill never pushes: the caller
+(`shesha-form-edit`) still has to push and verify. Do not report "styled markup returned" as
+a completed task.
 
 **Hard limits (what makes it "quick"):**
 - Do NOT read [capability-matrix.md](capability-matrix.md) or [token-to-prop-mapping.md](token-to-prop-mapping.md) — every value below is already resolved and channel-safe.

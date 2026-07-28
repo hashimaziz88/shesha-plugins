@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "shesha-design-system/style-plan/v1",
+  "title": "Normalized style plan",
+  "description": "The contract between shesha-design-system and the form compiler. A brand token file is authored for humans — nested palettes and roles.* indirection. A style plan is what the compiler consumes: every role already dereferenced to a concrete value, flat, complete. scripts/resolve-style-plan.mjs produces one from a <brand>.tokens.json and validates it against this schema, so a token file missing a role the compiler needs fails loudly instead of silently emitting an unbranded form.",
+  "type": "object",
+  "required": ["brand", "colors", "radius", "type"],
+  "additionalProperties": false,
+  "properties": {
+    "brand": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The token file's $brand, carried through so emitted markup is traceable to a brand."
+    },
+    "colors": {
+      "type": "object",
+      "required": [
+        "pageBg", "cardBg", "cardHeaderBg", "bodyText", "sectionHeading",
+        "secondaryText", "inputBorder", "hairline", "appPrimary"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "pageBg": { "$ref": "#/$defs/color", "description": "page canvas — the styled-ness gate looks for this" },
+        "cardBg": { "$ref": "#/$defs/color", "description": "card / panel surface" },
+        "cardHeaderBg": { "$ref": "#/$defs/color", "description": "card header strip" },
+        "bodyText": { "$ref": "#/$defs/color" },
+        "sectionHeading": { "$ref": "#/$defs/color", "description": "not necessarily the brand colour — Shesha reserves brand for interactive affordances" },
+        "secondaryText": { "$ref": "#/$defs/color" },
+        "inputBorder": { "$ref": "#/$defs/color", "description": "makes inputs visible before the app-level AntD theme is applied" },
+        "hairline": { "$ref": "#/$defs/color", "description": "1px separators — Shesha default style is borders, not shadows" },
+        "appPrimary": { "$ref": "#/$defs/color", "description": "interactive anchor. Applied via the app theme, never per button" }
+      }
+    },
+    "radius": {
+      "type": "object",
+      "required": ["base", "card"],
+      "additionalProperties": false,
+      "properties": {
+        "base": { "$ref": "#/$defs/length" },
+        "card": { "$ref": "#/$defs/length" }
+      }
+    },
+    "type": {
+      "type": "object",
+      "required": ["bodySize", "semiboldWeight", "headingSizes"],
+      "additionalProperties": false,
+      "properties": {
+        "bodySize": { "$ref": "#/$defs/length" },
+        "semiboldWeight": {
+          "type": ["integer", "string"],
+          "description": "font-weight for headings and card titles; unstyled headings render at body size and the page loses hierarchy"
+        },
+        "headingSizes": {
+          "type": "object",
+          "description": "by heading level: 1 = page title … 4 = label",
+          "required": ["1", "2", "3", "4"],
+          "additionalProperties": false,
+          "properties": {
+            "1": { "$ref": "#/$defs/length" },
+            "2": { "$ref": "#/$defs/length" },
+            "3": { "$ref": "#/$defs/length" },
+            "4": { "$ref": "#/$defs/length" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "color": {
+      "type": "string",
+      "minLength": 3,
+      "not": { "pattern": "^(palette|roles|type|spacing|radius|shadow|chrome)\\." },
+      "description": "A concrete colour value. An unresolved token path here means resolution failed."
+    },
+    "length": {
+      "type": ["string", "number"],
+      "not": { "pattern": "^(palette|roles|type|spacing|radius|shadow|chrome)\\." },
+      "description": "A concrete length. An unresolved token path here means resolution failed."
+    }
+  }
+}

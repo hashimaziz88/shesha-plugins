@@ -22,6 +22,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gymUuid } from './gym-lib/ids.js';
 import { GymApi } from './gym-lib/api.js';
+// Appearance is design-system's; the compiler links its resolver as a pure function.
+import {
+  loadStylePlan, validateStylePlan, NEUTRAL_PLAN,
+} from '../../shesha-design-system/scripts/resolve-style-plan.mjs';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const KB_DIR = path.join(SCRIPT_DIR, '..', 'assets', 'components-kb');
@@ -113,24 +117,52 @@ function paddingBox(v) {
   return JSON.stringify({ paddingTop: p, paddingRight: p, paddingBottom: p, paddingLeft: p });
 }
 
-// ---- theme tokens: DESIGN IS COMPILED IN, not a second pass -----------------
-// The brand token file is a compile-time input; the compiler resolves colour /
-// type / radius from it as it emits each node, so the first output is on-brand.
+// ---- style plan: DESIGN IS COMPILED IN, not a second pass --------------------
+// Appearance is owned by shesha-design-system. It exposes tokens → a normalized,
+// validated STYLE PLAN (schemas/style-plan.schema.json); this compiler consumes
+// the plan and bakes concrete values into every node, so the first output is
+// already on-brand. There is no later free-form styling pass, and design-system
+// never pushes. A theme that cannot resolve every key the plan requires falls
+// back to neutral values with a warning rather than emitting half a brand.
 // (App-level AntD chrome — input/table/button skin — is the separate one-time
 // `$antdTheme` app setup, not a per-form pass.)
-const THEME_DIR = path.join(SCRIPT_DIR, '..', '..', 'shesha-design-system', 'assets', 'themes');
 const themeName = argVal('--theme', bp.theme || 'shesha');
-let TOK = null;
-try { TOK = JSON.parse(fs.readFileSync(path.join(THEME_DIR, `${themeName}.tokens.json`), 'utf8')); }
-catch { console.error(`WARN: theme "${themeName}" not found in ${THEME_DIR} — emitting neutral defaults`); }
+const noStyle = process.argv.includes('--no-style');
+const { plan: STYLE, source: styleSource, warning: styleWarning } = noStyle
+  ? { plan: NEUTRAL_PLAN, source: null, warning: null }
+  : loadStylePlan(themeName);
+if (styleWarning) console.error(`WARN: ${styleWarning}`);
+{
+  const planErrors = validateStylePlan(STYLE);
+  if (planErrors.length) {
+    console.error(`style plan for "${themeName}" does not satisfy style-plan.schema.json:`);
+    for (const e of planErrors) console.error(`  - ${e}`);
+    process.exit(1);
+  }
+}
+console.error(`style plan: brand "${STYLE.brand}"${styleSource ? ` (${path.basename(styleSource)})` : ' (neutral)'}`);
 
-const tkRaw = (dotted) => (dotted || '').split('.').reduce((o, k) => (o == null ? o : o[k]), TOK);
-// resolve a token path or a role (roles.* values are themselves token paths → resolve twice)
+// Back-compat shim for the emit code below: role name / token path → plan value.
+const STYLE_BY_ROLE = {
+  pageBg: STYLE.colors.pageBg,
+  cardBg: STYLE.colors.cardBg,
+  cardHeaderBg: STYLE.colors.cardHeaderBg,
+  bodyText: STYLE.colors.bodyText,
+  sectionHeading: STYLE.colors.sectionHeading,
+  secondaryText: STYLE.colors.secondaryText,
+  inputBorder: STYLE.colors.inputBorder,
+  hairline: STYLE.colors.hairline,
+  appPrimary: STYLE.colors.appPrimary,
+  baseRadius: STYLE.radius.base,
+  cardRadius: STYLE.radius.card,
+  'type.scale.body': STYLE.type.bodySize,
+  'type.scale.title': STYLE.type.headingSizes[1],
+  'type.scale.subtitle': STYLE.type.headingSizes[2],
+  'type.scale.cardHeader': STYLE.type.headingSizes[3],
+  'type.weights.semibold': STYLE.type.semiboldWeight,
+};
 function tk(pathOrRole, fallback) {
-  if (!TOK) return fallback;
-  const p = /^(roles|palette|type|spacing|radius|shadow|chrome)\./.test(pathOrRole) ? pathOrRole : `roles.${pathOrRole}`;
-  let v = tkRaw(p);
-  if (typeof v === 'string' && /^(palette|type|spacing|radius|shadow|chrome)\./.test(v)) v = tkRaw(v);
+  const v = STYLE_BY_ROLE[pathOrRole];
   return v ?? fallback;
 }
 const HEADING_TOKEN = { 1: 'type.scale.title', 2: 'type.scale.subtitle', 3: 'type.scale.cardHeader', 4: 'type.scale.body' };
