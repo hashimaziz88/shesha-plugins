@@ -22,6 +22,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gymUuid } from './gym-lib/ids.js';
 import { GymApi } from './gym-lib/api.js';
+import { readBlueprint, validateBlueprint } from './validate-blueprint.mjs';
 // Appearance is design-system's; the compiler links its resolver as a pure function.
 import {
   loadStylePlan, validateStylePlan, NEUTRAL_PLAN,
@@ -37,18 +38,33 @@ const argVal = (name, dflt) => {
 };
 const bpFile = argVal('--blueprint', null);
 const outFile = argVal('--out', null);
-if (!bpFile || !outFile) { console.error('usage: node compile-blueprint.js --blueprint <bp.json|bp.md> --out <form.json> [--backend url] [--no-live]'); process.exit(2); }
+if (!bpFile || !outFile) {
+  console.error(`usage: node compile-blueprint.js --blueprint <bp.json|bp.md> --out <form.json>
+                          [--metadata <entity.probe.json>]  offline entity metadata (preferred)
+                          [--live [--backend <url>]]        fetch metadata instead of using a snapshot
+                          [--theme <brand>] [--no-style]
 
-// ---- load blueprint (JSON or fenced block in Markdown) ------------------------
-let bpText = fs.readFileSync(bpFile, 'utf8').replace(/^﻿/, '');
-if (bpFile.endsWith('.md')) {
-  const m = bpText.match(/```blueprint-json\s*\n([\s\S]*?)```/);
-  if (!m) { console.error('no ```blueprint-json fenced block found in the Markdown blueprint'); process.exit(2); }
-  bpText = m[1];
+BUILD IS PURE AND OFFLINE by default. It reads a metadata snapshot rather than a live
+backend, so a build is reproducible and testable. Produce the snapshot with
+  node scripts/backend-probe.mjs <baseUrl> <tokenFile> <spec.json>
+which writes <Entity>.probe.json next to the token file. Mutation is a separate step
+(scripts/apply-form.mjs) — compiling never touches the backend.`);
+  process.exit(2);
 }
-const bp = JSON.parse(bpText);
-for (const req of ['screen', 'entity', 'form', 'archetype', 'layout']) {
-  if (!bp[req]) { console.error(`blueprint missing required "${req}" — no spec, no build`); process.exit(1); }
+
+// ---- load + VALIDATE blueprint (JSON or fenced block in Markdown) --------------
+// The compiler validates the blueprint itself. Never trust that an upstream agent
+// validated it — an agent that skipped the step and one that ran it look identical.
+const bp = readBlueprint(bpFile);
+{
+  const errors = validateBlueprint(bp);
+  if (errors.length) {
+    console.error(`blueprint INVALID — ${path.basename(bpFile)}, ${errors.length} error(s):`);
+    for (const e of errors) console.error(`  ${e.at || '(root)'} ${e.msg}`);
+    console.error('\nSchema: shesha-design-comprehension/schemas/blueprint.schema.json');
+    console.error('Validate directly: node scripts/validate-blueprint.mjs <blueprint>');
+    process.exit(1);
+  }
 }
 
 const index = JSON.parse(fs.readFileSync(path.join(KB_DIR, '_index.json'), 'utf8'));
@@ -58,19 +74,99 @@ const ver = (type) => {
   return v;
 };
 
-// ---- live metadata (datatype → component, reflist identity) -------------------
-let propsMeta = null; // Map(lower -> prop)
-if (!args.includes('--no-live')) {
+// ---- archetype resolution against the golden corpus ---------------------------
+// The blueprint's archetype must exist in the corpus, and the corpus tells us which
+// component types that archetype's chrome is built from — which is what the capability
+// gate below checks against measured reality.
+const GOLDEN_DIR = path.join(SCRIPT_DIR, '..', 'assets', 'golden');
+const goldenIndex = JSON.parse(fs.readFileSync(path.join(GOLDEN_DIR, '_index.json'), 'utf8'));
+const archetype = (goldenIndex.forms ?? []).find((f) => f.archetype === bp.archetype);
+if (!archetype) {
+  console.error(
+    `archetype "${bp.archetype}" is not in the golden corpus (assets/golden/_index.json).\n`
+    + `Available: ${(goldenIndex.forms ?? []).map((f) => f.archetype).sort().join(', ')}`,
+  );
+  process.exit(1);
+}
+console.error(`archetype: ${bp.archetype} — ${archetype.file}`);
+
+// ---- capability gate: refuse to emit onto a channel measured as dead ----------
+// The gym measures every component against a live runtime. A type the runtime does not
+// register, or a style channel measured as a no-op, cannot be made to work by authoring
+// it more carefully — emitting it produces markup that looks right and renders nothing.
+const MATRIX_PATH = path.join(SCRIPT_DIR, '..', 'assets', 'measured-capability-matrix.json');
+let matrix = null;
+try { matrix = JSON.parse(fs.readFileSync(MATRIX_PATH, 'utf8')); }
+catch { console.error(`WARN: measured-capability-matrix.json unreadable — emitting without the capability gate`); }
+
+/**
+ * Refuse a component type the measured matrix reports as absent from the runtime.
+ * `unknown`/`not-measured` is not evidence of absence and must not block.
+ */
+function assertTypeRenders(type, where) {
+  const m = matrix?.components?.[type];
+  if (!m) return;
+  if (m.renderStatus === 'not-registered') {
+    console.error(
+      `refusing to emit "${type}" (${where}): the measured capability matrix records it as `
+      + `not-registered on Shesha ${matrix.sheshaVersion ?? '0.45'} — the runtime has no such component.\n`
+      + `Regenerate the matrix if the runtime changed: see references/gym.md.`,
+    );
+    process.exit(1);
+  }
+  if (m.renderStatus === 'breaks-render') {
+    console.error(
+      `refusing to emit "${type}" (${where}): measured as breaks-render — it takes the whole form down.`,
+    );
+    process.exit(1);
+  }
+}
+
+// Gate the archetype's own chrome up front, so a corpus/runtime mismatch fails before
+// any work rather than producing a form that silently omits its toolbar.
+for (const t of archetype.componentTypes ?? []) assertTypeRenders(t, `${bp.archetype} chrome`);
+
+// ---- entity metadata: a snapshot by default, live only on request --------------
+// Metadata drives datatype→component selection and reference-list identity. The build
+// stays PURE: it reads a snapshot file, so the same blueprint plus the same snapshot
+// always compiles to the same markup and can be tested with no backend at all.
+// `--live` is the escape hatch for interactive work where no snapshot exists yet.
+let propsMeta = null; // Map(lowercased path -> prop)
+const metaFile = argVal('--metadata', null);
+const wantsLive = args.includes('--live');
+
+function indexProps(arr, source) {
+  propsMeta = new Map();
+  for (const p of arr) if (p?.path) propsMeta.set(String(p.path).toLowerCase(), p);
+  console.error(`metadata: ${propsMeta.size} properties from ${source}`);
+}
+
+if (metaFile) {
+  const snap = JSON.parse(fs.readFileSync(metaFile, 'utf8').replace(/^﻿/, ''));
+  // Accepts a raw property array, a backend-probe entity slice, or a full probe summary.
+  const arr = Array.isArray(snap) ? snap
+    : Array.isArray(snap.properties) ? snap.properties
+      : Array.isArray(snap.entities)
+        ? (snap.entities.find((e) => e.fullClassName === bp.entity.fullClassName) ?? snap.entities[0])?.properties
+        : null;
+  if (!Array.isArray(arr)) {
+    console.error(`--metadata ${path.basename(metaFile)} has no property array (expected [], {properties:[]} or a backend-probe summary)`);
+    process.exit(2);
+  }
+  indexProps(arr, path.basename(metaFile));
+} else if (wantsLive) {
   const api = new GymApi(argVal('--backend', 'http://localhost:21021'));
   await api.authenticate();
   const { ok, body } = await api.getJson(`/api/services/app/Metadata/GetProperties?container=${encodeURIComponent(bp.entity.fullClassName)}`);
   const arr = Array.isArray(body?.result) ? body.result : null;
-  if (ok && arr) {
-    propsMeta = new Map();
-    for (const p of arr) if (p?.path) propsMeta.set(String(p.path).toLowerCase(), p);
-  } else {
-    console.error(`WARN: metadata for ${bp.entity.fullClassName} unavailable — compiling without live binding resolution`);
-  }
+  if (ok && arr) indexProps(arr, 'live backend');
+  else console.error(`WARN: metadata for ${bp.entity.fullClassName} unavailable — compiling without binding resolution`);
+} else {
+  console.error(
+    `WARN: no --metadata snapshot and no --live — compiling without binding resolution.\n`
+    + `      Component choice falls back to declared datatypes and reference-list identity\n`
+    + `      cannot be resolved [R-015]. Produce a snapshot with scripts/backend-probe.mjs.`,
+  );
 }
 
 const BY_DATATYPE = {
@@ -209,9 +305,23 @@ function fieldComponent(node, idKey) {
   return comp;
 }
 
-let seq = 0;
-function compileNode(node, idPrefix) {
-  const idKey = `${idPrefix}/${node.kind}:${node.name ?? node.property ?? seq++}`;
+/**
+ * A stable componentName for nodes the blueprint did not name — derived from the id
+ * path tail, so it is unique per position rather than per traversal order.
+ */
+function nameFromKey(idKey, prefix) {
+  const tail = idKey.split('/').slice(-2).join('_').replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  return `${prefix}_${tail || 'n'}`;
+}
+
+// Deterministic ids are seeded from the node's FULL STRUCTURAL PATH plus its sibling
+// ordinal. The previous scheme keyed on `kind:name ?? property ?? seq++`, where seq was a
+// single global mutable counter — so inserting one node renumbered every later unnamed
+// node, and two siblings sharing a name or a property produced the SAME key and therefore
+// the same uuid. Path+ordinal is unique by construction and stable under edits elsewhere.
+function compileNode(node, idPrefix, ordinal = 0) {
+  const label = node.name ?? node.property ?? node.kind;
+  const idKey = `${idPrefix}/${ordinal}:${node.kind}#${label}`;
   switch (node.kind) {
     case 'field':
       return fieldComponent(node, idKey);
@@ -219,7 +329,7 @@ function compileNode(node, idPrefix) {
       return {
         id: gymUuid('bp', bp.form.name, idKey),
         type: 'text', version: ver('text'),
-        componentName: node.name ?? `text${seq}`,
+        componentName: node.name ?? nameFromKey(idKey, 'text'),
         content: node.content ?? node.title ?? '', textType: 'span', contentDisplay: 'content',
         desktop: { font: { size: tk('type.scale.body', 14), color: tk('bodyText', '#181818') } },
       };
@@ -229,7 +339,7 @@ function compileNode(node, idPrefix) {
       return {
         id: gymUuid('bp', bp.form.name, idKey),
         type: 'text', version: ver('text'),
-        componentName: node.name ?? `heading${seq}`,
+        componentName: node.name ?? nameFromKey(idKey, 'heading'),
         content: node.content ?? node.title ?? '', textType: 'span', contentDisplay: 'content',
         // on-brand hierarchy from the theme type scale + heading ink [R-030]
         desktop: { font: { size: tk(HEADING_TOKEN[lvl], h.size), weight: String(tk('type.weights.semibold', 600)), color: tk('sectionHeading', '#181818') } },
@@ -260,8 +370,48 @@ function compileNode(node, idPrefix) {
         sortMode: 'standard', allowReordering: 'no',
         components: [table],
       };
-      table.parentId = ctx.id;
       for (const it of table.items) it.parentId = table.id;
+
+      // ARCHETYPE CHROME. On a table-worklist the golden corpus wraps the grid in a
+      // toolbar row — quick search left, pager right — because a bare datatable ships
+      // without a way to search or page, which reads as an unfinished screen. The
+      // chrome's component types were capability-gated above, so this only emits types
+      // the runtime is measured to register.
+      if (bp.archetype === 'table-worklist') {
+        const nm = node.name ?? 'table';
+        const toolbarChildren = [];
+        for (const [type, suffix, extra] of [
+          ['datatable.quickSearch', 'Search', { block: false }],
+          ['datatable.pager', 'Pager', { showSizeChanger: true, showTotalItems: true }],
+        ]) {
+          assertTypeRenders(type, `${bp.archetype} toolbar`);
+          toolbarChildren.push({
+            id: gymUuid('bp', bp.form.name, `${idKey}/chrome/${suffix}`),
+            type, version: ver(type),
+            componentName: `${nm}${suffix}`, propertyName: `${nm}${suffix}`,
+            ...extra,
+          });
+        }
+        const toolbar = {
+          id: gymUuid('bp', bp.form.name, `${idKey}/chrome/toolbar`),
+          type: 'container', version: ver('container'),
+          componentName: `${nm}Toolbar`,
+          direction: 'horizontal', display: 'flex', flexDirection: 'row', flexWrap: 'nowrap',
+          desktop: {
+            display: 'flex', flexDirection: 'row', flexWrap: 'nowrap',
+            justifyContent: 'space-between', alignItems: 'center',
+            gap: '8px', stylingBox: JSON.stringify({ marginBottom: '12' }),
+            // full width so the right-hand cluster sits flush with the table edge [R-028/R-029]
+            dimensions: { width: '100%', minWidth: '0px', height: 'auto' },
+          },
+          components: toolbarChildren,
+        };
+        for (const c of toolbarChildren) c.parentId = toolbar.id;
+        ctx.components = [toolbar, table];
+        toolbar.parentId = ctx.id;
+      }
+
+      table.parentId = ctx.id;
       return ctx;
     }
     case 'datalist': {
@@ -296,7 +446,7 @@ function compileNode(node, idPrefix) {
           return {
             id: gymUuid('bp', bp.form.name, `${idKey}/tab/${key}`),
             key, title: tab.title ?? titleCase(key),
-            components: (tab.children ?? []).map((c) => compileNode(c, `${idKey}/${key}`)),
+            components: (tab.children ?? []).map((c, ci) => compileNode(c, `${idKey}/${key}`, ci)),
           };
         }),
       };
@@ -314,7 +464,7 @@ function compileNode(node, idPrefix) {
 // container ALWAYS sets display:flex so the flex props aren't inert [R-029].
 function buildContainer(node, idKey) {
   const isRow = node.kind === 'row' || node.kind === 'grid';
-  let children = (node.children ?? []).map((c) => compileNode(c, idKey));
+  let children = (node.children ?? []).map((c, ci) => compileNode(c, idKey, ci));
 
   // grid: N equal columns. Each child is WRAPPED in a width-carrying flex column
   // (the same mechanism the 66/33 row split uses) rather than sizing the field
@@ -350,9 +500,15 @@ function buildContainer(node, idKey) {
     });
   }
 
-  // section/card with a title gets a heading child prepended (before parentId stamp)
+  // section/card with a title gets a heading child prepended (before parentId stamp).
+  // The heading's name is derived from the id PATH, not from `node.kind` — two unnamed
+  // cards both produced "cardTitle", a componentName collision the identity gate now
+  // rejects.
   if ((node.kind === 'section' || node.kind === 'card') && node.title) {
-    const heading = compileNode({ kind: 'heading', level: 3, content: node.title, name: `${node.name ?? node.kind}Title` }, idKey);
+    const heading = compileNode({
+      kind: 'heading', level: 3, content: node.title,
+      name: node.name ? `${node.name}Title` : nameFromKey(idKey, `${node.kind}Title`),
+    }, idKey);
     children.unshift(heading);
   }
 
@@ -387,7 +543,7 @@ function buildContainer(node, idKey) {
   const container = {
     id: gymUuid('bp', bp.form.name, idKey),
     type: 'container', version: ver('container'),
-    componentName: node.name ?? `${node.kind}${seq}`,
+    componentName: node.name ?? nameFromKey(idKey, node.kind),
     // root duplicates kept for migration compatibility; desktop is authoritative
     direction: isRow ? 'horizontal' : 'vertical',
     display: 'flex', flexDirection: isRow ? 'row' : 'column',
@@ -445,6 +601,23 @@ if (CAPTURE_ARCHETYPES.has(bp.archetype)) {
   if (!treeText.includes('"Submit"')) rootChildren.push(floorButtonGroup('floor'));
 }
 for (const c of rootChildren) c.parentId = 'root';
+
+// Page ground. The styled-ness gate looks for a root surface establishing the canvas
+// [R-042]; without it a fully token-styled tree still reads as default AntD on a white
+// void. The style plan already carries pageBg, so apply it to the outermost container
+// rather than leaving the one surface the user actually notices unpainted.
+{
+  const pageRoot = rootChildren.find((c) => c.type === 'container');
+  if (pageRoot) {
+    pageRoot.desktop = pageRoot.desktop ?? {};
+    pageRoot.desktop.background = { type: 'color', color: STYLE.colors.pageBg };
+    if (!pageRoot.desktop.stylingBox || pageRoot.desktop.stylingBox === '{}') {
+      pageRoot.desktop.stylingBox = JSON.stringify({
+        paddingLeft: '24', paddingRight: '24', paddingTop: '24', paddingBottom: '24',
+      });
+    }
+  }
+}
 
 const form = {
   components: rootChildren,

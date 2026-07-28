@@ -1,10 +1,10 @@
 {
   "components": [
     {
-      "id": "177566ff-e1ab-58f4-aa87-f1dde4bef0eb",
+      "id": "c62a2a1c-7f5d-5de6-9b2b-b2659f2f6a06",
       "type": "container",
       "version": 7,
-      "componentName": "stack7",
+      "componentName": "stack_gym_react_grammar_0_stack_stack",
       "direction": "vertical",
       "display": "flex",
       "flexDirection": "column",
@@ -26,14 +26,18 @@
           "minWidth": "0px",
           "maxWidth": "100%"
         },
-        "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}"
+        "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}",
+        "background": {
+          "type": "color",
+          "color": "#F8F8F9"
+        }
       },
       "components": [
         {
-          "id": "c222b01d-b1eb-5298-a78c-3fe325df6bec",
+          "id": "598058c2-f17d-5ce1-8f07-cd3a23f3d3a3",
           "type": "text",
           "version": 5,
-          "componentName": "heading2",
+          "componentName": "heading_0_stack_stack_0_heading_heading",
           "content": "Register Asset",
           "textType": "span",
           "contentDisplay": "content",
@@ -44,13 +48,13 @@
               "color": "#181818"
             }
           },
-          "parentId": "177566ff-e1ab-58f4-aa87-f1dde4bef0eb"
+          "parentId": "c62a2a1c-7f5d-5de6-9b2b-b2659f2f6a06"
         },
         {
-          "id": "86e6df6f-947a-5fe6-93ee-94eac6201cd1",
+          "id": "9e57e6ad-b0f3-593b-b6d9-fc8625263a81",
           "type": "container",
           "version": 7,
-          "componentName": "row6",
+          "componentName": "row_0_stack_stack_1_row_row",
           "direction": "horizontal",
           "display": "flex",
           "flexDirection": "row",
@@ -76,10 +80,10 @@
           },
           "components": [
             {
-              "id": "7f238076-622a-577b-a48a-c923df925451",
+              "id": "91c0d04f-8886-5386-8c8a-d7c27beb0e34",
               "type": "container",
               "version": 7,
-              "componentName": "card5",
+              "componentName": "card_1_row_row_0_card_card",
               "direction": "vertical",
               "display": "flex",
               "flexDirection": "column",
@@ -130,10 +134,10 @@
               },
               "components": [
                 {
-                  "id": "271608bf-bba3-5e72-9df5-9992abe9ca45",
+                  "id": "ed7db62e-c9b2-5efb-8526-2520f9456007",
                   "type": "text",
                   "version": 5,
-                  "componentName": "cardTitle",
+                  "componentName": "cardTitle_1_row_row_0_card_card",
                   "content": "Details",
                   "textType": "span",
                   "contentDisplay": "content",
@@ -144,10 +148,10 @@
                       "color": "#181818"
                     }
                   },
-                  "parentId": "7f238076-622a-577b-a48a-c923df925451"
+                  "parentId": "91c0d04f-8886-5386-8c8a-d7c27beb0e34"
                 },
                 {
-                  "id": "ec1c4e80-843c-54cc-8933-da14eb1e0aa4",
+                  "id": "809e4715-d8d0-5b6d-ac6d-8a5d0a9da6e1",
                   "type": "textField",
                   "version": 6,
                   "propertyName": "name",
@@ -173,10 +177,10 @@
                       }
                     }
                   },
-                  "parentId": "7f238076-622a-577b-a48a-c923df925451"
+                  "parentId": "91c0d04f-8886-5386-8c8a-d7c27beb0e34"
                 },
                 {
-                  "id": "946b08fe-e5c1-5b56-bd9e-85287d4b2ee2",
+                  "id": "8769c77c-b764-5b15-9465-d61ebd4d1541",
                   "type": "textField",
                   "version": 6,
                   "propertyName": "serialNumber",
@@ -202,13 +206,13 @@
                       }
                     }
                   },
-                  "parentId": "7f238076-622a-577b-a48a-c923df925451"
+                  "parentId": "91c0d04f-8886-5386-8c8a-d7c27beb0e34"
                 },
                 {
-                  "id": "67c1741d-8a16-518b-9106-21e85688ed49",
+                  "id": "511dcdc4-e501-52ef-8a6c-70296df2696c",
                   "type": "container",
                   "version": 7,
-                  "componentName": "grid5",
+                  "componentName": "grid_0_card_card_2_grid_grid",
                   "direction": "horizontal",
                   "display": "flex",
                   "flexDirection": "row",
@@ -234,7 +238,7 @@
                   },
                   "components": [
                     {
-                      "id": "c4a4d1ad-815f-5ca8-af3a-07406bc035b5",
+                      "id": "163e8919-b54e-5793-9c91-25778e400f4c",
                       "type": "container",
                       "version": 7,
                       "componentName": "gridCol0",
@@ -262,9 +266,9 @@
                       },
                       "components": [
                         {
-                          "id": "25b6dfed-6bb9-5667-8879-d41ee1430a2c",
-                          "type": "dropdown",
-                          "version": 11,
+                          "id": "6a289239-39fb-5cc7-a6ce-9248d74d12f1",
+                          "type": "textField",
+                          "version": 6,
                           "propertyName": "category",
                           "label": "Category",
                           "labelAlign": "left",
@@ -288,18 +292,13 @@
                               }
                             }
                           },
-                          "dataSourceType": "referenceList",
-                          "referenceListId": {
-                            "module": "boxfusion.test",
-                            "name": "AssetCategory"
-                          },
-                          "parentId": "c4a4d1ad-815f-5ca8-af3a-07406bc035b5"
+                          "parentId": "163e8919-b54e-5793-9c91-25778e400f4c"
                         }
                       ],
-                      "parentId": "67c1741d-8a16-518b-9106-21e85688ed49"
+                      "parentId": "511dcdc4-e501-52ef-8a6c-70296df2696c"
                     },
                     {
-                      "id": "b082bc2c-686b-58dc-a8dc-0bee6b5d93fd",
+                      "id": "5aec255f-c818-52d2-9a5e-5f9663c394fe",
                       "type": "container",
                       "version": 7,
                       "componentName": "gridCol1",
@@ -327,9 +326,9 @@
                       },
                       "components": [
                         {
-                          "id": "88f67500-69c3-5086-8a15-6f4705d0758e",
-                          "type": "dateField",
-                          "version": 7,
+                          "id": "6a69ee56-e634-56c5-b6b5-ff949faee9a2",
+                          "type": "textField",
+                          "version": 6,
                           "propertyName": "purchaseDate",
                           "label": "Purchase Date",
                           "labelAlign": "left",
@@ -353,22 +352,22 @@
                               }
                             }
                           },
-                          "parentId": "b082bc2c-686b-58dc-a8dc-0bee6b5d93fd"
+                          "parentId": "5aec255f-c818-52d2-9a5e-5f9663c394fe"
                         }
                       ],
-                      "parentId": "67c1741d-8a16-518b-9106-21e85688ed49"
+                      "parentId": "511dcdc4-e501-52ef-8a6c-70296df2696c"
                     }
                   ],
-                  "parentId": "7f238076-622a-577b-a48a-c923df925451"
+                  "parentId": "91c0d04f-8886-5386-8c8a-d7c27beb0e34"
                 }
               ],
-              "parentId": "86e6df6f-947a-5fe6-93ee-94eac6201cd1"
+              "parentId": "9e57e6ad-b0f3-593b-b6d9-fc8625263a81"
             },
             {
-              "id": "6641fee9-c5fd-5adb-957f-35c468b1c4ce",
+              "id": "20241572-2520-5623-992a-ca5ef98ad9a6",
               "type": "container",
               "version": 7,
-              "componentName": "card6",
+              "componentName": "card_1_row_row_1_card_card",
               "direction": "vertical",
               "display": "flex",
               "flexDirection": "column",
@@ -419,10 +418,10 @@
               },
               "components": [
                 {
-                  "id": "23842753-19a8-5eed-951f-e36583bb16c3",
+                  "id": "53eb0571-c5a4-5d54-b78d-ed1f20c81779",
                   "type": "text",
                   "version": 5,
-                  "componentName": "cardTitle",
+                  "componentName": "cardTitle_1_row_row_1_card_card",
                   "content": "Status",
                   "textType": "span",
                   "contentDisplay": "content",
@@ -433,12 +432,12 @@
                       "color": "#181818"
                     }
                   },
-                  "parentId": "6641fee9-c5fd-5adb-957f-35c468b1c4ce"
+                  "parentId": "20241572-2520-5623-992a-ca5ef98ad9a6"
                 },
                 {
-                  "id": "1359d2e7-835b-5690-aec2-b75e0ac41545",
-                  "type": "dropdown",
-                  "version": 11,
+                  "id": "d27f2e93-40e8-5699-ac2a-d23fcc4d5d38",
+                  "type": "textField",
+                  "version": 6,
                   "propertyName": "status",
                   "label": "Status",
                   "labelAlign": "left",
@@ -462,17 +461,12 @@
                       }
                     }
                   },
-                  "dataSourceType": "referenceList",
-                  "referenceListId": {
-                    "module": "boxfusion.test",
-                    "name": "AssetStatus"
-                  },
-                  "parentId": "6641fee9-c5fd-5adb-957f-35c468b1c4ce"
+                  "parentId": "20241572-2520-5623-992a-ca5ef98ad9a6"
                 },
                 {
-                  "id": "33045756-056f-56f4-8bf5-947600e04cac",
-                  "type": "dropdown",
-                  "version": 11,
+                  "id": "a033667c-1c22-53db-9702-bcbe071fd229",
+                  "type": "textField",
+                  "version": 6,
                   "propertyName": "location",
                   "label": "Location",
                   "labelAlign": "left",
@@ -496,17 +490,12 @@
                       }
                     }
                   },
-                  "dataSourceType": "referenceList",
-                  "referenceListId": {
-                    "module": "boxfusion.test",
-                    "name": "AssetLocation"
-                  },
-                  "parentId": "6641fee9-c5fd-5adb-957f-35c468b1c4ce"
+                  "parentId": "20241572-2520-5623-992a-ca5ef98ad9a6"
                 },
                 {
-                  "id": "9550c4cd-8850-54b4-842c-31ea4b57ef89",
-                  "type": "autocomplete",
-                  "version": 8,
+                  "id": "863c9864-e96a-5711-877e-7ea7888bf068",
+                  "type": "textField",
+                  "version": 6,
                   "propertyName": "assignedEmployee",
                   "label": "Assigned Employee",
                   "labelAlign": "left",
@@ -530,19 +519,16 @@
                       }
                     }
                   },
-                  "dataSourceType": "entitiesList",
-                  "entityTypeShortAlias": "Person",
-                  "mode": "single",
-                  "parentId": "6641fee9-c5fd-5adb-957f-35c468b1c4ce"
+                  "parentId": "20241572-2520-5623-992a-ca5ef98ad9a6"
                 }
               ],
-              "parentId": "86e6df6f-947a-5fe6-93ee-94eac6201cd1"
+              "parentId": "9e57e6ad-b0f3-593b-b6d9-fc8625263a81"
             }
           ],
-          "parentId": "177566ff-e1ab-58f4-aa87-f1dde4bef0eb"
+          "parentId": "c62a2a1c-7f5d-5de6-9b2b-b2659f2f6a06"
         },
         {
-          "id": "8b9f096e-be84-5888-9d4e-9c2860e49c3a",
+          "id": "a356d632-6968-5ba5-9fd5-13fd1bda751d",
           "type": "buttonGroup",
           "version": 15,
           "componentName": "formActions",
@@ -553,7 +539,7 @@
           "editMode": "editable",
           "items": [
             {
-              "id": "d8df2c04-5b0e-5baa-a3cc-cce25772d3ec",
+              "id": "57145845-a963-5039-b4c7-94c2643bdd0a",
               "itemType": "item",
               "itemSubType": "button",
               "sortOrder": 0,
@@ -572,7 +558,7 @@
               }
             },
             {
-              "id": "5b5140b0-ce6c-55bf-9293-cd33acfe28c2",
+              "id": "602fe966-a61e-58a7-b0c2-fe591d2969f0",
               "itemType": "item",
               "itemSubType": "button",
               "sortOrder": 1,
@@ -593,7 +579,7 @@
               }
             }
           ],
-          "parentId": "177566ff-e1ab-58f4-aa87-f1dde4bef0eb"
+          "parentId": "c62a2a1c-7f5d-5de6-9b2b-b2659f2f6a06"
         }
       ],
       "parentId": "root"

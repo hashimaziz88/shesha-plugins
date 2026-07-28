@@ -72,6 +72,7 @@
       "statement": "A `validationErrors` component is ALWAYS in the tree (conventionally just above the action row) whenever the form has any required input — otherwise a failed submit renders nothing.",
       "validator": [
         "scripts/compile-blueprint.js",
+        "scripts/validate-blueprint.mjs",
         "scripts/validate-guardrails.js"
       ]
     },
@@ -83,6 +84,7 @@
       "statement": "Form action buttons live in ONE `buttonGroup`, never standalone `button` components. Save/Submit MUST carry `actionConfiguration: { actionName: \"Submit\", actionOwner: \"shesha.form\" }` and be paired with an exit button (Back/Close/Cancel). Downstream tooling infers form intent from buttonGroup items — a mis-wired Submit misreads the whole form.",
       "validator": [
         "scripts/compile-blueprint.js",
+        "scripts/validate-blueprint.mjs",
         "scripts/validate-guardrails.js"
       ]
     },
@@ -204,7 +206,10 @@
       "severity": "warn",
       "check": null,
       "statement": "Minimal component count: the requested fields + validationErrors + ONE buttonGroup with Submit AND an exit button + minimum layout structure. The Submit/exit pair is part of the floor even for terse prompts; padding (extra containers, decorative panels, unrequested toolbar chrome) is a defect.",
-      "validator": "scripts/compile-blueprint.js"
+      "validator": [
+        "scripts/compile-blueprint.js",
+        "scripts/validate-blueprint.mjs"
+      ]
     },
     {
       "id": "R-021",
@@ -409,7 +414,10 @@
       "severity": "process",
       "check": "validate-styledness.js exit code",
       "statement": "No form ships unstyled. A structurally-complete default-grey form is a defect — every no-design build ends with the shipped `shesha` theme applied via shesha-design-system before push (skipped only by explicit --no-style).",
-      "validator": "scripts/validate-styledness.js"
+      "validator": [
+        "scripts/compile-blueprint.js",
+        "scripts/validate-styledness.js"
+      ]
     },
     {
       "id": "R-043",
@@ -443,8 +451,7 @@
       "severity": "process",
       "check": "Stop hook: push-ledger entries all verified/abandoned",
       "statement": "A validated file on disk is NOT a delivered form. Every authored form is pushed to the backend and verified (re-fetch + diff) before the task is reported done — enforced by the push-ledger Stop hook.",
-      "validator": null,
-      "enforcement": "practice"
+      "validator": "hooks/scripts/hook-verify-push.cjs"
     },
     {
       "id": "R-047",
@@ -452,8 +459,7 @@
       "severity": "process",
       "check": null,
       "statement": "Verification = re-fetch the pushed form and diff against what was sent; the 200 alone proves nothing. Browser checks clear the IndexedDB form cache and navigate table→details (never a hand-built ?id= URL).",
-      "validator": null,
-      "enforcement": "practice"
+      "validator": "scripts/apply-form.mjs"
     },
     {
       "id": "R-048",

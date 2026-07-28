@@ -1,0 +1,228 @@
+{
+  "components": [
+    {
+      "id": "2ac36e2e-e170-55db-bc51-e038501f9767",
+      "type": "container",
+      "version": 7,
+      "componentName": "page",
+      "direction": "vertical",
+      "display": "flex",
+      "flexDirection": "column",
+      "gap": 16,
+      "flexWrap": "nowrap",
+      "stylingBox": "{}",
+      "desktop": {
+        "display": "flex",
+        "flexDirection": "column",
+        "flexWrap": "nowrap",
+        "justifyContent": "flex-start",
+        "alignItems": "stretch",
+        "gap": "16px",
+        "dimensions": {
+          "width": "auto",
+          "height": "auto",
+          "minHeight": "auto",
+          "maxHeight": "auto",
+          "minWidth": "0px",
+          "maxWidth": "100%"
+        },
+        "stylingBox": "{\"paddingLeft\":\"24\",\"paddingRight\":\"24\",\"paddingTop\":\"24\",\"paddingBottom\":\"24\"}",
+        "background": {
+          "type": "color",
+          "color": "#F8F8F9"
+        }
+      },
+      "components": [
+        {
+          "id": "12bc62ab-30ad-5f3c-b70a-54203794358b",
+          "type": "text",
+          "version": 5,
+          "componentName": "pageTitle",
+          "content": "Assets",
+          "textType": "span",
+          "contentDisplay": "content",
+          "desktop": {
+            "font": {
+              "size": 24,
+              "weight": "600",
+              "color": "#181818"
+            }
+          },
+          "parentId": "2ac36e2e-e170-55db-bc51-e038501f9767"
+        },
+        {
+          "id": "8910d3a1-e255-520f-ab29-0940c01082a1",
+          "type": "dataContext",
+          "version": 8,
+          "entityType": "Boxfusion.Test.Domain.Domain.Asset",
+          "sourceType": "Entity",
+          "dataFetchingMode": "paging",
+          "defaultPageSize": 10,
+          "uniqueStateId": "assets",
+          "componentName": "assets",
+          "propertyName": "assets",
+          "sortMode": "standard",
+          "allowReordering": "no",
+          "components": [
+            {
+              "id": "2da87496-104c-5d25-a0df-e6535e67dfb3",
+              "type": "container",
+              "version": 7,
+              "componentName": "assetsToolbar",
+              "direction": "horizontal",
+              "display": "flex",
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "desktop": {
+                "display": "flex",
+                "flexDirection": "row",
+                "flexWrap": "nowrap",
+                "justifyContent": "space-between",
+                "alignItems": "center",
+                "gap": "8px",
+                "stylingBox": "{\"marginBottom\":\"12\"}",
+                "dimensions": {
+                  "width": "100%",
+                  "minWidth": "0px",
+                  "height": "auto"
+                }
+              },
+              "components": [
+                {
+                  "id": "4350efa1-e757-5093-b6fd-8a026214fc36",
+                  "type": "datatable.quickSearch",
+                  "version": 3,
+                  "componentName": "assetsSearch",
+                  "propertyName": "assetsSearch",
+                  "block": false,
+                  "parentId": "2da87496-104c-5d25-a0df-e6535e67dfb3"
+                },
+                {
+                  "id": "3741d2d2-d4de-555c-a297-4178d38b9f21",
+                  "type": "datatable.pager",
+                  "version": 4,
+                  "componentName": "assetsPager",
+                  "propertyName": "assetsPager",
+                  "showSizeChanger": true,
+                  "showTotalItems": true,
+                  "parentId": "2da87496-104c-5d25-a0df-e6535e67dfb3"
+                }
+              ],
+              "parentId": "8910d3a1-e255-520f-ab29-0940c01082a1"
+            },
+            {
+              "id": "18649e2f-4364-57a8-bb2d-f57ccc8b32c9",
+              "type": "datatable",
+              "version": 29,
+              "componentName": "assetsGrid",
+              "propertyName": "assetsGrid",
+              "canEditInline": "no",
+              "canAddInline": "no",
+              "canDeleteInline": "no",
+              "useMultiselect": false,
+              "items": [
+                {
+                  "id": "e6021737-daf7-599a-ae5c-452fdc6320e0",
+                  "itemType": "item",
+                  "sortOrder": 0,
+                  "columnType": "data",
+                  "propertyName": "name",
+                  "caption": "Name",
+                  "isVisible": true,
+                  "allowSorting": true,
+                  "displayComponent": {
+                    "type": "[default]"
+                  },
+                  "editComponent": {
+                    "type": "[not-editable]"
+                  },
+                  "createComponent": {
+                    "type": "[not-editable]"
+                  },
+                  "parentId": "18649e2f-4364-57a8-bb2d-f57ccc8b32c9"
+                },
+                {
+                  "id": "bc74d45d-ce6f-5d42-9eb9-8fab0ebb6d50",
+                  "itemType": "item",
+                  "sortOrder": 1,
+                  "columnType": "data",
+                  "propertyName": "serialNumber",
+                  "caption": "Serial Number",
+                  "isVisible": true,
+                  "allowSorting": true,
+                  "displayComponent": {
+                    "type": "[default]"
+                  },
+                  "editComponent": {
+                    "type": "[not-editable]"
+                  },
+                  "createComponent": {
+                    "type": "[not-editable]"
+                  },
+                  "parentId": "18649e2f-4364-57a8-bb2d-f57ccc8b32c9"
+                },
+                {
+                  "id": "a98273eb-7ba6-5a95-b58e-6120f95c3f33",
+                  "itemType": "item",
+                  "sortOrder": 2,
+                  "columnType": "data",
+                  "propertyName": "status",
+                  "caption": "Status",
+                  "isVisible": true,
+                  "allowSorting": true,
+                  "displayComponent": {
+                    "type": "[default]"
+                  },
+                  "editComponent": {
+                    "type": "[not-editable]"
+                  },
+                  "createComponent": {
+                    "type": "[not-editable]"
+                  },
+                  "parentId": "18649e2f-4364-57a8-bb2d-f57ccc8b32c9"
+                },
+                {
+                  "id": "1529e103-bc96-5ac7-9731-ac60bd603963",
+                  "itemType": "item",
+                  "sortOrder": 3,
+                  "columnType": "data",
+                  "propertyName": "location",
+                  "caption": "Location",
+                  "isVisible": true,
+                  "allowSorting": true,
+                  "displayComponent": {
+                    "type": "[default]"
+                  },
+                  "editComponent": {
+                    "type": "[not-editable]"
+                  },
+                  "createComponent": {
+                    "type": "[not-editable]"
+                  },
+                  "parentId": "18649e2f-4364-57a8-bb2d-f57ccc8b32c9"
+                }
+              ],
+              "parentId": "8910d3a1-e255-520f-ab29-0940c01082a1"
+            }
+          ],
+          "parentId": "2ac36e2e-e170-55db-bc51-e038501f9767"
+        }
+      ],
+      "parentId": "root"
+    }
+  ],
+  "formSettings": {
+    "layout": "vertical",
+    "colon": false,
+    "labelCol": {
+      "span": 24
+    },
+    "wrapperCol": {
+      "span": 24
+    },
+    "modelType": {
+      "name": "Asset",
+      "module": "boxfusion.test"
+    }
+  }
+}

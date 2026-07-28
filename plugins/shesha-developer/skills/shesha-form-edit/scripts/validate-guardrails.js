@@ -71,6 +71,11 @@ let hasSubmit = false;
 let hasPrimary = false;
 let hasRequired = false;
 let hasValidationErrors = false;
+// Identity tracking for the collision + cycle checks: id → label, name → label,
+// and the child→parent edges a cycle walk needs after the tree is fully visited.
+const seenIds = new Map();
+const seenNames = new Map();
+const parentOf = new Map();
 
 const actionName = (node) => (node && node.actionConfiguration && node.actionConfiguration.actionName) || null;
 
@@ -159,8 +164,30 @@ function walkTree(nodes, parent) {
 
     // structural identity (R-001/R-002/R-003)
     if (!node.id || !VALID_ID_RE.test(String(node.id))) add('R-002', label(node), `id "${node.id}" is not a generated unique id (uuid/nanoid) — the renderer silently ignores this component`);
+
+    // Identity collisions. A duplicate id makes the renderer resolve the wrong node and is
+    // the "everything shows twice" defect; a duplicate componentName breaks any script or
+    // test that addresses a component by name.
+    if (node.id) {
+      if (seenIds.has(node.id)) {
+        add('R-002', label(node), `duplicate id "${node.id}" — also used by ${seenIds.get(node.id)}. Two components with one id resolve to whichever the renderer walks last`);
+      } else seenIds.set(node.id, label(node));
+    }
+    if (node.componentName) {
+      if (seenNames.has(node.componentName)) {
+        add('R-002', label(node), `duplicate componentName "${node.componentName}" — also on ${seenNames.get(node.componentName)}. Names address components from scripts and tests, so they must be unique`);
+      } else seenNames.set(node.componentName, label(node));
+    }
+
+    // Direct-parent reference, and the cycle it can form. R-001 is severity=fail in the
+    // registry, so a parentId pointing at the wrong node is a failure, not a warning:
+    // the renderer places the component somewhere other than where it was authored.
     if (parent && !node.parentId) add('R-001', label(node), 'missing parentId — set to the direct parent\'s id');
-    else if (parent && node.parentId && node.parentId !== parent.id) add('R-001', label(node), `parentId "${node.parentId}" ≠ actual parent id "${parent.id}"`, 'warn');
+    else if (parent && node.parentId && node.parentId !== parent.id) add('R-001', label(node), `parentId "${node.parentId}" ≠ actual parent id "${parent.id}" — the component is authored under one parent and claims another`);
+    if (node.id && node.parentId && node.parentId === node.id) {
+      add('R-001', label(node), `parentId equals its own id — a one-node cycle; the renderer never terminates resolving it`);
+    }
+    if (node.id && node.parentId) parentOf.set(node.id, node.parentId);
     if (node.version === undefined || node.version === null || !Number.isInteger(node.version)) {
       add('R-003', label(node), `component "${t}" has no integer version — legacy render path (read-only spans) or migration throw`);
     } else if (kbVersions && kbVersions[t] != null && node.version !== kbVersions[t]) {
@@ -233,6 +260,30 @@ function walkTree(nodes, parent) {
 }
 
 walkTree(root.components, null);
+
+// Parent cycles longer than one node. Needs the complete edge set, so it runs after the
+// walk. A cycle makes the renderer loop while resolving placement rather than fail loudly.
+const reportedCycles = new Set();
+for (const start of parentOf.keys()) {
+  const path = [];
+  const seen = new Set();
+  let cur = start;
+  while (cur && parentOf.has(cur)) {
+    if (seen.has(cur)) {
+      const cycle = path.slice(path.indexOf(cur)).concat(cur);
+      // Every node upstream of a cycle reaches it, so report each distinct cycle once.
+      const key = [...cycle].sort().join('|');
+      if (!reportedCycles.has(key)) {
+        reportedCycles.add(key);
+        add('R-001', seenIds.get(cur) ?? cur, `parentId cycle: ${cycle.join(' → ')} — placement resolution never terminates`);
+      }
+      break;
+    }
+    seen.add(cur);
+    path.push(cur);
+    cur = parentOf.get(cur);
+  }
+}
 
 if (hasSubmit && !hasPrimary) add('R-007', '(form)', 'Form has a Submit action but no primary button anywhere');
 if (hasRequired && !hasValidationErrors) add('R-006', '(form)');

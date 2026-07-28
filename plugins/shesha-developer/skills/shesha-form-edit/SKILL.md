@@ -25,8 +25,18 @@ Mechanical facts live ONCE in [references/_rules.json](references/_rules.json)
 registry wins.
 
 ```
-SPEC (blueprint IR) → COMPILE (theme baked in) → GATES → PUSH → ORACLE → REPORT
+BUILD (pure, offline)                    APPLY (the only mutation)
+spec → validate → compile ──────────────▶ apply-form.mjs
+                                          stage → gates → snapshot → push
+                                          → re-fetch diff → render → evidence
 ```
+
+**Build never touches the backend.** `compile-blueprint.js` reads a metadata snapshot, so a
+build is reproducible and testable offline. **`scripts/apply-form.mjs` is the only supported
+way to change the backend** — it runs the gate chain, snapshots the prior markup, pushes,
+re-fetches, diffs canonically, renders, and writes a content-addressed evidence bundle plus
+the push ledger entry. Nothing else writes that ledger, and the Stop hook verifies the
+bundle rather than trusting a summary.
 
 Args: `$ARGUMENTS`. Flags: `--no-browser` (skip the render instrument),
 `--no-style` (compile with neutral tokens instead of a brand theme).
@@ -86,11 +96,23 @@ Archetypes: `assets/golden/_index.json` (table-worklist · record-detail · hub
 · capture · modal-dialog · list-card · inline-card · dashboard). Golden files
 are compiler fixtures — grep fragments, never read one whole [R-050].
 
-## 3 · Compile
+## 3 · Compile (pure — no backend)
 
 ```
-node scripts/compile-blueprint.js --blueprint <bp.json> --out <workdir>/<form>.json
+node scripts/backend-probe.mjs <baseUrl> <tokenFile> <spec.json>     # once: metadata snapshot
+node scripts/compile-blueprint.js --blueprint <bp.json> --out <workdir>/<form>.json \
+     --metadata <workdir>/<Entity>.probe.json [--theme <brand>]
 ```
+
+The compiler **validates the blueprint itself** and exits non-zero on violation — never
+assume an upstream agent validated it, because an agent that skipped the step and one that
+ran it look identical from here. It also resolves the archetype against
+`assets/golden/_index.json` and refuses to emit any component type the measured capability
+matrix records as `not-registered` or `breaks-render`.
+
+Without `--metadata` it still compiles, but warns: component choice falls back to declared
+datatypes and reference-list identity cannot be resolved [R-015]. `--live` fetches metadata
+instead of using a snapshot, for interactive work where no snapshot exists yet.
 
 The compiler types the JSON: flex containers with `desktop.dimensions.width`
 [R-028/R-029], by-datatype components, live reflist identities [R-015],
@@ -150,22 +172,33 @@ not as a pass over your output:
 Either way **you still own push + verification**. `--no-style` compiles with
 neutral tokens.
 
-## 6 · Push + Oracle
+## 6 · Apply — one command, one mutation path
 
-Push: `POST FormConfiguration/Create` (new) / `PUT UpdateMarkup` (existing) —
-[references/api.md](references/api.md). Record every form in the push ledger
-(`.claude/cache/shesha-form-edit/push-ledger.json`); the Stop hook blocks
-session end while any entry is unverified [R-046].
+```
+node scripts/apply-form.mjs --form <workdir>/<form>.json --module <mod> --name <form>
+```
 
-The oracle judges the deliverable through four fail-closed layers — a green
-render alone never means done. Full model: [references/verification.md §0](references/verification.md).
-1. **Re-fetch + diff** — the pushed markup equals what you sent; a 200 alone
-   proves nothing [R-047] ([references/verification.md](references/verification.md)).
-2. **Render instrument** (objective, unless `--no-browser`):
-   `node scripts/render-instrument.js --form <module>/<name>` — navigate, probe,
-   screenshot, console/network dump, binding smoke, and layout-quality checks
-   (stacked splits, collapsed inputs/buttons, overflow). Exit ≠ 0 → fix and
-   re-run; diagnose via [references/debug.md](references/debug.md).
+It performs the whole sequence and records it: stage → the gate chain → snapshot the prior
+markup → push → re-fetch → canonical diff → render → write a **content-addressed evidence
+bundle** (keyed by the sha256 of the pushed markup, with a sidecar digest) plus the push
+ledger entry. Exit 0 only when the push landed *and* the re-fetch matches.
+
+Flags: `--dry-run` (everything except the mutation) · `--no-browser` (records
+`pushed-unrendered`, which the Stop hook treats as not delivered) · `--allow-theme-change`
+(**required** when the markup carries app-level theme settings — repainting the portal
+because one form was asked to match a screenshot is what this guards) · `--evidence-dir`.
+
+Do not push by hand. `apply-form.mjs` is the only writer of the ledger, and the Stop hook
+verifies the bundle's digest — a hand-written ledger entry or an edited bundle is detected
+and blocks [R-046].
+
+The oracle judges the deliverable through four layers — a green render alone never means
+done. Full model: [references/verification.md §0](references/verification.md).
+1. **Re-fetch + canonical diff** — the backend holds what you sent; a 200 alone proves
+   nothing [R-047]. Run inside `apply-form.mjs`.
+2. **Render instrument** — navigate, probe, screenshot, console/network dump, binding smoke,
+   layout-quality checks (stacked splits, collapsed inputs/buttons, overflow). Run inside
+   `apply-form.mjs`; diagnose failures via [references/debug.md](references/debug.md).
 3. **Placement diff** (intent) — blueprint builds re-probe against the
    blueprint's `assertions`; this is what catches "the layout I intended didn't
    happen" (comprehension owns it).
@@ -190,6 +223,7 @@ never as done.
 | API routes + push recipes | [references/api.md](references/api.md) |
 | Entity binding + metadata probe | [references/entity-binding.md](references/entity-binding.md) |
 | Component recipes (per type) | [references/components/](references/components/) via `scripts/lookup.js` |
+| Blueprint node grammar | [references/designing-like-react.md](references/designing-like-react.md) |
 | Renderer facts + form JSON model (0.45) | [plugin knowledge/frontend-conventions.md](../../knowledge/frontend-conventions.md) |
 | Verification + browser rules | [references/verification.md](references/verification.md) |
 | Symptom → cause | [references/debug.md](references/debug.md) |

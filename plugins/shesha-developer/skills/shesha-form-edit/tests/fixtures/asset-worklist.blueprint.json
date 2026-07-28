@@ -1,0 +1,31 @@
+{
+  "screen": "Asset worklist",
+  "entity": {
+    "fullClassName": "Boxfusion.Test.Domain.Domain.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "asset-table", "label": "Assets" },
+  "archetype": "table-worklist",
+  "theme": "shesha",
+  "fidelity": "A",
+  "viewport": "1440x900",
+  "layout": {
+    "kind": "region",
+    "name": "page",
+    "gap": 16,
+    "children": [
+      { "kind": "heading", "level": 1, "content": "Assets", "name": "pageTitle" },
+      { "kind": "datatable", "name": "assets", "columns": ["name", "serialNumber", "status", "location"] }
+    ]
+  },
+  "bindings": [
+    { "property": "name", "label": "Asset Name", "datatype": "string" },
+    { "property": "serialNumber", "label": "Serial Number", "datatype": "string" },
+    { "property": "status", "label": "Status", "datatype": "reference-list-item" },
+    { "property": "location", "label": "Location", "datatype": "reference-list-item" }
+  ],
+  "assertions": [
+    { "id": "A1", "statement": "the toolbar row sits above the grid, quick search left and pager right" },
+    { "id": "A2", "statement": "the grid shows exactly the four bound columns in blueprint order" }
+  ]
+}

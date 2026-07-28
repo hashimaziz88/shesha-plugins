@@ -2,83 +2,276 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "shesha-blueprint.schema.json",
   "title": "Shesha blueprint IR (machine twin)",
-  "description": "The JSON twin of a screen blueprint. Comprehension emits it alongside the Markdown blueprint (fenced ```blueprint-json block); form-edit's compile-blueprint.js accepts ONLY this as build input — no spec, no build (L2).",
+  "description": "The JSON twin of a screen blueprint. Comprehension emits it alongside the Markdown blueprint (fenced blueprint-json block); shesha-form-edit's compile-blueprint.js validates against this schema and refuses to compile a blueprint that does not satisfy it. This file is a VALIDATOR, not a prompt — the authoring guidance for the node grammar lives in shesha-form-edit/references/designing-like-react.md.",
   "type": "object",
   "required": ["screen", "entity", "form", "archetype", "layout"],
+  "additionalProperties": false,
   "properties": {
-    "screen": { "type": "string", "description": "human screen name" },
+    "screen": { "type": "string", "minLength": 1, "description": "human screen name" },
     "entity": {
       "type": "object",
-      "required": ["fullClassName"],
+      "required": ["fullClassName", "modelType"],
+      "additionalProperties": false,
       "properties": {
-        "fullClassName": { "type": "string", "description": "resolved entity type string (dataContext.entityType form)" },
+        "fullClassName": {
+          "type": "string",
+          "minLength": 1,
+          "description": "resolved entity type string, as dataContext.entityType takes it"
+        },
         "modelType": {
           "type": "object",
-          "description": "the {name, module} object for formSettings.modelType [R-016]",
-          "properties": { "name": { "type": "string" }, "module": { "type": "string" } }
+          "description": "formSettings.modelType [R-016]. BOTH keys are required — a half-resolved modelType is the portability defect that makes a form bind on one backend and silently fail on another.",
+          "required": ["name", "module"],
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "module": { "type": "string", "minLength": 1 }
+          }
         }
       }
     },
     "form": {
       "type": "object",
       "required": ["module", "name"],
-      "properties": { "module": { "type": "string" }, "name": { "type": "string" }, "label": { "type": "string" } }
+      "additionalProperties": false,
+      "properties": {
+        "module": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "label": { "type": "string" }
+      }
     },
     "archetype": {
       "enum": ["record-detail", "hub", "list-card", "capture", "dashboard", "solution-map", "wizard", "inline-card", "table-worklist", "modal-dialog", "auth-page"],
-      "description": "golden archetype to clone (assets/golden/_index.json keys)"
+      "description": "golden archetype key — must exist in shesha-form-edit/assets/golden/_index.json"
     },
-    "theme": { "type": "string", "description": "theme token file name (e.g. 'shesha'); styling pass resolves it" },
-    "fidelity": { "enum": ["A", "B", "C"] },
-    "viewport": { "type": "string" },
+    "theme": { "type": "string", "description": "brand token file name (e.g. 'shesha'); resolved to a style plan at compile time" },
+    "fidelity": { "enum": ["A", "B", "C"], "description": "A readable source · B runnable probe · C screenshot/vision" },
+    "viewport": { "type": "string", "description": "the ONE viewport used for both capture and verification" },
     "layout": { "$ref": "#/$defs/node" },
     "bindings": {
       "type": "array",
       "items": {
         "type": "object",
         "required": ["property"],
+        "additionalProperties": false,
         "properties": {
           "label": { "type": "string" },
-          "property": { "type": "string", "description": "camelCase entity property or dotted nav path [R-004, R-034]" },
-          "component": { "type": "string", "description": "explicit component type; omitted = by-datatype selection" },
+          "property": { "$ref": "#/$defs/propertyPath" },
+          "component": { "type": "string", "description": "explicit component type; omit for by-datatype selection" },
           "datatype": { "type": "string" }
         }
       }
     },
     "assertions": {
       "type": "array",
-      "description": "placement contract verified after build (stable properties, never pixels)",
+      "description": "placement contract re-measured after build — membership, grouping, nesting depth, tab key; never pixels",
       "items": {
         "type": "object",
         "required": ["id", "statement"],
-        "properties": { "id": { "type": "string" }, "statement": { "type": "string" } }
+        "additionalProperties": false,
+        "properties": { "id": { "type": "string", "minLength": 1 }, "statement": { "type": "string", "minLength": 1 } }
       }
     }
   },
   "$defs": {
+    "propertyPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*)*$",
+      "description": "camelCase entity property, or a dotted nav path. PascalCase renders blank cells [R-004/R-034]."
+    },
+    "width": {
+      "type": "string",
+      "description": "flex-child width — %, px, fr or calc(); compiled to desktop.dimensions.width, the only split lever [R-028]"
+    },
+    "spacing": {
+      "type": ["string", "number"],
+      "description": "px number or scale token xs|sm|md|lg|xl|2xl"
+    },
+    "align": { "enum": ["start", "center", "end", "stretch", "baseline"] },
+    "justify": { "enum": ["start", "center", "end", "space-between", "space-around"] },
+
     "node": {
-      "description": "A layout node — think of it as a React element. Compose the screen the way you would a React page: Stack/Row/Grid/Card for structure, Field/Text/Heading for content, Actions for buttons. The compiler maps each to the measured Shesha channel, so your flex/spacing/hierarchy instincts translate 1:1. See references/designing-like-react.md.",
-      "type": "object",
-      "required": ["kind"],
+      "description": "One layout node, discriminated on `kind`. Each kind carries only the properties that mean something for it, so a width on a field or columns on a card is a validation error rather than a silently ignored key.",
+      "oneOf": [
+        { "$ref": "#/$defs/region" },
+        { "$ref": "#/$defs/stack" },
+        { "$ref": "#/$defs/container" },
+        { "$ref": "#/$defs/row" },
+        { "$ref": "#/$defs/card" },
+        { "$ref": "#/$defs/section" },
+        { "$ref": "#/$defs/grid" },
+        { "$ref": "#/$defs/tabs" },
+        { "$ref": "#/$defs/field" },
+        { "$ref": "#/$defs/text" },
+        { "$ref": "#/$defs/heading" },
+        { "$ref": "#/$defs/datatable" },
+        { "$ref": "#/$defs/datalist" },
+        { "$ref": "#/$defs/actions" },
+        { "$ref": "#/$defs/chip" }
+      ]
+    },
+
+    "region": {
+      "type": "object", "required": ["kind", "children"], "additionalProperties": false,
       "properties": {
-        "kind": {
-          "description": "layout | region: page root · stack: vertical flex · row: horizontal flex · grid: equal-width columns · card: surfaced panel · section: titled group · tabs/tab · field · text · heading · datatable · datalist · actions (Submit+exit buttonGroup) · chip. (container = alias of stack.)",
-          "enum": ["region", "container", "stack", "row", "grid", "card", "section", "tabs", "tab", "datatable", "datalist", "field", "text", "heading", "buttonGroup", "actions", "chip"]
-        },
+        "kind": { "const": "region" }, "name": { "type": "string" }, "title": { "type": "string" },
+        "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
+        "align": { "$ref": "#/$defs/align" }, "justify": { "$ref": "#/$defs/justify" },
+        "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
+      }
+    },
+    "stack": {
+      "type": "object", "required": ["kind", "children"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "stack" }, "name": { "type": "string" }, "title": { "type": "string" },
+        "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
+        "align": { "$ref": "#/$defs/align" }, "justify": { "$ref": "#/$defs/justify" },
+        "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
+      }
+    },
+    "container": {
+      "description": "alias of stack, kept for blueprints already in flight",
+      "type": "object", "required": ["kind", "children"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "container" }, "name": { "type": "string" }, "title": { "type": "string" },
+        "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
+        "align": { "$ref": "#/$defs/align" }, "justify": { "$ref": "#/$defs/justify" },
+        "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
+      }
+    },
+    "row": {
+      "description": "horizontal flex. Children are sized with `width`; a row is the ONLY way to split, never the columns component [R-028].",
+      "type": "object", "required": ["kind", "children"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "row" }, "name": { "type": "string" },
+        "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
+        "align": { "$ref": "#/$defs/align" }, "justify": { "$ref": "#/$defs/justify" },
+        "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
+      }
+    },
+    "card": {
+      "type": "object", "required": ["kind", "children"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "card" }, "name": { "type": "string" },
+        "title": { "type": "string", "description": "card header text" },
+        "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
+        "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
+      }
+    },
+    "section": {
+      "description": "titled group. The title is the point — an untitled group is a stack.",
+      "type": "object", "required": ["kind", "title", "children"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "section" }, "name": { "type": "string" }, "title": { "type": "string", "minLength": 1 },
+        "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
+        "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
+      }
+    },
+    "grid": {
+      "description": "equal-width columns. `columns` is a COUNT here — contrast datatable, where it is a list of bound properties.",
+      "type": "object", "required": ["kind", "columns", "children"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "grid" },
+        "columns": { "type": "integer", "minimum": 1, "maximum": 6 },
         "name": { "type": "string" },
-        "title": { "type": "string", "description": "card/section/tab heading, or a field's label override" },
-        "width": { "type": "string", "description": "flex-child width — %, px, fr or calc(); compiled to desktop.dimensions.width (the ONLY split lever [R-028])" },
-        "gap": { "description": "space between children — px number or scale token xs|sm|md|lg|xl|2xl; compiled to container gap", "type": ["string", "number"] },
-        "padding": { "description": "inner padding — px number, scale token, or CSS shorthand; compiled to stylingBox", "type": ["string", "number"] },
-        "align": { "enum": ["start", "center", "end", "stretch", "baseline"], "description": "cross-axis (alignItems)" },
-        "justify": { "enum": ["start", "center", "end", "space-between", "space-around"], "description": "main-axis (justifyContent)" },
-        "columns": { "description": "kind=grid: column count (number); kind=datatable: bound column properties (string[])", "type": ["integer", "array"], "items": { "type": "string" } },
-        "level": { "description": "kind=heading: 1–4 (h1=page title … h4=label)", "type": "integer", "minimum": 1, "maximum": 4 },
-        "property": { "type": "string", "description": "kind=field: the bound entity property (camelCase / dotted path)" },
-        "component": { "type": "string", "description": "kind=field: explicit component type override (else by-datatype)" },
-        "content": { "type": "string", "description": "kind=text/heading: literal content" },
-        "itemForm": { "type": "string", "description": "kind=datalist: item card form name" },
-        "children": { "type": "array", "items": { "$ref": "#/$defs/node" } }
+        "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
+        "align": { "$ref": "#/$defs/align" },
+        "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
+      }
+    },
+    "tabs": {
+      "description": "children may ONLY be tab nodes — a tab is meaningless anywhere else, so it is not part of the general node union.",
+      "type": "object", "required": ["kind", "children"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "tabs" }, "name": { "type": "string" },
+        "width": { "$ref": "#/$defs/width" }, "padding": { "$ref": "#/$defs/spacing" },
+        "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/tab" } }
+      }
+    },
+    "tab": {
+      "type": "object", "required": ["kind", "title", "children"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "tab" }, "name": { "type": "string" }, "title": { "type": "string", "minLength": 1 },
+        "key": { "type": "string", "description": "stable tab key; assertions reference it" },
+        "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
+        "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
+      }
+    },
+
+    "field": {
+      "type": "object", "required": ["kind", "property"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "field" },
+        "property": { "$ref": "#/$defs/propertyPath" },
+        "component": { "type": "string", "description": "explicit component type override; omit for by-datatype selection" },
+        "title": { "type": "string", "description": "label override" },
+        "name": { "type": "string" },
+        "width": { "$ref": "#/$defs/width" }
+      }
+    },
+    "text": {
+      "type": "object", "required": ["kind", "content"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "text" }, "content": { "type": "string", "minLength": 1 },
+        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" }
+      }
+    },
+    "heading": {
+      "type": "object", "required": ["kind", "content", "level"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "heading" }, "content": { "type": "string", "minLength": 1 },
+        "level": { "type": "integer", "minimum": 1, "maximum": 4, "description": "1 page title … 4 label. Drives the type scale, so it is required — an unsized heading renders at body size and the page loses hierarchy." },
+        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" }
+      }
+    },
+    "datatable": {
+      "description": "`columns` is the list of BOUND PROPERTIES to show, not a count.",
+      "type": "object", "required": ["kind", "columns"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "datatable" },
+        "columns": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/propertyPath" } },
+        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" }
+      }
+    },
+    "datalist": {
+      "type": "object", "required": ["kind", "itemForm"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "datalist" },
+        "itemForm": { "type": "string", "minLength": 1, "description": "item card form name" },
+        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" }
+      }
+    },
+    "chip": {
+      "type": "object", "required": ["kind", "property"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "chip" },
+        "property": { "$ref": "#/$defs/propertyPath", "description": "the reference-list status property; the chip colour comes from the reflist item [R-036]" },
+        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" }
+      }
+    },
+    "actions": {
+      "description": "The action row. `exit` is REQUIRED and explicit: a Submit with no way out leaves a form the user can save but not leave [R-007], and the correct exit depends on how the screen is presented — the compiler cannot infer it.",
+      "type": "object", "required": ["kind", "exit"], "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "actions" },
+        "submit": {
+          "type": "object", "additionalProperties": false,
+          "description": "the forward action; omit to accept the default Save/Submit",
+          "properties": { "label": { "type": "string", "minLength": 1 } }
+        },
+        "exit": {
+          "type": "object", "required": ["type"], "additionalProperties": false,
+          "properties": {
+            "type": {
+              "enum": ["back", "close-dialog", "cancel-edit"],
+              "description": "back = standalone page (Navigate) · close-dialog = modal · cancel-edit = detail view in edit mode"
+            },
+            "label": { "type": "string", "minLength": 1 },
+            "url": { "type": "string", "description": "type=back only: navigate target, default '/'" }
+          }
+        },
+        "name": { "type": "string" }, "justify": { "$ref": "#/$defs/justify" }
       }
     }
   }

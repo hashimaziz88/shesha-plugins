@@ -34,8 +34,15 @@ function step(name, fn) {
   process.stdout.write(`   ${ok ? 'PASS' : 'FAIL'}${note ? ` — ${note}` : ''}\n`);
 }
 
+/**
+ * Run a command. `node` is invoked through process.execPath with NO shell — a shell on
+ * Windows mangles absolute paths containing spaces (this repo lives under "Git Repos"),
+ * which silently turned "fixture invalid" into a path error. Only npm needs the shell.
+ */
 function run(cmd, args, cwd = ROOT) {
-  const r = spawnSync(cmd, args, { cwd, stdio: 'inherit', shell: isWin });
+  const useShell = isWin && cmd !== 'node';
+  const bin = cmd === 'node' ? process.execPath : cmd;
+  const r = spawnSync(bin, args, { cwd, stdio: 'inherit', shell: useShell });
   return r.status === 0;
 }
 

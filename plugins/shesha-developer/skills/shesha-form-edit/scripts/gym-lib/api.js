@@ -6,7 +6,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
-const TOKEN_FILE = path.join(SCRIPT_DIR, '..', '..', 'access-token');
+// The cached token belongs in the session workdir, not the skill tree — contracts.md §2/§3.
+// SHESHA_TOKEN_FILE (or a workdir via SHESHA_WORKDIR) wins; the in-skill path is the
+// legacy fallback and is git-ignored.
+const TOKEN_FILE = process.env.SHESHA_TOKEN_FILE
+  || (process.env.SHESHA_WORKDIR ? path.join(process.env.SHESHA_WORKDIR, 'access-token') : null)
+  || path.join(SCRIPT_DIR, '..', '..', 'access-token');
 
 export class GymApi {
   constructor(baseUrl = 'http://localhost:21021') {
