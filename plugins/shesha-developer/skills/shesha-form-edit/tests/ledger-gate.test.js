@@ -20,10 +20,27 @@ import { fileURLToPath } from 'node:url';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const HOOK = path.resolve(HERE, '..', '..', '..', 'hooks', 'scripts', 'hook-verify-push.cjs');
 
+// The ledger location is derived by scripts/gym-lib/paths.cjs, never hardcoded here —
+// duplicating it is what let the writer and the reader drift apart in the first place.
+const require_ = (await import('node:module')).createRequire(import.meta.url);
+const paths = require_('../scripts/gym-lib/paths.cjs');
+
+/** Resolve the ledger path exactly as the writer and the hook will, for a given project. */
+function ledgerFor(projectDir) {
+  const saved = process.env.CLAUDE_PROJECT_DIR;
+  process.env.CLAUDE_PROJECT_DIR = projectDir;
+  try { return paths.ledgerPath(); } finally {
+    if (saved === undefined) delete process.env.CLAUDE_PROJECT_DIR;
+    else process.env.CLAUDE_PROJECT_DIR = saved;
+  }
+}
+
 let seq = 0;
 function sandbox() {
   const dir = path.join(os.tmpdir(), `shesha-ledger-${process.pid}-${seq++}`);
-  fs.mkdirSync(path.join(dir, '.claude', 'cache', 'shesha-form-edit'), { recursive: true });
+  fs.mkdirSync(dir, { recursive: true });
+  // Clear any state a previous run left for this project key.
+  fs.rmSync(path.dirname(ledgerFor(dir)), { recursive: true, force: true });
   return dir;
 }
 
@@ -47,8 +64,10 @@ function writeEvidence(dir, { status = 'verified', markupSha256 = sha256('markup
 }
 
 function writeLedger(dir, entries) {
+  const p = ledgerFor(dir);
+  fs.mkdirSync(path.dirname(p), { recursive: true });
   fs.writeFileSync(
-    path.join(dir, '.claude', 'cache', 'shesha-form-edit', 'push-ledger.json'),
+    p,
     typeof entries === 'string' ? entries : JSON.stringify({ $schema: 'shesha-push-ledger/v2', entries }, null, 2),
   );
 }
@@ -56,6 +75,7 @@ function writeLedger(dir, entries) {
 function runHook(dir, payload = {}) {
   const r = spawnSync(process.execPath, [HOOK], {
     cwd: dir, input: JSON.stringify(payload), encoding: 'utf8',
+    env: { ...process.env, CLAUDE_PROJECT_DIR: dir },
   });
   return { status: r.status, stderr: r.stderr ?? '' };
 }

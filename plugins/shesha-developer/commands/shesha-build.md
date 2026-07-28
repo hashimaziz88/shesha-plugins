@@ -12,13 +12,26 @@ modal-dialog · list-card · inline-card · dashboard), second = entity name or
 fullClassName, optional third = module (default: the app's main module),
 anything after `--` = extra requirements.
 
-Non-negotiable path:
-1. Pre-flight + `backend-probe.mjs` for the entity.
-2. Synthesize the blueprint IR (schema:
+The path, in two commands:
+
+1. **Prerequisites + metadata snapshot.**
+   `node scripts/backend-probe.mjs <baseUrl> <tokenFile> <spec.json>` — exit 1
+   names each blocker and the skill that fixes it. It also writes
+   `<Entity>.probe.json`, the snapshot the build reads.
+2. **Synthesize the blueprint IR** (schema:
    `shesha-design-comprehension/schemas/blueprint.schema.json`) from the
-   archetype + entity metadata + requirements.
-3. `scripts/compile-blueprint.js` → gates (`validate-schema` →
-   `validate-guardrails` → `resolve-bindings`) → default-theme styling pass →
-   push → ledger → re-fetch diff → `scripts/render-instrument.js`.
-4. Report module + name + id + oracle verdict. A form without a PASS verdict
-   is reported UNVERIFIED [R-046].
+   archetype + that metadata + the requirements. This is the judgment step.
+3. **Build — pure, no backend:**
+   `node scripts/compile-blueprint.js --blueprint <bp.json> --metadata
+   <Entity>.probe.json --out <form.json> [--theme <brand>]`. It validates the
+   blueprint, resolves the archetype against the golden corpus, refuses types the
+   measured matrix records as dead, and bakes the brand style plan in — there is
+   no separate styling pass.
+4. **Apply — the only mutation path:**
+   `node scripts/apply-form.mjs --form <form.json> --module <mod> --name <form>`.
+   One command stages, runs the gate chain, snapshots the prior markup, pushes,
+   re-fetches, diffs canonically, renders, and writes the evidence bundle plus the
+   ledger entry. It prints the bundle path on stdout.
+5. **Report** module + name + id, and the bundle's `status`. Only `verified`
+   counts as delivered; anything else is reported UNVERIFIED [R-046]. Verify with
+   `node scripts/verify-evidence.mjs <bundle>` rather than by assertion.

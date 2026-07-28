@@ -29,6 +29,17 @@ not a redesign).
 | An **application-layer prerequisite** — app services, DTOs, AutoMapper profiles | `shesha-app-layer` |
 | To **regenerate ground truth** — components-kb, form schema, measured capability matrix. Maintainer mode; needs a running backend and portal | `shesha-gym` |
 
+## Multi-step work — start from a workflow
+
+When a request spans more than one skill, the sequence matters more than the routing. These
+carry the ordering and the gates:
+
+| Request shape | Workflow |
+|---|---|
+| "Add X to the app" — needs backend *and* screens | [`workflows/new-feature-end-to-end.md`](../workflows/new-feature-end-to-end.md) — entity → probe → screens → verify, including the two-boot rule |
+| A design source to realise across screens | [`workflows/new-screen-from-design.md`](../workflows/new-screen-from-design.md) — fidelity tiers, measurement, dispatch, evidence |
+| A new Shesha 0.45.x release landed | [`workflows/upgrade-shesha-version.md`](../workflows/upgrade-shesha-version.md) — regenerate the KB, re-measure the gym, diff the matrices before trusting them |
+
 ## Precedence
 
 1. **A backend prerequisite outranks any form work.** A form cannot bind to an entity that

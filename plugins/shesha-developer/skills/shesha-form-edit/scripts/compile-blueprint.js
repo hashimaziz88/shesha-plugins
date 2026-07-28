@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // compile-blueprint.js --blueprint <blueprint.json> --out <form.json>
-//                      [--backend http://localhost:21021] [--no-live]
+//                      [--metadata <entity.probe.json>] [--live [--backend <url>]]
 //
 // L3: the blueprint IR is the ONLY build input; the model chooses the
 // adaptation, this script types the JSON. Pipeline:
@@ -11,9 +11,10 @@
 //   versions    → stamped from the 0.45 components-kb [R-003]
 //   ids         → deterministic (sha of form+path) → reruns diff cleanly
 //
-// With --backend (default on): resolves reflist identities + datatype-driven
-// component choice from live Metadata/GetProperties. --no-live skips (bindings
-// then need resolve-bindings.js before push).
+// OFFLINE BY DEFAULT. --metadata <entity.probe.json> supplies the entity metadata that
+// drives reflist identities and datatype-driven component choice, so a build is pure and
+// reproducible. --live fetches from Metadata/GetProperties instead. With neither, it still
+// compiles but warns: bindings then need resolve-bindings.js before push.
 // Accepts a raw JSON blueprint or a Markdown blueprint containing a fenced
 // ```blueprint-json block.
 

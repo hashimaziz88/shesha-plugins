@@ -15,6 +15,7 @@
  */
 const path = require('path');
 const os = require('os');
+const crypto = require('crypto');
 
 /** The project root, when the harness tells us. */
 function projectDir() {
@@ -22,24 +23,32 @@ function projectDir() {
 }
 
 /**
- * Session scratch: SHESHA_WORKDIR (set by an orchestrator), else a per-project cache,
- * else the system temp dir. Never cwd, never the skill tree.
+ * Runtime state lives OUTSIDE the user's repository. The plugin does not control the
+ * consuming project's .gitignore, so anything it writes into the tree shows up as
+ * untracked noise in someone else's diff. Everything therefore goes under the system
+ * temp dir, namespaced by a digest of the project path so two checkouts never collide
+ * and so the writer and the reader derive the same directory without being told.
  */
-function sessionWorkdir() {
+function stateRoot() {
   if (process.env.SHESHA_WORKDIR) return process.env.SHESHA_WORKDIR;
-  const proj = projectDir();
-  if (proj) return path.join(proj, '.claude', 'cache', 'shesha-form-edit');
   const tmp = process.env.TMPDIR || process.env.TEMP || process.env.TMP || os.tmpdir();
-  return path.join(tmp, 'shesha-form-edit');
+  const key = projectDir() || process.cwd();
+  const slug = crypto.createHash('sha1').update(path.resolve(key)).digest('hex').slice(0, 12);
+  return path.join(tmp, 'shesha-form-edit', slug);
+}
+
+/** Session scratch. Never cwd, never the skill tree, never the user's project. */
+function sessionWorkdir() {
+  return stateRoot();
 }
 
 /**
- * The push ledger. Anchored on the project so the writer (apply-form.mjs) and the reader
- * (hook-verify-push.cjs) agree regardless of the cwd either was launched from.
+ * The push ledger. Derived from the project path rather than stored in it, so the writer
+ * (apply-form.mjs) and the reader (hook-verify-push.cjs) agree regardless of the cwd
+ * either was launched from — while leaving the repository untouched.
  */
 function ledgerPath() {
-  const base = projectDir() || process.cwd();
-  return path.join(base, '.claude', 'cache', 'shesha-form-edit', 'push-ledger.json');
+  return path.join(stateRoot(), 'push-ledger.json');
 }
 
 /** Generated run evidence — render verdicts, screenshots, apply bundles. */

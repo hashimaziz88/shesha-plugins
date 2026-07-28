@@ -407,7 +407,7 @@
         "contracts.md"
       ],
       "rules": [
-        "push ledger entry required per form (see Step 7)"
+        "every push goes through scripts/apply-form.mjs, which writes the ledger entry and the evidence bundle"
       ]
     },
     "verification": {

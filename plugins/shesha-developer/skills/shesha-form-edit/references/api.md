@@ -140,128 +140,33 @@ If you need the wrapping DTO (with id, name, modelType etc.) instead, use `Get` 
 
 ---
 
-## 5. Push edited markup — UpdateMarkup (preferred)
+## 5–7. Pushing markup
 
-`PUT /api/services/Shesha/FormConfiguration/UpdateMarkup`
+**Do not issue these by hand.** `scripts/apply-form.mjs` performs the whole mutation —
+stage, gates, prior-markup snapshot, push, re-fetch, canonical diff, render, evidence bundle
+and ledger entry — and it is the only writer of the ledger the Stop hook verifies [R-046].
+The routes and DTOs are recorded here so its behaviour is legible, not so you can replicate it.
 
-DTO (`FormUpdateMarkupInput`):
+| Route | Method | DTO | Notes |
+|---|---|---|---|
+| `Shesha/FormConfiguration/UpdateMarkup` | PUT | `{ id, markup?, access?, permissions? }` | existing form. **Returns `void`** — HTTP 200 with `result: null` proves only that the request was accepted [R-047] |
+| `Shesha/FormConfiguration/Create` | POST | `{ moduleId, name, label?, modelType?, generationLogicTypeName? }` | new form. `modelType` is the entity full-name **STRING** — see the trap below |
+| `Shesha/FormConfiguration/ImportJson` | POST (multipart) | `{ ItemId, file }` | only to mimic the designer's "upload JSON" button. Field name must be lowercase `file` |
 
-```ts
-{
-  id: string,           // form Guid (required)
-  markup?: string,      // stringified form JSON
-  access?: number,      // RefListPermissionedAccess (optional)
-  permissions?: string[] // optional
-}
-```
+`markup` is the **stringified** form JSON. Build the body in Node — escaping nested
+JSON-in-JSON by hand in a shell is a footgun.
 
-Build the body via Node so the markup string is properly JSON-escaped. Don't try to construct it inline in bash — escaping nested JSON-in-JSON manually is a footgun.
+> **`modelType` TRAP — two shapes, one key name.** The Create/Update ENVELOPE takes
+> `modelType` as the entity's full class name **string** (`"Shesha.Domain.Site"`). Inside the
+> markup, `formSettings.modelType` is the `{ name, module }` **object** [R-016]. Passing the
+> object into the envelope returns HTTP 400 `Unexpected character encountered while parsing
+> value: {. Path 'modelType'`. `apply-form.mjs` derives the envelope value from a
+> `dataContext` node's `entityType`; verified live 2026-07-28.
 
-```bash
-node -e "
-const fs = require('fs');
-const dir = process.env.WORKDIR;
-const tree = JSON.parse(fs.readFileSync(dir + '/form-edited.json', 'utf8'));
-const body = JSON.stringify({
-  id: process.env.FORM_ID,
-  markup: JSON.stringify(tree)
-});
-fs.writeFileSync(dir + '/update-markup-body.json', body);
-" 
+On error ABP returns `{ success: false, error: { code, message, details } }` — surface
+`error.message` and `error.details` and stop.
 
-curl -s -X PUT "$BASE_URL/api/services/Shesha/FormConfiguration/UpdateMarkup" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d @"$WORKDIR/update-markup-body.json"
-```
-
-Successful response: HTTP 200 with `{ "result": null, "success": true, ... }`. The endpoint returns `void`.
-
-On error, ABP returns:
-
-```json
-{
-  "result": null,
-  "success": false,
-  "error": { "code": 0, "message": "...", "details": "..." },
-  "unAuthorizedRequest": false
-}
-```
-
-Surface `error.message` and `error.details` to the user and stop.
-
----
-
-## 6. Push edited markup — ImportJson (multipart upload)
-
-`POST /api/services/Shesha/FormConfiguration/ImportJson` with `multipart/form-data`. Use this when you specifically need to mimic the designer's "upload JSON" button.
-
-DTO (`ImportFormJsonInput`):
-
-```ts
-{
-  ItemId: string,    // form Guid
-  file: File         // the form JSON as a file upload, field name MUST be lowercase "file"
-}
-```
-
-```bash
-# $WORKDIR/form-edited.json contains the stringified-or-tree form JSON.
-# If your edits are an object (parsed tree), stringify first; the API expects the file content
-# to be a JSON document representing the form markup.
-
-curl -s -X POST "$BASE_URL/api/services/Shesha/FormConfiguration/ImportJson" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -F "ItemId=$FORM_ID" \
-  -F "file=@$WORKDIR/form-edited.json;type=application/json"
-```
-
-Successful response: HTTP 200 with `{ "result": { ...FormConfigurationDto... }, "success": true }`. The DTO contains the updated form record.
-
-Field name **must be `file`** (lowercase) — see `ImportFormJsonInput.File` `[BindProperty(Name = "file")]`.
-
----
-
-## 7. (Optional) Create a new form
-
-`POST /api/services/Shesha/FormConfiguration/Create`
-
-DTO (`CreateFormConfigurationRequest`):
-
-```ts
-{
-  moduleId: string,        // module Guid (required)
-  name: string,            // unique within module
-  label?: string,
-  description?: string,
-  modelType?: string,      // entity full name — a STRING, see the trap below
-  generationLogicTypeName?: string,
-  templateId?: string,     // copy from another form
-  markup?: string          // initial markup; can be set later via UpdateMarkup
-}
-```
-
-```bash
-curl -s -X POST "$BASE_URL/api/services/Shesha/FormConfiguration/Create" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "moduleId": "...module-guid...",
-    "name": "member-quickview",
-    "label": "Member - Quick View",
-    "modelType": "PBF.MembershipManagement.Domain.Domain.Member"
-  }'
-```
-
-> **`modelType` TRAP — two different shapes, one key name.** The Create/Update ENVELOPE
-> takes `modelType` as the entity's full class name **string**
-> (`"Shesha.Domain.Site"`). Inside the markup, `formSettings.modelType` is the
-> `{ name, module }` **object** [R-016]. Passing the object into the envelope returns
-> HTTP 400 `Unexpected character encountered while parsing value: {. Path 'modelType'`.
-> `scripts/apply-form.mjs` derives the envelope value from a `dataContext` node's
-> `entityType`; verified live 2026-07-28.
-
-To resolve `moduleId`, query `GET /api/services/Shesha/Module/GetAll` with bearer token and pick the module by `name`.
+To resolve `moduleId`, query `GET /api/services/Shesha/Module/GetAll` and pick by `name`.
 
 ---
 
@@ -294,149 +199,88 @@ Returns `result.items[]` with `{ id, name, label, module: {...} }`.
 
 ---
 
-## 10. Fetch entity metadata (scoped — `GetProperties`)
+## 10. Entity metadata + reference lists — one probe
 
-Used by Step 4.5 of the skill to validate `propertyName` references against the actual entity. **Prefer the scoped `GetProperties` endpoint** (returns a direct array of the entity's properties, no envelope) over any full-metadata / `GetAll` dump — fetch exactly the container you need, once per entity, and reuse the cached summary.
-
-**Never read the raw metadata response inline** — a full entity's properties can exceed the 25k-token `Read` limit and force a retry with offsets. Always pipe it straight to a file (`-o`), distill, and read only the `.summary.md`.
-
-```bash
-# Scoped, primary — direct array of properties. Pipe to file; do not read inline.
-curl -s -G "$BASE_URL/api/services/app/Metadata/GetProperties" \
-  --data-urlencode "container=PBF.MembershipManagement.Domain.Domain.Member" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -o ".claude/cache/shesha-form-edit/metadata/Member.raw.json"
-```
-
-If `GetProperties` 404s on an older build, fall back to the fuller container fetch `GET /api/services/app/Metadata/Get` (ABP envelope, `result.properties[]`), then `Shesha/Metadata/Get` — same `-o`-to-file discipline; distill before reading.
-
-Property shape (relevant fields). `GetProperties` returns this as a **direct array**; the `Metadata/Get` fallback wraps it in the ABP envelope shown here (`result.properties[]`):
-
-```json
-{
-  "result": {
-    "containerName": "PBF.MembershipManagement.Domain.Domain.Member",
-    "entityFullName": "PBF.MembershipManagement.Domain.Domain.Member",
-    "properties": [
-      {
-        "path": "firstName",
-        "name": "firstName",
-        "label": "First Name",
-        "dataType": "string",
-        "required": false,
-        "readOnly": false,
-        "referenceListName": null,
-        "referenceListModule": null,
-        "entityType": null
-      }
-    ]
-  }
-}
-```
-
-Save raw response to `.claude/cache/shesha-form-edit/metadata/<entity>.raw.json`, then distill:
+`scripts/backend-probe.mjs` replaces the ~10 round-trips a build otherwise makes (module id,
+EntityConfig resolve, metadata routes with their 404 retries, one reflist check per bound
+prop). Prefer it; it also writes the `<Entity>.probe.json` snapshot the compiler reads.
 
 ```bash
-node .claude/skills/shesha-form-edit/scripts/summarize.js \
-  .claude/cache/shesha-form-edit/metadata/Member.raw.json \
-  --type metadata \
-  --out .claude/cache/shesha-form-edit/metadata/Member.summary.md
+# spec.json: { "module": "<Mod>", "entities": [ { "name": "Site", "reflistProps": ["siteType"] } ] }
+node scripts/backend-probe.mjs "$BASE_URL" "$WORKDIR/access-token" "$WORKDIR/spec.json"
 ```
 
-Validation pass: for every input component in the edit, confirm `propertyName` matches a `properties[].path` (top-level only — nested-path validation is out of scope). Mismatches must be surfaced to the user before push.
+Exit 0 = ready. Exit 1 lists each blocker with the skill that fixes it. It reuses the cached
+token (§2), BOM-stripped, and a single non-2xx never throws — the status is recorded and the
+run continues.
 
-**TTL**: 24 hours. Use `--refresh-cache` to force a re-fetch + re-distill. Invalidate manually after running new migrations or model-type changes.
+**The routes it uses, and why that order matters:**
+
+- **Metadata**, tried until a 200 property array: `app/Metadata/GetProperties` (direct array,
+  scoped — preferred) → `app/Metadata/Get` (ABP envelope, `result.properties[]`) →
+  `Shesha/Metadata/Get`. A 404 on all three *while EntityConfig has the class* is a
+  wrong-route/namespace problem, reported as `metadataUnavailable` — **never** as
+  `entityMissing`, so it cannot trigger a bogus "create the entity".
+- **Dynamic CRUD**: `/api/dynamic/<entityModule>/<Entity>/Crud/GetAll`. Keyed on the
+  **entity's** module, not the form's — using the form's module 404s for any entity defined
+  elsewhere.
+- **Reference lists**: `app/ConfigurationItem/GetCurrent?itemType=reference-list` — reflists
+  are configuration items on 0.45, and this is the route the renderer itself uses.
+  `app/ReferenceList/GetByName` **404s on this generation** and is only a legacy fallback;
+  probing it alone reports every reflist-bound property as missing. There is no
+  `ReferenceList/GetItems`.
+
+**Service prefixes are not interchangeable** [R-026]. These live under `app` —
+`Metadata/*`, `EntityConfig/*`, `Module/*`, `ConfigurationItem/*` — while form configuration
+lives under `Shesha` (`Shesha/FormConfiguration/*`). Guessing the prefix produces a 404 that
+looks exactly like a missing entity, which is the wrong diagnosis and sends you to
+`domain-model` for nothing.
+
+A reflist that exists with **zero items** is still a blocker: the dropdown renders blank at
+runtime and passes every structural check [R-015]. Both cases hand off to
+`shesha-developer:domain-model`.
+
+Property shape (the fields that matter): `{ path, name, label, dataType, required, readOnly,
+referenceListName, referenceListModule, entityType }`. `path` is camelCase in metadata for
+some builds and PascalCase in others — form `propertyName` must be camelCase either way.
+
+**Never read a raw metadata response inline** — a full entity can exceed the `Read` limit.
+Pipe to a file, then distil with `scripts/summarize.js --type metadata`.
 
 ---
 
-## 10.5 Verify a reference list exists + has items
+## 11. Round-trip verify
 
-For every reflist-bound component, confirm the list is real and populated **before** push — a dropdown bound to a missing or empty reflist renders blank at runtime and passes every structural check [R-015]. Reflists are fetched as configuration items (this is the route `scripts/resolve-bindings.js` uses; there is **no** `ReferenceList/GetByName` or `ReferenceList/GetItems` service on this backend generation). Use the property's metadata `referenceListName` (full dotted) + `referenceListModule`:
+Runs inside `scripts/apply-form.mjs`: re-fetch and canonically diff against what was sent.
+A 200 alone proves nothing [R-047]; the re-fetch is the only proof.
 
-```bash
-curl -s -G "$BASE_URL/api/services/app/ConfigurationItem/GetCurrent" \
-  --data-urlencode "itemType=reference-list" \
-  --data-urlencode "name=<referenceListName>" \
-  --data-urlencode "module=<referenceListModule>" \
-  -H "Authorization: Bearer $ACCESS_TOKEN"
-```
+Server normalizations that are **not** differences (the canonical diff absorbs them): key
+re-ordering inside an object, whitespace inside string-encoded `stylingBox` values, and
+`null` → `undefined` on optional fields. Anything else is a real diff and fails the apply.
 
-- `404` / null `result` → the reflist does **not exist** (the `[ReferenceList]` attribute is missing, or the name was guessed). Do NOT ship the component — hand off to `shesha-developer:domain-model`.
-- `result.items` empty → the list exists but has **no items**; the dropdown will be empty. Same handoff.
-- The route is under `app`, not `Shesha` [R-026].
+For anonymous forms also assert the envelope — re-fetch via `GetByName` and check
+`result.access === 5`. `Create` may not honour `access` on initial create; if it did not,
+`UpdateMarkup` once more with `access: 5, permissions: []` and re-verify [R-022].
 
 ---
 
-## 10.6 Combined one-shot backend probe
+## 12. Browser smoke
 
-A form build otherwise fires ~10 tiny round-trips — the module-id lookup (§7), the per-entity `EntityConfig` resolve (§10 / Step 4.5), each metadata route (§10, often with 404 retries), and one reflist existence check per reflist-bound prop (§10.5). `scripts/backend-probe.mjs` **replaces all of them with a single run** (module id + entity resolve + metadata + reflist existence, per entity), so prefer it over issuing those calls separately.
+`scripts/render-instrument.js --form <module>/<name>` — run inside `apply-form.mjs`. It
+navigates, waits for settle, probes geometry, screenshots, and dumps console + network
+errors, writing a verdict JSON and a PNG to the session workdir.
 
-```bash
-# spec.json: { "module": "<Mod>", "entities": [ { "name": "ShortlistResult", "reflistProps": ["outcome","status"] } ] }
-node scripts/backend-probe.mjs "$BASE_URL" "$WORKDIR/access-token" "$WORKDIR/probe-spec.json"
-```
+**Render against the `adminportal`** — that is the app UI this skill targets (typical dev
+port 3000; read the real port from `adminportal/.env*` or its `package.json` `scripts.dev`).
+`publicportal` (typical 3001) is the exception, used **only** for a genuinely anonymous form
+(`access: 5` — login/register/OTP), never for ordinary CRUD.
 
-It reuses the **cached** token file (§2) — strips a leading BOM + trims it, so the same BOM that would break `Bearer` auth can't leak in. One run does, per spec entity:
+Authenticated forms load at `/dynamic/<module>/<form>?mode=edit` — **without `mode=edit` the
+dynamic page renders read-only**, so inputs are absent and every style probe reads as a false
+no-op. The instrument sets the cached session token into `localStorage.accessToken` rather
+than re-authenticating.
 
-- `GET app/Module/GetAll?MaxResultCount=200` → resolves `spec.module` → id.
-- `GET app/EntityConfig/GetMainDataList?maxResultCount=1000` **once** → each entity's `{ name, module, fullClassName }`.
-- Metadata routes tried **in order until a 200 property array**: `app/Metadata/GetProperties` → `app/Metadata/Get` (`result.properties[]`) → `Shesha/Metadata/Get`; records which route worked. A 404 on all three while EntityConfig *has* the class is wrong-route/namespace → reported as `metadataUnavailable`, **not** `entityMissing` (never triggers a bogus `domain-model` "create").
-- Each named `reflistProp` → reads its `referenceListName`/`referenceListModule` from the metadata, then the §10.5 reflist existence check → `{ exists, itemCount }`.
+If the adminportal is not running, do **not** silently pass: the evidence bundle records
+`pushed-unrendered`, which the Stop hook treats as not delivered. Report it that way.
 
-Emits ONE compact JSON summary to stdout (per entity: `modelType`, `fullClassName`, metadata route or `metadataUnavailable`, a distilled `properties[]` of `{ path, dataType, referenceListName }`, and per-reflistProp `{ name, module, exists, itemCount }`) and writes each entity's slice to `<tokenFile dir>/<Entity>.probe.json` for reuse. A single 404 (or any non-2xx / network error) never throws — the status is recorded and the run continues.
-
----
-
-## 11. Round-trip verify (post-push)
-
-Step 8 of the skill. Re-fetch the form just pushed and diff against the markup we sent:
-
-```bash
-curl -s -G "$BASE_URL/api/services/Shesha/FormConfiguration/GetJson" \
-  --data-urlencode "id=$FORM_ID" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  > "$WORKDIR/form-after.json"
-```
-
-Then in Node:
-
-```js
-const sent = JSON.parse(fs.readFileSync(process.env.WORKDIR + '/form-sent.json', 'utf8'));
-const after = JSON.parse(JSON.parse(fs.readFileSync(process.env.WORKDIR + '/form-after.json', 'utf8')).result.markup);
-// Walk both trees in component-id order; surface any property whose value differs.
-```
-
-For anonymous forms, also confirm the envelope: re-fetch via `GetByName` and assert `result.access === 5`. The `Create` endpoint may not honor `access` on initial create; on mismatch, call `UpdateMarkup` once more with `access: 5, permissions: []` and re-verify.
-
-Common server normalizations to ignore (not bugs): re-ordered keys inside an object, whitespace inside string-encoded `stylingBox` values, `null` → `undefined` collapsing on optional fields. Anything else — surface to the user.
-
----
-
-## 12. Browser smoke via the playwright skill
-
-Step 9 of the skill. Invoke as:
-
-```
-Skill(skill="playwright", args="<directive>")
-```
-
-### Directive template
-
-> Open `<FRONTEND_URL>/<no-auth|dynamic>/<MODULE>/<FORM_NAME>` in a fresh browser context.
-> If path is `/dynamic/...`: set the **cached** session token (contents of `$WORKDIR/access-token`) into `localStorage.accessToken` before navigating. Only POST `/api/TokenAuth/Authenticate` with the session credentials if no cached token exists.
-> Wait for the form to render (selector `.sha-form` or 5s timeout, whichever comes first).
-> Capture: full-page screenshot, all console messages with level `error` or `warning`, all network responses with `status >= 400`.
-> Then click the primary action button (if any) and capture again.
-> Report: a one-paragraph summary, the screenshot path, and any captured errors / 4xx-5xx network responses verbatim.
-
-### Frontend URL detection — focus on the `adminportal`
-
-**Render and verify against the `adminportal` — that is the app UI this skill targets.** It's the front-end app under `adminportal/` (typical dev port `http://localhost:3000`); read the actual port from `adminportal/.env*` (e.g. `PORT=3000`) or `adminportal/package.json` `scripts.dev`. Use it as `<FRONTEND_URL>` for every authenticated (`/dynamic/...`) form.
-
-`publicportal/` (typical `http://localhost:3001`) is the **exception, not the default** — use it ONLY for a genuinely anonymous/public form (`access: 5`, e.g. login/register/OTP). Don't reach for it for ordinary CRUD forms.
-
-If the adminportal isn't running, do NOT silently pass: report that the form **could not be visually verified (adminportal not running)** and offer `--no-browser`.
-
-### Failure handling
-
-Any captured error → consult [debug.md](debug.md) before guessing. Never silently re-edit and re-push. If the smoke step itself errors out (browser can't connect), warn the user and offer to skip via `--no-browser`.
+Any captured error → [debug.md](debug.md) before guessing. Never silently re-edit and re-push.

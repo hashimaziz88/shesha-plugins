@@ -242,12 +242,26 @@ async function main() {
         entry.reflistProps.push({ prop: rp, name: null, module: null, exists: false, note: 'property has no referenceListName in metadata' });
         continue;
       }
-      const rl = await getJson(`/api/services/app/ReferenceList/GetByName?${qs({ name: rlName, module: rlModule })}`);
-      const result = rl.json && rl.json.result;
-      const exists = rl.status === 200 && !!result;
-      const itemCount = exists && Array.isArray(result.items) ? result.items.length : 0;
+      // 0.45 route: reflists are CONFIGURATION ITEMS — this is what the renderer itself
+      // fetches, and the same order resolve-bindings.js uses. app/ReferenceList/GetByName
+      // 404s on this backend generation, so probing it alone reported every reflist-bound
+      // property as a missing blocker.
+      let rl = await getJson(`/api/services/app/ConfigurationItem/GetCurrent?${qs({ itemType: 'reference-list', name: rlName, module: rlModule })}`);
+      let items = rl.json?.result?.configuration?.items;
+      let route = 'app/ConfigurationItem/GetCurrent';
+      if (rl.status !== 200 || !rl.json?.result) {
+        // legacy fallback for older builds
+        const legacy = await getJson(`/api/services/app/ReferenceList/GetByName?${qs({ name: rlName, module: rlModule })}`);
+        if (legacy.status === 200 && legacy.json?.result) {
+          rl = legacy;
+          items = legacy.json.result.items;
+          route = 'app/ReferenceList/GetByName';
+        }
+      }
+      const exists = rl.status === 200 && !!rl.json?.result;
+      const itemCount = Array.isArray(items) ? items.length : 0;
       const record = { prop: rp, name: rlName, module: rlModule, exists, itemCount };
-      if (!exists) record.status = rl.status;
+      if (exists) record.route = route; else record.status = rl.status;
       entry.reflistProps.push(record);
     }
 

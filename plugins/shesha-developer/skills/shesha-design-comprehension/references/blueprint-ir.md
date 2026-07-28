@@ -14,7 +14,17 @@ Pure JSON alone would be unreviewable; pure prose is the thing that drifts. The 
 
 ## Machine twin (blueprint-json)
 
-Every blueprint `.md` ALSO carries one fenced ` ```blueprint-json ` block — a single JSON document conforming to [`../schemas/blueprint.schema.json`](../schemas/blueprint.schema.json) (screen, entity `{fullClassName, modelType}` [R-016], form identity, archetype, layout node tree, bindings, assertions). **That block is what `shesha-form-edit`'s `compile-blueprint.js` consumes** — its "no spec, no build" rule means a blueprint without a valid blueprint-json block cannot be built. Validate the block against the schema before handing off.
+Every blueprint `.md` ALSO carries one fenced ` ```blueprint-json ` block — a single JSON document conforming to [`../schemas/blueprint.schema.json`](../schemas/blueprint.schema.json) (screen, entity `{fullClassName, modelType}` [R-016], form identity, archetype, layout node tree, bindings, assertions). **That block is what `shesha-form-edit`'s `compile-blueprint.js` consumes** — its "no spec, no build" rule means a blueprint without a valid blueprint-json block cannot be built.
+
+Validate it before handing off — the compiler validates too and exits non-zero, so an invalid twin fails either way:
+
+```
+node ../shesha-form-edit/scripts/validate-blueprint.mjs <screen>.blueprint.md
+```
+
+**Worked examples are the fixtures, not prose.** `shesha-form-edit/tests/fixtures/*.blueprint.json` are schema-valid on every CI run (`npm run verify` validates them), so they cannot drift from the schema the way an inlined example would. `asset-worklist` is the shortest complete one; `react-grammar` shows nesting, grids and tabs.
+
+The schema is **closed** — every node kind sets `additionalProperties: false`. An extra key is an error, not an ignored hint, so there is nowhere to stash annotations for a later pass.
 
 The Markdown blocks (`layout-tree` / `bindings` / `assertions`) remain the human-readable view a reviewer signs off — and they MUST agree with the JSON twin: same regions and nesting, same widths, same bindings, same assertion ids. When they diverge, the JSON twin is what gets built, so fix the divergence, never ship it.
 

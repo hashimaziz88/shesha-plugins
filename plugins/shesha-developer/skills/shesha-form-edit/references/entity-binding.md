@@ -1,4 +1,4 @@
-# Entity binding — resolve, verify, never guess (the Step 4.5 contract)
+# Entity binding — resolve, verify, never guess
 
 Everything that connects a form to the backend's registered entities: `modelType`, `entityType`, property metadata, reference lists, and the create-vs-bind decision. Skipped only when `formSettings.dataLoaderType === "none"`.
 

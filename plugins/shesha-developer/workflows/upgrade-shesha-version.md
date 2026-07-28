@@ -34,6 +34,19 @@ manifest before measuring against a different backend rather than reusing commit
 Credentials come from `SHESHA_USER`/`SHESHA_PASSWORD`, or
 `--local-dev-insecure-defaults` for a throwaway local backend. Nothing is defaulted.
 
+## 2b · Keep the golden corpus greppable
+
+New-release seeds arrive verbose. `scripts/slim-seed.js` deterministically trims repeated
+sibling shapes to two exemplars while hard-asserting that the component-type, columnType,
+action-pair and reference-list sets are unchanged — it aborts rather than silently dropping
+coverage. Agents grep these files, so size is a running cost:
+
+```
+node scripts/slim-seed.js --all --dry     # review, then without --dry
+```
+
+Corpus provenance and the rebuild check: [assets/golden/README-golden.md](../skills/shesha-form-edit/assets/golden/README-golden.md).
+
 ## 3 · Diff the matrices before trusting anything
 
 Compare the new `assets/measured-capability-matrix.json` against the previous one. What matters:
