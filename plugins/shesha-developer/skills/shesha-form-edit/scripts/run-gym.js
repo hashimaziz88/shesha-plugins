@@ -34,7 +34,18 @@ const ONLY = argVal('--only', '').split(',').map((s) => s.trim()).filter(Boolean
 const WAIT_MS = 20000;
 const RETRIES = 2;
 
+// gym/ is generated output and is not committed — generate it first. Without this
+// guard a fresh checkout fails with a bare ENOENT that reads like a broken script.
 const manifestPath = path.join(GYM_DIR, 'manifest.json');
+if (!fs.existsSync(manifestPath)) {
+  console.error(
+    `No gym manifest at ${manifestPath}.\n` +
+    `gym/ is regenerated, never committed (it carries backend-specific ids). Run:\n` +
+    `  node scripts/generate-component-gym.js\n` +
+    `then re-run this script. Full procedure: references/gym.md.`
+  );
+  process.exit(1);
+}
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 
 // Windows file writes occasionally fail transiently (AV/indexer locks) — retry.
