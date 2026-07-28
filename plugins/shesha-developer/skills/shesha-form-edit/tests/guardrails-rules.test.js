@@ -82,18 +82,34 @@ test('R-012 does not flag a literal string value on a code-capable prop', () => 
 
 // ---------------------------------------------------------------- R-013 script safety
 
-for (const [label, snippet] of [
-  ['a template literal', 'return `${data.name}`'],
-  ['a smart quote', 'return data.name === ‘Draft’'],
-]) {
-  test(`R-013 catches ${label} in an embedded script`, () => {
-    const form = base();
-    firstInput(form).onChangeCustom = { _mode: 'code', _code: snippet };
-    const r = check(form);
-    assert.equal(r.status, 1, r.out);
-    assert.match(r.out, /R-013/);
-  });
-}
+test('R-013 catches a smart quote in an embedded script', () => {
+  // Valid JSON, but ‘ and ’ are not JS string delimiters — the script throws at parse time.
+  const form = base();
+  firstInput(form).onChangeCustom = { _mode: 'code', _code: 'return data.name === ‘Draft’' };
+  const r = check(form);
+  assert.equal(r.status, 1, r.out);
+  assert.match(r.out, /R-013/);
+});
+
+test('R-013 accepts a multi-line script — a newline is not a JSON hazard', () => {
+  // JSON escapes newlines as \\n, so a multi-line script body is entirely normal. Only
+  // exotic control characters (0x00-0x08 and friends) are invalid unescaped.
+  const form = base();
+  firstInput(form).onChangeCustom = { _mode: 'code', _code: 'const x = 1;\nreturn x + 1;' };
+  assert.doesNotMatch(check(form).out, /R-013/);
+});
+
+test('R-013 does NOT flag a template literal — a backtick is valid JSON', () => {
+  // The first cut flagged backticks and hit five production goldens that build endpoint
+  // URLs this way. Backticks are legal inside a JSON string; the rule is about characters
+  // that break the JSON envelope or the JS parse, which a backtick does not.
+  const form = base();
+  firstInput(form).onChangeCustom = {
+    _mode: 'code',
+    _code: 'return `/api/dynamic/Mod/Ent/Crud/GetAll?filter=${encodeURIComponent(f)}`;',
+  };
+  assert.doesNotMatch(check(form).out, /R-013/);
+});
 
 test('R-013 accepts a JSON-safe script', () => {
   const form = base();
@@ -160,16 +176,29 @@ test('R-041 does not fire on an ordinary authenticated form', () => {
 
 // ---------------------------------------------------------------- R-037 FK reducer
 
-test('R-037 catches entity-bound fields submitted without an FK reducer', () => {
+test('R-037 does NOT demand a reducer exist — no golden carries one', () => {
+  // The first cut required onPrepareSubmitData whenever a form submitted an entity-bound
+  // picker. That flagged 2 of 11 production goldens, and NONE of the corpus carries a
+  // reducer — so an autocomplete bound via entitiesList already submits a plain id. The
+  // registry check is "onPrepareSubmitData reduces FK objects to {id}", i.e. content when
+  // present, not existence.
   const form = base();
   const n = firstInput(form);
   n.type = 'autocomplete';
   n.dataSourceType = 'entitiesList';
   delete form.formSettings.onPrepareSubmitData;
+  assert.doesNotMatch(check(form).out, /R-037/);
+});
+
+test('R-037 catches a reducer that assigns an FK without reducing it to id', () => {
+  const form = base();
+  const n = firstInput(form);
+  n.type = 'autocomplete';
+  n.dataSourceType = 'entitiesList';
+  form.formSettings.onPrepareSubmitData = { _mode: 'code', _code: 'data.owner = data.ownerPick;' };
   const r = check(form);
-  assert.equal(r.status, 1);
+  assert.equal(r.status, 1, r.out);
   assert.match(r.out, /R-037/);
-  assert.match(r.out, /not allowed to be updated/);
 });
 
 test('R-037 is satisfied by an onPrepareSubmitData that reduces to id', () => {
