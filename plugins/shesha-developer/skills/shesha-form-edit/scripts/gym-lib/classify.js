@@ -102,3 +102,56 @@ export function expectTokensFor(value) {
   if (typeof value === 'string' && value.startsWith('GYM-TXT-')) tokens.push(value);
   return tokens;
 }
+
+/**
+ * Container-level artifact detection.
+ *
+ * classify() sees one variant at a time, so it cannot distinguish a per-setting effect from
+ * a difference in how the component's own container happened to render. When many unrelated
+ * settings produce a BYTE-IDENTICAL delta, that is one container-level difference attributed
+ * to all of them — not N independent findings.
+ *
+ * Observed on barChart: a single `display: block → flex` (the baseline rendered a placeholder
+ * while variants rendered a real chart) was recorded as changes-geometry for 19 of its
+ * settings, including aggregationMethod=min, orderDirection=asc and strokeWidth=17 — none of
+ * which can affect display. The 2026-07-22 matrix carried 8 such clusters across 105 rows.
+ *
+ * Members of a cluster become `unknown`, which is what the matrix already means by "cannot
+ * determine": something differed, but not demonstrably because of this setting. The measured
+ * verdict is preserved in `attributedEffect` so nothing is lost. Settings whose delta is
+ * distinct are untouched — on barChart that correctly keeps dimensions.height and background.
+ *
+ * Mutates `settings` in place and returns the clusters it flagged.
+ *
+ * @param {object} settings  comp.settings — { [key]: { effect, cssDelta, … } }
+ * @param {{min?: number}} opts  min cluster size to treat as an artifact (default 5)
+ * @returns {Array<{delta: string, keys: string[], was: string}>}
+ */
+export function flagContainerArtifacts(settings, opts = {}) {
+  const min = opts.min ?? 5;
+  const byDelta = new Map();
+
+  for (const [key, s] of Object.entries(settings ?? {})) {
+    if (s?.effect !== 'changes-geometry' && s?.effect !== 'changes-style') continue;
+    if (!s.cssDelta || !Object.keys(s.cssDelta).length) continue;
+    const sig = JSON.stringify(s.cssDelta);
+    if (!byDelta.has(sig)) byDelta.set(sig, []);
+    byDelta.get(sig).push(key);
+  }
+
+  const flagged = [];
+  for (const [sig, keys] of byDelta) {
+    if (keys.length < min) continue;
+    const was = settings[keys[0]].effect;
+    for (const key of keys) {
+      const s = settings[key];
+      s.attributedEffect = s.effect;
+      s.effect = 'unknown';
+      s.attribution = 'container-level';
+      s.notes = `identical delta on ${keys.length} unrelated settings — a container-level `
+        + `render difference, not attributable to this setting`;
+    }
+    flagged.push({ delta: sig, keys, was });
+  }
+  return flagged;
+}

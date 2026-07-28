@@ -14,7 +14,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GymApi } from './gym-lib/api.js';
 import { probeFn, STYLE_PROPS } from './gym-lib/probe.js';
-import { classify, expectTokensFor } from './gym-lib/classify.js';
+import { classify, expectTokensFor, flagContainerArtifacts } from './gym-lib/classify.js';
 import { GYM_ENTITY } from './gym-lib/scaffolds.js';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -375,6 +375,28 @@ for (const formName of formNames) {
     }
     for (const nm of entry.notMeasured ?? []) {
       comp.settings[nm.path] = { effect: 'not-measured', notes: nm.reason };
+    }
+
+    // ---- container-level artifact detection ---------------------------------
+    // classify() sees one variant at a time, so it cannot tell a per-setting effect from
+    // a difference in how the component's own container happened to render. When many
+    // unrelated settings produce a BYTE-IDENTICAL delta, that is one container-level
+    // difference attributed to all of them, not N independent findings.
+    //
+    // Observed on barChart: a single `display: block → flex` (baseline rendered a
+    // placeholder, variants rendered a real chart) was recorded as changes-geometry for
+    // all 18 of its settings — including aggregationMethod=min, orderDirection=asc and
+    // strokeWidth=17, none of which can affect display. The committed matrix carried 8
+    // such clusters across 105 rows.
+    //
+    // These become `unknown`, which is what the matrix already means by "cannot
+    // determine": something differed, but not demonstrably because of this setting.
+    // Asserting changes-geometry here is a false positive that downstream tooling trusts.
+    for (const c of flagContainerArtifacts(comp.settings)) {
+      console.error(
+        `  ${type}: ${c.keys.length} settings shared one delta ${c.delta.slice(0, 60)}… `
+        + `→ recorded as unknown (container-level artifact, not ${c.was})`,
+      );
     }
 
     await page.screenshot({ path: path.join(GYM_DIR, 'screenshots', `${formName}.png`), fullPage: false });
