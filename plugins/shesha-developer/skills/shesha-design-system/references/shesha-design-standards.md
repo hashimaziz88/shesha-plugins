@@ -1,6 +1,24 @@
 # Shesha design standards (brand-agnostic)
 
-General conventions for how Shesha (Ant Design 6.x, light-mode) applications should be designed and styled — distilled from the Shesha Design System reference (A. Slavchov, Senior UI/UX). These are the *standards* the comprehension layer annotates blueprints with and the styling layer enforces; they hold **regardless of brand**. A brand's concrete hex/type values live in its `*.tokens.json` — the shipped **default `shesha.tokens.json`**, or a custom brand like `requirements-studio.tokens.json` — not here.
+General conventions for how Shesha (Ant Design 6.x, light-mode) applications should be designed and styled — distilled from the Shesha Design System reference (A. Slavchov, Senior UI/UX). These are the *standards* the styling layer applies; they hold **regardless of brand**. A brand's concrete hex/type values live in its `*.tokens.json` — the shipped **default `shesha.tokens.json`**, or a custom brand like `requirements-studio.tokens.json` — not here.
+
+## The bar — consulting-grade, not merely compliant
+
+**Every screen aims at the fidelity of a production C-suite deliverable** — the standard of a McKinsey or Deloitte engagement artefact: something you could put in front of an executive committee without apologising for it. The rules further down are how; this is what "good" means when they are all satisfied and the page still looks amateur.
+
+The distinction is *restraint plus hierarchy*, not decoration. Consulting-grade work is quiet: it earns attention through structure, alignment and typography rather than colour and ornament. Concretely, and each of these is judgeable from a screenshot:
+
+- **One thing is clearly most important per view.** The eye lands on the primary value, record identity or action first — achieved by size and weight, never by making several things loud. A page where everything competes has no hierarchy.
+- **Colour is an accent, never a surface.** Brand primary marks the single interactive anchor per zone; semantic colour appears only as operational status. Hierarchy is carried by ink shade and weight. Wide bands of saturated brand colour read as a template, not a deliverable.
+- **Alignment is exact.** Every element sits on the 4px grid; labels, field edges and the right edge of a table's toolbar all line up. Numbers are right-aligned with consistent decimals and units. A 3px misalignment is the single most common tell of unfinished work.
+- **Density matches the audience.** An executive summary view aggregates and rounds; an operational worklist enumerates. Do not put 40 raw columns in front of a committee, and do not hide the detail an operator needs behind a summary.
+- **Nothing is orphaned.** Every number carries a label and a unit; every abbreviation is expanded on first use; every status chip pairs colour with a word. A bare figure on a card is a defect, however well styled.
+- **The unglamorous states are designed.** Empty, loading, partial-permission and error states are part of the deliverable. A polished happy path with a default "No Data" scrawl fails the bar.
+- **It reads as one system.** Card treatment, header rhythm, chip shape and control height are identical across screens. Two screens that were clearly styled separately fail even if each is individually attractive.
+
+**Judged, not asserted.** The `shesha-design-critic` agent scores exactly this from the rendered screenshot and returns `styled ∈ excellent | acceptable | default-antd | broken` — `acceptable` means the bar's non-negotiables hold (hierarchy, alignment, restrained colour, labelled data), `excellent` means it is fully realised. A build is not done below `acceptable`. What a script can check mechanically is only the floor — `scripts/validate-styledness.js` catches structure-only and default-AntD output — so the floor passing is not the bar being met.
+
+**Scope note.** This is the target for standard Shesha screens. A deliberately bespoke visual (a marketing landing page, a one-off dashboard) routes to `shesha-custom-page-designer`, which is allowed to deviate — but "bespoke" is not licence for lower fidelity.
 
 ## Foundations
 
@@ -39,6 +57,14 @@ Map the brand tokens onto `ConfigProvider theme.token` so the whole portal inher
 - Placeholder used as a label; removing focus rings (never strip focus indicators).
 - Colour alone to convey status (always pair with icon/text).
 
-## How comprehension uses this
+## How the compiler uses this
 
-When `shesha-design-comprehension` annotates a blueprint region with a `recipe:` (e.g. `card`, `section-header`, `kib-strip`, `status-chip`), that recipe resolves through these standards + the brand's tokens into concrete v7 style blocks via [component-recipes.md](component-recipes.md) and [token-to-prop-mapping.md](token-to-prop-mapping.md).
+These standards are realised at compile time. A blueprint's node `kind` and its `archetype`
+select the shape; `scripts/resolve-style-plan.mjs` resolves the brand into concrete values;
+the compiler bakes them in. There is no `recipe:` annotation channel — the blueprint schema
+is closed (`additionalProperties: false` per kind), so an extra key is a validation error
+rather than a hint for a later pass.
+
+For a form the compiler did **not** produce — a hand-composed form, or a small edit to a live
+one — apply these standards directly via [component-recipes.md](component-recipes.md) and
+[token-to-prop-mapping.md](token-to-prop-mapping.md).

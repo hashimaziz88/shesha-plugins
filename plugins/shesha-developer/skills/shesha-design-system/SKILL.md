@@ -8,6 +8,8 @@ description: Owns APPEARANCE ONLY — brand tokens, the app-level Ant Design the
 
 Turn "make it look good / match the design" into **concrete Shesha style values**. This skill owns *how forms look*, never *what they contain*.
 
+**The bar is a production C-suite deliverable** — the fidelity of a McKinsey or Deloitte engagement artefact, not merely token-compliant output. Restraint and hierarchy over decoration; exact alignment; every number labelled; the empty and error states designed too. What that means concretely, and how it is judged: [references/shesha-design-standards.md](references/shesha-design-standards.md) § The bar. `shesha-design-critic` scores it from the rendered screenshot and a build is not done below `acceptable`.
+
 ## How the compiler uses this skill — linked, not invoked
 
 For a **compiled** form, this skill is a **pure function, not an actor**. `scripts/resolve-style-plan.mjs` turns a `<brand>.tokens.json` into a normalized **style plan** — every `roles.*` indirection dereferenced to a concrete value — validated against [schemas/style-plan.schema.json](schemas/style-plan.schema.json). `shesha-form-edit`'s `compile-blueprint.js` imports that function and bakes the plan into every node as it emits.

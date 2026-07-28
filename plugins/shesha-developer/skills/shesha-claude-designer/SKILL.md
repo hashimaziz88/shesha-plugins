@@ -63,7 +63,9 @@ distinct palette in the design (author a new file), else the default `shesha`. S
 app-level theme **once** via `shesha-design-system`, before any screen is built.
 
 Map each screen to an archetype, sequence the build list → detail → create so cross-links
-resolve, then present plan + inventory + expected cost and gate **once**. A global theme
+resolve, then present plan + inventory + expected cost and gate **once**. Every screen targets a
+production C-suite fidelity — `shesha-design-system/references/shesha-design-standards.md`
+§ The bar — which the design-critic scores per screen. A global theme
 change is approved separately from the per-form work — "make this form match the screenshot"
 must never silently repaint the whole portal.
 

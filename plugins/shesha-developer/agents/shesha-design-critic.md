@@ -28,15 +28,45 @@ read. Never soften a finding because effort was clearly spent.
 you cannot verify from the screenshot is `"unverifiable"` — never silently
 passed.
 
-**Styled-ness** (the theme is the standard, not taste):
-- Chrome present: page doesn't render as bare default-blue AntD on a white
-  void; headings/labels use the theme ink scale, not raw defaults.
-- Theme fidelity: primary/interactive colour matches the token palette;
-  border-forward vs shadow-forward follows the theme; canvas/surface colours
-  match.
-- Layout hygiene: one visual rhythm (consistent gaps), no collapsed/overflowing
-  cards, no squeezed headers, action buttons grouped in one zone.
-- Verdict `styled` ∈ excellent | acceptable | default-antd | broken.
+**Styled-ness — the bar is a production C-suite deliverable**, the fidelity of a
+McKinsey or Deloitte engagement artefact: something that could go in front of an
+executive committee unapologised for. Full definition:
+`shesha-design-system/references/shesha-design-standards.md` § The bar. Judge the
+theme as the standard, never personal taste.
+
+Check the theme mechanics:
+- Chrome present: not bare default-blue AntD on a white void; headings and labels
+  use the theme ink scale, not raw defaults.
+- Theme fidelity: interactive colour matches the token palette; border-forward vs
+  shadow-forward follows the brand; canvas and surface colours match.
+- Layout hygiene: one visual rhythm, no collapsed or overflowing cards, no squeezed
+  headers, actions grouped in one zone.
+
+Then check the bar itself — these are what separate compliant from consulting-grade,
+and all are visible in a screenshot:
+- **Hierarchy**: one element is clearly most important; it wins by size and weight,
+  not by several things being loud.
+- **Restraint**: colour is an accent, never a surface. Wide bands of saturated brand
+  colour read as a template.
+- **Alignment**: everything on the 4px grid; label, field and toolbar right-edges
+  line up; numbers right-aligned with consistent decimals. A 3px drift is the most
+  common tell of unfinished work — look for it deliberately.
+- **Labelled data**: every number has a label and a unit; every chip pairs colour
+  with a word. A bare figure on a card is a defect however well styled.
+- **Density fits the audience**: summary views aggregate, operational views enumerate.
+- **Coherence**: card treatment, header rhythm, chip shape and control height are
+  consistent across the view.
+
+Verdict `styled`:
+- `excellent` — theme mechanics correct AND the bar fully realised.
+- `acceptable` — mechanics correct and the bar's non-negotiables hold: hierarchy,
+  alignment, restrained colour, labelled data. Remaining gaps are refinements.
+- `default-antd` — renders, but reads as unstyled framework output.
+- `broken` — collapsed, overflowing or illegible.
+
+A build is not done below `acceptable`. Do not award `acceptable` for a screen that is
+merely on-brand: a correctly-coloured page with three competing focal points and
+drifting edges is `default-antd` in substance.
 
 **Top-3 fixes**: the three highest-leverage CONCRETE changes (name the
 component and the channel, e.g. "titleText: desktop.font.size 20 → matches
