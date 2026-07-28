@@ -124,7 +124,9 @@ export function expectTokensFor(value) {
  * Mutates `settings` in place and returns the clusters it flagged.
  *
  * @param {object} settings  comp.settings — { [key]: { effect, cssDelta, … } }
- * @param {{min?: number}} opts  min cluster size to treat as an artifact (default 5)
+ * @param {{min?: number, minPaths?: number}} opts  min rows (default 5) and min DISTINCT
+ *   setting paths (default 3) for a cluster to count as an artifact. Both matter: rows alone
+ *   flags one setting measured across many values, which is a real finding, not an artifact.
  * @returns {Array<{delta: string, keys: string[], was: string}>}
  */
 export function flagContainerArtifacts(settings, opts = {}) {
@@ -142,6 +144,16 @@ export function flagContainerArtifacts(settings, opts = {}) {
   const flagged = [];
   for (const [sig, keys] of byDelta) {
     if (keys.length < min) continue;
+
+    // The premise is N UNRELATED settings sharing a delta. Keys are `path=valueKey`, so a
+    // cluster that is one path measured across many VALUES is not an artifact — it is one
+    // setting whose values all genuinely have the same effect. calendar's
+    // displayPeriod=month|week|work_week|day|agenda hit the row threshold that way and was
+    // wrongly demoted; barChart's real artifact spanned aggregationMethod, orderDirection,
+    // strokeWidth and more. Require breadth across paths, not just row count.
+    const paths = new Set(keys.map((k) => k.split('=')[0]));
+    if (paths.size < (opts.minPaths ?? 3)) continue;
+
     const was = settings[keys[0]].effect;
     for (const key of keys) {
       const s = settings[key];

@@ -141,3 +141,43 @@ test('rows with no recorded delta cannot form a cluster', () => {
   for (const k of ['a', 'b', 'c', 'd', 'e', 'f']) settings[`${k}=1`] = { effect: 'changes-geometry' };
   assert.equal(flagContainerArtifacts(settings).length, 0);
 });
+
+test('one setting measured across many VALUES is not an artifact', () => {
+  // Caught in a live run: calendar's displayPeriod=month|week|work_week|day|agenda all
+  // produce the same delta because switching the period genuinely has the same effect
+  // every time. Five rows, but ONE path — a real finding, wrongly demoted by a
+  // row-count-only threshold.
+  const shared = {
+    display: { baseline: 'block', variant: 'inline' },
+    width: { baseline: '100px', variant: '200px' },
+  };
+  const settings = {};
+  for (const v of ['month', 'week', 'work_week', 'day', 'agenda']) {
+    settings[`displayPeriod=${v}`] = { effect: 'changes-geometry', cssDelta: shared };
+  }
+
+  assert.equal(flagContainerArtifacts(settings).length, 0, 'one path across five values must not be demoted');
+  for (const k of Object.keys(settings)) {
+    assert.equal(settings[k].effect, 'changes-geometry');
+    assert.equal(settings[k].attribution, undefined);
+  }
+});
+
+test('a cluster must span at least 3 distinct setting paths', () => {
+  const shared = { display: { baseline: 'block', variant: 'flex' } };
+  // 6 rows but only 2 paths — below the breadth requirement.
+  const twoPaths = {
+    'pathA=1': { effect: 'changes-geometry', cssDelta: shared },
+    'pathA=2': { effect: 'changes-geometry', cssDelta: shared },
+    'pathA=3': { effect: 'changes-geometry', cssDelta: shared },
+    'pathB=1': { effect: 'changes-geometry', cssDelta: shared },
+    'pathB=2': { effect: 'changes-geometry', cssDelta: shared },
+    'pathB=3': { effect: 'changes-geometry', cssDelta: shared },
+  };
+  assert.equal(flagContainerArtifacts(twoPaths).length, 0);
+
+  // Same row count, spread across 6 paths — an artifact.
+  const sixPaths = {};
+  for (const p of ['a', 'b', 'c', 'd', 'e', 'f']) sixPaths[`${p}=1`] = { effect: 'changes-geometry', cssDelta: shared };
+  assert.equal(flagContainerArtifacts(sixPaths).length, 1);
+});
