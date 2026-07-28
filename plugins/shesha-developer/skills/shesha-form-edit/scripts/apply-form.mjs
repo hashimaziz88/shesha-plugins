@@ -250,6 +250,54 @@ let priorMarkup = null;
   }
 }
 
+// ---- 4b. id preservation on an edit [R-025] ------------------------------------
+// Editing an existing form must keep the ids of components that survive; fresh GUIDs
+// belong only on new or cloned nodes. Regenerating them silently breaks every reference
+// that addresses a component by id — parentId links, scripts, and saved user column
+// preferences. This is the one place the check is possible, because it needs the prior
+// markup, which the snapshot above just captured.
+if (priorMarkup) {
+  const collect = (form) => {
+    const byIdentity = new Map();
+    const walk = (n) => {
+      if (!n || typeof n !== 'object') return;
+      if (Array.isArray(n)) return n.forEach(walk);
+      if (n.type && n.id) {
+        // componentName is the stable handle; propertyName is the fallback for inputs.
+        const identity = n.componentName || n.propertyName;
+        if (identity) byIdentity.set(`${n.type}:${identity}`, n.id);
+      }
+      for (const v of Object.values(n)) walk(v);
+    };
+    walk(form.components);
+    return byIdentity;
+  };
+
+  let before;
+  try { before = collect(JSON.parse(priorMarkup)); } catch { before = null; }
+
+  if (before?.size) {
+    const after = collect(stagedObj);
+    const churned = [];
+    for (const [identity, oldId] of before) {
+      const newId = after.get(identity);
+      if (newId && newId !== oldId) churned.push(`${identity}: ${oldId} → ${newId}`);
+    }
+    if (churned.length) {
+      step('preserve-ids', false, `${churned.length} surviving component(s) got new ids`);
+      fail(
+        `[R-025] ${churned.length} component(s) that exist in both the current and the staged `
+        + `markup were given fresh ids — references addressing them by id break silently:\n`
+        + churned.slice(0, 8).map((c) => `    ${c}`).join('\n')
+        + (churned.length > 8 ? `\n    …and ${churned.length - 8} more` : '')
+        + `\nWhen editing an existing form, fetch it and edit in place. Fresh GUIDs belong only `
+        + `on new or cloned nodes. A full recompile replaces every id, so it is a rebuild, not an edit.`,
+      );
+    }
+    step('preserve-ids', true, `${before.size} identified component(s) kept their ids`);
+  }
+}
+
 if (dryRun) {
   evidence.status = 'dry-run';
   writeEvidence();

@@ -129,8 +129,7 @@
       "severity": "fail",
       "check": "walker: known code-carrying props are {_mode:'code',_code} objects, not raw strings",
       "statement": "Code-mode props are objects `{ \"_mode\": \"code\", \"_code\": \"...\" }` — a code-carrying prop stored as a plain JS string is silently stripped on save.",
-      "validator": null,
-      "enforcement": "unenforced"
+      "validator": "scripts/validate-guardrails.js"
     },
     {
       "id": "R-013",
@@ -138,8 +137,7 @@
       "severity": "fail",
       "check": "stringify round-trip of every script-carrying component",
       "statement": "All embedded script strings must be JSON-safe: no template literals, no unescaped newlines, no smart quotes. A broken script string breaks the outer JSON with browser-side parse errors.",
-      "validator": null,
-      "enforcement": "unenforced"
+      "validator": "scripts/validate-guardrails.js"
     },
     {
       "id": "R-014",
@@ -147,8 +145,7 @@
       "severity": "fail",
       "check": "grep: single-brace {expr} mustache in string props",
       "statement": "Mustache expressions always use {{double braces}}. Single-brace expressions are silently ignored, producing empty values with no error.",
-      "validator": null,
-      "enforcement": "unenforced"
+      "validator": "scripts/validate-guardrails.js"
     },
     {
       "id": "R-015",
@@ -169,6 +166,7 @@
       "check": "resolve-bindings: formSettings.modelType is the {name,module} object resolved from live EntityConfig; dataContext.entityType is the fullClassName string",
       "statement": "On 0.45 `formSettings.modelType` is the `{ name, module }` OBJECT resolved from the live EntityConfig (never assumed); `dataContext.entityType` stays the fullClassName STRING. A namespace mismatch 500s at runtime.",
       "validator": [
+        "scripts/apply-form.mjs",
         "scripts/generate-schema.js",
         "scripts/resolve-bindings.js"
       ]
@@ -226,8 +224,7 @@
       "severity": "fail",
       "check": "formSettings: anonymous forms carry access 5",
       "statement": "`access: 5` on anonymous forms (login, register, OTP); verify post-push by re-fetch.",
-      "validator": null,
-      "enforcement": "unenforced"
+      "validator": "scripts/validate-guardrails.js"
     },
     {
       "id": "R-023",
@@ -253,8 +250,7 @@
       "severity": "fail",
       "check": "diff: ids of surviving components unchanged vs fetched markup",
       "statement": "Preserve ids on existing components when editing — fresh GUIDs only on clones/new nodes.",
-      "validator": null,
-      "enforcement": "unenforced"
+      "validator": "scripts/apply-form.mjs"
     },
     {
       "id": "R-026",
@@ -369,8 +365,7 @@
       "severity": "fail",
       "check": "grep: onPrepareSubmitData reduces FK objects to {id}",
       "statement": "Dynamic CRUD Update rejects an FK sent as a nested object (\"not allowed to be updated\") — reduce every FK to `{ id }` in formSettings.onPrepareSubmitData.",
-      "validator": null,
-      "enforcement": "unenforced"
+      "validator": "scripts/validate-guardrails.js"
     },
     {
       "id": "R-038",
@@ -405,8 +400,7 @@
       "severity": "fail",
       "check": null,
       "statement": "NEVER expose raw entity CRUD to the anonymous internet. Public-form writes go through a custom [AbpAllowAnonymous] app service that forces server-side values and re-enforces validation; the form Submit posts to it via Execute Script, then Navigates.",
-      "validator": null,
-      "enforcement": "unenforced"
+      "validator": "scripts/validate-guardrails.js"
     },
     {
       "id": "R-042",
@@ -442,8 +436,7 @@
       "severity": "fail",
       "check": null,
       "statement": "Contextually-preset required FKs on create dialogs need BOTH a real bound component AND formSettings.onPrepareSubmitData — formArguments/setFieldsValue alone never reach the submit payload. Omission = Crud/Create 500.",
-      "validator": null,
-      "enforcement": "unenforced"
+      "validator": "scripts/validate-guardrails.js"
     },
     {
       "id": "R-046",

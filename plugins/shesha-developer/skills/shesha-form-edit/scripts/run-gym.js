@@ -72,7 +72,26 @@ const formNames = Object.keys(manifest.forms).sort()
 
 const api = new GymApi(BACKEND);
 await api.authenticate();
-if (!manifest.module.id) manifest.module.id = await api.resolveModuleId(manifest.module.name);
+
+// The committed manifest carries a module id from whichever backend last ran the gym.
+// Trusting it (the old `if (!manifest.module.id)`) made every Create fail with
+// "There is no entity Module with id = …" against any other backend — a 404 that reads
+// like a broken script rather than a stale id. Always confirm the id resolves HERE, and
+// re-resolve when it does not, so a committed manifest is safe to reuse.
+{
+  const resolved = await api.resolveModuleId(manifest.module.name);
+  if (manifest.module.id && manifest.module.id !== resolved) {
+    console.error(
+      `module "${manifest.module.name}" is ${resolved} on this backend, not the manifest's `
+      + `${manifest.module.id} — re-resolving and dropping stale per-form backendIds.`,
+    );
+    // Those ids belong to the other backend too; keeping them would update the wrong forms.
+    for (const f of Object.values(manifest.forms ?? {})) delete f.backendId;
+    for (const h of Object.values(manifest.helperForms ?? {})) delete h.backendId;
+  }
+  manifest.module.id = resolved;
+  saveManifest();
+}
 
 // --baseline-only: salvage mode for forms where a variant crashes the whole
 // render — push markup stripped to validationErrors + baseline, measure that.
