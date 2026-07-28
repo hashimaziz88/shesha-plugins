@@ -1,5 +1,5 @@
 {
-  "description": "Mechanical gates for Shesha form authoring: validate-on-write (guardrails + styled-ness on any form markup written to disk) and a Stop-time persistence gate (a session that authored forms may not end while the push ledger shows unpushed/unverified work). Plus permanent session-activity logging to <cwd>/.claude-designer-logs/logs/<sessionId>/log.DDMMYYYY.txt.",
+  "description": "Mechanical gates for Shesha form authoring: validate-on-write (guardrails + styled-ness on any form markup written to disk), a doc-claims lint on any edited SKILL.md or reference doc, and a Stop-time persistence gate driven by the push ledger. Session activity logging is opt-in and off by default — set SHESHA_SESSION_LOG=metadata (or =full, which records redacted prompt and command text) and it writes to the session workdir, never the project tree.",
   "hooks": {
     "SessionStart": [
       {
@@ -40,6 +40,11 @@
           {
             "type": "command",
             "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/hook-validate-markup.cjs\"",
+            "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/hook-lint-claims.cjs\"",
             "timeout": 30
           }
         ]

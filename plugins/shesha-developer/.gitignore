@@ -13,8 +13,10 @@ access-token
 # a working tree.
 .claude-designer-logs/
 
-# Generated gym output — regenerate with the shesha-gym skill, never commit.
-skills/shesha-form-edit/gym/
+# Gym forms + manifest ARE committed (reproducible corpus). Only the heavy,
+# environment-specific run output is ignored.
+skills/shesha-form-edit/gym/screenshots/
+skills/shesha-form-edit/gym/errors/
 
 # Generated run evidence from the render instrument and the apply CLI.
 skills/shesha-form-edit/render-verdicts/

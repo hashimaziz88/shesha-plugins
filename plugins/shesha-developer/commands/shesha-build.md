@@ -1,5 +1,5 @@
 ---
-description: Build a Shesha form from an archetype + entity through the v2 compiler pipeline (spec → compile → gates → style → push → oracle)
+description: Build a Shesha form from an archetype + entity through the compiler pipeline (spec → compile → gates → push → oracle)
 argument-hint: <archetype> <entity> [module] [-- requirements...]
 ---
 

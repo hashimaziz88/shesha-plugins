@@ -8,8 +8,13 @@
  *
  * Queries match (case-insensitive): component types, topics, symptoms (substring).
  * Prints, per hit: the reference files to read, bundled assets, always-apply rules.
- * Exit 1 if any query has NO hit — an unknown component type must be checked
- * against assets/groups/index.json before authoring.
+ *
+ * Resolution order for a component type:
+ *   1. references/_lookup.json componentTypes — curated routing (prose + rules)
+ *   2. assets/components-kb/_index.json — the 115-type authority; every known
+ *      component resolves to at least its KB entry even without curated prose
+ * Exit 1 only when a query matches neither, i.e. the type does not exist in this
+ * release. Before the KB fallback existed this exited 1 for 79 of 115 types.
  */
 import fs from 'fs';
 import path from 'path';
@@ -18,6 +23,9 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const LOOKUP = JSON.parse(fs.readFileSync(path.join(ROOT, 'references', '_lookup.json'), 'utf8'));
+const KB_INDEX = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets', 'components-kb', '_index.json'), 'utf8'));
+// Case-insensitive KB lookup: KB keys are exact type strings (e.g. KeyInformationBar).
+const KB_BY_LOWER = new Map(Object.keys(KB_INDEX).map((k) => [k.toLowerCase(), k]));
 
 function collectTypes(node, out) {
   if (!node || typeof node !== 'object') return;
@@ -61,6 +69,21 @@ for (const q of queries) {
   if (!hit) for (const [k, v] of Object.entries(LOOKUP.symptoms)) {
     if (ql.includes(k) || k.includes(ql)) { hit = v; kind = `symptom:${k}`; break; }
   }
+  // KB fallback: a component that exists in this release always resolves to its
+  // KB entry, plus the datatype router for choosing the right control.
+  if (!hit && KB_BY_LOWER.has(ql)) {
+    const type = KB_BY_LOWER.get(ql);
+    const meta = KB_INDEX[type];
+    hit = {
+      files: ['components/by-datatype.md'],
+      kb: true,
+      hint: `${meta.name || type} — v${meta.version}, ${meta.settingsFieldCount} settings`
+        + `${meta.isInput ? ', input (needs propertyName)' : ''}`
+        + `${meta.hasStandardAppearance ? ', standard appearance block' : ''}`
+        + '. No curated recipe for this type: author from the KB settings shape.',
+    };
+    kind = `kb:${type}`;
+  }
   if (!hit) { misses.push(q); continue; }
 
   console.log(`## ${q}  →  ${kind}`);
@@ -81,6 +104,9 @@ if (rules.size) {
 }
 console.log(`# summary: ${files.size} reference files, ${assets.size} assets, ${rules.size} rules, ${misses.length} unresolved`);
 if (misses.length) {
-  console.error(`\nUNRESOLVED (check assets/groups/index.json allowlist before authoring): ${misses.join(', ')}`);
+  console.error(
+    `\nUNRESOLVED — not a component type in this release, and not a known topic or symptom: ${misses.join(', ')}\n` +
+    `The 115 valid type strings are the keys of assets/components-kb/_index.json.`
+  );
   process.exit(1);
 }

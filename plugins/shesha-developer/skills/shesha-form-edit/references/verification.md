@@ -19,7 +19,8 @@ nothing. No single gate is sufficient; each layer catches what the one below can
 Layer 1 is *correct by construction*: the model composes in the blueprint grammar
 ([designing-like-react.md](designing-like-react.md)) and each primitive compiles to one
 verified container shape, so the broken shapes are not expressible. Layers 2–4 are
-fail-closed and run in order. A green Layer 2 is **necessary, not sufficient** — the
+run in order, and Layer 2 (`scripts/render-instrument.js`) exits non-zero rather than
+warning. A green Layer 2 is **necessary, not sufficient** — the
 incident that motivated this stack was a passing render instrument masking a poor
 layout. Report a form done only when every layer that applies has passed.
 

@@ -1,0 +1,86 @@
+{
+  "components": [
+    {
+      "id": "ead10c8e-4816-5dd9-a9b2-11208c44ddb4",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-buttons-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "c345f090-5583-5391-9fc5-b83e993e73d4",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-buttons-validation-errors",
+          "parentId": "ead10c8e-4816-5dd9-a9b2-11208c44ddb4"
+        },
+        {
+          "id": "625e166e-2e69-54aa-ab67-0401fe351e05",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-buttons-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "09a4ede4-c15e-5a1b-906b-0e30e8648f27",
+              "type": "buttons",
+              "version": 1,
+              "label": "gym buttons",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "625e166e-2e69-54aa-ab67-0401fe351e05"
+            }
+          ],
+          "parentId": "ead10c8e-4816-5dd9-a9b2-11208c44ddb4"
+        },
+        {
+          "id": "e4af2341-79a9-57c5-aea8-2c8caecab1f5",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-buttons-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ead10c8e-4816-5dd9-a9b2-11208c44ddb4"
+        },
+        {
+          "id": "bf01db77-1690-5f3b-b465-023b8aac165b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-buttons-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "fe515edb-a83a-5dd2-8998-b9badc20a5d6",
+              "type": "buttons",
+              "version": 1,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "bf01db77-1690-5f3b-b465-023b8aac165b"
+            }
+          ],
+          "parentId": "ead10c8e-4816-5dd9-a9b2-11208c44ddb4"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

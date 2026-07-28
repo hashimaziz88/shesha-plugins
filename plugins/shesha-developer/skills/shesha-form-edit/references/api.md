@@ -25,6 +25,10 @@ Strip trailing slash.
 
 **Authenticate a single time and cache the token to `$WORKDIR/access-token`; reuse it on every subsequent call.** Re-authenticate only on a `401` or after the 24 h TTL. Never re-POST `Authenticate` per API call, and never inline the raw ~600-char JWT into a command — it echoes back into context on every result.
 
+> **Credentials are never hardcoded.** They come from the task context, else `SHESHA_USER`/`SHESHA_PASSWORD`.
+> For a throwaway local backend only, `--local-dev-insecure-defaults` opts the scripts into the
+> well-known local-dev pair (`admin`/`123qwe`) — never use it against a shared or hosted backend.
+
 **PowerShell (Windows — preferred). Writes the token BOM-free; a BOM breaks downstream `Bearer` auth.**
 
 ```powershell
@@ -32,7 +36,7 @@ $tokenFile = "$WORKDIR/access-token"
 if (-not (Test-Path $tokenFile) -or -not (Get-Item $tokenFile).Length) {
   $auth  = Invoke-RestMethod -Method Post -Uri "$BASE_URL/api/TokenAuth/Authenticate" `
              -ContentType "application/json" `
-             -Body '{"userNameOrEmailAddress":"admin","password":"123qwe"}'
+             -Body (@{ userNameOrEmailAddress = $env:SHESHA_USER; password = $env:SHESHA_PASSWORD } | ConvertTo-Json -Compress)
   $token = if ($auth.result.accessToken) { $auth.result.accessToken } else { $auth.accessToken }
   if (-not $token) { $auth | ConvertTo-Json -Depth 6; throw "auth failed" }
   # A JWT is pure ASCII — write WITHOUT a BOM and without a trailing newline.
@@ -48,7 +52,7 @@ if (-not (Test-Path $tokenFile) -or -not (Get-Item $tokenFile).Length) {
 if [ ! -s "$WORKDIR/access-token" ]; then
   curl -s -X POST "$BASE_URL/api/TokenAuth/Authenticate" \
     -H "Content-Type: application/json" \
-    -d '{"userNameOrEmailAddress":"admin","password":"123qwe"}' \
+    -d "$(node -e 'console.log(JSON.stringify({userNameOrEmailAddress:process.env.SHESHA_USER,password:process.env.SHESHA_PASSWORD}))')" \
     -o "$WORKDIR/auth.json"
   # Extract the token with node (no jq); handles both envelope and root shapes.
   node -e "const r=require('$WORKDIR/auth.json');const t=(r.result&&r.result.accessToken)||r.accessToken;if(!t){console.error(JSON.stringify(r));process.exit(1)}require('fs').writeFileSync('$WORKDIR/access-token',t)"
@@ -411,7 +415,7 @@ Skill(skill="playwright", args="<directive>")
 ### Directive template
 
 > Open `<FRONTEND_URL>/<no-auth|dynamic>/<MODULE>/<FORM_NAME>` in a fresh browser context.
-> If path is `/dynamic/...`: set the **cached** session token (contents of `$WORKDIR/access-token`) into `localStorage.accessToken` before navigating. Only POST `/api/TokenAuth/Authenticate` with `admin`/`123qwe` if no cached token exists.
+> If path is `/dynamic/...`: set the **cached** session token (contents of `$WORKDIR/access-token`) into `localStorage.accessToken` before navigating. Only POST `/api/TokenAuth/Authenticate` with the session credentials if no cached token exists.
 > Wait for the form to render (selector `.sha-form` or 5s timeout, whichever comes first).
 > Capture: full-page screenshot, all console messages with level `error` or `warning`, all network responses with `status >= 400`.
 > Then click the primary action button (if any) and capture again.

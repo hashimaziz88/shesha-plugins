@@ -1,0 +1,54 @@
+{
+  "components": [
+    {
+      "id": "5c930034-f7d4-58b0-bc3d-134be06145d1",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-scheduledJobExecutionLog-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "edc5b8e5-35ba-5563-8f3a-032b48a1e4f6",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-scheduledJobExecutionLog-validation-errors",
+          "parentId": "5c930034-f7d4-58b0-bc3d-134be06145d1"
+        },
+        {
+          "id": "21dde315-0f24-5094-accc-783d6662d517",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-scheduledJobExecutionLog-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5eaaa01e-155e-5d7e-8d4a-492e66ddd7f9",
+              "type": "scheduledJobExecutionLog",
+              "version": 2,
+              "label": "gym scheduledJobExecutionLog",
+              "hidden": false,
+              "componentName": "gym-scheduledJobExecutionLog-inst-baseline",
+              "parentId": "21dde315-0f24-5094-accc-783d6662d517"
+            }
+          ],
+          "parentId": "5c930034-f7d4-58b0-bc3d-134be06145d1"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

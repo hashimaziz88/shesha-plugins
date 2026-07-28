@@ -1,13 +1,13 @@
 ---
 name: shesha-design-comprehension
-description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns the blueprint IR — turns a design source (readable HTML/JSX, a runnable prototype, or screenshots/PDF) into a measured layout blueprint (Markdown + schema-validated blueprint-json twin) that shesha-form-edit's compiler consumes, and verifies a built form against the blueprint's assertions by re-measurement. Invoke directly only for targeted work: diagnosing placement drift on an already-built form, or producing/refreshing a single screen's blueprint.
+description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns the blueprint IR — turns a design source (readable HTML/JSX, a runnable prototype, or screenshots/PDF) into a measured layout blueprint (Markdown plus a blueprint-json twin written against schemas/blueprint.schema.json) that shesha-form-edit's compiler consumes, and verifies a built form against the blueprint's assertions by re-measurement. Invoke directly only for targeted work: diagnosing placement drift on an already-built form, or producing/refreshing a single screen's blueprint.
 ---
 
 # Shesha Design Comprehension
 
 ## Overview
 
-**Core principle: placement is measured, not guessed.** When a form is built from a *prose* description of a design ("a header, then a two-column body, then related panels"), the builder has to re-imagine where every container sits — so columns, nesting depth, tab assignment and grouping drift. This skill removes the guessing: it produces a **layout blueprint** — a hybrid-Markdown intermediate representation that carries the *exact* container tree, flex-row split-child counts, native widths, tab keys and field bindings — and then **verifies the built Shesha form against that blueprint by re-measuring the rendered DOM**. The blueprint is a placement *contract*, and the verification loop enforces it.
+**Core principle: placement is measured, not guessed** — by `scripts/layout-probe.js` walking the rendered DOM at a pinned viewport. When a form is built from a *prose* description of a design ("a header, then a two-column body, then related panels"), the builder has to re-imagine where every container sits — so columns, nesting depth, tab assignment and grouping drift. This skill removes the guessing: it produces a **layout blueprint** — a hybrid-Markdown intermediate representation that carries the *exact* container tree, flex-row split-child counts, native widths, tab keys and field bindings — and then **verifies the built Shesha form against that blueprint by re-measuring the rendered DOM**. The blueprint is a placement *contract*, and the verification loop enforces it.
 
 This is the layer between "I have a design" and "build the form". It does **not** author form JSON, pick colours, or push — it tells the builder *exactly what to build where*, and checks that it did.
 

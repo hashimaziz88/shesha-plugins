@@ -14,7 +14,29 @@ export class GymApi {
     this.token = null;
   }
 
-  async authenticate(user = 'admin', password = '123qwe') {
+  /**
+   * Credentials are never defaulted. They come from the caller, else the
+   * environment (SHESHA_USER / SHESHA_PASSWORD), else --local-dev-insecure-defaults
+   * opts in explicitly to the well-known local-dev pair. A hardcoded default
+   * silently authenticates against whatever backend it is pointed at.
+   */
+  async authenticate(user, password) {
+    let u = user ?? process.env.SHESHA_USER;
+    let p = password ?? process.env.SHESHA_PASSWORD;
+    if ((!u || !p) && process.argv.includes('--local-dev-insecure-defaults')) {
+      u = u || 'admin';
+      p = p || '123qwe';
+    }
+    if (!u || !p) {
+      throw new Error(
+        'No backend credentials. Supply them from task context, or set SHESHA_USER and ' +
+        'SHESHA_PASSWORD, or pass --local-dev-insecure-defaults for a throwaway local backend.'
+      );
+    }
+    return this.#authenticateWith(u, p);
+  }
+
+  async #authenticateWith(user, password) {
     if (fs.existsSync(TOKEN_FILE)) {
       const cached = fs.readFileSync(TOKEN_FILE, 'utf8').replace(/^﻿/, '').trim();
       if (cached) {

@@ -56,7 +56,7 @@ The gql submitter serializes ONLY `_formFields` — the registered **visible** c
 | `form.setFieldsValue(...)` in onDataLoaded alone | **NO** |
 | `formSettings.onPrepareSubmitData` mutation | yes — runs on the outgoing `data` |
 
-**Rule: ANY dialog that presets a required FK contextually MUST have BOTH:**
+**Rule [R-045]: any dialog that presets a required FK contextually needs BOTH of the following.** No gate checks this — a miss shows up as a submit that silently drops the FK:
 
 1. a real (read-only — see [edit-mode.md](edit-mode.md)) component bound to the FK, **and**
 2. `formSettings.onPrepareSubmitData` injecting it *(runtime-verified form-settings key; not in the groups index — clean-form-config may flag it; do NOT strip)*:

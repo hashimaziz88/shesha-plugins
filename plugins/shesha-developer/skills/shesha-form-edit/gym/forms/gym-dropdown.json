@@ -1,0 +1,880 @@
+{
+  "components": [
+    {
+      "id": "2594c0d2-0383-50ad-9545-d5b04f0b7b59",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-dropdown-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "91ad61d9-94e7-5e62-acfd-dbbfa30a9313",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-dropdown-validation-errors",
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "6916a3cf-a44c-5289-8484-ca421390f4e4",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1e1e28b0-2c73-5738-8bd2-1085e56a5d14",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "parentId": "6916a3cf-a44c-5289-8484-ca421390f4e4"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "f93d591a-7d40-5ad8-b4f5-78e0477a8fb2",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-dropdown-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "d84f1ac5-bbe4-56f8-b590-0a088fd341ec",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-074fd9c2",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "fef8921d-b8b4-5c18-a38b-1127db8ce2bc",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "desktop": {
+                "font": {
+                  "size": 17
+                }
+              },
+              "parentId": "d84f1ac5-bbe4-56f8-b590-0a088fd341ec"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "b62999d3-0d0d-57e6-892d-4aca5b2830c9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-1a3af3ee",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7a8a8f91-0ff2-5b2b-8688-4dccedc72cd1",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "desktop": {
+                "font": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "b62999d3-0d0d-57e6-892d-4aca5b2830c9"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "0597d2d5-7933-5691-9163-6c70282c111f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-346fd5ac",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0eb27bb9-ed38-5eda-97f5-6136a18d921d",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "desktop": {
+                "font": {
+                  "weight": "700"
+                }
+              },
+              "parentId": "0597d2d5-7933-5691-9163-6c70282c111f"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "8e6fe7f2-6ef2-5b2e-a0e2-da7a2527ffe5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-0baf713f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2a10f8e3-d7f3-5306-a946-bc4b416f3edf",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
+              },
+              "parentId": "8e6fe7f2-6ef2-5b2e-a0e2-da7a2527ffe5"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "02656924-43ee-51f7-b17e-f61dc459c891",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-529ccf25",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3ca90843-f4ae-5370-9e10-8b50061746ab",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "02656924-43ee-51f7-b17e-f61dc459c891"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "ae371723-288d-5a70-996b-03cf1be4c424",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-f1866be0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "75f1d0ce-4914-54df-9ac4-71b7dc9a16b0",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "ae371723-288d-5a70-996b-03cf1be4c424"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "9baa2788-c58d-549f-aca7-0f1c7894d85c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b724f5ea-318a-5185-a829-8ae8fffb20f4",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "9baa2788-c58d-549f-aca7-0f1c7894d85c"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "1e5e8179-c552-59c8-9577-4705de8528b8",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6524ec9f-d98a-529b-be44-2255b0e63b80",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "1e5e8179-c552-59c8-9577-4705de8528b8"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "da216630-699c-573f-babd-af427857f515",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8d6d82d2-a1df-59df-9921-dbc4792c79a3",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "da216630-699c-573f-babd-af427857f515"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "12956da5-f0eb-54b5-94b4-058fbef3f2b2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-717d2199",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "70179629-da36-58be-b890-05d6cbe384ea",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "tag": {
+                "dimensions": {
+                  "width": 17
+                }
+              },
+              "parentId": "12956da5-f0eb-54b5-94b4-058fbef3f2b2"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "60fb537a-1de9-5f32-b094-fc7d4f4cab80",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-8733df9b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "11620f9b-3f96-512d-854e-0721ef744242",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "tag": {
+                "dimensions": {
+                  "height": 17
+                }
+              },
+              "parentId": "60fb537a-1de9-5f32-b094-fc7d4f4cab80"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "921323f2-cf1f-5256-bb90-ac1b0aebf62e",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-934da4e7",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d2a3e138-3275-59e2-90e8-e53edc29a776",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "solidColor": "#ff00aa",
+              "parentId": "921323f2-cf1f-5256-bb90-ac1b0aebf62e"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "f321fcbb-a681-5881-a342-c94871455928",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-d1393544",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "549118d7-315b-501e-a8e0-5b0ab8060ad5",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "tag": {
+                "background": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "f321fcbb-a681-5881-a342-c94871455928"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "30bb189c-b2af-59aa-8bba-bb5cdadf57a2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-59f0c987",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "83dbfe07-69ba-54b5-839c-2852d1e343f5",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "tag": {
+                "background": {
+                  "gradient": {
+                    "colors": "#ff00aa"
+                  }
+                }
+              },
+              "parentId": "30bb189c-b2af-59aa-8bba-bb5cdadf57a2"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "97f7bbb3-4789-5935-852c-6af5b6cf646a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-41871bc0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1e51f922-2592-5a9a-9a9f-1d8a7beb825d",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "tag": {
+                "background": {
+                  "size": 17
+                }
+              },
+              "parentId": "97f7bbb3-4789-5935-852c-6af5b6cf646a"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "8759f6f2-3001-52e3-9ea6-21d1994bcb88",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-36c8af24",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "02b07f65-cf65-5019-88a7-8fc0fa97631d",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "tag": {
+                "shadow": {
+                  "offsetX": 17
+                }
+              },
+              "parentId": "8759f6f2-3001-52e3-9ea6-21d1994bcb88"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "75e555c7-fc9d-596f-be41-0e6b6ac7f2bf",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-dropdown-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "436f98d3-9fb9-5735-b6a2-97bb1789b844",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-ae8981bd",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "67d7e2b1-bbd6-58b1-89bf-209525be2e18",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "placeholder": "GYM-TXT-placeholder",
+              "parentId": "436f98d3-9fb9-5735-b6a2-97bb1789b844"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "3027db8a-27c1-57ac-b2b4-bf1320d36ffb",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-9c1361dd",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f75ab75b-9a08-551e-a098-63c8f498bc53",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "showItemName": true,
+              "parentId": "3027db8a-27c1-57ac-b2b4-bf1320d36ffb"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "9fa96ab7-5e1e-57c6-84e0-d768ec11a34b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-cc559fb6",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ac8918e1-6af0-50c8-ae3c-750598fdd39f",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "mode": "single",
+              "parentId": "9fa96ab7-5e1e-57c6-84e0-d768ec11a34b"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "fbeb3081-f660-5d74-82ec-04c86a4338f2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-b3c1b7ce",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4a6e1328-ec30-5d7e-ba44-1b1f58a8de24",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "mode": "multiple",
+              "parentId": "fbeb3081-f660-5d74-82ec-04c86a4338f2"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "12822616-0edb-5f34-a6c8-f2d243fe8564",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-41617c9d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "401a12b6-7646-5463-9a47-d885e4e4a272",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "valueFormat": "simple",
+              "parentId": "12822616-0edb-5f34-a6c8-f2d243fe8564"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "5da32046-2832-52ae-845e-350a1d4540a3",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-42b75dd0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d938d938-8703-5207-829e-6174936fbd59",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "valueFormat": "listItem",
+              "parentId": "5da32046-2832-52ae-845e-350a1d4540a3"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "eae969d6-dd76-57d3-9403-99bb6bed4bf3",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-3a5ae193",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b4e3ec28-05cd-5808-8539-525feb590546",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "valueFormat": "custom",
+              "parentId": "eae969d6-dd76-57d3-9403-99bb6bed4bf3"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "428fceb3-e3f1-5af6-93d5-f69e6dbb0bb0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-60379928",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "63a49be1-fa9e-5df2-a308-433e7908e7f3",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "disabledValues": true,
+              "parentId": "428fceb3-e3f1-5af6-93d5-f69e6dbb0bb0"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "ca3f641f-2f4f-5150-8cea-36c721057187",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-396a3c9c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a5d29bbf-aff5-54de-befd-cc8b8104211e",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "enableStyleOnReadonly": true,
+              "parentId": "ca3f641f-2f4f-5150-8cea-36c721057187"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "59dbe2e8-760b-5556-8d69-eed23b1eaf14",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-8a8cb8ea",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b08b1a07-687d-54de-b6ee-c99bc42e0981",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "displayStyle": "text",
+              "parentId": "59dbe2e8-760b-5556-8d69-eed23b1eaf14"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        },
+        {
+          "id": "4c8efa30-0d08-5e7f-bdbe-3675efa60a31",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dropdown-v-c7ed1d37",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "df8d962c-86e0-5117-9e12-2a0783e90722",
+              "type": "dropdown",
+              "version": 11,
+              "label": "gym dropdown",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "propertyName": "status",
+              "displayStyle": "tags",
+              "parentId": "4c8efa30-0d08-5e7f-bdbe-3675efa60a31"
+            }
+          ],
+          "parentId": "2594c0d2-0383-50ad-9545-d5b04f0b7b59"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

@@ -65,7 +65,7 @@ Every component has:
 ```
 
 - `id` — unique GUID. **Stable; never regenerate on existing components.** When cloning, deep-clone with new ids; never touch originals.
-- `type` — must be a valid component type. Look up the exact type string in `assets/groups/index.json` (bundled in this skill's assets); if the type is missing from the index, you have the wrong name.
+- `type` — must be a valid component type. The 115 valid type strings are the keys of `assets/components-kb/_index.json`; `node scripts/lookup.js <type>` resolves one and exits 1 if it does not exist in this release.
 - `propertyName` — for **input** components, the entity property to bind. **camelCase** (`firstName`); the underlying entity is PascalCase (`FirstName`); the framework maps automatically. Don't double-case.
 - `parentId` — `'root'` for top-level, otherwise the parent container's id. Every child's `parentId` must reference an `id` that exists in the tree. After moving components, sweep to verify.
 - `label` — display label. Hidden if `hideLabel: true`.
@@ -100,7 +100,7 @@ The `Create` endpoint may not honour `access` on initial create. After `POST /Cr
 
 ## When in doubt
 
-- The authoritative valid-keys-per-type list is in `assets/groups/` (bundled in this skill's assets). Look up the component type in `assets/groups/index.json` to find its group file, then check if the key exists in that group file. If a key isn't listed there, you're probably wrong.
+- The authoritative valid-keys-per-type list is `assets/components-kb/<type>.json` (`settingsFields`). If a key is not listed there, you are probably wrong.
 - For component types not covered in any reference file (kanban, charts, queryBuilder, themeEditor, mainMenuEditor, processMonitor, kpi-style cards), inspect an existing form that uses them — the designer's output is canonical.
 
 ---
@@ -110,7 +110,7 @@ The `Create` endpoint may not honour `access` on initial create. After `POST /Cr
 For every new or edited form, before writing a single component object:
 
 1. **List every component `type` you plan to use** (e.g. table form: `container`, `text`, `buttonGroup`, `dataContext`, `datatable`).
-2. **Confirm each type + version + valid props against `assets/components-kb/`** ([components-kb.md](../components-kb.md)) — it is the authoritative source for exact `type` strings and per-component `settingsFields`; author only fields that exist there (`assets/groups/index.json` is the legacy cross-check).
+2. **Confirm each type + version + valid props against `assets/components-kb/`** ([components-kb.md](../components-kb.md)) — it is the authoritative source for exact `type` strings and per-component `settingsFields`; author only fields that exist there.
 3. **Scan for better-fit alternatives** while there (e.g. `refListStatus` instead of `dropdown` for read-only status). Splits are flex `container` rows, never `columns` ([containers.md](containers.md)).
 4. **Update the plan**, then write the JSON.
 

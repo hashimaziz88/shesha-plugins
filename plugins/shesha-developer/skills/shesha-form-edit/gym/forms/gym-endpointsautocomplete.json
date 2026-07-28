@@ -1,0 +1,544 @@
+{
+  "components": [
+    {
+      "id": "402f7e11-6db3-5d59-9d1f-610ed204d484",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-endpointsAutocomplete-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "fa0c3b7d-5fa5-53c0-ac16-68fa3477bb73",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-endpointsAutocomplete-validation-errors",
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "6f3dab8a-b43f-5776-879f-14fc1b704611",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ab90f7c4-6c9f-5776-807b-56e1a16cebfa",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "6f3dab8a-b43f-5776-879f-14fc1b704611"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "c188ad7a-a0be-56e9-89e3-b0d33e78bf43",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-endpointsAutocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "8c0ca7f2-ced6-5751-937c-a5f8aaaf22be",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-f65d35ed",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "af08c9d2-77b1-5b98-a073-ff56a40d0b79",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "hideBorder": true,
+              "parentId": "8c0ca7f2-ced6-5751-937c-a5f8aaaf22be"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "9d74c130-2b8a-5ebb-a010-8a900c15200a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-4e66562d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c8ce17c3-5d76-59b1-8d19-4fb13048c809",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "size": "small",
+              "parentId": "9d74c130-2b8a-5ebb-a010-8a900c15200a"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "ceb0781f-17e2-5e08-9ffd-94aa5bc7378c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-ca52e19b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b0d8259d-4a01-57bc-98d9-cccf3c89d597",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "size": "middle",
+              "parentId": "ceb0781f-17e2-5e08-9ffd-94aa5bc7378c"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "fe6959f2-4b2e-5330-99dc-fb24f06574e6",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-15638072",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6668d8a1-970f-5704-b9b6-46a5832ecc00",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "size": "large",
+              "parentId": "fe6959f2-4b2e-5330-99dc-fb24f06574e6"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "b9762b9d-9fff-57ef-a3fe-a774af3c66da",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-endpointsAutocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "d8d5b8f7-5682-550c-955f-b42d1c2b4e3f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "bcb9a652-1e6e-5299-b03f-cf0d56d5113b",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "d8d5b8f7-5682-550c-955f-b42d1c2b4e3f"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "69fb7462-8547-5213-9ce8-b89e15306075",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-b1380377",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4584b23d-4261-5687-a0dc-b3a2f5c6b120",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "textType": "text",
+              "parentId": "69fb7462-8547-5213-9ce8-b89e15306075"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "75ebafe7-fee6-510f-a63b-6ad3f9750dc0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-6b7ab110",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f4b072b5-a5f7-52d8-92ed-0a7154a49d52",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "textType": "password",
+              "parentId": "75ebafe7-fee6-510f-a63b-6ad3f9750dc0"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "0c1a84ad-ed59-5142-bca9-8c401d06da20",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-ba90c652",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "929090d6-27ef-53ee-a9f1-2d2bb9b7f12c",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "labelAlign": "left",
+              "parentId": "0c1a84ad-ed59-5142-bca9-8c401d06da20"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "a31c2d0c-3167-505a-b5aa-7dad383e5471",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-9014b9af",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "47c4d4e2-10b6-50d3-93e0-673421985222",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "labelAlign": "right",
+              "parentId": "a31c2d0c-3167-505a-b5aa-7dad383e5471"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "a0db5a73-e6cd-5cf0-9685-82cd9f5d4b68",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-ae8981bd",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7185444a-091b-52c6-8702-d0591e8d63e8",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "placeholder": "GYM-TXT-placeholder",
+              "parentId": "a0db5a73-e6cd-5cf0-9685-82cd9f5d4b68"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "c3e2928a-b74d-5325-a156-74c4799b49f7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-a76e668c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "db127bc8-6ee5-5444-b8cb-30da3ac2c7f8",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "description": "GYM-TXT-description",
+              "parentId": "c3e2928a-b74d-5325-a156-74c4799b49f7"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "a16c9313-df5e-5acc-8374-c68a3aa4efc8",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-4b9788ad",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5f106fd9-8b19-5d4c-b79e-1da6d960e3a4",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "prefix": "GYM-TXT-prefix",
+              "parentId": "a16c9313-df5e-5acc-8374-c68a3aa4efc8"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "4e2f3f46-31da-53c9-831f-06d6a969c911",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-e9fb007a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4041edca-e8de-5857-afa2-2e5963fceb0d",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "suffix": "GYM-TXT-suffix",
+              "parentId": "4e2f3f46-31da-53c9-831f-06d6a969c911"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "5fdbbb7e-efd3-5715-aa5a-2b0155aee75b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0a6cc29c-87bc-5e50-8da9-5df6ad954f5b",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": true,
+              "propertyName": "gymValue",
+              "parentId": "5fdbbb7e-efd3-5715-aa5a-2b0155aee75b"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "c6715fef-830e-5091-9b7e-5ec8e1ab03e2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-8ae8db35",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "05c5416c-f819-566e-8856-c40a7fe38233",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "hideLabel": true,
+              "parentId": "c6715fef-830e-5091-9b7e-5ec8e1ab03e2"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "74597aef-ce2e-5f79-80b8-b01f05949bd9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-cb7e2795",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "bbc3c1ce-664f-5a10-8613-37a340495367",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "editMode": "readOnly",
+              "parentId": "74597aef-ce2e-5f79-80b8-b01f05949bd9"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "fe68e5a8-88be-5fc8-a197-2587e8a5ebf9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-d614ec8a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3c4387d4-9912-5469-8ea4-c348c3f72827",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "httpVerb": "GYM-TXT-httpVerb",
+              "parentId": "fe68e5a8-88be-5fc8-a197-2587e8a5ebf9"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "908d3f64-2bec-5570-8cd0-947c4e4a4b82",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-9d11999c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "71d1eede-b1a5-5bf7-8d0c-5dcb1a51c0bc",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "validate": {
+                "required": true
+              },
+              "parentId": "908d3f64-2bec-5570-8cd0-947c4e4a4b82"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "19a1faf1-a08c-5ce1-bcae-92f6490e3df7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-399ecb60",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "63b54bf0-c225-5cc6-8896-035762aac826",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "validate": {
+                "minLength": 17
+              },
+              "parentId": "19a1faf1-a08c-5ce1-bcae-92f6490e3df7"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "fd7f40df-1a21-5839-98f0-6e6655620a61",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-02c5bcdf",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ce81e040-9bda-5c18-b0b7-68786a36c87c",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "validate": {
+                "maxLength": 17
+              },
+              "parentId": "fd7f40df-1a21-5839-98f0-6e6655620a61"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        },
+        {
+          "id": "a8d3b6ca-5a3f-528a-a90a-bead08fc769e",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-endpointsAutocomplete-v-ceb88830",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "58d0027e-4a4c-5d61-bd99-69b5def73ef5",
+              "type": "endpointsAutocomplete",
+              "version": 3,
+              "label": "gym endpointsAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "validate": {
+                "message": "GYM-TXT-validate.message"
+              },
+              "parentId": "a8d3b6ca-5a3f-528a-a90a-bead08fc769e"
+            }
+          ],
+          "parentId": "402f7e11-6db3-5d59-9d1f-610ed204d484"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

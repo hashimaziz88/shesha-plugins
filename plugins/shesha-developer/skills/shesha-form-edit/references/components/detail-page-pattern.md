@@ -27,7 +27,7 @@ The canonical `<entity>-details` page layout. Read before building or normalizin
                           (toolbar containers there carry className "sha-index-table-control")
 ```
 
-**`sha-page-content` rule:** if the detail-tabs + subtable-tabs sit inside a wrapper carrying `className:"sha-page-content"`, that wrapper MUST also carry `no-padding` → `"sha-page-content no-padding"` on the base `className` AND `desktop.className`/`tablet.className`/`mobile.className` (whichever contain it). The framework stylesheet defines `.sha-page-content:not(.no-padding){ padding:12px }` — without the modifier, content insets 12px off the header grid. Don't hand-tune `stylingBox`; the class is the intended escape hatch. Find the wrapper **by className, not by name**.
+**`sha-page-content` behaviour:** if the detail-tabs + subtable-tabs sit inside a wrapper carrying `className:"sha-page-content"`, that wrapper also needs `no-padding` → `"sha-page-content no-padding"` on the base `className` AND `desktop.className`/`tablet.className`/`mobile.className` (whichever contain it). The framework stylesheet defines `.sha-page-content:not(.no-padding){ padding:12px }` — without the modifier, content insets 12px off the header grid. Don't hand-tune `stylingBox`; the class is the intended escape hatch. Find the wrapper **by className, not by name**.
 
 **Detail-area tabs:** when one "Details" tab is cramped, bucket fields into 2+ tabs (e.g. Details / DevOps Details / Specification): extract leaf field components preserving full config (reflists, FK `entityType`, `editMode`), rebuild on the 50/50 grid, omit empty tabs. **Count fields before/after — field loss is the #1 re-layout risk.**
 

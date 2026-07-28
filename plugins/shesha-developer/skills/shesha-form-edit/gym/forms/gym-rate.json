@@ -1,0 +1,109 @@
+{
+  "components": [
+    {
+      "id": "56e638ff-e051-5cc5-99f2-a308693fff4b",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-rate-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "280c3ee3-ed05-5809-8296-18f4c03b1bb5",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-rate-validation-errors",
+          "parentId": "56e638ff-e051-5cc5-99f2-a308693fff4b"
+        },
+        {
+          "id": "9921e16c-ba87-5ad8-b6fa-9ac07cb472fe",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-rate-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2bb781b5-3d13-5e4a-bddd-17011d1ec4e4",
+              "type": "rate",
+              "version": 4,
+              "label": "gym rate",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "9921e16c-ba87-5ad8-b6fa-9ac07cb472fe"
+            }
+          ],
+          "parentId": "56e638ff-e051-5cc5-99f2-a308693fff4b"
+        },
+        {
+          "id": "a233f0c6-e978-59c8-b830-123dba18001b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-rate-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "56e638ff-e051-5cc5-99f2-a308693fff4b"
+        },
+        {
+          "id": "d3cb32d2-164c-5bb9-a265-c24a81778279",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-rate-v-a76e668c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ca67c6fb-5867-53e0-9595-11552b552d6a",
+              "type": "rate",
+              "version": 4,
+              "label": "gym rate",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "description": "GYM-TXT-description",
+              "parentId": "d3cb32d2-164c-5bb9-a265-c24a81778279"
+            }
+          ],
+          "parentId": "56e638ff-e051-5cc5-99f2-a308693fff4b"
+        },
+        {
+          "id": "3ade1139-393b-5dda-816f-71fa09c0d821",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-rate-v-32f19b3e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0ca0311a-5681-5a5b-8c86-97b21c39401c",
+              "type": "rate",
+              "version": 4,
+              "label": "gym rate",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "onBlurCustom": 17,
+              "parentId": "3ade1139-393b-5dda-816f-71fa09c0d821"
+            }
+          ],
+          "parentId": "56e638ff-e051-5cc5-99f2-a308693fff4b"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

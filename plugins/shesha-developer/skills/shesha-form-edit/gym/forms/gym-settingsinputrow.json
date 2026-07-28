@@ -1,0 +1,54 @@
+{
+  "components": [
+    {
+      "id": "af4a4465-d1a2-56d9-8fd7-b2dec5376b11",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-settingsInputRow-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "894d5e47-da01-55db-ab6c-208aeb6e071c",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-settingsInputRow-validation-errors",
+          "parentId": "af4a4465-d1a2-56d9-8fd7-b2dec5376b11"
+        },
+        {
+          "id": "ffc0b86d-1a1c-5489-980c-39f7327f6d72",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-settingsInputRow-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8b2224a0-c04e-5230-873c-734469b0469f",
+              "type": "settingsInputRow",
+              "version": 1,
+              "label": "gym settingsInputRow",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "ffc0b86d-1a1c-5489-980c-39f7327f6d72"
+            }
+          ],
+          "parentId": "af4a4465-d1a2-56d9-8fd7-b2dec5376b11"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

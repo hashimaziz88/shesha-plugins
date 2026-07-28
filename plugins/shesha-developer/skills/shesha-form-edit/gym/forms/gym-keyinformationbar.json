@@ -1,0 +1,851 @@
+{
+  "components": [
+    {
+      "id": "965b1ac9-d8fc-5e02-b4f0-c8c752271965",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-KeyInformationBar-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "6a664f8b-8f14-5c5d-925e-e553f7591673",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-KeyInformationBar-validation-errors",
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "d88e6e34-e55f-5a2b-bcfd-4c6588f58f3a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-KeyInformationBar-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "fc79c15a-3cf0-59c9-819b-ce9c21a12a6e",
+              "type": "KeyInformationBar",
+              "version": 4,
+              "label": "gym KeyInformationBar",
+              "hidden": false,
+              "orientation": "horizontal",
+              "gap": 16,
+              "componentName": "gym-KeyInformationBar-inst-baseline",
+              "columns": [
+                {
+                  "id": "cedaf226-5b0d-5fdd-84ab-e35bf5741630",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "e432679b-f872-50dc-b935-d4be12a929e2",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "fc79c15a-3cf0-59c9-819b-ce9c21a12a6e"
+                    }
+                  ]
+                },
+                {
+                  "id": "5f2e88bd-90fc-5d5b-b78f-71c625067b9a",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "e2fc7fc9-db6e-5c0d-acf1-0a6e0448c246",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "fc79c15a-3cf0-59c9-819b-ce9c21a12a6e"
+                    }
+                  ]
+                }
+              ],
+              "parentId": "d88e6e34-e55f-5a2b-bcfd-4c6588f58f3a"
+            }
+          ],
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "9e4fc2a8-cce2-54a7-a90b-096f01968ae3",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-KeyInformationBar-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "bb1d989e-4fc8-58b8-b3f3-4e6d6d69256d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-KeyInformationBar-v-0baf713f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "46f6eabd-11e5-5e9b-b2ac-dc550c146e6f",
+              "type": "KeyInformationBar",
+              "version": 4,
+              "label": "gym KeyInformationBar",
+              "hidden": false,
+              "orientation": "horizontal",
+              "gap": 16,
+              "componentName": "gym-KeyInformationBar-inst-desktop.dimensions.width=317px",
+              "columns": [
+                {
+                  "id": "65a8910b-dcc7-5199-a3d0-44e6494c4548",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "869c4ce6-17f9-53c9-9050-99705834ed28",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "46f6eabd-11e5-5e9b-b2ac-dc550c146e6f"
+                    }
+                  ]
+                },
+                {
+                  "id": "66925358-884c-5db5-8470-e48471535cb9",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "cb0f6a56-1987-5fd3-845b-4a9783c28e8a",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "46f6eabd-11e5-5e9b-b2ac-dc550c146e6f"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
+              },
+              "parentId": "bb1d989e-4fc8-58b8-b3f3-4e6d6d69256d"
+            }
+          ],
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "1d8245d8-b675-500a-b2c5-1e467eeb3025",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-KeyInformationBar-v-529ccf25",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5510ff7f-5164-5d62-86ca-18fb475e4e70",
+              "type": "KeyInformationBar",
+              "version": 4,
+              "label": "gym KeyInformationBar",
+              "hidden": false,
+              "orientation": "horizontal",
+              "gap": 16,
+              "componentName": "gym-KeyInformationBar-inst-desktop.dimensions.height=117px",
+              "columns": [
+                {
+                  "id": "736c8611-939d-5a02-b14c-5c4af82ca936",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "da5676c3-80ee-57a4-a322-2c6a19032414",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "5510ff7f-5164-5d62-86ca-18fb475e4e70"
+                    }
+                  ]
+                },
+                {
+                  "id": "09629881-76c2-5b1d-bd64-6e137d957286",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "3f1c9cda-a49c-54b1-bc21-5ba71b3baef5",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "5510ff7f-5164-5d62-86ca-18fb475e4e70"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "1d8245d8-b675-500a-b2c5-1e467eeb3025"
+            }
+          ],
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "a0ebd7aa-340b-5407-bdbf-7f0856555c7f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-KeyInformationBar-v-f1866be0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "dba92d4f-d653-5e2b-8d4a-6c11b96bf4f2",
+              "type": "KeyInformationBar",
+              "version": 4,
+              "label": "gym KeyInformationBar",
+              "hidden": false,
+              "orientation": "horizontal",
+              "gap": 16,
+              "componentName": "gym-KeyInformationBar-inst-desktop.background=color#ff00aa",
+              "columns": [
+                {
+                  "id": "f9ccbda9-8464-53bf-9e6f-6503804c1c5f",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "d8dcf5e1-ed77-5c99-8ac4-b7036b2663bb",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "dba92d4f-d653-5e2b-8d4a-6c11b96bf4f2"
+                    }
+                  ]
+                },
+                {
+                  "id": "4517e2ed-fd5a-5856-a627-05c5dd1933bb",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "aad941d6-2bac-54af-ad7e-ea03236ad7ce",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "dba92d4f-d653-5e2b-8d4a-6c11b96bf4f2"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "a0ebd7aa-340b-5407-bdbf-7f0856555c7f"
+            }
+          ],
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "67621b14-9bd2-55a8-88f6-9e171fcb4b0d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-KeyInformationBar-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c0d42ba3-ebb1-59fb-96be-ed0ede9b435e",
+              "type": "KeyInformationBar",
+              "version": 4,
+              "label": "gym KeyInformationBar",
+              "hidden": false,
+              "orientation": "horizontal",
+              "gap": 16,
+              "componentName": "gym-KeyInformationBar-inst-desktop.background=gradient",
+              "columns": [
+                {
+                  "id": "65985a75-de1c-555e-95de-91f652162c03",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "9b923530-12dd-5f04-9eac-181fab169c37",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "c0d42ba3-ebb1-59fb-96be-ed0ede9b435e"
+                    }
+                  ]
+                },
+                {
+                  "id": "821f84b1-91ea-5c1c-945e-3c24a1e0e858",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "5d4fccc2-9c47-52ea-9c06-b168757b89ac",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "c0d42ba3-ebb1-59fb-96be-ed0ede9b435e"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "67621b14-9bd2-55a8-88f6-9e171fcb4b0d"
+            }
+          ],
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "bdeaa9f5-567e-507c-bb88-65f0a31f7772",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-KeyInformationBar-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a7ec630a-6615-561b-b8b0-44197e092aea",
+              "type": "KeyInformationBar",
+              "version": 4,
+              "label": "gym KeyInformationBar",
+              "hidden": false,
+              "orientation": "horizontal",
+              "gap": 16,
+              "componentName": "gym-KeyInformationBar-inst-desktop.shadow=shadow17",
+              "columns": [
+                {
+                  "id": "1ba9e5cf-ca24-59c3-8678-69913a21c31e",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "9cf6c7e2-bd33-5b27-b3a1-bfbaf5178034",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "a7ec630a-6615-561b-b8b0-44197e092aea"
+                    }
+                  ]
+                },
+                {
+                  "id": "e89efd07-ff43-520f-9f91-4ef601d02014",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "425cd722-84f1-58a8-9438-ae02050b0646",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "a7ec630a-6615-561b-b8b0-44197e092aea"
+                    }
+                  ]
+                }
+              ],
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "bdeaa9f5-567e-507c-bb88-65f0a31f7772"
+            }
+          ],
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "5f98bb6a-fbf5-5d73-b26a-9412056ebeea",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-KeyInformationBar-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5ae060e1-707f-5368-918f-ed899372bcdc",
+              "type": "KeyInformationBar",
+              "version": 4,
+              "label": "gym KeyInformationBar",
+              "hidden": false,
+              "orientation": "horizontal",
+              "gap": 16,
+              "componentName": "gym-KeyInformationBar-inst-stylingBox=stylingBox17",
+              "columns": [
+                {
+                  "id": "3207c382-ffc6-56ea-b75d-e6dd1df99449",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "4e18929b-ceac-516e-9e6c-b1a516883743",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "5ae060e1-707f-5368-918f-ed899372bcdc"
+                    }
+                  ]
+                },
+                {
+                  "id": "11fbe285-9c5a-5c58-9a23-db37a339f78b",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "80918120-ee06-5d63-b280-abb3f0233015",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "5ae060e1-707f-5368-918f-ed899372bcdc"
+                    }
+                  ]
+                }
+              ],
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "5f98bb6a-fbf5-5d73-b26a-9412056ebeea"
+            }
+          ],
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "39fbd575-5210-51b4-a782-5bee273be149",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-KeyInformationBar-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "33bf8882-fe79-582b-a888-453489638aa9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-KeyInformationBar-v-98bd9f4a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "785c3e85-40e0-5d88-a747-be047b925802",
+              "type": "KeyInformationBar",
+              "version": 4,
+              "label": "gym KeyInformationBar",
+              "hidden": false,
+              "orientation": "horizontal",
+              "gap": 16,
+              "componentName": "gym-KeyInformationBar-inst-orientation=horizontal",
+              "columns": [
+                {
+                  "id": "7c044c5d-d406-51e3-b938-954f543409cc",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "95e130be-1b51-57f4-ba10-472925a4a6f7",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "785c3e85-40e0-5d88-a747-be047b925802"
+                    }
+                  ]
+                },
+                {
+                  "id": "3dd4a8fa-b7e9-53d3-9f7f-4df15732b19f",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "8c4e3d18-2ad4-5fea-9c3c-b380f8ebfe7f",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "785c3e85-40e0-5d88-a747-be047b925802"
+                    }
+                  ]
+                }
+              ],
+              "parentId": "33bf8882-fe79-582b-a888-453489638aa9"
+            }
+          ],
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "36ac9a69-17fe-5fd2-8434-78ba3d0906e8",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-KeyInformationBar-v-b0fa6a49",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "af7f5c9c-d55c-5e4d-9891-7725d2ddeb0a",
+              "type": "KeyInformationBar",
+              "version": 4,
+              "label": "gym KeyInformationBar",
+              "hidden": false,
+              "orientation": "vertical",
+              "gap": 16,
+              "componentName": "gym-KeyInformationBar-inst-orientation=vertical",
+              "columns": [
+                {
+                  "id": "58156254-3b9c-507c-ad57-42c255096eb9",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "35819ada-0eb1-5526-93e8-632fbb248cac",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "af7f5c9c-d55c-5e4d-9891-7725d2ddeb0a"
+                    }
+                  ]
+                },
+                {
+                  "id": "0e1c479f-e4f6-5957-819a-98f58c374ce4",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "99c762c5-2406-5b9e-b48e-99ebe07a84df",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "af7f5c9c-d55c-5e4d-9891-7725d2ddeb0a"
+                    }
+                  ]
+                }
+              ],
+              "parentId": "36ac9a69-17fe-5fd2-8434-78ba3d0906e8"
+            }
+          ],
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "78021c82-d69b-51a4-bb41-8764e7fd3e05",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-KeyInformationBar-v-c0391dee",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0d164f3a-ccab-5561-9fc4-35b81b0d13c0",
+              "type": "KeyInformationBar",
+              "version": 4,
+              "label": "gym KeyInformationBar",
+              "hidden": false,
+              "orientation": "horizontal",
+              "gap": 17,
+              "componentName": "gym-KeyInformationBar-inst-gap=17",
+              "columns": [
+                {
+                  "id": "ae4296d9-7e96-59ff-9d1b-f24fe94a9064",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "637a4ff3-5749-5966-a6a2-0c7703060351",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "0d164f3a-ccab-5561-9fc4-35b81b0d13c0"
+                    }
+                  ]
+                },
+                {
+                  "id": "1098250e-33e6-5480-94c2-e133fd57fd05",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "f48d38c8-7335-5673-a1e9-fbabc326513a",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "0d164f3a-ccab-5561-9fc4-35b81b0d13c0"
+                    }
+                  ]
+                }
+              ],
+              "parentId": "78021c82-d69b-51a4-bb41-8764e7fd3e05"
+            }
+          ],
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "4511d088-0e3f-5184-8781-697621cadcd0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-KeyInformationBar-v-bda0a009",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d804fd60-d632-533a-841b-344277d0d5a8",
+              "type": "KeyInformationBar",
+              "version": 4,
+              "label": "gym KeyInformationBar",
+              "hidden": false,
+              "orientation": "horizontal",
+              "gap": 16,
+              "componentName": "gym-KeyInformationBar-inst-dividerMargin=17",
+              "columns": [
+                {
+                  "id": "b2ec5e8c-48b3-5337-82d2-43d1ab1e873f",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "5d974459-b8dd-5530-bdb8-c7b1e54b8a25",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "d804fd60-d632-533a-841b-344277d0d5a8"
+                    }
+                  ]
+                },
+                {
+                  "id": "f2d0b576-aae5-59ac-8a68-a07c236b97ef",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "cd9b857b-d2aa-53d1-bc6a-bb28159f74fe",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "d804fd60-d632-533a-841b-344277d0d5a8"
+                    }
+                  ]
+                }
+              ],
+              "dividerMargin": 17,
+              "parentId": "4511d088-0e3f-5184-8781-697621cadcd0"
+            }
+          ],
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        },
+        {
+          "id": "d4490ade-9afe-586c-b4bd-93bb393cb753",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-KeyInformationBar-v-b30c3b61",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2dddf660-4fce-5c0d-a456-5ffb06d7cf34",
+              "type": "KeyInformationBar",
+              "version": 4,
+              "label": "gym KeyInformationBar",
+              "hidden": false,
+              "orientation": "horizontal",
+              "gap": 16,
+              "componentName": "gym-KeyInformationBar-inst-dividerThickness=17",
+              "columns": [
+                {
+                  "id": "44531fd6-30d2-50bf-abd3-e176c939a826",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "cb203877-6c28-50d8-91db-05ddafb12336",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col1",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "2dddf660-4fce-5c0d-a456-5ffb06d7cf34"
+                    }
+                  ]
+                },
+                {
+                  "id": "c15b0f36-adfa-5472-8b94-a43beeca2c12",
+                  "width": 200,
+                  "textAlign": "center",
+                  "flexDirection": "column",
+                  "components": [
+                    {
+                      "id": "957f00cf-6242-5f05-a43e-e2c196e20bd7",
+                      "type": "text",
+                      "version": 2,
+                      "label": "",
+                      "hideLabel": true,
+                      "content": "GYM child of KeyInformationBar col2",
+                      "textType": "span",
+                      "contentDisplay": "content",
+                      "parentId": "2dddf660-4fce-5c0d-a456-5ffb06d7cf34"
+                    }
+                  ]
+                }
+              ],
+              "dividerThickness": 17,
+              "parentId": "d4490ade-9afe-586c-b4bd-93bb393cb753"
+            }
+          ],
+          "parentId": "965b1ac9-d8fc-5e02-b4f0-c8c752271965"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

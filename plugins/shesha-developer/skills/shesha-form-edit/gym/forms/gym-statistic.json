@@ -1,0 +1,328 @@
+{
+  "components": [
+    {
+      "id": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-statistic-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "36356ed7-e00c-5938-9e29-d2dcd4dc5e63",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-statistic-validation-errors",
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "d30cd341-6745-58be-b8c9-9fcc59f0ea03",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-statistic-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2307d0c9-daf1-5c11-aaa4-0f3e2cd0560b",
+              "type": "statistic",
+              "version": 3,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "d30cd341-6745-58be-b8c9-9fcc59f0ea03"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "94ed090c-411b-57b2-b663-d1d058b6caa2",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-statistic-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "28fe6694-f388-5c18-a523-cacac903685d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-statistic-v-0baf713f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4f8cbef3-69b6-5d7a-8052-cd385169cae8",
+              "type": "statistic",
+              "version": 3,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
+              },
+              "parentId": "28fe6694-f388-5c18-a523-cacac903685d"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "6e547320-72cf-5cdb-acbc-03ba3259d3ec",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-statistic-v-529ccf25",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b402611e-1e21-5017-ac4d-f8fda60260f1",
+              "type": "statistic",
+              "version": 3,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "6e547320-72cf-5cdb-acbc-03ba3259d3ec"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "9500e1b3-8d3b-546c-993d-eb63b4e9ec45",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-statistic-v-f1866be0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7386ee43-fd47-528b-a0d8-cdeca13d90e6",
+              "type": "statistic",
+              "version": 3,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "9500e1b3-8d3b-546c-993d-eb63b4e9ec45"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "efe1f261-1e37-5250-a50a-6c9e408562ee",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-statistic-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4c10e647-a20e-5587-bfd4-8e3474bae818",
+              "type": "statistic",
+              "version": 3,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "efe1f261-1e37-5250-a50a-6c9e408562ee"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "8b975bda-0b9c-5bd4-954d-d22a14aabd1f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-statistic-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "95c3ed78-3f4f-5929-94b0-e9dfd366c5bb",
+              "type": "statistic",
+              "version": 3,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "8b975bda-0b9c-5bd4-954d-d22a14aabd1f"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "6989cfbe-0423-578f-8b5e-e8e4a0cc0bf0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-statistic-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1ab7899a-2552-51ee-8da0-8eea19370a15",
+              "type": "statistic",
+              "version": 3,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "6989cfbe-0423-578f-8b5e-e8e4a0cc0bf0"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "451f2bb7-e01a-5168-b3a9-07875694f4a8",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-statistic-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "a7e5d03c-1c85-591c-9c45-7a65b6e31402",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-statistic-v-883431f1",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9b0dd6c1-1d51-51fe-b8a0-69a35149ce75",
+              "type": "statistic",
+              "version": 3,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "title": "GYM-TXT-title",
+              "parentId": "a7e5d03c-1c85-591c-9c45-7a65b6e31402"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "597e2444-0439-51ca-8a53-026f404f037d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-statistic-v-1e0b5b1f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f3aacad4-d19e-5ae4-ab74-3154d6c00232",
+              "type": "statistic",
+              "version": 3,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "value": "GYM-TXT-value",
+              "parentId": "597e2444-0439-51ca-8a53-026f404f037d"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "0009e30e-0cbd-5839-9fc8-1213f1d7156b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-statistic-v-4b9788ad",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "48045a2d-edec-5dd3-a4d8-8076fdc829d9",
+              "type": "statistic",
+              "version": 3,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "prefix": "GYM-TXT-prefix",
+              "parentId": "0009e30e-0cbd-5839-9fc8-1213f1d7156b"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        },
+        {
+          "id": "823b8096-d656-53d1-86eb-7626a07fd27c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-statistic-v-e9fb007a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e1dd3e01-2622-5a8b-9dd8-660f0a4df9a9",
+              "type": "statistic",
+              "version": 3,
+              "label": "gym statistic",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "suffix": "GYM-TXT-suffix",
+              "parentId": "823b8096-d656-53d1-86eb-7626a07fd27c"
+            }
+          ],
+          "parentId": "63b8bf1e-782c-560f-97a0-27ae7fe1ef9e"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

@@ -8,7 +8,7 @@ Pick ONE shell per session and stick to it: **on Windows run every command throu
 
 ## 2. Auth once, cache BOM-free, never inline the JWT
 
-- Authenticate ONCE per session: `POST $BASE_URL/api/TokenAuth/Authenticate` (`admin`/`123qwe` local-dev default; task-supplied credentials always win). Re-auth only on 401 or after the 24 h TTL.
+- Authenticate ONCE per session: `POST $BASE_URL/api/TokenAuth/Authenticate`. Credentials come from the task context, else `SHESHA_USER`/`SHESHA_PASSWORD`; nothing is defaulted. For a throwaway local backend the scripts accept `--local-dev-insecure-defaults` (the well-known `admin`/`123qwe` pair) — never against a shared backend. Re-auth only on 401 or after the 24 h TTL.
 - Cache the token to **one session file** — the `<workdir>/access-token` the orchestrator supplies, else `$env:TEMP/shesha-form-edit/access-token` — and read it back on every call (`$(cat <tokenfile>)` / `(Get-Content <tokenfile> -Raw).Trim()`).
 - **Write it BOM-free** — `Out-File`/`Set-Content -Encoding utf8` emit a BOM that poisons the header (`Authorization: Bearer ﻿eyJ…` → *Invalid user name or password*) and breaks Node `JSON.parse`. Write via Node `fs.writeFileSync`, or `[System.IO.File]::WriteAllText(path, s, (New-Object System.Text.UTF8Encoding $false))`; trim on read (bash: `sed 's/^\xEF\xBB\xBF//'`).
 - **Never paste the raw JWT into a command** — it echoes back into context on every result.

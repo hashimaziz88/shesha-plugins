@@ -1,0 +1,555 @@
+{
+  "components": [
+    {
+      "id": "6013bcfa-4296-5ddc-b2f5-7a378d442866",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-kanban-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "edd71b32-f723-5d00-8a13-758a0461f2a6",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-kanban-validation-errors",
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "b312105d-0b98-59ca-b57b-bb69d3cd3692",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2d27e4da-77b6-505a-8f2e-b9943087855d",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-baseline",
+              "parentId": "b312105d-0b98-59ca-b57b-bb69d3cd3692"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "bb2950ad-4036-5259-8673-5def28e1c892",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-kanban-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "ad39d522-729b-59c5-9df0-0176ae01675c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-074fd9c2",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "472dae20-b659-5492-9950-0d3a810579b0",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-desktop.font.size=size17",
+              "desktop": {
+                "font": {
+                  "size": 17
+                }
+              },
+              "parentId": "ad39d522-729b-59c5-9df0-0176ae01675c"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "99b92448-4c25-56f0-9040-d76626220101",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-1a3af3ee",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "82ff9933-35b5-5b21-9380-28e6f5de3d69",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-desktop.font.color=color",
+              "desktop": {
+                "font": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "99b92448-4c25-56f0-9040-d76626220101"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "c74404c0-5f22-5606-a499-6a1abeeb00af",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-346fd5ac",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0a86e289-579a-59f0-8213-6b7f0ab53e46",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-desktop.font.weight=weight700",
+              "desktop": {
+                "font": {
+                  "weight": "700"
+                }
+              },
+              "parentId": "c74404c0-5f22-5606-a499-6a1abeeb00af"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "30db2795-ec7b-528a-af96-82d703c6442f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-f1866be0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d2fd92cb-a379-5078-a4cf-80e0398bf61a",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-desktop.background=color#ff00aa",
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "30db2795-ec7b-528a-af96-82d703c6442f"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "dc6b7d18-1b17-52b0-ae7b-dc13bca21e35",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "fb839234-d54c-510c-965e-c9a46a97dcf9",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-desktop.background=gradient",
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "dc6b7d18-1b17-52b0-ae7b-dc13bca21e35"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "7e7d877e-b54c-51f9-9458-8ff6c51eaee2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "858c7e2e-8dfc-592f-8c05-a0c569a69c6f",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-desktop.shadow=shadow17",
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "7e7d877e-b54c-51f9-9458-8ff6c51eaee2"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "51e5cdd6-83af-54a6-878d-95025fd8797f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-c0391dee",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "11e644ae-eb4c-5e6a-8b84-9a14a2a504f5",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-gap=17",
+              "gap": 17,
+              "parentId": "51e5cdd6-83af-54a6-878d-95025fd8797f"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "39a05e37-4478-5e57-ad86-ab42bd064db7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-330726b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "97ee5764-de72-56e2-a39d-d9c14681e275",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-columnStyles.dimensions.width=17",
+              "columnStyles": {
+                "dimensions": {
+                  "width": 17
+                }
+              },
+              "parentId": "39a05e37-4478-5e57-ad86-ab42bd064db7"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "ce4ff7ec-0f36-53e0-9847-926f483899f7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-61e2ad40",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a0a8717c-6c8f-549b-9d6c-c06b00174492",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-columnStyles.dimensions.height=17",
+              "columnStyles": {
+                "dimensions": {
+                  "height": 17
+                }
+              },
+              "parentId": "ce4ff7ec-0f36-53e0-9847-926f483899f7"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "03beeb6c-2aab-54aa-a06b-ec678f76614f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-f6164425",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ed074cc4-3926-593d-9e9d-cb2f1b848cf9",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-columnStyles.background.color=#ff00aa",
+              "columnStyles": {
+                "background": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "03beeb6c-2aab-54aa-a06b-ec678f76614f"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "cbb49798-1067-5cf8-9521-b3451621cefd",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-dcfde568",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2057de42-fc66-5288-8742-bc04d217de37",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-columnStyles.background.gradient.colors=#ff00aa",
+              "columnStyles": {
+                "background": {
+                  "gradient": {
+                    "colors": "#ff00aa"
+                  }
+                }
+              },
+              "parentId": "cbb49798-1067-5cf8-9521-b3451621cefd"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "dc71f09a-00c0-5cf8-9c8d-dece535c7ee0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-df950dff",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2197f56e-39c8-5dff-bb3c-10e3cd3eb06c",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-columnStyles.background.size=17",
+              "columnStyles": {
+                "background": {
+                  "size": 17
+                }
+              },
+              "parentId": "dc71f09a-00c0-5cf8-9c8d-dece535c7ee0"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "b3dda52f-0007-5998-868d-a3f566b39eb4",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-853e8bc8",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a6ed1824-7fd6-5663-a193-5bcf74642e7e",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-columnStyles.shadow.offsetX=17",
+              "columnStyles": {
+                "shadow": {
+                  "offsetX": 17
+                }
+              },
+              "parentId": "b3dda52f-0007-5998-868d-a3f566b39eb4"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "6ae576e4-38a7-5c2d-a363-d55b837eabc9",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-kanban-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "fc40de11-02be-5d8e-85fa-a1116a47478e",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-8e521e3c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "63568ce9-a904-575a-89ae-14927be46b90",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-collapsible=true",
+              "collapsible": true,
+              "parentId": "fc40de11-02be-5d8e-85fa-a1116a47478e"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "4be046c8-331a-5777-b3c8-02ed2f0b6391",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-e8f40294",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2fe0fd2a-3f97-5d43-9f26-324ba5d13ed4",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-allowDelete=true",
+              "allowDelete": true,
+              "parentId": "4be046c8-331a-5777-b3c8-02ed2f0b6391"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "897b67f8-22c4-53fd-8ebf-005a7fce2e6b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-145243a0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "96d2d51b-3541-5b30-87b6-f8b945e29590",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-allowNewRecord=true",
+              "allowNewRecord": true,
+              "parentId": "897b67f8-22c4-53fd-8ebf-005a7fce2e6b"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "53e531ba-c530-598b-9e9b-e9afe01f9944",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-390fad66",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "306e4c8d-e57b-51de-9a04-a3e399295536",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-allowEdit=true",
+              "allowEdit": true,
+              "parentId": "53e531ba-c530-598b-9e9b-e9afe01f9944"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        },
+        {
+          "id": "27c90fcd-5b5f-54dc-bf67-4230b36e71c5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-kanban-v-344d2cc9",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "aca32776-f7d6-59f4-b5e0-5468c0825e31",
+              "type": "kanban",
+              "version": 8,
+              "label": "gym kanban",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-kanban-inst-columnStyles.stylingBox=stylingBox17",
+              "columnStyles": {
+                "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}"
+              },
+              "parentId": "27c90fcd-5b5f-54dc-bf67-4230b36e71c5"
+            }
+          ],
+          "parentId": "6013bcfa-4296-5ddc-b2f5-7a378d442866"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

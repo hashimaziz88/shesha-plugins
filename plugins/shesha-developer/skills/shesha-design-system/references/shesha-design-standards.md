@@ -36,7 +36,7 @@ Map the brand tokens onto `ConfigProvider theme.token` so the whole portal inher
 - Pure black `#000` text; inventing weights outside the brand `type.weights`; body >14px in **dense data entry** (larger scale tokens on reading surfaces — titles, headers, hero values — are correct, not an anti-pattern).
 - **Heavy / decorative** drop shadows — large blurry shadows that don't match the brand token scale. (A card's subtle elevation shadow from the brand `shadow` token is expected and correct; only oversized/decorative shadows are banned.)
 - Using a brand's accent/semantic colours decoratively — semantic colours are operational status signals only.
-- Placeholder used as a label; removing focus rings (accessibility is non-negotiable).
+- Placeholder used as a label; removing focus rings (never strip focus indicators).
 - Colour alone to convey status (always pair with icon/text).
 
 ## How comprehension uses this

@@ -1,0 +1,54 @@
+{
+  "components": [
+    {
+      "id": "93e9d1dd-5bb6-54bd-a036-c63b6cf90875",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-formAutocomplete-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "cc5c7352-fe03-5f0f-a4f0-6817d67e5662",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-formAutocomplete-validation-errors",
+          "parentId": "93e9d1dd-5bb6-54bd-a036-c63b6cf90875"
+        },
+        {
+          "id": "eb97f4fa-fe1a-54f5-9b9a-9130a8e3d2fc",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-formAutocomplete-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "960a8b6b-ad18-5f14-be38-6dde8f0abee4",
+              "type": "formAutocomplete",
+              "version": 3,
+              "label": "gym formAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "eb97f4fa-fe1a-54f5-9b9a-9130a8e3d2fc"
+            }
+          ],
+          "parentId": "93e9d1dd-5bb6-54bd-a036-c63b6cf90875"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

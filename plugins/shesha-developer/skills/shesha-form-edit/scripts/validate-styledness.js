@@ -2,6 +2,8 @@
 /**
  * validate-styledness.js — fails forms that would render structure-only / default AntD.
  *
+ * This is the validator for [R-042] (no form ships unstyled).
+ *
  * Usage: node scripts/validate-styledness.js <form.json> [--generation 043|045] [--warn-only]
  *
  * Accepts raw markup ({components:[...]}), a GetJson response, or a golden wrapper.

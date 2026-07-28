@@ -7,9 +7,15 @@ records what each setting measurably does. Output:
 
 ## Artifacts
 
-Everything under `gym/` is **generated output and git-ignored** — regenerate it with the
-rerun procedure below rather than expecting it in a fresh checkout. Only the two committed
-artifacts (`assets/components-kb/`, `assets/measured-capability-matrix.json`) survive a clone.
+`gym/forms/` and `gym/manifest.json` are **generated but committed**, so the corpus is
+reproducible offline: `generate-component-gym.js` rebuilds them from `assets/components-kb/`
+in under a second, and deterministic uuids mean a rerun diffs cleanly. Screenshots and
+error dumps are not committed.
+
+**The committed manifest carries backend-specific ids** — module name + id, per-form
+`backendId`, `lastPushedAt`. `run-gym.js` only re-resolves the module id when it is absent,
+so before measuring against a *different* backend, regenerate the manifest rather than
+reusing the committed ids.
 
 | Path | What |
 |---|---|
@@ -26,7 +32,8 @@ The matrix is regenerated per release: the KB is rebuilt from that release's
 renderer source, then the gym is regenerated and re-measured against a backend
 running that release.
 
-Prerequisites: backend running (default `http://localhost:21021`, admin/123qwe),
+Prerequisites: backend running (default `http://localhost:21021`) with credentials in
+`SHESHA_USER`/`SHESHA_PASSWORD` (or `--local-dev-insecure-defaults` for a throwaway local backend),
 adminportal running (default `http://localhost:3000`), and in this skill folder:
 `npm install && npx playwright install chromium`.
 

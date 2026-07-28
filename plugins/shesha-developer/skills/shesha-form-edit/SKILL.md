@@ -1,6 +1,6 @@
 ---
 name: shesha-form-edit
-description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). The build executor of the v2 compiler pipeline — compiles a blueprint IR (or a spec synthesized from prose requirements) into markup through golden archetypes and the measured capability matrix, gates it mechanically (schema → guardrails → bindings → styled-ness), pushes via Create/UpdateMarkup, and verifies the deliverable (re-fetch diff + render instrument). Invoke directly for targeted work when dispatched by the main skill or when the user names a specific form and edit ("add a sector dropdown above the email field", "wire the Save button"). 0.45-only — versioned 0.43-class backends belong to the shesha-developer-0-43 plugin. Ends every new no-design form with the mandatory default `shesha` theme pass via shesha-design-system — no form ships unstyled.
+description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). The build executor of the v2 compiler pipeline — compiles a blueprint IR (or a spec synthesized from prose requirements) into markup from the generated 0.45 component KB and the brand theme tokens, gates it mechanically (schema → guardrails → bindings → styled-ness), pushes via Create/UpdateMarkup, and verifies the deliverable (re-fetch diff + render instrument). Invoke directly for targeted work when dispatched by the main skill or when the user names a specific form and edit ("add a sector dropdown above the email field", "wire the Save button"). 0.45-only — versioned 0.43-class backends belong to the shesha-developer-0-43 plugin. Brand tokens are resolved at compile time, so the first output is already themed — there is no separate styling pass.
 allowed-tools:
   - Bash
   - PowerShell
@@ -24,11 +24,11 @@ Mechanical facts live ONCE in [references/_rules.json](references/_rules.json)
 registry wins.
 
 ```
-SPEC (blueprint IR) → COMPILE → GATES (hooks) → STYLE → PUSH → ORACLE → REPORT
+SPEC (blueprint IR) → COMPILE (theme baked in) → GATES → PUSH → ORACLE → REPORT
 ```
 
 Args: `$ARGUMENTS`. Flags: `--no-browser` (skip the render instrument),
-`--no-style` (skip the default-theme pass — the only thing that skips it).
+`--no-style` (compile with neutral tokens instead of a brand theme).
 
 ## Headless runs
 

@@ -1,0 +1,10 @@
+{
+  "name": "shesha-developer-plugin",
+  "private": true,
+  "type": "module",
+  "description": "Plugin-local checks. Not a published package — `npm run verify` is the single gate.",
+  "scripts": {
+    "verify": "node scripts/verify.mjs",
+    "lint:claims": "node scripts/lint-claims.mjs"
+  }
+}

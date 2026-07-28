@@ -1,0 +1,55 @@
+{
+  "components": [
+    {
+      "id": "3b8791ff-0fe5-598e-9aef-a32c2538c043",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-htmlRender-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "03a4752f-f5dd-5417-b73a-d460e1effa47",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-htmlRender-validation-errors",
+          "parentId": "3b8791ff-0fe5-598e-9aef-a32c2538c043"
+        },
+        {
+          "id": "95d909d0-89af-5683-bbc3-e68a2cc159d4",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-htmlRender-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "cc62a10c-8aa0-508a-9a73-d1be9bb29512",
+              "type": "htmlRender",
+              "version": 1,
+              "label": "gym htmlRender",
+              "hidden": false,
+              "renderer": "return \"<div>GYM html</div>\";",
+              "componentName": "gym-htmlRender-inst-baseline",
+              "parentId": "95d909d0-89af-5683-bbc3-e68a2cc159d4"
+            }
+          ],
+          "parentId": "3b8791ff-0fe5-598e-9aef-a32c2538c043"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

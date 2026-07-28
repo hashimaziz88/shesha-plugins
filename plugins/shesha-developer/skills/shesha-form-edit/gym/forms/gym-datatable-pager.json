@@ -1,0 +1,323 @@
+{
+  "components": [
+    {
+      "id": "ed924310-fdde-5eb2-a200-93fa528970d6",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-datatable.pager-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "74f5c985-4e2e-5e44-87d3-2c0792a7e899",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-datatable.pager-validation-errors",
+          "parentId": "ed924310-fdde-5eb2-a200-93fa528970d6"
+        },
+        {
+          "id": "f7a56af3-f33c-5ade-8424-4651734eb302",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-datatable.pager-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b595bf07-ced5-5508-a193-9ba6d3104a63",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "afbc0943-6051-5a4d-a115-05e602dbf56b",
+                  "type": "datatable.pager",
+                  "version": 4,
+                  "label": "gym datatable.pager",
+                  "hidden": false,
+                  "showSizeChanger": true,
+                  "showTotalItems": true,
+                  "componentName": "gym-datatable.pager-inst-baseline",
+                  "parentId": "b595bf07-ced5-5508-a193-9ba6d3104a63"
+                }
+              ],
+              "componentName": "gymCtxb595bf07",
+              "propertyName": "gymCtxb595bf07",
+              "parentId": "f7a56af3-f33c-5ade-8424-4651734eb302"
+            }
+          ],
+          "parentId": "ed924310-fdde-5eb2-a200-93fa528970d6"
+        },
+        {
+          "id": "3a9d2a7e-29ac-5a42-a19f-d307b02cbc48",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-datatable.pager-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ed924310-fdde-5eb2-a200-93fa528970d6"
+        },
+        {
+          "id": "fff7e1c7-6890-5d7c-a4da-b3d41b2aeda5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-datatable.pager-v-074fd9c2",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "850838aa-700c-5b0f-a934-3f1aa3ce7628",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "7eb89e61-e183-5277-a0af-95b8e7c8ab56",
+                  "type": "datatable.pager",
+                  "version": 4,
+                  "label": "gym datatable.pager",
+                  "hidden": false,
+                  "showSizeChanger": true,
+                  "showTotalItems": true,
+                  "componentName": "gym-datatable.pager-inst-desktop.font.size=size17",
+                  "desktop": {
+                    "font": {
+                      "size": 17
+                    }
+                  },
+                  "parentId": "850838aa-700c-5b0f-a934-3f1aa3ce7628"
+                }
+              ],
+              "componentName": "gymCtx850838aa",
+              "propertyName": "gymCtx850838aa",
+              "parentId": "fff7e1c7-6890-5d7c-a4da-b3d41b2aeda5"
+            }
+          ],
+          "parentId": "ed924310-fdde-5eb2-a200-93fa528970d6"
+        },
+        {
+          "id": "559117f7-dcfb-5d57-b676-8751825e15a8",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-datatable.pager-v-1a3af3ee",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9fc0bf35-c606-5346-abbf-0201747d2da6",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "2bd574f6-644a-5340-a542-06d7bd75d02d",
+                  "type": "datatable.pager",
+                  "version": 4,
+                  "label": "gym datatable.pager",
+                  "hidden": false,
+                  "showSizeChanger": true,
+                  "showTotalItems": true,
+                  "componentName": "gym-datatable.pager-inst-desktop.font.color=color",
+                  "desktop": {
+                    "font": {
+                      "color": "#ff00aa"
+                    }
+                  },
+                  "parentId": "9fc0bf35-c606-5346-abbf-0201747d2da6"
+                }
+              ],
+              "componentName": "gymCtx9fc0bf35",
+              "propertyName": "gymCtx9fc0bf35",
+              "parentId": "559117f7-dcfb-5d57-b676-8751825e15a8"
+            }
+          ],
+          "parentId": "ed924310-fdde-5eb2-a200-93fa528970d6"
+        },
+        {
+          "id": "7f1f1de1-7708-53e3-9601-764672494cda",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-datatable.pager-v-346fd5ac",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a812e0aa-5830-5b92-941b-b42b8d14dab9",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "4290e043-b0a9-5f12-97c4-4ea2a52b2e97",
+                  "type": "datatable.pager",
+                  "version": 4,
+                  "label": "gym datatable.pager",
+                  "hidden": false,
+                  "showSizeChanger": true,
+                  "showTotalItems": true,
+                  "componentName": "gym-datatable.pager-inst-desktop.font.weight=weight700",
+                  "desktop": {
+                    "font": {
+                      "weight": "700"
+                    }
+                  },
+                  "parentId": "a812e0aa-5830-5b92-941b-b42b8d14dab9"
+                }
+              ],
+              "componentName": "gymCtxa812e0aa",
+              "propertyName": "gymCtxa812e0aa",
+              "parentId": "7f1f1de1-7708-53e3-9601-764672494cda"
+            }
+          ],
+          "parentId": "ed924310-fdde-5eb2-a200-93fa528970d6"
+        },
+        {
+          "id": "4bd5cdb9-1320-5b8d-83ed-a3a582a56dd1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-datatable.pager-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5d2b8667-a53c-5b2d-9dd8-523f5334d8b3",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "4ea49c92-4945-50fa-844e-6bbce6dfa0bb",
+                  "type": "datatable.pager",
+                  "version": 4,
+                  "label": "gym datatable.pager",
+                  "hidden": false,
+                  "showSizeChanger": true,
+                  "showTotalItems": true,
+                  "componentName": "gym-datatable.pager-inst-stylingBox=stylingBox17",
+                  "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+                  "parentId": "5d2b8667-a53c-5b2d-9dd8-523f5334d8b3"
+                }
+              ],
+              "componentName": "gymCtx5d2b8667",
+              "propertyName": "gymCtx5d2b8667",
+              "parentId": "4bd5cdb9-1320-5b8d-83ed-a3a582a56dd1"
+            }
+          ],
+          "parentId": "ed924310-fdde-5eb2-a200-93fa528970d6"
+        },
+        {
+          "id": "28256bfe-81a3-5005-b0fc-6f284edda4d9",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-datatable.pager-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ed924310-fdde-5eb2-a200-93fa528970d6"
+        },
+        {
+          "id": "434a50c3-ddfb-5a69-9fb1-bb0f7a6a8801",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-datatable.pager-v-bbc7169b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ba787a3c-d699-55bc-888b-e5f864ea2ad0",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "09df1f78-7f76-5f41-93c1-b341a08e8a18",
+                  "type": "datatable.pager",
+                  "version": 4,
+                  "label": "gym datatable.pager",
+                  "hidden": false,
+                  "showSizeChanger": false,
+                  "showTotalItems": true,
+                  "componentName": "gym-datatable.pager-inst-showSizeChanger=false",
+                  "parentId": "ba787a3c-d699-55bc-888b-e5f864ea2ad0"
+                }
+              ],
+              "componentName": "gymCtxba787a3c",
+              "propertyName": "gymCtxba787a3c",
+              "parentId": "434a50c3-ddfb-5a69-9fb1-bb0f7a6a8801"
+            }
+          ],
+          "parentId": "ed924310-fdde-5eb2-a200-93fa528970d6"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

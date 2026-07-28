@@ -17,7 +17,7 @@ audit-all (auditor fan-out, 1 agent/form)
 
 Exit criteria per stage: audit = every target has a verdict; pilot = assertions pass AND browser checks pass (computed styles, not screenshots); rollout = every push re-fetched and asserted; re-audit = zero `fail` verdicts **including the `appearance` family**.
 
-**Audit and re-audit specs MUST include the `appearance` check family** (the appearance floor in `form-quality.md` / the auditor's `appearance` checks). A built-but-unstyled form is a `fail`, not a cosmetic nit — styling silently dropping on later forms is the single most common fleet defect.
+**Audit and re-audit specs should include the `appearance` check family** (the appearance floor in `form-quality.md` / the auditor's `appearance` checks). A built-but-unstyled form is a `fail`, not a cosmetic nit — styling silently dropping on later forms is the single most common fleet defect.
 
 ---
 

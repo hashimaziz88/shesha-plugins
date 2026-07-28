@@ -107,7 +107,7 @@ component versions of the running app** (grep a form dump) — versions are fram
 > **Practical sourcing:** rather than hand-writing each `settings`, clone a full component model of
 > each type from the running app's own forms (a form dump), strip `id`/`parentId`/`propertyName`/
 > `componentName`/`name`/`defaultValue`, and set `editMode:"inherited"` + `hideLabel:true`. That
-> guarantees version-consistency with the app and avoids migration crashes.
+> keeps version-consistency with the app and avoids migration crashes.
 
 ## 4. Known cosmetic limitation
 
