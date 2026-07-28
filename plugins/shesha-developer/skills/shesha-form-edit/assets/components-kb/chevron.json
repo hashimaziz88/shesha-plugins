@@ -108,18 +108,16 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
-    "width",
+    "font",
+    "font.type",
+    "font.size",
+    "font.weight",
+    "font.color",
+    "font.align",
     "stylingBox"
   ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "Make sure to reselect the reference list if any changes are made to its items"
-    },
     {
       "path": "propertyName",
       "label": "Property Name",
@@ -149,47 +147,79 @@
     {
       "path": "items",
       "label": "Items",
-      "editorType": "settingsInput"
+      "editorType": "RefListItemSelectorSettingsModal"
     },
     {
       "path": "font",
       "label": "Family",
-      "editorType": "settingsInputRow",
+      "editorType": "dropdown",
+      "group": "Font"
+    },
+    {
+      "path": "font.type",
+      "label": "Size",
+      "editorType": "numberField",
+      "group": "Font"
+    },
+    {
+      "path": "font.size",
+      "label": "Weight",
+      "editorType": "dropdown",
+      "group": "Font"
+    },
+    {
+      "path": "font.weight",
+      "label": "Color",
+      "editorType": "colorPicker",
       "description": "Controls text thickness (light, normal, bold, etc.)",
       "group": "Font"
     },
     {
+      "path": "font.color",
+      "label": "Align",
+      "editorType": "dropdown",
+      "group": "Font"
+    },
+    {
+      "path": "font.align",
+      "editorType": "settingsInputRow",
+      "group": "Font"
+    },
+    {
       "path": "width",
-      "label": "Width",
+      "label": "Height",
+      "editorType": "textField",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "height",
       "editorType": "settingsInputRow",
       "description": "You can use any unit (%, px, em, etc). px by default if without unit",
-      "group": "Dimensions",
-      "shared": true
+      "group": "Dimensions"
     },
     {
       "path": "stylingBox",
-      "label": "Margin Padding",
       "editorType": "styleBox",
-      "group": "Margin & Padding",
-      "shared": true
+      "group": "Margin & Padding"
     },
     {
       "path": "colorSource",
       "label": "Color Source",
-      "editorType": "settingsInput",
+      "editorType": "dropdown",
       "description": "Hex and RGB colors are supported",
       "group": "Color Settings"
     },
     {
       "path": "activeColor",
       "label": "Active Color",
-      "editorType": "settingsInputRow",
+      "editorType": "colorPicker",
       "group": "Color Settings"
     },
     {
       "path": "showIcons",
       "label": "Show Icons",
-      "editorType": "settingsInput",
+      "editorType": "switch",
       "group": "Color Settings"
     },
     {

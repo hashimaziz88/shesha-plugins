@@ -96,18 +96,11 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
     "size",
     "style"
   ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "Enter custom eventhandler on changing of event."
-    },
     {
       "path": "propertyName",
       "label": "Property name",
@@ -126,6 +119,11 @@
     {
       "path": "editMode",
       "label": "Edit Mode",
+      "editorType": "switch"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
       "editorType": "settingsInputRow"
     },
     {
@@ -137,23 +135,21 @@
     {
       "path": "enableStyleOnReadonly",
       "label": "Enable Style On Readonly",
-      "editorType": "settingsInput",
+      "editorType": "switch",
       "description": "Removes all visual styling except typography when the component becomes read-only"
     },
     {
       "path": "size",
-      "label": "Size",
+      "label": "Small",
       "editorType": "settingsInputRow",
-      "group": "Dimensions",
-      "shared": true
+      "group": "Dimensions"
     },
     {
       "path": "style",
       "label": "Style",
       "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "group": "Custom Styles",
-      "shared": true
+      "group": "Custom Styles"
     },
     {
       "path": "permissions",

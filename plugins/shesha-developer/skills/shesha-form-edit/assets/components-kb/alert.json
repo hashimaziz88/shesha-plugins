@@ -106,17 +106,10 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
     "style"
   ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "The message to display in the alert. You can use variables and expressions."
-    },
     {
       "path": "componentName",
       "label": "Component Name",
@@ -142,26 +135,41 @@
     {
       "path": "showIcon",
       "label": "Show Icon",
+      "editorType": "iconPicker"
+    },
+    {
+      "path": "icon",
+      "label": "Icon",
       "editorType": "settingsInputRow"
     },
     {
       "path": "hidden",
       "label": "Hide",
+      "editorType": "switch"
+    },
+    {
+      "path": "closable",
+      "label": "Closable",
       "editorType": "settingsInputRow"
     },
     {
       "path": "marquee",
       "label": "Marquee",
-      "editorType": "settingsInputRow",
+      "editorType": "switch",
       "description": "If enabled, the content will scroll horizontally."
+    },
+    {
+      "path": "banner",
+      "label": "Banner",
+      "editorType": "settingsInputRow",
+      "description": "If enabled, the alert will be displayed as a banner."
     },
     {
       "path": "style",
       "label": "Style",
       "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "group": "Custom Styles",
-      "shared": true
+      "group": "Custom Styles"
     },
     {
       "path": "permissions",

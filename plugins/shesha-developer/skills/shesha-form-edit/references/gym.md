@@ -74,42 +74,70 @@ On a new release:
 
 **The gym can only vary settings the KB lists for that component.** It is not a coverage
 oracle; `not-measured` means "no variant was generated", not "measured and inconclusive".
-No `reason` is recorded either, so an unmeasured row is indistinguishable from one that was
-never attempted. Measured 2026-07-28: **43% of setting rows (875 / 2034) are
-`not-measured`.**
+Every skipped row does carry a `reason` in `gym/manifest.json` (`capped`,
+`dropdown with unresolved enum values`, `compound-only channel`, …), so a gap is always
+attributable rather than silent.
 
-The consequence, verified rather than assumed:
+### The appearance-extraction fix (2026-07-28)
 
-- `desktop.*` appearance paths are measured for **45 of 115** components — those whose KB
-  `settingsFields` happen to include them. `generate-component-gym.js` prefixes `desktop.`
-  onto `font|dimensions|background|shadow|border` paths, so an appearance family in the KB
-  does get varied.
-- **The gap is which families the KB carries, not the prefixing.** `container` gets 5
-  measured `desktop.*` rows (`dimensions.width`, `dimensions.height`, `background` ×2,
-  `shadow`) — but its 28 settings include **no `border`, no `font` and no `customStyle`
-  family at all**, so those paths can never be varied for it however often the gym reruns.
-  `dimensions.minHeight` is the near-miss: the family is present, that specific path is not.
-- The `hasStandardAppearance` flag is `true` for exactly **one** component (`image`), which
-  does not match the 45 that actually have appearance rows. The flag is not what drives
-  appearance measurement, and it looks like a `generate-component-kb.js` detection gap —
-  border and font live on the designer's shared appearance tab, which the KB parser does not
-  attribute to each component.
+The KB parser was a 0.43-era parser reading a 0.45 source tree, and it under-reported
+appearance by an order of magnitude. Three separate causes, all now fixed in
+`generate-component-kb.js`:
 
-This is why 19 of the 34 rows in `shesha-design-system/assets/capability-matrix.json` sit at
-`unmeasured` — they document appearance *techniques* (container borders and radius, text
-letter-spacing, refListStatus pill colours, datatable header styling), and the gym generates
-no variants for them. Several of the rest need bound data or a parent record the gym has no
-way to supply (`permanentFilter by parent data.id`, collection counts, row-template
-conditional visibility).
+1. **First-match-only extraction.** `fieldsFromFluent` took one `propertyName` per
+   `.addXxx()` call, but 0.45 packs many inputs into one `.addSettingsInputRow({inputs:[…]})`.
+   Each call is now split per input (`inputWindows`), so every input keeps its own
+   label and editor type.
+2. **Helper-generated inputs were invisible.** Border and radius inputs come from
+   `getBorderInputs()` / `getCornerInputs()` in `_settings/utils/border/utils.tsx` as
+   template literals (`${borderProp}.all.width`). No static parse can see them, so they
+   are expanded at the call site with the helper's real `path` argument. Their style
+   dropdown values come from the same helper and are supplied by `extract-enums.js`.
+3. **The 0.43 flat style model.** `SHARED_STYLE_FIELDS` (`borderSize`, `fontColor`, …)
+   described paths that do not exist on 0.45, and the `hasStandardAppearance` flag it
+   drove was true for exactly one component. Both are deleted. `appearanceFieldPaths`
+   is now computed from the 0.45 families (`border`, `font`, `dimensions`, `background`,
+   `shadow`, `overflow`, `stylingBox`, `style`, `customStyle`, `size`).
 
-**Unmeasured is not the same as broken.** `container:desktop.dimensions.width` is unmeasured
-yet demonstrably works — the compiler emits it for the table-worklist toolbar and the rendered
-page puts the pager flush against the grid edge. Treat `unmeasured` as "no evidence either
-way" and rely on the renderer facts in `knowledge/frontend-conventions.md`; only a measured
+Effect on the corpus — generated, not yet measured:
+
+| | before | after |
+|---|---|---|
+| KB settings fields | 1,880 | 3,554 |
+| KB appearance paths | 131 | 1,860 |
+| components carrying appearance | 45 | 68 |
+| gym variant instances | 1,610 | 2,675 |
+
+`container` went from 28 settings (2 appearance: `style`, `stylingBox`) to 62 settings
+(44 appearance), and from 5 measured `desktop.*` rows to 40 distinct varied paths
+including `border.border.{all,top,right,bottom,left}.{width,style,color}`,
+`border.radius.*` and `dimensions.minHeight`.
+
+Two allocation bugs surfaced once appearance grew and are also fixed in
+`generate-component-gym.js`: the per-form budget was spent bucket-by-bucket in strict
+priority order (appearance alone then exceeded the cap on 40 components, dropping all
+their data/validation/events rows), and multi-value enums crowded out whole families
+(20 `border.*.style` variants displaced every `border.radius` path). Allocation is now
+round-robin across buckets, and every path gets its first value before any path gets a
+second. The cap itself moved 28 → 56; see the constant's comment for the measured
+trade-off.
+
+### What a rerun still cannot fix
+
+`container` has **no `font` family in the 0.45 source** — its `fontStylePnlId` panel
+actually holds display/layout inputs. That is a renderer fact, not a parser gap, so no
+KB change will produce it. Rows needing bound data or a parent record are likewise out
+of reach of the current corpus: `permanentFilter by parent data.id`, collection counts,
+and row-template conditional visibility all need fixtures the gym does not build.
+
+**The committed matrix predates this fix.** `assets/measured-capability-matrix.json` was
+measured against the old corpus, so its coverage figures describe the old KB. The
+appearance rows above are *generated and awaiting measurement* — a gym rerun against a
+live backend is required before any of them can be cited as measured.
+
+**Unmeasured is not the same as broken.** Treat `unmeasured` as "no evidence either way"
+and rely on the renderer facts in `knowledge/frontend-conventions.md`; only a measured
 `no-op` is evidence of absence.
-
-Closing this gap means teaching the variant generator to vary the shared appearance block and
-to build data-bound fixtures — a change to the gym itself, not a rerun.
 
 ## Budget guards
 

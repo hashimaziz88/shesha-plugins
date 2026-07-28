@@ -110,15 +110,13 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
-  "appearanceFieldPaths": [],
+  "appearanceFieldPaths": [
+    "font",
+    "font.type",
+    "font.weight",
+    "font.align"
+  ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "Controls text thickness (light, normal, bold, etc.)"
-    },
     {
       "path": "propertyName",
       "editorType": "contextPropertyAutocomplete"
@@ -131,11 +129,21 @@
     {
       "path": "items",
       "label": "Configure Menu Buttons",
+      "editorType": "buttonGroupConfigurator"
+    },
+    {
+      "path": "popOverTitle",
+      "label": "Popover Title",
       "editorType": "settingsInputRow"
     },
     {
       "path": "showUserInfo",
       "label": "Show User Info",
+      "editorType": "switch"
+    },
+    {
+      "path": "popOverFormId",
+      "label": "Popover Form",
       "editorType": "settingsInputRow"
     },
     {
@@ -146,8 +154,37 @@
     {
       "path": "font",
       "label": "Family",
-      "editorType": "settingsInputRow",
+      "editorType": "dropdown",
+      "group": "Font"
+    },
+    {
+      "path": "font.type",
+      "label": "Size",
+      "editorType": "numberField",
+      "group": "Font"
+    },
+    {
+      "path": "subTextFontSize",
+      "label": "Weight",
+      "editorType": "dropdown",
+      "group": "Font"
+    },
+    {
+      "path": "font.weight",
+      "label": "Color",
+      "editorType": "colorPicker",
       "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
+    },
+    {
+      "path": "subTextColor",
+      "label": "Align",
+      "editorType": "dropdown",
+      "group": "Font"
+    },
+    {
+      "path": "font.align",
+      "editorType": "settingsInputRow",
       "group": "Font"
     },
     {

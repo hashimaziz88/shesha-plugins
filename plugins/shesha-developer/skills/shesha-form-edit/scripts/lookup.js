@@ -79,7 +79,7 @@ for (const q of queries) {
       kb: true,
       hint: `${meta.name || type} — v${meta.version}, ${meta.settingsFieldCount} settings`
         + `${meta.isInput ? ', input (needs propertyName)' : ''}`
-        + `${meta.hasStandardAppearance ? ', standard appearance block' : ''}`
+        + `${meta.appearanceFieldCount ? `, ${meta.appearanceFieldCount} appearance` : ''}`
         + '. No curated recipe for this type: author from the KB settings shape.',
     };
     kind = `kb:${type}`;

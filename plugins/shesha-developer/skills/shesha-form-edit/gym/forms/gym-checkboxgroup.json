@@ -123,19 +123,30 @@
           "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
         },
         {
-          "id": "0438bca9-71ec-5311-aa67-ac8bef955a85",
+          "id": "54a1785b-7197-576f-b993-6e6504bf7e3f",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-checkboxGroup-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "52823bf4-8508-5529-92e8-27e9b24e9b7f",
           "type": "container",
           "version": 7,
-          "componentName": "gym-checkboxGroup-v-9fca8559",
+          "componentName": "gym-checkboxGroup-v-1b640f90",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "e6310233-237a-5196-829b-c34119791f45",
+              "id": "e12a5e30-14cf-57a4-88b1-40327c1bb34b",
               "type": "checkboxGroup",
               "version": 5,
-              "label": "gym checkboxGroup",
+              "label": "GYM-TXT-label",
               "hidden": false,
               "dataSourceType": "referenceList",
               "referenceListId": {
@@ -144,36 +155,20 @@
               },
               "mode": "multiple",
               "propertyName": "status",
-              "parentId": "0438bca9-71ec-5311-aa67-ac8bef955a85"
+              "parentId": "52823bf4-8508-5529-92e8-27e9b24e9b7f"
             }
           ],
           "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
         },
         {
-          "id": "d45f458f-ce72-5572-b092-837352e17b9a",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-checkboxGroup-v-349ca2df",
-          "label": "",
+          "id": "2e196887-c113-5b0f-bcc9-4eec8b871ebc",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-checkboxGroup-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
           "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "61570f2f-5e8a-59e4-b93e-8c54c4196b10",
-              "type": "checkboxGroup",
-              "version": 5,
-              "label": "gym checkboxGroup",
-              "hidden": false,
-              "dataSourceType": "url",
-              "referenceListId": {
-                "module": "boxfusion.test",
-                "name": "AssetStatus"
-              },
-              "mode": "multiple",
-              "propertyName": "status",
-              "parentId": "d45f458f-ce72-5572-b092-837352e17b9a"
-            }
-          ],
           "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
         },
         {
@@ -205,6 +200,209 @@
           "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
         },
         {
+          "id": "54a1785b-7197-576f-b993-6e6504bf7e3f",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-checkboxGroup-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "40209ae5-a6c1-51af-a79c-fcda3641bdd6",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-checkboxGroup-v-ba90c652",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "93f30279-9fe8-577b-ab91-67502e2e3467",
+              "type": "checkboxGroup",
+              "version": 5,
+              "label": "gym checkboxGroup",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "mode": "multiple",
+              "propertyName": "status",
+              "labelAlign": "left",
+              "parentId": "40209ae5-a6c1-51af-a79c-fcda3641bdd6"
+            }
+          ],
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "2e196887-c113-5b0f-bcc9-4eec8b871ebc",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-checkboxGroup-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "a8bd903c-1499-5ab4-a943-97bec4435921",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-checkboxGroup-v-cc559fb6",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1f359aad-69be-525d-b446-5fba46f850de",
+              "type": "checkboxGroup",
+              "version": 5,
+              "label": "gym checkboxGroup",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "mode": "single",
+              "propertyName": "status",
+              "parentId": "a8bd903c-1499-5ab4-a943-97bec4435921"
+            }
+          ],
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "54a1785b-7197-576f-b993-6e6504bf7e3f",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-checkboxGroup-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "21e31659-ae31-5d29-9224-7defc414097c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-checkboxGroup-v-a76e668c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4b9f2bce-f780-5c5f-9e4c-b8a719557f13",
+              "type": "checkboxGroup",
+              "version": 5,
+              "label": "gym checkboxGroup",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "mode": "multiple",
+              "propertyName": "status",
+              "description": "GYM-TXT-description",
+              "parentId": "21e31659-ae31-5d29-9224-7defc414097c"
+            }
+          ],
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "2e196887-c113-5b0f-bcc9-4eec8b871ebc",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-checkboxGroup-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "0438bca9-71ec-5311-aa67-ac8bef955a85",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-checkboxGroup-v-9fca8559",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e6310233-237a-5196-829b-c34119791f45",
+              "type": "checkboxGroup",
+              "version": 5,
+              "label": "gym checkboxGroup",
+              "hidden": false,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "mode": "multiple",
+              "propertyName": "status",
+              "parentId": "0438bca9-71ec-5311-aa67-ac8bef955a85"
+            }
+          ],
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "54a1785b-7197-576f-b993-6e6504bf7e3f",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-checkboxGroup-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "0e1dafa6-8277-5b64-8699-011cd2e48305",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-checkboxGroup-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e64424cb-bd9f-50ae-b9ad-de1e0f3c56cd",
+              "type": "checkboxGroup",
+              "version": 5,
+              "label": "gym checkboxGroup",
+              "hidden": true,
+              "dataSourceType": "referenceList",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "mode": "multiple",
+              "propertyName": "status",
+              "parentId": "0e1dafa6-8277-5b64-8699-011cd2e48305"
+            }
+          ],
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "2e196887-c113-5b0f-bcc9-4eec8b871ebc",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-checkboxGroup-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
           "id": "4a4d8f43-f7d2-5e4d-9f3b-b39b1439b032",
           "type": "container",
           "version": 7,
@@ -233,16 +431,27 @@
           "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
         },
         {
-          "id": "a8bd903c-1499-5ab4-a943-97bec4435921",
+          "id": "54a1785b-7197-576f-b993-6e6504bf7e3f",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-checkboxGroup-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "805489bb-4bc3-592e-894d-70d110e2337c",
           "type": "container",
           "version": 7,
-          "componentName": "gym-checkboxGroup-v-cc559fb6",
+          "componentName": "gym-checkboxGroup-v-8ae8db35",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "1f359aad-69be-525d-b446-5fba46f850de",
+              "id": "14047a80-97b0-5dfc-8b35-9beb0b9878a4",
               "type": "checkboxGroup",
               "version": 5,
               "label": "gym checkboxGroup",
@@ -252,11 +461,23 @@
                 "module": "boxfusion.test",
                 "name": "AssetStatus"
               },
-              "mode": "single",
+              "mode": "multiple",
               "propertyName": "status",
-              "parentId": "a8bd903c-1499-5ab4-a943-97bec4435921"
+              "hideLabel": true,
+              "parentId": "805489bb-4bc3-592e-894d-70d110e2337c"
             }
           ],
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "2e196887-c113-5b0f-bcc9-4eec8b871ebc",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-checkboxGroup-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
         },
         {
@@ -298,43 +519,16 @@
           "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
         },
         {
-          "id": "52823bf4-8508-5529-92e8-27e9b24e9b7f",
+          "id": "9cc294d0-7f8a-5c1a-b75a-6ecd7580f2ee",
           "type": "container",
           "version": 7,
-          "componentName": "gym-checkboxGroup-v-1b640f90",
+          "componentName": "gym-checkboxGroup-v-cb7e2795",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "e12a5e30-14cf-57a4-88b1-40327c1bb34b",
-              "type": "checkboxGroup",
-              "version": 5,
-              "label": "GYM-TXT-label",
-              "hidden": false,
-              "dataSourceType": "referenceList",
-              "referenceListId": {
-                "module": "boxfusion.test",
-                "name": "AssetStatus"
-              },
-              "mode": "multiple",
-              "propertyName": "status",
-              "parentId": "52823bf4-8508-5529-92e8-27e9b24e9b7f"
-            }
-          ],
-          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
-        },
-        {
-          "id": "40209ae5-a6c1-51af-a79c-fcda3641bdd6",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-checkboxGroup-v-ba90c652",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "93f30279-9fe8-577b-ab91-67502e2e3467",
+              "id": "4178a0f6-c2b7-510f-befc-ef2822b102b9",
               "type": "checkboxGroup",
               "version": 5,
               "label": "gym checkboxGroup",
@@ -346,10 +540,59 @@
               },
               "mode": "multiple",
               "propertyName": "status",
-              "labelAlign": "left",
-              "parentId": "40209ae5-a6c1-51af-a79c-fcda3641bdd6"
+              "editMode": "readOnly",
+              "parentId": "9cc294d0-7f8a-5c1a-b75a-6ecd7580f2ee"
             }
           ],
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "2e196887-c113-5b0f-bcc9-4eec8b871ebc",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-checkboxGroup-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "d45f458f-ce72-5572-b092-837352e17b9a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-checkboxGroup-v-349ca2df",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "61570f2f-5e8a-59e4-b93e-8c54c4196b10",
+              "type": "checkboxGroup",
+              "version": 5,
+              "label": "gym checkboxGroup",
+              "hidden": false,
+              "dataSourceType": "url",
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "AssetStatus"
+              },
+              "mode": "multiple",
+              "propertyName": "status",
+              "parentId": "d45f458f-ce72-5572-b092-837352e17b9a"
+            }
+          ],
+          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
+        },
+        {
+          "id": "54a1785b-7197-576f-b993-6e6504bf7e3f",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-checkboxGroup-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
         },
         {
@@ -376,117 +619,6 @@
               "propertyName": "status",
               "labelAlign": "right",
               "parentId": "fc5749ec-fadb-5a52-af1c-c90fa91a6fe6"
-            }
-          ],
-          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
-        },
-        {
-          "id": "21e31659-ae31-5d29-9224-7defc414097c",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-checkboxGroup-v-a76e668c",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "4b9f2bce-f780-5c5f-9e4c-b8a719557f13",
-              "type": "checkboxGroup",
-              "version": 5,
-              "label": "gym checkboxGroup",
-              "hidden": false,
-              "dataSourceType": "referenceList",
-              "referenceListId": {
-                "module": "boxfusion.test",
-                "name": "AssetStatus"
-              },
-              "mode": "multiple",
-              "propertyName": "status",
-              "description": "GYM-TXT-description",
-              "parentId": "21e31659-ae31-5d29-9224-7defc414097c"
-            }
-          ],
-          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
-        },
-        {
-          "id": "0e1dafa6-8277-5b64-8699-011cd2e48305",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-checkboxGroup-v-a058f647",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "e64424cb-bd9f-50ae-b9ad-de1e0f3c56cd",
-              "type": "checkboxGroup",
-              "version": 5,
-              "label": "gym checkboxGroup",
-              "hidden": true,
-              "dataSourceType": "referenceList",
-              "referenceListId": {
-                "module": "boxfusion.test",
-                "name": "AssetStatus"
-              },
-              "mode": "multiple",
-              "propertyName": "status",
-              "parentId": "0e1dafa6-8277-5b64-8699-011cd2e48305"
-            }
-          ],
-          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
-        },
-        {
-          "id": "805489bb-4bc3-592e-894d-70d110e2337c",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-checkboxGroup-v-8ae8db35",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "14047a80-97b0-5dfc-8b35-9beb0b9878a4",
-              "type": "checkboxGroup",
-              "version": 5,
-              "label": "gym checkboxGroup",
-              "hidden": false,
-              "dataSourceType": "referenceList",
-              "referenceListId": {
-                "module": "boxfusion.test",
-                "name": "AssetStatus"
-              },
-              "mode": "multiple",
-              "propertyName": "status",
-              "hideLabel": true,
-              "parentId": "805489bb-4bc3-592e-894d-70d110e2337c"
-            }
-          ],
-          "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"
-        },
-        {
-          "id": "9cc294d0-7f8a-5c1a-b75a-6ecd7580f2ee",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-checkboxGroup-v-cb7e2795",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "4178a0f6-c2b7-510f-befc-ef2822b102b9",
-              "type": "checkboxGroup",
-              "version": 5,
-              "label": "gym checkboxGroup",
-              "hidden": false,
-              "dataSourceType": "referenceList",
-              "referenceListId": {
-                "module": "boxfusion.test",
-                "name": "AssetStatus"
-              },
-              "mode": "multiple",
-              "propertyName": "status",
-              "editMode": "readOnly",
-              "parentId": "9cc294d0-7f8a-5c1a-b75a-6ecd7580f2ee"
             }
           ],
           "parentId": "ead5d067-cf57-5d16-9497-b7d77d0aea7d"

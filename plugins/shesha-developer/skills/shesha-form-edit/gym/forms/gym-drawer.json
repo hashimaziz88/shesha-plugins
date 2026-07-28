@@ -62,24 +62,24 @@
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "4a0dba71-d591-5bbe-9a07-4d65bc02bdc4",
+          "id": "fb658545-f775-5a39-af04-4020be414d53",
           "type": "container",
           "version": 7,
-          "componentName": "gym-drawer-v-0baf713f",
+          "componentName": "gym-drawer-v-d94de207",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "616ac281-fddd-5fe5-a5d3-88bc71ca463d",
+              "id": "3830bc94-a070-5fa9-b1b2-991af5e47a9b",
               "type": "drawer",
               "version": 4,
               "label": "gym drawer",
               "hidden": false,
-              "componentName": "gym-drawer-inst-desktop.dimensions.width=317px",
+              "componentName": "gym-drawer-inst-desktop.dimensions.width=17px",
               "components": [
                 {
-                  "id": "b442ab4c-df04-5a0e-86a3-a7b3aeaef7a6",
+                  "id": "b9dc913d-fa49-51f2-9059-16fac76b7ee6",
                   "type": "text",
                   "version": 2,
                   "label": "",
@@ -87,38 +87,49 @@
                   "content": "GYM child of drawer",
                   "textType": "span",
                   "contentDisplay": "content",
-                  "parentId": "616ac281-fddd-5fe5-a5d3-88bc71ca463d"
+                  "parentId": "3830bc94-a070-5fa9-b1b2-991af5e47a9b"
                 }
               ],
               "desktop": {
                 "dimensions": {
-                  "width": "317px"
+                  "width": "17px"
                 }
               },
-              "parentId": "4a0dba71-d591-5bbe-9a07-4d65bc02bdc4"
+              "parentId": "fb658545-f775-5a39-af04-4020be414d53"
             }
           ],
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "64fe3fe9-9922-5cbf-9330-1c577e469814",
+          "id": "405f14ce-9010-56f8-8fa3-d2700ce8675b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-events",
+          "content": "— events —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "6e299142-3a70-553e-b07b-4fdc0795c6c5",
           "type": "container",
           "version": 7,
-          "componentName": "gym-drawer-v-529ccf25",
+          "componentName": "gym-drawer-v-d830bfef",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "51177c64-8107-5f96-a903-968c635ef7bd",
+              "id": "62bfb6f8-d1f3-5b50-aef2-5ba47c088edc",
               "type": "drawer",
               "version": 4,
               "label": "gym drawer",
               "hidden": false,
-              "componentName": "gym-drawer-inst-desktop.dimensions.height=117px",
+              "componentName": "gym-drawer-inst-showHeader=true",
               "components": [
                 {
-                  "id": "b2f8466f-8253-5de3-8a32-ec10fabed954",
+                  "id": "0abba608-0f5f-5194-8275-277c66ff1ca3",
                   "type": "text",
                   "version": 2,
                   "label": "",
@@ -126,17 +137,595 @@
                   "content": "GYM child of drawer",
                   "textType": "span",
                   "contentDisplay": "content",
-                  "parentId": "51177c64-8107-5f96-a903-968c635ef7bd"
+                  "parentId": "62bfb6f8-d1f3-5b50-aef2-5ba47c088edc"
+                }
+              ],
+              "showHeader": true,
+              "parentId": "6e299142-3a70-553e-b07b-4fdc0795c6c5"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "f155b4e9-95c8-5b54-b1a3-92bc782468d3",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "419dfaeb-4e2d-539c-beaf-afa801d7e618",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "eff4db17-66c0-5b07-b293-f3d27282771e",
+              "type": "drawer",
+              "version": 4,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-label=txt",
+              "components": [
+                {
+                  "id": "11480c69-85ec-5c12-af68-f6e4348d4698",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "eff4db17-66c0-5b07-b293-f3d27282771e"
+                }
+              ],
+              "parentId": "419dfaeb-4e2d-539c-beaf-afa801d7e618"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "74aafba6-9977-57c7-8ad6-050a18849d81",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "9b6ab9ec-69bb-5574-8665-66029fa68ad6",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-543ca5f0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "bbd83b07-d247-5359-8d36-9570f607a52b",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.dimensions.minWidth=17px",
+              "components": [
+                {
+                  "id": "67060d6f-0dbc-5cd5-8287-8f50a3aede59",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "bbd83b07-d247-5359-8d36-9570f607a52b"
                 }
               ],
               "desktop": {
                 "dimensions": {
-                  "height": "117px"
+                  "minWidth": "17px"
                 }
               },
-              "parentId": "64fe3fe9-9922-5cbf-9330-1c577e469814"
+              "parentId": "9b6ab9ec-69bb-5574-8665-66029fa68ad6"
             }
           ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "405f14ce-9010-56f8-8fa3-d2700ce8675b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-events",
+          "content": "— events —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "553fa51d-a058-5f00-81cc-7dbadb9d8f22",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-62ef1404",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "cf3f3674-6361-5e63-904c-25accd999133",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-showFooter=true",
+              "components": [
+                {
+                  "id": "94c75a69-314b-5c85-8111-03fda31b91e3",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "cf3f3674-6361-5e63-904c-25accd999133"
+                }
+              ],
+              "showFooter": true,
+              "parentId": "553fa51d-a058-5f00-81cc-7dbadb9d8f22"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "f155b4e9-95c8-5b54-b1a3-92bc782468d3",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "492a0bd7-bea1-5fe7-b195-d659ab8a541b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-44c5a3fb",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "920f4cae-9543-5a16-ae19-e2739bd2e49c",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-okText=txt",
+              "components": [
+                {
+                  "id": "4d3d02ef-daa3-54b6-8ccf-501d1324f2e5",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "920f4cae-9543-5a16-ae19-e2739bd2e49c"
+                }
+              ],
+              "okText": "GYM-TXT-okText",
+              "parentId": "492a0bd7-bea1-5fe7-b195-d659ab8a541b"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "74aafba6-9977-57c7-8ad6-050a18849d81",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "94e3d75d-506b-567b-ae67-fe2a107c6070",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-11b08108",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c0bce571-be37-52aa-b0e6-c024d3abe0f2",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.dimensions.maxWidth=17",
+              "components": [
+                {
+                  "id": "c12d0b7b-4473-5a6c-8739-aa631f8de291",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "c0bce571-be37-52aa-b0e6-c024d3abe0f2"
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "maxWidth": 17
+                }
+              },
+              "parentId": "94e3d75d-506b-567b-ae67-fe2a107c6070"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "f155b4e9-95c8-5b54-b1a3-92bc782468d3",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "017ecd21-b650-51ea-a7e7-479e7bc9b5aa",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-72e11938",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d62d0e42-6ceb-5de4-8195-0dc59fc2926d",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-cancelText=txt",
+              "components": [
+                {
+                  "id": "98d43cef-28c8-5494-8c92-af03968d37e5",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "d62d0e42-6ceb-5de4-8195-0dc59fc2926d"
+                }
+              ],
+              "cancelText": "GYM-TXT-cancelText",
+              "parentId": "017ecd21-b650-51ea-a7e7-479e7bc9b5aa"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "74aafba6-9977-57c7-8ad6-050a18849d81",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "2f8f8d21-df67-5875-ad15-8e85283f7235",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-e3c22599",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f7e5e00b-3176-57cc-8851-c758a36b8a5f",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.dimensions.height=17px",
+              "components": [
+                {
+                  "id": "84ca4575-5421-527c-a60e-1a5d6ad9337d",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "f7e5e00b-3176-57cc-8851-c758a36b8a5f"
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "height": "17px"
+                }
+              },
+              "parentId": "2f8f8d21-df67-5875-ad15-8e85283f7235"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "f155b4e9-95c8-5b54-b1a3-92bc782468d3",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "693fedaf-07a6-587f-8335-70d401615373",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-22ba7b13",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "460dd350-b497-5247-bd6d-d290f47f7f0b",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-placement=top",
+              "components": [
+                {
+                  "id": "1b4252ef-9f9c-5fd3-b887-7b53c798e88a",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "460dd350-b497-5247-bd6d-d290f47f7f0b"
+                }
+              ],
+              "placement": "top",
+              "parentId": "693fedaf-07a6-587f-8335-70d401615373"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "74aafba6-9977-57c7-8ad6-050a18849d81",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "d75657da-6171-5843-9f74-240e74cd33db",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-305d8597",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2695e315-2683-54dd-b687-77b61802ce6b",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.dimensions.minHeight=17px",
+              "components": [
+                {
+                  "id": "7468b694-5980-5409-8374-92e289b5f4d6",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "2695e315-2683-54dd-b687-77b61802ce6b"
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "minHeight": "17px"
+                }
+              },
+              "parentId": "d75657da-6171-5843-9f74-240e74cd33db"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "f155b4e9-95c8-5b54-b1a3-92bc782468d3",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "8edd19a9-6f83-5723-a5ef-d68b5d5d4aa1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-03ca8a6f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5c4c316f-62a3-52ff-8ad6-402efb54995a",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-placement=right",
+              "components": [
+                {
+                  "id": "67e29f4f-e4e5-530e-84b9-5d780c1aee85",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "5c4c316f-62a3-52ff-8ad6-402efb54995a"
+                }
+              ],
+              "placement": "right",
+              "parentId": "8edd19a9-6f83-5723-a5ef-d68b5d5d4aa1"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "74aafba6-9977-57c7-8ad6-050a18849d81",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "57b398ed-e21d-5687-b693-ce2b3334b024",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-3ae5eb1d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "773300e2-d673-5980-81f5-aa92502aaaaf",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.dimensions.maxHeight=17",
+              "components": [
+                {
+                  "id": "9ba51ca9-a440-5406-ba44-04a75f86d654",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "773300e2-d673-5980-81f5-aa92502aaaaf"
+                }
+              ],
+              "desktop": {
+                "dimensions": {
+                  "maxHeight": 17
+                }
+              },
+              "parentId": "57b398ed-e21d-5687-b693-ce2b3334b024"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "f155b4e9-95c8-5b54-b1a3-92bc782468d3",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "4699d0ba-e6de-5cee-aadf-888702eeddf8",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-a63c63aa",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "545ca6d7-3023-560d-8b19-fb967abd6edc",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-placement=bottom",
+              "components": [
+                {
+                  "id": "3c9032b5-10c5-5e77-a3b3-5cb83478a975",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "545ca6d7-3023-560d-8b19-fb967abd6edc"
+                }
+              ],
+              "placement": "bottom",
+              "parentId": "4699d0ba-e6de-5cee-aadf-888702eeddf8"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "74aafba6-9977-57c7-8ad6-050a18849d81",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
@@ -180,24 +769,35 @@
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "01f393fd-2d5f-5bee-aa8f-d36c28c1e76c",
+          "id": "f155b4e9-95c8-5b54-b1a3-92bc782468d3",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "42ce012a-c9e4-5534-9ec6-b84e4e736d58",
           "type": "container",
           "version": 7,
-          "componentName": "gym-drawer-v-8db175ab",
+          "componentName": "gym-drawer-v-261aba1e",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "4dc9ce34-8cfe-5e08-9002-9f24e3bc93dd",
+              "id": "35d3caf5-66f1-5d94-8aaa-39e52c415061",
               "type": "drawer",
               "version": 4,
               "label": "gym drawer",
               "hidden": false,
-              "componentName": "gym-drawer-inst-desktop.background=gradient",
+              "componentName": "gym-drawer-inst-placement=left",
               "components": [
                 {
-                  "id": "9749b67d-45b0-5b31-8247-4a614740e3c2",
+                  "id": "89a21428-9474-5561-b0d8-916a717a0931",
                   "type": "text",
                   "version": 2,
                   "label": "",
@@ -205,24 +805,24 @@
                   "content": "GYM child of drawer",
                   "textType": "span",
                   "contentDisplay": "content",
-                  "parentId": "4dc9ce34-8cfe-5e08-9002-9f24e3bc93dd"
+                  "parentId": "35d3caf5-66f1-5d94-8aaa-39e52c415061"
                 }
               ],
-              "desktop": {
-                "background": {
-                  "type": "gradient",
-                  "gradient": {
-                    "direction": "to right",
-                    "colors": {
-                      "0": "#ff00aa",
-                      "1": "#00ff00"
-                    }
-                  }
-                }
-              },
-              "parentId": "01f393fd-2d5f-5bee-aa8f-d36c28c1e76c"
+              "placement": "left",
+              "parentId": "42ce012a-c9e4-5534-9ec6-b84e4e736d58"
             }
           ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "74aafba6-9977-57c7-8ad6-050a18849d81",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-drawer-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
@@ -264,6 +864,162 @@
                 }
               },
               "parentId": "84ddd12c-d5ac-5696-a967-b0470a81be6f"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "845ed8ef-b543-5b8f-ae13-65007b4396c6",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-a304424a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5707e63c-390b-51f9-af50-6f47e126e36c",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.shadow.offsetY=17",
+              "components": [
+                {
+                  "id": "b17005f2-1363-51d4-a1c4-ee5e50a31782",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "5707e63c-390b-51f9-af50-6f47e126e36c"
+                }
+              ],
+              "desktop": {
+                "shadow": {
+                  "offsetY": 17
+                }
+              },
+              "parentId": "845ed8ef-b543-5b8f-ae13-65007b4396c6"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "6df8a1e0-74ca-5b7f-bf6e-fd173f25cd47",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-c0f5a90b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "67ee0a71-3417-5701-9718-ac56a254990b",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.shadow.blurRadius=17",
+              "components": [
+                {
+                  "id": "83b7a9de-ceef-5314-be33-44a3243e8924",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "67ee0a71-3417-5701-9718-ac56a254990b"
+                }
+              ],
+              "desktop": {
+                "shadow": {
+                  "blurRadius": 17
+                }
+              },
+              "parentId": "6df8a1e0-74ca-5b7f-bf6e-fd173f25cd47"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "f2d3cdb6-3f3a-5cc3-9968-1d4e4da61fd1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-f80da270",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "02a73123-8aeb-5d5c-af27-d7d62e57db03",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.shadow.spreadRadius=#ff00aa",
+              "components": [
+                {
+                  "id": "f98fb30e-99ff-57e2-9c16-36d45f31e677",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "02a73123-8aeb-5d5c-af27-d7d62e57db03"
+                }
+              ],
+              "desktop": {
+                "shadow": {
+                  "spreadRadius": "#ff00aa"
+                }
+              },
+              "parentId": "f2d3cdb6-3f3a-5cc3-9968-1d4e4da61fd1"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "723fbdc9-40c7-5b04-903e-a9e12186225f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-9e7f5fea",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e3e49e53-cdd0-588b-afff-56f493748d5e",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.shadow.color=#ff00aa",
+              "components": [
+                {
+                  "id": "6f771540-37e0-5c18-bcb4-665c20733190",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "e3e49e53-cdd0-588b-afff-56f493748d5e"
+                }
+              ],
+              "desktop": {
+                "shadow": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "723fbdc9-40c7-5b04-903e-a9e12186225f"
             }
           ],
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
@@ -384,45 +1140,6 @@
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "f95e9411-a38d-5f9e-ae77-4399cf8fc78c",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-drawer-v-6e326a5e",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "a8dfa52c-5b02-5a4c-b308-576f2669c970",
-              "type": "drawer",
-              "version": 4,
-              "label": "gym drawer",
-              "hidden": false,
-              "componentName": "gym-drawer-inst-headerStyles.background.size=17",
-              "components": [
-                {
-                  "id": "cb43860c-05d6-57f2-9378-070574d2bc77",
-                  "type": "text",
-                  "version": 2,
-                  "label": "",
-                  "hideLabel": true,
-                  "content": "GYM child of drawer",
-                  "textType": "span",
-                  "contentDisplay": "content",
-                  "parentId": "a8dfa52c-5b02-5a4c-b308-576f2669c970"
-                }
-              ],
-              "headerStyles": {
-                "background": {
-                  "size": 17
-                }
-              },
-              "parentId": "f95e9411-a38d-5f9e-ae77-4399cf8fc78c"
-            }
-          ],
-          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
-        },
-        {
           "id": "ee05b793-ab0b-5cdf-846e-f6b0eb519ae3",
           "type": "container",
           "version": 7,
@@ -457,6 +1174,162 @@
                 }
               },
               "parentId": "ee05b793-ab0b-5cdf-846e-f6b0eb519ae3"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "6d9f318b-0ce2-5c2d-bc8b-a69143f82683",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-65fb4a1d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "44217610-eeee-5842-b2f1-b22fa1143b59",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-headerStyles.shadow.offsetY=17",
+              "components": [
+                {
+                  "id": "859b002d-c7d8-5f4e-8bb3-102126ea9a26",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "44217610-eeee-5842-b2f1-b22fa1143b59"
+                }
+              ],
+              "headerStyles": {
+                "shadow": {
+                  "offsetY": 17
+                }
+              },
+              "parentId": "6d9f318b-0ce2-5c2d-bc8b-a69143f82683"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "367fcde6-759d-59a3-955d-9980fa242d74",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-fd9218b9",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c05f9839-f7c0-55a5-8384-07bb196d1394",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-headerStyles.shadow.blurRadius=17",
+              "components": [
+                {
+                  "id": "52dbfd35-6ecb-56d3-8cc5-6cfd518e75a6",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "c05f9839-f7c0-55a5-8384-07bb196d1394"
+                }
+              ],
+              "headerStyles": {
+                "shadow": {
+                  "blurRadius": 17
+                }
+              },
+              "parentId": "367fcde6-759d-59a3-955d-9980fa242d74"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "7082c0ec-2e95-5950-a007-0a7ab221147d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-9b5a0725",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0613a179-3870-5ded-8f7a-32c3fde2beea",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-headerStyles.shadow.spreadRadius=#ff00aa",
+              "components": [
+                {
+                  "id": "2d10f32e-00a9-5969-b972-f655e7ec5f39",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "0613a179-3870-5ded-8f7a-32c3fde2beea"
+                }
+              ],
+              "headerStyles": {
+                "shadow": {
+                  "spreadRadius": "#ff00aa"
+                }
+              },
+              "parentId": "7082c0ec-2e95-5950-a007-0a7ab221147d"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "308fe550-26f6-5eb6-a30a-1b684a6f92ed",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-5abceb6d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "856980dc-24f2-5a84-b13e-3c51f8d608e1",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-headerStyles.shadow.color=#ff00aa",
+              "components": [
+                {
+                  "id": "297f3c52-2ffe-53cb-a139-64f645a88797",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "856980dc-24f2-5a84-b13e-3c51f8d608e1"
+                }
+              ],
+              "headerStyles": {
+                "shadow": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "308fe550-26f6-5eb6-a30a-1b684a6f92ed"
             }
           ],
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
@@ -542,45 +1415,6 @@
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "9c39025f-5f8e-5973-9a0c-1fe72b433bf6",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-drawer-v-6d459b29",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "e3896cab-6261-5716-ad66-12012e7d0506",
-              "type": "drawer",
-              "version": 4,
-              "label": "gym drawer",
-              "hidden": false,
-              "componentName": "gym-drawer-inst-footerStyles.background.size=17",
-              "components": [
-                {
-                  "id": "7326d1f8-b8e8-520a-91a8-ccf4a577d82b",
-                  "type": "text",
-                  "version": 2,
-                  "label": "",
-                  "hideLabel": true,
-                  "content": "GYM child of drawer",
-                  "textType": "span",
-                  "contentDisplay": "content",
-                  "parentId": "e3896cab-6261-5716-ad66-12012e7d0506"
-                }
-              ],
-              "footerStyles": {
-                "background": {
-                  "size": 17
-                }
-              },
-              "parentId": "9c39025f-5f8e-5973-9a0c-1fe72b433bf6"
-            }
-          ],
-          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
-        },
-        {
           "id": "104f04e9-4b1a-53b8-9bfb-073c1070500c",
           "type": "container",
           "version": 7,
@@ -620,35 +1454,24 @@
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "405f14ce-9010-56f8-8fa3-d2700ce8675b",
-          "type": "text",
-          "version": 5,
-          "componentName": "gym-drawer-h-events",
-          "content": "— events —",
-          "textType": "span",
-          "contentDisplay": "content",
-          "hideLabel": true,
-          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
-        },
-        {
-          "id": "6e299142-3a70-553e-b07b-4fdc0795c6c5",
+          "id": "63776fef-3fbe-5df4-b1e1-73425fa4309e",
           "type": "container",
           "version": 7,
-          "componentName": "gym-drawer-v-d830bfef",
+          "componentName": "gym-drawer-v-544b20ce",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "62bfb6f8-d1f3-5b50-aef2-5ba47c088edc",
+              "id": "b57bba74-fe21-5cab-a375-3e50ce6f37cb",
               "type": "drawer",
               "version": 4,
               "label": "gym drawer",
               "hidden": false,
-              "componentName": "gym-drawer-inst-showHeader=true",
+              "componentName": "gym-drawer-inst-footerStyles.shadow.offsetY=17",
               "components": [
                 {
-                  "id": "0abba608-0f5f-5194-8275-277c66ff1ca3",
+                  "id": "eab578c5-8b64-51fe-a580-0517a338e9af",
                   "type": "text",
                   "version": 2,
                   "label": "",
@@ -656,45 +1479,38 @@
                   "content": "GYM child of drawer",
                   "textType": "span",
                   "contentDisplay": "content",
-                  "parentId": "62bfb6f8-d1f3-5b50-aef2-5ba47c088edc"
+                  "parentId": "b57bba74-fe21-5cab-a375-3e50ce6f37cb"
                 }
               ],
-              "showHeader": true,
-              "parentId": "6e299142-3a70-553e-b07b-4fdc0795c6c5"
+              "footerStyles": {
+                "shadow": {
+                  "offsetY": 17
+                }
+              },
+              "parentId": "63776fef-3fbe-5df4-b1e1-73425fa4309e"
             }
           ],
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "f155b4e9-95c8-5b54-b1a3-92bc782468d3",
-          "type": "text",
-          "version": 5,
-          "componentName": "gym-drawer-h-display",
-          "content": "— display —",
-          "textType": "span",
-          "contentDisplay": "content",
-          "hideLabel": true,
-          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
-        },
-        {
-          "id": "419dfaeb-4e2d-539c-beaf-afa801d7e618",
+          "id": "c8d461e5-1313-56f6-a9f7-5ca7165f8a50",
           "type": "container",
           "version": 7,
-          "componentName": "gym-drawer-v-1b640f90",
+          "componentName": "gym-drawer-v-842b1abd",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "eff4db17-66c0-5b07-b293-f3d27282771e",
+              "id": "73e0d6d5-2402-593a-b8ff-164b670f5fde",
               "type": "drawer",
               "version": 4,
-              "label": "GYM-TXT-label",
+              "label": "gym drawer",
               "hidden": false,
-              "componentName": "gym-drawer-inst-label=txt",
+              "componentName": "gym-drawer-inst-footerStyles.shadow.blurRadius=17",
               "components": [
                 {
-                  "id": "11480c69-85ec-5c12-af68-f6e4348d4698",
+                  "id": "995a8619-3af4-59e8-8c00-7274d97c5c4a",
                   "type": "text",
                   "version": 2,
                   "label": "",
@@ -702,33 +1518,38 @@
                   "content": "GYM child of drawer",
                   "textType": "span",
                   "contentDisplay": "content",
-                  "parentId": "eff4db17-66c0-5b07-b293-f3d27282771e"
+                  "parentId": "73e0d6d5-2402-593a-b8ff-164b670f5fde"
                 }
               ],
-              "parentId": "419dfaeb-4e2d-539c-beaf-afa801d7e618"
+              "footerStyles": {
+                "shadow": {
+                  "blurRadius": 17
+                }
+              },
+              "parentId": "c8d461e5-1313-56f6-a9f7-5ca7165f8a50"
             }
           ],
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "492a0bd7-bea1-5fe7-b195-d659ab8a541b",
+          "id": "16f1a634-1e1b-5aa6-aa03-db1b322ef355",
           "type": "container",
           "version": 7,
-          "componentName": "gym-drawer-v-44c5a3fb",
+          "componentName": "gym-drawer-v-6b24053c",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "920f4cae-9543-5a16-ae19-e2739bd2e49c",
+              "id": "e2dedfa3-72ba-5a5a-9d04-86d952758b71",
               "type": "drawer",
               "version": 4,
               "label": "gym drawer",
               "hidden": false,
-              "componentName": "gym-drawer-inst-okText=txt",
+              "componentName": "gym-drawer-inst-footerStyles.shadow.spreadRadius=#ff00aa",
               "components": [
                 {
-                  "id": "4d3d02ef-daa3-54b6-8ccf-501d1324f2e5",
+                  "id": "13da90ca-95b9-52b1-93b5-51821a0fdd4e",
                   "type": "text",
                   "version": 2,
                   "label": "",
@@ -736,34 +1557,38 @@
                   "content": "GYM child of drawer",
                   "textType": "span",
                   "contentDisplay": "content",
-                  "parentId": "920f4cae-9543-5a16-ae19-e2739bd2e49c"
+                  "parentId": "e2dedfa3-72ba-5a5a-9d04-86d952758b71"
                 }
               ],
-              "okText": "GYM-TXT-okText",
-              "parentId": "492a0bd7-bea1-5fe7-b195-d659ab8a541b"
+              "footerStyles": {
+                "shadow": {
+                  "spreadRadius": "#ff00aa"
+                }
+              },
+              "parentId": "16f1a634-1e1b-5aa6-aa03-db1b322ef355"
             }
           ],
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "017ecd21-b650-51ea-a7e7-479e7bc9b5aa",
+          "id": "9687d917-e693-5eea-992b-f6d24abf4493",
           "type": "container",
           "version": 7,
-          "componentName": "gym-drawer-v-72e11938",
+          "componentName": "gym-drawer-v-d782e3e6",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "d62d0e42-6ceb-5de4-8195-0dc59fc2926d",
+              "id": "e766fc7e-c873-5b00-ba61-4935d272ae21",
               "type": "drawer",
               "version": 4,
               "label": "gym drawer",
               "hidden": false,
-              "componentName": "gym-drawer-inst-cancelText=txt",
+              "componentName": "gym-drawer-inst-footerStyles.shadow.color=#ff00aa",
               "components": [
                 {
-                  "id": "98d43cef-28c8-5494-8c92-af03968d37e5",
+                  "id": "31b6cdd9-2b2c-5fd9-a791-cea573db5bbb",
                   "type": "text",
                   "version": 2,
                   "label": "",
@@ -771,34 +1596,38 @@
                   "content": "GYM child of drawer",
                   "textType": "span",
                   "contentDisplay": "content",
-                  "parentId": "d62d0e42-6ceb-5de4-8195-0dc59fc2926d"
+                  "parentId": "e766fc7e-c873-5b00-ba61-4935d272ae21"
                 }
               ],
-              "cancelText": "GYM-TXT-cancelText",
-              "parentId": "017ecd21-b650-51ea-a7e7-479e7bc9b5aa"
+              "footerStyles": {
+                "shadow": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "9687d917-e693-5eea-992b-f6d24abf4493"
             }
           ],
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "693fedaf-07a6-587f-8335-70d401615373",
+          "id": "4a966c6e-ed91-573b-9f9b-cc03d182991a",
           "type": "container",
           "version": 7,
-          "componentName": "gym-drawer-v-22ba7b13",
+          "componentName": "gym-drawer-v-11875484",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "460dd350-b497-5247-bd6d-d290f47f7f0b",
+              "id": "8f4172b7-4c2c-5777-ba04-c94772edc057",
               "type": "drawer",
               "version": 4,
               "label": "gym drawer",
               "hidden": false,
-              "componentName": "gym-drawer-inst-placement=top",
+              "componentName": "gym-drawer-inst-desktop.border.border.all.width=17px",
               "components": [
                 {
-                  "id": "1b4252ef-9f9c-5fd3-b887-7b53c798e88a",
+                  "id": "3ca651bd-f059-53d6-8453-3ffaddd7c806",
                   "type": "text",
                   "version": 2,
                   "label": "",
@@ -806,34 +1635,42 @@
                   "content": "GYM child of drawer",
                   "textType": "span",
                   "contentDisplay": "content",
-                  "parentId": "460dd350-b497-5247-bd6d-d290f47f7f0b"
+                  "parentId": "8f4172b7-4c2c-5777-ba04-c94772edc057"
                 }
               ],
-              "placement": "top",
-              "parentId": "693fedaf-07a6-587f-8335-70d401615373"
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "4a966c6e-ed91-573b-9f9b-cc03d182991a"
             }
           ],
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "8edd19a9-6f83-5723-a5ef-d68b5d5d4aa1",
+          "id": "5c030fd0-78ef-5c80-a685-2784f95223a0",
           "type": "container",
           "version": 7,
-          "componentName": "gym-drawer-v-03ca8a6f",
+          "componentName": "gym-drawer-v-4585cb75",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "5c4c316f-62a3-52ff-8ad6-402efb54995a",
+              "id": "c474d081-b1f4-57e0-b89e-19ef0b0b1f2c",
               "type": "drawer",
               "version": 4,
               "label": "gym drawer",
               "hidden": false,
-              "componentName": "gym-drawer-inst-placement=right",
+              "componentName": "gym-drawer-inst-desktop.border.border.all.style=solid",
               "components": [
                 {
-                  "id": "67e29f4f-e4e5-530e-84b9-5d780c1aee85",
+                  "id": "dabd69bb-1d7b-5356-8dee-e43cd4552b23",
                   "type": "text",
                   "version": 2,
                   "label": "",
@@ -841,34 +1678,42 @@
                   "content": "GYM child of drawer",
                   "textType": "span",
                   "contentDisplay": "content",
-                  "parentId": "5c4c316f-62a3-52ff-8ad6-402efb54995a"
+                  "parentId": "c474d081-b1f4-57e0-b89e-19ef0b0b1f2c"
                 }
               ],
-              "placement": "right",
-              "parentId": "8edd19a9-6f83-5723-a5ef-d68b5d5d4aa1"
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "5c030fd0-78ef-5c80-a685-2784f95223a0"
             }
           ],
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "4699d0ba-e6de-5cee-aadf-888702eeddf8",
+          "id": "2389d9e5-898d-54b5-890d-8882a0ea5f7e",
           "type": "container",
           "version": 7,
-          "componentName": "gym-drawer-v-a63c63aa",
+          "componentName": "gym-drawer-v-7fe807ae",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "545ca6d7-3023-560d-8b19-fb967abd6edc",
+              "id": "89f0dd6b-8b20-50f6-9e24-8208cdb6850f",
               "type": "drawer",
               "version": 4,
               "label": "gym drawer",
               "hidden": false,
-              "componentName": "gym-drawer-inst-placement=bottom",
+              "componentName": "gym-drawer-inst-desktop.border.border.all.color=#ff00aa",
               "components": [
                 {
-                  "id": "3c9032b5-10c5-5e77-a3b3-5cb83478a975",
+                  "id": "9e076a3e-da85-554f-8852-b83fb4aaa4ae",
                   "type": "text",
                   "version": 2,
                   "label": "",
@@ -876,34 +1721,42 @@
                   "content": "GYM child of drawer",
                   "textType": "span",
                   "contentDisplay": "content",
-                  "parentId": "545ca6d7-3023-560d-8b19-fb967abd6edc"
+                  "parentId": "89f0dd6b-8b20-50f6-9e24-8208cdb6850f"
                 }
               ],
-              "placement": "bottom",
-              "parentId": "4699d0ba-e6de-5cee-aadf-888702eeddf8"
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "2389d9e5-898d-54b5-890d-8882a0ea5f7e"
             }
           ],
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
         },
         {
-          "id": "42ce012a-c9e4-5534-9ec6-b84e4e736d58",
+          "id": "1738bc1b-7064-53ad-93f9-9d0d840aee1b",
           "type": "container",
           "version": 7,
-          "componentName": "gym-drawer-v-261aba1e",
+          "componentName": "gym-drawer-v-85a4a0b1",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "35d3caf5-66f1-5d94-8aaa-39e52c415061",
+              "id": "66d8d33f-7f41-5579-ac7a-ef21d34a46d4",
               "type": "drawer",
               "version": 4,
               "label": "gym drawer",
               "hidden": false,
-              "componentName": "gym-drawer-inst-placement=left",
+              "componentName": "gym-drawer-inst-desktop.border.border.top.width=17px",
               "components": [
                 {
-                  "id": "89a21428-9474-5561-b0d8-916a717a0931",
+                  "id": "5763cd4f-c703-50a7-8b64-caf2fac30150",
                   "type": "text",
                   "version": 2,
                   "label": "",
@@ -911,11 +1764,697 @@
                   "content": "GYM child of drawer",
                   "textType": "span",
                   "contentDisplay": "content",
-                  "parentId": "35d3caf5-66f1-5d94-8aaa-39e52c415061"
+                  "parentId": "66d8d33f-7f41-5579-ac7a-ef21d34a46d4"
                 }
               ],
-              "placement": "left",
-              "parentId": "42ce012a-c9e4-5534-9ec6-b84e4e736d58"
+              "desktop": {
+                "border": {
+                  "border": {
+                    "top": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "1738bc1b-7064-53ad-93f9-9d0d840aee1b"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "bc9863c4-b374-5dec-9e2c-147be324cde7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-3fe58bc3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "89ee8dbb-3bfd-58b6-84dd-ea2fb04c34c5",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.border.top.style=solid",
+              "components": [
+                {
+                  "id": "b7d5829f-1071-5e46-8fa0-48f278a20fb7",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "89ee8dbb-3bfd-58b6-84dd-ea2fb04c34c5"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "border": {
+                    "top": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "bc9863c4-b374-5dec-9e2c-147be324cde7"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "9fdfb360-e921-5b15-b267-4896cd5dcbd7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-26fbd154",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5f78a7ed-7798-54ec-8645-031fa4157594",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.border.top.color=#ff00aa",
+              "components": [
+                {
+                  "id": "41d6b3ca-3825-59b5-ba9c-1c00f123fdf9",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "5f78a7ed-7798-54ec-8645-031fa4157594"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "border": {
+                    "top": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "9fdfb360-e921-5b15-b267-4896cd5dcbd7"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "890cb8c2-d56d-589d-9e8a-19e04a95eedf",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-7940a0ac",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1992a71a-2960-5860-8b37-4005b247f9fd",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.border.right.width=17px",
+              "components": [
+                {
+                  "id": "2aaec777-1afa-565e-ba37-7232c98c6933",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "1992a71a-2960-5860-8b37-4005b247f9fd"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "border": {
+                    "right": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "890cb8c2-d56d-589d-9e8a-19e04a95eedf"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "c3e1cc5f-56c4-593a-a257-727306dab3c1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-df36f00a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3554b9a8-54b5-5331-9bc4-5723f7e3896a",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.border.right.style=solid",
+              "components": [
+                {
+                  "id": "8de5adbe-6bfc-5966-8802-e8cee9846e85",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "3554b9a8-54b5-5331-9bc4-5723f7e3896a"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "border": {
+                    "right": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "c3e1cc5f-56c4-593a-a257-727306dab3c1"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "3102d781-8358-5c68-bf38-868f176df655",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-6523f63f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "72c88638-2b26-5781-8c07-9694d2a269c1",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.border.right.color=#ff00aa",
+              "components": [
+                {
+                  "id": "5eec6865-044a-51f2-a5c4-afaab04cf643",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "72c88638-2b26-5781-8c07-9694d2a269c1"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "border": {
+                    "right": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "3102d781-8358-5c68-bf38-868f176df655"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "49b0a0c0-600e-5ee7-913b-b54fcc39f014",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-69e814fd",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d7411216-a4b1-58bf-bd07-edc14cca19f3",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.border.bottom.width=17px",
+              "components": [
+                {
+                  "id": "73da1344-f2b8-501d-a9ca-183ec75e4ff8",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "d7411216-a4b1-58bf-bd07-edc14cca19f3"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "border": {
+                    "bottom": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "49b0a0c0-600e-5ee7-913b-b54fcc39f014"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "203f30fd-c285-573c-a97d-91e829341555",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-48f9880d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "712c1dd4-77b2-5278-a9a4-842b13f9c1aa",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.border.bottom.style=solid",
+              "components": [
+                {
+                  "id": "02eb9e76-c184-5c35-82e0-bee258aabd22",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "712c1dd4-77b2-5278-a9a4-842b13f9c1aa"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "border": {
+                    "bottom": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "203f30fd-c285-573c-a97d-91e829341555"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "1f5b2179-4d9a-50d3-8fe2-5423b38c1f1d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-95489c6e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "46117efb-12bc-5a9d-9484-369f2aa925ff",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.border.bottom.color=#ff00aa",
+              "components": [
+                {
+                  "id": "e245c860-7017-570f-805b-f25a63a12e4b",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "46117efb-12bc-5a9d-9484-369f2aa925ff"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "border": {
+                    "bottom": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "1f5b2179-4d9a-50d3-8fe2-5423b38c1f1d"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "c205a21b-d946-55bf-9b88-f69cd1772e86",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-4b875d08",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8a49c429-9358-567a-b2e3-46610bfce38f",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.border.left.width=17px",
+              "components": [
+                {
+                  "id": "1e43da82-c879-5781-8183-fc6ca51f5d73",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "8a49c429-9358-567a-b2e3-46610bfce38f"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "border": {
+                    "left": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "c205a21b-d946-55bf-9b88-f69cd1772e86"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "5c65648e-44a7-5608-8071-db8113ecd79f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-2f12d315",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9fffb0b1-d859-59fa-8a51-59ec4bb793a0",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.border.left.style=solid",
+              "components": [
+                {
+                  "id": "75d75693-c8ed-5855-b9b8-b3ed0d95c364",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "9fffb0b1-d859-59fa-8a51-59ec4bb793a0"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "border": {
+                    "left": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "5c65648e-44a7-5608-8071-db8113ecd79f"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "784a5bc8-d640-5b6f-b561-29419806bae3",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-32a25cd3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8b21f3a3-f347-54a2-961c-51d754df241b",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.border.left.color=#ff00aa",
+              "components": [
+                {
+                  "id": "0bf908cc-8216-517f-8209-be8cbda84b91",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "8b21f3a3-f347-54a2-961c-51d754df241b"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "border": {
+                    "left": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "784a5bc8-d640-5b6f-b561-29419806bae3"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "19b513df-0754-5dd9-846b-0a48d574eaeb",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-0a5e5de0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f514d8fd-15c8-51b8-8509-cc3cf5314e2b",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.radius.all=17",
+              "components": [
+                {
+                  "id": "b47b390f-e5c9-5972-b90f-cfd9d8877de1",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "f514d8fd-15c8-51b8-8509-cc3cf5314e2b"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "radius": {
+                    "all": 17
+                  }
+                }
+              },
+              "parentId": "19b513df-0754-5dd9-846b-0a48d574eaeb"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "579909f6-cf81-544c-9549-02901abb1b3e",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-125b16f0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "19c46597-e5b6-5413-8f32-327806df1910",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.radius.topLeft=17",
+              "components": [
+                {
+                  "id": "d15052c7-cebc-5dbb-a193-b45f4a31ab7c",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "19c46597-e5b6-5413-8f32-327806df1910"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "radius": {
+                    "topLeft": 17
+                  }
+                }
+              },
+              "parentId": "579909f6-cf81-544c-9549-02901abb1b3e"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "f4b6db85-f217-585d-a0da-976c9650b704",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-e61f885c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c9acce47-8e92-582c-9a62-e70d726cbc17",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.radius.topRight=17",
+              "components": [
+                {
+                  "id": "93e41a2f-cbac-5514-b93a-647d306f7370",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "c9acce47-8e92-582c-9a62-e70d726cbc17"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "radius": {
+                    "topRight": 17
+                  }
+                }
+              },
+              "parentId": "f4b6db85-f217-585d-a0da-976c9650b704"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "aa29e416-f907-5390-b08c-599267e50aa8",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-dea6e1d0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "41f96a8f-b946-5a79-b6dc-5ca9dda9d060",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.radius.bottomLeft=17",
+              "components": [
+                {
+                  "id": "8955f4ba-f5a6-557d-b186-9346b6864417",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "41f96a8f-b946-5a79-b6dc-5ca9dda9d060"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "radius": {
+                    "bottomLeft": 17
+                  }
+                }
+              },
+              "parentId": "aa29e416-f907-5390-b08c-599267e50aa8"
+            }
+          ],
+          "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"
+        },
+        {
+          "id": "a1dea852-a726-52c3-91c0-59013fbbe8fa",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-drawer-v-e22ce160",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "485e86ff-7c72-5a82-93f5-7645ac7e8113",
+              "type": "drawer",
+              "version": 4,
+              "label": "gym drawer",
+              "hidden": false,
+              "componentName": "gym-drawer-inst-desktop.border.radius.bottomRight=17",
+              "components": [
+                {
+                  "id": "a4ce38cc-f86d-5eb0-85f0-58d454697f2f",
+                  "type": "text",
+                  "version": 2,
+                  "label": "",
+                  "hideLabel": true,
+                  "content": "GYM child of drawer",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "parentId": "485e86ff-7c72-5a82-93f5-7645ac7e8113"
+                }
+              ],
+              "desktop": {
+                "border": {
+                  "radius": {
+                    "bottomRight": 17
+                  }
+                }
+              },
+              "parentId": "a1dea852-a726-52c3-91c0-59013fbbe8fa"
             }
           ],
           "parentId": "b5ceeb79-dd04-510d-b4f9-57ac389ea813"

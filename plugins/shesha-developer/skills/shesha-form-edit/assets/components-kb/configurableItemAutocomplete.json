@@ -92,7 +92,6 @@
     "mechanism": "json-markup",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
     "style",
     "size"
@@ -188,14 +187,12 @@
       "label": "Style",
       "editorType": "codeEditor",
       "group": "Style",
-      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "shared": true
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties"
     },
     {
       "path": "size",
       "label": "Size",
-      "editorType": "dropdown",
-      "shared": true
+      "editorType": "dropdown"
     },
     {
       "path": "permissions",

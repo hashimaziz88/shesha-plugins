@@ -88,17 +88,10 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
     "style"
   ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "Enter custom JSX script that will render a component"
-    },
     {
       "path": "propertyName",
       "label": "Property Name",
@@ -107,16 +100,20 @@
     {
       "path": "renderer",
       "label": "Render HTML",
-      "editorType": "settingsInputRow",
+      "editorType": "object",
       "description": "Enter custom JSX script that will render a component"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "style",
       "label": "Style",
       "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "group": "Custom Styles",
-      "shared": true
+      "group": "Custom Styles"
     },
     {
       "path": "permissions",

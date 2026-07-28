@@ -71,50 +71,6 @@
           "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
         },
         {
-          "id": "a56e046b-03dc-529b-91c4-35e3fbaa837a",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-configurableItemAutocomplete-v-ca52e19b",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "57894a25-e7f8-5fad-bc56-d088bff9df83",
-              "type": "configurableItemAutocomplete",
-              "version": 0,
-              "label": "gym configurableItemAutocomplete",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "size": "middle",
-              "parentId": "a56e046b-03dc-529b-91c4-35e3fbaa837a"
-            }
-          ],
-          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
-        },
-        {
-          "id": "3c52986d-d5b6-5c1c-84e4-e9455342b2ad",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-configurableItemAutocomplete-v-15638072",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "07f327bc-be21-5807-a828-1fbc509b1b10",
-              "type": "configurableItemAutocomplete",
-              "version": 0,
-              "label": "gym configurableItemAutocomplete",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "size": "large",
-              "parentId": "3c52986d-d5b6-5c1c-84e4-e9455342b2ad"
-            }
-          ],
-          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
-        },
-        {
           "id": "be724ed7-4769-5e02-8e0a-541cfe040d3d",
           "type": "text",
           "version": 5,
@@ -145,30 +101,6 @@
                 "required": true
               },
               "parentId": "ff28f043-d147-57f0-976f-1a58b0044412"
-            }
-          ],
-          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
-        },
-        {
-          "id": "1f66a716-26c4-5813-8659-dff3d0bcb660",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-configurableItemAutocomplete-v-ceb88830",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "8e1cf0e3-9b7c-5774-afd9-b27588e6b81c",
-              "type": "configurableItemAutocomplete",
-              "version": 0,
-              "label": "gym configurableItemAutocomplete",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "validate": {
-                "message": "GYM-TXT-validate.message"
-              },
-              "parentId": "1f66a716-26c4-5813-8659-dff3d0bcb660"
             }
           ],
           "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
@@ -207,6 +139,117 @@
           "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
         },
         {
+          "id": "fb6d8fef-32ff-521b-a4b1-f02493e34e7d",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-configurableItemAutocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
+        },
+        {
+          "id": "4d102879-6347-559b-b007-905a01fc32d2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-configurableItemAutocomplete-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "216ef689-295a-5f4e-93f8-7e9a8c3d2417",
+              "type": "configurableItemAutocomplete",
+              "version": 0,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "4d102879-6347-559b-b007-905a01fc32d2"
+            }
+          ],
+          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
+        },
+        {
+          "id": "6f6eae5e-f776-5c0f-a67b-ad6dacadf5a7",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-configurableItemAutocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
+        },
+        {
+          "id": "a56e046b-03dc-529b-91c4-35e3fbaa837a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-configurableItemAutocomplete-v-ca52e19b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "57894a25-e7f8-5fad-bc56-d088bff9df83",
+              "type": "configurableItemAutocomplete",
+              "version": 0,
+              "label": "gym configurableItemAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "size": "middle",
+              "parentId": "a56e046b-03dc-529b-91c4-35e3fbaa837a"
+            }
+          ],
+          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
+        },
+        {
+          "id": "be724ed7-4769-5e02-8e0a-541cfe040d3d",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-configurableItemAutocomplete-h-validation",
+          "content": "— validation —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
+        },
+        {
+          "id": "1f66a716-26c4-5813-8659-dff3d0bcb660",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-configurableItemAutocomplete-v-ceb88830",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8e1cf0e3-9b7c-5774-afd9-b27588e6b81c",
+              "type": "configurableItemAutocomplete",
+              "version": 0,
+              "label": "gym configurableItemAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "validate": {
+                "message": "GYM-TXT-validate.message"
+              },
+              "parentId": "1f66a716-26c4-5813-8659-dff3d0bcb660"
+            }
+          ],
+          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
+        },
+        {
+          "id": "f25fd732-1788-51e7-bf21-9fede8182915",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-configurableItemAutocomplete-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
+        },
+        {
           "id": "305c2ba5-e356-5293-8380-3873ae1c01c6",
           "type": "container",
           "version": 7,
@@ -240,27 +283,6 @@
           "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
         },
         {
-          "id": "4d102879-6347-559b-b007-905a01fc32d2",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-configurableItemAutocomplete-v-1b640f90",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "216ef689-295a-5f4e-93f8-7e9a8c3d2417",
-              "type": "configurableItemAutocomplete",
-              "version": 0,
-              "label": "GYM-TXT-label",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "parentId": "4d102879-6347-559b-b007-905a01fc32d2"
-            }
-          ],
-          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
-        },
-        {
           "id": "16e86ab7-ee6e-5d85-b20f-58bb9e2b0469",
           "type": "container",
           "version": 7,
@@ -283,25 +305,47 @@
           "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
         },
         {
-          "id": "76daa893-afac-5c47-9f16-78d0b2b31a9e",
+          "id": "6f6eae5e-f776-5c0f-a67b-ad6dacadf5a7",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-configurableItemAutocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
+        },
+        {
+          "id": "3c52986d-d5b6-5c1c-84e4-e9455342b2ad",
           "type": "container",
           "version": 7,
-          "componentName": "gym-configurableItemAutocomplete-v-9014b9af",
+          "componentName": "gym-configurableItemAutocomplete-v-15638072",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "0a4ba2f9-054a-5cea-88d8-243c14c5c84c",
+              "id": "07f327bc-be21-5807-a828-1fbc509b1b10",
               "type": "configurableItemAutocomplete",
               "version": 0,
               "label": "gym configurableItemAutocomplete",
               "hidden": false,
               "propertyName": "gymValue",
-              "labelAlign": "right",
-              "parentId": "76daa893-afac-5c47-9f16-78d0b2b31a9e"
+              "size": "large",
+              "parentId": "3c52986d-d5b6-5c1c-84e4-e9455342b2ad"
             }
           ],
+          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
+        },
+        {
+          "id": "fb6d8fef-32ff-521b-a4b1-f02493e34e7d",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-configurableItemAutocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
         },
         {
@@ -409,6 +453,28 @@
               "propertyName": "gymValue",
               "editMode": "readOnly",
               "parentId": "7637d16f-d9d1-59b2-a9c0-ece32467c6f1"
+            }
+          ],
+          "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"
+        },
+        {
+          "id": "76daa893-afac-5c47-9f16-78d0b2b31a9e",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-configurableItemAutocomplete-v-9014b9af",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0a4ba2f9-054a-5cea-88d8-243c14c5c84c",
+              "type": "configurableItemAutocomplete",
+              "version": 0,
+              "label": "gym configurableItemAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "labelAlign": "right",
+              "parentId": "76daa893-afac-5c47-9f16-78d0b2b31a9e"
             }
           ],
           "parentId": "7b7ea4c0-d775-5355-b8f8-dfa1e440715b"

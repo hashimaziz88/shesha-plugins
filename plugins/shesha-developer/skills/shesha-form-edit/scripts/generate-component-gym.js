@@ -25,17 +25,17 @@ const argVal = (name, dflt) => {
 };
 const OUT_DIR = argVal('--out', path.join(SCRIPT_DIR, '..', 'gym'));
 const ONLY = argVal('--only', '').split(',').map((s) => s.trim()).filter(Boolean);
-const MAX_VARIANTS = Number(argVal('--max-variants', '28'));
+// Per-form variant cap. 28 was sized for a KB that carried 131 appearance paths; the
+// 0.45 KB carries ~1860, and 28 measured barely half of container's settings. Measured
+// alternatives (total variants / components still capped): 28 → 1610/40, 56 → 2348/13,
+// uncapped → 2544/0. 56 is the knee: it roughly doubles coverage while keeping the
+// largest form at 56 instances, since the chart forms go to 85 uncapped and each
+// instance there is a live chart that has to render inside the 20s per-form wait.
+// Everything dropped is recorded as notMeasured with reason 'capped' — never silently.
+const MAX_VARIANTS = Number(argVal('--max-variants', '56'));
 
 const index = JSON.parse(fs.readFileSync(path.join(KB_DIR, '_index.json'), 'utf8'));
 const enumsAll = JSON.parse(fs.readFileSync(path.join(KB_DIR, '_enums.json'), 'utf8'));
-// legacy 0.43 shared appearance catalog — optional; the 0.45 KB carries
-// appearance fields inline in each component's settingsFields
-const sharedStylePath = path.join(KB_DIR, '_shared-style-fields.json');
-const sharedStyle = fs.existsSync(sharedStylePath)
-  ? JSON.parse(fs.readFileSync(sharedStylePath, 'utf8'))
-  : { fields: [] };
-
 fs.mkdirSync(path.join(OUT_DIR, 'forms'), { recursive: true });
 
 // ---------------------------------------------------------------------------
@@ -103,15 +103,10 @@ function heading(type, bucket) {
   };
 }
 
+// Appearance fields are inline in settingsFields on 0.45 — appearanceFieldPaths only
+// names which of them are appearance, it is not a separate catalog to merge in.
 function fieldsFor(kb) {
-  const own = (kb.settingsFields || []).map((f) => ({ ...f }));
-  const ownPaths = new Set(own.map((f) => f.path));
-  const shared = (kb.appearanceFieldPaths || [])
-    .filter((p) => !ownPaths.has(p))
-    .map((p) => sharedStyle.fields.find((f) => f.path === p))
-    .filter(Boolean)
-    .map((f) => ({ ...f }));
-  return [...own, ...shared];
+  return (kb.settingsFields || []).map((f) => ({ ...f }));
 }
 
 function generateForType(type, entry) {
@@ -148,16 +143,42 @@ function generateForType(type, entry) {
     }
   }
 
+  // Allocate the budget round-robin in priority order, NOT bucket-by-bucket.
+  //
+  // Strict priority order starves whatever comes after the first oversized bucket.
+  // Once the KB began carrying the real 0.45 appearance families (~1860 paths, vs 131
+  // when the flat 0.43 model was in place) appearance alone exceeded the cap on 40
+  // components, and their data/validation/events settings all fell out as `capped`.
+  // Round-robin keeps appearance the largest share — it deals first each pass and has
+  // the most candidates — while guaranteeing every bucket is represented. Buckets that
+  // run dry hand their remaining share back to the others.
+  // Within a bucket, deal every path's FIRST value before any path's second, so a
+  // multi-value enum cannot crowd out whole families. Measuring
+  // border.*.style across solid/dashed/dotted/none is 20 variants that prove one
+  // channel, and at cap they displaced the entire border.radius family — while
+  // classify() would have demoted them as a one-path cluster anyway.
+  const queues = BUCKET_PRIORITY.map((b) => {
+    const perPath = new Map();
+    return byBucket.get(b)
+      .map((v) => {
+        const n = perPath.get(v.field.path) ?? 0;
+        perPath.set(v.field.path, n + 1);
+        return { v, valueIndex: n };
+      })
+      .sort((a, b2) => a.valueIndex - b2.valueIndex)
+      .map((x) => x.v);
+  });
+
   let budget = MAX_VARIANTS;
-  for (const bucket of BUCKET_PRIORITY) {
-    for (const v of byBucket.get(bucket)) {
-      if (budget > 0) {
-        planned.push(v);
-        budget--;
-      } else {
-        notMeasured.push({ path: `${v.field.path}=${v.valueKey}`, reason: 'capped' });
-      }
+  while (budget > 0 && queues.some((q) => q.length)) {
+    for (const q of queues) {
+      if (!q.length || budget <= 0) continue;
+      planned.push(q.shift());
+      budget--;
     }
+  }
+  for (const q of queues) {
+    for (const v of q) notMeasured.push({ path: `${v.field.path}=${v.valueKey}`, reason: 'capped' });
   }
 
   // ---- build the form ----

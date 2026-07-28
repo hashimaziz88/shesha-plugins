@@ -144,14 +144,7 @@
     "mechanism": "json-markup",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": true,
   "appearanceFieldPaths": [
-    "height",
-    "width",
-    "borderSize",
-    "borderRadius",
-    "borderType",
-    "borderColor",
     "style",
     "stylingBox"
   ],
@@ -266,6 +259,20 @@
       "group": "Validation"
     },
     {
+      "path": "height",
+      "label": "Height",
+      "editorType": "textField",
+      "group": "Style",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit"
+    },
+    {
+      "path": "width",
+      "label": "Width",
+      "editorType": "textField",
+      "group": "Style",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit"
+    },
+    {
       "path": "objectFit",
       "label": "Object Fit",
       "editorType": "dropdown",
@@ -289,6 +296,42 @@
       "editorType": "numberField",
       "group": "Style",
       "description": "Opacity ranges from 0 to 1 on an incremental scale"
+    },
+    {
+      "path": "borderSize",
+      "label": "Border Width",
+      "editorType": "numberField",
+      "group": "Style"
+    },
+    {
+      "path": "borderRadius",
+      "label": "Border Radius",
+      "editorType": "numberField",
+      "group": "Style"
+    },
+    {
+      "path": "borderType",
+      "label": "Border Type",
+      "editorType": "dropdown",
+      "group": "Style"
+    },
+    {
+      "path": "borderColor",
+      "label": "Border Color",
+      "editorType": "colorPicker",
+      "group": "Style"
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "codeEditor",
+      "group": "Style",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties"
+    },
+    {
+      "path": "stylingBox",
+      "editorType": "styleBox",
+      "group": "Style"
     },
     {
       "path": "permissions",

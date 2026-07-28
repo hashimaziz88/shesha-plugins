@@ -71,28 +71,28 @@
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
-          "id": "86075d2a-7d5a-50ed-93ec-e7852ab8283e",
+          "id": "65bf4aaa-9237-5267-bc6c-8c267ba030fc",
           "type": "container",
           "version": 7,
-          "componentName": "gym-collapsiblePanel-v-0baf713f",
+          "componentName": "gym-collapsiblePanel-v-d94de207",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "72cc922c-dd6b-5a16-bc23-eebd6986d7af",
+              "id": "129be200-10db-5dab-9ac1-675d11c121ec",
               "type": "collapsiblePanel",
               "version": 9,
               "label": "gym collapsiblePanel",
               "hidden": false,
               "collapsedByDefault": false,
               "expandIconPosition": "start",
-              "componentName": "gym-collapsiblePanel-inst-desktop.dimensions.width=317px",
+              "componentName": "gym-collapsiblePanel-inst-desktop.dimensions.width=17px",
               "content": {
-                "id": "e3814031-f30d-5885-a0be-62f04c765c0d",
+                "id": "f2ccc8dc-11ce-5279-9c11-c466ec8f7a01",
                 "components": [
                   {
-                    "id": "42fdac2b-1b2e-523f-9f11-cd1672b0297f",
+                    "id": "db682d12-cced-5ad4-90d0-4d8e3ead66db",
                     "type": "text",
                     "version": 2,
                     "label": "",
@@ -100,47 +100,58 @@
                     "content": "GYM child of collapsiblePanel",
                     "textType": "span",
                     "contentDisplay": "content",
-                    "parentId": "72cc922c-dd6b-5a16-bc23-eebd6986d7af"
+                    "parentId": "129be200-10db-5dab-9ac1-675d11c121ec"
                   }
                 ]
               },
               "header": {
-                "id": "0363e64b-c381-5b86-ab08-388183abc467",
+                "id": "a7b5d5b0-ba96-5427-9982-805dbe72de29",
                 "components": []
               },
               "desktop": {
                 "dimensions": {
-                  "width": "317px"
+                  "width": "17px"
                 }
               },
-              "parentId": "86075d2a-7d5a-50ed-93ec-e7852ab8283e"
+              "parentId": "65bf4aaa-9237-5267-bc6c-8c267ba030fc"
             }
           ],
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
-          "id": "1afca1d3-59e2-5dba-92e6-0bd0cd391ad0",
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "0eb10bff-57cb-5c64-a295-7130b2314e06",
           "type": "container",
           "version": 7,
-          "componentName": "gym-collapsiblePanel-v-529ccf25",
+          "componentName": "gym-collapsiblePanel-v-1b640f90",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "c293519a-01a3-51cd-8cd7-7a9edcc0e23e",
+              "id": "e0bda9d5-2720-571b-ae92-208b9e9a8c88",
               "type": "collapsiblePanel",
               "version": 9,
-              "label": "gym collapsiblePanel",
+              "label": "GYM-TXT-label",
               "hidden": false,
               "collapsedByDefault": false,
               "expandIconPosition": "start",
-              "componentName": "gym-collapsiblePanel-inst-desktop.dimensions.height=117px",
+              "componentName": "gym-collapsiblePanel-inst-label=txt",
               "content": {
-                "id": "8b1c34e1-7607-5d6f-9867-a35f06464386",
+                "id": "2006cd44-6ce8-5d60-aa92-5b252bc3cd0b",
                 "components": [
                   {
-                    "id": "82fb2915-bdc4-5612-a824-2be55ef3366a",
+                    "id": "25e44d80-6407-5473-9824-b75575fee144",
                     "type": "text",
                     "version": 2,
                     "label": "",
@@ -148,22 +159,596 @@
                     "content": "GYM child of collapsiblePanel",
                     "textType": "span",
                     "contentDisplay": "content",
-                    "parentId": "c293519a-01a3-51cd-8cd7-7a9edcc0e23e"
+                    "parentId": "e0bda9d5-2720-571b-ae92-208b9e9a8c88"
                   }
                 ]
               },
               "header": {
-                "id": "108d00a9-4f48-5e03-8202-0a6799f00779",
+                "id": "7b474de2-d976-5887-846f-9a01730b8b4a",
+                "components": []
+              },
+              "parentId": "0eb10bff-57cb-5c64-a295-7130b2314e06"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "a9fafbf1-18ec-5029-a905-ce22244add6f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-543ca5f0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "800b3adb-9571-556c-a434-0d69e095f16f",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.dimensions.minWidth=17px",
+              "content": {
+                "id": "5463af5d-543c-5735-a38f-91e27e6041cb",
+                "components": [
+                  {
+                    "id": "3e35de0d-d1b9-5473-a408-c94f15ad5424",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "800b3adb-9571-556c-a434-0d69e095f16f"
+                  }
+                ]
+              },
+              "header": {
+                "id": "f0a7adf9-eeda-58fe-8c4b-4cd3bdfd85bc",
                 "components": []
               },
               "desktop": {
                 "dimensions": {
-                  "height": "117px"
+                  "minWidth": "17px"
                 }
               },
-              "parentId": "1afca1d3-59e2-5dba-92e6-0bd0cd391ad0"
+              "parentId": "a9fafbf1-18ec-5029-a905-ce22244add6f"
             }
           ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "c46d030c-2544-5ec5-8a88-1f9ef3b2e2c5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-08349809",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "79c253b8-ab91-5d8c-a7f7-550ce1eb15d2",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-hasCustomHeader=true",
+              "content": {
+                "id": "dc54e473-1bee-539a-884a-d0948368b5b2",
+                "components": [
+                  {
+                    "id": "56bc5ab3-afd7-5a1a-8136-904c198fe407",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "79c253b8-ab91-5d8c-a7f7-550ce1eb15d2"
+                  }
+                ]
+              },
+              "header": {
+                "id": "0e349ca0-09aa-5e67-9e39-aad970fd92d6",
+                "components": []
+              },
+              "hasCustomHeader": true,
+              "parentId": "c46d030c-2544-5ec5-8a88-1f9ef3b2e2c5"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "0c3cfe21-55ac-5c16-a469-4206ef2e3ab2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-11b08108",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "50b262c0-2e31-56a7-8a55-062a82a2176d",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.dimensions.maxWidth=17",
+              "content": {
+                "id": "3de2f128-3939-57be-a4bb-05a53b3e1041",
+                "components": [
+                  {
+                    "id": "b8e22ead-cfa1-5b63-8b6d-a07c6bb47424",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "50b262c0-2e31-56a7-8a55-062a82a2176d"
+                  }
+                ]
+              },
+              "header": {
+                "id": "98c2940a-3ef0-51d1-b8c8-f1c381444a22",
+                "components": []
+              },
+              "desktop": {
+                "dimensions": {
+                  "maxWidth": 17
+                }
+              },
+              "parentId": "0c3cfe21-55ac-5c16-a469-4206ef2e3ab2"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "ba9e4bf8-1a5f-533d-bff7-ca5b4fd2a913",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-3fcf6b11",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b4c8821b-d682-5ff5-89b8-a12447899016",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "hide",
+              "componentName": "gym-collapsiblePanel-inst-expandIconPosition=hide",
+              "content": {
+                "id": "631552eb-0add-5f69-a569-020a709d6050",
+                "components": [
+                  {
+                    "id": "290408e6-8712-5f88-be9c-1f2fb21545a7",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "b4c8821b-d682-5ff5-89b8-a12447899016"
+                  }
+                ]
+              },
+              "header": {
+                "id": "e97d34a5-8410-57b1-894f-e095b1c270e3",
+                "components": []
+              },
+              "parentId": "ba9e4bf8-1a5f-533d-bff7-ca5b4fd2a913"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "abee2527-029a-5afa-b9eb-b25a6c06a059",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-e3c22599",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d38619e3-0c84-5ab0-9563-cd0716523184",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.dimensions.height=17px",
+              "content": {
+                "id": "d48b1fff-7779-5cd4-8943-759dd676cf53",
+                "components": [
+                  {
+                    "id": "574f2e31-1f6f-5a6f-8a3b-3129066dbeb3",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "d38619e3-0c84-5ab0-9563-cd0716523184"
+                  }
+                ]
+              },
+              "header": {
+                "id": "1f945fcc-84c5-52cf-9420-f0a28ac6dfe6",
+                "components": []
+              },
+              "desktop": {
+                "dimensions": {
+                  "height": "17px"
+                }
+              },
+              "parentId": "abee2527-029a-5afa-b9eb-b25a6c06a059"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "6ebf6ea9-0e17-56ca-8693-080e3268aa75",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-3d6275ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "98dc3e12-75e4-5e55-bf90-aab026ed5206",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-collapsible=header",
+              "content": {
+                "id": "2fe5964f-46bf-5760-976d-0be8101a2dee",
+                "components": [
+                  {
+                    "id": "86c31546-4821-5d0e-aa8b-9b2afe27ac3c",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "98dc3e12-75e4-5e55-bf90-aab026ed5206"
+                  }
+                ]
+              },
+              "header": {
+                "id": "89120c00-fc06-550d-af3a-d31c61336a5d",
+                "components": []
+              },
+              "collapsible": "header",
+              "parentId": "6ebf6ea9-0e17-56ca-8693-080e3268aa75"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "11e34bfa-a6d2-50ee-a6d3-06738b13a9cb",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-305d8597",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "01465723-f778-58a2-99ef-297a5d8c0806",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.dimensions.minHeight=17px",
+              "content": {
+                "id": "e9444f21-a69e-572e-a802-16215f354d71",
+                "components": [
+                  {
+                    "id": "e091ffd4-bc3b-5ccb-82a4-85d0b6d4f922",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "01465723-f778-58a2-99ef-297a5d8c0806"
+                  }
+                ]
+              },
+              "header": {
+                "id": "ae5c7b00-10cf-508e-8813-ec91abd8fb70",
+                "components": []
+              },
+              "desktop": {
+                "dimensions": {
+                  "minHeight": "17px"
+                }
+              },
+              "parentId": "11e34bfa-a6d2-50ee-a6d3-06738b13a9cb"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "1e230804-9f56-5e27-9078-df4650303879",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-e6aad99a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2194f535-4ee0-5903-80b6-e8f5c2b7059a",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": true,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-collapsedByDefault=true",
+              "content": {
+                "id": "bdaeff1c-350f-5984-b2d5-b3adff5a6b17",
+                "components": [
+                  {
+                    "id": "f1066a5b-f264-5b0b-ad57-fb8d9fa92ead",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "2194f535-4ee0-5903-80b6-e8f5c2b7059a"
+                  }
+                ]
+              },
+              "header": {
+                "id": "80f2d178-2666-5304-8229-d1c5f50d354f",
+                "components": []
+              },
+              "parentId": "1e230804-9f56-5e27-9078-df4650303879"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e69166da-cfc9-54c4-b76d-e6f57e901af5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-3ae5eb1d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "427edfba-29a5-5914-b019-b52951cde038",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.dimensions.maxHeight=17",
+              "content": {
+                "id": "3c49f41a-50c5-537d-9f6e-b482575fb276",
+                "components": [
+                  {
+                    "id": "fa74f739-ea3d-59fc-8413-60a993198d28",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "427edfba-29a5-5914-b019-b52951cde038"
+                  }
+                ]
+              },
+              "header": {
+                "id": "4e4a09c6-2b93-56c2-b1b3-425461bb93a2",
+                "components": []
+              },
+              "desktop": {
+                "dimensions": {
+                  "maxHeight": 17
+                }
+              },
+              "parentId": "e69166da-cfc9-54c4-b76d-e6f57e901af5"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "14e292c4-0ed8-54b8-89c8-85c466b4b22a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-90c3fc2d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6e462770-34f4-5a7a-9517-2c47338f583c",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-hideWhenEmpty=true",
+              "content": {
+                "id": "08bb5d6b-7ea0-5bbb-84e3-3ec263d1598e",
+                "components": [
+                  {
+                    "id": "840062ea-a49f-58f0-a9e2-de7cf220e5a2",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "6e462770-34f4-5a7a-9517-2c47338f583c"
+                  }
+                ]
+              },
+              "header": {
+                "id": "c708202d-7fd7-5d54-b2fe-65c7c85da9ae",
+                "components": []
+              },
+              "hideWhenEmpty": true,
+              "parentId": "14e292c4-0ed8-54b8-89c8-85c466b4b22a"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
@@ -216,28 +801,39 @@
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
-          "id": "bf3d1db3-b533-5b64-afae-969552b99b15",
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "3ef67d81-9ad8-5598-a0e7-d1275ee651c5",
           "type": "container",
           "version": 7,
-          "componentName": "gym-collapsiblePanel-v-8db175ab",
+          "componentName": "gym-collapsiblePanel-v-a058f647",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "47812d53-d8b7-5a5a-ab78-9aca21008fcc",
+              "id": "d3819dcf-c108-5b04-9789-559c08f16b21",
               "type": "collapsiblePanel",
               "version": 9,
               "label": "gym collapsiblePanel",
-              "hidden": false,
+              "hidden": true,
               "collapsedByDefault": false,
               "expandIconPosition": "start",
-              "componentName": "gym-collapsiblePanel-inst-desktop.background=gradient",
+              "componentName": "gym-collapsiblePanel-inst-hidden=true",
               "content": {
-                "id": "9d5b213e-8cd2-5531-ad89-e1aa8ccc7071",
+                "id": "e64fd4f4-3604-5a8b-bbf5-a7af2fbaa4e4",
                 "components": [
                   {
-                    "id": "155d18a4-9448-5a77-9489-7de8dcc8ffcc",
+                    "id": "0d664289-1a70-578e-96b2-7aa17c7b6b5c",
                     "type": "text",
                     "version": 2,
                     "label": "",
@@ -245,29 +841,142 @@
                     "content": "GYM child of collapsiblePanel",
                     "textType": "span",
                     "contentDisplay": "content",
-                    "parentId": "47812d53-d8b7-5a5a-ab78-9aca21008fcc"
+                    "parentId": "d3819dcf-c108-5b04-9789-559c08f16b21"
                   }
                 ]
               },
               "header": {
-                "id": "a07bb6ba-975c-5798-b857-158f152bab68",
+                "id": "64186bc0-222a-5ee6-84be-1211768195f8",
+                "components": []
+              },
+              "parentId": "3ef67d81-9ad8-5598-a0e7-d1275ee651c5"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "04e2c237-c94f-579e-b5e5-fd8a62842760",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-22079195",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "831f66c8-4d1e-5fd8-99de-eeb60a89c3b5",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.background.position=center",
+              "content": {
+                "id": "bec1b72b-9eee-521b-9697-63aa4734dcfe",
+                "components": [
+                  {
+                    "id": "7e4da871-a5f7-5123-9a77-7398dbc24f88",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "831f66c8-4d1e-5fd8-99de-eeb60a89c3b5"
+                  }
+                ]
+              },
+              "header": {
+                "id": "dbf3bed0-1696-59b5-83fd-aa75326d7c5e",
                 "components": []
               },
               "desktop": {
                 "background": {
-                  "type": "gradient",
-                  "gradient": {
-                    "direction": "to right",
-                    "colors": {
-                      "0": "#ff00aa",
-                      "1": "#00ff00"
-                    }
-                  }
+                  "position": "center"
                 }
               },
-              "parentId": "bf3d1db3-b533-5b64-afae-969552b99b15"
+              "parentId": "04e2c237-c94f-579e-b5e5-fd8a62842760"
             }
           ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "baf0edea-c431-53e2-8889-2f2d4909eb61",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-70f96cac",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "cacdab87-c56f-5efd-a064-4ba79cb38c9b",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-ghost=true",
+              "content": {
+                "id": "83e16e51-77ab-5587-819b-13ebaafd8382",
+                "components": [
+                  {
+                    "id": "4e2add14-e9ad-504e-b0b4-736d1a6a2175",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "cacdab87-c56f-5efd-a064-4ba79cb38c9b"
+                  }
+                ]
+              },
+              "header": {
+                "id": "2b2c984c-e21b-57a1-9c28-98d2e480d2e0",
+                "components": []
+              },
+              "ghost": true,
+              "parentId": "baf0edea-c431-53e2-8889-2f2d4909eb61"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
@@ -323,6 +1032,529 @@
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "52999ebf-a7e7-5e3b-a92b-3bb650b195a8",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-be366f38",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ed80e8e8-bd2f-53d9-81a0-1d11ef2ebac4",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-isSimpleDesign=true",
+              "content": {
+                "id": "9c87117c-b862-5400-9024-88d86487d1aa",
+                "components": [
+                  {
+                    "id": "b59ae68a-74b4-5941-a3ca-b3e40554b9c4",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "ed80e8e8-bd2f-53d9-81a0-1d11ef2ebac4"
+                  }
+                ]
+              },
+              "header": {
+                "id": "0227e1dd-aeb8-5c4a-a0a4-ce6576015b35",
+                "components": []
+              },
+              "isSimpleDesign": true,
+              "parentId": "52999ebf-a7e7-5e3b-a92b-3bb650b195a8"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "0419c052-009a-50c8-8348-e4c66b21951b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-a304424a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "810392db-a6f7-5555-a231-4e1c4f0a0c68",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.shadow.offsetY=17",
+              "content": {
+                "id": "15c9c014-5388-5cd2-9f66-472cf58e2e72",
+                "components": [
+                  {
+                    "id": "9821759a-4fc3-5623-a011-c3669e1da798",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "810392db-a6f7-5555-a231-4e1c4f0a0c68"
+                  }
+                ]
+              },
+              "header": {
+                "id": "0f1f4b84-e9ad-5945-a0e0-f4c78744e4f1",
+                "components": []
+              },
+              "desktop": {
+                "shadow": {
+                  "offsetY": 17
+                }
+              },
+              "parentId": "0419c052-009a-50c8-8348-e4c66b21951b"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "fc2a0645-02ca-5264-8855-05d9ba626d2e",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-51dafd4e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "18df7bbe-5165-55cd-b918-f78182fdef30",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-accentStyle=true",
+              "content": {
+                "id": "873f1f80-e361-54b0-9663-aefbd5f010c6",
+                "components": [
+                  {
+                    "id": "f1851ca0-9f8e-553b-92d0-6530f7bd0c35",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "18df7bbe-5165-55cd-b918-f78182fdef30"
+                  }
+                ]
+              },
+              "header": {
+                "id": "a8ec06fc-83a7-569a-b1c3-c0f7bf0b5b8c",
+                "components": []
+              },
+              "accentStyle": true,
+              "parentId": "fc2a0645-02ca-5264-8855-05d9ba626d2e"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "34e8bad6-b530-5b98-bcdb-dd898d700274",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-c0f5a90b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2ff7115e-2ec6-5a8d-88cd-cec56c33adcd",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.shadow.blurRadius=17",
+              "content": {
+                "id": "9e8544d3-613c-5cbc-a510-1637af8e38c0",
+                "components": [
+                  {
+                    "id": "6818dceb-7eb9-5efe-b37a-214e9807452b",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "2ff7115e-2ec6-5a8d-88cd-cec56c33adcd"
+                  }
+                ]
+              },
+              "header": {
+                "id": "502f2639-555e-5462-aadc-1a0703173b39",
+                "components": []
+              },
+              "desktop": {
+                "shadow": {
+                  "blurRadius": 17
+                }
+              },
+              "parentId": "34e8bad6-b530-5b98-bcdb-dd898d700274"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "10b91322-1884-5254-bfb4-d412bba16e66",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-2f6a3f80",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4d317648-6d03-5786-a128-b83ef050422e",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-hideCollapseContent=true",
+              "content": {
+                "id": "ce4c4a07-6e11-55f7-b649-5b74c6c43090",
+                "components": [
+                  {
+                    "id": "ff6ea151-6484-597d-b049-fd15f67c6912",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "4d317648-6d03-5786-a128-b83ef050422e"
+                  }
+                ]
+              },
+              "header": {
+                "id": "703d3d96-0c35-5508-b413-3b1ececc6d32",
+                "components": []
+              },
+              "hideCollapseContent": true,
+              "parentId": "10b91322-1884-5254-bfb4-d412bba16e66"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "9de828fc-6a9b-5399-a608-249cfa51f78f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-f80da270",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0169928e-8068-588f-856d-a527c2aeb26b",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.shadow.spreadRadius=#ff00aa",
+              "content": {
+                "id": "1ac7f59d-e53d-5ffb-acae-38d11337fb6a",
+                "components": [
+                  {
+                    "id": "e6f3d84b-6333-5466-9434-2456ff11a4be",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "0169928e-8068-588f-856d-a527c2aeb26b"
+                  }
+                ]
+              },
+              "header": {
+                "id": "759d0e86-e69d-5e3a-a178-8e273f848389",
+                "components": []
+              },
+              "desktop": {
+                "shadow": {
+                  "spreadRadius": "#ff00aa"
+                }
+              },
+              "parentId": "9de828fc-6a9b-5399-a608-249cfa51f78f"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "51d18f9d-0d5b-5ab5-ae6c-8df8e7eb6d66",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-1ceb055e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ba163468-ef6c-5009-b745-a8573c73c8bc",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-headerStyles.stylingBox=stylingBox17",
+              "content": {
+                "id": "fba3801e-2028-5031-ad62-c0aaee7d470a",
+                "components": [
+                  {
+                    "id": "4b2aa0e4-5e8f-5dc4-b4ea-42bab3846d01",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "ba163468-ef6c-5009-b745-a8573c73c8bc"
+                  }
+                ]
+              },
+              "header": {
+                "id": "5cca3242-057a-5e93-93b0-2ce775d9df00",
+                "components": []
+              },
+              "headerStyles": {
+                "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}"
+              },
+              "parentId": "51d18f9d-0d5b-5ab5-ae6c-8df8e7eb6d66"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "8655d922-53e0-5b78-a4de-9554896a83e2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-9e7f5fea",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "48187cf0-7b7e-5e77-aed0-1f03591dc0d6",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.shadow.color=#ff00aa",
+              "content": {
+                "id": "8b565fd4-299a-5c25-aefe-331877f57603",
+                "components": [
+                  {
+                    "id": "a9ceb4fc-215d-5955-99b8-13cfbd6fd5b8",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "48187cf0-7b7e-5e77-aed0-1f03591dc0d6"
+                  }
+                ]
+              },
+              "header": {
+                "id": "d7147d1f-dfbc-51ee-8f14-d3b05e06138a",
+                "components": []
+              },
+              "desktop": {
+                "shadow": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "8655d922-53e0-5b78-a4de-9554896a83e2"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "06aa320a-c7df-5047-a655-7c1d2735381d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-fc5c5ea2",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "08bbd462-1fd0-585e-955e-b769faa8a3b7",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-expandIconPosition=start",
+              "content": {
+                "id": "11301a7a-f7c8-5130-86c8-991c6dcf5913",
+                "components": [
+                  {
+                    "id": "46d6d0f1-41b7-5a34-b963-86a284c51bbb",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "08bbd462-1fd0-585e-955e-b769faa8a3b7"
+                  }
+                ]
+              },
+              "header": {
+                "id": "e3a24248-747a-5aff-bc11-6ef3be5673a2",
+                "components": []
+              },
+              "parentId": "06aa320a-c7df-5047-a655-7c1d2735381d"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
           "id": "0e8fb036-7396-5c77-a131-29d1f5a7c48e",
           "type": "container",
           "version": 7,
@@ -364,6 +1596,72 @@
               "parentId": "0e8fb036-7396-5c77-a131-29d1f5a7c48e"
             }
           ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "582c6c09-9e29-5052-9e32-5f60331c4d39",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-b71e9d3e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "87677161-f7a9-5659-ace2-4ffd33e986fe",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-collapsible=icon",
+              "content": {
+                "id": "6534663a-6936-545b-9801-bdd46ad83369",
+                "components": [
+                  {
+                    "id": "7f7a6c12-2d4c-5b89-9a96-de24b844e080",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "87677161-f7a9-5659-ace2-4ffd33e986fe"
+                  }
+                ]
+              },
+              "header": {
+                "id": "48201507-815f-5369-91d7-8f4c60b83efd",
+                "components": []
+              },
+              "collapsible": "icon",
+              "parentId": "582c6c09-9e29-5052-9e32-5f60331c4d39"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
@@ -415,6 +1713,71 @@
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "8be44187-8624-5248-b70a-5f30c3ebea21",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-2d8d1afe",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e59cbf12-e10d-5027-b6f7-3ab9a4fb3d4e",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "end",
+              "componentName": "gym-collapsiblePanel-inst-expandIconPosition=end",
+              "content": {
+                "id": "abf003e8-b4fd-5a0a-a001-b3517ec09d71",
+                "components": [
+                  {
+                    "id": "8e7b223a-f9cb-525f-a1d6-9b5d956badd4",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "e59cbf12-e10d-5027-b6f7-3ab9a4fb3d4e"
+                  }
+                ]
+              },
+              "header": {
+                "id": "4bccddea-af9d-5cf7-8314-12aaf590fb9c",
+                "components": []
+              },
+              "parentId": "8be44187-8624-5248-b70a-5f30c3ebea21"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
           "id": "aba3a5a8-b531-5787-b86f-70dada9b35cb",
           "type": "container",
           "version": 7,
@@ -460,6 +1823,72 @@
               "parentId": "aba3a5a8-b531-5787-b86f-70dada9b35cb"
             }
           ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "c6efda85-1fa8-51a6-9f50-9204bda4f4f4",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-7175c425",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "50db7d68-9229-5b88-9aa1-dfcad38c11b0",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-collapsible=disabled",
+              "content": {
+                "id": "37d37e1b-aaed-53be-a74e-9f79c8b4c21c",
+                "components": [
+                  {
+                    "id": "3927c8ae-a296-5574-b9d7-98ee011502a4",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "50db7d68-9229-5b88-9aa1-dfcad38c11b0"
+                  }
+                ]
+              },
+              "header": {
+                "id": "da515f06-41fc-5cb6-98b9-c511b560436b",
+                "components": []
+              },
+              "collapsible": "disabled",
+              "parentId": "c6efda85-1fa8-51a6-9f50-9204bda4f4f4"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e92c8ff2-5efc-53d8-afd9-baa8ecf52386",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-collapsiblePanel-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
@@ -511,28 +1940,28 @@
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
-          "id": "1d52e308-9aeb-55f6-b875-23941b3d0175",
+          "id": "1cf4956e-5623-5037-a18d-b438d1e55da4",
           "type": "container",
           "version": 7,
-          "componentName": "gym-collapsiblePanel-v-67fda701",
+          "componentName": "gym-collapsiblePanel-v-8b2e16fe",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "effd4445-a0c0-51ba-a7f5-9f06f8e02c2f",
+              "id": "a96040d4-f7a3-52f9-9f64-291dfb4c8169",
               "type": "collapsiblePanel",
               "version": 9,
               "label": "gym collapsiblePanel",
               "hidden": false,
               "collapsedByDefault": false,
               "expandIconPosition": "start",
-              "componentName": "gym-collapsiblePanel-inst-headerStyles.dimensions.height=17",
+              "componentName": "gym-collapsiblePanel-inst-headerStyles.font.type=17",
               "content": {
-                "id": "c5634705-96a7-5f38-a754-cdbd0a46db75",
+                "id": "480e5a54-392f-5455-a03a-ab63e33eb3b8",
                 "components": [
                   {
-                    "id": "eb18b61e-0d4d-5e81-941a-6efc5261e043",
+                    "id": "a57f29c4-8724-566b-a239-53590f0cb211",
                     "type": "text",
                     "version": 2,
                     "label": "",
@@ -540,20 +1969,212 @@
                     "content": "GYM child of collapsiblePanel",
                     "textType": "span",
                     "contentDisplay": "content",
-                    "parentId": "effd4445-a0c0-51ba-a7f5-9f06f8e02c2f"
+                    "parentId": "a96040d4-f7a3-52f9-9f64-291dfb4c8169"
                   }
                 ]
               },
               "header": {
-                "id": "8133a8e7-45ac-5604-9321-f0fd4b3ed767",
+                "id": "0d4410d9-e202-5d97-9663-8692a2801da2",
+                "components": []
+              },
+              "headerStyles": {
+                "font": {
+                  "type": 17
+                }
+              },
+              "parentId": "1cf4956e-5623-5037-a18d-b438d1e55da4"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "2a5f0d36-696e-586e-b044-425907f773c1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-91f9a222",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7107696a-32a8-58e1-aa6e-5996a8f4b974",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-headerStyles.font.weight=#ff00aa",
+              "content": {
+                "id": "8d3c9499-2abb-5f24-aaab-61950a80ad7c",
+                "components": [
+                  {
+                    "id": "e8afec52-5194-5dd0-a717-efd0dd1027dd",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "7107696a-32a8-58e1-aa6e-5996a8f4b974"
+                  }
+                ]
+              },
+              "header": {
+                "id": "9891c368-c941-5ddb-a6ab-e1b0863e61f9",
+                "components": []
+              },
+              "headerStyles": {
+                "font": {
+                  "weight": "#ff00aa"
+                }
+              },
+              "parentId": "2a5f0d36-696e-586e-b044-425907f773c1"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "2ec4cc0b-bbc8-54a2-a38a-c1657cc1fb8b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-35ee76f3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "52f8e7e3-70d6-51dd-8af7-f66539fe9528",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-headerStyles.dimensions.height=17px",
+              "content": {
+                "id": "69657766-542f-5aaa-8281-97282be1586b",
+                "components": [
+                  {
+                    "id": "31a90d73-f1cd-5c12-9eef-63532675b7ae",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "52f8e7e3-70d6-51dd-8af7-f66539fe9528"
+                  }
+                ]
+              },
+              "header": {
+                "id": "2b427109-9472-5fca-ae38-e86c518625bd",
                 "components": []
               },
               "headerStyles": {
                 "dimensions": {
-                  "height": 17
+                  "height": "17px"
                 }
               },
-              "parentId": "1d52e308-9aeb-55f6-b875-23941b3d0175"
+              "parentId": "2ec4cc0b-bbc8-54a2-a38a-c1657cc1fb8b"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "9bd9194a-0422-5015-a448-eb84edaf9fa0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-aa0a74c6",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e5a615c3-664b-5f30-8863-6216c1b9b953",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-headerStyles.dimensions.minHeight=17px",
+              "content": {
+                "id": "096edc09-3455-5cad-a77b-9faf91ea2d82",
+                "components": [
+                  {
+                    "id": "20ae7d4c-44fa-55be-9b61-2ccaa2f75614",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "e5a615c3-664b-5f30-8863-6216c1b9b953"
+                  }
+                ]
+              },
+              "header": {
+                "id": "6f7f9d7d-8a4f-5819-9c06-fae16f6d2174",
+                "components": []
+              },
+              "headerStyles": {
+                "dimensions": {
+                  "minHeight": "17px"
+                }
+              },
+              "parentId": "9bd9194a-0422-5015-a448-eb84edaf9fa0"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "0f41f65d-803a-5d1e-892b-dae4d633e081",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-d735b2cc",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8f93165f-79cc-58d9-8a6d-62951b62d3dc",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-headerStyles.dimensions.maxHeight=17",
+              "content": {
+                "id": "a95efc3b-39dc-5c66-86c7-03b8a7f3c31d",
+                "components": [
+                  {
+                    "id": "9e5dff03-743a-5266-ae10-c2efbf01ca4a",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "8f93165f-79cc-58d9-8a6d-62951b62d3dc"
+                  }
+                ]
+              },
+              "header": {
+                "id": "8df3cec1-c101-5faf-a41f-729788d7e073",
+                "components": []
+              },
+              "headerStyles": {
+                "dimensions": {
+                  "maxHeight": 17
+                }
+              },
+              "parentId": "0f41f65d-803a-5d1e-892b-dae4d633e081"
             }
           ],
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
@@ -657,28 +2278,28 @@
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
-          "id": "ae557f49-97d9-5ca1-8618-77b471d35f68",
+          "id": "2c6c02e9-72b9-5207-bebb-c4a71eba147e",
           "type": "container",
           "version": 7,
-          "componentName": "gym-collapsiblePanel-v-6e326a5e",
+          "componentName": "gym-collapsiblePanel-v-11875484",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "65bc9cca-2431-5b45-a308-daf97ab9cd40",
+              "id": "2839b93f-02f7-569c-97a2-080ba5cc61ee",
               "type": "collapsiblePanel",
               "version": 9,
               "label": "gym collapsiblePanel",
               "hidden": false,
               "collapsedByDefault": false,
               "expandIconPosition": "start",
-              "componentName": "gym-collapsiblePanel-inst-headerStyles.background.size=17",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.all.width=17px",
               "content": {
-                "id": "b24e4bab-559e-563e-80b2-53e9574c0f26",
+                "id": "db04e651-10c7-5116-8583-9569f213c842",
                 "components": [
                   {
-                    "id": "a8d46d8b-caa4-526b-a59a-2ebaf6b49f1b",
+                    "id": "c9aee4fc-6d53-5467-8cf4-d36771aad2a5",
                     "type": "text",
                     "version": 2,
                     "label": "",
@@ -686,144 +2307,51 @@
                     "content": "GYM child of collapsiblePanel",
                     "textType": "span",
                     "contentDisplay": "content",
-                    "parentId": "65bc9cca-2431-5b45-a308-daf97ab9cd40"
+                    "parentId": "2839b93f-02f7-569c-97a2-080ba5cc61ee"
                   }
                 ]
               },
               "header": {
-                "id": "2a8b53e4-762f-5a84-a4db-d8159a56f7ce",
+                "id": "13ab9c15-c9f7-5713-8bf8-40f3d253c587",
                 "components": []
               },
-              "headerStyles": {
-                "background": {
-                  "size": 17
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "width": "17px"
+                    }
+                  }
                 }
               },
-              "parentId": "ae557f49-97d9-5ca1-8618-77b471d35f68"
+              "parentId": "2c6c02e9-72b9-5207-bebb-c4a71eba147e"
             }
           ],
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
-          "id": "025de9da-5270-51ec-b604-ba7bcf104bf6",
-          "type": "text",
-          "version": 5,
-          "componentName": "gym-collapsiblePanel-h-display",
-          "content": "— display —",
-          "textType": "span",
-          "contentDisplay": "content",
-          "hideLabel": true,
-          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
-        },
-        {
-          "id": "0eb10bff-57cb-5c64-a295-7130b2314e06",
+          "id": "6975e7d4-67de-5cd2-aa35-4a6c981c98f7",
           "type": "container",
           "version": 7,
-          "componentName": "gym-collapsiblePanel-v-1b640f90",
+          "componentName": "gym-collapsiblePanel-v-4585cb75",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "e0bda9d5-2720-571b-ae92-208b9e9a8c88",
-              "type": "collapsiblePanel",
-              "version": 9,
-              "label": "GYM-TXT-label",
-              "hidden": false,
-              "collapsedByDefault": false,
-              "expandIconPosition": "start",
-              "componentName": "gym-collapsiblePanel-inst-label=txt",
-              "content": {
-                "id": "2006cd44-6ce8-5d60-aa92-5b252bc3cd0b",
-                "components": [
-                  {
-                    "id": "25e44d80-6407-5473-9824-b75575fee144",
-                    "type": "text",
-                    "version": 2,
-                    "label": "",
-                    "hideLabel": true,
-                    "content": "GYM child of collapsiblePanel",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "parentId": "e0bda9d5-2720-571b-ae92-208b9e9a8c88"
-                  }
-                ]
-              },
-              "header": {
-                "id": "7b474de2-d976-5887-846f-9a01730b8b4a",
-                "components": []
-              },
-              "parentId": "0eb10bff-57cb-5c64-a295-7130b2314e06"
-            }
-          ],
-          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
-        },
-        {
-          "id": "ba9e4bf8-1a5f-533d-bff7-ca5b4fd2a913",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-collapsiblePanel-v-3fcf6b11",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "b4c8821b-d682-5ff5-89b8-a12447899016",
-              "type": "collapsiblePanel",
-              "version": 9,
-              "label": "gym collapsiblePanel",
-              "hidden": false,
-              "collapsedByDefault": false,
-              "expandIconPosition": "hide",
-              "componentName": "gym-collapsiblePanel-inst-expandIconPosition=hide",
-              "content": {
-                "id": "631552eb-0add-5f69-a569-020a709d6050",
-                "components": [
-                  {
-                    "id": "290408e6-8712-5f88-be9c-1f2fb21545a7",
-                    "type": "text",
-                    "version": 2,
-                    "label": "",
-                    "hideLabel": true,
-                    "content": "GYM child of collapsiblePanel",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "parentId": "b4c8821b-d682-5ff5-89b8-a12447899016"
-                  }
-                ]
-              },
-              "header": {
-                "id": "e97d34a5-8410-57b1-894f-e095b1c270e3",
-                "components": []
-              },
-              "parentId": "ba9e4bf8-1a5f-533d-bff7-ca5b4fd2a913"
-            }
-          ],
-          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
-        },
-        {
-          "id": "06aa320a-c7df-5047-a655-7c1d2735381d",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-collapsiblePanel-v-fc5c5ea2",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "08bbd462-1fd0-585e-955e-b769faa8a3b7",
+              "id": "25663490-7fbf-5f31-8b67-efa21cf6a73c",
               "type": "collapsiblePanel",
               "version": 9,
               "label": "gym collapsiblePanel",
               "hidden": false,
               "collapsedByDefault": false,
               "expandIconPosition": "start",
-              "componentName": "gym-collapsiblePanel-inst-expandIconPosition=start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.all.style=solid",
               "content": {
-                "id": "11301a7a-f7c8-5130-86c8-991c6dcf5913",
+                "id": "ec20ed4c-29ff-5c5b-b1fe-e9f2ba80f9b4",
                 "components": [
                   {
-                    "id": "46d6d0f1-41b7-5a34-b963-86a284c51bbb",
+                    "id": "25bb6efa-356e-5696-bd23-80691c8b1c78",
                     "type": "text",
                     "version": 2,
                     "label": "",
@@ -831,128 +2359,51 @@
                     "content": "GYM child of collapsiblePanel",
                     "textType": "span",
                     "contentDisplay": "content",
-                    "parentId": "08bbd462-1fd0-585e-955e-b769faa8a3b7"
+                    "parentId": "25663490-7fbf-5f31-8b67-efa21cf6a73c"
                   }
                 ]
               },
               "header": {
-                "id": "e3a24248-747a-5aff-bc11-6ef3be5673a2",
+                "id": "de39c17c-5d9c-5e49-9d9c-6423925f85bf",
                 "components": []
               },
-              "parentId": "06aa320a-c7df-5047-a655-7c1d2735381d"
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "6975e7d4-67de-5cd2-aa35-4a6c981c98f7"
             }
           ],
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
-          "id": "8be44187-8624-5248-b70a-5f30c3ebea21",
+          "id": "328fc21b-8051-5c4b-8d02-d63aa4022ca6",
           "type": "container",
           "version": 7,
-          "componentName": "gym-collapsiblePanel-v-2d8d1afe",
+          "componentName": "gym-collapsiblePanel-v-7fe807ae",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "e59cbf12-e10d-5027-b6f7-3ab9a4fb3d4e",
-              "type": "collapsiblePanel",
-              "version": 9,
-              "label": "gym collapsiblePanel",
-              "hidden": false,
-              "collapsedByDefault": false,
-              "expandIconPosition": "end",
-              "componentName": "gym-collapsiblePanel-inst-expandIconPosition=end",
-              "content": {
-                "id": "abf003e8-b4fd-5a0a-a001-b3517ec09d71",
-                "components": [
-                  {
-                    "id": "8e7b223a-f9cb-525f-a1d6-9b5d956badd4",
-                    "type": "text",
-                    "version": 2,
-                    "label": "",
-                    "hideLabel": true,
-                    "content": "GYM child of collapsiblePanel",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "parentId": "e59cbf12-e10d-5027-b6f7-3ab9a4fb3d4e"
-                  }
-                ]
-              },
-              "header": {
-                "id": "4bccddea-af9d-5cf7-8314-12aaf590fb9c",
-                "components": []
-              },
-              "parentId": "8be44187-8624-5248-b70a-5f30c3ebea21"
-            }
-          ],
-          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
-        },
-        {
-          "id": "1e230804-9f56-5e27-9078-df4650303879",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-collapsiblePanel-v-e6aad99a",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "2194f535-4ee0-5903-80b6-e8f5c2b7059a",
-              "type": "collapsiblePanel",
-              "version": 9,
-              "label": "gym collapsiblePanel",
-              "hidden": false,
-              "collapsedByDefault": true,
-              "expandIconPosition": "start",
-              "componentName": "gym-collapsiblePanel-inst-collapsedByDefault=true",
-              "content": {
-                "id": "bdaeff1c-350f-5984-b2d5-b3adff5a6b17",
-                "components": [
-                  {
-                    "id": "f1066a5b-f264-5b0b-ad57-fb8d9fa92ead",
-                    "type": "text",
-                    "version": 2,
-                    "label": "",
-                    "hideLabel": true,
-                    "content": "GYM child of collapsiblePanel",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "parentId": "2194f535-4ee0-5903-80b6-e8f5c2b7059a"
-                  }
-                ]
-              },
-              "header": {
-                "id": "80f2d178-2666-5304-8229-d1c5f50d354f",
-                "components": []
-              },
-              "parentId": "1e230804-9f56-5e27-9078-df4650303879"
-            }
-          ],
-          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
-        },
-        {
-          "id": "baf0edea-c431-53e2-8889-2f2d4909eb61",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-collapsiblePanel-v-70f96cac",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "cacdab87-c56f-5efd-a064-4ba79cb38c9b",
+              "id": "584315ba-3b2d-5b72-b633-4b8e7c91a989",
               "type": "collapsiblePanel",
               "version": 9,
               "label": "gym collapsiblePanel",
               "hidden": false,
               "collapsedByDefault": false,
               "expandIconPosition": "start",
-              "componentName": "gym-collapsiblePanel-inst-ghost=true",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.all.color=#ff00aa",
               "content": {
-                "id": "83e16e51-77ab-5587-819b-13ebaafd8382",
+                "id": "3b9f1603-7a25-5024-9e32-ccc9e0435858",
                 "components": [
                   {
-                    "id": "4e2add14-e9ad-504e-b0b4-736d1a6a2175",
+                    "id": "a9b95d75-4236-58f3-97e8-de1407f1061a",
                     "type": "text",
                     "version": 2,
                     "label": "",
@@ -960,43 +2411,51 @@
                     "content": "GYM child of collapsiblePanel",
                     "textType": "span",
                     "contentDisplay": "content",
-                    "parentId": "cacdab87-c56f-5efd-a064-4ba79cb38c9b"
+                    "parentId": "584315ba-3b2d-5b72-b633-4b8e7c91a989"
                   }
                 ]
               },
               "header": {
-                "id": "2b2c984c-e21b-57a1-9c28-98d2e480d2e0",
+                "id": "6c413fae-44bb-5a6b-a018-c3126ce50b8d",
                 "components": []
               },
-              "ghost": true,
-              "parentId": "baf0edea-c431-53e2-8889-2f2d4909eb61"
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "328fc21b-8051-5c4b-8d02-d63aa4022ca6"
             }
           ],
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
         },
         {
-          "id": "51d18f9d-0d5b-5ab5-ae6c-8df8e7eb6d66",
+          "id": "b4a31a28-dfc6-59a2-a914-5c29fa68cbf5",
           "type": "container",
           "version": 7,
-          "componentName": "gym-collapsiblePanel-v-1ceb055e",
+          "componentName": "gym-collapsiblePanel-v-85a4a0b1",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "ba163468-ef6c-5009-b745-a8573c73c8bc",
+              "id": "4281617a-9e5b-5301-b88f-9665dd84fc46",
               "type": "collapsiblePanel",
               "version": 9,
               "label": "gym collapsiblePanel",
               "hidden": false,
               "collapsedByDefault": false,
               "expandIconPosition": "start",
-              "componentName": "gym-collapsiblePanel-inst-headerStyles.stylingBox=stylingBox17",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.top.width=17px",
               "content": {
-                "id": "fba3801e-2028-5031-ad62-c0aaee7d470a",
+                "id": "1403dbe2-cd3e-5d58-8f14-dd4dc7120c25",
                 "components": [
                   {
-                    "id": "4b2aa0e4-5e8f-5dc4-b4ea-42bab3846d01",
+                    "id": "4dd71fe0-870b-52d7-ad2a-0d907d476dd3",
                     "type": "text",
                     "version": 2,
                     "label": "",
@@ -1004,18 +2463,646 @@
                     "content": "GYM child of collapsiblePanel",
                     "textType": "span",
                     "contentDisplay": "content",
-                    "parentId": "ba163468-ef6c-5009-b745-a8573c73c8bc"
+                    "parentId": "4281617a-9e5b-5301-b88f-9665dd84fc46"
                   }
                 ]
               },
               "header": {
-                "id": "5cca3242-057a-5e93-93b0-2ce775d9df00",
+                "id": "3d0e275d-81c6-5c8d-8186-70c8c08bf0a6",
                 "components": []
               },
-              "headerStyles": {
-                "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}"
+              "desktop": {
+                "border": {
+                  "border": {
+                    "top": {
+                      "width": "17px"
+                    }
+                  }
+                }
               },
-              "parentId": "51d18f9d-0d5b-5ab5-ae6c-8df8e7eb6d66"
+              "parentId": "b4a31a28-dfc6-59a2-a914-5c29fa68cbf5"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "3da5884d-8e55-519b-960d-998993fae8d1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-3fe58bc3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9ad47e36-f942-5931-8077-d5fec77081e1",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.top.style=solid",
+              "content": {
+                "id": "105c30ba-41cb-5920-a5d9-e06c33cd5936",
+                "components": [
+                  {
+                    "id": "8a6ec93e-b9af-5c5e-bc63-b3ddc83e84b8",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "9ad47e36-f942-5931-8077-d5fec77081e1"
+                  }
+                ]
+              },
+              "header": {
+                "id": "0a00a807-f1ce-5e1c-86a9-ab413d6156a5",
+                "components": []
+              },
+              "desktop": {
+                "border": {
+                  "border": {
+                    "top": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "3da5884d-8e55-519b-960d-998993fae8d1"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "5181732d-0452-5674-be97-933fbce3b565",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-26fbd154",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9222fb49-886d-5c82-9694-36ad99cfe55f",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.top.color=#ff00aa",
+              "content": {
+                "id": "06cf10c0-fcea-5a08-b8e6-73b8fc6a6ac5",
+                "components": [
+                  {
+                    "id": "ab643ba3-7ecd-5a6c-8614-2e752075f9f9",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "9222fb49-886d-5c82-9694-36ad99cfe55f"
+                  }
+                ]
+              },
+              "header": {
+                "id": "614af9ac-50f0-5030-8162-ecfc0d03d9d8",
+                "components": []
+              },
+              "desktop": {
+                "border": {
+                  "border": {
+                    "top": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "5181732d-0452-5674-be97-933fbce3b565"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "bfb25079-399d-5baf-90e6-7c23e378fff0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-7940a0ac",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b2c31006-c937-5ba1-8b32-3b3642115e41",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.right.width=17px",
+              "content": {
+                "id": "9371c5ad-b8f6-548c-bd4f-330fff154af3",
+                "components": [
+                  {
+                    "id": "44830117-93e6-5063-b345-531be3bf44ef",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "b2c31006-c937-5ba1-8b32-3b3642115e41"
+                  }
+                ]
+              },
+              "header": {
+                "id": "cd94b783-feee-5152-acbd-bc1c3acab10e",
+                "components": []
+              },
+              "desktop": {
+                "border": {
+                  "border": {
+                    "right": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "bfb25079-399d-5baf-90e6-7c23e378fff0"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "62a30d24-fa7c-5f17-ad41-a346bdfdfcaa",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-df36f00a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "435e1774-239b-5ca5-8b8d-6de4ac4423cf",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.right.style=solid",
+              "content": {
+                "id": "90e263a8-b602-5250-9a42-069ca0f3b85d",
+                "components": [
+                  {
+                    "id": "800b8ea8-e01c-510d-850c-7dbd4216ab05",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "435e1774-239b-5ca5-8b8d-6de4ac4423cf"
+                  }
+                ]
+              },
+              "header": {
+                "id": "8e809fa0-60d5-5edf-845f-d0c49e76e702",
+                "components": []
+              },
+              "desktop": {
+                "border": {
+                  "border": {
+                    "right": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "62a30d24-fa7c-5f17-ad41-a346bdfdfcaa"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "4e79d338-6b21-541a-bf0b-afb417e6827b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-6523f63f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "25bf5f11-afc8-5dbb-bcd8-b883ee47b407",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.right.color=#ff00aa",
+              "content": {
+                "id": "612c7783-8cd3-57bc-ba01-f1779c648ff8",
+                "components": [
+                  {
+                    "id": "ec9e2bc5-805e-5b7e-9665-ac29f6901829",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "25bf5f11-afc8-5dbb-bcd8-b883ee47b407"
+                  }
+                ]
+              },
+              "header": {
+                "id": "69c296bf-32f4-5051-abf4-994f63c21b28",
+                "components": []
+              },
+              "desktop": {
+                "border": {
+                  "border": {
+                    "right": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "4e79d338-6b21-541a-bf0b-afb417e6827b"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "e50b8e74-9423-5835-ad4d-8df1ccaa2977",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-69e814fd",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7cbb8a95-1882-57c3-a9fc-c3759d0a2cf6",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.bottom.width=17px",
+              "content": {
+                "id": "0c9fd76b-850b-5529-a643-7e09d1e5a5ed",
+                "components": [
+                  {
+                    "id": "cffd04db-b38b-5102-a9c8-550ca03a7c69",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "7cbb8a95-1882-57c3-a9fc-c3759d0a2cf6"
+                  }
+                ]
+              },
+              "header": {
+                "id": "ba0bb236-6235-5c8e-a986-1eb09935431b",
+                "components": []
+              },
+              "desktop": {
+                "border": {
+                  "border": {
+                    "bottom": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "e50b8e74-9423-5835-ad4d-8df1ccaa2977"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "da19d246-ef3f-5acf-9db9-160da3226c97",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-48f9880d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a03ed937-af8e-5a0a-8365-ed201342871e",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.bottom.style=solid",
+              "content": {
+                "id": "a28acba5-e6d9-552d-a007-daaef8a6e8a3",
+                "components": [
+                  {
+                    "id": "13486f61-4e7d-5e25-b3f5-5f2df0fede3d",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "a03ed937-af8e-5a0a-8365-ed201342871e"
+                  }
+                ]
+              },
+              "header": {
+                "id": "399b2f7f-6ceb-5fd5-b615-d5ed06d65d3f",
+                "components": []
+              },
+              "desktop": {
+                "border": {
+                  "border": {
+                    "bottom": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "da19d246-ef3f-5acf-9db9-160da3226c97"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "f6660ce0-a3b4-57fd-96d3-1ec95148440e",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-95489c6e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "04b1cfe4-e196-5851-a28f-768891e50784",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.bottom.color=#ff00aa",
+              "content": {
+                "id": "e5882847-8856-5f6b-a6af-3f281a3d56aa",
+                "components": [
+                  {
+                    "id": "c2a735ff-afb9-5741-9103-691f0e2f4aa4",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "04b1cfe4-e196-5851-a28f-768891e50784"
+                  }
+                ]
+              },
+              "header": {
+                "id": "d8ee30ce-1a7a-5a0d-a968-b58daef22dab",
+                "components": []
+              },
+              "desktop": {
+                "border": {
+                  "border": {
+                    "bottom": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "f6660ce0-a3b4-57fd-96d3-1ec95148440e"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "d438c746-4946-5a88-abfa-9350ed131d50",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-4b875d08",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5635f15e-4736-5c92-aea7-58c3fad4e970",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.left.width=17px",
+              "content": {
+                "id": "56da3215-973f-5ed3-94de-0689b1b173aa",
+                "components": [
+                  {
+                    "id": "6c07f660-28ab-5972-bbac-4c66c062f1f1",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "5635f15e-4736-5c92-aea7-58c3fad4e970"
+                  }
+                ]
+              },
+              "header": {
+                "id": "a22026c6-56c0-534d-8471-b03a576b5752",
+                "components": []
+              },
+              "desktop": {
+                "border": {
+                  "border": {
+                    "left": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "d438c746-4946-5a88-abfa-9350ed131d50"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "58231776-7bd6-53fd-98f3-cd5ef9454815",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-2f12d315",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "cf5106ec-fe84-5804-ad7f-e6b1021554fb",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.left.style=solid",
+              "content": {
+                "id": "999142b1-b939-599a-b804-843d2a817b95",
+                "components": [
+                  {
+                    "id": "4d2cce10-b9eb-5061-808c-5f36a1c9936a",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "cf5106ec-fe84-5804-ad7f-e6b1021554fb"
+                  }
+                ]
+              },
+              "header": {
+                "id": "49aecdff-de8e-52e7-9ad5-400a137075e2",
+                "components": []
+              },
+              "desktop": {
+                "border": {
+                  "border": {
+                    "left": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "58231776-7bd6-53fd-98f3-cd5ef9454815"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "5870498f-2fe5-560c-aa45-0b8aa4927279",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-32a25cd3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4bf0a9e0-7fc2-566d-b730-e508a5d2465a",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.border.left.color=#ff00aa",
+              "content": {
+                "id": "1b6021d1-166c-53fc-95c0-8be633e1f52f",
+                "components": [
+                  {
+                    "id": "4c432ddc-4406-5e0d-a857-f3878fbf531c",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "4bf0a9e0-7fc2-566d-b730-e508a5d2465a"
+                  }
+                ]
+              },
+              "header": {
+                "id": "edb6274f-a0f7-5a12-86a7-e365146f118b",
+                "components": []
+              },
+              "desktop": {
+                "border": {
+                  "border": {
+                    "left": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "5870498f-2fe5-560c-aa45-0b8aa4927279"
+            }
+          ],
+          "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"
+        },
+        {
+          "id": "c3a9c993-d6ce-5814-a52f-c12c88ecac82",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-collapsiblePanel-v-0a5e5de0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4f4d4555-a2e1-5281-8317-c6008c1dbbc7",
+              "type": "collapsiblePanel",
+              "version": 9,
+              "label": "gym collapsiblePanel",
+              "hidden": false,
+              "collapsedByDefault": false,
+              "expandIconPosition": "start",
+              "componentName": "gym-collapsiblePanel-inst-desktop.border.radius.all=17",
+              "content": {
+                "id": "dfa83fa2-79fc-5a1d-8589-56fe46138ced",
+                "components": [
+                  {
+                    "id": "8c8971ad-7ca8-560d-96bf-0da60bb09fd5",
+                    "type": "text",
+                    "version": 2,
+                    "label": "",
+                    "hideLabel": true,
+                    "content": "GYM child of collapsiblePanel",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "parentId": "4f4d4555-a2e1-5281-8317-c6008c1dbbc7"
+                  }
+                ]
+              },
+              "header": {
+                "id": "d4b62fb7-518f-5c9e-8645-17cf9fd46626",
+                "components": []
+              },
+              "desktop": {
+                "border": {
+                  "radius": {
+                    "all": 17
+                  }
+                }
+              },
+              "parentId": "c3a9c993-d6ce-5814-a52f-c12c88ecac82"
             }
           ],
           "parentId": "8d827792-0911-5b5d-98d4-ffa79a9911ea"

@@ -22,9 +22,7 @@
     "mechanism": "json-markup",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
-    "hideBorder",
     "style",
     "size"
   ],
@@ -81,23 +79,20 @@
       "path": "hideBorder",
       "label": "Hide border",
       "editorType": "checkbox",
-      "group": "Display",
-      "shared": true
+      "group": "Display"
     },
     {
       "path": "style",
       "label": "Style",
       "editorType": "codeEditor",
       "group": "Style",
-      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "shared": true
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties"
     },
     {
       "path": "size",
       "label": "Size",
       "editorType": "dropdown",
-      "group": "Style",
-      "shared": true
+      "group": "Style"
     },
     {
       "path": "permissions",

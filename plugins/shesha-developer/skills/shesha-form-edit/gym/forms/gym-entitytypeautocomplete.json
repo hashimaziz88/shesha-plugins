@@ -71,50 +71,6 @@
           "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
         },
         {
-          "id": "74ae5d2a-bf15-5d23-ab17-36bbae2ff7c9",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-entityTypeAutocomplete-v-ca52e19b",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "ce27770a-b0ed-5f5f-8745-e26bd43d9807",
-              "type": "entityTypeAutocomplete",
-              "version": 0,
-              "label": "gym entityTypeAutocomplete",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "size": "middle",
-              "parentId": "74ae5d2a-bf15-5d23-ab17-36bbae2ff7c9"
-            }
-          ],
-          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
-        },
-        {
-          "id": "853d1f29-0900-5a2d-afac-9924ee192391",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-entityTypeAutocomplete-v-15638072",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "692e999b-58ed-5ffa-a355-4b225db1a2fe",
-              "type": "entityTypeAutocomplete",
-              "version": 0,
-              "label": "gym entityTypeAutocomplete",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "size": "large",
-              "parentId": "853d1f29-0900-5a2d-afac-9924ee192391"
-            }
-          ],
-          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
-        },
-        {
           "id": "3aaecd71-038f-5ad7-a938-a17405591f12",
           "type": "text",
           "version": 5,
@@ -145,30 +101,6 @@
                 "required": true
               },
               "parentId": "29cc8dd2-493e-5cb4-84bf-597c7fc11d7c"
-            }
-          ],
-          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
-        },
-        {
-          "id": "272a4204-80be-5570-834c-2d239062c93a",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-entityTypeAutocomplete-v-ceb88830",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "c7643756-5a9e-531a-aa2d-be82a10dbc52",
-              "type": "entityTypeAutocomplete",
-              "version": 0,
-              "label": "gym entityTypeAutocomplete",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "validate": {
-                "message": "GYM-TXT-validate.message"
-              },
-              "parentId": "272a4204-80be-5570-834c-2d239062c93a"
             }
           ],
           "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
@@ -207,6 +139,117 @@
           "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
         },
         {
+          "id": "24e239dc-ccfd-518c-beb4-263812985fb4",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-entityTypeAutocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
+        },
+        {
+          "id": "dabe8f33-85cc-574c-9267-a27aa918b761",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-entityTypeAutocomplete-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b9e9047e-87cd-511f-b8a6-42daab3bb5c1",
+              "type": "entityTypeAutocomplete",
+              "version": 0,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "dabe8f33-85cc-574c-9267-a27aa918b761"
+            }
+          ],
+          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
+        },
+        {
+          "id": "ae48d733-0c9a-5eb2-9037-2213c971c87f",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-entityTypeAutocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
+        },
+        {
+          "id": "74ae5d2a-bf15-5d23-ab17-36bbae2ff7c9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-entityTypeAutocomplete-v-ca52e19b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ce27770a-b0ed-5f5f-8745-e26bd43d9807",
+              "type": "entityTypeAutocomplete",
+              "version": 0,
+              "label": "gym entityTypeAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "size": "middle",
+              "parentId": "74ae5d2a-bf15-5d23-ab17-36bbae2ff7c9"
+            }
+          ],
+          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
+        },
+        {
+          "id": "3aaecd71-038f-5ad7-a938-a17405591f12",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-entityTypeAutocomplete-h-validation",
+          "content": "— validation —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
+        },
+        {
+          "id": "272a4204-80be-5570-834c-2d239062c93a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-entityTypeAutocomplete-v-ceb88830",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c7643756-5a9e-531a-aa2d-be82a10dbc52",
+              "type": "entityTypeAutocomplete",
+              "version": 0,
+              "label": "gym entityTypeAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "validate": {
+                "message": "GYM-TXT-validate.message"
+              },
+              "parentId": "272a4204-80be-5570-834c-2d239062c93a"
+            }
+          ],
+          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
+        },
+        {
+          "id": "68ba29a9-660b-5562-b2be-9a6fc3ba59b6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-entityTypeAutocomplete-h-data",
+          "content": "— data —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
+        },
+        {
           "id": "664836e3-1010-50cf-bc89-ea00148f1d40",
           "type": "container",
           "version": 7,
@@ -240,27 +283,6 @@
           "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
         },
         {
-          "id": "dabe8f33-85cc-574c-9267-a27aa918b761",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-entityTypeAutocomplete-v-1b640f90",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "b9e9047e-87cd-511f-b8a6-42daab3bb5c1",
-              "type": "entityTypeAutocomplete",
-              "version": 0,
-              "label": "GYM-TXT-label",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "parentId": "dabe8f33-85cc-574c-9267-a27aa918b761"
-            }
-          ],
-          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
-        },
-        {
           "id": "fc1111db-dc09-52d8-b0c6-84b0b2050c95",
           "type": "container",
           "version": 7,
@@ -283,25 +305,47 @@
           "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
         },
         {
-          "id": "0520142a-ac97-5fb1-b702-43ae04fca407",
+          "id": "ae48d733-0c9a-5eb2-9037-2213c971c87f",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-entityTypeAutocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
+        },
+        {
+          "id": "853d1f29-0900-5a2d-afac-9924ee192391",
           "type": "container",
           "version": 7,
-          "componentName": "gym-entityTypeAutocomplete-v-9014b9af",
+          "componentName": "gym-entityTypeAutocomplete-v-15638072",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "59f1264f-5e70-54ff-8a43-4eb95ebb2f64",
+              "id": "692e999b-58ed-5ffa-a355-4b225db1a2fe",
               "type": "entityTypeAutocomplete",
               "version": 0,
               "label": "gym entityTypeAutocomplete",
               "hidden": false,
               "propertyName": "gymValue",
-              "labelAlign": "right",
-              "parentId": "0520142a-ac97-5fb1-b702-43ae04fca407"
+              "size": "large",
+              "parentId": "853d1f29-0900-5a2d-afac-9924ee192391"
             }
           ],
+          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
+        },
+        {
+          "id": "24e239dc-ccfd-518c-beb4-263812985fb4",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-entityTypeAutocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
         },
         {
@@ -409,6 +453,28 @@
               "propertyName": "gymValue",
               "editMode": "readOnly",
               "parentId": "400007dd-c412-53fd-9320-02cf376f1606"
+            }
+          ],
+          "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"
+        },
+        {
+          "id": "0520142a-ac97-5fb1-b702-43ae04fca407",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-entityTypeAutocomplete-v-9014b9af",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "59f1264f-5e70-54ff-8a43-4eb95ebb2f64",
+              "type": "entityTypeAutocomplete",
+              "version": 0,
+              "label": "gym entityTypeAutocomplete",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "labelAlign": "right",
+              "parentId": "0520142a-ac97-5fb1-b702-43ae04fca407"
             }
           ],
           "parentId": "e87573e7-e630-5c6a-94df-07ee00318b31"

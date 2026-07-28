@@ -96,7 +96,6 @@
     "mechanism": "json-markup",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
     "style",
     "stylingBox"
@@ -125,14 +124,12 @@
       "label": "Style",
       "editorType": "codeEditor",
       "group": "Style",
-      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "shared": true
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties"
     },
     {
       "path": "stylingBox",
       "editorType": "styleBox",
-      "group": "Style",
-      "shared": true
+      "group": "Style"
     }
   ],
   "slots": {

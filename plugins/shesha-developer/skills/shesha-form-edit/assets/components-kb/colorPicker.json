@@ -97,19 +97,12 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
     "size",
     "stylingBox",
     "style"
   ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "Title shown at the top of the color picker"
-    },
     {
       "path": "propertyName",
       "label": "Property Name",
@@ -131,6 +124,11 @@
       "editorType": "settingsInputRow"
     },
     {
+      "path": "hidden",
+      "label": "Hide",
+      "editorType": "switch"
+    },
+    {
       "path": "title",
       "label": "Title",
       "editorType": "settingsInput",
@@ -139,13 +137,18 @@
     {
       "path": "allowClear",
       "label": "Allow Clear",
+      "editorType": "switch"
+    },
+    {
+      "path": "showText",
+      "label": "Show Color Code",
       "editorType": "settingsInputRow",
       "description": "Shows the color value (hex/rgb) alongside the color preview"
     },
     {
       "path": "disabledAlpha",
       "label": "Disable Opacity",
-      "editorType": "settingsInputRow",
+      "editorType": "switch",
       "description": "Removes the opacity/transparency option from the color picker"
     },
     {
@@ -158,23 +161,19 @@
       "path": "size",
       "label": "Size",
       "editorType": "settingsInput",
-      "group": "Styles",
-      "shared": true
+      "group": "Styles"
     },
     {
       "path": "stylingBox",
-      "label": "Margin & Padding",
       "editorType": "styleBox",
-      "group": "Margin & Padding",
-      "shared": true
+      "group": "Margin & Padding"
     },
     {
       "path": "style",
       "label": "Style",
       "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "group": "Custom Styles",
-      "shared": true
+      "group": "Custom Styles"
     },
     {
       "path": "permissions",

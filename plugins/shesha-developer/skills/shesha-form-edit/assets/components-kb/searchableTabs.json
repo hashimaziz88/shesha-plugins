@@ -100,7 +100,6 @@
     "mechanism": "react-factory",
     "parseQuality": "partial"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
     "size",
     "style",
@@ -126,8 +125,7 @@
       "path": "size",
       "label": "Size",
       "group": "Display",
-      "description": "This will set the size for all buttons",
-      "shared": true
+      "description": "This will set the size for all buttons"
     },
     {
       "path": "position",
@@ -148,13 +146,11 @@
       "path": "style",
       "label": "Style",
       "group": "Style",
-      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "shared": true
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties"
     },
     {
       "path": "stylingBox",
-      "group": "Style",
-      "shared": true
+      "group": "Style"
     },
     {
       "path": "permissions",

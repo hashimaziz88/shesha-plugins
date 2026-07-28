@@ -97,17 +97,10 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
     "style"
   ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "Enter the JSON object that should match the structure of the default one provided"
-    },
     {
       "path": "propertyName",
       "label": "Property Name",
@@ -152,8 +145,7 @@
     {
       "path": "style",
       "label": "Style",
-      "editorType": "settingsInput",
-      "shared": true
+      "editorType": "settingsInput"
     },
     {
       "path": "permissions",

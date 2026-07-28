@@ -94,7 +94,6 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [],
   "settingsFields": [
     {
@@ -130,13 +129,13 @@
     {
       "path": "customVisibility",
       "label": "Custom Visibility",
-      "editorType": "codeEditor",
+      "editorType": "object",
       "description": "Enter custom visibility code.  You must return true to show the component. The global variable data is provided, and allows you to access the data of any form component, by using its API key."
     },
     {
       "path": "customEnabled",
       "label": "Custom Enabled",
-      "editorType": "codeEditor",
+      "editorType": "object",
       "description": "Enter custom enabled code.  You must return true to enable the component. The global variable data is provided, and allows you to access the data of any form component, by using its API key."
     },
     {

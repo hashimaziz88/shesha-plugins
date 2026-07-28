@@ -85,6 +85,55 @@
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
         },
         {
+          "id": "b3deaa64-446e-5d69-9bbb-378246c15825",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "2e1d22c4-a6bc-5d82-8641-35e997ecf338",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-ae8981bd",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1a3b2712-42e6-542d-b27a-cb12c36a8302",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "placeholder": "GYM-TXT-placeholder",
+              "parentId": "2e1d22c4-a6bc-5d82-8641-35e997ecf338"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "e98376d5-d8c4-5579-83a8-4f1baf6e473b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
           "id": "31abaebb-571d-5ab2-9669-104f3f031134",
           "type": "container",
           "version": 7,
@@ -113,6 +162,55 @@
               "parentId": "31abaebb-571d-5ab2-9669-104f3f031134"
             }
           ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "b3deaa64-446e-5d69-9bbb-378246c15825",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "213a6428-5309-5c89-84f8-a942d840577b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-a76e668c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "361ce1a6-7979-523b-8e20-fe350d0431eb",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "description": "GYM-TXT-description",
+              "parentId": "213a6428-5309-5c89-84f8-a942d840577b"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "e98376d5-d8c4-5579-83a8-4f1baf6e473b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
         },
         {
@@ -147,16 +245,27 @@
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
         },
         {
-          "id": "579ad4c3-25d2-5632-9dc8-97cf9a78b30f",
+          "id": "b3deaa64-446e-5d69-9bbb-378246c15825",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "080f685b-2c7c-540c-98b2-5351e5b6db5c",
           "type": "container",
           "version": 7,
-          "componentName": "gym-autocomplete-v-0baf713f",
+          "componentName": "gym-autocomplete-v-3ece1c6f",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "c230e604-64d4-50ca-9c7f-35525978114f",
+              "id": "3d39b165-f86b-53d0-9de3-8af939606f2c",
               "type": "autocomplete",
               "version": 8,
               "label": "gym autocomplete",
@@ -167,27 +276,114 @@
               "mode": "single",
               "useRawValues": true,
               "propertyName": "gymValue",
-              "desktop": {
-                "dimensions": {
-                  "width": "317px"
-                }
-              },
-              "parentId": "579ad4c3-25d2-5632-9dc8-97cf9a78b30f"
+              "editMode": true,
+              "parentId": "080f685b-2c7c-540c-98b2-5351e5b6db5c"
             }
           ],
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
         },
         {
-          "id": "8298d93a-e399-5880-bfe0-65feca784206",
+          "id": "e98376d5-d8c4-5579-83a8-4f1baf6e473b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "3bdf55ea-3289-563a-933b-1f26c14db962",
           "type": "container",
           "version": 7,
-          "componentName": "gym-autocomplete-v-529ccf25",
+          "componentName": "gym-autocomplete-v-5b7144ee",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "f9325476-c8a5-546f-81a2-74ff6d34ea6e",
+              "id": "b63b1254-e0e5-58f8-b0df-ee7cf2696eba",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "font": {
+                  "type": 17
+                }
+              },
+              "parentId": "3bdf55ea-3289-563a-933b-1f26c14db962"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "b3deaa64-446e-5d69-9bbb-378246c15825",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "7d469171-af04-5be6-99b4-f0d2527dbcf0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-37a84b93",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f0ebbd57-637f-5c63-9fa4-d285731e889d",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "disableSearch": true,
+              "parentId": "7d469171-af04-5be6-99b4-f0d2527dbcf0"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "e98376d5-d8c4-5579-83a8-4f1baf6e473b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "a1172dd0-470b-59c8-ae68-f79a6fc40b3e",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-d94de207",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ea79b9b4-0d90-5bca-bc23-228043d8ea64",
               "type": "autocomplete",
               "version": 8,
               "label": "gym autocomplete",
@@ -200,12 +396,458 @@
               "propertyName": "gymValue",
               "desktop": {
                 "dimensions": {
-                  "height": "117px"
+                  "width": "17px"
                 }
               },
-              "parentId": "8298d93a-e399-5880-bfe0-65feca784206"
+              "parentId": "a1172dd0-470b-59c8-ae68-f79a6fc40b3e"
             }
           ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "b3deaa64-446e-5d69-9bbb-378246c15825",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "2026bc66-2453-595b-b4a9-8b0b67afc705",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-cc559fb6",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "52cb189f-0af4-5a81-a65e-1182e6b8fb9b",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "parentId": "2026bc66-2453-595b-b4a9-8b0b67afc705"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "e98376d5-d8c4-5579-83a8-4f1baf6e473b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "8ab25cdb-71c3-591d-94eb-473893b392d0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-543ca5f0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b81bc22c-b7b8-53bd-9b7e-6f177848cdfd",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "minWidth": "17px"
+                }
+              },
+              "parentId": "8ab25cdb-71c3-591d-94eb-473893b392d0"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "b3deaa64-446e-5d69-9bbb-378246c15825",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "92497bc5-650d-5455-9c72-e2bc87890969",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-269982ed",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "33a2d3de-8625-5597-80b9-e37ef883236a",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "parentId": "92497bc5-650d-5455-9c72-e2bc87890969"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "e98376d5-d8c4-5579-83a8-4f1baf6e473b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "17172474-6bb0-5a52-bb6d-95be10bc0fa6",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-11b08108",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8e879cfa-4611-523d-8ce6-e59779c1e1d8",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "maxWidth": 17
+                }
+              },
+              "parentId": "17172474-6bb0-5a52-bb6d-95be10bc0fa6"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "b3deaa64-446e-5d69-9bbb-378246c15825",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "f2262f25-d4ca-5f43-b1b7-21db81185373",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-f92469d9",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0464115c-1bf8-59fc-8b3f-eac55ec3f2fc",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "allowFreeText": true,
+              "parentId": "f2262f25-d4ca-5f43-b1b7-21db81185373"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "e98376d5-d8c4-5579-83a8-4f1baf6e473b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "7650370c-1cab-5936-a25f-9a743ff1d8c5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-e3c22599",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3adb88b5-26e1-58b1-87e7-c10e3ca855ef",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "height": "17px"
+                }
+              },
+              "parentId": "7650370c-1cab-5936-a25f-9a743ff1d8c5"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "b3deaa64-446e-5d69-9bbb-378246c15825",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "1b4d0e1f-b18f-5a5d-8781-a1faf5d9703a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-913111ee",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4ef0e52f-81a9-5f31-8ca4-85b7af49ec2a",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "quickviewWidth": 17,
+              "parentId": "1b4d0e1f-b18f-5a5d-8781-a1faf5d9703a"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "e98376d5-d8c4-5579-83a8-4f1baf6e473b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "dd2afdc8-bddc-56c0-92af-0993c9140bd5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-305d8597",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "410a8366-fabe-5556-99ee-83cebe60cde2",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "minHeight": "17px"
+                }
+              },
+              "parentId": "dd2afdc8-bddc-56c0-92af-0993c9140bd5"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "b3deaa64-446e-5d69-9bbb-378246c15825",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "7c1fa349-680b-51d5-a520-9bc83b5e3069",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-396a3c9c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7637aca3-bcd9-5bf8-bc44-c0b01e6e2a91",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "enableStyleOnReadonly": true,
+              "parentId": "7c1fa349-680b-51d5-a520-9bc83b5e3069"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "e98376d5-d8c4-5579-83a8-4f1baf6e473b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "25995df6-eafc-5e5a-aaa7-48c558e6b620",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-3ae5eb1d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ec296032-fb1c-5b43-bb8b-dc959c32fee2",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "maxHeight": 17
+                }
+              },
+              "parentId": "25995df6-eafc-5e5a-aaa7-48c558e6b620"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "b3deaa64-446e-5d69-9bbb-378246c15825",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "d5a5e7ec-c49a-5684-a6d8-daf4742d6c11",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-b3c1b7ce",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "30dd02ac-1104-5ded-a933-eb03630805a3",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "multiple",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "parentId": "d5a5e7ec-c49a-5684-a6d8-daf4742d6c11"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "e98376d5-d8c4-5579-83a8-4f1baf6e473b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
         },
         {
@@ -236,6 +878,961 @@
                 }
               },
               "parentId": "71cde078-b4bc-59a1-9e01-ab9701caab54"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "b3deaa64-446e-5d69-9bbb-378246c15825",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "6238a928-dbd4-5334-a693-752b6812416c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-349ca2df",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "46623c10-882f-5352-95b6-a9805a8ecff5",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "url",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "parentId": "6238a928-dbd4-5334-a693-752b6812416c"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "e98376d5-d8c4-5579-83a8-4f1baf6e473b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-autocomplete-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "373addd1-07a9-5d58-912f-98a57d48863a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "bf180c92-7493-57d5-95cd-0577997ac076",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "373addd1-07a9-5d58-912f-98a57d48863a"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "eb074d58-2b97-56d7-9595-a628f18a21e8",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-a304424a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "89d89255-3973-591b-88c0-41c7f7fffd00",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "shadow": {
+                  "offsetY": 17
+                }
+              },
+              "parentId": "eb074d58-2b97-56d7-9595-a628f18a21e8"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "1a15c7bb-e4a2-58e0-a8f9-8d0e0de91bb1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-c0f5a90b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7f5fd1db-bf4c-5f19-8137-535a5b95e8d1",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "shadow": {
+                  "blurRadius": 17
+                }
+              },
+              "parentId": "1a15c7bb-e4a2-58e0-a8f9-8d0e0de91bb1"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "3e2e06f2-0a09-575d-8ed4-4ef83f3bd1b7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-f80da270",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9edd2952-d2d4-57d4-ac34-869e5455c022",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "shadow": {
+                  "spreadRadius": "#ff00aa"
+                }
+              },
+              "parentId": "3e2e06f2-0a09-575d-8ed4-4ef83f3bd1b7"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "c1ef3be9-26c9-527b-9be5-dd450130062b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-9e7f5fea",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "82269ff2-8e5d-5c20-ad92-423a06c61a6f",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "shadow": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "c1ef3be9-26c9-527b-9be5-dd450130062b"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "4fb11825-ffe2-569f-ad06-8d291576706c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3a754d75-a19a-5b0f-a3d3-2b8775fc4c80",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "4fb11825-ffe2-569f-ad06-8d291576706c"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "1804abc5-fb12-5ad9-bd0d-b5b882225802",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-11875484",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7180f7eb-f9cb-5d01-99ce-14d972d958ab",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "1804abc5-fb12-5ad9-bd0d-b5b882225802"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "05c993d7-d5a7-5c79-93b4-dee5e4e5f110",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-4585cb75",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "cae09119-7f31-5920-be37-b0da04485198",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "05c993d7-d5a7-5c79-93b4-dee5e4e5f110"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "98487634-29b3-5ea9-8607-de22b4553a4b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-7fe807ae",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "12742776-8aee-54b6-a257-79ae47b24390",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "98487634-29b3-5ea9-8607-de22b4553a4b"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "30e8b71e-9178-5bf0-9573-ea86b9bf026e",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-85a4a0b1",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d006272c-1808-53e7-8028-de965c8b6c1e",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "top": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "30e8b71e-9178-5bf0-9573-ea86b9bf026e"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "ae90555e-c2ba-54af-a59c-fe3b3f6b5072",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-3fe58bc3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "fdd4ffab-d6cf-57e2-9cdb-3bc3322081fd",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "top": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "ae90555e-c2ba-54af-a59c-fe3b3f6b5072"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "83559be5-dc17-547c-b3aa-b784a7835276",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-26fbd154",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ac556e0e-0716-5fe9-a9e5-3a987bb69cac",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "top": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "83559be5-dc17-547c-b3aa-b784a7835276"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "8f9ad605-7c70-5dfd-811e-48d68e941693",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-7940a0ac",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8c21a0e4-4c8d-5dd7-9026-f95fae47c814",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "right": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "8f9ad605-7c70-5dfd-811e-48d68e941693"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "e68b0558-a828-5960-bc23-155c181797c4",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-df36f00a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "467197f7-280e-5f96-9eba-bf0a1299a4b8",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "right": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "e68b0558-a828-5960-bc23-155c181797c4"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "f5639c97-030c-5399-89ec-0719d13fb90e",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-6523f63f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0f1e128e-cbeb-5f43-823d-8e511c977828",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "right": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "f5639c97-030c-5399-89ec-0719d13fb90e"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "1eeba83c-77fd-571d-8143-a32a5c0e9dca",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-69e814fd",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c35a392d-613a-529a-9001-11374fc1c5a3",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "bottom": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "1eeba83c-77fd-571d-8143-a32a5c0e9dca"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "5dcd1d9b-9747-5af7-9d9d-49a6b6bce312",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-48f9880d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b5b34b48-f1ca-5920-8c12-d05c65d7493d",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "bottom": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "5dcd1d9b-9747-5af7-9d9d-49a6b6bce312"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "9340564c-4c3a-594b-a5fc-693d6c92c05a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-95489c6e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c2bd33e1-b038-51de-b65c-aca7f7f35c6c",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "bottom": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "9340564c-4c3a-594b-a5fc-693d6c92c05a"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "ddacff51-2ab2-5232-a7fa-b5766f0915eb",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-4b875d08",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0a3f89b9-c822-5e47-aece-fa9871bd80d0",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "left": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "ddacff51-2ab2-5232-a7fa-b5766f0915eb"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "a12a4072-93ee-51cc-ab67-c8e072808bc2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-2f12d315",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "93a06079-645b-5d8a-84d3-c31a071497c6",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "left": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "a12a4072-93ee-51cc-ab67-c8e072808bc2"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "3e3a89ea-15b1-5a8a-8b08-e2e46e277058",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-32a25cd3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ca18c346-0654-5692-8127-c8111ec9cb88",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "left": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "3e3a89ea-15b1-5a8a-8b08-e2e46e277058"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "488822a0-087f-5bd6-b0f7-b66134452ee5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-0a5e5de0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8c72d24c-0955-5062-97a9-6f32730d0252",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "radius": {
+                    "all": 17
+                  }
+                }
+              },
+              "parentId": "488822a0-087f-5bd6-b0f7-b66134452ee5"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "8312ec48-2e0c-57be-80ff-f5954f5f89a7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-125b16f0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0f83d1b8-4382-5440-95df-3a4c05d7c4c5",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "radius": {
+                    "topLeft": 17
+                  }
+                }
+              },
+              "parentId": "8312ec48-2e0c-57be-80ff-f5954f5f89a7"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "95b12b4e-47a3-5b2c-aa96-a49582b5a2e9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-e61f885c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c2f2ac56-40a6-5e32-ae84-a627b3e5edb2",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "radius": {
+                    "topRight": 17
+                  }
+                }
+              },
+              "parentId": "95b12b4e-47a3-5b2c-aa96-a49582b5a2e9"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "a0cd2c99-d4c5-5af0-a300-ec89878b2011",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-dea6e1d0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "23f8645b-cdf8-5f52-9cc2-59f5da3e025a",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "radius": {
+                    "bottomLeft": 17
+                  }
+                }
+              },
+              "parentId": "a0cd2c99-d4c5-5af0-a300-ec89878b2011"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "ea95a5fe-45b4-56d4-8f39-8afa8ddfde99",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-e22ce160",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9c692d6b-12ae-5453-b37d-37ac15d49cc5",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "border": {
+                  "radius": {
+                    "bottomRight": 17
+                  }
+                }
+              },
+              "parentId": "ea95a5fe-45b4-56d4-8f39-8afa8ddfde99"
+            }
+          ],
+          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
+        },
+        {
+          "id": "d96f7c2f-39a9-5d20-8cba-9f3c4e205593",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-autocomplete-v-d5bb4726",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e367a995-7d0e-5174-bbd1-f552095ae444",
+              "type": "autocomplete",
+              "version": 8,
+              "label": "gym autocomplete",
+              "hidden": false,
+              "dataSourceType": "entitiesList",
+              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "entityDisplayProperty": "name",
+              "mode": "single",
+              "useRawValues": true,
+              "propertyName": "gymValue",
+              "desktop": {
+                "font": {
+                  "weight": "#ff00aa"
+                }
+              },
+              "parentId": "d96f7c2f-39a9-5d20-8cba-9f3c4e205593"
             }
           ],
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
@@ -279,16 +1876,16 @@
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
         },
         {
-          "id": "373addd1-07a9-5d58-912f-98a57d48863a",
+          "id": "b04ef7d9-fde8-57f2-bafa-52608960867a",
           "type": "container",
           "version": 7,
-          "componentName": "gym-autocomplete-v-ce6b48b0",
+          "componentName": "gym-autocomplete-v-b975c827",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "bf180c92-7493-57d5-95cd-0577997ac076",
+              "id": "fa6e6848-4416-519d-b740-bf8db16ddb91",
               "type": "autocomplete",
               "version": 8,
               "label": "gym autocomplete",
@@ -300,30 +1897,30 @@
               "useRawValues": true,
               "propertyName": "gymValue",
               "desktop": {
-                "shadow": {
-                  "offsetX": 17,
-                  "offsetY": 17,
-                  "blurRadius": 17,
-                  "spreadRadius": 0,
-                  "color": "#000000"
+                "border": {
+                  "border": {
+                    "all": {
+                      "style": "dashed"
+                    }
+                  }
                 }
               },
-              "parentId": "373addd1-07a9-5d58-912f-98a57d48863a"
+              "parentId": "b04ef7d9-fde8-57f2-bafa-52608960867a"
             }
           ],
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
         },
         {
-          "id": "4fb11825-ffe2-569f-ad06-8d291576706c",
+          "id": "01b0ad01-e130-53a6-b60c-96362b9d5106",
           "type": "container",
           "version": 7,
-          "componentName": "gym-autocomplete-v-5f60c225",
+          "componentName": "gym-autocomplete-v-4671029e",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "3a754d75-a19a-5b0f-a3d3-2b8775fc4c80",
+              "id": "09fc0b68-aa4d-535c-b4ca-7765f58d38c7",
               "type": "autocomplete",
               "version": 8,
               "label": "gym autocomplete",
@@ -334,34 +1931,31 @@
               "mode": "single",
               "useRawValues": true,
               "propertyName": "gymValue",
-              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
-              "parentId": "4fb11825-ffe2-569f-ad06-8d291576706c"
+              "desktop": {
+                "border": {
+                  "border": {
+                    "top": {
+                      "style": "dashed"
+                    }
+                  }
+                }
+              },
+              "parentId": "01b0ad01-e130-53a6-b60c-96362b9d5106"
             }
           ],
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
         },
         {
-          "id": "b3deaa64-446e-5d69-9bbb-378246c15825",
-          "type": "text",
-          "version": 5,
-          "componentName": "gym-autocomplete-h-display",
-          "content": "— display —",
-          "textType": "span",
-          "contentDisplay": "content",
-          "hideLabel": true,
-          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
-        },
-        {
-          "id": "2e1d22c4-a6bc-5d82-8641-35e997ecf338",
+          "id": "4b63c6b7-aac0-5dac-bd41-3e25a22facb2",
           "type": "container",
           "version": 7,
-          "componentName": "gym-autocomplete-v-ae8981bd",
+          "componentName": "gym-autocomplete-v-2e6a6be9",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "1a3b2712-42e6-542d-b27a-cb12c36a8302",
+              "id": "5013e9eb-fbb4-5e4c-b7b5-16d39d1597f5",
               "type": "autocomplete",
               "version": 8,
               "label": "gym autocomplete",
@@ -372,23 +1966,31 @@
               "mode": "single",
               "useRawValues": true,
               "propertyName": "gymValue",
-              "placeholder": "GYM-TXT-placeholder",
-              "parentId": "2e1d22c4-a6bc-5d82-8641-35e997ecf338"
+              "desktop": {
+                "border": {
+                  "border": {
+                    "right": {
+                      "style": "dashed"
+                    }
+                  }
+                }
+              },
+              "parentId": "4b63c6b7-aac0-5dac-bd41-3e25a22facb2"
             }
           ],
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
         },
         {
-          "id": "7d469171-af04-5be6-99b4-f0d2527dbcf0",
+          "id": "5c3d6f66-431e-55f7-a87b-fe8e8a259b2e",
           "type": "container",
           "version": 7,
-          "componentName": "gym-autocomplete-v-37a84b93",
+          "componentName": "gym-autocomplete-v-8ff21269",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "f0ebbd57-637f-5c63-9fa4-d285731e889d",
+              "id": "5bae0147-389b-5de8-a0c5-da72e6cc0c48",
               "type": "autocomplete",
               "version": 8,
               "label": "gym autocomplete",
@@ -399,23 +2001,31 @@
               "mode": "single",
               "useRawValues": true,
               "propertyName": "gymValue",
-              "disableSearch": true,
-              "parentId": "7d469171-af04-5be6-99b4-f0d2527dbcf0"
+              "desktop": {
+                "border": {
+                  "border": {
+                    "bottom": {
+                      "style": "dashed"
+                    }
+                  }
+                }
+              },
+              "parentId": "5c3d6f66-431e-55f7-a87b-fe8e8a259b2e"
             }
           ],
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
         },
         {
-          "id": "2026bc66-2453-595b-b4a9-8b0b67afc705",
+          "id": "5e3ba9f8-d849-50be-8f13-d4d979c4c9d2",
           "type": "container",
           "version": 7,
-          "componentName": "gym-autocomplete-v-cc559fb6",
+          "componentName": "gym-autocomplete-v-e78650a0",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "52cb189f-0af4-5a81-a65e-1182e6b8fb9b",
+              "id": "97c7ba07-bd14-5c6a-b699-ead500227618",
               "type": "autocomplete",
               "version": 8,
               "label": "gym autocomplete",
@@ -426,48 +2036,31 @@
               "mode": "single",
               "useRawValues": true,
               "propertyName": "gymValue",
-              "parentId": "2026bc66-2453-595b-b4a9-8b0b67afc705"
+              "desktop": {
+                "border": {
+                  "border": {
+                    "left": {
+                      "style": "dashed"
+                    }
+                  }
+                }
+              },
+              "parentId": "5e3ba9f8-d849-50be-8f13-d4d979c4c9d2"
             }
           ],
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
         },
         {
-          "id": "d5a5e7ec-c49a-5684-a6d8-daf4742d6c11",
+          "id": "a4b8e4be-2adc-5ed8-b917-3d20836c388a",
           "type": "container",
           "version": 7,
-          "componentName": "gym-autocomplete-v-b3c1b7ce",
+          "componentName": "gym-autocomplete-v-81bdddde",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "30dd02ac-1104-5ded-a933-eb03630805a3",
-              "type": "autocomplete",
-              "version": 8,
-              "label": "gym autocomplete",
-              "hidden": false,
-              "dataSourceType": "entitiesList",
-              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
-              "entityDisplayProperty": "name",
-              "mode": "multiple",
-              "useRawValues": true,
-              "propertyName": "gymValue",
-              "parentId": "d5a5e7ec-c49a-5684-a6d8-daf4742d6c11"
-            }
-          ],
-          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
-        },
-        {
-          "id": "92497bc5-650d-5455-9c72-e2bc87890969",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-autocomplete-v-269982ed",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "33a2d3de-8625-5597-80b9-e37ef883236a",
+              "id": "7e73d449-9ce0-5cdb-a19d-3aef7aeabd6c",
               "type": "autocomplete",
               "version": 8,
               "label": "gym autocomplete",
@@ -478,114 +2071,16 @@
               "mode": "single",
               "useRawValues": true,
               "propertyName": "gymValue",
-              "parentId": "92497bc5-650d-5455-9c72-e2bc87890969"
-            }
-          ],
-          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
-        },
-        {
-          "id": "6238a928-dbd4-5334-a693-752b6812416c",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-autocomplete-v-349ca2df",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "46623c10-882f-5352-95b6-a9805a8ecff5",
-              "type": "autocomplete",
-              "version": 8,
-              "label": "gym autocomplete",
-              "hidden": false,
-              "dataSourceType": "url",
-              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
-              "entityDisplayProperty": "name",
-              "mode": "single",
-              "useRawValues": true,
-              "propertyName": "gymValue",
-              "parentId": "6238a928-dbd4-5334-a693-752b6812416c"
-            }
-          ],
-          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
-        },
-        {
-          "id": "f2262f25-d4ca-5f43-b1b7-21db81185373",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-autocomplete-v-f92469d9",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "0464115c-1bf8-59fc-8b3f-eac55ec3f2fc",
-              "type": "autocomplete",
-              "version": 8,
-              "label": "gym autocomplete",
-              "hidden": false,
-              "dataSourceType": "entitiesList",
-              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
-              "entityDisplayProperty": "name",
-              "mode": "single",
-              "useRawValues": true,
-              "propertyName": "gymValue",
-              "allowFreeText": true,
-              "parentId": "f2262f25-d4ca-5f43-b1b7-21db81185373"
-            }
-          ],
-          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
-        },
-        {
-          "id": "1b4d0e1f-b18f-5a5d-8781-a1faf5d9703a",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-autocomplete-v-913111ee",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "4ef0e52f-81a9-5f31-8ca4-85b7af49ec2a",
-              "type": "autocomplete",
-              "version": 8,
-              "label": "gym autocomplete",
-              "hidden": false,
-              "dataSourceType": "entitiesList",
-              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
-              "entityDisplayProperty": "name",
-              "mode": "single",
-              "useRawValues": true,
-              "propertyName": "gymValue",
-              "quickviewWidth": 17,
-              "parentId": "1b4d0e1f-b18f-5a5d-8781-a1faf5d9703a"
-            }
-          ],
-          "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"
-        },
-        {
-          "id": "7c1fa349-680b-51d5-a520-9bc83b5e3069",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-autocomplete-v-396a3c9c",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "7637aca3-bcd9-5bf8-bc44-c0b01e6e2a91",
-              "type": "autocomplete",
-              "version": 8,
-              "label": "gym autocomplete",
-              "hidden": false,
-              "dataSourceType": "entitiesList",
-              "entityTypeShortAlias": "boxfusion.test.Domain.Domain.Assets.Asset",
-              "entityDisplayProperty": "name",
-              "mode": "single",
-              "useRawValues": true,
-              "propertyName": "gymValue",
-              "enableStyleOnReadonly": true,
-              "parentId": "7c1fa349-680b-51d5-a520-9bc83b5e3069"
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "style": "dotted"
+                    }
+                  }
+                }
+              },
+              "parentId": "a4b8e4be-2adc-5ed8-b917-3d20836c388a"
             }
           ],
           "parentId": "8545bfdd-bec5-5b28-b52b-a2e5f1f73fee"

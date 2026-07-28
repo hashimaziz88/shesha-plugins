@@ -28,24 +28,45 @@
             {
               "id": "3c583cfd-633f-52cf-b2a6-e30ae3c6d247",
               "type": "dataContext",
-              "version": 2,
+              "version": 8,
               "label": "gym dataContext",
               "hidden": false,
-              "componentName": "gym-dataContext-inst-baseline",
+              "propertyName": "gymValue",
               "parentId": "31021d40-3480-5820-b742-92a554215bd5"
             }
           ],
           "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
         },
         {
-          "id": "4e26474e-4481-5130-b3f0-15c6574ddb76",
+          "id": "7ae6dea1-2443-5d38-8e9d-578865693b91",
           "type": "text",
           "version": 5,
-          "componentName": "gym-dataContext-h-data",
-          "content": "— data —",
+          "componentName": "gym-dataContext-h-display",
+          "content": "— display —",
           "textType": "span",
           "contentDisplay": "content",
           "hideLabel": true,
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "0e6e43fa-6902-5a81-8c11-a4b709acea5f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "af270c06-b513-5f1b-9883-971c1e3133a2",
+              "type": "dataContext",
+              "version": 8,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "0e6e43fa-6902-5a81-8c11-a4b709acea5f"
+            }
+          ],
           "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
         },
         {
@@ -60,12 +81,429 @@
             {
               "id": "17408ff9-0b09-5443-a464-055857f84fe4",
               "type": "dataContext",
-              "version": 2,
+              "version": 8,
               "label": "gym dataContext",
               "hidden": false,
-              "componentName": "gym-dataContext-inst-description=txt",
+              "propertyName": "gymValue",
               "description": "GYM-TXT-description",
               "parentId": "6e631fe0-3271-5d01-abfa-e55837290364"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "b99ad4d4-7bab-5da2-bb44-f629873887e0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "60d78ee5-621a-58c4-993c-158adaefdaaf",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": true,
+              "propertyName": "gymValue",
+              "parentId": "b99ad4d4-7bab-5da2-bb44-f629873887e0"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "ecaabe92-014b-5b99-830e-ae17647493b2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-1baf246d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8d0c5f1a-3eec-5fac-8452-a6b50ca436b9",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "sourceType": "Form",
+              "parentId": "ecaabe92-014b-5b99-830e-ae17647493b2"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "77d59519-4234-5b76-a30b-c20c967540e7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-3a794a82",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3db506a6-f8d7-5b11-96b5-08483778d1b9",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "dataFetchingMode": "paging",
+              "parentId": "77d59519-4234-5b76-a30b-c20c967540e7"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "e3e2405a-ddad-54ad-aad5-86430acc64e7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-3c2ccbf8",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7a52f10e-d881-5847-922c-82d682938377",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "defaultPageSize": "5",
+              "parentId": "e3e2405a-ddad-54ad-aad5-86430acc64e7"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "055d2d58-d4cd-56fb-b0e4-ab927d199dbf",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-feab307e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7df63184-0283-561d-8010-34903b071c5f",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "sortMode": "standard",
+              "parentId": "055d2d58-d4cd-56fb-b0e4-ab927d199dbf"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "1083917f-ff78-5ae3-bbfe-548de7b4ab60",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-64663706",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b09429a5-f726-5f80-b85d-87e56624aa9f",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "strictSortOrder": "asc",
+              "parentId": "1083917f-ff78-5ae3-bbfe-548de7b4ab60"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "2688c778-ba43-59ba-9129-368146c9c5e2",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-7b38ba0e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "debd4d09-567a-5430-a93f-902a58e2a770",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "allowReordering": "yes",
+              "parentId": "2688c778-ba43-59ba-9129-368146c9c5e2"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "93c3318a-2689-50c8-ba2e-96c1d703bb48",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-982a0263",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e3795cc8-4918-5199-90ba-e6bf69bc8320",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "sourceType": "Entity",
+              "parentId": "93c3318a-2689-50c8-ba2e-96c1d703bb48"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "e378fca5-6d5c-54e6-8042-c33530952af9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-3b76a061",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "dab9c143-51f9-53cf-a822-70b4cf13fb90",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "dataFetchingMode": "fetchAll",
+              "parentId": "e378fca5-6d5c-54e6-8042-c33530952af9"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "bcab8b40-d4cd-556e-8874-24180ab9ecc9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-549f3a53",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "87754648-412c-5810-b6fd-3f6678397ba2",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "defaultPageSize": "10",
+              "parentId": "bcab8b40-d4cd-556e-8874-24180ab9ecc9"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "faf351b0-1adf-5b1f-b914-91f4046be8f7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-fea591ac",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3e026d08-aeb3-511c-a925-1cee906df080",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "sortMode": "strict",
+              "parentId": "faf351b0-1adf-5b1f-b914-91f4046be8f7"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "60043be8-9f42-522a-b00a-905a6f6bd71f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-acabd7e4",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ac5bc9c3-8b8b-5b38-bf17-8e942b121f06",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "strictSortOrder": "desc",
+              "parentId": "60043be8-9f42-522a-b00a-905a6f6bd71f"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "ba93507c-32cb-52ff-9928-268c8bda2b4a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-3a30b492",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f55d8352-25c5-59c2-8921-ccf8282e0277",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "allowReordering": "no",
+              "parentId": "ba93507c-32cb-52ff-9928-268c8bda2b4a"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "fefad7a9-e128-5b54-9ffc-a4bb967a9ec1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-7a7af7eb",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8ac9b3c1-4183-5b78-a1ec-86c9d93edfaa",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "sourceType": "Url",
+              "parentId": "fefad7a9-e128-5b54-9ffc-a4bb967a9ec1"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "49ba0bea-1336-5d71-be87-b2c47ffe3aab",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-fefc1232",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ad306052-2e76-57a5-a7f9-14cf2fe6288a",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "defaultPageSize": "20",
+              "parentId": "49ba0bea-1336-5d71-be87-b2c47ffe3aab"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "c84bf94a-4b1e-5c68-821c-33c629d6b5cf",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-91b6efa3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5420e864-e62c-547f-bee2-8d2728788b74",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "allowReordering": "inherit",
+              "parentId": "c84bf94a-4b1e-5c68-821c-33c629d6b5cf"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "3fa8da6f-2e14-557c-aec7-a7d345d9da53",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-40a1b294",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "93b35146-e45f-5368-9cb2-f2a1a8a4b2fc",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "defaultPageSize": "30",
+              "parentId": "3fa8da6f-2e14-557c-aec7-a7d345d9da53"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "f4bf5234-9ab2-5e90-a36f-95347127a94c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-3ce906a7",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d79ff979-a286-5280-9914-5f51b0039cb2",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "defaultPageSize": "50",
+              "parentId": "f4bf5234-9ab2-5e90-a36f-95347127a94c"
+            }
+          ],
+          "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"
+        },
+        {
+          "id": "b4604a1d-7682-5975-9779-db5b378534f8",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-dataContext-v-72339661",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "eb7ef694-4198-52ad-a6b0-d461dc15edeb",
+              "type": "dataContext",
+              "version": 8,
+              "label": "gym dataContext",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "defaultPageSize": "100",
+              "parentId": "b4604a1d-7682-5975-9779-db5b378534f8"
             }
           ],
           "parentId": "730b4e8b-0e76-5f92-98d5-27d9ca2b4a15"

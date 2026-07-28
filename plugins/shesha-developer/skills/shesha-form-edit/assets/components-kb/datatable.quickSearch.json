@@ -94,25 +94,38 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
-  "appearanceFieldPaths": [],
+  "appearanceFieldPaths": [
+    "dimensions.width",
+    "dimensions.minWidth",
+    "dimensions.maxWidth"
+  ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "You can use any unit (%, px, em, etc). px by default if without unit"
-    },
     {
       "path": "hidden",
       "label": "Hide",
+      "editorType": "switch"
+    },
+    {
+      "path": "block",
+      "label": "Block",
       "editorType": "settingsInputRow"
     },
     {
       "path": "dimensions.width",
-      "label": "Width",
-      "editorType": "settingsInputRow",
+      "label": "Min Width",
+      "editorType": "textField",
       "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.minWidth",
+      "label": "Max Width",
+      "editorType": "textField",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.maxWidth",
+      "editorType": "settingsInputRow",
       "group": "Dimensions"
     },
     {

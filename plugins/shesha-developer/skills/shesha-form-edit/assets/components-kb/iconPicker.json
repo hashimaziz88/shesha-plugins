@@ -108,18 +108,15 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
+    "font",
+    "font.size",
+    "font.color",
+    "font.align",
     "stylingBox",
     "style"
   ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties"
-    },
     {
       "path": "propertyName",
       "label": "Property Name",
@@ -138,28 +135,47 @@
     {
       "path": "editMode",
       "label": "Edit Mode",
+      "editorType": "switch"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
       "editorType": "settingsInputRow"
     },
     {
       "path": "font",
       "label": "Size",
+      "editorType": "numberField",
+      "group": "Icon Style"
+    },
+    {
+      "path": "font.size",
+      "label": "Color",
+      "editorType": "colorPicker",
+      "group": "Icon Style"
+    },
+    {
+      "path": "font.color",
+      "label": "Align",
+      "editorType": "dropdown",
+      "group": "Icon Style"
+    },
+    {
+      "path": "font.align",
       "editorType": "settingsInputRow",
       "group": "Icon Style"
     },
     {
       "path": "stylingBox",
-      "label": "Margin Padding",
       "editorType": "styleBox",
-      "group": "Margin & Padding",
-      "shared": true
+      "group": "Margin & Padding"
     },
     {
       "path": "style",
       "label": "Style",
       "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "group": "Custom Styles",
-      "shared": true
+      "group": "Custom Styles"
     },
     {
       "path": "permissions",

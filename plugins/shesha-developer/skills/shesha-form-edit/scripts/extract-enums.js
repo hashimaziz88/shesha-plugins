@@ -82,12 +82,18 @@ let resolvedFields = 0;
 let unresolvedFields = 0;
 const unresolvedList = [];
 
-// legacy 0.43 shared-style catalog — optional; 0.45 KB carries appearance fields inline
-const sharedStylePath = path.join(KB_DIR, '_shared-style-fields.json');
-const sharedDropdownPaths = fs.existsSync(sharedStylePath)
-  ? JSON.parse(fs.readFileSync(sharedStylePath, 'utf8')).fields
-      .filter((f) => f.editorType === 'dropdown').map((f) => f.path)
-  : [];
+/**
+ * Enums for helper-generated inputs, which no per-component source scan can find.
+ *
+ * `getBorderInputs` builds its style dropdowns from the `borderStyles` constant in
+ * designer-components/_settings/utils/border/utils.tsx, so the values live in the
+ * helper, not in the component's own settings form. Without this the border style
+ * channel was unmeasurable on every component that has a border — 5 rows each.
+ */
+const HELPER_ENUMS = [
+  [/(^|\.)border\.border\.(all|top|right|bottom|left)\.style$/, ['solid', 'dashed', 'dotted', 'none']],
+];
+const helperEnumFor = (p) => (HELPER_ENUMS.find(([re]) => re.test(p)) || [])[1];
 
 for (const [type, entry] of Object.entries(index)) {
   if (type.startsWith('_')) continue;
@@ -109,14 +115,19 @@ for (const [type, entry] of Object.entries(index)) {
     }
   }
 
-  // fields we actually need enums for: dropdown settingsFields + shared style dropdowns
-  const wanted = new Set([
-    ...(kb.settingsFields || []).filter((f) => f.editorType === 'dropdown').map((f) => f.path),
-    ...(kb.appearanceFieldPaths || []).filter((p) => sharedDropdownPaths.includes(p)),
-  ]);
+  // fields we actually need enums for — appearance dropdowns are among settingsFields
+  const wanted = new Set(
+    (kb.settingsFields || []).filter((f) => f.editorType === 'dropdown').map((f) => f.path),
+  );
 
   const typeEnums = {};
   for (const p of wanted) {
+    const helper = helperEnumFor(p);
+    if (helper) {
+      typeEnums[p] = { values: helper, source: 'helper-declared' };
+      resolvedFields++;
+      continue;
+    }
     if (found[p]) {
       typeEnums[p] = { values: found[p], source: 'source-parsed' };
       resolvedFields++;

@@ -111,15 +111,14 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
-  "appearanceFieldPaths": [],
+  "appearanceFieldPaths": [
+    "font",
+    "font.type",
+    "font.size",
+    "font.weight",
+    "font.color"
+  ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "You can use any unit (%, px, em, etc). px by default if without unit"
-    },
     {
       "path": "componentName",
       "label": "Component Name",
@@ -138,6 +137,11 @@
     {
       "path": "orientation",
       "label": "Orientation",
+      "editorType": "switch"
+    },
+    {
+      "path": "inline",
+      "label": "Inline",
       "editorType": "settingsInputRow"
     },
     {
@@ -148,19 +152,35 @@
     {
       "path": "lineFont",
       "label": "Thickness",
+      "editorType": "numberField",
+      "group": "Line Style"
+    },
+    {
+      "path": "lineFont.size",
+      "label": "Color",
+      "editorType": "colorPicker",
+      "group": "Line Style"
+    },
+    {
+      "path": "lineFont.color",
+      "label": "Type",
+      "editorType": "dropdown",
+      "group": "Line Style"
+    },
+    {
+      "path": "lineType",
+      "label": "Solid",
       "editorType": "settingsInputRow",
       "group": "Line Style"
     },
     {
       "path": "lineWidth",
-      "label": "Width",
       "editorType": "settingsInputRow",
       "description": "You can use any unit (%, px, em, etc). px by default if without unit",
       "group": "Dimensions"
     },
     {
       "path": "lineHeight",
-      "label": "Height",
       "editorType": "settingsInputRow",
       "description": "You can use any unit (%, px, em, etc). px by default if without unit",
       "group": "Dimensions"
@@ -168,8 +188,31 @@
     {
       "path": "font",
       "label": "Family",
-      "editorType": "settingsInputRow",
+      "editorType": "dropdown",
+      "group": "Font"
+    },
+    {
+      "path": "font.type",
+      "label": "Size",
+      "editorType": "numberField",
+      "group": "Font"
+    },
+    {
+      "path": "font.size",
+      "label": "Weight",
+      "editorType": "dropdown",
+      "group": "Font"
+    },
+    {
+      "path": "font.weight",
+      "label": "Color",
+      "editorType": "colorPicker",
       "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
+    },
+    {
+      "path": "font.color",
+      "editorType": "settingsInputRow",
       "group": "Font"
     },
     {
@@ -181,7 +224,6 @@
     },
     {
       "path": "containerStylingBox",
-      "label": "Margin Padding",
       "editorType": "styleBox",
       "group": "Margin & Padding"
     },

@@ -56,16 +56,16 @@
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
-          "id": "55fa2efc-0ba2-5220-be47-79faff707e62",
+          "id": "262ab1e3-60d8-52a9-b029-a195c80079cd",
           "type": "container",
           "version": 7,
-          "componentName": "gym-lineChart-v-0baf713f",
+          "componentName": "gym-lineChart-v-8e3b6251",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "da453256-6ccc-5bf1-941e-57129343263d",
+              "id": "432ba1e5-21d1-56fb-b4cc-b82eb7ded13a",
               "type": "lineChart",
               "version": 9,
               "label": "gym lineChart",
@@ -77,32 +77,41 @@
               "aggregationMethod": "count",
               "simulatedData": false,
               "showTitle": false,
-              "componentName": "gym-lineChart-inst-desktop.dimensions.width=317px",
-              "desktop": {
-                "dimensions": {
-                  "width": "317px"
-                }
+              "componentName": "gym-lineChart-inst-titleFont.family=17",
+              "titleFont": {
+                "family": 17
               },
-              "parentId": "55fa2efc-0ba2-5220-be47-79faff707e62"
+              "parentId": "262ab1e3-60d8-52a9-b029-a195c80079cd"
             }
           ],
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
-          "id": "8e988dd6-4648-5c01-93b4-531d09fbba7b",
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "5919132f-6c80-5c94-9916-0f84bd1fae85",
           "type": "container",
           "version": 7,
-          "componentName": "gym-lineChart-v-529ccf25",
+          "componentName": "gym-lineChart-v-a058f647",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "b24b42c0-3cdf-54bb-95ec-7f18f87d3e4e",
+              "id": "9209fd1a-5c46-52e3-a728-7030b2f9efa8",
               "type": "lineChart",
               "version": 9,
               "label": "gym lineChart",
-              "hidden": false,
+              "hidden": true,
               "dataMode": "entityType",
               "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
               "axisProperty": "category",
@@ -110,28 +119,34 @@
               "aggregationMethod": "count",
               "simulatedData": false,
               "showTitle": false,
-              "componentName": "gym-lineChart-inst-desktop.dimensions.height=117px",
-              "desktop": {
-                "dimensions": {
-                  "height": "117px"
-                }
-              },
-              "parentId": "8e988dd6-4648-5c01-93b4-531d09fbba7b"
+              "componentName": "gym-lineChart-inst-hidden=true",
+              "parentId": "5919132f-6c80-5c94-9916-0f84bd1fae85"
             }
           ],
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
-          "id": "88146ca7-0a9e-518e-8ad7-966f2ed9be43",
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "dd6dfdfd-f7dc-5f6b-9821-0ec133356b94",
           "type": "container",
           "version": 7,
-          "componentName": "gym-lineChart-v-f1866be0",
+          "componentName": "gym-lineChart-v-f04da488",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "e82c6d78-37b0-575d-9c14-20605483242b",
+              "id": "43616cdf-209b-5eff-ac0f-02958d638ffe",
               "type": "lineChart",
               "version": 9,
               "label": "gym lineChart",
@@ -143,29 +158,37 @@
               "aggregationMethod": "count",
               "simulatedData": false,
               "showTitle": false,
-              "componentName": "gym-lineChart-inst-desktop.background=color#ff00aa",
-              "desktop": {
-                "background": {
-                  "type": "color",
-                  "color": "#ff00aa"
-                }
+              "componentName": "gym-lineChart-inst-titleFont.weight=#ff00aa",
+              "titleFont": {
+                "weight": "#ff00aa"
               },
-              "parentId": "88146ca7-0a9e-518e-8ad7-966f2ed9be43"
+              "parentId": "dd6dfdfd-f7dc-5f6b-9821-0ec133356b94"
             }
           ],
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
-          "id": "55915355-01f9-5bfe-b1c8-5b6e5782de10",
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c879d112-cf02-58d5-aada-1873c5b2aa0e",
           "type": "container",
           "version": 7,
-          "componentName": "gym-lineChart-v-8db175ab",
+          "componentName": "gym-lineChart-v-09545957",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "87f23d2d-b921-57e9-91fa-17d79008e431",
+              "id": "fcabf583-ffea-57e5-a337-03f0ac15482e",
               "type": "lineChart",
               "version": 9,
               "label": "gym lineChart",
@@ -177,72 +200,35 @@
               "aggregationMethod": "count",
               "simulatedData": false,
               "showTitle": false,
-              "componentName": "gym-lineChart-inst-desktop.background=gradient",
-              "desktop": {
-                "background": {
-                  "type": "gradient",
-                  "gradient": {
-                    "direction": "to right",
-                    "colors": {
-                      "0": "#ff00aa",
-                      "1": "#00ff00"
-                    }
-                  }
-                }
-              },
-              "parentId": "55915355-01f9-5bfe-b1c8-5b6e5782de10"
+              "componentName": "gym-lineChart-inst-isDoughnut=true",
+              "isDoughnut": true,
+              "parentId": "c879d112-cf02-58d5-aada-1873c5b2aa0e"
             }
           ],
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
-          "id": "7f050065-2d55-5873-b657-a38e60c1d59b",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-lineChart-v-ce6b48b0",
-          "label": "",
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
           "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "8ef9ab83-b3f8-5a35-bab9-1a3e28412310",
-              "type": "lineChart",
-              "version": 9,
-              "label": "gym lineChart",
-              "hidden": false,
-              "dataMode": "entityType",
-              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
-              "axisProperty": "category",
-              "valueProperty": "id",
-              "aggregationMethod": "count",
-              "simulatedData": false,
-              "showTitle": false,
-              "componentName": "gym-lineChart-inst-desktop.shadow=shadow17",
-              "desktop": {
-                "shadow": {
-                  "offsetX": 17,
-                  "offsetY": 17,
-                  "blurRadius": 17,
-                  "spreadRadius": 0,
-                  "color": "#000000"
-                }
-              },
-              "parentId": "7f050065-2d55-5873-b657-a38e60c1d59b"
-            }
-          ],
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
-          "id": "b2f67890-1912-5a3d-b309-f3078c1a3ef1",
+          "id": "7d82477b-73fc-546f-81b0-8b97444b3ebc",
           "type": "container",
           "version": 7,
-          "componentName": "gym-lineChart-v-5f60c225",
+          "componentName": "gym-lineChart-v-81c8b9b5",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "1d6a10e3-428e-50af-8ad6-59256feed100",
+              "id": "b078bbbf-6120-5bb2-915b-f3ff0c088053",
               "type": "lineChart",
               "version": 9,
               "label": "gym lineChart",
@@ -254,9 +240,11 @@
               "aggregationMethod": "count",
               "simulatedData": false,
               "showTitle": false,
-              "componentName": "gym-lineChart-inst-stylingBox=stylingBox17",
-              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
-              "parentId": "b2f67890-1912-5a3d-b309-f3078c1a3ef1"
+              "componentName": "gym-lineChart-inst-titleFont.color=#ff00aa",
+              "titleFont": {
+                "color": "#ff00aa"
+              },
+              "parentId": "7d82477b-73fc-546f-81b0-8b97444b3ebc"
             }
           ],
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
@@ -301,16 +289,27 @@
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
-          "id": "2101769d-c58a-59d7-90ba-3feda5618a3c",
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "94e611bd-58ee-5eee-a380-e3cee108da49",
           "type": "container",
           "version": 7,
-          "componentName": "gym-lineChart-v-2486b146",
+          "componentName": "gym-lineChart-v-d7a91813",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "9512d583-2e67-5e5a-81ff-00e2be9229bc",
+              "id": "4a38138d-f281-5c02-a99d-3f38b25c0993",
               "type": "lineChart",
               "version": 9,
               "label": "gym lineChart",
@@ -322,10 +321,187 @@
               "aggregationMethod": "count",
               "simulatedData": false,
               "showTitle": false,
-              "componentName": "gym-lineChart-inst-dataMode=entityType",
-              "parentId": "2101769d-c58a-59d7-90ba-3feda5618a3c"
+              "componentName": "gym-lineChart-inst-axisLabelFont.family=17",
+              "axisLabelFont": {
+                "family": 17
+              },
+              "parentId": "94e611bd-58ee-5eee-a380-e3cee108da49"
             }
           ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "9bbc69e7-adcc-56ce-b7e4-f2aa9a3a8c58",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-5841503f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c90d8559-a5ce-5274-824d-52a75606dec0",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-simpleOrPivot=simple",
+              "simpleOrPivot": "simple",
+              "parentId": "9bbc69e7-adcc-56ce-b7e4-f2aa9a3a8c58"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "8bfa71bf-f95d-54c3-ab44-b614acff2c18",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-26aa277c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "843a01fd-9a99-513f-82cd-c1b98ef62c2f",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-axisLabelFont.weight=#ff00aa",
+              "axisLabelFont": {
+                "weight": "#ff00aa"
+              },
+              "parentId": "8bfa71bf-f95d-54c3-ab44-b614acff2c18"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "7616934b-dd90-5135-99f7-373716d6e9a1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-d564af43",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ebe89b55-2e31-53ac-81de-f4a6679c2b89",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": 17,
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-entityType=17",
+              "parentId": "7616934b-dd90-5135-99f7-373716d6e9a1"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "0fae5fbc-c13a-5679-a246-f158e30b4ddc",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-81df4919",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "fd7063a0-4164-53d1-b061-61a0edbbcd8b",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-axisLabelFont.color=#ff00aa",
+              "axisLabelFont": {
+                "color": "#ff00aa"
+              },
+              "parentId": "0fae5fbc-c13a-5679-a246-f158e30b4ddc"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
@@ -358,6 +534,141 @@
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c923fe3d-4c15-51fa-be14-d68f8a5a979a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-1e6217d8",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0fcc124c-7df5-5b80-a2a3-64b6e66b6e0d",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-legendFont.family=17",
+              "legendFont": {
+                "family": 17
+              },
+              "parentId": "c923fe3d-4c15-51fa-be14-d68f8a5a979a"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "dcfcd8c4-a06d-530b-8341-7bbfa035c87e",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-c9da32b7",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "566069bb-0a47-5763-9364-e9abae97de47",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-timeSeriesFormat=day",
+              "timeSeriesFormat": "day",
+              "parentId": "dcfcd8c4-a06d-530b-8341-7bbfa035c87e"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "7c789806-22fd-525a-bf58-beb7ef3799e6",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-8b454667",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "cf248047-3855-5eb0-8ac9-4671e4506018",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-legendFont.weight=#ff00aa",
+              "legendFont": {
+                "weight": "#ff00aa"
+              },
+              "parentId": "7c789806-22fd-525a-bf58-beb7ef3799e6"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
           "id": "0ce114fc-45da-5a1c-aff2-3f747970db8b",
           "type": "container",
           "version": 7,
@@ -387,16 +698,27 @@
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
-          "id": "73b78ce8-29d0-5ae6-acaf-7f3d430041bf",
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "e8304468-9a98-50d4-b937-e4df79100343",
           "type": "container",
           "version": 7,
-          "componentName": "gym-lineChart-v-4c7a1e03",
+          "componentName": "gym-lineChart-v-bfd41cb2",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "6b91e020-0a56-5809-8363-166f4e21efbb",
+              "id": "91678b7c-2eba-5ae4-8394-7c0ae2769bd6",
               "type": "lineChart",
               "version": 9,
               "label": "gym lineChart",
@@ -407,11 +729,270 @@
               "valueProperty": "id",
               "aggregationMethod": "count",
               "simulatedData": false,
-              "showTitle": true,
-              "componentName": "gym-lineChart-inst-showTitle=true",
-              "parentId": "73b78ce8-29d0-5ae6-acaf-7f3d430041bf"
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-legendFont.color=#ff00aa",
+              "legendFont": {
+                "color": "#ff00aa"
+              },
+              "parentId": "e8304468-9a98-50d4-b937-e4df79100343"
             }
           ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "be2c72c6-32a5-5d73-bc22-2d2abac7c037",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-1b797a19",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ca76ad5b-fdf3-5325-ab43-36619ea1451e",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-groupingTimeSeriesFormat=day",
+              "groupingTimeSeriesFormat": "day",
+              "parentId": "be2c72c6-32a5-5d73-bc22-2d2abac7c037"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "03a966a7-3898-586e-b703-c3ab704964c8",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-d245fe56",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f205b96f-5a3c-5a4e-b61f-b15a1725e4c9",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-tickFont.family=17",
+              "tickFont": {
+                "family": 17
+              },
+              "parentId": "03a966a7-3898-586e-b703-c3ab704964c8"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c3ee4ce8-96c5-5104-b565-0b807047c669",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-c1c4fda3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1e1b4e00-23b1-5b26-9331-77afb3784533",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": "GYM-TXT-showTitle",
+              "componentName": "gym-lineChart-inst-showTitle=txt",
+              "parentId": "c3ee4ce8-96c5-5104-b565-0b807047c669"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "50a2eff4-6ce6-5db8-a8c9-d7046ce8c0f9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-6bc2c589",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7e129eb9-fab6-5011-8070-118ea6cafb2d",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-tickFont.weight=#ff00aa",
+              "tickFont": {
+                "weight": "#ff00aa"
+              },
+              "parentId": "50a2eff4-6ce6-5db8-a8c9-d7046ce8c0f9"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "453361e1-2396-54e6-b966-aaa0517e1db0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-883431f1",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "de91fd19-0fa7-5a62-a255-859bf21feb37",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-title=txt",
+              "title": "GYM-TXT-title",
+              "parentId": "453361e1-2396-54e6-b966-aaa0517e1db0"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "5273d144-dc8c-5b46-a611-65c622a1eee1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-5260e937",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0ee48f55-b551-557c-8544-a29be784657e",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-tickFont.color=#ff00aa",
+              "tickFont": {
+                "color": "#ff00aa"
+              },
+              "parentId": "5273d144-dc8c-5b46-a611-65c622a1eee1"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
@@ -444,6 +1025,145 @@
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "dcb5487c-e028-5b76-b57e-8e2805039ef4",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-d94de207",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3c8e29ff-c892-537d-b2fa-29204abce364",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.dimensions.width=17px",
+              "desktop": {
+                "dimensions": {
+                  "width": "17px"
+                }
+              },
+              "parentId": "dcb5487c-e028-5b76-b57e-8e2805039ef4"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "55cc84e2-6edd-5b23-a407-e33fb29e663c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-efb74a19",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "573b3369-20d6-5be3-aee0-e2226d9fa986",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-legendPosition=top",
+              "legendPosition": "top",
+              "parentId": "55cc84e2-6edd-5b23-a407-e33fb29e663c"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "17a09eb8-edea-52af-a4c0-c161c84b0a9a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-543ca5f0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "abf8d703-646b-5961-bd7e-2e2187324ca6",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.dimensions.minWidth=17px",
+              "desktop": {
+                "dimensions": {
+                  "minWidth": "17px"
+                }
+              },
+              "parentId": "17a09eb8-edea-52af-a4c0-c161c84b0a9a"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
           "id": "3de343a2-8b30-59a3-9d4f-054147655be1",
           "type": "container",
           "version": 7,
@@ -470,6 +1190,145 @@
               "parentId": "3de343a2-8b30-59a3-9d4f-054147655be1"
             }
           ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c4c2de39-f3d3-562e-b882-12ac19a607ee",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-11b08108",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8d7e5f3a-8b82-5d25-ac42-9a30abd03842",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.dimensions.maxWidth=17",
+              "desktop": {
+                "dimensions": {
+                  "maxWidth": 17
+                }
+              },
+              "parentId": "c4c2de39-f3d3-562e-b882-12ac19a607ee"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "4882d61e-d5c8-5b15-85f8-085c4a877a7f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-438e46bd",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "38696163-9e2e-51ea-9b4d-f179b6f2fe6f",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-showXAxisTitle=true",
+              "showXAxisTitle": true,
+              "parentId": "4882d61e-d5c8-5b15-85f8-085c4a877a7f"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "abc6ef8a-66b3-50a4-ab78-4e539bd64884",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-e3c22599",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c8ea6203-3a28-539b-a37a-f9dfbb4db321",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.dimensions.height=17px",
+              "desktop": {
+                "dimensions": {
+                  "height": "17px"
+                }
+              },
+              "parentId": "abc6ef8a-66b3-50a4-ab78-4e539bd64884"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
@@ -502,6 +1361,61 @@
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "45b1446f-4a9d-5964-bb10-01273e0fd04b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-305d8597",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "108d73ea-a04a-5e13-8a4a-13e82ff96631",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.dimensions.minHeight=17px",
+              "desktop": {
+                "dimensions": {
+                  "minHeight": "17px"
+                }
+              },
+              "parentId": "45b1446f-4a9d-5964-bb10-01273e0fd04b"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
           "id": "4af0e485-7e53-5a31-8245-5d6844fb4d07",
           "type": "container",
           "version": 7,
@@ -528,6 +1442,146 @@
               "parentId": "4af0e485-7e53-5a31-8245-5d6844fb4d07"
             }
           ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "ee52a6e8-f438-5d9a-9f34-9dfeb5d7feb6",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-3ae5eb1d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "27490a4f-d4d2-526a-89f6-2ac5f528a87b",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.dimensions.maxHeight=17",
+              "desktop": {
+                "dimensions": {
+                  "maxHeight": 17
+                }
+              },
+              "parentId": "ee52a6e8-f438-5d9a-9f34-9dfeb5d7feb6"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "ed5d250b-31b7-587e-80a3-2b59e2449ac4",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-b7f1c188",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c3e0ba55-495d-5e39-95d2-4a77086db0eb",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-showYAxisTitle=true",
+              "showYAxisTitle": true,
+              "parentId": "ed5d250b-31b7-587e-80a3-2b59e2449ac4"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "88146ca7-0a9e-518e-8ad7-966f2ed9be43",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-f1866be0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "e82c6d78-37b0-575d-9c14-20605483242b",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.background=color#ff00aa",
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "88146ca7-0a9e-518e-8ad7-966f2ed9be43"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
@@ -560,6 +1614,65 @@
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "7f050065-2d55-5873-b657-a38e60c1d59b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8ef9ab83-b3f8-5a35-bab9-1a3e28412310",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.shadow=shadow17",
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "7f050065-2d55-5873-b657-a38e60c1d59b"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
           "id": "66345bd6-4946-5162-9cf9-2659e9ad1370",
           "type": "container",
           "version": 7,
@@ -589,16 +1702,27 @@
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
-          "id": "70341229-67d2-5560-811e-546ec1cfbbfb",
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "065cf895-640c-5834-a60d-f9667b7784af",
           "type": "container",
           "version": 7,
-          "componentName": "gym-lineChart-v-6d8df4af",
+          "componentName": "gym-lineChart-v-a304424a",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "f1c31b1d-b623-574b-a898-cafce0ebd9ee",
+              "id": "bc95a306-ec50-507b-92ca-8dfc5bac0e85",
               "type": "lineChart",
               "version": 9,
               "label": "gym lineChart",
@@ -610,11 +1734,26 @@
               "aggregationMethod": "count",
               "simulatedData": false,
               "showTitle": false,
-              "componentName": "gym-lineChart-inst-orderDirection=desc",
-              "orderDirection": "desc",
-              "parentId": "70341229-67d2-5560-811e-546ec1cfbbfb"
+              "componentName": "gym-lineChart-inst-desktop.shadow.offsetY=17",
+              "desktop": {
+                "shadow": {
+                  "offsetY": 17
+                }
+              },
+              "parentId": "065cf895-640c-5834-a60d-f9667b7784af"
             }
           ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
@@ -646,16 +1785,27 @@
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
-          "id": "20642090-295c-5444-a4ca-542e714ca73a",
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "6625b416-57fe-5a49-80e7-c75b4590ab03",
           "type": "container",
           "version": 7,
-          "componentName": "gym-lineChart-v-c8932a39",
+          "componentName": "gym-lineChart-v-c0f5a90b",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "7f971718-8d87-5631-9f93-363a2ae67983",
+              "id": "ee39a24f-eee9-5cc1-a80a-f17eeb45ba3d",
               "type": "lineChart",
               "version": 9,
               "label": "gym lineChart",
@@ -667,94 +1817,26 @@
               "aggregationMethod": "count",
               "simulatedData": false,
               "showTitle": false,
-              "componentName": "gym-lineChart-inst-aggregationMethod=count",
-              "parentId": "20642090-295c-5444-a4ca-542e714ca73a"
+              "componentName": "gym-lineChart-inst-desktop.shadow.blurRadius=17",
+              "desktop": {
+                "shadow": {
+                  "blurRadius": 17
+                }
+              },
+              "parentId": "6625b416-57fe-5a49-80e7-c75b4590ab03"
             }
           ],
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
-          "id": "e4bf3014-e413-5707-8167-e193b58a918e",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-lineChart-v-1099468a",
-          "label": "",
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
           "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "9eba2763-e6bb-5a0e-8eec-2d3592d7bad6",
-              "type": "lineChart",
-              "version": 9,
-              "label": "gym lineChart",
-              "hidden": false,
-              "dataMode": "entityType",
-              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
-              "axisProperty": "category",
-              "valueProperty": "id",
-              "aggregationMethod": "average",
-              "simulatedData": false,
-              "showTitle": false,
-              "componentName": "gym-lineChart-inst-aggregationMethod=average",
-              "parentId": "e4bf3014-e413-5707-8167-e193b58a918e"
-            }
-          ],
-          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
-        },
-        {
-          "id": "59140665-ba75-50e5-a6a0-43fd074f4fbc",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-lineChart-v-d607f82d",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "e6acff4a-61df-576a-9681-2bcb33482643",
-              "type": "lineChart",
-              "version": 9,
-              "label": "gym lineChart",
-              "hidden": false,
-              "dataMode": "entityType",
-              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
-              "axisProperty": "category",
-              "valueProperty": "id",
-              "aggregationMethod": "min",
-              "simulatedData": false,
-              "showTitle": false,
-              "componentName": "gym-lineChart-inst-aggregationMethod=min",
-              "parentId": "59140665-ba75-50e5-a6a0-43fd074f4fbc"
-            }
-          ],
-          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
-        },
-        {
-          "id": "7fa88c18-db32-5c5c-ad4d-d072998748b2",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-lineChart-v-f1e71d42",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "1444925b-8103-529d-b189-ec99f2c522c2",
-              "type": "lineChart",
-              "version": 9,
-              "label": "gym lineChart",
-              "hidden": false,
-              "dataMode": "entityType",
-              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
-              "axisProperty": "category",
-              "valueProperty": "id",
-              "aggregationMethod": "max",
-              "simulatedData": false,
-              "showTitle": false,
-              "componentName": "gym-lineChart-inst-aggregationMethod=max",
-              "parentId": "7fa88c18-db32-5c5c-ad4d-d072998748b2"
-            }
-          ],
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
         },
         {
@@ -782,6 +1864,517 @@
               "componentName": "gym-lineChart-inst-strokeWidth=17",
               "strokeWidth": 17,
               "parentId": "f85a74a3-386e-594b-b30b-642f57e52784"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "ac4e5c1c-ac7f-5e26-be73-a3e8013cbfec",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-f80da270",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c2a40498-df0a-56fa-b516-e57ead242cf7",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.shadow.spreadRadius=#ff00aa",
+              "desktop": {
+                "shadow": {
+                  "spreadRadius": "#ff00aa"
+                }
+              },
+              "parentId": "ac4e5c1c-ac7f-5e26-be73-a3e8013cbfec"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "91148277-a9cc-5357-8c60-1f9bf8449dc3",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-b113480c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c3283cc2-cda0-5e15-b80a-66de945fa5dc",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-strokeColor=#ff00aa",
+              "strokeColor": "#ff00aa",
+              "parentId": "91148277-a9cc-5357-8c60-1f9bf8449dc3"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "ec80ccf6-54d9-52b7-a5b0-5e9acbf44163",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-9e7f5fea",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ede3642d-3d8e-5956-ac8e-abd5e52fdbf4",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.shadow.color=#ff00aa",
+              "desktop": {
+                "shadow": {
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "ec80ccf6-54d9-52b7-a5b0-5e9acbf44163"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "2101769d-c58a-59d7-90ba-3feda5618a3c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-2486b146",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9512d583-2e67-5e5a-81ff-00e2be9229bc",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-dataMode=entityType",
+              "parentId": "2101769d-c58a-59d7-90ba-3feda5618a3c"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "b2f67890-1912-5a3d-b309-f3078c1a3ef1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1d6a10e3-428e-50af-8ad6-59256feed100",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-stylingBox=stylingBox17",
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "b2f67890-1912-5a3d-b309-f3078c1a3ef1"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "f0d25f67-3a52-5929-926d-a0534d3823fa",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-57e97a78",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2a765bb8-4871-5f9a-be51-21e993979590",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-simpleOrPivot=pivot",
+              "simpleOrPivot": "pivot",
+              "parentId": "f0d25f67-3a52-5929-926d-a0534d3823fa"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c2e6e1a0-0d47-589e-b905-c4750e582369",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-11875484",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a9128e77-f9ea-5f68-baa6-38e8423a1e1e",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.border.border.all.width=17px",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "width": "17px"
+                    }
+                  }
+                }
+              },
+              "parentId": "c2e6e1a0-0d47-589e-b905-c4750e582369"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "7d0ea2b0-c8d5-5f54-aba5-c0a2c9ed3bfb",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-d925f5ac",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d968f8d1-de1d-5380-b4d7-336bfa125081",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-timeSeriesFormat=month",
+              "timeSeriesFormat": "month",
+              "parentId": "7d0ea2b0-c8d5-5f54-aba5-c0a2c9ed3bfb"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "3ef42c5d-18a4-5a22-a984-0591c81b7b61",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-4585cb75",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8d942e59-3b9e-56cb-afd4-b6ed25b6758a",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.border.border.all.style=solid",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "style": "solid"
+                    }
+                  }
+                }
+              },
+              "parentId": "3ef42c5d-18a4-5a22-a984-0591c81b7b61"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "71a1682b-8779-5985-8735-045ecbd5d6ca",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-e57e8ff6",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1a1ef3bf-6bf4-5ad6-a857-6c37267afeb8",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-groupingTimeSeriesFormat=month",
+              "groupingTimeSeriesFormat": "month",
+              "parentId": "71a1682b-8779-5985-8735-045ecbd5d6ca"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "c7958587-a3a6-5066-a211-d73408ef3bb0",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "392dd558-266b-5de6-bfec-68fab485e6d1",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-7fe807ae",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5a2e57ec-cd50-5ac9-ad8e-3ac673790723",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-desktop.border.border.all.color=#ff00aa",
+              "desktop": {
+                "border": {
+                  "border": {
+                    "all": {
+                      "color": "#ff00aa"
+                    }
+                  }
+                }
+              },
+              "parentId": "392dd558-266b-5de6-bfec-68fab485e6d1"
+            }
+          ],
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "698c2de8-f718-5c01-97fd-2774eeb0a280",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-lineChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"
+        },
+        {
+          "id": "79eea468-70da-59bf-9e8e-58a79c857747",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-lineChart-v-6fe40548",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b0a9f00b-b3c0-55d8-9dad-c1f2ec0c7a16",
+              "type": "lineChart",
+              "version": 9,
+              "label": "gym lineChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-lineChart-inst-legendPosition=bottom",
+              "legendPosition": "bottom",
+              "parentId": "79eea468-70da-59bf-9e8e-58a79c857747"
             }
           ],
           "parentId": "8ee77242-386e-5d1e-9aa3-c5b4905749eb"

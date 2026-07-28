@@ -167,118 +167,152 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
+    "font",
+    "font.type",
+    "font.size",
+    "font.weight",
+    "font.color",
+    "font.align",
+    "dimensions.width",
+    "dimensions.minWidth",
+    "dimensions.maxWidth",
+    "dimensions.height",
+    "dimensions.minHeight",
+    "dimensions.maxHeight",
+    "background.type",
+    "background.color",
+    "background.gradient.colors",
+    "background.url",
+    "background.uploadFile",
+    "background.storedFile.id",
+    "background.size",
+    "background.position",
+    "background.repeat",
+    "shadow.offsetX",
+    "shadow.offsetY",
+    "shadow.blurRadius",
+    "shadow.spreadRadius",
+    "shadow.color",
     "stylingBox"
   ],
   "settingsFields": [
     {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "Limited to default display components"
-    },
-    {
       "path": "componentName",
       "label": "Component Name",
-      "editorType": "settingsInput"
+      "editorType": "textField"
     },
     {
       "path": "editMode",
       "label": "Edit Mode",
+      "editorType": "switch"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
       "editorType": "settingsInputRow"
     },
     {
       "path": "items",
       "label": "Customize Columns",
-      "editorType": "settingsInputRow",
+      "editorType": "columnsConfig"
+    },
+    {
+      "path": "showExpandedView",
+      "label": "Show Expanded View",
+      "editorType": "switch",
       "description": "Limited to default display components"
     },
     {
       "path": "freezeHeaders",
       "label": "Freeze Headers",
-      "editorType": "settingsInputRow",
+      "editorType": "switch"
+    },
+    {
+      "path": "selectionMode",
+      "label": "Selection Mode",
+      "editorType": "dropdown",
       "description": "Controls how rows can be selected in the table"
     },
     {
       "path": "canEditInline",
       "label": "Can Edit Inline",
-      "editorType": "settingsInput"
+      "editorType": "dropdown"
     },
     {
       "path": "canEditInlineExpression",
       "label": "Can Edit Inline Expression",
-      "editorType": "settingsInputRow",
+      "editorType": "codeEditor",
       "description": "Return true to enable inline editing and false to disable."
     },
     {
       "path": "inlineEditMode",
       "label": "Row Edit Mode",
-      "editorType": "settingsInputRow"
+      "editorType": "dropdown"
     },
     {
       "path": "inlineSaveMode",
       "label": "Save Mode",
-      "editorType": "settingsInputRow"
+      "editorType": "dropdown"
     },
     {
       "path": "customUpdateUrl",
       "label": "Custom Update URL",
-      "editorType": "settingsInputRow"
+      "editorType": "endpointsAutocomplete"
     },
     {
       "path": "canAddInline",
       "label": "Can Add Inline",
-      "editorType": "settingsInputRow"
+      "editorType": "dropdown"
     },
     {
       "path": "canAddInlineExpression",
       "label": "Can Add Inline Expression",
-      "editorType": "settingsInputRow",
+      "editorType": "codeEditor",
       "description": "Return true to enable inline creation of new rows and false to disable."
     },
     {
       "path": "newRowCapturePosition",
       "label": "New Row Capture Position",
-      "editorType": "settingsInputRow"
+      "editorType": "dropdown"
     },
     {
       "path": "newRowInsertPosition",
       "label": "New Row Insert Position",
-      "editorType": "settingsInputRow"
+      "editorType": "dropdown"
     },
     {
       "path": "customCreateUrl",
       "label": "Custom Create URL",
-      "editorType": "settingsInputRow"
+      "editorType": "endpointsAutocomplete"
     },
     {
       "path": "onNewRowInitialize",
       "label": "New Row Init",
-      "editorType": "settingsInputRow",
+      "editorType": "codeEditor",
       "description": "Allows configurators to specify logic to initialise the object bound to a new row."
     },
     {
       "path": "onRowSave",
       "label": "On Row Save",
-      "editorType": "settingsInputRow",
+      "editorType": "codeEditor",
       "description": "Custom business logic to be executed on saving of new/updated row (e.g. custom validation / calculations). This handler should return an object or a Promise<object>."
     },
     {
       "path": "canDeleteInline",
       "label": "Can Delete Inline",
-      "editorType": "settingsInput"
+      "editorType": "dropdown"
     },
     {
       "path": "canDeleteInlineExpression",
       "label": "Can Delete Inline Expression",
-      "editorType": "settingsInputRow",
+      "editorType": "codeEditor",
       "description": "Return true to enable inline deletion and false to disable."
     },
     {
       "path": "customDeleteUrl",
       "label": "Custom Delete URL",
-      "editorType": "settingsInputRow"
+      "editorType": "endpointsAutocomplete"
     },
     {
       "path": "onRowClick",
@@ -325,76 +359,195 @@
     {
       "path": "headerFont",
       "label": "Family",
-      "editorType": "settingsInputRow",
+      "editorType": "dropdown",
+      "group": "Header Styles"
+    },
+    {
+      "path": "headerFont.type",
+      "label": "Size",
+      "editorType": "numberField",
+      "group": "Header Styles"
+    },
+    {
+      "path": "headerFont.size",
+      "label": "Weight",
+      "editorType": "dropdown",
       "description": "Font size in pixels. Default: 14px",
+      "group": "Header Styles"
+    },
+    {
+      "path": "headerFont.weight",
+      "label": "Color",
+      "editorType": "colorPicker",
+      "description": "Controls text thickness (light, normal, bold, etc.). Default: 500 (medium)",
+      "group": "Header Styles"
+    },
+    {
+      "path": "headerFont.color",
+      "label": "Align",
+      "editorType": "dropdown",
+      "group": "Header Styles"
+    },
+    {
+      "path": "headerFont.align",
+      "editorType": "settingsInputRow",
       "group": "Header Styles"
     },
     {
       "path": "headerBackgroundColor",
       "label": "Background Color",
-      "editorType": "settingsInputRow",
+      "editorType": "colorPicker",
       "description": "Background color for table headers. Default: #fafafa",
       "group": "Header Styles"
     },
     {
       "path": "rowPaddingTop",
       "label": "Top",
-      "editorType": "settingsInputRow",
+      "editorType": "textField",
       "description": "Top padding for table rows (e.g., 8px, 1rem, 0.5em)",
+      "group": "Cell Padding"
+    },
+    {
+      "path": "rowPaddingRight",
+      "label": "Right",
+      "editorType": "textField",
+      "description": "Right padding for table rows (e.g., 12px, 1rem, 0.5em)",
       "group": "Cell Padding"
     },
     {
       "path": "rowPaddingBottom",
       "label": "Bottom",
-      "editorType": "settingsInputRow",
+      "editorType": "textField",
       "description": "Bottom padding for table rows (e.g., 8px, 1rem, 0.5em)",
+      "group": "Cell Padding"
+    },
+    {
+      "path": "rowPaddingLeft",
+      "label": "Left",
+      "editorType": "textField",
+      "description": "Left padding for table rows (e.g., 12px, 1rem, 0.5em)",
       "group": "Cell Padding"
     },
     {
       "path": "actionIconSize",
       "label": "Icon Size",
-      "editorType": "settingsInputRow",
+      "editorType": "textField",
       "description": "Size of action column icons (e.g., 16px, 1.2em). Inherits from table font size if not specified.",
+      "group": "Action Column Icons"
+    },
+    {
+      "path": "actionIconColor",
+      "label": "Icon Color",
+      "editorType": "colorPicker",
+      "description": "Color of action column icons",
       "group": "Action Column Icons"
     },
     {
       "path": "font",
       "label": "Family",
-      "editorType": "settingsInputRow",
+      "editorType": "dropdown",
+      "group": "Font"
+    },
+    {
+      "path": "font.type",
+      "label": "Size",
+      "editorType": "numberField",
+      "group": "Font"
+    },
+    {
+      "path": "font.size",
+      "label": "Weight",
+      "editorType": "dropdown",
       "description": "Font size in pixels. Default: 14px",
       "group": "Font"
     },
     {
-      "path": "dimensions.width",
-      "label": "Width",
+      "path": "font.weight",
+      "label": "Color",
+      "editorType": "colorPicker",
+      "description": "Controls text thickness (light, normal, bold, etc.). Default: 400 (normal)",
+      "group": "Font"
+    },
+    {
+      "path": "font.color",
+      "label": "Align",
+      "editorType": "dropdown",
+      "description": "Font color. Default: black (#000000)",
+      "group": "Font"
+    },
+    {
+      "path": "font.align",
       "editorType": "settingsInputRow",
+      "group": "Font"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Min Width",
+      "editorType": "textField",
       "description": "You can use any unit (%, px, em, etc). Default: 100%",
       "group": "Dimensions"
     },
     {
-      "path": "dimensions.height",
-      "label": "Height",
+      "path": "dimensions.minWidth",
+      "label": "Max Width",
+      "editorType": "textField",
+      "description": "Minimum width. Default: 0px",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.maxWidth",
       "editorType": "settingsInputRow",
+      "description": "Maximum width. Default: none",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Min Height",
+      "editorType": "textField",
       "description": "You can use any unit (%, px, em, etc). Default: auto",
       "group": "Dimensions"
     },
     {
-      "path": "rowDimensions.height",
-      "label": "Height",
+      "path": "dimensions.minHeight",
+      "label": "Max Height",
+      "editorType": "textField",
+      "description": "Minimum height. Default: auto",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.maxHeight",
       "editorType": "settingsInputRow",
+      "description": "Maximum height. Default: auto",
+      "group": "Dimensions"
+    },
+    {
+      "path": "rowDimensions.height",
+      "label": "Min Height",
+      "editorType": "textField",
       "description": "Row height. You can use any unit (%, px, em, etc). px by default if without unit. Default: auto",
       "group": "Row Dimensions"
     },
     {
+      "path": "rowDimensions.minHeight",
+      "label": "Max Height",
+      "editorType": "textField",
+      "description": "Minimum row height. Rows will not be smaller than this value. Default: auto",
+      "group": "Row Dimensions"
+    },
+    {
+      "path": "rowDimensions.maxHeight",
+      "editorType": "settingsInputRow",
+      "description": "Maximum row height. Rows will not be taller than this value. Default: auto",
+      "group": "Row Dimensions"
+    },
+    {
       "path": "background.type",
-      "label": "Type",
-      "editorType": "settingsInput",
+      "editorType": "radio",
       "description": "Select a type of background",
       "group": "Background"
     },
     {
       "path": "background.color",
-      "label": "Color",
       "editorType": "settingsInputRow",
       "description": "Background color. Default: white (#fff)",
       "group": "Background"
@@ -425,69 +578,125 @@
     },
     {
       "path": "background.size",
-      "label": "Size",
+      "label": "Position",
+      "editorType": "customDropdown",
+      "group": "Background"
+    },
+    {
+      "path": "background.position",
       "editorType": "settingsInputRow",
       "group": "Background"
     },
     {
       "path": "background.repeat",
-      "label": "Repeat",
       "editorType": "settingsInputRow",
       "group": "Background"
     },
     {
       "path": "shadow.offsetX",
-      "label": "Offset X",
+      "label": "Offset Y",
+      "editorType": "numberField",
+      "description": "Vertical shadow offset. Default: 2px",
+      "group": "Shadow"
+    },
+    {
+      "path": "shadow.offsetY",
+      "label": "Blur",
+      "editorType": "numberField",
+      "description": "Shadow blur radius. Default: 8px",
+      "group": "Shadow"
+    },
+    {
+      "path": "shadow.blurRadius",
+      "label": "Spread",
+      "editorType": "numberField",
+      "description": "Shadow spread radius. Default: 0px",
+      "group": "Shadow"
+    },
+    {
+      "path": "shadow.spreadRadius",
+      "label": "Color",
+      "editorType": "colorPicker",
+      "group": "Shadow"
+    },
+    {
+      "path": "shadow.color",
       "editorType": "settingsInputRow",
-      "description": "Horizontal shadow offset. Default: 0px",
+      "description": "Shadow color. Default: rgba(0, 0, 0, 0.1)",
       "group": "Shadow"
     },
     {
       "path": "stylingBox",
-      "label": "Margin Padding",
       "editorType": "styleBox",
-      "group": "Margin & Padding",
-      "shared": true
+      "group": "Margin & Padding"
     },
     {
       "path": "striped",
       "label": "Striped Rows",
-      "editorType": "settingsInputRow",
+      "editorType": "switch",
       "description": "Enable alternating row colors. Default: enabled",
+      "group": "Table Specific"
+    },
+    {
+      "path": "hoverHighlight",
+      "label": "Hover Highlight",
+      "editorType": "switch",
+      "description": "Highlight rows on hover. Default: enabled",
       "group": "Table Specific"
     },
     {
       "path": "rowBackgroundColor",
       "label": "Row Background",
-      "editorType": "settingsInputRow",
+      "editorType": "colorPicker",
       "description": "Default background color for table rows",
+      "group": "Table Specific"
+    },
+    {
+      "path": "rowAlternateBackgroundColor",
+      "label": "Alternate Background",
+      "editorType": "colorPicker",
+      "description": "Background color for alternate rows (when striped is enabled). Default: #f5f5f5",
       "group": "Table Specific"
     },
     {
       "path": "rowHoverBackgroundColor",
       "label": "Hover Background",
-      "editorType": "settingsInputRow",
+      "editorType": "colorPicker",
       "description": "Background color when hovering over rows",
+      "group": "Table Specific"
+    },
+    {
+      "path": "rowSelectedBackgroundColor",
+      "label": "Selected Background",
+      "editorType": "colorPicker",
+      "description": "Background color for selected rows",
       "group": "Table Specific"
     },
     {
       "path": "sortableIndicatorColor",
       "label": "Sort Indicator Color",
-      "editorType": "settingsInputRow",
+      "editorType": "colorPicker",
       "description": "Color for sortable column indicators",
       "group": "Table Specific"
     },
     {
       "path": "cellBorderColor",
       "label": "Cell Border Color",
-      "editorType": "settingsInputRow",
+      "editorType": "colorPicker",
       "description": "Border color for table cells",
+      "group": "Cell Styling"
+    },
+    {
+      "path": "cellBorders",
+      "label": "Show Cell Borders",
+      "editorType": "switch",
+      "description": "Show borders around cells",
       "group": "Cell Styling"
     },
     {
       "path": "rowDividers",
       "label": "Row Dividers",
-      "editorType": "settingsInput",
+      "editorType": "switch",
       "description": "Show horizontal dividing lines between rows",
       "group": "Cell Styling"
     },
@@ -508,7 +717,7 @@
     {
       "path": "permissions",
       "label": "Permissions",
-      "editorType": "settingsInput",
+      "editorType": "permissions",
       "description": "Enter a list of permissions that should be associated with this component"
     }
   ],

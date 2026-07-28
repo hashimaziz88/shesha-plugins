@@ -49,23 +49,27 @@
           "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
         },
         {
-          "id": "f7c7dddc-7784-57af-9556-f0ab887b98d5",
+          "id": "9945508a-2ee6-588c-859f-6de94099c6a4",
           "type": "container",
           "version": 7,
-          "componentName": "gym-calendar-v-5f60c225",
+          "componentName": "gym-calendar-v-d94de207",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "c8cd4193-701c-55a2-a515-a8e8f83b597a",
+              "id": "919c0b1b-3e76-5404-a0a2-835d67e730ee",
               "type": "calendar",
               "version": 1,
               "label": "gym calendar",
               "hidden": false,
               "propertyName": "gymValue",
-              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
-              "parentId": "f7c7dddc-7784-57af-9556-f0ab887b98d5"
+              "desktop": {
+                "dimensions": {
+                  "width": "17px"
+                }
+              },
+              "parentId": "9945508a-2ee6-588c-859f-6de94099c6a4"
             }
           ],
           "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
@@ -104,91 +108,51 @@
           "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
         },
         {
-          "id": "5f400e61-f31b-533f-8e6a-3adca11e48fe",
+          "id": "ae9bf7c8-2045-5ce4-8774-185fd0fd1f90",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-calendar-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "b5fca4cf-ff37-5548-bcd2-ffb20a6dfa14",
           "type": "container",
           "version": 7,
-          "componentName": "gym-calendar-v-ef08b340",
+          "componentName": "gym-calendar-v-543ca5f0",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "5c9154aa-1444-595e-aecc-6ecd39baf053",
+              "id": "00cbe18f-6e9b-5b87-89b3-b0fd00d52216",
               "type": "calendar",
               "version": 1,
               "label": "gym calendar",
               "hidden": false,
               "propertyName": "gymValue",
-              "displayPeriod": "week",
-              "parentId": "5f400e61-f31b-533f-8e6a-3adca11e48fe"
+              "desktop": {
+                "dimensions": {
+                  "minWidth": "17px"
+                }
+              },
+              "parentId": "b5fca4cf-ff37-5548-bcd2-ffb20a6dfa14"
             }
           ],
           "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
         },
         {
-          "id": "c049c58c-3550-5688-aa62-03c0f9549658",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-calendar-v-fd28ca59",
-          "label": "",
+          "id": "f59177c4-d3f2-55cc-9adb-fd316146a39c",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-calendar-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
           "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "3182c2d7-5ca3-54f0-927b-0b535c1b0e2c",
-              "type": "calendar",
-              "version": 1,
-              "label": "gym calendar",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "displayPeriod": "work_week",
-              "parentId": "c049c58c-3550-5688-aa62-03c0f9549658"
-            }
-          ],
-          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
-        },
-        {
-          "id": "3b03dab2-e76b-5aea-943e-14ed065bb8bc",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-calendar-v-c86e6fc6",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "b0b789cf-68d8-54ab-a234-5a15fb1da2a7",
-              "type": "calendar",
-              "version": 1,
-              "label": "gym calendar",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "displayPeriod": "day",
-              "parentId": "3b03dab2-e76b-5aea-943e-14ed065bb8bc"
-            }
-          ],
-          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
-        },
-        {
-          "id": "b1fea698-0ed2-5304-a168-ead506c31845",
-          "type": "container",
-          "version": 7,
-          "componentName": "gym-calendar-v-86965944",
-          "label": "",
-          "hideLabel": true,
-          "direction": "vertical",
-          "components": [
-            {
-              "id": "cf92b319-4166-594a-b330-4bc6cc45ee3e",
-              "type": "calendar",
-              "version": 1,
-              "label": "gym calendar",
-              "hidden": false,
-              "propertyName": "gymValue",
-              "displayPeriod": "agenda",
-              "parentId": "b1fea698-0ed2-5304-a168-ead506c31845"
-            }
-          ],
           "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
         },
         {
@@ -214,49 +178,314 @@
           "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
         },
         {
-          "id": "f3acaf1f-e66e-5164-9e74-eb50a2b8e1eb",
+          "id": "ae9bf7c8-2045-5ce4-8774-185fd0fd1f90",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-calendar-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "6bad8454-2cdb-5639-9c36-0065ef6c017a",
           "type": "container",
           "version": 7,
-          "componentName": "gym-calendar-v-dcf5011d",
+          "componentName": "gym-calendar-v-11b08108",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "bbcabadd-fa33-5795-9260-44a4d06762aa",
+              "id": "ff01b31f-e961-598f-98a0-6ba44404b460",
               "type": "calendar",
               "version": 1,
               "label": "gym calendar",
               "hidden": false,
               "propertyName": "gymValue",
-              "dimensions": {
-                "width": "317px"
+              "desktop": {
+                "dimensions": {
+                  "maxWidth": 17
+                }
               },
-              "parentId": "f3acaf1f-e66e-5164-9e74-eb50a2b8e1eb"
+              "parentId": "6bad8454-2cdb-5639-9c36-0065ef6c017a"
             }
           ],
           "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
         },
         {
-          "id": "d9190f78-dfa0-509c-88c6-ce96039910d0",
+          "id": "f59177c4-d3f2-55cc-9adb-fd316146a39c",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-calendar-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "5f400e61-f31b-533f-8e6a-3adca11e48fe",
           "type": "container",
           "version": 7,
-          "componentName": "gym-calendar-v-a3d413f8",
+          "componentName": "gym-calendar-v-ef08b340",
           "label": "",
           "hideLabel": true,
           "direction": "vertical",
           "components": [
             {
-              "id": "c5c50800-ef89-5ab6-bb38-18830ad4f722",
+              "id": "5c9154aa-1444-595e-aecc-6ecd39baf053",
               "type": "calendar",
               "version": 1,
               "label": "gym calendar",
               "hidden": false,
               "propertyName": "gymValue",
-              "dimensions": {
-                "height": "117px"
+              "displayPeriod": "week",
+              "parentId": "5f400e61-f31b-533f-8e6a-3adca11e48fe"
+            }
+          ],
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "ae9bf7c8-2045-5ce4-8774-185fd0fd1f90",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-calendar-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "1daf51ee-b987-55c0-8a0a-cc3fa7cd24ad",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-calendar-v-e3c22599",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "242b05c4-2030-58cf-bed6-7cc5f0ef0f88",
+              "type": "calendar",
+              "version": 1,
+              "label": "gym calendar",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "height": "17px"
+                }
               },
-              "parentId": "d9190f78-dfa0-509c-88c6-ce96039910d0"
+              "parentId": "1daf51ee-b987-55c0-8a0a-cc3fa7cd24ad"
+            }
+          ],
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "f59177c4-d3f2-55cc-9adb-fd316146a39c",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-calendar-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "c049c58c-3550-5688-aa62-03c0f9549658",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-calendar-v-fd28ca59",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3182c2d7-5ca3-54f0-927b-0b535c1b0e2c",
+              "type": "calendar",
+              "version": 1,
+              "label": "gym calendar",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "displayPeriod": "work_week",
+              "parentId": "c049c58c-3550-5688-aa62-03c0f9549658"
+            }
+          ],
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "ae9bf7c8-2045-5ce4-8774-185fd0fd1f90",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-calendar-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "01941aaf-2d77-5708-88c1-455f42fc50cc",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-calendar-v-305d8597",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "670d08c9-758c-53cd-ab08-8a7b1416df8a",
+              "type": "calendar",
+              "version": 1,
+              "label": "gym calendar",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "minHeight": "17px"
+                }
+              },
+              "parentId": "01941aaf-2d77-5708-88c1-455f42fc50cc"
+            }
+          ],
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "f59177c4-d3f2-55cc-9adb-fd316146a39c",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-calendar-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "3b03dab2-e76b-5aea-943e-14ed065bb8bc",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-calendar-v-c86e6fc6",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b0b789cf-68d8-54ab-a234-5a15fb1da2a7",
+              "type": "calendar",
+              "version": 1,
+              "label": "gym calendar",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "displayPeriod": "day",
+              "parentId": "3b03dab2-e76b-5aea-943e-14ed065bb8bc"
+            }
+          ],
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "ae9bf7c8-2045-5ce4-8774-185fd0fd1f90",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-calendar-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "6fb94669-dcab-5943-9650-451406c0af32",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-calendar-v-3ae5eb1d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1448625f-1b4a-5c5b-8b56-9235f6b0f971",
+              "type": "calendar",
+              "version": 1,
+              "label": "gym calendar",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "desktop": {
+                "dimensions": {
+                  "maxHeight": 17
+                }
+              },
+              "parentId": "6fb94669-dcab-5943-9650-451406c0af32"
+            }
+          ],
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "f59177c4-d3f2-55cc-9adb-fd316146a39c",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-calendar-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "b1fea698-0ed2-5304-a168-ead506c31845",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-calendar-v-86965944",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "cf92b319-4166-594a-b330-4bc6cc45ee3e",
+              "type": "calendar",
+              "version": 1,
+              "label": "gym calendar",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "displayPeriod": "agenda",
+              "parentId": "b1fea698-0ed2-5304-a168-ead506c31845"
+            }
+          ],
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "ae9bf7c8-2045-5ce4-8774-185fd0fd1f90",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-calendar-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"
+        },
+        {
+          "id": "f7c7dddc-7784-57af-9556-f0ab887b98d5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-calendar-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c8cd4193-701c-55a2-a515-a8e8f83b597a",
+              "type": "calendar",
+              "version": 1,
+              "label": "gym calendar",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "f7c7dddc-7784-57af-9556-f0ab887b98d5"
             }
           ],
           "parentId": "d8db8870-bc22-5f1a-af19-c497388e872f"

@@ -109,19 +109,11 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
-    "width",
     "stylingBox",
     "style"
   ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "To set the completion percentage"
-    },
     {
       "path": "propertyName",
       "label": "Property Name",
@@ -135,85 +127,104 @@
     {
       "path": "description",
       "label": "Tooltip",
+      "editorType": "textArea"
+    },
+    {
+      "path": "percent",
+      "label": "Percent",
       "editorType": "settingsInputRow",
       "description": "To set the completion percentage"
     },
     {
       "path": "progressType",
       "label": "Type",
-      "editorType": "settingsInputRow",
+      "editorType": "dropdown",
       "description": "To specify the type of progress bar"
+    },
+    {
+      "path": "status",
+      "label": "Status",
+      "editorType": "settingsInputRow",
+      "description": "To set the status of the Progress"
     },
     {
       "path": "showInfo",
       "label": "Show Info",
-      "editorType": "settingsInputRow",
+      "editorType": "switch",
       "description": "Whether to display the progress info"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "strokeColor",
       "label": "Stroke Color",
-      "editorType": "settingsInputRow",
+      "editorType": "colorPicker",
       "description": "The color of progress bar. This will be overridden by the strokeColor property of 'line' and 'circle' types",
+      "group": "Progress Style"
+    },
+    {
+      "path": "trailColor",
+      "label": "Trail Color",
+      "editorType": "settingsInputRow",
+      "description": "The color of progress bar background",
       "group": "Progress Style"
     },
     {
       "path": "strokeLinecap",
       "label": "Stroke Linecap",
-      "editorType": "settingsInputRow",
+      "editorType": "numberField",
       "description": "To set the style of the progress linecap",
+      "group": "Progress Style"
+    },
+    {
+      "path": "strokeWidth",
+      "label": "Stroke Width",
+      "editorType": "settingsInputRow",
+      "description": "The width of the progress bar, unit: percentage of the canvas width",
       "group": "Progress Style"
     },
     {
       "path": "width",
       "label": "Width",
-      "editorType": "settingsInput",
+      "editorType": "numberField",
       "description": "The canvas width of the circular progress, unit: px",
-      "group": "Progress Style",
-      "shared": true
+      "group": "Progress Style"
     },
     {
       "path": "steps",
       "label": "Steps",
-      "editorType": "settingsInput",
+      "editorType": "numberField",
       "description": "The total step count",
-      "group": "Type Specific Settings"
-    },
-    {
-      "path": "lineStrokeColor",
-      "label": "Line Stroke Color",
-      "editorType": "settingsInputRow",
-      "description": "The color of line progress bar",
       "group": "Type Specific Settings"
     },
     {
       "path": "gapDegree",
       "label": "Gap Degree",
-      "editorType": "settingsInputRow",
+      "editorType": "dropdown",
       "description": "The gap degree of half circle, 0 ~ 295",
       "group": "Type Specific Settings"
     },
     {
       "path": "gapPosition",
       "label": "Gap Position",
-      "editorType": "settingsInputRow",
+      "editorType": "numberField",
       "description": "The gap position",
       "group": "Type Specific Settings"
     },
     {
       "path": "stylingBox",
-      "label": "Margin Padding",
       "editorType": "styleBox",
-      "group": "Margin & Padding",
-      "shared": true
+      "group": "Margin & Padding"
     },
     {
       "path": "style",
       "label": "Style",
       "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "group": "Custom Styles",
-      "shared": true
+      "group": "Custom Styles"
     },
     {
       "path": "permissions",

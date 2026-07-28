@@ -92,18 +92,59 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
+    "font",
+    "font.type",
+    "font.size",
+    "font.weight",
+    "font.color",
+    "font.align",
+    "dimensions.width",
+    "dimensions.minWidth",
+    "dimensions.maxWidth",
+    "dimensions.height",
+    "dimensions.minHeight",
+    "dimensions.maxHeight",
+    "background.type",
+    "background.color",
+    "background.gradient.colors",
+    "background.url",
+    "background.uploadFile",
+    "background.storedFile.id",
+    "background.size",
+    "background.position",
+    "background.repeat",
+    "shadow.offsetX",
+    "shadow.offsetY",
+    "shadow.blurRadius",
+    "shadow.spreadRadius",
+    "shadow.color",
     "stylingBox",
-    "style"
+    "style",
+    "border.borderType",
+    "border.border.all.width",
+    "border.border.all.style",
+    "border.border.all.color",
+    "border.border.top.width",
+    "border.border.top.style",
+    "border.border.top.color",
+    "border.border.right.width",
+    "border.border.right.style",
+    "border.border.right.color",
+    "border.border.bottom.width",
+    "border.border.bottom.style",
+    "border.border.bottom.color",
+    "border.border.left.width",
+    "border.border.left.style",
+    "border.border.left.color",
+    "border.radiusType",
+    "border.radius.all",
+    "border.radius.topLeft",
+    "border.radius.topRight",
+    "border.radius.bottomLeft",
+    "border.radius.bottomRight"
   ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "Set the readonly attribute of the input tag (avoids virtual keyboard on touch devices)"
-    },
     {
       "path": "propertyName",
       "label": "Property Name",
@@ -117,37 +158,72 @@
     {
       "path": "placeholder",
       "label": "Placeholder",
+      "editorType": "textArea"
+    },
+    {
+      "path": "description",
+      "label": "Tooltip",
       "editorType": "settingsInputRow"
     },
     {
       "path": "editMode",
       "label": "Edit Mode",
+      "editorType": "switch"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
       "editorType": "settingsInputRow"
     },
     {
       "path": "hourStep",
       "label": "Hour Step",
+      "editorType": "numberField"
+    },
+    {
+      "path": "minuteStep",
+      "label": "Minute Step",
       "editorType": "settingsInputRow"
     },
     {
       "path": "secondStep",
       "label": "Second Step",
+      "editorType": "textField"
+    },
+    {
+      "path": "format",
+      "label": "Time Format",
       "editorType": "settingsInputRow"
     },
     {
       "path": "inputReadOnly",
       "label": "Input Read-Only",
-      "editorType": "settingsInputRow",
+      "editorType": "switch",
       "description": "Set the readonly attribute of the input tag (avoids virtual keyboard on touch devices)"
+    },
+    {
+      "path": "use12Hours",
+      "label": "Use 12 Hours",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "allowClear",
       "label": "Allow Clear",
+      "editorType": "switch"
+    },
+    {
+      "path": "showNow",
+      "label": "Show Now",
       "editorType": "settingsInputRow"
     },
     {
       "path": "autoFocus",
       "label": "Auto Focus",
+      "editorType": "switch"
+    },
+    {
+      "path": "hideDisabledOptions",
+      "label": "Hide Disabled Options",
       "editorType": "settingsInputRow",
       "description": "Whether to hide the options that cannot be selected"
     },
@@ -164,7 +240,7 @@
     {
       "path": "onChangeCustom",
       "label": "On Change",
-      "editorType": "settingsInput",
+      "editorType": "object",
       "description": "Enter custom event handler on changing of event. Multiple variables are exposed"
     },
     {
@@ -182,40 +258,89 @@
     {
       "path": "enableStyleOnReadonly",
       "label": "Enable Style On Readonly",
-      "editorType": "settingsInput",
+      "editorType": "switch",
       "description": "Removes all visual styling except typography when the component becomes read-only"
     },
     {
       "path": "font",
       "label": "Family",
-      "editorType": "settingsInputRow",
+      "editorType": "dropdown",
+      "group": "Font"
+    },
+    {
+      "path": "font.type",
+      "label": "Size",
+      "editorType": "numberField",
+      "group": "Font"
+    },
+    {
+      "path": "font.size",
+      "label": "Weight",
+      "editorType": "dropdown",
+      "group": "Font"
+    },
+    {
+      "path": "font.weight",
+      "label": "Color",
+      "editorType": "colorPicker",
       "description": "Controls text thickness (light, normal, bold, etc.)",
       "group": "Font"
     },
     {
-      "path": "dimensions.width",
-      "label": "Width",
+      "path": "font.color",
+      "label": "Align",
+      "editorType": "dropdown",
+      "group": "Font"
+    },
+    {
+      "path": "font.align",
       "editorType": "settingsInputRow",
+      "group": "Font"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Min Width",
+      "editorType": "textField",
       "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.minWidth",
+      "label": "Max Width",
+      "editorType": "textField",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.maxWidth",
+      "editorType": "settingsInputRow",
       "group": "Dimensions"
     },
     {
       "path": "dimensions.height",
-      "label": "Height",
-      "editorType": "settingsInputRow",
+      "label": "Min Height",
+      "editorType": "textField",
       "description": "You can use any unit (%, px, em, etc). px by default if without unit",
       "group": "Dimensions"
     },
     {
+      "path": "dimensions.minHeight",
+      "label": "Max Height",
+      "editorType": "textField",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.maxHeight",
+      "editorType": "settingsInputRow",
+      "group": "Dimensions"
+    },
+    {
       "path": "background.type",
-      "label": "Type",
-      "editorType": "settingsInput",
+      "editorType": "radio",
       "description": "Select a type of background",
       "group": "Background"
     },
     {
       "path": "background.color",
-      "label": "Color",
       "editorType": "settingsInputRow",
       "group": "Background"
     },
@@ -245,42 +370,217 @@
     },
     {
       "path": "background.size",
-      "label": "Size",
+      "label": "Position",
+      "editorType": "customDropdown",
+      "group": "Background"
+    },
+    {
+      "path": "background.position",
       "editorType": "settingsInputRow",
       "group": "Background"
     },
     {
       "path": "background.repeat",
-      "label": "Repeat",
       "editorType": "settingsInputRow",
       "group": "Background"
     },
     {
       "path": "shadow.offsetX",
-      "label": "Offset X",
+      "label": "Offset Y",
+      "editorType": "numberField",
+      "description": "Offset Y",
+      "group": "Shadow"
+    },
+    {
+      "path": "shadow.offsetY",
+      "label": "Blur",
+      "editorType": "numberField",
+      "description": "Blur Radius",
+      "group": "Shadow"
+    },
+    {
+      "path": "shadow.blurRadius",
+      "label": "Spread",
+      "editorType": "numberField",
+      "description": "Spread Radius",
+      "group": "Shadow"
+    },
+    {
+      "path": "shadow.spreadRadius",
+      "label": "Color",
+      "editorType": "colorPicker",
+      "group": "Shadow"
+    },
+    {
+      "path": "shadow.color",
       "editorType": "settingsInputRow",
-      "description": "Offset X",
       "group": "Shadow"
     },
     {
       "path": "stylingBox",
-      "label": "Margin Padding",
       "editorType": "styleBox",
-      "group": "Margin & Padding",
-      "shared": true
+      "group": "Margin & Padding"
     },
     {
       "path": "style",
       "label": "Style",
       "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "group": "Custom Styles",
-      "shared": true
+      "group": "Custom Styles"
     },
     {
       "path": "permissions",
       "label": "Permissions",
       "editorType": "settingsInput"
+    },
+    {
+      "path": "border.borderType",
+      "label": "Border Type",
+      "editorType": "dropdown",
+      "group": "Border",
+      "description": "Border style: solid | dashed | dotted | none"
+    },
+    {
+      "path": "border.border.all.width",
+      "label": "Border width (all)",
+      "editorType": "textField",
+      "group": "Border",
+      "description": "Border width, e.g. \"1px\""
+    },
+    {
+      "path": "border.border.all.style",
+      "label": "Border style (all)",
+      "editorType": "dropdown",
+      "group": "Border",
+      "description": "solid | dashed | dotted | none"
+    },
+    {
+      "path": "border.border.all.color",
+      "label": "Border colour (all)",
+      "editorType": "colorPicker",
+      "group": "Border"
+    },
+    {
+      "path": "border.border.top.width",
+      "label": "Border width (top)",
+      "editorType": "textField",
+      "group": "Border",
+      "description": "Border width, e.g. \"1px\""
+    },
+    {
+      "path": "border.border.top.style",
+      "label": "Border style (top)",
+      "editorType": "dropdown",
+      "group": "Border",
+      "description": "solid | dashed | dotted | none"
+    },
+    {
+      "path": "border.border.top.color",
+      "label": "Border colour (top)",
+      "editorType": "colorPicker",
+      "group": "Border"
+    },
+    {
+      "path": "border.border.right.width",
+      "label": "Border width (right)",
+      "editorType": "textField",
+      "group": "Border",
+      "description": "Border width, e.g. \"1px\""
+    },
+    {
+      "path": "border.border.right.style",
+      "label": "Border style (right)",
+      "editorType": "dropdown",
+      "group": "Border",
+      "description": "solid | dashed | dotted | none"
+    },
+    {
+      "path": "border.border.right.color",
+      "label": "Border colour (right)",
+      "editorType": "colorPicker",
+      "group": "Border"
+    },
+    {
+      "path": "border.border.bottom.width",
+      "label": "Border width (bottom)",
+      "editorType": "textField",
+      "group": "Border",
+      "description": "Border width, e.g. \"1px\""
+    },
+    {
+      "path": "border.border.bottom.style",
+      "label": "Border style (bottom)",
+      "editorType": "dropdown",
+      "group": "Border",
+      "description": "solid | dashed | dotted | none"
+    },
+    {
+      "path": "border.border.bottom.color",
+      "label": "Border colour (bottom)",
+      "editorType": "colorPicker",
+      "group": "Border"
+    },
+    {
+      "path": "border.border.left.width",
+      "label": "Border width (left)",
+      "editorType": "textField",
+      "group": "Border",
+      "description": "Border width, e.g. \"1px\""
+    },
+    {
+      "path": "border.border.left.style",
+      "label": "Border style (left)",
+      "editorType": "dropdown",
+      "group": "Border",
+      "description": "solid | dashed | dotted | none"
+    },
+    {
+      "path": "border.border.left.color",
+      "label": "Border colour (left)",
+      "editorType": "colorPicker",
+      "group": "Border"
+    },
+    {
+      "path": "border.radiusType",
+      "label": "Radius Type",
+      "editorType": "dropdown",
+      "group": "Border",
+      "description": "all | custom"
+    },
+    {
+      "path": "border.radius.all",
+      "label": "Radius (all)",
+      "editorType": "numberField",
+      "group": "Border",
+      "description": "Corner radius in px"
+    },
+    {
+      "path": "border.radius.topLeft",
+      "label": "Radius (topLeft)",
+      "editorType": "numberField",
+      "group": "Border",
+      "description": "Corner radius in px"
+    },
+    {
+      "path": "border.radius.topRight",
+      "label": "Radius (topRight)",
+      "editorType": "numberField",
+      "group": "Border",
+      "description": "Corner radius in px"
+    },
+    {
+      "path": "border.radius.bottomLeft",
+      "label": "Radius (bottomLeft)",
+      "editorType": "numberField",
+      "group": "Border",
+      "description": "Corner radius in px"
+    },
+    {
+      "path": "border.radius.bottomRight",
+      "label": "Radius (bottomRight)",
+      "editorType": "numberField",
+      "group": "Border",
+      "description": "Corner radius in px"
     }
   ],
   "slots": {

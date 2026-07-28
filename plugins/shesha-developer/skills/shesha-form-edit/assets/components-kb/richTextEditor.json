@@ -168,17 +168,16 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
+    "dimensions.width",
+    "dimensions.minWidth",
+    "dimensions.maxWidth",
+    "dimensions.height",
+    "dimensions.minHeight",
+    "dimensions.maxHeight",
     "style"
   ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "If yes, will automatically be focused (be selected component) when the page loads"
-    },
     {
       "path": "propertyName",
       "label": "Property Name",
@@ -202,6 +201,11 @@
     {
       "path": "editMode",
       "label": "Edit Mode",
+      "editorType": "switch"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
       "editorType": "settingsInputRow"
     },
     {
@@ -245,6 +249,12 @@
     {
       "path": "showCharsCounter",
       "label": "Show Characters Counter",
+      "editorType": "switch",
+      "group": "Display"
+    },
+    {
+      "path": "showWordsCounter",
+      "label": "Show Words Counter",
       "editorType": "settingsInputRow",
       "group": "Display"
     },
@@ -257,6 +267,12 @@
     {
       "path": "insertImageAsBase64URI",
       "label": "Insert Image As Base64 URI",
+      "editorType": "switch",
+      "group": "Advanced"
+    },
+    {
+      "path": "iframe",
+      "label": "Iframe Mode",
       "editorType": "settingsInputRow",
       "description": "Isolates the editor content in a separate iframe for better style separation",
       "group": "Advanced"
@@ -264,15 +280,29 @@
     {
       "path": "saveHeightInStorage",
       "label": "Remember Height",
-      "editorType": "settingsInputRow",
+      "editorType": "switch",
       "description": "Remembers the editor height for the next session",
+      "group": "Advanced"
+    },
+    {
+      "path": "saveModeInStorage",
+      "label": "Remember Mode",
+      "editorType": "settingsInputRow",
+      "description": "Remembers the editor mode (WYSIWYG/Source) for the next session",
       "group": "Advanced"
     },
     {
       "path": "askBeforePasteHTML",
       "label": "Ask Before Paste HTML",
-      "editorType": "settingsInputRow",
+      "editorType": "switch",
       "description": "If yes, will ask the user to confirm before allowing content copied from a Web page to be pasted in",
+      "group": "Advanced"
+    },
+    {
+      "path": "askBeforePasteFromWord",
+      "label": "Ask Before Paste From Word/Excel",
+      "editorType": "settingsInputRow",
+      "description": "If yes, will ask the user to confirm before allowing content from Excel or Word to be pasted in",
       "group": "Advanced"
     },
     {
@@ -283,26 +313,60 @@
     {
       "path": "autoWidth",
       "label": "Auto Width",
+      "editorType": "switch",
+      "group": "Dimensions"
+    },
+    {
+      "path": "autoHeight",
+      "label": "Auto Height",
       "editorType": "settingsInputRow",
       "group": "Dimensions"
     },
     {
       "path": "dimensions.width",
-      "label": "Width",
-      "editorType": "settingsInputRow",
+      "label": "Min Width",
+      "editorType": "textField",
       "description": "You can use any unit (%, px, em, etc). px by default if without unit",
       "group": "Dimensions"
     },
     {
-      "path": "dimensions.height",
-      "label": "Height",
+      "path": "dimensions.minWidth",
+      "label": "Max Width",
+      "editorType": "textField",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.maxWidth",
       "editorType": "settingsInputRow",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Min Height",
+      "editorType": "textField",
       "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.minHeight",
+      "label": "Max Height",
+      "editorType": "textField",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.maxHeight",
+      "editorType": "settingsInputRow",
       "group": "Dimensions"
     },
     {
       "path": "allowResizeX",
       "label": "Allow Width Resize",
+      "editorType": "switch",
+      "group": "Dimensions"
+    },
+    {
+      "path": "allowResizeY",
+      "label": "Allow Height Resize",
       "editorType": "settingsInputRow",
       "group": "Dimensions"
     },
@@ -311,8 +375,7 @@
       "label": "Style",
       "editorType": "settingsInput",
       "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
-      "group": "Custom Styles",
-      "shared": true
+      "group": "Custom Styles"
     },
     {
       "path": "permissions",

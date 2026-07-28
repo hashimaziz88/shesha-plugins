@@ -112,17 +112,16 @@
     "mechanism": "fluent-builder",
     "parseQuality": "full"
   },
-  "hasStandardAppearance": false,
   "appearanceFieldPaths": [
+    "dimensions.width",
+    "dimensions.minWidth",
+    "dimensions.maxWidth",
+    "dimensions.height",
+    "dimensions.minHeight",
+    "dimensions.maxHeight",
     "stylingBox"
   ],
   "settingsFields": [
-    {
-      "path": "settingsTabs",
-      "label": "Settings",
-      "editorType": "searchableTabs",
-      "description": "Min Date"
-    },
     {
       "path": "name",
       "label": "Name",
@@ -136,14 +135,26 @@
     {
       "path": "minDate",
       "label": "Min Date",
-      "editorType": "settingsInputRow",
+      "editorType": "date",
       "description": "Min Date"
+    },
+    {
+      "path": "maxDate",
+      "label": "Max Date",
+      "editorType": "settingsInputRow",
+      "description": "Max Date"
     },
     {
       "path": "externalStartDate",
       "label": "External Start Date",
-      "editorType": "settingsInputRow",
+      "editorType": "codeEditor",
       "description": "Use javascript to set the start date to reflect on the calendar"
+    },
+    {
+      "path": "externalEndDate",
+      "label": "External End Date",
+      "editorType": "settingsInputRow",
+      "description": "Use javascript to set the end date to reflect on the calendar"
     },
     {
       "path": "items",
@@ -173,22 +184,38 @@
     },
     {
       "path": "dimensions.width",
-      "label": "Width",
-      "editorType": "settingsInputRow",
+      "label": "Min Width",
+      "editorType": "textField",
       "description": "You can use any unit (%, px, em, etc). px by default if without unit"
+    },
+    {
+      "path": "dimensions.minWidth",
+      "label": "Max Width",
+      "editorType": "textField"
+    },
+    {
+      "path": "dimensions.maxWidth",
+      "editorType": "settingsInputRow"
     },
     {
       "path": "dimensions.height",
-      "label": "Height",
-      "editorType": "settingsInputRow",
+      "label": "Min Height",
+      "editorType": "textField",
       "description": "You can use any unit (%, px, em, etc). px by default if without unit"
     },
     {
+      "path": "dimensions.minHeight",
+      "label": "Max Height",
+      "editorType": "textField"
+    },
+    {
+      "path": "dimensions.maxHeight",
+      "editorType": "settingsInputRow"
+    },
+    {
       "path": "stylingBox",
-      "label": "Margin Padding",
       "editorType": "styleBox",
-      "group": "Margin & Padding",
-      "shared": true
+      "group": "Margin & Padding"
     },
     {
       "path": "permissions",
