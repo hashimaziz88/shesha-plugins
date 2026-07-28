@@ -93,6 +93,46 @@ await api.authenticate();
   saveManifest();
 }
 
+// ---------------------------------------------------------------------------
+// PRECONDITION: the gym entity must exist and be reachable.
+//
+// Every gym form binds a dataContext to GYM_ENTITY. If that entity is not registered on
+// the target backend, the forms still render — so the run "succeeds" — but nothing loads,
+// and every data-dependent setting measures as a no-op because it genuinely does nothing
+// in that state. A run against a missing entity produced 41 confident
+// `changes-geometry → no-op` flips with no warning, and a false no-op is worse than no
+// measurement: validate-blocks.js downgrades hand-matrix verdicts on strong measured
+// no-op evidence, so it marks working techniques dead.
+//
+// Measuring nothing and reporting it as measurement is the failure this refuses to commit.
+{
+  const ec = await api.getJson('/api/services/app/EntityConfig/GetMainDataList?maxResultCount=1000');
+  const items = ec.body?.result?.items ?? ec.body?.result ?? [];
+  const registered = Array.isArray(items)
+    && items.some((e) => (e.fullClassName || e.className) === GYM_ENTITY);
+
+  if (!registered) {
+    console.error(
+      `\nREFUSING TO MEASURE: the gym entity "${GYM_ENTITY}" is not registered on ${BACKEND}.\n\n`
+      + `Every gym form binds a dataContext to it. Without it the forms still render, so the\n`
+      + `run would look successful — but no data loads, and every data-dependent setting\n`
+      + `measures as a no-op because it genuinely does nothing in that state. Those false\n`
+      + `no-ops then overwrite real capability data and mark working techniques dead.\n\n`
+      + `Fix one of:\n`
+      + `  - create the entity via Skill(shesha-developer:domain-model) and seed a few rows,\n`
+      + `    then rebuild + double-boot [R-040];\n`
+      + `  - point --backend at an instance that has it;\n`
+      + `  - change GYM_ENTITY in scripts/gym-lib/scaffolds.js to an entity this backend has\n`
+      + `    (it must have rows — an empty table produces the same false no-ops).\n\n`
+      + `Pass --allow-missing-entity to measure anyway, accepting that data-dependent\n`
+      + `verdicts will be wrong. Do not commit the resulting matrix.`,
+    );
+    if (!has('--allow-missing-entity')) process.exitCode = 1;
+    if (!has('--allow-missing-entity')) throw new Error('gym entity not registered');
+  }
+  console.error(`gym entity: ${GYM_ENTITY} registered`);
+}
+
 // --baseline-only: salvage mode for forms where a variant crashes the whole
 // render — push markup stripped to validationErrors + baseline, measure that.
 const BASELINE_ONLY = has('--baseline-only');
