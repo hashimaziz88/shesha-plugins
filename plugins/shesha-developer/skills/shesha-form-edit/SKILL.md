@@ -141,7 +141,7 @@ Push: `POST FormConfiguration/Create` (new) / `PUT UpdateMarkup` (existing) —
 session end while any entry is unverified [R-046].
 
 The oracle judges the deliverable through four fail-closed layers — a green
-render alone never means done. Full model: [references/quality-gates.md](references/quality-gates.md).
+render alone never means done. Full model: [references/verification.md §0](references/verification.md).
 1. **Re-fetch + diff** — the pushed markup equals what you sent; a 200 alone
    proves nothing [R-047] ([references/verification.md](references/verification.md)).
 2. **Render instrument** (objective, unless `--no-browser`):

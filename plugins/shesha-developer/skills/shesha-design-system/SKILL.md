@@ -30,7 +30,7 @@ A form looks "cheap" when only one layer is done (AntD still default-blue, or no
    User names a brand / hands tokens / an app `<brand>.tokens.json` exists → use it. A genuinely new brand → copy `shesha.tokens.json` → `<brand>.tokens.json`, swap the values, **keep every key name identical** so recipes, block-overlays and `roles.*` resolve unchanged. Load the file; resolve `roles.*` before authoring.
 2. **Apply the app-level theme (once per project)** — [app-theme.md](references/app-theme.md). Never skip when the complaint is "buttons/links are the wrong colour".
 3. **Apply per-component v7 blocks.** Copy the matching recipe from [component-recipes.md](references/component-recipes.md), fill it with resolved token values via [token-to-prop-mapping.md](references/token-to-prop-mapping.md). Mirror blocks across desktop/tablet/mobile unless the design is genuinely responsive.
-4. **Audit (optional).** Given a screenshot + the theme, return prop-level fixes (component, prop path, current vs target, one-line reason), ordered by impact. Rubric: [references/appearance-quality.md](references/appearance-quality.md) — never override a construction guardrail.
+Visual judgment of a built form is **not** this skill's job — the `shesha-design-critic` agent owns it, dispatched from `shesha-form-edit`'s oracle, so the judge never sees the authoring rationale. Findings come back here only as concrete prop-level fixes to apply.
 
 Design conventions every recipe respects: [references/shesha-design-standards.md](references/shesha-design-standards.md). The canonical brand-independent layout/component anatomy (page anatomy, tables, cards, chips, modals): [references/default-layout-patterns.md](references/default-layout-patterns.md) — every styling pass builds to these shapes; brand tokens only recolour them.
 
@@ -60,7 +60,6 @@ Design conventions every recipe respects: [references/shesha-design-standards.md
 | Canonical layout anatomy | [references/default-layout-patterns.md](references/default-layout-patterns.md) |
 | Default no-design quick pass | [references/default-theme-quickpass.md](references/default-theme-quickpass.md) |
 | Design conventions | [references/shesha-design-standards.md](references/shesha-design-standards.md) |
-| Appearance grading | [references/appearance-quality.md](references/appearance-quality.md) |
 
 | Concern | Skill |
 |---|---|

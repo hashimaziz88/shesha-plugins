@@ -1,0 +1,21 @@
+# Plugin-scoped ignores for shesha-developer.
+# Deliberately scoped to this plugin — never add rules at the repository root.
+
+# Dependencies are resolved at install time, never vendored.
+node_modules/
+
+# Cached bearer tokens. A credential must never enter the repo tree.
+access-token
+*.access-token
+
+# Session activity logs. The logger writes to the session workdir, but older
+# builds wrote to process.cwd() — keep the ignore so a stale hook cannot dirty
+# a working tree.
+.claude-designer-logs/
+
+# Generated gym output — regenerate with the shesha-gym skill, never commit.
+skills/shesha-form-edit/gym/
+
+# Generated run evidence from the render instrument and the apply CLI.
+skills/shesha-form-edit/render-verdicts/
+skills/shesha-form-edit/evidence/

@@ -5,7 +5,7 @@ description: THE MAIN SKILL for all Shesha 0.45 designer work — the single ent
 
 # Shesha Claude Designer
 
-**The conductor for design → on-brand Shesha app.** It never authors form JSON or picks colours — it moves **artifacts** between the three worker skills: design source → theme tokens + screen inventory → per-screen blueprint (`.md` + `blueprint-json` twin) → compiled+pushed form → gate/oracle results → report envelope. Roles, contracts and the fan-out map: **[references/conducting.md](references/conducting.md)**. Firm-rule ids cite `shesha-form-edit/references/_rules.json`.
+**The conductor for design → on-brand Shesha app.** It never authors form JSON or picks colours — it moves **artifacts** between the three worker skills: design source → theme tokens + screen inventory → per-screen blueprint (`.md` + `blueprint-json` twin) → compiled+pushed form → gate/oracle results → report envelope. Session rules and the per-dispatch contract are canonical in `shesha-form-edit/references/contracts.md`. Firm-rule ids cite `shesha-form-edit/references/_rules.json`.
 
 ## Step R — Route by weight (always first)
 
@@ -22,7 +22,7 @@ When routing away, pass the full context (backend URL, credentials, module, work
 
 ## Step 0 — Pre-flight (once per session)
 
-Pin one shell, one `<workdir>`, auth once (cached BOM-free token), resolve the skill root once, one scoped metadata fetch per entity, one consolidated confirmation gate, keep the cost ledger. Checklist: [conducting.md §Pre-flight](references/conducting.md); the underlying session rules are canonical in `shesha-form-edit/references/contracts.md`.
+Pin one shell, one `<workdir>`, auth once (cached BOM-free token), resolve the skill root once, one scoped metadata fetch per entity, one consolidated confirmation gate, keep the cost ledger. Recipes: `shesha-form-edit/references/contracts.md` §1–3 + §6.
 
 ## Step 1 — Ingest the design
 
@@ -30,7 +30,7 @@ Identify the source and its fidelity tier: readable source (A) · runnable proto
 
 ## Step 2 — Comprehend each screen → blueprint
 
-**REQUIRED SUB-SKILL `shesha-developer:shesha-design-comprehension`**, one agent per screen in parallel (MUST for 2+; Contract in [conducting.md](references/conducting.md)). Each screen yields `<workdir>/blueprints/<screen>.blueprint.md` — measured layout-tree/bindings/assertions **plus the fenced `blueprint-json` twin, validated against `shesha-design-comprehension/schemas/blueprint.schema.json`**. The twin is the build input ("no spec, no build"); never hand `shesha-form-edit` a prose brief. Name regions with the canonical archetypes from `shesha-design-system/references/default-layout-patterns.md`; measure only where the design deviates from those patterns.
+**REQUIRED SUB-SKILL `shesha-developer:shesha-design-comprehension`**, one agent per screen in parallel (MUST for 2+; dispatch contract in `shesha-form-edit/references/contracts.md` §4). Each screen yields `<workdir>/blueprints/<screen>.blueprint.md` — measured layout-tree/bindings/assertions **plus the fenced `blueprint-json` twin, validated against `shesha-design-comprehension/schemas/blueprint.schema.json`**. The twin is the build input ("no spec, no build"); never hand `shesha-form-edit` a prose brief. Name regions with the canonical archetypes from `shesha-design-system/references/default-layout-patterns.md`; measure only where the design deviates from those patterns.
 
 ## Step 3 — Theme once + plan
 
@@ -58,7 +58,7 @@ One aggregate envelope for the run: per screen — form (module + name + id), bl
 - **Placement and visual gates are BLOCKING and CAPPED** (2 iterations / 2 cycles) — an honest partial-match report beats an unconverging loop.
 - **Delegate ownership**: structure/push = `shesha-form-edit` [R-046]; styling = `shesha-design-system` only; placement = `shesha-design-comprehension`. Splits are flex containers, never `columns` [R-028]; flex containers set `display:"flex"` [R-029] — enforced by form-edit's gates, never patched by the conductor.
 - **Set up once, propagate everywhere** — pre-flight state rides in every dispatch prompt.
-- **Fan out across screens (MUST for 2+)**; barriers (theme, push, verify) stay serial ([conducting.md](references/conducting.md)).
+- **Fan out across screens (MUST for 2+)**; barriers (theme, push, verify) stay serial.
 - **Honesty about gaps** — if a design detail can't be expressed in Shesha, say so.
 
 | Concern | Skill |

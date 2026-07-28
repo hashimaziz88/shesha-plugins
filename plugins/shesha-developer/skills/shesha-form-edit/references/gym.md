@@ -7,6 +7,10 @@ records what each setting measurably does. Output:
 
 ## Artifacts
 
+Everything under `gym/` is **generated output and git-ignored** — regenerate it with the
+rerun procedure below rather than expecting it in a fresh checkout. Only the two committed
+artifacts (`assets/components-kb/`, `assets/measured-capability-matrix.json`) survive a clone.
+
 | Path | What |
 |---|---|
 | `gym/forms/gym-<type>.json` | Generated gym form: baseline + one instance per setting variant, each wrapped in a named container (`data-sha-c-name` locator) |

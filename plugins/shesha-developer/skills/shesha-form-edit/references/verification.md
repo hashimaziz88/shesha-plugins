@@ -1,6 +1,27 @@
 # Runtime verification and browser testing
 
-Workflow for proving a push actually landed and smoke-testing it in the browser. Read after any push (Step 8/9) and before claiming success. Symptom→cause lookup lives in [debug.md](debug.md); API recipes in [api.md](api.md).
+Workflow for proving a push actually landed and smoke-testing it in the browser. Read after any push and before claiming success. Symptom→cause lookup lives in [debug.md](debug.md); API recipes in [api.md](api.md).
+
+---
+
+## 0. The gate stack — why one green check is never enough
+
+A form that *works* can still look bad, and a form that looks fine can be bound to
+nothing. No single gate is sufficient; each layer catches what the one below cannot.
+
+| Layer | Gate | Catches | Blind to |
+|---|---|---|---|
+| 1 | Compile (`compile-blueprint.js` + the four validators) | broken shapes, unbound inputs, unstyled output | anything only visible at runtime |
+| 2 | Render instrument (`render-instrument.js`, §4) | doesn't load, stacked splits, collapsed inputs, console/network errors | *intent* — whether this is the layout that was designed |
+| 3 | Placement diff (blueprint `assertions`, owned by `shesha-design-comprehension`) | "the layout I intended didn't happen" | aesthetics |
+| 4 | `shesha-design-critic` agent | professional polish, styled-ness, per-assertion judgment | nothing below it — it sees only the deliverable |
+
+Layer 1 is *correct by construction*: the model composes in the blueprint grammar
+([designing-like-react.md](designing-like-react.md)) and each primitive compiles to one
+verified container shape, so the broken shapes are not expressible. Layers 2–4 are
+fail-closed and run in order. A green Layer 2 is **necessary, not sufficient** — the
+incident that motivated this stack was a passing render instrument masking a poor
+layout. Report a form done only when every layer that applies has passed.
 
 ---
 

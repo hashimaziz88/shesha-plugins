@@ -3,7 +3,7 @@
     "version": 1,
     "purpose": "Single-source rule registry (Shesha 0.45-only). Every mechanical fact lives HERE once; validators load this file and cite rule ids; prose docs cite [R-xxx] instead of restating. severity: fail = blocks push (machine-checked where check != null), warn = flagged, process = judgment/process rule enforced by the skill flow.",
     "generation": "0.45",
-    "sources": "non-negotiables.md, renderer-physics.md, modern-renderer-gotchas.md (merged into renderer-physics.md), validate-guardrails.js, design-pipeline firm rules — consolidated 2026-07-22"
+    "sources": "renderer-physics.md, validate-guardrails.js, design-pipeline firm rules — consolidated 2026-07-22, deduped 2026-07-28"
   },
   "rules": [
     { "id": "R-001", "group": "structure", "severity": "fail", "check": "walker: every non-root component has parentId === direct parent id; root components carry parentId 'root'",

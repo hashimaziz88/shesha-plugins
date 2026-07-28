@@ -44,7 +44,7 @@
     "progress":         { "files": ["components/inputs.md"], "kb": true }
   },
   "topics": {
-    "new-form":        { "files": ["components/form-shape.md", "examples.md"], "assets": ["golden/_index.json", "blocks/", "examples/"], "rules": ["clone the closest golden archetype or vetted block FIRST; freehand composition is the fallback, not the default"] },
+    "new-form":        { "files": ["components/form-shape.md"], "assets": ["golden/_index.json", "blocks/"], "rules": ["clone the closest golden archetype or vetted block FIRST; freehand composition is the fallback, not the default"] },
     "styling":         { "files": ["renderer-physics.md"], "handoff": "shesha-developer:shesha-design-system", "rules": ["structural builds do not author appearance; trigger the design-system pass"] },
     "binding":         { "files": ["entity-binding.md"], "scripts": ["backend-probe.mjs"], "rules": ["camelCase propertyName; metadata-availability gate is BLOCKING; probe before hand-rolled round-trips"] },
     "actions-wiring":  { "files": ["components/actions.md", "components/scripts.md"] },
@@ -63,8 +63,8 @@
     "bindings-gate":   { "scripts": ["resolve-bindings.js"], "files": ["entity-binding.md"] },
     "push":            { "files": ["api.md", "contracts.md"], "rules": ["push ledger entry required per form (see Step 7)"] },
     "verification":    { "files": ["verification.md"], "scripts": ["render-instrument.js"], "rules": ["re-fetch and diff [R-047]; the 200 alone proves nothing; render-instrument is the ONE scripted browser pass (fail-closed) [R-046]"] },
-    "oracle":          { "files": ["verification.md", "quality-gates.md"], "scripts": ["render-instrument.js"], "rules": ["fail-closed 4-layer stack: compile → render-instrument (objective) → placement diff (intent) → design-critic (visual, MANDATORY); a green render-instrument is necessary, not sufficient [R-046]"] },
-    "quality":         { "files": ["quality-gates.md"], "rules": ["good output is built-in by construction + enforced by layered gates; the design-critic is a blocking gate, never skipped"] },
+    "oracle":          { "files": ["verification.md"], "scripts": ["render-instrument.js"], "rules": ["fail-closed 4-layer stack: compile → render-instrument (objective) → placement diff (intent) → design-critic (visual, MANDATORY); a green render-instrument is necessary, not sufficient [R-046]"] },
+    "quality":         { "files": ["verification.md", "form-quality.md"], "rules": ["good output is built-in by construction + enforced by layered gates; the design-critic is a blocking gate, never skipped"] },
     "design-surface":  { "files": ["designing-like-react.md"], "scripts": ["compile-blueprint.js"], "rules": ["design in the React grammar (Stack/Row/Grid/Card/Field/Actions); the compiler maps each to the measured Shesha channel"] },
     "bulk":            { "files": ["bulk-operations.md", "orchestration.md"] },
     "navigation":      { "files": ["navigation-menu.md"] },
