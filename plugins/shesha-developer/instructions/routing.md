@@ -40,19 +40,11 @@ not a redesign).
 3. **A design source is the discriminator** between the conductor and the compiler. Files to
    measure → `shesha-claude-designer`. Prose adjectives only → `shesha-form-edit`.
 
-## Known description conflicts (follow-ups — those skills are out of scope for edits)
+## Known description conflicts (follow-ups — these two skills remain out of scope for edits)
 
 - **`shesha-forms`** claims "Creates and modifies Shesha UI form configurations", which
   competes head-on with `shesha-form-edit` and carries no version or mechanism discriminator.
   It routes through the Shesha MCP server rather than the compiler. Its description needs a
   negative trigger pointing at `shesha-form-edit` for 0.45 work.
-- **`shesha-gym`** opens with "GROUND-TRUTH LAYER under shesha-claude-designer", inheriting the
-  shared-opening problem this release removed from the other four. It is a maintainer tool,
-  not an execution layer under the conductor.
 - **`shesha-developer-0-43`** duplicates every skill name in this plugin. Only the 0.45 side
   carries a version discriminator, so a 0.43-era prompt can match either.
-- **`shesha-custom-page-designer`** (SKILL.md line 18) describes `shesha-form-edit`'s pipeline
-  as including "a default-theme styling pass". There is no styling pass any more — the
-  compiler links `shesha-design-system`'s style-plan resolver and bakes brand values in as it
-  emits. The sentence should read "…validation, guardrails, and compile-time theming".
-  Otherwise its routing is correct and needs no change.

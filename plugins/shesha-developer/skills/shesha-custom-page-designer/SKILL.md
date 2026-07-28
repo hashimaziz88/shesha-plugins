@@ -15,7 +15,7 @@ A stripped, fast path for **custom pages**: screens where bespoke visual design 
 - Pages needing components Shesha's form designer doesn't offer (charts, custom visualisations, novel interactions).
 
 **Do NOT use for:**
-- Standard data forms — a table/list of an entity, create/edit/detail views, CRUD dialogs → `shesha-developer:shesha-form-edit` (its pipeline includes validation, guardrails, and a default-theme styling pass).
+- Standard data forms — a table/list of an entity, create/edit/detail views, CRUD dialogs → `shesha-developer:shesha-form-edit` (its pipeline includes validation, guardrails, and compile-time theming).
 - Realising a specific design across screens → `shesha-developer:shesha-claude-designer`.
 - Styling an existing working form → `shesha-developer:shesha-design-system`.
 

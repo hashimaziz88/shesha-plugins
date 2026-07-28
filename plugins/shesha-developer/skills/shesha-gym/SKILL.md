@@ -1,6 +1,6 @@
 ---
 name: shesha-gym
-description: GROUND-TRUTH LAYER under shesha-claude-designer (the main entry). Regenerates the measured foundation the whole designer pipeline stands on — the 0.45 components-kb (parsed from renderer source), the enum overlay, the form-config JSON schema, and the measured capability matrix (every component rendered live with per-setting variants and classified effects). Use when a new Shesha 0.45.x release lands, when the capability matrix looks stale or contradicts live behaviour, or when the user says "rerun the gym", "remeasure components", "regenerate the component KB", or invokes /shesha-gym. Requires a running backend + adminportal.
+description: MAINTAINER TOOL that re-derives the designer pipeline's ground truth against a specific Shesha 0.45.x build — the components-kb parsed from renderer source, the enum overlay, the form-config JSON schema, and the measured capability matrix (every component rendered live, per-setting variants classified by measured effect). Use when a new 0.45.x release lands, when the capability matrix contradicts live behaviour, or on "rerun the gym", "remeasure components", "regenerate the component KB", or /shesha-gym. Requires a running backend AND adminportal, and rewrites committed data — not part of building any single form. NOT for building or editing a form (shesha-form-edit), and NOT an execution layer under shesha-claude-designer.
 ---
 
 # Shesha Gym — measured ground truth (L0)
