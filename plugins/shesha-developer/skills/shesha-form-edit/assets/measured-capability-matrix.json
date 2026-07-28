@@ -1142,28 +1142,28 @@
           "bucket": "appearance",
           "cssDelta": {
             "display": {
-              "baseline": "block",
-              "variant": "flex"
+              "baseline": "flex",
+              "variant": "block"
             },
             "position": {
-              "baseline": "static",
-              "variant": "absolute"
+              "baseline": "absolute",
+              "variant": "static"
             },
             "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
+              "baseline": "56.9062px",
+              "variant": "253px"
             },
             "height": {
-              "baseline": "150px",
-              "variant": "24px"
+              "baseline": "24px",
+              "variant": "150px"
             },
             "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
+              "baseline": "0px",
+              "variant": "auto"
             },
             "gap": {
-              "baseline": "normal",
-              "variant": "8px"
+              "baseline": "8px",
+              "variant": "normal"
             }
           }
         },
@@ -1171,27 +1171,39 @@
           "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
-            "height": {
-              "baseline": "150px",
-              "variant": "368px"
-            },
             "wrapper.height": {
-              "baseline": "442px",
+              "baseline": "450px",
               "variant": "127px"
-            },
-            "control.height": {
-              "baseline": "150px",
-              "variant": "368px"
             }
           }
         },
         "desktop.background=color#ff00aa": {
-          "effect": "changes-style",
+          "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
-            "subtree.backgroundColor": {
-              "baseline": "rgba(0, 0, 0, 0)",
-              "variant": "rgb(255, 0, 170) | rgba(0, 0, 0, 0)"
+            "display": {
+              "baseline": "flex",
+              "variant": "block"
+            },
+            "position": {
+              "baseline": "absolute",
+              "variant": "static"
+            },
+            "width": {
+              "baseline": "56.9062px",
+              "variant": "963.5px"
+            },
+            "height": {
+              "baseline": "24px",
+              "variant": "150px"
+            },
+            "minHeight": {
+              "baseline": "0px",
+              "variant": "auto"
+            },
+            "gap": {
+              "baseline": "8px",
+              "variant": "normal"
             }
           }
         },
@@ -1206,12 +1218,32 @@
           }
         },
         "desktop.shadow=shadow17": {
-          "effect": "changes-style",
+          "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
-            "subtree.boxShadow": {
-              "baseline": "none",
-              "variant": "none | rgb(0, 0, 0) 17px 17px 17px 0px"
+            "display": {
+              "baseline": "flex",
+              "variant": "block"
+            },
+            "position": {
+              "baseline": "absolute",
+              "variant": "static"
+            },
+            "width": {
+              "baseline": "56.9062px",
+              "variant": "963.5px"
+            },
+            "height": {
+              "baseline": "24px",
+              "variant": "150px"
+            },
+            "minHeight": {
+              "baseline": "0px",
+              "variant": "auto"
+            },
+            "gap": {
+              "baseline": "8px",
+              "variant": "normal"
             }
           }
         },
@@ -1220,28 +1252,28 @@
           "bucket": "appearance",
           "cssDelta": {
             "display": {
-              "baseline": "block",
-              "variant": "flex"
+              "baseline": "flex",
+              "variant": "block"
             },
             "position": {
-              "baseline": "static",
-              "variant": "absolute"
+              "baseline": "absolute",
+              "variant": "static"
             },
             "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
+              "baseline": "56.9062px",
+              "variant": "963.5px"
             },
             "height": {
-              "baseline": "150px",
-              "variant": "24px"
+              "baseline": "24px",
+              "variant": "150px"
             },
             "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
+              "baseline": "0px",
+              "variant": "auto"
             },
             "gap": {
-              "baseline": "normal",
-              "variant": "8px"
+              "baseline": "8px",
+              "variant": "normal"
             }
           }
         },
@@ -1249,541 +1281,99 @@
           "effect": "changes-geometry",
           "bucket": "display",
           "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
+            "position": {
+              "baseline": "absolute",
+              "variant": "static"
             },
             "width": {
-              "baseline": "963.5px",
+              "baseline": "56.9062px",
               "variant": "1370px"
             },
             "height": {
-              "baseline": "150px",
+              "baseline": "24px",
               "variant": "134.141px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
             },
             "flexWrap": {
               "baseline": "nowrap",
               "variant": "wrap"
             },
-            "marginBottom": {
-              "baseline": "0px",
-              "variant": "5px"
+            "gap": {
+              "baseline": "8px",
+              "variant": "normal"
+            },
+            "justifyContent": {
+              "baseline": "center",
+              "variant": "normal"
             }
           }
         },
         "dataMode=entityType": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "isAxisTimeSeries=true": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "isGroupingTimeSeries=true": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showTitle=true": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showLegend=true": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showXAxisScale=true": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "axisPropertyLabel=txt": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showYAxisScale=true": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "valuePropertyLabel=txt": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "orderDirection=asc": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "orderDirection=desc": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=sum": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=count": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=average": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=min": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=max": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "strokeWidth=17": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "hidden": {
           "effect": "not-measured",
@@ -2203,7 +1793,7 @@
           "notes": "no editorType and no heuristic match"
         }
       },
-      "consoleErrors": 17
+      "consoleErrors": 19
     },
     "buttonGroup": {
       "renderStatus": "renders",
@@ -2892,7 +2482,7 @@
           "cssDelta": {
             "wrapper.height": {
               "baseline": "42px",
-              "variant": "132px"
+              "variant": "162px"
             }
           }
         },
@@ -4792,471 +4382,140 @@
       "renderStatus": "renders",
       "settings": {
         "desktop.dimensions.width=317px": {
-          "effect": "renders",
-          "bucket": "appearance",
-          "notes": "text/attribute difference only"
+          "effect": "no-op",
+          "bucket": "appearance"
         },
         "desktop.dimensions.height=117px": {
-          "effect": "changes-geometry",
-          "bucket": "appearance",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "appearance"
         },
         "desktop.background=color#ff00aa": {
-          "effect": "changes-geometry",
-          "bucket": "appearance",
-          "cssDelta": {
-            "subtree.display": {
-              "baseline": "block | flex | grid | inline | inline-block",
-              "variant": "block | flex | grid"
-            },
-            "subtree.position": {
-              "baseline": "absolute | relative | static",
-              "variant": "relative | static"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "0px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "0px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "0px | 5px"
-            },
-            "subtree.marginLeft": {
-              "baseline": "-10px | 0px",
-              "variant": "0px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "appearance"
         },
         "desktop.background=gradient": {
-          "effect": "changes-geometry",
-          "bucket": "appearance",
-          "cssDelta": {
-            "subtree.display": {
-              "baseline": "block | flex | grid | inline | inline-block",
-              "variant": "block | flex | grid"
-            },
-            "subtree.position": {
-              "baseline": "absolute | relative | static",
-              "variant": "relative | static"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "0px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "0px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "0px | 5px"
-            },
-            "subtree.marginLeft": {
-              "baseline": "-10px | 0px",
-              "variant": "0px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "appearance"
         },
         "desktop.shadow=shadow17": {
-          "effect": "renders",
-          "bucket": "appearance",
-          "notes": "text/attribute difference only"
-        },
-        "stylingBox=stylingBox17": {
-          "effect": "renders",
-          "bucket": "appearance",
-          "notes": "text/attribute difference only"
-        },
-        "orientation=vertical": {
           "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
+            "display": {
+              "baseline": "block",
+              "variant": "flex"
+            },
+            "position": {
+              "baseline": "static",
+              "variant": "relative"
+            },
+            "width": {
+              "baseline": "1370px",
+              "variant": "16px"
+            },
             "height": {
-              "baseline": "0px",
-              "variant": "300px"
+              "baseline": "300px",
+              "variant": "32px"
             },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
+            "maxWidth": {
+              "baseline": "100%",
+              "variant": "none"
             },
-            "subtree.justifyContent": {
+            "gap": {
               "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
+              "variant": "8px"
             }
           }
         },
+        "stylingBox=stylingBox17": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
+        "orientation=vertical": {
+          "effect": "no-op",
+          "bucket": "appearance"
+        },
         "orientation=horizontal": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
             "subtree.display": {
               "baseline": "block | flex | grid | inline | inline-block",
               "variant": "block | flex | inline | inline-block"
             },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
             "subtree.alignItems": {
               "baseline": "center | normal | stretch",
               "variant": "center | normal | start"
             },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
+            "subtree.overflow": {
+              "baseline": "auto | hidden | hidden auto | visible",
+              "variant": "auto | hidden | visible"
             }
           }
         },
         "orientation=wrap": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
             "subtree.alignItems": {
               "baseline": "center | normal | stretch",
               "variant": "center | normal | start"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
             }
           }
         },
         "gap=17": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
             "subtree.gap": {
               "baseline": "0px | normal",
               "variant": "17px | normal"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
             }
           },
           "notes": "expected value observed (17px)"
         },
         "container.dimensions.width=17": {
-          "effect": "changes-geometry",
-          "bucket": "appearance",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "appearance"
         },
         "container.dimensions.height=17": {
           "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
             "height": {
-              "baseline": "0px",
+              "baseline": "300px",
               "variant": "17px"
             },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            },
-            "subtree.marginLeft": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
+            "wrapper.height": {
+              "baseline": "310px",
+              "variant": "32px"
             }
           },
           "notes": "expected value observed (17px)"
         },
         "collapsible=true": {
-          "effect": "changes-geometry",
-          "bucket": "appearance",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "appearance"
         },
         "formSelectionMode=name": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "formSelectionMode=view": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "formSelectionMode=expression": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "selectionMode=none": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "selectionMode=single": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "selectionMode=multiple": {
           "effect": "changes-geometry",
@@ -5271,7 +4530,7 @@
               "variant": "14px"
             },
             "height": {
-              "baseline": "0px",
+              "baseline": "300px",
               "variant": "14px"
             },
             "minHeight": {
@@ -5305,7 +4564,7 @@
               "variant": "142.953px"
             },
             "height": {
-              "baseline": "0px",
+              "baseline": "300px",
               "variant": "32px"
             },
             "minHeight": {
@@ -5319,34 +4578,8 @@
           }
         },
         "canAddInline=no": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "canAddInline=inherit": {
           "effect": "changes-geometry",
@@ -5365,7 +4598,7 @@
               "variant": "142.953px"
             },
             "height": {
-              "baseline": "0px",
+              "baseline": "300px",
               "variant": "32px"
             },
             "minHeight": {
@@ -5379,184 +4612,28 @@
           }
         },
         "modalWidth=40%": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "modalWidth=60%": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "modalWidth=80%": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "canEditInline=yes": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "canEditInline=no": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "canEditInline=inherit": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "height": {
-              "baseline": "0px",
-              "variant": "300px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "310px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "normal",
-              "variant": "center | normal"
-            },
-            "subtree.marginTop": {
-              "baseline": "-20px | 0px | 5px",
-              "variant": "-20px | 0px | 30px | 5px"
-            },
-            "subtree.marginRight": {
-              "baseline": "-10px | 0px",
-              "variant": "-10px | 0px | 30px"
-            },
-            "subtree.marginBottom": {
-              "baseline": "-10px | 0px | 5px",
-              "variant": "-10px | 0px | 30px | 5px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "hidden": {
           "effect": "not-measured",
@@ -5748,32 +4825,12 @@
       "renderStatus": "renders",
       "settings": {
         "headerBackgroundColor=#ff00aa": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
+            "subtree.backgroundColor": {
+              "baseline": "rgb(255, 255, 255) | rgba(0, 0, 0, 0)",
+              "variant": "rgb(255, 0, 170) | rgb(255, 255, 255) | rgba(0, 0, 0, 0)"
             }
           },
           "notes": "expected value observed (rgb(255, 0, 170))"
@@ -5782,20 +4839,8 @@
           "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
             "height": {
-              "baseline": "176px",
+              "baseline": "50px",
               "variant": "50.7031px"
             },
             "fontSize": {
@@ -5805,98 +4850,62 @@
             "lineHeight": {
               "baseline": "22px",
               "variant": "26.7143px"
+            },
+            "wrapper.height": {
+              "baseline": "50px",
+              "variant": "50.7031px"
+            },
+            "subtree.fontSize": {
+              "baseline": "0px | 14px | 20px | 24px",
+              "variant": "0px | 14px | 17px | 20px | 24px"
             }
           },
           "notes": "expected value observed (17px)"
         },
         "desktop.font.color=color": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
             "color": {
               "baseline": "rgba(0, 0, 0, 0.88)",
               "variant": "rgb(255, 0, 170)"
             },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
+            "borderTopColor": {
+              "baseline": "rgba(0, 0, 0, 0.88)",
+              "variant": "rgb(255, 0, 170)"
+            },
+            "subtree.color": {
+              "baseline": "rgb(0, 0, 0) | rgb(24, 144, 255) | rgba(0, 0, 0, 0.88)",
+              "variant": "rgb(0, 0, 0) | rgb(24, 144, 255) | rgb(255, 0, 170) | rgba(0, 0, 0, 0.88)"
+            },
+            "subtree.borderTopColor": {
+              "baseline": "rgb(0, 0, 0) | rgb(24, 144, 255) | rgba(0, 0, 0, 0.15) | rgba(0, 0, 0, 0.88)",
+              "variant": "rgb(0, 0, 0) | rgb(24, 144, 255) | rgb(255, 0, 170) | rgba(0, 0, 0, 0.15) | rgba(0, 0, 0, 0.88)"
             }
           },
           "notes": "expected value observed (rgb(255, 0, 170))"
         },
         "desktop.font.weight=weight700": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
             "fontWeight": {
               "baseline": "400",
               "variant": "700"
             },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
+            "subtree.fontWeight": {
+              "baseline": "400 | 600",
+              "variant": "400 | 600 | 700"
             }
           }
         },
         "desktop.dimensions.width=317px": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
             "width": {
-              "baseline": "1352px",
+              "baseline": "1368px",
               "variant": "317px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
             }
           }
         },
@@ -5904,28 +4913,12 @@
           "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
             "height": {
-              "baseline": "176px",
+              "baseline": "50px",
               "variant": "123px"
             },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
             "wrapper.height": {
-              "baseline": "182px",
+              "baseline": "50px",
               "variant": "117px"
             }
           }
@@ -5934,89 +4927,37 @@
           "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
             "height": {
-              "baseline": "176px",
+              "baseline": "50px",
               "variant": "45px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
             },
             "wrapper.height": {
-              "baseline": "182px",
+              "baseline": "50px",
               "variant": "45px"
+            },
+            "subtree.alignSelf": {
+              "baseline": "auto | stretch",
+              "variant": "auto"
             }
           }
         },
         "desktop.background=color#ff00aa": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
+            "subtree.backgroundColor": {
+              "baseline": "rgb(255, 255, 255) | rgba(0, 0, 0, 0)",
+              "variant": "rgb(255, 0, 170) | rgb(255, 255, 255) | rgba(0, 0, 0, 0)"
             }
           }
         },
         "desktop.background=gradient": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
+            "subtree.backgroundImage": {
+              "baseline": "none",
+              "variant": "linear-gradient(to right, rgb(255, 0, 170), rgb(0, 255, 0)) | none"
             }
           }
         },
@@ -6024,571 +4965,103 @@
           "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
             "height": {
-              "baseline": "176px",
+              "baseline": "50px",
               "variant": "66px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
             },
             "wrapper.height": {
-              "baseline": "182px",
+              "baseline": "50px",
               "variant": "66px"
+            },
+            "subtree.marginTop": {
+              "baseline": "-10px | 0px",
+              "variant": "-10px | 0px | 8px"
+            },
+            "subtree.marginRight": {
+              "baseline": "-10px | 0px",
+              "variant": "-10px | 0px | 8px"
+            },
+            "subtree.marginBottom": {
+              "baseline": "-10px | 0px",
+              "variant": "-10px | 0px | 8px"
+            },
+            "subtree.marginLeft": {
+              "baseline": "-10px | 0px | 12px",
+              "variant": "-10px | 0px | 12px | 8px"
             }
           }
         },
         "stylingBox=stylingBox17": {
-          "effect": "changes-geometry",
-          "bucket": "appearance",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "appearance"
         },
         "canEditInline=yes": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "canEditInline=no": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "canEditInline=inherit": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "canEditInline=js": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "inlineEditMode=one-by-one": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "inlineEditMode=all-at-once": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "inlineSaveMode=auto": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "inlineSaveMode=manual": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "canAddInline=yes": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "canAddInline=no": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "canAddInline=inherit": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "canAddInline=js": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "newRowCapturePosition=top": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "newRowCapturePosition=bottom": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "newRowInsertPosition=top": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "newRowInsertPosition=bottom": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "canDeleteInline=yes": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "inline-block",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "1352px",
-              "variant": "1368px"
-            },
-            "height": {
-              "baseline": "176px",
-              "variant": "50px"
-            },
-            "backgroundColor": {
-              "baseline": "rgb(255, 255, 255)",
-              "variant": "rgba(0, 0, 0, 0)"
-            },
-            "wrapper.height": {
-              "baseline": "182px",
-              "variant": "50px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "editMode": {
           "effect": "not-measured",
@@ -7105,74 +5578,74 @@
       "renderStatus": "renders",
       "settings": {
         "desktop.font.size=size17": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "width": {
-              "baseline": "14px",
-              "variant": "24px"
-            },
-            "wrapper.height": {
-              "baseline": "32px",
-              "variant": "48px"
-            },
-            "control.width": {
-              "baseline": "14px",
-              "variant": "24px"
-            },
-            "subtree.justifyContent": {
-              "baseline": "center | normal",
-              "variant": "normal"
-            },
-            "subtree.marginLeft": {
-              "baseline": "0px",
-              "variant": "0px | 2px"
-            },
-            "subtree.paddingRight": {
-              "baseline": "0px | 18px | 6px | 7px",
-              "variant": "0px | 18px | 21px | 6px | 7px"
+            "subtree.fontSize": {
+              "baseline": "12px | 14px",
+              "variant": "12px | 14px | 17px"
             }
           },
           "notes": "expected value observed (17px)"
         },
         "desktop.font.color=color": {
-          "effect": "changes-style",
+          "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
+            "width": {
+              "baseline": "24px",
+              "variant": "14px"
+            },
             "color": {
               "baseline": "rgba(0, 0, 0, 0.25)",
               "variant": "rgb(255, 0, 170)"
+            },
+            "wrapper.height": {
+              "baseline": "48px",
+              "variant": "32px"
+            },
+            "control.width": {
+              "baseline": "24px",
+              "variant": "14px"
             },
             "control.color": {
               "baseline": "rgba(0, 0, 0, 0.25)",
               "variant": "rgb(255, 0, 170)"
             },
-            "subtree.color": {
-              "baseline": "rgb(0, 0, 0) | rgb(24, 144, 255) | rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)",
-              "variant": "rgb(0, 0, 0) | rgb(255, 0, 170) | rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)"
-            },
-            "subtree.borderTopColor": {
-              "baseline": "rgb(0, 0, 0) | rgb(217, 217, 217) | rgb(24, 144, 255) | rgba(0, 0, 0, 0) | rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)",
-              "variant": "rgb(0, 0, 0) | rgb(217, 217, 217) | rgb(24, 144, 255) | rgb(255, 0, 170) | rgba(0, 0, 0, 0) | rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)"
+            "subtree.justifyContent": {
+              "baseline": "normal",
+              "variant": "center | normal"
             }
           },
           "notes": "expected value observed (rgb(255, 0, 170))"
         },
         "desktop.font.weight=weight700": {
-          "effect": "changes-style",
+          "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
+            "width": {
+              "baseline": "24px",
+              "variant": "14px"
+            },
             "fontWeight": {
               "baseline": "400",
               "variant": "700"
+            },
+            "wrapper.height": {
+              "baseline": "48px",
+              "variant": "32px"
+            },
+            "control.width": {
+              "baseline": "24px",
+              "variant": "14px"
             },
             "control.fontWeight": {
               "baseline": "400",
               "variant": "700"
             },
-            "subtree.fontWeight": {
-              "baseline": "400 | 600",
-              "variant": "400 | 700"
+            "subtree.justifyContent": {
+              "baseline": "normal",
+              "variant": "center | normal"
             }
           }
         },
@@ -7184,29 +5657,29 @@
           "effect": "changes-geometry",
           "bucket": "display",
           "cssDelta": {
+            "width": {
+              "baseline": "24px",
+              "variant": "14px"
+            },
+            "wrapper.height": {
+              "baseline": "48px",
+              "variant": "32px"
+            },
+            "control.width": {
+              "baseline": "24px",
+              "variant": "14px"
+            },
             "subtree.display": {
               "baseline": "block | flex | inline | inline-block | inline-flex",
               "variant": "block | flex | inline | inline-flex"
             },
-            "subtree.position": {
-              "baseline": "absolute | relative | static",
-              "variant": "static"
+            "subtree.justifyContent": {
+              "baseline": "normal",
+              "variant": "center | normal"
             },
             "subtree.marginTop": {
               "baseline": "-6px | 0px",
               "variant": "0px"
-            },
-            "subtree.paddingRight": {
-              "baseline": "0px | 18px | 6px | 7px",
-              "variant": "0px | 6px"
-            },
-            "subtree.paddingLeft": {
-              "baseline": "0px | 6px | 7px",
-              "variant": "0px | 6px"
-            },
-            "subtree.color": {
-              "baseline": "rgb(0, 0, 0) | rgb(24, 144, 255) | rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)",
-              "variant": "rgb(24, 144, 255) | rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)"
             }
           }
         },
@@ -8110,7 +6583,7 @@
           "notes": "no editorType and no heuristic match"
         }
       },
-      "consoleErrors": 2
+      "consoleErrors": 1
     },
     "dynamicItemsConfigurator": {
       "renderStatus": "renders",
@@ -8190,7 +6663,7 @@
           "notes": "no editorType and no heuristic match"
         }
       },
-      "consoleErrors": 22
+      "consoleErrors": 34
     },
     "editModeSelector": {
       "renderStatus": "renders",
@@ -10399,7 +8872,7 @@
           "bucket": "appearance"
         },
         "columnStyles.dimensions.width=17": {
-          "effect": "changes-geometry",
+          "effect": "unknown",
           "bucket": "appearance",
           "cssDelta": {
             "display": {
@@ -10426,10 +8899,13 @@
               "baseline": "rgb(250, 173, 20)",
               "variant": "rgba(0, 0, 0, 0.88)"
             }
-          }
+          },
+          "attributedEffect": "changes-geometry",
+          "attribution": "container-level",
+          "notes": "identical delta on 7 unrelated settings — a container-level render difference, not attributable to this setting"
         },
         "columnStyles.dimensions.height=17": {
-          "effect": "changes-geometry",
+          "effect": "unknown",
           "bucket": "appearance",
           "cssDelta": {
             "display": {
@@ -10456,10 +8932,13 @@
               "baseline": "rgb(250, 173, 20)",
               "variant": "rgba(0, 0, 0, 0.88)"
             }
-          }
+          },
+          "attributedEffect": "changes-geometry",
+          "attribution": "container-level",
+          "notes": "identical delta on 7 unrelated settings — a container-level render difference, not attributable to this setting"
         },
         "columnStyles.background.color=#ff00aa": {
-          "effect": "changes-geometry",
+          "effect": "unknown",
           "bucket": "appearance",
           "cssDelta": {
             "display": {
@@ -10486,10 +8965,13 @@
               "baseline": "rgb(250, 173, 20)",
               "variant": "rgba(0, 0, 0, 0.88)"
             }
-          }
+          },
+          "attributedEffect": "changes-geometry",
+          "attribution": "container-level",
+          "notes": "identical delta on 7 unrelated settings — a container-level render difference, not attributable to this setting"
         },
         "columnStyles.background.gradient.colors=#ff00aa": {
-          "effect": "changes-geometry",
+          "effect": "unknown",
           "bucket": "appearance",
           "cssDelta": {
             "display": {
@@ -10516,10 +8998,13 @@
               "baseline": "rgb(250, 173, 20)",
               "variant": "rgba(0, 0, 0, 0.88)"
             }
-          }
+          },
+          "attributedEffect": "changes-geometry",
+          "attribution": "container-level",
+          "notes": "identical delta on 7 unrelated settings — a container-level render difference, not attributable to this setting"
         },
         "columnStyles.background.size=17": {
-          "effect": "changes-geometry",
+          "effect": "unknown",
           "bucket": "appearance",
           "cssDelta": {
             "display": {
@@ -10546,10 +9031,13 @@
               "baseline": "rgb(250, 173, 20)",
               "variant": "rgba(0, 0, 0, 0.88)"
             }
-          }
+          },
+          "attributedEffect": "changes-geometry",
+          "attribution": "container-level",
+          "notes": "identical delta on 7 unrelated settings — a container-level render difference, not attributable to this setting"
         },
         "columnStyles.shadow.offsetX=17": {
-          "effect": "changes-geometry",
+          "effect": "unknown",
           "bucket": "appearance",
           "cssDelta": {
             "display": {
@@ -10576,7 +9064,10 @@
               "baseline": "rgb(250, 173, 20)",
               "variant": "rgba(0, 0, 0, 0.88)"
             }
-          }
+          },
+          "attributedEffect": "changes-geometry",
+          "attribution": "container-level",
+          "notes": "identical delta on 7 unrelated settings — a container-level render difference, not attributable to this setting"
         },
         "collapsible=true": {
           "effect": "no-op",
@@ -10595,7 +9086,7 @@
           "bucket": "display"
         },
         "columnStyles.stylingBox=stylingBox17": {
-          "effect": "changes-geometry",
+          "effect": "unknown",
           "bucket": "display",
           "cssDelta": {
             "display": {
@@ -10622,7 +9113,10 @@
               "baseline": "rgb(250, 173, 20)",
               "variant": "rgba(0, 0, 0, 0.88)"
             }
-          }
+          },
+          "attributedEffect": "changes-geometry",
+          "attribution": "container-level",
+          "notes": "identical delta on 7 unrelated settings — a container-level render difference, not attributable to this setting"
         },
         "modalFormId": {
           "effect": "not-measured",
@@ -10927,16 +9421,32 @@
       "renderStatus": "renders",
       "settings": {
         "desktop.dimensions.width=317px": {
-          "effect": "changes-style",
+          "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
+            "display": {
+              "baseline": "flex",
+              "variant": "block"
+            },
+            "position": {
+              "baseline": "absolute",
+              "variant": "static"
+            },
             "width": {
-              "baseline": "963.5px",
+              "baseline": "56.9062px",
               "variant": "253px"
             },
-            "control.width": {
-              "baseline": "963.5px",
-              "variant": "253px"
+            "height": {
+              "baseline": "24px",
+              "variant": "150px"
+            },
+            "minHeight": {
+              "baseline": "0px",
+              "variant": "auto"
+            },
+            "gap": {
+              "baseline": "8px",
+              "variant": "normal"
             }
           }
         },
@@ -10944,77 +9454,49 @@
           "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
+            "display": {
+              "baseline": "flex",
+              "variant": "block"
+            },
+            "position": {
+              "baseline": "absolute",
+              "variant": "static"
+            },
+            "width": {
+              "baseline": "56.9062px",
+              "variant": "963.5px"
+            },
             "height": {
-              "baseline": "150px",
+              "baseline": "24px",
               "variant": "368px"
             },
-            "wrapper.height": {
-              "baseline": "442px",
-              "variant": "127px"
+            "minHeight": {
+              "baseline": "0px",
+              "variant": "auto"
             },
-            "control.height": {
-              "baseline": "150px",
-              "variant": "368px"
+            "gap": {
+              "baseline": "8px",
+              "variant": "normal"
             }
           }
         },
         "desktop.background=color#ff00aa": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
+            "subtree.backgroundColor": {
+              "baseline": "rgb(255, 255, 255) | rgba(0, 0, 0, 0)",
+              "variant": "rgb(255, 0, 170) | rgb(255, 255, 255) | rgba(0, 0, 0, 0)"
             }
           }
         },
         "desktop.background=gradient": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
+            "subtree.backgroundImage": {
+              "baseline": "none",
+              "variant": "linear-gradient(to right, rgb(255, 0, 170), rgb(0, 255, 0)) | none"
             }
           }
         },
@@ -11023,330 +9505,112 @@
           "bucket": "appearance",
           "cssDelta": {
             "subtree.boxShadow": {
-              "baseline": "none",
-              "variant": "none | rgb(0, 0, 0) 17px 17px 17px 0px"
+              "baseline": "none | rgba(0, 0, 0, 0.1) 0px 2px 10px 0px | rgba(0, 0, 0, 0.15) 0px 2px 8px 0px",
+              "variant": "none | rgb(0, 0, 0) 17px 17px 17px 0px | rgba(0, 0, 0, 0.1) 0px 2px 10px 0px | rgba(0, 0, 0, 0.15) 0px 2px 8px 0px"
             }
           }
         },
         "stylingBox=stylingBox17": {
-          "effect": "renders",
-          "bucket": "appearance",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "appearance"
         },
         "dataMode=url": {
           "effect": "changes-geometry",
           "bucket": "display",
           "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
+            "position": {
+              "baseline": "absolute",
+              "variant": "static"
             },
             "width": {
-              "baseline": "963.5px",
+              "baseline": "56.9062px",
               "variant": "1370px"
             },
             "height": {
-              "baseline": "150px",
+              "baseline": "24px",
               "variant": "134.141px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
             },
             "flexWrap": {
               "baseline": "nowrap",
               "variant": "wrap"
             },
-            "marginBottom": {
-              "baseline": "0px",
-              "variant": "5px"
+            "gap": {
+              "baseline": "8px",
+              "variant": "normal"
+            },
+            "justifyContent": {
+              "baseline": "center",
+              "variant": "normal"
             }
           }
         },
         "dataMode=entityType": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "isAxisTimeSeries=true": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "isGroupingTimeSeries=true": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showTitle=true": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showLegend=true": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showXAxisScale=true": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "axisPropertyLabel=txt": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showYAxisScale=true": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "valuePropertyLabel=txt": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "orderDirection=asc": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "orderDirection=desc": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=sum": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=count": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=average": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=min": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=max": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "strokeWidth=17": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "hidden": {
           "effect": "not-measured",
@@ -11608,7 +9872,7 @@
           "notes": "capped"
         }
       },
-      "consoleErrors": 7
+      "consoleErrors": 20
     },
     "list": {
       "renderStatus": "renders",
@@ -11986,12 +10250,12 @@
               "variant": "rgb(255, 0, 170)"
             },
             "subtree.color": {
-              "baseline": "rgba(0, 0, 0, 0.88)",
-              "variant": "rgb(255, 0, 170) | rgba(0, 0, 0, 0.88)"
+              "baseline": "rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)",
+              "variant": "rgb(255, 0, 170) | rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)"
             },
             "subtree.borderTopColor": {
-              "baseline": "rgba(0, 0, 0, 0.88)",
-              "variant": "rgb(255, 0, 170) | rgba(0, 0, 0, 0.88)"
+              "baseline": "rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)",
+              "variant": "rgb(255, 0, 170) | rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)"
             }
           },
           "notes": "expected value observed (rgb(255, 0, 170))"
@@ -12036,6 +10300,18 @@
             "width": {
               "baseline": "500px",
               "variant": "317px"
+            },
+            "subtree.color": {
+              "baseline": "rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)",
+              "variant": "rgba(0, 0, 0, 0.88)"
+            },
+            "subtree.borderTopColor": {
+              "baseline": "rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)",
+              "variant": "rgba(0, 0, 0, 0.88)"
+            },
+            "subtree.cursor": {
+              "baseline": "auto | not-allowed | pointer",
+              "variant": "auto | pointer"
             }
           }
         },
@@ -12088,12 +10364,12 @@
           "bucket": "display",
           "cssDelta": {
             "subtree.color": {
-              "baseline": "rgba(0, 0, 0, 0.88)",
-              "variant": "rgb(255, 0, 170) | rgba(0, 0, 0, 0.88)"
+              "baseline": "rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)",
+              "variant": "rgb(255, 0, 170) | rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)"
             },
             "subtree.borderTopColor": {
-              "baseline": "rgba(0, 0, 0, 0.88)",
-              "variant": "rgb(255, 0, 170) | rgba(0, 0, 0, 0.88)"
+              "baseline": "rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)",
+              "variant": "rgb(255, 0, 170) | rgba(0, 0, 0, 0.25) | rgba(0, 0, 0, 0.88)"
             }
           },
           "notes": "expected value observed (rgb(255, 0, 170))"
@@ -13086,28 +11362,28 @@
           "bucket": "appearance",
           "cssDelta": {
             "display": {
-              "baseline": "flex",
-              "variant": "block"
+              "baseline": "block",
+              "variant": "flex"
             },
             "position": {
-              "baseline": "static",
-              "variant": "relative"
+              "baseline": "relative",
+              "variant": "static"
             },
             "width": {
-              "baseline": "0px",
-              "variant": "1370px"
+              "baseline": "1370px",
+              "variant": "0px"
             },
             "height": {
-              "baseline": "0px",
-              "variant": "70px"
+              "baseline": "70px",
+              "variant": "0px"
             },
             "fontSize": {
-              "baseline": "13.3333px",
-              "variant": "14px"
+              "baseline": "14px",
+              "variant": "13.3333px"
             },
             "fontFamily": {
-              "baseline": "Arial",
-              "variant": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+              "baseline": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+              "variant": "Arial"
             }
           }
         },
@@ -13115,17 +11391,13 @@
           "effect": "changes-geometry",
           "bucket": "display",
           "cssDelta": {
-            "display": {
-              "baseline": "flex",
-              "variant": "block"
+            "position": {
+              "baseline": "relative",
+              "variant": "static"
             },
             "width": {
-              "baseline": "0px",
+              "baseline": "1370px",
               "variant": "1354px"
-            },
-            "height": {
-              "baseline": "0px",
-              "variant": "70px"
             },
             "marginTop": {
               "baseline": "0px",
@@ -13138,38 +11410,16 @@
             "marginBottom": {
               "baseline": "0px",
               "variant": "32px"
+            },
+            "marginLeft": {
+              "baseline": "0px",
+              "variant": "8px"
             }
           }
         },
         "defaultAccess=17": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "flex",
-              "variant": "block"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "relative"
-            },
-            "width": {
-              "baseline": "0px",
-              "variant": "1370px"
-            },
-            "height": {
-              "baseline": "0px",
-              "variant": "70px"
-            },
-            "fontSize": {
-              "baseline": "13.3333px",
-              "variant": "14px"
-            },
-            "fontFamily": {
-              "baseline": "Arial",
-              "variant": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "onSelectAction": {
           "effect": "not-measured",
@@ -13315,16 +11565,32 @@
       "renderStatus": "renders",
       "settings": {
         "desktop.dimensions.width=317px": {
-          "effect": "changes-style",
+          "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
+            "display": {
+              "baseline": "flex",
+              "variant": "block"
+            },
+            "position": {
+              "baseline": "absolute",
+              "variant": "static"
+            },
             "width": {
-              "baseline": "963.5px",
+              "baseline": "56.9062px",
               "variant": "253px"
             },
-            "control.width": {
-              "baseline": "963.5px",
-              "variant": "253px"
+            "height": {
+              "baseline": "24px",
+              "variant": "150px"
+            },
+            "minHeight": {
+              "baseline": "0px",
+              "variant": "auto"
+            },
+            "gap": {
+              "baseline": "8px",
+              "variant": "normal"
             }
           }
         },
@@ -13332,29 +11598,9 @@
           "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
+            "wrapper.height": {
+              "baseline": "450px",
+              "variant": "127px"
             }
           }
         },
@@ -13363,58 +11609,38 @@
           "bucket": "appearance",
           "cssDelta": {
             "display": {
-              "baseline": "block",
-              "variant": "flex"
+              "baseline": "flex",
+              "variant": "block"
             },
             "position": {
-              "baseline": "static",
-              "variant": "absolute"
+              "baseline": "absolute",
+              "variant": "static"
             },
             "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
+              "baseline": "56.9062px",
+              "variant": "963.5px"
             },
             "height": {
-              "baseline": "150px",
-              "variant": "24px"
+              "baseline": "24px",
+              "variant": "150px"
             },
             "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
+              "baseline": "0px",
+              "variant": "auto"
             },
             "gap": {
-              "baseline": "normal",
-              "variant": "8px"
+              "baseline": "8px",
+              "variant": "normal"
             }
           }
         },
         "desktop.background=gradient": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
+            "subtree.backgroundImage": {
+              "baseline": "none",
+              "variant": "linear-gradient(to right, rgb(255, 0, 170), rgb(0, 255, 0)) | none"
             }
           }
         },
@@ -13423,255 +11649,138 @@
           "bucket": "appearance",
           "cssDelta": {
             "subtree.boxShadow": {
-              "baseline": "none",
-              "variant": "none | rgb(0, 0, 0) 17px 17px 17px 0px"
+              "baseline": "none | rgba(0, 0, 0, 0.1) 0px 2px 10px 0px | rgba(0, 0, 0, 0.15) 0px 2px 8px 0px",
+              "variant": "none | rgb(0, 0, 0) 17px 17px 17px 0px | rgba(0, 0, 0, 0.1) 0px 2px 10px 0px | rgba(0, 0, 0, 0.15) 0px 2px 8px 0px"
             }
           }
         },
         "stylingBox=stylingBox17": {
-          "effect": "renders",
+          "effect": "changes-geometry",
           "bucket": "appearance",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "cssDelta": {
+            "display": {
+              "baseline": "flex",
+              "variant": "block"
+            },
+            "position": {
+              "baseline": "absolute",
+              "variant": "static"
+            },
+            "width": {
+              "baseline": "56.9062px",
+              "variant": "963.5px"
+            },
+            "height": {
+              "baseline": "24px",
+              "variant": "150px"
+            },
+            "minHeight": {
+              "baseline": "0px",
+              "variant": "auto"
+            },
+            "gap": {
+              "baseline": "8px",
+              "variant": "normal"
+            }
+          }
         },
         "dataMode=url": {
           "effect": "changes-geometry",
           "bucket": "display",
           "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
+            "position": {
+              "baseline": "absolute",
+              "variant": "static"
             },
             "width": {
-              "baseline": "963.5px",
+              "baseline": "56.9062px",
               "variant": "1370px"
             },
             "height": {
-              "baseline": "150px",
+              "baseline": "24px",
               "variant": "134.141px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
             },
             "flexWrap": {
               "baseline": "nowrap",
               "variant": "wrap"
             },
-            "marginBottom": {
-              "baseline": "0px",
-              "variant": "5px"
+            "gap": {
+              "baseline": "8px",
+              "variant": "normal"
+            },
+            "justifyContent": {
+              "baseline": "center",
+              "variant": "normal"
             }
           }
         },
         "dataMode=entityType": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "isAxisTimeSeries=true": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "isGroupingTimeSeries=true": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showTitle=true": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showLegend=true": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showXAxisScale=true": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "axisPropertyLabel=txt": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showYAxisScale=true": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "valuePropertyLabel=txt": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "orderDirection=asc": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "orderDirection=desc": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=sum": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=count": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=average": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=min": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=max": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "strokeWidth=17": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "hidden": {
           "effect": "not-measured",
@@ -13767,46 +11876,36 @@
       "renderStatus": "renders",
       "settings": {
         "desktop.dimensions.width=317px": {
-          "effect": "changes-style",
-          "bucket": "appearance",
-          "cssDelta": {
-            "width": {
-              "baseline": "963.5px",
-              "variant": "253px"
-            },
-            "control.width": {
-              "baseline": "963.5px",
-              "variant": "253px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "appearance"
         },
         "desktop.dimensions.height=117px": {
           "effect": "changes-geometry",
           "bucket": "appearance",
           "cssDelta": {
             "display": {
-              "baseline": "block",
-              "variant": "flex"
+              "baseline": "flex",
+              "variant": "block"
             },
             "position": {
-              "baseline": "static",
-              "variant": "absolute"
+              "baseline": "absolute",
+              "variant": "static"
             },
             "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
+              "baseline": "56.9062px",
+              "variant": "963.5px"
             },
             "height": {
-              "baseline": "150px",
-              "variant": "24px"
+              "baseline": "24px",
+              "variant": "368px"
             },
             "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
+              "baseline": "0px",
+              "variant": "auto"
             },
             "gap": {
-              "baseline": "normal",
-              "variant": "8px"
+              "baseline": "8px",
+              "variant": "normal"
             }
           }
         },
@@ -13815,58 +11914,38 @@
           "bucket": "appearance",
           "cssDelta": {
             "display": {
-              "baseline": "block",
-              "variant": "flex"
+              "baseline": "flex",
+              "variant": "block"
             },
             "position": {
-              "baseline": "static",
-              "variant": "absolute"
+              "baseline": "absolute",
+              "variant": "static"
             },
             "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
+              "baseline": "56.9062px",
+              "variant": "963.5px"
             },
             "height": {
-              "baseline": "150px",
-              "variant": "24px"
+              "baseline": "24px",
+              "variant": "150px"
             },
             "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
+              "baseline": "0px",
+              "variant": "auto"
             },
             "gap": {
-              "baseline": "normal",
-              "variant": "8px"
+              "baseline": "8px",
+              "variant": "normal"
             }
           }
         },
         "desktop.background=gradient": {
-          "effect": "changes-geometry",
+          "effect": "changes-style",
           "bucket": "appearance",
           "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
+            "subtree.backgroundImage": {
+              "baseline": "none",
+              "variant": "linear-gradient(to right, rgb(255, 0, 170), rgb(0, 255, 0)) | none"
             }
           }
         },
@@ -13875,530 +11954,112 @@
           "bucket": "appearance",
           "cssDelta": {
             "subtree.boxShadow": {
-              "baseline": "none",
-              "variant": "none | rgb(0, 0, 0) 17px 17px 17px 0px"
+              "baseline": "none | rgba(0, 0, 0, 0.1) 0px 2px 10px 0px | rgba(0, 0, 0, 0.15) 0px 2px 8px 0px",
+              "variant": "none | rgb(0, 0, 0) 17px 17px 17px 0px | rgba(0, 0, 0, 0.1) 0px 2px 10px 0px | rgba(0, 0, 0, 0.15) 0px 2px 8px 0px"
             }
           }
         },
         "stylingBox=stylingBox17": {
-          "effect": "renders",
-          "bucket": "appearance",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "appearance"
         },
         "dataMode=url": {
           "effect": "changes-geometry",
           "bucket": "display",
           "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
+            "position": {
+              "baseline": "absolute",
+              "variant": "static"
             },
             "width": {
-              "baseline": "963.5px",
+              "baseline": "56.9062px",
               "variant": "1370px"
             },
             "height": {
-              "baseline": "150px",
+              "baseline": "24px",
               "variant": "134.141px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
             },
             "flexWrap": {
               "baseline": "nowrap",
               "variant": "wrap"
             },
-            "marginBottom": {
-              "baseline": "0px",
-              "variant": "5px"
+            "gap": {
+              "baseline": "8px",
+              "variant": "normal"
+            },
+            "justifyContent": {
+              "baseline": "center",
+              "variant": "normal"
             }
           }
         },
         "dataMode=entityType": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "canvas pixels differ (visual change not visible in CSS)"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "isAxisTimeSeries=true": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "isGroupingTimeSeries=true": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showTitle=true": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showLegend=true": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showXAxisScale=true": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "axisPropertyLabel=txt": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "showYAxisScale=true": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "valuePropertyLabel=txt": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "orderDirection=asc": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "orderDirection=desc": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=sum": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=count": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=average": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=min": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "aggregationMethod=max": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "strokeWidth=17": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "display": {
-              "baseline": "block",
-              "variant": "flex"
-            },
-            "position": {
-              "baseline": "static",
-              "variant": "absolute"
-            },
-            "width": {
-              "baseline": "963.5px",
-              "variant": "56.9062px"
-            },
-            "height": {
-              "baseline": "150px",
-              "variant": "24px"
-            },
-            "minHeight": {
-              "baseline": "auto",
-              "variant": "0px"
-            },
-            "gap": {
-              "baseline": "normal",
-              "variant": "8px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "hidden": {
           "effect": "not-measured",
@@ -14489,7 +12150,7 @@
           "notes": "no editorType and no heuristic match"
         }
       },
-      "consoleErrors": 3
+      "consoleErrors": 19
     },
     "processMonitor": {
       "renderStatus": "renders",
@@ -14537,7 +12198,7 @@
           "bucket": "display"
         }
       },
-      "consoleErrors": 20
+      "consoleErrors": 22
     },
     "profileDropdown": {
       "renderStatus": "renders",
@@ -15339,7 +13000,7 @@
           "cssDelta": {
             "wrapper.height": {
               "baseline": "42px",
-              "variant": "132px"
+              "variant": "162px"
             }
           }
         },
@@ -15596,29 +13257,36 @@
           "bucket": "appearance"
         },
         "placeholder=txt": {
-          "effect": "renders",
-          "bucket": "display",
-          "notes": "text/attribute difference only"
+          "effect": "no-op",
+          "bucket": "display"
         },
         "description=txt": {
           "effect": "changes-geometry",
           "bucket": "display",
           "cssDelta": {
+            "subtree.display": {
+              "baseline": "block | flex | inline-flex",
+              "variant": "block | flex | inline | inline-flex"
+            },
             "subtree.marginLeft": {
-              "baseline": "0px | 1px",
-              "variant": "0px | 1px | 4px"
+              "baseline": "0px",
+              "variant": "0px | 4px"
             },
             "subtree.color": {
-              "baseline": "rgb(84, 84, 84) | rgba(0, 0, 0, 0.75) | rgba(0, 0, 0, 0.88)",
-              "variant": "rgb(84, 84, 84) | rgba(0, 0, 0, 0.45) | rgba(0, 0, 0, 0.75) | rgba(0, 0, 0, 0.88)"
+              "baseline": "rgba(0, 0, 0, 0.88)",
+              "variant": "rgba(0, 0, 0, 0.45) | rgba(0, 0, 0, 0.88)"
+            },
+            "subtree.textAlign": {
+              "baseline": "end | start",
+              "variant": "center | end | start"
             },
             "subtree.borderTopColor": {
-              "baseline": "rgb(218, 218, 218) | rgba(0, 0, 0, 0) | rgba(0, 0, 0, 0.75) | rgba(0, 0, 0, 0.88) | rgba(118, 118, 118, 0.3)",
-              "variant": "rgb(218, 218, 218) | rgba(0, 0, 0, 0) | rgba(0, 0, 0, 0.45) | rgba(0, 0, 0, 0.75) | rgba(0, 0, 0, 0.88) | rgba(118, 118, 118, 0.3)"
+              "baseline": "rgba(0, 0, 0, 0.88)",
+              "variant": "rgba(0, 0, 0, 0.45) | rgba(0, 0, 0, 0.88)"
             },
             "subtree.cursor": {
-              "baseline": "auto | default | pointer",
-              "variant": "auto | default | help | pointer"
+              "baseline": "auto | default",
+              "variant": "auto | default | help"
             }
           }
         },
@@ -15667,22 +13335,8 @@
           "bucket": "display"
         },
         "preset=inline": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "wrapper.height": {
-              "baseline": "210px",
-              "variant": "167px"
-            },
-            "subtree.backgroundColor": {
-              "baseline": "rgb(245, 245, 246) | rgb(255, 255, 255) | rgba(0, 0, 0, 0) | rgba(239, 239, 239, 0.3)",
-              "variant": "rgb(255, 255, 255) | rgba(0, 0, 0, 0) | rgba(239, 239, 239, 0.3)"
-            },
-            "subtree.borderTopColor": {
-              "baseline": "rgb(218, 218, 218) | rgba(0, 0, 0, 0) | rgba(0, 0, 0, 0.75) | rgba(0, 0, 0, 0.88) | rgba(118, 118, 118, 0.3)",
-              "variant": "rgba(0, 0, 0, 0) | rgba(0, 0, 0, 0.75) | rgba(0, 0, 0, 0.88) | rgba(118, 118, 118, 0.3)"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "direction=rtl": {
           "effect": "no-op",
@@ -15693,7 +13347,7 @@
           "bucket": "display"
         },
         "showCharsCounter=false": {
-          "effect": "changes-geometry",
+          "effect": "no-op",
           "bucket": "display"
         },
         "enter=BR": {
@@ -15701,17 +13355,11 @@
           "bucket": "display"
         },
         "enter=P": {
-          "effect": "changes-geometry",
-          "bucket": "display",
-          "cssDelta": {
-            "wrapper.height": {
-              "baseline": "210px",
-              "variant": "213px"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "enter=DIV": {
-          "effect": "changes-geometry",
+          "effect": "no-op",
           "bucket": "display"
         },
         "saveHeightInStorage=17": {
@@ -15723,26 +13371,8 @@
           "bucket": "display"
         },
         "theme=dark": {
-          "effect": "changes-style",
-          "bucket": "display",
-          "cssDelta": {
-            "subtree.color": {
-              "baseline": "rgb(84, 84, 84) | rgba(0, 0, 0, 0.75) | rgba(0, 0, 0, 0.88)",
-              "variant": "rgb(209, 204, 204) | rgb(84, 84, 84) | rgba(0, 0, 0, 0.75) | rgba(0, 0, 0, 0.88)"
-            },
-            "subtree.backgroundColor": {
-              "baseline": "rgb(245, 245, 246) | rgb(255, 255, 255) | rgba(0, 0, 0, 0) | rgba(239, 239, 239, 0.3)",
-              "variant": "rgb(255, 255, 255) | rgb(87, 87, 87) | rgb(95, 92, 92) | rgba(0, 0, 0, 0) | rgba(239, 239, 239, 0.3)"
-            },
-            "subtree.backgroundImage": {
-              "baseline": "none | repeating-linear-gradient(rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 37px, rgb(218, 218, 218) 38px)",
-              "variant": "none | repeating-linear-gradient(rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 37px, rgb(107, 107, 107) 38px)"
-            },
-            "subtree.borderTopColor": {
-              "baseline": "rgb(218, 218, 218) | rgba(0, 0, 0, 0) | rgba(0, 0, 0, 0.75) | rgba(0, 0, 0, 0.88) | rgba(118, 118, 118, 0.3)",
-              "variant": "rgb(107, 107, 107) | rgb(209, 204, 204) | rgb(218, 218, 218) | rgba(0, 0, 0, 0) | rgba(0, 0, 0, 0.75) | rgba(0, 0, 0, 0.88) | rgba(118, 118, 118, 0.3)"
-            }
-          }
+          "effect": "no-op",
+          "bucket": "display"
         },
         "hideLabel": {
           "effect": "not-measured",
@@ -18601,5 +16231,17 @@
       }
     }
   },
-  "measuredAt": "2026-07-22T11:47:26.678Z"
+  "measuredAt": "2026-07-28T13:44:58.104Z",
+  "provenance": {
+    "backend": "http://localhost:21021",
+    "portal": "http://localhost:3000",
+    "gymEntity": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "gymEntityRowCount": 16,
+    "module": "boxfusion.test",
+    "moduleId": "25b8c2af-117d-420e-9a4c-6ef3e192a18f",
+    "kbGeneratedAt": null,
+    "baselineOnly": false,
+    "onlyTypes": null,
+    "note": "A no-op measured against an entity with no rows is not evidence that the setting does nothing."
+  }
 }
