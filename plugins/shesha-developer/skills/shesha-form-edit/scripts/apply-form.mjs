@@ -171,6 +171,13 @@ function writeEvidence() {
   fs.writeFileSync(`${file}.sha256`, bundleDigest);
   recordLedger(file, bundleDigest);
   console.error(`\nevidence: ${file}`);
+  // THE RETURN VALUE. stdout carries the evidence path and nothing else, on EVERY
+  // terminal outcome — success, failure, dry-run. The exit code says what happened; the
+  // path says where to look. A dispatched agent returns these two things instead of a
+  // prose summary, and the caller verifies the bundle rather than believing the agent.
+  // Emitting it only on success (the earlier shape) left a failed or dry run with empty
+  // stdout, so the caller had nothing to check and had to fall back to trusting narration.
+  console.log(file);
   return file;
 }
 
@@ -333,6 +340,5 @@ if (has('--no-browser')) {
 
 // ---- 8. record ----------------------------------------------------------------
 evidence.status = has('--no-browser') ? 'pushed-unrendered' : 'verified';
-const file = writeEvidence();
+writeEvidence();   // emits the evidence path on stdout
 console.error(`\napply OK — ${moduleName}/${formName} (${evidence.form.id ?? 'no id'}), status=${evidence.status}`);
-console.log(file);

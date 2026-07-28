@@ -38,17 +38,27 @@ bindings — plus the `assertions` that will be re-measured after the build, and
 Measurement is the point. A blueprint written from prose intuition is a prose brief with
 better formatting.
 
-## 4 · Build
+## 4 · Build — one dispatch per screen, from this thread
 
-One `shesha-form-edit` dispatch per screen: compile the blueprint, gate it, push it, verify it.
-The screen's own verification belongs to that dispatch — the conductor reads the verdict rather
-than re-deriving it.
+The main thread fans out; no agent dispatches anything, so approval stays where a human can
+reach it. Each `shesha-frontend-engineer` runs two commands and returns **an evidence bundle
+path and an exit code** — not a summary:
 
-## 5 · Aggregate
+```
+node scripts/compile-blueprint.js --blueprint <bp.json> --metadata <Entity>.probe.json --out <form.json>
+node scripts/apply-form.mjs --form <form.json> --module <mod> --name <form>
+```
 
-Per screen: form id, gate results, oracle verdict, placement outcome, visual verdict, and the
-probe/screenshot paths behind them. Anything a delegate could not verify stays UNVERIFIED. If
-a design detail cannot be expressed in Shesha, say so rather than approximating it silently.
+## 5 · Aggregate — verify the evidence
+
+```
+node scripts/verify-evidence.mjs <bundle> [...] | --ledger [--json]
+```
+
+Exits non-zero if any screen is unverified, and catches a screen whose agent claimed success
+while its bundle records a failure. Build the report from that output — per screen the form
+id, status and bundle path. Anything it did not pass stays UNVERIFIED. If a design detail
+cannot be expressed in Shesha, say so rather than approximating it silently.
 
 ## Approval boundaries
 

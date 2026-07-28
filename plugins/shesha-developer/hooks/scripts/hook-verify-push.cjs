@@ -26,9 +26,7 @@
 const fs = require('fs');
 const path = require('path');
 const paths = require('../../skills/shesha-form-edit/scripts/gym-lib/paths.cjs');
-const crypto = require('crypto');
-
-const OK_STATUSES = new Set(['verified', 'abandoned']);
+const evidence = require('../../skills/shesha-form-edit/scripts/gym-lib/evidence.cjs');
 
 function main() {
   let payload = {};
@@ -56,46 +54,12 @@ function main() {
   const entries = Array.isArray(ledger) ? ledger : ledger.entries || [];
   if (!entries.length) return 0;
 
-  const problems = [];
-  for (const e of entries) {
-    const at = `${e?.module ?? '?'}/${e?.form ?? '?'}`;
-
-    if (!e?.evidence) {
-      problems.push(`${at}: ledger entry has no evidence path — it was not written by apply-form.mjs`);
-      continue;
-    }
-    if (!fs.existsSync(e.evidence)) {
-      problems.push(`${at}: evidence bundle missing at ${e.evidence}`);
-      continue;
-    }
-
-    let body;
-    try { body = fs.readFileSync(e.evidence, 'utf8'); } catch (err) {
-      problems.push(`${at}: evidence bundle unreadable (${err.message})`);
-      continue;
-    }
-
-    const actual = crypto.createHash('sha256').update(body).digest('hex');
-    if (e.evidenceSha256 && actual !== e.evidenceSha256) {
-      problems.push(`${at}: evidence bundle does not match its recorded digest — it was modified after the run`);
-      continue;
-    }
-
-    let bundle;
-    try { bundle = JSON.parse(body); } catch (err) {
-      problems.push(`${at}: evidence bundle is not valid JSON (${err.message})`);
-      continue;
-    }
-
-    if (bundle.markupSha256 && e.markupSha256 && bundle.markupSha256 !== e.markupSha256) {
-      problems.push(`${at}: the bundle is evidence for different markup than the ledger claims`);
-      continue;
-    }
-    if (!OK_STATUSES.has(bundle.status)) {
-      const why = bundle.failure ? ` (${String(bundle.failure).slice(0, 120)})` : '';
-      problems.push(`${at}: evidence records status="${bundle.status}"${why}`);
-    }
-  }
+  // The verification rules live in gym-lib/evidence.cjs so this gate and the aggregate
+  // checker (scripts/verify-evidence.mjs) cannot drift apart.
+  const problems = entries
+    .map((e) => evidence.verifyEntry(e))
+    .filter((r) => !r.ok)
+    .map((r) => `${r.at}: ${r.problem}`);
 
   if (!problems.length) return 0;
 

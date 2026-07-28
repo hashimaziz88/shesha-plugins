@@ -165,3 +165,89 @@ test('the block message names the one supported push path', () => {
   writeLedger(dir, [entry()]);
   assert.match(runHook(dir).stderr, /apply-form\.mjs/);
 });
+
+// ---------------------------------------------------------------- aggregate verifier
+// The conductor runs this instead of believing what a dispatched agent said. It shares its
+// rules with the Stop hook via gym-lib/evidence.cjs, so the two cannot drift.
+
+const VERIFY = path.resolve(HERE, '..', 'scripts', 'verify-evidence.mjs');
+
+function runVerify(args, cwd) {
+  const r = spawnSync(process.execPath, [VERIFY, ...args], {
+    cwd: cwd ?? process.cwd(), encoding: 'utf8',
+    env: { ...process.env, CLAUDE_PROJECT_DIR: cwd ?? process.cwd() },
+  });
+  return { status: r.status, stdout: r.stdout ?? '', stderr: r.stderr ?? '' };
+}
+
+test('verify-evidence accepts a verified bundle passed by path', () => {
+  const dir = sandbox();
+  const ev = writeEvidence(dir, { status: 'verified' });
+  const r = runVerify([ev.evidence], dir);
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /1\/1 screen\(s\) verified/);
+});
+
+test('verify-evidence rejects a bundle recording a failure', () => {
+  const dir = sandbox();
+  const ev = writeEvidence(dir, { status: 'failed' });
+  const r = runVerify([ev.evidence], dir);
+  assert.equal(r.status, 1);
+  assert.match(r.stderr, /status="failed"/);
+});
+
+test('verify-evidence rejects a hand-edited bundle on its sidecar digest', () => {
+  // The agent returns only a path, so tampering is the obvious attack on this boundary.
+  const dir = sandbox();
+  const ev = writeEvidence(dir, { status: 'failed' });
+  fs.writeFileSync(ev.evidence, fs.readFileSync(ev.evidence, 'utf8').replace('"failed"', '"verified"'));
+  const r = runVerify([ev.evidence], dir);
+  assert.equal(r.status, 1);
+  assert.match(r.stderr, /sidecar digest/);
+});
+
+test('verify-evidence rejects a missing bundle', () => {
+  const dir = sandbox();
+  const r = runVerify([path.join(dir, 'nope.evidence.json')], dir);
+  assert.equal(r.status, 1);
+  assert.match(r.stderr, /missing/);
+});
+
+test('verify-evidence --ledger verifies every recorded push', () => {
+  const dir = sandbox();
+  const ev = writeEvidence(dir, { status: 'verified' });
+  writeLedger(dir, [entry(ev)]);
+  const r = runVerify(['--ledger'], dir);
+  assert.equal(r.status, 0, r.stderr);
+});
+
+test('verify-evidence --ledger fails when no push was recorded', () => {
+  // "I built five screens" must not pass against an empty ledger.
+  const r = runVerify(['--ledger'], sandbox());
+  assert.equal(r.status, 1);
+  assert.match(r.stderr + r.stdout, /no push ledger/);
+});
+
+test('verify-evidence --json reports per-screen status and recovers form identity', () => {
+  const dir = sandbox();
+  const ev = writeEvidence(dir, { status: 'verified' });
+  const r = runVerify([ev.evidence, '--json'], dir);
+  assert.equal(r.status, 0);
+  const out = JSON.parse(r.stdout);
+  assert.equal(out.verified, true);
+  assert.equal(out.total, 1);
+  assert.equal(out.screens[0].form, 'mod/form');       // read from the bundle, not the args
+  assert.equal(out.screens[0].status, 'verified');
+});
+
+test('verify-evidence and the Stop hook agree on the same ledger', () => {
+  // They share gym-lib/evidence.cjs precisely so they cannot disagree.
+  for (const status of ['verified', 'failed', 'pushed-unrendered']) {
+    const dir = sandbox();
+    const ev = writeEvidence(dir, { status });
+    writeLedger(dir, [entry({ ...ev, status })]);
+    const v = runVerify(['--ledger'], dir).status === 0;
+    const h = runHook(dir).status === 0;
+    assert.equal(v, h, `verifier and hook disagree for status="${status}"`);
+  }
+});

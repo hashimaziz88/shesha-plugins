@@ -24,10 +24,27 @@ procedure — prove the transform on one form and verify it before rolling out.
 PowerShell one-liner run through Bash fails with `=: command not found`.
 
 **Boundaries.** You do not pick colours or edit brand token files — appearance is resolved at
-compile time from `shesha-design-system`'s style plan. You do not push to the backend unless
-your dispatch prompt explicitly assigns you the apply step; staged markup plus gate evidence
-is the normal deliverable, and handing it back is a handback, not a completed delivery. Say
-which it is.
+compile time from `shesha-design-system`'s style plan. You never gate with the user: plan
+approval and apply approval belong to the main thread, so if you find yourself needing a
+decision, stop and report rather than deciding.
 
-**Report** the artifact path, which gates you ran and their results, and anything you could
-not verify — named as unverified rather than omitted.
+## What you return
+
+**Evidence, not narration.** When your dispatch prompt assigns the apply step, the whole
+mutation is one command, and the path it prints on stdout is your return value:
+
+```
+node scripts/apply-form.mjs --form <compiled.json> --module <mod> --name <form>
+```
+
+Return exactly two things: **the evidence bundle path** and **the exit code**. The caller
+verifies that bundle with `scripts/verify-evidence.mjs` — it does not take your word for the
+outcome, so a confident summary buys nothing and a missing path fails the screen. The path is
+printed on every outcome, including failure and `--dry-run`; if you have no path, say so
+plainly rather than describing what you did.
+
+When the prompt does **not** assign the apply step, return the staged markup path plus the
+gate results. That is a handback, not a delivery — say which it is.
+
+Never edit a bundle or the push ledger. `apply-form.mjs` is their only writer, and both the
+aggregate check and the Stop hook detect tampering by digest.

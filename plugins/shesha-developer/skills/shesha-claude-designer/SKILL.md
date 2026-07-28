@@ -1,20 +1,18 @@
 ---
 name: shesha-claude-designer
-description: Realises a DESIGN SOURCE as Shesha designer forms — a mockup, screenshot set, HTML/JSX prototype, runnable app or Figma-style kit — and delivers multi-screen apps end to end. Triggers: "build this design in Shesha", "implement this mockup across the app", "make the portal match these screens". It routes by weight, extracts brand tokens plus a screen inventory, then delegates each screen to shesha-design-comprehension (measure), shesha-form-edit (compile, gate, push, verify) and shesha-design-system (tokens), and aggregates their evidence. NOT for a single form described only in prose with no design source, and NOT for editing one known form — both go straight to shesha-form-edit. NOT for a custom React screen: that is shesha-custom-page-designer.
+description: Realises a DESIGN SOURCE as Shesha designer forms — a mockup, screenshot set, HTML/JSX prototype, runnable app or Figma-style kit — and delivers multi-screen apps end to end. Triggers: "build this design in Shesha", "implement this mockup across the app", "make the portal match these screens". It routes by weight, extracts brand tokens plus a screen inventory, then dispatches one shesha-frontend-engineer per screen to compile and apply it, and verifies the evidence bundles they return. NOT for a single form described only in prose with no design source, and NOT for editing one known form — both go straight to shesha-form-edit. NOT for a custom React screen: that is shesha-custom-page-designer.
 ---
 
 # Shesha Claude Designer
 
-A **router and planner**, not a pipeline. It owns exactly four things:
+A **router and planner**, not a pipeline. It owns four things: routing the request, ingesting
+a design source into tokens plus a screen inventory, planning and sequencing the screens, and
+verifying the evidence its delegates return.
 
-1. routing an incoming request to the skill that should handle it,
-2. ingesting a design source into brand tokens plus a screen inventory,
-3. planning and sequencing the screens,
-4. aggregating the evidence its delegates return.
-
-It authors no form JSON, picks no colours, runs no gates and never pushes. Each screen's
-build is owned end to end by `shesha-form-edit`, including that screen's verification —
-this skill reads the evidence, it does not re-derive it.
+It authors no form JSON, picks no colours, runs no gates and never pushes. Each screen is
+executed by a dispatched `shesha-frontend-engineer` running `shesha-form-edit`'s two CLIs,
+and it returns an evidence bundle path — this skill **verifies** that evidence rather than
+re-deriving or believing it.
 
 Full intent table: [plugin `instructions/routing.md`](../../instructions/routing.md).
 Session rules and the dispatch contract: `shesha-form-edit/references/contracts.md`.
@@ -39,8 +37,8 @@ let the receiving skill own the run including its summary. Do not stay in the lo
 ## 2 · Pre-flight (once per run)
 
 One shell, one `<workdir>`, one authentication (cached BOM-free token), one scoped metadata
-fetch per entity, one confirmation gate. Recipes: `shesha-form-edit/references/contracts.md`
-§1–3. Append one line per phase to `<workdir>/run-log.md` so wall-clock is attributable.
+fetch per entity, one confirmation gate — recipes in `contracts.md` §1–3. Log one line per
+phase to `<workdir>/run-log.md` so wall-clock is attributable.
 
 ## 3 · Ingest the design
 
@@ -52,15 +50,11 @@ Classify the source by fidelity tier, because it determines what can be trusted:
 | B | Runnable prototype or app | **Serve it and probe the rendered DOM.** Never parse a minified bundle statically |
 | C | Screenshots or PDF | Vision-read spatial layout. `markitdown` gives a content outline **only** — it flattens 2-D layout by design, so it is never the source of placement |
 
-Emit two artifacts and nothing else:
-
-- **the token set** — palette, type scale, spacing, radius, shadow, status lifecycle, written
-  as a `shesha-design-system` `<brand>.tokens.json` (copy `shesha.tokens.json`, swap the
-  values, keep every key name so `roles.*` still resolves);
-- **the screen inventory** — per screen: name, type, entity, chrome notes.
-
-Column-level layout is not this step's job. That is measurement, and it belongs to
-`shesha-design-comprehension`.
+Emit two artifacts and nothing else: **the token set** (palette, type, spacing, radius,
+shadow, status lifecycle → a `shesha-design-system` `<brand>.tokens.json`; copy
+`shesha.tokens.json`, swap values, keep every key name so `roles.*` resolves) and **the
+screen inventory** (per screen: name, type, entity, chrome notes). Column-level layout is
+measurement, and belongs to `shesha-design-comprehension`.
 
 ## 4 · Plan the screens
 
@@ -75,39 +69,55 @@ must never silently repaint the whole portal.
 
 ## 5 · Delegate per screen
 
-The parallel axis is the **screen**. For 2+ screens, fan out one dispatch per screen;
-barriers (theme, then push, then report) stay serial.
+The parallel axis is the **screen**, and **this thread does the fanning out** — one dispatch
+per screen, so approval stays here and no agent needs to dispatch anything.
 
 - **Measure** — `Skill(shesha-developer:shesha-design-comprehension)` per screen, in
   parallel. Returns `<workdir>/blueprints/<screen>.blueprint.md` plus its `blueprint-json`
   twin and the saved probe.
-- **Build** — one `shesha-form-edit` dispatch per screen: *"compile
-  `<workdir>/blueprints/<screen>.blueprint.json`; return pushed and verified form facts."*
-  Form-edit owns compile → gates → push → oracle, and the oracle includes the visual
-  verdict. Brand tokens are resolved at compile time, so there is no separate styling pass
-  to schedule.
+- **Build** — one `shesha-frontend-engineer` dispatch per screen. Execution is two commands,
+  so the brief is short:
 
-Every dispatch carries the pre-flight state (pinned shell, workdir, token-file path) — an
-agent that has to re-pick a shell or re-authenticate re-breaks quoting and wastes the run.
+  > Compile `<workdir>/blueprints/<screen>.blueprint.json` with
+  > `scripts/compile-blueprint.js --metadata <workdir>/<Entity>.probe.json --theme <brand>`,
+  > then apply it with `scripts/apply-form.mjs --form <out> --module <mod> --name <form>`.
+  > Return the evidence bundle path it prints and the exit code. Nothing else.
+  > Pinned tool: PowerShell. `<workdir>`: `<path>` (token at `<workdir>/access-token` —
+  > reuse it, never re-authenticate).
 
-## 6 · Aggregate the evidence
+  The agent returns a **path and an exit code**, not prose. Brand tokens are resolved at
+  compile time, so there is no styling pass to schedule.
 
-One envelope for the run. Per screen: form module + name + id, the blueprint path, gate
-results, oracle verdict, placement outcome, visual verdict, and the probe/screenshot paths
-that back them. Plus the theme applied and the cross-links between screens.
+Barriers stay serial: the app theme is set once before any screen builds, and cross-linked
+screens push in list → detail → create order.
 
-Read the delegates' evidence — do not restate their summaries as your own conclusion, and do
-not re-run their checks. Anything a delegate reported as unverified stays **UNVERIFIED**
-here. If the frontend was not running, say "built, not visually verified" rather than "done".
-If a design detail cannot be expressed in Shesha, say so plainly instead of approximating it
-silently.
+## 6 · Aggregate from the evidence, not from the summaries
+
+Verify what came back rather than believing it — pass the returned paths, or `--ledger` for
+every push this session, and `--json` for a machine-readable envelope:
+
+```
+node skills/shesha-form-edit/scripts/verify-evidence.mjs <bundle> [...] | --ledger [--json]
+```
+
+It checks each bundle exists, still hashes to its recorded digest, and records a settled
+status, exiting non-zero if any screen is unverified. A screen whose agent reported success
+while its bundle says `failed` is caught here — an agent's narration is not evidence, and
+this thread never had to trust it.
+
+Build the report **from that output**: per screen the form module/name/id, status, and the
+bundle path behind it, plus the theme applied and the cross-links. Anything the verifier did
+not pass is reported **UNVERIFIED** — not "done", and not omitted. If the frontend was not
+running, the bundle says `pushed-unrendered` and that is what you report. If a design detail
+cannot be expressed in Shesha, say so plainly instead of approximating it silently.
 
 ## Boundaries
 
 - **Never author form JSON, pick a hex, or push.** Structure and every backend write belong
   to `shesha-form-edit`; appearance belongs to `shesha-design-system`; placement measurement
   belongs to `shesha-design-comprehension`.
-- **Never re-verify what a delegate already verified.** Duplicated gates were how this skill
-  grew into a second pipeline.
-- **Approval stays here.** Plan approval and any global-theme approval happen in this
-  conversation, never inside a dispatched agent.
+- **Verify the evidence, never re-run the delegate's gates.** Duplicated gates were how this
+  skill grew into a second pipeline; `verify-evidence.mjs` checks the bundles instead.
+- **Approval stays here, and so does the fan-out.** Plan approval and any global-theme
+  approval happen in this conversation, never inside a dispatched agent — which is also why
+  this thread dispatches one agent per screen rather than delegating the fan-out.
