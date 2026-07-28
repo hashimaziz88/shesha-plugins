@@ -25,6 +25,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const paths = require('../../skills/shesha-form-edit/scripts/gym-lib/paths.cjs');
 const crypto = require('crypto');
 
 const OK_STATUSES = new Set(['verified', 'abandoned']);
@@ -34,7 +35,9 @@ function main() {
   try { payload = JSON.parse(fs.readFileSync(0, 'utf8')); } catch { /* fall through */ }
   if (payload.stop_hook_active) return 0;
 
-  const ledgerPath = path.join(process.cwd(), '.claude', 'cache', 'shesha-form-edit', 'push-ledger.json');
+  // Same resolver the writer uses — anchoring both on cwd let a push run from a
+  // subdirectory write a ledger this hook would never find, silently allowing the stop.
+  const ledgerPath = paths.ledgerPath();
   if (!fs.existsSync(ledgerPath)) return 0;   // nothing claimed → nothing to verify
 
   let ledger;

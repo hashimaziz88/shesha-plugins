@@ -11,6 +11,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { GymApi } from './gym-lib/api.js';
+// One shared definition of where runtime output goes, used by the ESM scripts and the hooks.
+import paths from './gym-lib/paths.cjs';
 
 const args = process.argv.slice(2);
 const argVal = (name, dflt) => {
@@ -22,7 +24,10 @@ if (!formArg || !formArg.includes('/')) { console.error('usage: node render-inst
 const [module, ...nameParts] = formArg.split('/');
 const formName = nameParts.join('/');
 const PORTAL = argVal('--portal', 'http://localhost:3000');
-const OUT_DIR = argVal('--out', path.join(process.cwd(), 'render-verdicts'));
+// Output goes to the session workdir, never cwd — defaulting to cwd littered
+// render-verdicts/ into whatever directory the instrument happened to run from,
+// including the skill tree itself (contracts.md §3).
+const OUT_DIR = argVal('--out', paths.renderVerdictDir());
 const MODE = argVal('--mode', 'edit');
 const BUDGET_MS = 30000;
 

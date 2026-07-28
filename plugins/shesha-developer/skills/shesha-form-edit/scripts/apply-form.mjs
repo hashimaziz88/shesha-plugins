@@ -28,6 +28,8 @@ import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { GymApi } from './gym-lib/api.js';
+// One shared definition of where runtime output goes, used by the ESM scripts and the hooks.
+import paths from './gym-lib/paths.cjs';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const SKILL_DIR = path.resolve(SCRIPT_DIR, '..');
@@ -47,7 +49,8 @@ if (!formFile || !moduleName || !formName) {
 }
 
 const backend = argVal('--backend', process.env.SHESHA_BACKEND ?? 'http://localhost:21021');
-const evidenceDir = argVal('--evidence-dir', path.join(SKILL_DIR, 'evidence'));
+// Evidence goes to the session workdir, not the skill tree.
+const evidenceDir = argVal('--evidence-dir', paths.evidenceDir());
 const dryRun = has('--dry-run');
 
 const sha256 = (s) => crypto.createHash('sha256').update(s).digest('hex');
@@ -125,7 +128,9 @@ const step = (name, ok, detail) => {
 
 /** The push ledger the Stop hook reads. Written ONLY here — never hand-authored. */
 function recordLedger(evidenceFile, bundleDigest) {
-  const ledgerPath = path.join(process.cwd(), '.claude', 'cache', 'shesha-form-edit', 'push-ledger.json');
+  // Anchored on the project, not cwd: the hook that READS this must resolve the same
+  // path, and it runs from the project root while this may run from anywhere.
+  const ledgerPath = paths.ledgerPath();
   let ledger = { $schema: 'shesha-push-ledger/v2', entries: [] };
   try {
     const prior = JSON.parse(fs.readFileSync(ledgerPath, 'utf8'));

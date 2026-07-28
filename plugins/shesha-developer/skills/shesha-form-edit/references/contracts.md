@@ -16,7 +16,9 @@ Pick ONE shell per session and stick to it: **on Windows run every command throu
 
 ## 3. Scratch under $WORKDIR, never the project tree
 
-All scratch — build/push scripts, staged markup, probe dumps — goes in the session `$WORKDIR` (the orchestrator's `<workdir>`, else `$env:TEMP/shesha-form-edit/`). **Never** the user's project directory or cwd (litter erodes trust), and **never `/tmp`** (git-bash `/tmp` ≠ PowerShell `$env:TEMP` ≠ `C:\tmp` — files written in one shell are "not found" by the next). Pass values into Node via **env vars**, not positional argv. Prefer one combined fetch→mutate→push script over many small probe commands — each round-trip is paid context.
+All scratch — build/push scripts, staged markup, probe dumps — goes in the session `$WORKDIR` (the orchestrator's `<workdir>`, else `$env:TEMP/shesha-form-edit/`). **Never** a source folder, and **never `/tmp`** (git-bash `/tmp` ≠ PowerShell `$env:TEMP` ≠ `C:\tmp` — files written in one shell are "not found" by the next).
+
+**The one sanctioned in-project location** is `<project>/.claude/cache/shesha-form-edit/` — the push ledger, evidence bundles and render verdicts land there, because the Stop hook has to find the ledger the push wrote and both resolve it through `scripts/gym-lib/paths.cjs`. Anchoring that on `process.cwd()` instead meant a push run from a subdirectory wrote a ledger the hook never found, silently allowing a stop it should have blocked. Everything else stays out of the project: defaulting the render instrument to `cwd` previously dropped `render-verdicts/` into whichever folder it ran from, including the skill tree. Pass values into Node via **env vars**, not positional argv. Prefer one combined fetch→mutate→push script over many small probe commands — each round-trip is paid context.
 
 ## 4. Dispatch contract — agents return evidence, they never push and never style
 
