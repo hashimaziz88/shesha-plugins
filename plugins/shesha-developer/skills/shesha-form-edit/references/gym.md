@@ -70,6 +70,41 @@ On a new release:
 - `not-registered` renderStatus = the component type does not exist in the target
   runtime; its settings are `unknown`, never `no-op`.
 
+## What the gym does NOT measure — and why a rerun cannot fix it
+
+**The gym can only vary settings the KB lists for that component.** It is not a coverage
+oracle; `not-measured` means "no variant was generated", not "measured and inconclusive".
+No `reason` is recorded either, so an unmeasured row is indistinguishable from one that was
+never attempted. Measured 2026-07-28: **43% of setting rows (875 / 2034) are
+`not-measured`.**
+
+The consequence, verified rather than assumed:
+
+- `desktop.*` appearance paths are measured for **45 of 115** components — those whose KB
+  `settingsFields` happen to include them.
+- **`container` is not one of them.** Its KB carries 28 settings and **none** for `border`,
+  `border.radius`, `dimensions.minHeight` or `font` — so those channels can never be
+  measured for it, no matter how many times the gym is rerun.
+- The `hasStandardAppearance` flag is `true` for exactly **one** component (`image`), which
+  does not match the 45 that actually have appearance rows. The flag is not what drives
+  appearance measurement, and it is very likely a `generate-component-kb.js` detection gap.
+
+This is why 19 of the 34 rows in `shesha-design-system/assets/capability-matrix.json` sit at
+`unmeasured` — they document appearance *techniques* (container borders and radius, text
+letter-spacing, refListStatus pill colours, datatable header styling), and the gym generates
+no variants for them. Several of the rest need bound data or a parent record the gym has no
+way to supply (`permanentFilter by parent data.id`, collection counts, row-template
+conditional visibility).
+
+**Unmeasured is not the same as broken.** `container:desktop.dimensions.width` is unmeasured
+yet demonstrably works — the compiler emits it for the table-worklist toolbar and the rendered
+page puts the pager flush against the grid edge. Treat `unmeasured` as "no evidence either
+way" and rely on the renderer facts in `knowledge/frontend-conventions.md`; only a measured
+`no-op` is evidence of absence.
+
+Closing this gap means teaching the variant generator to vary the shared appearance block and
+to build data-bound fixtures — a change to the gym itself, not a rerun.
+
 ## Budget guards
 
 20s max wait per form, 2 retries, always continues past failures; matrix flushes
