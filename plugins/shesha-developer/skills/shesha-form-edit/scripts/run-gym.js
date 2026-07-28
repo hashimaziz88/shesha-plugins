@@ -73,6 +73,9 @@ const formNames = Object.keys(manifest.forms).sort()
 const api = new GymApi(BACKEND);
 await api.authenticate();
 
+/** Row count of the gym entity at measure time — recorded in matrix.provenance. */
+let gymEntityRowCount = null;
+
 // The committed manifest carries a module id from whichever backend last ran the gym.
 // Trusting it (the old `if (!manifest.module.id)`) made every Create fail with
 // "There is no entity Module with id = …" against any other backend — a 404 that reads
@@ -130,7 +133,21 @@ await api.authenticate();
     if (!has('--allow-missing-entity')) process.exitCode = 1;
     if (!has('--allow-missing-entity')) throw new Error('gym entity not registered');
   }
-  console.error(`gym entity: ${GYM_ENTITY} registered`);
+
+  // Row count matters as much as registration: an entity that exists but is EMPTY produces
+  // the same false no-ops, because a data-dependent setting genuinely does nothing when
+  // there is nothing to render. Recorded in the matrix provenance either way.
+  const shortName = GYM_ENTITY.split('.').pop();
+  const rows = await api.getJson(`/api/dynamic/${manifest.module.name}/${shortName}/Crud/GetAll?maxResultCount=1`);
+  gymEntityRowCount = rows.body?.result?.totalCount ?? null;
+  if (gymEntityRowCount === 0) {
+    console.error(
+      `WARNING: "${GYM_ENTITY}" is registered but has ZERO rows. Data-dependent settings will\n`
+      + `measure as no-ops because they genuinely do nothing with nothing to render. Seed a few\n`
+      + `rows spanning each reference-list value before trusting this matrix.`,
+    );
+  }
+  console.error(`gym entity: ${GYM_ENTITY} registered, ${gymEntityRowCount ?? '?'} row(s)`);
 }
 
 // --baseline-only: salvage mode for forms where a variant crashes the whole
@@ -199,6 +216,29 @@ const matrix = fs.existsSync(MATRIX_FILE)
   ? JSON.parse(fs.readFileSync(MATRIX_FILE, 'utf8'))
   : { generation: '0.45', sheshaVersion: '0.45.0', components: {} };
 matrix.measuredAt = new Date().toISOString();
+
+// PROVENANCE. The conditions of a run change its answers, and without recording them a
+// reader cannot tell a real no-op from an artifact. Two concrete cases seen on this repo:
+// a run against a backend where the gym entity did not exist reported every data-dependent
+// setting as no-op; and a chart whose baseline rendered a placeholder while its variants
+// rendered a real chart attributed one container-level `display: block → flex` delta to all
+// 18 of its settings as changes-geometry. Neither is visible from measuredAt alone.
+matrix.provenance = {
+  backend: BACKEND,
+  portal: PORTAL,
+  gymEntity: GYM_ENTITY,
+  gymEntityRowCount: gymEntityRowCount,
+  module: manifest.module.name,
+  moduleId: manifest.module.id,
+  kbGeneratedAt: (() => {
+    try {
+      return JSON.parse(fs.readFileSync(path.join(SCRIPT_DIR, '..', 'assets', 'components-kb', '_meta.json'), 'utf8')).generated ?? null;
+    } catch { return null; }
+  })(),
+  baselineOnly: BASELINE_ONLY,
+  onlyTypes: ONLY.length ? ONLY : null,
+  note: 'A no-op measured against an entity with no rows is not evidence that the setting does nothing.',
+};
 const saveMatrix = () => {
   const sorted = { ...matrix, components: {} };
   for (const k of Object.keys(matrix.components).sort()) sorted.components[k] = matrix.components[k];
