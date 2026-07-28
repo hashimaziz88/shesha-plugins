@@ -296,10 +296,19 @@ async function main() {
 
       // Guid FKs surfacing as numbers/booleans mean the junction extends Entity<Guid>
       // rather than FullAuditedEntity<Guid> — the M:M typing trap.
+      //
+      // ABP's audit user ids are `long` BY DESIGN, not Guid FKs, so a bare /id$/ match
+      // flags them on every healthy entity — it reported creatorUserId=number as a
+      // blocker on a freshly created, correctly typed Asset. Exclude them by name.
+      const AUDIT_USER_IDS = new Set([
+        'creatoruserid', 'deleteruserid', 'lastmodifieruserid', 'modifieruserid', 'tenantid',
+      ]);
       const rows = c.reachable ? itemsOf(crud.json) : [];
       if (rows.length) {
         const suspect = Object.entries(rows[0])
-          .filter(([k, v]) => /id$/i.test(k) && v != null && typeof v !== 'string' && typeof v !== 'object')
+          .filter(([k, v]) => /id$/i.test(k)
+            && !AUDIT_USER_IDS.has(k.toLowerCase())
+            && v != null && typeof v !== 'string' && typeof v !== 'object')
           .map(([k, v]) => `${k}=${typeof v}`);
         if (suspect.length) {
           entry.dtoTyping = {
