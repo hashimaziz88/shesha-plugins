@@ -255,7 +255,11 @@ async function main() {
     // A form bound to an entity whose CRUD endpoint is down renders and then fails
     // silently on submit, so this is a prerequisite, not a nicety.
     if (entry.fullClassName && !entry.entityMissing) {
-      const crudPath = `/api/dynamic/${moduleSummary.name}/${entry.name}/Crud/GetAll?${qs({ maxResultCount: 1 })}`;
+      // The dynamic CRUD route is keyed on the ENTITY's own module, not the module the
+      // form will live in. Using the form's module 404s for any entity defined
+      // elsewhere — e.g. a form in "boxfusion.test" bound to Shesha.Domain.Site.
+      const entityModule = entry.modelType?.module || moduleSummary.name;
+      const crudPath = `/api/dynamic/${entityModule}/${entry.name}/Crud/GetAll?${qs({ maxResultCount: 1 })}`;
       const crud = await getJson(crudPath);
       const c = { route: crudPath, status: crud.status, reachable: crud.status === 200 };
       if (crud.status === 400) {
@@ -376,7 +380,10 @@ async function main() {
   if (!summary.ready) {
     console.error(`\nNOT READY — ${summary.blockers.length} blocker(s):`);
     for (const b of summary.blockers) console.error(`  - ${b}`);
-    process.exit(1);
+    // Set exitCode rather than calling process.exit(): fetch keeps its sockets alive
+    // briefly, and exiting while those handles are open trips a libuv assertion on
+    // Windows and reports 127 instead of 1 — which defeats gating on the exit code.
+    process.exitCode = 1;
   }
 }
 

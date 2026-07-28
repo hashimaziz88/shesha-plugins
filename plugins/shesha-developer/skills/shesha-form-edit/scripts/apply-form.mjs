@@ -52,6 +52,22 @@ const dryRun = has('--dry-run');
 
 const sha256 = (s) => crypto.createHash('sha256').update(s).digest('hex');
 
+/** Thrown by fail() once the reason has already been reported and evidence written. */
+class ApplyFailed extends Error {}
+/** Thrown to end a --dry-run cleanly. */
+class DryRunComplete extends Error {}
+// These throw instead of calling process.exit so pending sockets can close first: exiting
+// while fetch's keepalive handles are closing trips a libuv assertion on Windows and
+// reports 127, which would defeat gating on the exit code. Reasons are already on stderr,
+// so swallow the trace and let the already-set exitCode stand.
+for (const ev of ['uncaughtException', 'unhandledRejection']) {
+  process.on(ev, (e) => {
+    if (e instanceof ApplyFailed || e instanceof DryRunComplete) return;
+    console.error(`apply-form crashed: ${e?.stack ?? e}`);
+    process.exitCode = 1;
+  });
+}
+
 /** Server-side normalisations that are not real differences. */
 function canonical(markup) {
   const walk = (v) => {
@@ -158,7 +174,11 @@ function fail(reason) {
   evidence.failure = reason;
   writeEvidence();
   console.error(`\napply FAILED: ${reason}`);
-  process.exit(1);
+  // Set exitCode and throw rather than process.exit(): exiting while fetch's keepalive
+  // sockets are open trips a libuv assertion on Windows and reports 127 instead of 1,
+  // which would defeat gating on the exit code.
+  process.exitCode = 1;
+  throw new ApplyFailed(reason);
 }
 
 // ---- 1. stage -----------------------------------------------------------------
@@ -222,17 +242,40 @@ if (dryRun) {
   evidence.status = 'dry-run';
   writeEvidence();
   console.error('\n--dry-run: stopped before mutating.');
-  process.exit(0);
+  // Throw rather than process.exit(0): the socket-close assertion above applies to a
+  // clean exit too, and would report 127 for a successful dry run.
+  throw new DryRunComplete();
 }
 
 // ---- 5. push ------------------------------------------------------------------
+/**
+ * The Create ENVELOPE takes modelType as the entity's full class name STRING, while
+ * formSettings.modelType inside the markup is the {name, module} object [R-016]. Same key,
+ * two different shapes — passing the object through produces a JSON parse error 400 from
+ * the server ("Unexpected character encountered while parsing value: {. Path 'modelType'").
+ * The full class name lives on any dataContext node's entityType.
+ */
+function envelopeModelType(form) {
+  const fromSettings = form.formSettings?.modelType;
+  if (typeof fromSettings === 'string') return fromSettings;
+  let found = null;
+  const walk = (n) => {
+    if (found || !n || typeof n !== 'object') return;
+    if (Array.isArray(n)) return n.forEach(walk);
+    if (n.type === 'dataContext' && typeof n.entityType === 'string') { found = n.entityType; return; }
+    for (const v of Object.values(n)) walk(v);
+  };
+  walk(form.components);
+  return found ?? undefined;
+}
+
 try {
   let moduleId = null;
   if (!priorId) moduleId = await api.resolveModuleId(moduleName);
   const res = await api.upsertForm({
     moduleName, moduleId, name: formName,
     markup: stagedObj,
-    modelType: stagedObj.formSettings?.modelType,
+    modelType: envelopeModelType(stagedObj),
   });
   evidence.form.id = res.id ?? evidence.form.id;
   step('push', true, `${res.action} → ${evidence.form.id}`);
@@ -269,9 +312,12 @@ if (has('--no-browser')) {
   const r = spawnSync(process.execPath,
     [path.join(SCRIPT_DIR, 'render-instrument.js'), '--form', `${moduleName}/${formName}`],
     { encoding: 'utf8' });
+  // Capture BOTH streams: the instrument reports diagnostics on stderr, so recording only
+  // stdout left a failing bundle with an empty output field — useless for diagnosis.
   evidence.render = {
     ran: true, exitCode: r.status,
-    output: (r.stdout || '').split('\n').slice(-25).join('\n'),
+    stdout: (r.stdout || '').split('\n').slice(-30).join('\n'),
+    stderr: (r.stderr || '').split('\n').slice(-30).join('\n'),
   };
   if (r.status !== 0) {
     step('render', false, `render-instrument exited ${r.status}`);

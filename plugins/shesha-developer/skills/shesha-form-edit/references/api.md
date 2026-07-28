@@ -234,7 +234,7 @@ DTO (`CreateFormConfigurationRequest`):
   name: string,            // unique within module
   label?: string,
   description?: string,
-  modelType?: string,      // entity full name
+  modelType?: string,      // entity full name — a STRING, see the trap below
   generationLogicTypeName?: string,
   templateId?: string,     // copy from another form
   markup?: string          // initial markup; can be set later via UpdateMarkup
@@ -252,6 +252,14 @@ curl -s -X POST "$BASE_URL/api/services/Shesha/FormConfiguration/Create" \
     "modelType": "PBF.MembershipManagement.Domain.Domain.Member"
   }'
 ```
+
+> **`modelType` TRAP — two different shapes, one key name.** The Create/Update ENVELOPE
+> takes `modelType` as the entity's full class name **string**
+> (`"Shesha.Domain.Site"`). Inside the markup, `formSettings.modelType` is the
+> `{ name, module }` **object** [R-016]. Passing the object into the envelope returns
+> HTTP 400 `Unexpected character encountered while parsing value: {. Path 'modelType'`.
+> `scripts/apply-form.mjs` derives the envelope value from a `dataContext` node's
+> `entityType`; verified live 2026-07-28.
 
 To resolve `moduleId`, query `GET /api/services/Shesha/Module/GetAll` with bearer token and pick the module by `name`.
 

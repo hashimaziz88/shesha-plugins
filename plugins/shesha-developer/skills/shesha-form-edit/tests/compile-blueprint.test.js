@@ -311,3 +311,23 @@ test('every component type the compiler emits is measured as rendering', () => {
       `emitted "${c.type}" but the matrix records renderStatus=${status}`);
   }
 });
+
+// ---------------------------------------------------------------- apply envelope
+
+test('the Create envelope modelType is derived as a STRING, not the settings object', () => {
+  // Verified live: passing formSettings.modelType (an object) into the Create envelope
+  // returns HTTP 400 "Unexpected character encountered while parsing value: {".
+  // The envelope wants the entity full class name; the markup keeps the {name,module}
+  // object [R-016]. Same key, two shapes.
+  const src = fs.readFileSync(path.join(SKILL, 'scripts', 'apply-form.mjs'), 'utf8');
+  assert.match(src, /function envelopeModelType/, 'apply-form no longer derives the envelope modelType');
+  assert.doesNotMatch(src, /modelType:\s*stagedObj\.formSettings\?\.modelType/,
+    'apply-form passes the settings object straight into the envelope again');
+
+  // The compiled worklist must carry a dataContext entityType for the derivation to work.
+  const form = compile(path.join(FIXTURES, 'asset-worklist.blueprint.json'));
+  const ctx = allComponents(form).find((c) => c.type === 'dataContext');
+  assert.equal(typeof ctx?.entityType, 'string');
+  assert.ok(ctx.entityType.includes('.'), 'entityType is not a full class name');
+  assert.equal(typeof form.formSettings.modelType, 'object', 'markup modelType must stay the {name,module} object');
+});
