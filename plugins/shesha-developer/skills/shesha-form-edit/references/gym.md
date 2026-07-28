@@ -81,13 +81,19 @@ never attempted. Measured 2026-07-28: **43% of setting rows (875 / 2034) are
 The consequence, verified rather than assumed:
 
 - `desktop.*` appearance paths are measured for **45 of 115** components — those whose KB
-  `settingsFields` happen to include them.
-- **`container` is not one of them.** Its KB carries 28 settings and **none** for `border`,
-  `border.radius`, `dimensions.minHeight` or `font` — so those channels can never be
-  measured for it, no matter how many times the gym is rerun.
+  `settingsFields` happen to include them. `generate-component-gym.js` prefixes `desktop.`
+  onto `font|dimensions|background|shadow|border` paths, so an appearance family in the KB
+  does get varied.
+- **The gap is which families the KB carries, not the prefixing.** `container` gets 5
+  measured `desktop.*` rows (`dimensions.width`, `dimensions.height`, `background` ×2,
+  `shadow`) — but its 28 settings include **no `border`, no `font` and no `customStyle`
+  family at all**, so those paths can never be varied for it however often the gym reruns.
+  `dimensions.minHeight` is the near-miss: the family is present, that specific path is not.
 - The `hasStandardAppearance` flag is `true` for exactly **one** component (`image`), which
   does not match the 45 that actually have appearance rows. The flag is not what drives
-  appearance measurement, and it is very likely a `generate-component-kb.js` detection gap.
+  appearance measurement, and it looks like a `generate-component-kb.js` detection gap —
+  border and font live on the designer's shared appearance tab, which the KB parser does not
+  attribute to each component.
 
 This is why 19 of the 34 rows in `shesha-design-system/assets/capability-matrix.json` sit at
 `unmeasured` — they document appearance *techniques* (container borders and radius, text
