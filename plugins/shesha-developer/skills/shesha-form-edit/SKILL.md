@@ -156,19 +156,21 @@ Read **only** the topic files relevant to the edit. Most edits need 1–3 files:
 
 **Proactive doc fetch**: when the user's requirements mention non-trivial mechanisms (wizard, OTP, navigator, complex appContext composition, custom action chaining), `WebFetch` the relevant `shesha-grads.vercel.app` / `docs.shesha.io` page **before** writing scripts. Distill into `.claude/cache/shesha-form-edit/docs/<topic>.summary.md` (~30 lines) so subsequent edits don't re-fetch.
 
-**Component plan + index check (mandatory, blocking — do this before writing any component JSON)**:
+**Component plan + registry check (mandatory, blocking — before writing any component JSON)**:
 
-For every new or edited form, before writing a single component object:
-
-1. **List every component `type` you plan to use.** (e.g. for a table form: `container`, `text`, `button`, `dataContext`, `datatable`; for a list form: `container`, `dataContext`, `datalist`, `datatable.pager`)
-
-2. **Confirm each type exists** in the component index at `assets/groups/index.json` (bundled in this skill's assets folder). If a type is missing, you have the wrong name. The index is the authoritative source for the exact `type` string used in form JSON (e.g. `dataContext` for the table/list data wrapper; `datatable` not `dataTable`).
-
-3. **Load the group file** for each component type (the index maps type → group file). Read the group file to get the full list of valid property names, their expected types, and descriptions. Only use properties listed there — anything else will be stripped by `clean-form-config` at Step 6.
-
-4. **Scan the group for alternatives.** While in the group file, check whether a better-fit component exists (e.g. `refListStatus` instead of `dropdown` for read-only status display). **For side-by-side / split layout use a flex `container` row — NEVER the `columns` component** (firm project rule): `display:"flex"` + `flexDirection:"row"` + `gap`, with each child sized via `desktop.dimensions.width` (a fixed-width rail = `width:"332px"`; a filling main column = `width:"calc(100% - <rail+gap>px)"`). Per-child `customStyle:{flex:…}` does NOT size the outer div — proven inert; use `dimensions.width`.
-
-5. **Update the plan** with corrected type names, valid properties, and any swapped alternatives — then write the JSON.
+1. **List every component `type` you plan to use.**
+2. **Look each one up in `assets/registry/registry-0.45.1.json`** — the generated
+   authority for types, props and versions ([component-registry.md](references/component-registry.md)).
+   A type that is absent means you have the wrong name. A type with
+   `authorable: false` must not be emitted — read `authorableReason` and pick the
+   current equivalent.
+3. **Take the `version` from the registry** and stamp it. `null` means the component
+   has no migrator; omit `version` for those.
+4. **Validate every prop against that type's `props` array.** Anything absent will be
+   stripped at Step 6.
+5. **Scan for a better fit** — e.g. `refListStatus` rather than `dropdown` for read-only
+   status. For side-by-side layout use a flex `container` whose children are themselves
+   `container`s, never the `columns` component (see the split rule below).
 
 Tree-editing principles: preserve every existing component's `id` and `parentId` (fresh GUIDs only on clones / new nodes); when re-parenting, update only the moved node and add it to the new parent's `components`; don't touch `formSettings` unless asked.
 
