@@ -27,8 +27,9 @@
     { "label": "Funding Requested", "property": "fundingAmount", "component": "numberField", "datatype": "number" }
   ],
   "assertions": [
-    "A1  step1 holds applicantName, step2 holds fundingAmount, step3 holds supportingDocs — in that order",
-    "A2  no separate navigation buttonGroup — the wizard component's own Back/Next/Done affordances handle it"
+    "parent-of(step1, applicantName)",
+    "parent-of(step2, fundingAmount)",
+    "parent-of(step3, supportingDocs)"
   ],
   "dependencies": []
 }

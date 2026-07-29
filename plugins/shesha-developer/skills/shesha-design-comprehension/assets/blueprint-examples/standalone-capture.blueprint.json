@@ -28,7 +28,7 @@
     { "label": "Last Name", "property": "lastName", "component": "textField", "datatype": "string" }
   ],
   "assertions": [
-    "A1  actionRow carries both Submit and a Back exit — a form you can save but not leave is the most-forgotten defect"
+    "parent-of(page, actionRow)"
   ],
   "dependencies": []
 }

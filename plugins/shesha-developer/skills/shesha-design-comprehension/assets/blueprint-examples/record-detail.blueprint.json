@@ -47,8 +47,11 @@
     { "label": "Travel Date", "property": "travelDate", "component": "dateField", "datatype": "datetime" }
   ],
   "assertions": [
-    "A1  body is a single flex row: mainColumn fills, detailRail is a fixed 332px rail",
-    "A2  passengerName and travelDate sit under the general tab; attachments sits under the documents tab"
+    "same-rowband(mainColumn, detailRail)",
+    "ratio(mainColumn, detailRail, 2.5, 10)",
+    "tab(passengerName, general)",
+    "tab(travelDate, general)",
+    "tab(attachments, documents)"
   ],
   "dependencies": []
 }

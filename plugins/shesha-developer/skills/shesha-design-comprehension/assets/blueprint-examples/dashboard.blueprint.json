@@ -23,8 +23,13 @@
     { "node": "chart", "type": "barChart", "slot": "chartSurface", "content": "Bookings by Route" }
   ],
   "assertions": [
-    "A1  each metric tile shows a label/value pair; metric1Value binds bookingCount (count), metric2Value binds revenue (sum)",
-    "A2  chartSurface names its chart type (barChart) so a reviewer can check it against the design"
+    "parent-of(metric1, metric1Label)",
+    "parent-of(metric1, metric1Value)",
+    "same-rowband(metric1Label, metric1Value)",
+    "parent-of(metric2, metric2Label)",
+    "parent-of(metric2, metric2Value)",
+    "same-rowband(metric2Label, metric2Value)",
+    "parent-of(chartSurface, chart)"
   ],
   "dependencies": []
 }

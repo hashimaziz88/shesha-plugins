@@ -191,9 +191,11 @@ renderer's contract ever changes, regenerate this block; do not hand-edit it.
     { "label": "Travel Date", "property": "travelDate", "component": "date (column)", "datatype": "datetime" }
   ],
   "assertions": [
-    "A1  toolbar is a single flex row directly under the header band; Add Booking left, quick search right (justify:space-between)",
-    "A2  the pager row sits directly below the datatable, right-aligned (role: toolbar-row-right, justify:flex-end)",
-    "A3  quickSearch, the pager row and its pager are present even though the source design did not depict them — required by the table-worklist flow manifest, not optional polish"
+    "parent-of(toolbar, addButtonGroup)",
+    "parent-of(toolbar, quickSearch)",
+    "same-rowband(addButtonGroup, quickSearch)",
+    "parent-of(page, pagerRow)",
+    "parent-of(pagerRow, pager)"
   ],
   "dependencies": []
 }
@@ -263,8 +265,13 @@ justified against the manifest rather than silently present or silently missing.
 - [ ] Run the archetype's flow manifest against the blueprint (`validateFlow`, Task 9) before
       treating it as complete; every node it adds should be visible in the rendered mock tagged
       `(added by flow)`.
-- [ ] Every bound field has an entry in `bindings[]`; `assertions[]` covers split-cell membership,
-      row grouping, nesting depth and tab assignment — the things that drift. No pixel asserts.
+- [ ] Every bound field has an entry in `bindings[]`; `assertions[]` entries are typed predicates —
+      `same-cluster(a, b)`, `parent-of(a, b)`, `ratio(a, b, min, max)`, `same-rowband(a, b)`,
+      `tab(a, key)` (`scripts/lib/assertions.mjs`) — covering split-cell membership, row grouping,
+      nesting depth and tab assignment: the things that drift. No pixel asserts, and no English
+      prose: `parseAssertion()` rejects anything else. Verify with
+      `node scripts/verify-placement.mjs <blueprint.json> <built.probe.json>`
+      (see `references/verification-loop.md`).
 - [ ] A `buttonGroup` node's `items[]` each carry an `action` — wiring invisible in the mock is wiring
       a reviewer cannot check; mark the item that's `primary`.
 - [ ] A `datalist` node carries `rowTemplate`; a `tabs` node carries `tabs[]` (not just a flat

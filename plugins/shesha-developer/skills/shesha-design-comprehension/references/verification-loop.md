@@ -15,17 +15,19 @@ Runs as **gate 5a.5** in `shesha-claude-designer` — after structural integrity
 
 ## What to diff (and why it survives the pixel↔width-expression gap)
 
-Assert on properties that are stable across the design's pixel grid and Shesha's flex-container `calc()`/% widths:
+Assert on properties that are stable across the design's pixel grid and Shesha's flex-container `calc()`/% widths — expressed as one of five **typed predicates** (`scripts/lib/assertions.mjs`), not English prose. `parseAssertion()` rejects anything that isn't one of these five forms, naming the valid forms — there is no prose fallback:
 
-| Dimension | How to measure from the probe | Example assertion |
+| Dimension | How to measure from the probe | Predicate |
 |---|---|---|
-| **Split-cell membership** | which x-cluster a node falls in (`colIndex` within its parent) | "both related panels in the RIGHT cluster" |
-| **Row grouping** | nodes sharing a `rowBand` (y-band) | "Details rows are 2-cell, label and control on one row" |
-| **Nesting depth / parent** | the `parentId` ancestor chain | "panels are children of the rail column, not the page root" |
-| **Tab assignment** | which tab panel a node lives under | "child table X is under the 'Endpoints' tab" |
-| **Split ratio (range)** | left:right width ratio, with tolerance | "left ≥ 2.5× right; rail ≈ 332px ± 40" |
+| **Split-cell membership** | which x-cluster a node falls in (`colIndex` within its parent) | `same-cluster(a, b)` |
+| **Row grouping** | nodes sharing a `rowBand` (y-band) | `same-rowband(a, b)` |
+| **Nesting depth / parent** | the `parentId` ancestor chain | `parent-of(a, b)` |
+| **Tab assignment** | which tab panel a node lives under | `tab(a, key)` |
+| **Split ratio (range)** | left:right width ratio, with tolerance | `ratio(a, b, min, max)` — reads `multiColumnContainers[].childWidths` (`scripts/layout-probe.js`), never an absolute pixel |
 
-**Never** assert absolute pixels or exact width expressions — a `minmax(0,1fr) 332px` design grid is *satisfied* by a flex-row split whose fill cell is `width:"calc(100% - 356px)"` and whose rail cell is a fixed `width:"332px"` (the ratio, not the exact calc, is what matters). Fail only on **wrong cluster / wrong parent / wrong tab / ratio out of range**.
+**Never** assert absolute pixels or exact width expressions — a `minmax(0,1fr) 332px` design grid is *satisfied* by a flex-row split whose fill cell is `width:"calc(100% - 356px)"` and whose rail cell is a fixed `width:"332px"` (the ratio, not the exact calc, is what matters). `ratio` is the only quantitative predicate for exactly this reason, and it always takes a `[min, max]` range. Fail only on **wrong cluster / wrong parent / wrong tab / ratio out of range**.
+
+**Run it.** `node scripts/verify-placement.mjs <blueprint.json> <built.probe.json> [--design <design.probe.json>]` evaluates every assertion in the blueprint against the built form's probe (`evaluate()` in `scripts/lib/assertions.mjs`), prints a PASS/FAIL line per assertion (failures include the measured values), and exits 0 only if every assertion passed. This is gate 5a.5 made executable — it replaces the model reading its own English assertions back and grading them.
 
 ## Routed-fix vocabulary (speak `shesha-form-edit`'s language)
 

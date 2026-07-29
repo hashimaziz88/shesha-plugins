@@ -39,8 +39,11 @@
     { "label": "Status", "property": "status", "component": "refListStatus / chip (column)", "datatype": "refList" }
   ],
   "assertions": [
-    "A1  toolbar is a single flex row directly under the header band; Add Booking left, quick search right",
-    "A2  the pager row sits directly below the datatable, right-aligned"
+    "parent-of(toolbar, addButtonGroup)",
+    "parent-of(toolbar, quickSearch)",
+    "same-rowband(addButtonGroup, quickSearch)",
+    "parent-of(page, pagerRow)",
+    "parent-of(pagerRow, pager)"
   ],
   "dependencies": [
     { "id": "createForm", "archetype": "capture-dialog", "naming": "booking-create" },

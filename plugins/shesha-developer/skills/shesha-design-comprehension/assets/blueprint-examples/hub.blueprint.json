@@ -25,8 +25,9 @@
       "items": [{ "label": "Navigate", "action": { "actionName": "Navigate", "actionOwner": "shesha.common" }, "target": "listings-gallery" }] }
   ],
   "assertions": [
-    "A1  tileGrid wraps (flexWrap: wrap) rather than forcing a single fixed row",
-    "A2  each tile's navigate target matches a real published screen"
+    "parent-of(tileGrid, tile1)",
+    "parent-of(tileGrid, tile2)",
+    "parent-of(tileGrid, tile3)"
   ],
   "dependencies": []
 }

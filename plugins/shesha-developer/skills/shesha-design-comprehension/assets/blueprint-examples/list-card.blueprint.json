@@ -29,7 +29,7 @@
     { "label": "Status", "property": "status", "component": "refListStatus / chip (card)", "datatype": "refList" }
   ],
   "assertions": [
-    "A1  list renders as a repeating card row, never a datatable column grid"
+    "parent-of(page, list)"
   ],
   "dependencies": [
     { "id": "rowTemplate", "archetype": "row-template", "naming": "listing-card" },
