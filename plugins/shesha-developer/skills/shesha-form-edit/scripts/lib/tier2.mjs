@@ -310,10 +310,22 @@ function checkStyleIncomplete(node, ctx, registry, out) {
 // real form and mean nothing (that overfire was measured directly against
 // assets/examples/ before this scope narrowing — see the task-3 report). A
 // `color` leaf that looks like a raw hex/rgb(a) literal must either be
-// absent, or be recorded in a sibling `styleOverrides[path] = { source,
-// evidence }` entry — the markup-level provenance convention this check
-// introduces (documented in the task-3 report; no separate tokens file is
-// available to this function, only `roles`/`registry`).
+// absent, or be recorded in a sibling `overrides[]` entry carrying measured
+// provenance.
+//
+// Reconciled in task 7: this used to read a `styleOverrides[path] = {source,
+// evidence}` object (task-3's own convention). The Phase 1 blueprint schema
+// (../shesha-design-comprehension/assets/blueprint.schema.json) already
+// defines the same concept as `overrides[] = {prop, value, source,
+// evidence}` — older and more explicit (it also carries the literal `value`,
+// not just the path). Rather than have two shapes for one concept across
+// artifacts that must interoperate, this check now reads `node.overrides[]`
+// (matched by `.prop`); the normalizer (scripts/normalize-form.mjs) migrates
+// any markup still carrying the legacy `styleOverrides` shape forward. NOTE:
+// scripts/lib/tier3.mjs independently reimplements the OLD `styleOverrides`
+// convention and was NOT reconciled here — it is another agent's
+// concurrently-in-progress file and out of this task's scope; see the task-7
+// report for what still needs changing there.
 // ---------------------------------------------------------------------------
 
 const COLOR_LITERAL_RE = /^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
@@ -324,7 +336,7 @@ function collectColorPaths(node) {
   function visit(obj, path) {
     if (!isPlainObject(obj)) return;
     for (const key of Object.keys(obj)) {
-      if (STRUCTURAL_KEYS.has(key) || key === 'styleOverrides') continue;
+      if (STRUCTURAL_KEYS.has(key) || key === 'overrides' || key === 'styleOverrides') continue;
       const value = obj[key];
       const p = path ? `${path}.${key}` : key;
       if (key === 'color' && typeof value === 'string' && (COLOR_LITERAL_RE.test(value) || RGB_RE.test(value))) {
@@ -342,17 +354,20 @@ function checkStyleOffToken(node, ctx, out) {
   if (node.type !== 'container') return;
   const colors = collectColorPaths(node);
   if (!colors.length) return;
-  const overrides = isPlainObject(node.styleOverrides) ? node.styleOverrides : {};
+  const overridesArr = Array.isArray(node.overrides) ? node.overrides : [];
+  const overrideByProp = new Map(
+    overridesArr.filter(isPlainObject).map((o) => [o.prop, o]),
+  );
   for (const { path, value } of colors) {
-    const ov = overrides[path];
+    const ov = overrideByProp.get(path);
     const covered = isPlainObject(ov) && typeof ov.source === 'string' && ov.source.length > 0
       && typeof ov.evidence === 'string' && ov.evidence.length > 0;
     if (!covered) {
       out.push(finding(
         'T2-STYLE-OFF-TOKEN',
         `${ctx.path}.${path}`,
-        `"${node.type}" ("${nodeLabel(node)}") hardcodes ${path}: ${JSON.stringify(value)} — a literal color with no matching styleOverrides["${path}"] = { source, evidence } record, so there is no way to tell a deliberate brand override from a copy-pasted hex.`,
-        `a design-system role/token, or styleOverrides["${path}"] = { source, evidence }`,
+        `"${node.type}" ("${nodeLabel(node)}") hardcodes ${path}: ${JSON.stringify(value)} — a literal color with no matching overrides[] entry ({ prop: "${path}", value, source, evidence }), so there is no way to tell a deliberate brand override from a copy-pasted hex.`,
+        `a design-system role/token, or an overrides[] entry { prop: "${path}", value, source, evidence }`,
         value,
       ));
     }

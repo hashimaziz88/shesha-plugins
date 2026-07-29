@@ -113,11 +113,14 @@ test('T2-STYLE-OFF-TOKEN: flags a hardcoded hex color with no styleOverrides rec
   assert.match(found.message, /#f4f8ff/);
 });
 
-test('T2-STYLE-OFF-TOKEN: does not flag a color covered by a styleOverrides source+evidence record', () => {
+test('T2-STYLE-OFF-TOKEN: does not flag a color covered by an overrides[] source+evidence entry', () => {
+  // Reconciled in task 7: this check now reads the blueprint schema's
+  // overrides[] = {prop, value, source, evidence} shape, not the legacy
+  // styleOverrides[path] object (see tier2.mjs's checkStyleOffToken comment).
   const m = fx('t2-style-off-token');
-  m.components[0].styleOverrides = {
-    'desktop.background.color': { source: 'brand guideline v3', evidence: 'design-system review 2026-07-01' },
-  };
+  m.components[0].overrides = [
+    { prop: 'desktop.background.color', value: '#f4f8ff', source: 'brand guideline v3', evidence: 'design-system review 2026-07-01' },
+  ];
   assert.ok(!codes(m).includes('T2-STYLE-OFF-TOKEN'));
 });
 
