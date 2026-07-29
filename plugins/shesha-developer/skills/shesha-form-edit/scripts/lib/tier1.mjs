@@ -164,6 +164,16 @@ function collectOwnPropPaths(node) {
   function visit(obj, prefix) {
     for (const key of Object.keys(obj)) {
       if (STRUCTURAL_KEYS.has(key)) continue;
+      // `overrides[]` (`{prop, value, source, evidence}`) is the project's
+      // sanctioned contract for a style value carrying measurement
+      // provenance (`../shesha-design-comprehension/assets/blueprint.schema.json`),
+      // already exempted here by tier2.mjs's and tier3.mjs's own
+      // collectOwnPropPaths-equivalents (see their header comments) — without
+      // this exemption, honouring T2-STYLE-OFF-TOKEN/T3-RAW-HEX by adding an
+      // overrides[] entry mechanically creates a brand-new T1-PROP-UNKNOWN
+      // finding for `overrides`/`overrides[].prop`/`.value`/`.source`/
+      // `.evidence`, which is exactly backwards.
+      if (key === 'overrides') continue;
       if (!prefix && UNIVERSAL_KEYS.has(key)) continue;
 
       const value = obj[key];

@@ -253,6 +253,45 @@ test('wraps a bare flex-row child in a container, moving dimensions.width onto t
   assert.equal(wrapper.components[0].type, 'text'); // original child preserved one level down
 });
 
+test('wraps a BARE, NO-WIDTH child of a flex-row container whose flex style lives ONLY under desktop (no top-level mirror)', () => {
+  // The reported normalizer gap (docs/corpus-report.md Task 9, dashboard.json):
+  // real corpus containers carry display/flexDirection ONLY nested under
+  // desktop/tablet/mobile, never mirrored at the top level. The old
+  // top-level-only isFlexRowNode() never recognised such a container as a
+  // flex row at all, so A3 never ran on its children — regardless of
+  // whether a child carried a width. This child carries no width whatsoever.
+  const before = {
+    components: [{
+      id: 'b4444444-4444-4444-8444-444444444441',
+      type: 'container',
+      componentName: 'row',
+      parentId: 'root',
+      version: 7,
+      desktop: { display: 'flex', flexDirection: 'row', gap: 8 },
+      components: [{
+        id: 'b4444444-4444-4444-8444-444444444442',
+        type: 'textField',
+        propertyName: 'bareField',
+        parentId: 'b4444444-4444-4444-8444-444444444441',
+        version: 6,
+      }],
+    }],
+  };
+  const after = normalize(before, ctx);
+  const row = after.components[0];
+  const wrapper = row.components[0];
+  assert.equal(wrapper.type, 'container', 'the bare child must be wrapped even with no width and no top-level flex mirror');
+  const leaf = wrapper.components[0];
+  assert.equal(leaf.type, 'textField');
+  assert.equal(leaf.dimensions?.width, '100%', 'the universal container rule: the leaf is explicitly set to width 100%, not left absent');
+  assert.equal(t2codes(after).includes('T2-FLEXCHILD-NOT-CONTAINER'), false);
+
+  // Idempotence for this exact fixture, in addition to the corpus-wide check
+  // above — a wrapper-inserting transform is the easiest possible way to
+  // break this.
+  assert.deepStrictEqual(normalize(after, ctx), after);
+});
+
 test('strips customStyle and remaining dimensions.width from non-containers', () => {
   const before = {
     components: [{

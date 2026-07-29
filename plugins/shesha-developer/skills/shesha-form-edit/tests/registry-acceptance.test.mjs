@@ -44,14 +44,22 @@ test('versions match the framework, including the high ones', () => {
 
 test('prop coverage is real, not the thin hand-index surface', () => {
   // The hand index gave container ~15 props. Thresholds are the MEASURED
-  // post-filter counts (raw extraction is ~8 higher per type before the
-  // scaffolding denylist runs): container 63, textField 74, datatable 92,
-  // columns 50, button 61, dropdown 133, tabs 96.
-  assert.ok(C.container.props.length >= 60, `container had ${C.container.props.length}`);
-  assert.ok(C.textField.props.length >= 70, `textField had ${C.textField.props.length}`);
-  assert.ok(C.datatable.props.length >= 90, `datatable had ${C.datatable.props.length}`);
-  assert.ok(C.columns.props.length >= 45);
-  assert.ok(C.button.props.length >= 55);
+  // post-filter counts. Task 10 extended the extractor to ALSO harvest
+  // initModel/migrator-produced runtime keys (not just literal
+  // settingsFormMarkup propertyName leaves — see gen-registry's harness
+  // header comment), which recovered a large class of real-but-never-
+  // surfaced-in-a-settings-form props (docs/corpus-report.md Task 9/10:
+  // datatable's tableSettings.*/crud/flexibleHeight, bare hideBorder,
+  // dropdown's tag.* style block, deprecated-but-real datatable fields).
+  // Floors below are the Task 10 measured counts: container 99, textField
+  // 101, datatable 157, columns 52, button 94, dropdown 183, tabs 98.
+  assert.ok(C.container.props.length >= 95, `container had ${C.container.props.length}`);
+  assert.ok(C.textField.props.length >= 95, `textField had ${C.textField.props.length}`);
+  assert.ok(C.datatable.props.length >= 150, `datatable had ${C.datatable.props.length}`);
+  assert.ok(C.columns.props.length >= 50, `columns had ${C.columns.props.length}`);
+  assert.ok(C.button.props.length >= 90, `button had ${C.button.props.length}`);
+  assert.ok(C.dropdown.props.length >= 175, `dropdown had ${C.dropdown.props.length}`);
+  assert.ok(C.tabs.props.length >= 95, `tabs had ${C.tabs.props.length}`);
 });
 
 test('no scaffolding survived into any prop list', () => {

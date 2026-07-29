@@ -926,3 +926,158 @@ that improved):
   children, not the general bare-child case. Both are on the do-not-modify
   list for this task; both are documented above with the exact evidence that
   surfaced them.
+
+## Task 10 — closing three gaps: the registry-scraper root cause, the
+## universal-container rule, and the `overrides` exemption
+
+### Gap 1: the registry gap's root cause, and the generic fix
+
+Root cause (framework-source investigation, `scripts/harness/extract.test.ts`
+against `shesha-reactjs` `releases/0.45`): the harness only ever harvested
+literal `propertyName` leaves out of a component's `settingsFormMarkup` tree.
+Every one of Task 9's ~50 confirmed-real gap paths, without exception, turned
+out to be a prop that is genuinely producible at runtime — by a component's
+`initModel` defaulting hook, or by one of its `migrator` steps — but that no
+settings-form control has ever been wired up for (datatable's
+`tableSettings.*` is literally built by `getTableSettingsDefaults()` inside
+`initModel`, "a framework type/runtime mismatch"; `crud`/`flexibleHeight`/
+`noDataText` are "only visible via the component's own migrator"; bare
+`hideBorder` is `IInputStyles.hideBorder`, still declared on several
+components' own Props interface even though the settings form for those
+types only exposes the nested `border.hideBorder` replacement).
+
+The fix (`scripts/harness/extract.test.ts`, `collectModelSourcePaths`) is
+generic, not a hand list: for every component, in addition to the existing
+`settingsFormMarkup` walk, it now (1) calls `initModel({})` with an empty
+seed, and (2) replays every registered `migrator` step in order from an
+empty seed, collecting the UNION of keys seen after EACH step (not just the
+final result — this is what recovers a field a later step stops setting,
+e.g. deprecated-but-real `datatable::rowPadding`/`rowBorder`/
+`headerFontSize`/`headerFontWeight`/`headerFontFamily`). Both sources are
+best-effort (try/catch per step/component — a migration step written
+assuming a pre-populated shape against our empty synthetic seed must not
+abort the rest of the extraction). The harvested runtime keys are flattened
+into dotted paths by a second walker (`collectValuePaths`) that mirrors
+tier1.mjs's own `collectOwnPropPaths` exactly: `components`/`columns`/
+`tabs`/`content`/`header`/`customHeader`/`items` are excluded at any depth
+(child-COMPONENT slots, never props — an early version of this fix, before
+this exclusion, leaked literal `"components"` into `container`'s own prop
+list from its `initModel({}).components: []`), and `desktop`/`tablet`/
+`mobile` wrappers are transparent at the top level only (without this, every
+style leaf appeared 4 times over — bare, and once per breakpoint — for a
+~5x registry bloat that was pure noise, not signal, since tier1's own
+`isKnownProp` already flattens breakpoint nesting away before matching).
+
+Before/after prop counts (measured, `node scripts/gen-registry.mjs
+--framework <shesha-framework> --version 0.45.1`):
+
+| Type | Before | After |
+|---|---|---|
+| container | 63 | 99 |
+| textField | 74 | 101 |
+| datatable | 92 | 157 |
+| columns | 50 | 52 |
+| button | 61 | 94 |
+| dropdown | 133 | 183 |
+| tabs | 96 | 98 |
+
+Spot-checked against Task 9's evidence list: `datatable` now declares all 11
+`tableSettings.*` sub-fields plus `crud`/`flexibleHeight`/`noDataText`/
+`noDataSecondaryText`/`rowPadding`/`rowBorder`/`headerFontSize`/
+`headerFontWeight`/`headerFontFamily`; `textField`/`autocomplete` now declare
+bare `hideBorder`; `dropdown` now declares the full `tag.*` style block
+(`tag.border.hideBorder`, `tag.background.gradient.direction`,
+`tag.stylingBox`, etc.) — every category Task 9 named as a confirmed
+registry gap is now present. `registry-acceptance.test.mjs`'s thresholds
+were raised to these measured counts (kept as floors, `>=`, per the brief);
+every other invariant it protects (116 components, `addressInput` absent,
+`datatableContext` present/non-authorable, `dataContext` version null, zero
+scaffolding leakage, keys sorted, `type` populated) still holds — verified
+directly, not just by the test passing.
+
+**T1-PROP-UNKNOWN corpus rate: 93.9% → 89.0%** (832/935 forms, 14,410
+instances; measured via `scripts/grade-corpus.mjs` against the same 935-form
+corpus dump). **Not promoted.** 89.0% remains far above every current Group A
+member (max 15.5%) and Group B's ceiling — the fix closed the registry-gap
+share of the problem (verified: the paths named above no longer appear in
+the corpus's unknown-prop tally at all), but the residual 89% is now
+dominated by genuinely invalid real-world usage (typos and pre-Task-9-style
+mistakes baked into production forms, e.g. `text::disabled`, `textArea::rows`
+— the exact 11 paths Task 9's own investigation already confirmed invalid)
+plus a smaller residue of props a component only ever RECEIVES via a
+metadata-linking hook (`linkToModelMetadata`) or via a migration that
+CONSUMES an old field name without re-emitting it (e.g. `entityTypeShortAlias`)
+— neither of which `initModel`/`migrator`-replay can recover, since nothing
+in either path ever assigns those exact keys to the object this task's
+extraction inspects. Flagged for a possible future follow-up; out of this
+task's scope.
+
+### Gap 2: the universal container rule, extended to every bare leaf
+
+`normalize-form.mjs`'s A3 step (`isFlexRowNode`) determined "is this a flex
+row container" from the node's TOP-LEVEL `display`/`flexDirection` only.
+Real corpus containers (Task 9's dashboard.json case) carry that style
+ONLY nested under `desktop`/`tablet`/`mobile`, with no top-level mirror —
+under the old check, A3 never even recognised such a container as a flex
+row, so its child-wrap step never ran on it at all, regardless of whether a
+child carried a width. `isFlexRowNode` now uses the same merged
+top-level-then-`desktop`-override view (`desktopView()`) the file's own
+A2.1/A8 steps already use, and — by construction — the identical definition
+tier2.mjs's `T2-FLEXCHILD-NOT-CONTAINER` (`isFlexRow()`/`bpView(node,
+'desktop')`) already checks, so the two are now provably consistent: whatever
+the check would flag, the normalizer now fixes.
+
+Per the project owner's stated rule ("every component should sit inside its
+own container, with the layout settings applied on that container"),
+`wrapFlexChild` (shared by A3 and A2.2) now also stamps the wrapped leaf's
+own `dimensions.width` to the literal string `"100%"` — an honest statement
+of what the antd Form.Item chain already forces, rather than leaving the
+value silently absent. A5 (`stripDimensionsWidth`) was taught to leave
+exactly `"100%"` alone (only a REAL, non-`"100%"` width is still stripped),
+since without that carve-out A5 would erase A3's own stamp the moment it
+revisits the same leaf later in the same top-down walk.
+
+**Idempotence: PASS.** `normalize(normalize(f))` deep-equals `normalize(f)`
+across all 100 forms in `forms-rs.jsonl` (existing corpus-wide test,
+unaffected in shape by this change) plus a new dedicated fixture test
+exercising exactly the reported gap (a bare, no-width leaf under a
+desktop-only flex row) — both pass.
+
+**Tier 3 component-count exemption: confirmed BROKEN, reported, not fixed
+(`tier3.mjs` is on the do-not-modify list).** `T3-COMPONENT-RATIO` divides
+total component count by bound-field count with no allowance for
+normalizer-inserted wrappers — verified directly: a 4-node form (1 flex-row
+container + 3 bare bound leaves) scores ratio 1.33 (no finding, budget 1.5);
+after `normalize()` correctly wraps each leaf per the fix above, the same
+form has 7 nodes for the same 3 bindings, ratio 2.33, and NOW trips
+`T3-COMPONENT-RATIO` — a finding that did not exist before normalization,
+solely because of wrappers the normalizer itself added. This directly
+contradicts the minimalism rule's stated exemption for normalizer-inserted
+structural wrappers, and this task's Gap 2 fix makes the effect MORE visible
+(more bare leaves now get wrapped than before). Needs a follow-up in
+`tier3.mjs` (e.g. excluding nodes with no `propertyName`, no styling of their
+own, and exactly one child from the numerator) — out of this task's scope to
+fix.
+
+### Gap 3: `tier1.mjs`'s `overrides` exemption
+
+`T1-PROP-UNKNOWN`'s `collectOwnPropPaths` had no exemption for the
+`overrides` key, even though `overrides[]` (`{prop, value, source,
+evidence}`) is the project's sanctioned style-provenance contract
+(`../shesha-design-comprehension/assets/blueprint.schema.json`) already
+honoured by `T2-STYLE-OFF-TOKEN` (`tier2.mjs`) and `T3-RAW-HEX` (`tier3.mjs`)
+— both of which already skip `overrides`/`styleOverrides` in their own
+own-key collection. `tier1.mjs` now does the same (`key === 'overrides'`,
+matching the sibling checks' unconditional-of-depth scope exactly), so
+satisfying T2-STYLE-OFF-TOKEN/T3-RAW-HEX by adding an `overrides[]` entry no
+longer mechanically creates a brand-new T1-PROP-UNKNOWN finding for
+`overrides`/`overrides[].prop`/`.value`/`.source`/`.evidence`. Covered by a
+new test in `tests/tier1.test.mjs`.
+
+### Tests
+
+All four suites pass: hooks 33/33, shesha-form-edit 208/208 (206 baseline +
+2 new: the `overrides` exemption test, the desktop-only-flex-row wrap test),
+shesha-design-system 14/14, shesha-design-comprehension 37/37. Framework repo
+(`shesha-reactjs`) left clean — `git status --short` shows only the
+pre-existing untracked `shesha-reactjs-043/`.

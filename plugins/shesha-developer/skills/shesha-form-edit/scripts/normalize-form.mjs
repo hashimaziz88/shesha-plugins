@@ -265,10 +265,33 @@ function applyNeutralStyleTo(node, { flexDirection, widthByBp }) {
 
 // --- A3. wrap bare flex-row children -----------------------------------------
 
+// Mirrors tier2.mjs's T2-FLEXCHILD-NOT-CONTAINER isFlexRow() exactly: a
+// merged desktop view (top-level flex props, with a nested `desktop` block
+// overriding), NOT a top-level-only check. Real corpus containers were found
+// carrying their flex-row style ONLY nested under desktop/tablet/mobile with
+// no top-level mirror (docs/corpus-report.md Task 9's dashboard.json case) —
+// under the old top-level-only check this normalizer never even recognised
+// such a container as a flex row, so A3 never ran on its children at all,
+// regardless of whether they carried a width. Using the same desktopView()
+// helper A2.1/A8 already use below keeps this check and T2-FLEXCHILD-NOT-
+// CONTAINER's own definition of "flex row" identical, so whatever the
+// normalizer now fixes is exactly what that check would otherwise flag.
 function isFlexRowNode(node) {
-  return node.display === 'flex' && ROW_LIKE.has(node.flexDirection);
+  const view = desktopView(node);
+  return view.display === 'flex' && ROW_LIKE.has(view.flexDirection);
 }
 
+// The universal container rule (project owner, verbatim): every component
+// sits inside its own container, with layout settings applied on that
+// container — never on the component leaf itself. The framework backs this:
+// an input renders inside an antd Form.Item chain forced width:100%
+// !important, so geometry set on the leaf can never size the track it sits
+// in. This has always been unconditional on the child's OWN width (any
+// non-container child of a flex-row container needs wrapping, not just one
+// carrying a proportional width) — the previously-reported "only wraps
+// proportional-width leaves" gap was really isFlexRowNode's top-level-only
+// blind spot above, which meant this function's own body never ran at all
+// for a desktop-only flex row's children.
 function needsFlexChildWrap(child) {
   return isPlainObject(child) && typeof child.type === 'string' && child.type !== 'container';
 }
@@ -281,6 +304,15 @@ function wrapFlexChild(child) {
     components: [child],
   };
   applyNeutralStyleTo(wrapper, { flexDirection: 'column', widthByBp });
+  // The wrapper now carries the geometry; stamp the leaf's own width
+  // explicitly to "100%" (never leave it absent) — an honest, literal
+  // statement of what the Form.Item chain already forces, rather than
+  // silence that could be mistaken for "never considered." A5
+  // (stripDimensionsWidth) is taught to leave this exact value alone (see
+  // its own comment) so it survives both this same pass and a second whole-
+  // document normalize() pass unchanged — required for idempotence.
+  if (!isPlainObject(child.dimensions)) child.dimensions = {};
+  child.dimensions.width = '100%';
   return wrapper;
 }
 
@@ -367,11 +399,24 @@ function wrapSplitWidthLeaves(node) {
 }
 
 // --- A5. strip dimensions.width from non-containers --------------------------
+//
+// "100%" is deliberately left alone, not stripped: it is the literal
+// end-state wrapFlexChild (A3/A2.2) stamps onto a leaf it just wrapped —
+// an honest statement of what the Form.Item chain already forces, not a
+// misleading real size. Stripping it here would undo A3's own stamp on the
+// very same top-down pass (this leaf is revisited, as the wrapper's own
+// child, later in the same visitStructural walk) and reintroduce it via
+// wrapFlexChild's stamp every subsequent pass — a direct idempotence break.
+// Only a REAL (non-"100%") width, which A3/A2.2 don't produce, is stripped.
 
 function stripDimensionsWidth(node) {
-  if (node.dimensions && 'width' in node.dimensions) delete node.dimensions.width;
+  if (node.dimensions && 'width' in node.dimensions && node.dimensions.width !== '100%') {
+    delete node.dimensions.width;
+  }
   for (const bp of BREAKPOINTS) {
-    if (node[bp]?.dimensions && 'width' in node[bp].dimensions) delete node[bp].dimensions.width;
+    if (node[bp]?.dimensions && 'width' in node[bp].dimensions && node[bp].dimensions.width !== '100%') {
+      delete node[bp].dimensions.width;
+    }
   }
 }
 

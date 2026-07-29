@@ -104,6 +104,25 @@ test('T1-PROP-UNKNOWN: still flags a genuinely unrecognized prop outside the com
   assert.ok(codes(m).includes('T1-PROP-UNKNOWN'));
 });
 
+test('T1-PROP-UNKNOWN: does not flag an overrides[] entry (the project\'s sanctioned style-provenance contract)', () => {
+  // overrides[] = {prop, value, source, evidence} (see
+  // ../shesha-design-comprehension/assets/blueprint.schema.json) is already
+  // exempted by T2-STYLE-OFF-TOKEN (tier2.mjs) and T3-RAW-HEX (tier3.mjs) as
+  // covered provenance for a hardcoded style value. Before this fix, adding
+  // an overrides[] entry to satisfy those two checks mechanically created a
+  // brand-new T1-PROP-UNKNOWN finding for overrides/overrides[].prop/.value/
+  // .source/.evidence — exactly backwards.
+  const m = {
+    components: [{
+      id: crypto.randomUUID(), type: 'container', parentId: 'root', version: 7,
+      overrides: [
+        { prop: 'background.color', value: '#123456', source: 'vendor-seed-capture', evidence: 'captured from live render' },
+      ],
+    }],
+  };
+  assert.ok(!codes(m).includes('T1-PROP-UNKNOWN'));
+});
+
 test('T1-ID-EMPTY: flags a blank id', () => {
   assert.ok(codes(fx('t1-id-empty')).includes('T1-ID-EMPTY'));
 });
