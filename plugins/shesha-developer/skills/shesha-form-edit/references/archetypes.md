@@ -66,12 +66,12 @@ build as complete.
 
 ## Judgement calls
 
-- The role catalogue (`shesha-design-system/assets/roles.styles.json`) has 8 roles today
-  (`page-root`, `header-band`, `toolbar-row`, `toolbar-row-right`, `grid-surface`, `section-card`,
-  `detail-rail`, `field-row`). `capture-dialog`'s root container is tagged `page-root` even though
-  it is dialog-hosted, not a full page — there is no dialog-specific role yet, and `page-root` is
-  the closest existing "top-level content container" role. If a dialog-specific role is added later,
-  repoint `dialogRoot` at it.
+- The role catalogue (`shesha-design-system/assets/roles.styles.json`) has 9 roles today
+  (`page-root`, `dialog-root`, `header-band`, `toolbar-row`, `toolbar-row-right`, `grid-surface`,
+  `section-card`, `detail-rail`, `field-row`). `capture-dialog`'s root container is tagged
+  `dialog-root`, not `page-root`: a modal body is not a page — it should not carry the page canvas
+  background or page-level padding (the dialog chrome supplies its own frame/padding), so it gets
+  its own role instead of reusing `page-root`.
 - `record-detail`'s body-split row container itself carries no role (only its two children,
   `mainColumn` and `detailRail`, do) — it is pure flex-row structure, not a styled surface.
 - None of the four manifests declare a `columnChooser`/`datatable.selectColumnsButton` node, by

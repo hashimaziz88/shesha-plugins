@@ -21,6 +21,28 @@
     "mobile": { "$inherit": "desktop", "stylingBox": { "padding": "$spacing.3" } }
   },
 
+  "dialog-root": {
+    "componentType": "container",
+    "desktop": {
+      "display": "flex", "flexDirection": "column", "flexWrap": "nowrap",
+      "gap": "$spacing.4", "justifyContent": "flex-start", "alignItems": "stretch",
+      "dimensions": {
+        "width": "100%", "minWidth": "0", "maxWidth": "none",
+        "height": "auto", "minHeight": "fit-content", "maxHeight": "none"
+      },
+      "background": { "type": "color", "color": "$roles.cardBg" },
+      "border": {
+        "borderType": "none", "radiusType": "all",
+        "radius": { "all": "$radius.xs" },
+        "border": { "all": { "color": "transparent", "style": "none", "width": "0px" } }
+      },
+      "shadow": { "offsetX": 0, "offsetY": 0, "blurRadius": 0, "spreadRadius": 0, "color": "transparent" },
+      "stylingBox": { "padding": 0 }
+    },
+    "tablet": { "$inherit": "desktop" },
+    "mobile": { "$inherit": "desktop" }
+  },
+
   "header-band": {
     "componentType": "container",
     "desktop": {
@@ -165,7 +187,7 @@
       "display": "flex", "flexDirection": "column", "flexWrap": "nowrap",
       "gap": "$spacing.4", "justifyContent": "flex-start", "alignItems": "stretch",
       "dimensions": {
-        "width": "$chrome.railWidth", "minWidth": "$chrome.railWidth", "maxWidth": "$chrome.railWidth",
+        "width": "$chrome.detailRailWidth", "minWidth": "$chrome.detailRailWidth", "maxWidth": "$chrome.detailRailWidth",
         "height": "auto", "minHeight": "fit-content", "maxHeight": "none"
       },
       "background": { "type": "color", "color": "$roles.pageBg" },

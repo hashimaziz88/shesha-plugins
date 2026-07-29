@@ -114,7 +114,7 @@ test('the shipped catalogue is valid against the registry and resolves fully', (
 
   assert.deepEqual(validateRoles({ roles, registry }), []);
 
-  for (const name of ['page-root', 'header-band', 'toolbar-row', 'toolbar-row-right',
+  for (const name of ['page-root', 'dialog-root', 'header-band', 'toolbar-row', 'toolbar-row-right',
                       'grid-surface', 'section-card', 'detail-rail', 'field-row']) {
     const r = resolveRole(name, { roles, tokens });
     for (const bp of ['desktop', 'tablet', 'mobile']) {
@@ -123,6 +123,20 @@ test('the shipped catalogue is valid against the registry and resolves fully', (
       assert.ok(!JSON.stringify(r[bp]).includes('"$'), `${name}.${bp} has unresolved tokens`);
     }
   }
+});
+
+test('detail-rail throws under the requirements-studio brand rather than silently resolving the wrong rail', () => {
+  // requirements-studio.tokens.json has its own chrome.railWidth (56px, an unrelated
+  // collapsed-icon-rail width). detail-rail resolves $chrome.detailRailWidth, which
+  // that brand file does not define. This MUST throw, not silently fall back to 56 —
+  // the RS brand is known to be missing many keys (a separately-tracked gap), and a
+  // loud failure here surfaces that instead of hiding it behind a plausible-looking
+  // wrong pixel value.
+  const roles = JSON.parse(readFileSync(join(ROOT, 'assets/roles.styles.json'), 'utf8'));
+  const rsTokens = JSON.parse(
+    readFileSync(join(ROOT, 'assets/themes/requirements-studio.tokens.json'), 'utf8'));
+  assert.throws(() => resolveRole('detail-rail', { roles, tokens: rsTokens }),
+    /unresolvable token: \$chrome\.detailRailWidth/);
 });
 
 test('container roles set the complete layout contract', () => {

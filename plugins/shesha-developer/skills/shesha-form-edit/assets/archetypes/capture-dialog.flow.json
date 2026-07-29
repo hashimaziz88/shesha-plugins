@@ -2,7 +2,7 @@
   "archetype": "capture-dialog",
   "purpose": "Modal create/edit hosted by a parent's Add action; submits via the dialog footer, not an authored Submit button.",
   "requires": [
-    { "node": "dialogRoot", "type": "container", "role": "page-root" },
+    { "node": "dialogRoot", "type": "container", "role": "dialog-root" },
     { "node": "validationErrors", "type": "validationErrors", "slot": "dialogRoot" },
     { "node": "exitButtonGroup", "type": "buttonGroup", "slot": "dialogRoot",
       "actions": [
