@@ -139,6 +139,32 @@ Two layers and one oracle.
 
 **Principle:** a rule the normalizer can *fix* is deleted from the prose. A rule the validator can *check* becomes a one-line pointer, not an argument. Only rules that are neither fixable nor checkable stay as prose — and there should be very few.
 
+### 5.1 Completeness is the target, not minimalism
+
+A second principle, added after review of a real blueprint. **Under-specification is a defect, not economy.** The model must never be left to decide a style value or infer which components a flow needs, because those gaps are exactly where run-to-run variance enters.
+
+Two axes were previously conflated by `form-quality.md`'s "add only what the request needs — no padding", and are now separated:
+
+| Axis | Target |
+|---|---|
+| Component **count** | Minimal — no gratuitous wrappers, decorative panels, or unrequested chrome |
+| Component **configuration** | **Maximal and complete** — every container carries its full layout contract: `display`, `flexDirection`, `flexWrap`, `gap`, `justifyContent`, `alignItems`, all six `dimensions` (width/minWidth/maxWidth/height/minHeight/maxHeight), `border`, `background`, `shadow`, `stylingBox` — mirrored across desktop/tablet/mobile |
+| Flow **completeness** | **Maximal** — every component a working flow requires is emitted, whether or not the prompt named it |
+
+The registry makes this checkable rather than aspirational: `container.props` enumerates the real style surface (**63 props** — `dimensions` ×6, `border` ×22, `background` ×9, `shadow` ×5, plus 10 flat layout props and `stylingBox`), and the theme file supplies the legal values (254 token leaves, 24 roles). So "is this container fully configured?" is a computable question.
+
+Note this is partly a **correctness** requirement, not taste: container inner divs are hard-coded `overflow:auto`, so a container without `dimensions.minHeight: "fit-content"` turns into a scrollbar under flex-shrink squeeze. An empty style block is a latent rendering bug.
+
+### 5.2 The model's job shrinks
+
+Rather than asking the model to hold 63 props per container (which is precisely the regime where joint instruction compliance collapses), the pipeline narrows what it authors:
+
+| The model decides | Code decides |
+|---|---|
+| Archetype · entity + bindings · which **role** each node plays · measured overrides where a design supplied a concrete value | Which components the flow requires · every style property value · versions · parentIds · ids · propertyName casing |
+
+There is nothing left for it to omit, because it is never asked to enumerate.
+
 ## 6. Stage 1 components
 
 ### 6.1 Generated registry
@@ -215,8 +241,14 @@ Implementation notes:
 | `T2-MODELTYPE-SHAPE` | `formSettings.modelType` is `{name, module}` |
 | `T2-EDITMODE-MISMATCH` | `editMode` matches the form-type table (§8) |
 | `T2-DATACONTEXT-PROPS` | `dataContext` carries `entityType`, `sourceType`, `dataFetchingMode`, `defaultPageSize`, `uniqueStateId` |
+| `T2-STYLE-INCOMPLETE` | every `container` carries its full layout contract for **each** of desktop/tablet/mobile: `display`, `flexDirection`, `flexWrap`, `gap`, `justifyContent`, `alignItems`, all six `dimensions`, `border`, `background`, `shadow`, `stylingBox`. Required-prop set is derived from the registry, not hand-listed (§6.8) |
+| `T2-STYLE-OFF-TOKEN` | every style value resolves to a theme token, or is a declared measured override carrying its measurement provenance (§6.8) |
+| `T2-FLOW-INCOMPLETE` | every node the archetype's flow manifest requires is present, with its declared role (§6.8) |
+| `T2-DANGLING-FORMREF` | every `actionArguments.formId` / row-action `targetUrl` resolves to a form that exists in the backend. This is what forces dependency resolution (§6.9) rather than leaving it optional |
 
-**Tier 3 — layout and appearance (score, never blocks).** Weighted 0–100: label casing canonical · section count vs blueprint region count · one `primary` per action zone · destructive never `primary` · header `text` has explicit `fontSize` + `fontWeight` · no raw hex outside theme tokens · component-count ratio · no orphan wrapper containers.
+**Tier 3 — appearance judgement (score, never blocks).** Weighted 0–100: section count vs blueprint region count · one `primary` per action zone · destructive never `primary` · component-count ratio · no orphan wrapper containers · `T3-NON-AUTHORABLE-TYPE` (a legacy/hidden type appears in newly-authored markup).
+
+Note what **moved out** of Tier 3 into Tier 2 above: style completeness and token conformance. Under-specified configuration is now a hard failure, because scoring it left the model free to ship empty blocks.
 
 Two values in Tier 3 are **calibrated from the corpus, not guessed** — they are set once in step 4 of the sequencing and recorded in `registry.meta.json`:
 
@@ -225,13 +257,21 @@ Two values in Tier 3 are **calibrated from the corpus, not guessed** — they ar
 
 **Tier 3 must never gate a push.** Its purpose is to make quality a number, so the corpus can be ranked and runs compared.
 
-### 6.3 The normalizer
+### 6.3 The normalizer / style expander
 
 **Location:** `shesha-form-edit/scripts/normalize-form.mjs`
 
-**Contract:** `node normalize-form.mjs <in.json> [--out <out.json>] [--registry <path>]`. Deterministic and **idempotent** — `normalize(normalize(x)) === normalize(x)` is a test.
+**Contract:** `node normalize-form.mjs <in.json> [--out <out.json>] [--registry <path>] [--roles <path>]`. Deterministic and **idempotent** — `normalize(normalize(x)) === normalize(x)` is a test.
+
+Its primary job is **expansion**, not stripping: for every node carrying a `role`, it emits the complete style block for that role across all three breakpoints, from the role catalogue (§6.8). Measured overrides declared in the blueprint are applied on top and preserved. Stripping inert values is secondary.
 
 Transforms:
+
+| Expansion | Replaces |
+|---|---|
+| `role` → complete 63-prop style block per breakpoint, values resolved from theme tokens | the model authoring style blocks at all, and every "a form looks cheap when only one layer is done" prose rule |
+| Apply declared measured overrides on top of the role block, preserving provenance | hard-coded `332px` / `calc(100% - 348px)` constants in 8 files |
+| Insert the flow manifest's required nodes if absent, with their roles | assertions that name components the layout tree never declared |
 
 | Transform | Deletes this prose rule |
 |---|---|
@@ -295,11 +335,107 @@ Byproduct: `corpus-report.md` is a prioritised list of real forms worth fixing.
 
 **Description surgery.** `shesha-claude-designer` keeps "match a design" as its trigger. `shesha-design-comprehension`, `shesha-design-system` and `shesha-form-edit` lose that phrasing and are described as sub-skills invoked by the orchestrator or the agent. Trigger rate is then measured over ≥3 runs per eval case.
 
+### 6.8 Style-role catalogue, flow manifests, and the styled blueprint
+
+Three artifacts that together remove every remaining model judgement about styling and flow composition.
+
+**`shesha-design-system/assets/roles.styles.json`** — role → complete style block. Values are **token references**, never literals, so a brand swap changes one file:
+
+```jsonc
+{
+  "page-root": {
+    "componentType": "container",
+    "desktop": {
+      "display": "flex", "flexDirection": "column", "flexWrap": "nowrap",
+      "gap": "$spacing.6", "justifyContent": "flex-start", "alignItems": "stretch",
+      "dimensions": { "width": "100%", "minWidth": "0", "maxWidth": "none",
+                      "height": "auto", "minHeight": "fit-content", "maxHeight": "none" },
+      "background": { "type": "color", "color": "$roles.pageBg" },
+      "border": { "borderType": "none", "radiusType": "all", "radius": { "all": "$radius.xs" } },
+      "shadow": { "offsetX": 0, "offsetY": 0, "blurRadius": 0, "spreadRadius": 0, "color": "transparent" },
+      "stylingBox": { "padding": "$spacing.6" }
+    },
+    "tablet": { "$inherit": "desktop", "stylingBox": { "padding": "$spacing.4" } },
+    "mobile":  { "$inherit": "desktop", "stylingBox": { "padding": "$spacing.3" } }
+  }
+}
+```
+
+Every role is validated against the registry at build time: a role may not set a prop the component type does not have. That check is what stops the catalogue drifting from the framework.
+
+**Style freedom is `role + measured overrides`** (decision §4). A blueprint may override an individual prop **only** when a design measurement produced a concrete value, and the override must carry its provenance:
+
+```jsonc
+{ "role": "detail-rail",
+  "overrides": [
+    { "prop": "desktop.dimensions.width", "value": "332px",
+      "source": "probe", "evidence": "blueprints/_probe/view-detail.layout.json#body.childWidths[1]" }
+  ] }
+```
+
+An override without `source` + `evidence` fails `T2-STYLE-OFF-TOKEN`. Anything needing a genuinely novel treatment gets a new role added to the catalogue and reviewed once — not invented per run.
+
+**`shesha-form-edit/assets/archetypes/<archetype>.flow.json`** — archetype → the complete node set a working flow requires, with roles, slots and wiring. This is the fix for blueprints whose assertions demand components the layout tree never declared:
+
+```jsonc
+{
+  "archetype": "table-worklist",
+  "requires": [
+    { "node": "dataContext",  "type": "dataContext", "props": ["entityType","sourceType","dataFetchingMode","defaultPageSize","uniqueStateId"] },
+    { "node": "page",         "type": "container", "role": "page-root" },
+    { "node": "pageHeader",   "type": "container", "role": "header-band", "slot": "page", "children": ["heading","subtitle"] },
+    { "node": "toolbar",      "type": "container", "role": "toolbar-row", "slot": "page",
+      "children": ["addButtonGroup","quickSearch","columnChooser"] },
+    { "node": "addButtonGroup","type": "buttonGroup", "wiring": "showDialog:<create-form>", "dependsOn": "createForm" },
+    { "node": "quickSearch",  "type": "datatable.quickSearch" },
+    { "node": "columnChooser","type": "datatable.selectColumnsButton" },
+    { "node": "table",        "type": "datatable", "role": "grid-surface", "slot": "page",
+      "requiresColumn": { "columnType": "action", "action": "navigate", "dependsOn": "detailForm" } },
+    { "node": "pagerRow",     "type": "container", "role": "toolbar-row-right", "slot": "page", "children": ["pager"] },
+    { "node": "pager",        "type": "datatable.pager" }
+  ],
+  "dependencies": [
+    { "id": "createForm", "archetype": "capture-dialog", "naming": "{entity-kebab}-create" },
+    { "id": "detailForm", "archetype": "record-detail",  "naming": "{entity-kebab}-detail" }
+  ]
+}
+```
+
+**The styled blueprint** carries three synchronised representations, because they serve different readers:
+
+1. An **ASCII placement mock** — box-drawing wireframe annotated with node name, role, and the key resolved values (flex direction, gap, padding, width/minH). This is the high-fidelity spatial view: it is what makes placement legible to the model in a way prose never was, and it is what a human signs off at the planning gate.
+2. The **machine blocks** — `layout-tree`, `bindings`, `assertions`, plus the resolved style block per node.
+3. The **flow manifest expansion** — showing which nodes were added by the archetype contract rather than named in the prompt, so nothing appears by magic.
+
+A worked ASCII mock for a `table-worklist` is included in `references/blueprint-ir.md`. Because the mock is generated from the same resolved tree the compiler consumes, it cannot drift from what gets built — which is the failure mode of a hand-drawn wireframe.
+
+### 6.9 Recursive dependency resolution
+
+`T2-DANGLING-FORMREF` makes a flow referencing a non-existent form a hard failure, so dependencies must actually be built. Per decision §4, missing dependencies are **auto-created**.
+
+**Mechanism:** when the flow manifest declares a `dependsOn` whose target form does not resolve in the backend, the orchestrator dispatches a **fresh `shesha-form-designer` subagent to run the full pipeline for that dependency** — its own archetype, flow expansion, styled blueprint, validation and push. Fresh isolated context per dependency is exactly what subagents provide, and it means each dependency build is independently verifiable rather than smuggled into the parent's context.
+
+**Build order is leaves-first.** A parent cannot wire `actionArguments.formId` until the dependency exists and is published, so the dependency graph is resolved topologically and the parent is pushed last.
+
+**Guards, because recursion on a graph with cycles is the obvious failure mode:**
+
+| Guard | Rule |
+|---|---|
+| Visited set | keyed on `(module, formName)` — a form is built at most once per run, and an already-existing form is never rebuilt |
+| Depth cap | **2** levels of dependency by default (`table → create → …` stops there). Exceeding it stops and reports rather than recursing |
+| Fan-out cap | a maximum of **5** dependency forms per run; beyond that, stop and present the list for confirmation |
+| Cost disclosure | the expanded dependency set and its estimated cost are stated **before** any subagent is dispatched, and gated on confirmation in attended runs |
+| Backend prerequisites | a dependency needing an entity/reflist that does not exist routes to `domain-model` and blocks, rather than building a form against a missing entity |
+
+**Reporting:** the run summary names every form created or modified with its module, name, id, and whether it was requested directly or created as a dependency — so a prompt that produced three forms says so plainly.
+
 ## 7. Stage 2 components
 
 Deferred until Stage 1 shows a measurable stddev reduction on evals.
 
-- **`form-spec.schema.json`** — the blueprint becomes JSON, not Markdown prose: `{archetype, entity, formIdentity, regions[{name, recipe, rows[{children[{kind, width}]}]}], bindings[], assertions[]}`.
+**Moved into Stage 1 during review:** the blueprint schema itself. It is now load-bearing rather than a refinement — the role catalogue, flow manifests and `T2-STYLE-INCOMPLETE` all key off it — so it lands in Stage 1 as §6.8, not here.
+
+- **`form-spec.schema.json`** — the formal JSON Schema for the styled blueprint of §6.8: `{archetype, entity, formIdentity, theme, viewport, nodes[{name, type, role, slot, overrides[], children[]}], bindings[], assertions[], dependencies[]}`.
 - **`compile-spec.mjs`** — spec → Shesha form JSON. Emits parentIds, versions, editMode-by-form-type, buttonGroup shape, `validationErrors`, flex containers with container children, camelCase propertyNames. The model authors the spec; it never authors markup. This is what makes ~100 further shape rules unrepresentable rather than merely forbidden.
 - **`verify-placement.mjs`** — evaluates spec assertions against two probe runs, with a real exit code. Prerequisites: fix `layout-probe.js` to emit `multiColumnContainers[].childWidths` and drop the `colSpan24` /24 normalisation its own spec forbids; fix the column-count heuristic that counts a vertically-stacked indented pair as two columns.
 - **Typed assertion grammar** — `same-cluster(a,b)`, `parent-of(a,b)`, `ratio(a,b,min,max)`, `same-rowband(a,b)`, `tab(a,key)`: exactly the five dimensions `verification-loop.md` already tabulates, made executable.
@@ -320,7 +456,7 @@ Deferred until Stage 1 shows a measurable stddev reduction on evals.
 | 10 | Card shadow: mandatory vs brand-conditional vs flat | Brand-conditional — present only if the brand defines `shadow.card` | design-system, single statement |
 | 11 | `KeyInformationBar` canonical vs deprecated | Flex row of N cells; mark the component deprecated in one place | doc |
 | 12 | design-system "never restructure" vs recipes that restructure | Structural instructions move to form-edit | boundary repair |
-| 13 | Minimalism vs required floor | Floor = inputs + `validationErrors` + Submit + exit + structural wrappers. Wrappers inserted by the normalizer are exempt from the count | Tier 3 component-count check |
+| 13 | Minimalism vs required floor | **Split the axis (§5.1).** Minimal component *count*; **complete** component *configuration* and *flow*. Floor = the archetype flow manifest's required set. Wrappers inserted by the normalizer are exempt from the count. "No padding" now means no gratuitous *components*, never sparse *config* | `T2-FLOW-INCOMPLETE`, `T2-STYLE-INCOMPLETE`, Tier 3 component-count ratio |
 | 14 | Seed priority: `examples/` first (line 22) vs `blocks/` first (line 147) | Exemplars first, then blocks, then examples. Stated once | SKILL.md |
 
 ## 9. What gets deleted
@@ -374,7 +510,7 @@ Target: instruction load for a single design run drops from **110–145k tokens 
 
 | # | Work | Est. | Unblocks |
 |---|---|---|---|
-| 1 | Registry generator + snapshot test | 1d | everything |
+| 1 | **Ground-truth layer**: registry generator + style-role catalogue + archetype flow manifests + styled-blueprint schema & ASCII mock renderer, each validated against the registry | 2.5d | everything |
 | 2 | Validator Tier 1+2 + fixtures | 1.5d | hook, corpus grading, evals |
 | 3 | Normalizer + idempotence tests | 1d | rule deletion |
 | 4 | Corpus mine + grade + FP assessment + curate exemplars | 1d | exemplar-based authoring |
@@ -383,7 +519,7 @@ Target: instruction load for a single design run drops from **110–145k tokens 
 | 7 | Evals + harness classifier fix | 1.5d | measurement |
 | 8 | `shesha-form-designer` agent + description surgery | 0.5d | pipeline execution |
 
-**≈9 days for Stage 1.** The oracle lands first; everything after it is measurable. Stage 2 begins only after evals show a stddev reduction.
+**≈10.5 days for Stage 1** (Phase 1 grew from 1d to 2.5d when the role catalogue, flow manifests and blueprint schema moved into it). The oracle lands first; everything after it is measurable. Stage 2 begins only after evals show a stddev reduction.
 
 Plugin version bumps follow `CLAUDE.md`: the pre-release suffix increments while the version carries `-alphaN`/`-betaN`; otherwise minor for a new skill, patch for enhancements to existing ones.
 
@@ -394,5 +530,7 @@ Plugin version bumps follow `CLAUDE.md`: the pre-release suffix increments while
 3. **Pipeline actually executes.** `shesha-design-comprehension` invocation rate in design builds goes from 0/10 to ≥9/10, measured from telemetry.
 4. **Instruction load down.** A single design run loads <40k tokens of instruction/asset text (baseline 110–145k).
 5. **Rule count down.** ≤100 prose rules across the four skills (baseline ~250), with zero known contradictions and zero unverifiable rules that gate a decision.
+5a. **No empty configuration.** Every `container` in a newly-authored form carries its complete layout contract across all three breakpoints, and every style value resolves to a token or a provenance-carrying measured override. Enforced by `T2-STYLE-INCOMPLETE` / `T2-STYLE-OFF-TOKEN`, so the pass rate is 100% by construction.
+5b. **No incomplete flows.** Every form matches its archetype's flow manifest, and no action references a form that does not exist (`T2-FLOW-INCOMPLETE`, `T2-DANGLING-FORMREF`). Dependency forms are auto-created and named in the run summary.
 6. **Registry accurate.** 116/116 types, 0 phantoms, versions matching the framework.
 7. **Design cases gradable.** 0/15 harness design cases classified `unknown` (baseline 13/15).
