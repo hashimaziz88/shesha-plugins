@@ -19,15 +19,36 @@ export function tier1(markup, { registry }) {
   const entries = flatten(components);
 
   for (const { node, ctx } of entries) {
-    const comp = registry.components[node.type];
+    // Corrected in Task 5: walk.mjs's flatten() (out of this task's scope to
+    // modify) includes ANY node carrying a `type` key in its result, on the
+    // assumption that `items[]` entries (buttonGroup buttons, datatable
+    // columns) never have one. That held for buttonGroup (whose items use
+    // `itemType`/`itemSubType`), but datatable COLUMN definitions carry a
+    // `type` field of their own meaning "column kind" ("data"/"action"/
+    // "item"/"group" — see references/components/inline-editable-tables.md)
+    // — a namespace collision with component `type`, not a real component.
+    // Corpus grading found this leaked datatable columns into the per-node
+    // checks below: on the 100-form RS cohort, ALL 113 T1-TYPE-UNKNOWN
+    // instances (100% of that code's findings) were column-kind values via
+    // an `.items[N]` path, and 113 of 504 T1-PARENT-MISSING instances were
+    // the same leak (column definitions never carry parentId — they aren't
+    // tree nodes). Skipping the type/prop/version/parent checks for a node
+    // reached via `items[]` matches the design already evident elsewhere in
+    // this file (checkEditComponentShape reads `node.items[].editComponent`
+    // directly, bypassing flatten() entirely, precisely because items[]
+    // members are metadata, not components).
+    const isItemsPseudoNode = ITEMS_PATH_RE.test(ctx.path);
+    const comp = isItemsPseudoNode ? undefined : registry.components[node.type];
 
-    checkTypeUnknown(node, ctx, registry, out);
-    if (comp) {
-      checkPropUnknown(node, ctx, comp, out);
-      checkVersion(node, ctx, comp, out);
+    if (!isItemsPseudoNode) {
+      checkTypeUnknown(node, ctx, registry, out);
+      if (comp) {
+        checkPropUnknown(node, ctx, comp, out);
+        checkVersion(node, ctx, comp, out);
+      }
+      checkParentMissing(node, ctx, out);
     }
     checkIdNotUuid(node, ctx, out);
-    checkParentMissing(node, ctx, out);
     checkDefaultValueNonString(node, ctx, out);
     checkEditComponentShape(node, ctx, out);
     checkDoubleSlot(node, ctx, out);
@@ -39,6 +60,12 @@ export function tier1(markup, { registry }) {
 
   return out;
 }
+
+// Matches a path ending in an `items[N]` segment — i.e. this "node" was only
+// reached because it sits inside some ancestor's `items[]` array (buttonGroup
+// buttons, datatable columns), not because it's a real member of the
+// components/tabs/content/header/customHeader tree.
+const ITEMS_PATH_RE = /\.items\[\d+\]$|^items\[\d+\]$/;
 
 // ---------------------------------------------------------------------------
 // Shared helpers
@@ -66,11 +93,32 @@ const UNIVERSAL_KEYS = new Set([
 
 const BREAKPOINT_KEYS = new Set(['desktop', 'tablet', 'mobile']);
 
-const UUID_V4_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
 function isPlainObject(v) {
   return v !== null && typeof v === 'object' && !Array.isArray(v);
 }
+
+// A curated set of style-schema path PREFIXES shared across most component
+// types (border/background/shadow/font panels, plus a handful of bare flags
+// that ride alongside them: direction, overflow, shadowStyle,
+// enableStyleOnReadonly, menuItemShadow). Task 5's corpus grading (100 real
+// RequirementsStudio production forms) found these firing T1-PROP-UNKNOWN on
+// 99/100 forms, 24,424 total instances, spread across 20-28 DISTINCT
+// component types per prop (e.g. border.hideBorder alone: 2,321 instances
+// across 26 types) — evidence the registry's per-type `props` scraper
+// (gen-registry.mjs, out of this task's scope to touch) inconsistently
+// captured a style-editor sub-schema that the real framework shares across
+// nearly every settingsForm, rather than evidence of 24,424 corpus typos.
+// Ancestor-prefix matching in isKnownProp() means listing the bare top-level
+// key here (e.g. "border") accepts every nested leaf under it (e.g.
+// "border.border.all.color") for ANY component type, regardless of whether
+// the registry happens to declare it for that specific type. This does not
+// weaken T1-PROP-UNKNOWN's ability to catch a genuinely misspelled/bogus
+// prop name outside this list — see docs/corpus-report.md for the
+// before/after measurement.
+const COMMON_STYLE_PROP_PREFIXES = new Set([
+  'border', 'background', 'shadow', 'font', 'dimensions', 'stylingBox',
+  'direction', 'overflow', 'shadowStyle', 'enableStyleOnReadonly', 'menuItemShadow',
+]);
 
 // ---------------------------------------------------------------------------
 // T1-TYPE-UNKNOWN
@@ -151,7 +199,7 @@ function isKnownProp(path, validProps) {
 }
 
 function checkPropUnknown(node, ctx, comp, out) {
-  const validProps = new Set(comp.props);
+  const validProps = new Set([...comp.props, ...COMMON_STYLE_PROP_PREFIXES]);
   const paths = collectOwnPropPaths(node);
   for (const path of paths) {
     if (!isKnownProp(path, validProps)) {
@@ -198,17 +246,32 @@ function checkVersion(node, ctx, comp, out) {
 }
 
 // ---------------------------------------------------------------------------
-// T1-ID-NOT-UUID
+// T1-ID-EMPTY (formerly T1-ID-NOT-UUID)
+//
+// Corrected in Task 5 after corpus grading + framework source verification
+// (shesha-reactjs: componentsTreeToFlatStructure keys `allComponents` by the
+// raw id string, formComponent.tsx uses it as a React `key` and a
+// `data-sha-c-id` DOM attribute — an opaque string, never format-checked)
+// and the framework's OWN id generator (`shesha-reactjs/src/utils/uuid.ts`,
+// despite its name) mints `nanoid(30)`, NOT an RFC4122 v4 UUID. Requiring a
+// v4-UUID SHAPE specifically was a false positive at massive scale: 100/100
+// forms in the corpus tripped it (2,047 instances) using ids the framework's
+// own designer produces — dashless hex strings, nanoid-style mixed-case/
+// dash/underscore strings, and (in this skill's own bundled seeds) plain
+// semantic strings like "sc-root-container". The one thing that DOES
+// genuinely break rendering — an id that's missing, non-string, or blank —
+// is what this check now flags; two components legitimately SHARING a
+// non-blank id is still caught separately by T1-ID-DUPLICATE below.
 // ---------------------------------------------------------------------------
 
 function checkIdNotUuid(node, ctx, out) {
-  if (typeof node.id !== 'string' || !UUID_V4_RE.test(node.id)) {
+  if (typeof node.id !== 'string' || node.id.trim().length === 0) {
     out.push(finding(
-      'T1-ID-NOT-UUID',
+      'T1-ID-EMPTY',
       ctx.path,
-      `Component id "${node.id}" is not a v4 UUID — the renderer ignores components with non-UUID ids, blanking the form.`,
-      'a v4-shaped UUID (e.g. xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx)',
-      node.id,
+      `Component id is ${JSON.stringify(node.id ?? null)} — a missing/blank/non-string id can't be used as the renderer's component-lookup key (allComponents[id]) or React key, so the component silently drops out of the tree.`,
+      'a non-empty string (any unique string works — the renderer does not require UUID shape)',
+      node.id ?? null,
     ));
   }
 }

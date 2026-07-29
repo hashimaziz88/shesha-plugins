@@ -40,16 +40,16 @@ test('returns {score, findings, uncalibrated} and every finding is tier 3 / seve
   }
 });
 
-test('uncalibrated is true when thresholds.calibrated is false (the shipped default)', () => {
-  assert.equal(thresholds.calibrated, false, 'assets/thresholds.json should still be provisional at this stage');
+test('uncalibrated is false now that assets/thresholds.json is calibrated (Task 5)', () => {
+  assert.equal(thresholds.calibrated, true, 'assets/thresholds.json should be calibrated after Task 5 (see docs/corpus-report.md)');
   const m = { components: [container({})] };
-  assert.equal(tier3(m, ctx).uncalibrated, true);
+  assert.equal(tier3(m, ctx).uncalibrated, false);
 });
 
-test('uncalibrated is false once thresholds.calibrated is true', () => {
+test('uncalibrated is true when a caller supplies thresholds with calibrated: false', () => {
   const m = { components: [container({})] };
-  const calibrated = { ...thresholds, calibrated: true };
-  assert.equal(tier3(m, { registry, thresholds: calibrated }).uncalibrated, false);
+  const uncalibrated = { ...thresholds, calibrated: false };
+  assert.equal(tier3(m, { registry, thresholds: uncalibrated }).uncalibrated, true);
 });
 
 test('a clean form scores 100 with no findings', () => {
@@ -179,6 +179,30 @@ test('T3-RAW-HEX: does NOT accept the superseded styleOverrides[path] shape as c
   assert.ok(codes(m).includes('T3-RAW-HEX'));
 });
 
+test('T3-RAW-HEX: does NOT flag the framework-stamped default border/shadow/background colors', () => {
+  // Corrected in Task 5: #d9d9d9 (border), #000/#000000 (shadow) and
+  // #ffffff (background) are values the framework's own style migrator
+  // stamps on every component load, never a deliberate brand choice — see
+  // tier3.mjs's isFrameworkDefaultColor comment and docs/corpus-report.md.
+  const m = { components: [{
+    id: ID(), type: 'container', parentId: 'root', version: 7,
+    desktop: {
+      border: { border: { all: { color: '#d9d9d9' } } },
+      background: { color: '#ffffff' },
+      shadow: { color: '#000' },
+    },
+  }] };
+  assert.ok(!codes(m).includes('T3-RAW-HEX'));
+});
+
+test('T3-RAW-HEX: still flags a hex color that only coincidentally shares a path with a default (different value)', () => {
+  const m = { components: [{
+    id: ID(), type: 'container', parentId: 'root', version: 7,
+    desktop: { border: { border: { all: { color: '#ff00ff' } } } },
+  }] };
+  assert.ok(codes(m).includes('T3-RAW-HEX'));
+});
+
 test('T3-COMPONENT-RATIO: flags a form whose components/bindings ratio exceeds the budget', () => {
   const m = { components: [
     container({ componentName: 'a', components: [
@@ -192,7 +216,7 @@ test('T3-COMPONENT-RATIO: flags a form whose components/bindings ratio exceeds t
     ] }),
   ] };
   const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-COMPONENT-RATIO');
-  assert.ok(found, 'expected a ratio finding for 5 components / 1 binding against a budget of 4');
+  assert.ok(found, `expected a ratio finding for 5 components / 1 binding against a budget of ${thresholds.componentBindingRatioBudget}`);
 });
 
 test('T3-COMPONENT-RATIO: is skipped (no finding, no crash) when there are zero bindings', () => {

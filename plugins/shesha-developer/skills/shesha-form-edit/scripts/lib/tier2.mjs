@@ -321,15 +321,40 @@ function checkStyleIncomplete(node, ctx, registry, out) {
 // not just the path). Rather than have two shapes for one concept across
 // artifacts that must interoperate, this check now reads `node.overrides[]`
 // (matched by `.prop`); the normalizer (scripts/normalize-form.mjs) migrates
-// any markup still carrying the legacy `styleOverrides` shape forward. NOTE:
-// scripts/lib/tier3.mjs independently reimplements the OLD `styleOverrides`
-// convention and was NOT reconciled here — it is another agent's
-// concurrently-in-progress file and out of this task's scope; see the task-7
-// report for what still needs changing there.
+// any markup still carrying the legacy `styleOverrides` shape forward.
+// scripts/lib/tier3.mjs's T3-RAW-HEX was ALSO reconciled to this same
+// `overrides[]` shape (see its own header comment) — both consumers of the
+// override concept now agree on one shape.
 // ---------------------------------------------------------------------------
 
 const COLOR_LITERAL_RE = /^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
 const RGB_RE = /^rgba?\(/i;
+
+// Corrected in Task 5: a literal color that exactly matches a value the
+// FRAMEWORK'S OWN style migrator stamps on every component load — never a
+// human's deliberate brand choice — does not need override provenance,
+// because there was no design decision to justify. Verified against
+// shesha-framework source: the container migrator
+// (designer-components/container/containerComponent.tsx's v7 migrator,
+// _common-migrations/migrateStyles.ts) hardcodes border color "#d9d9d9" and
+// shadow color "#000"/"#000000" as unconditional fallbacks, mirrored
+// identically into desktop/tablet/mobile — exactly the pattern measured in
+// the corpus (82/100 forms, 30,188 T3-RAW-HEX instances, virtually all
+// these three exact values). "#ffffff" for background.color carries the
+// same evidence via the framework's initialStyles.ts default generator.
+// Deliberately NOT included: font.color's corpus value ("#1a1a1a") has no
+// confirmed framework-default origin, so it remains a live finding.
+function isFrameworkDefaultColor(path, value) {
+  const parts = path.split('.');
+  const last = parts[parts.length - 1];
+  const parent = parts[parts.length - 2];
+  const grandparent = parts[parts.length - 3];
+  const v = value.toLowerCase();
+  if (last === 'color' && parent === 'shadow' && (v === '#000' || v === '#000000')) return true;
+  if (last === 'color' && parent === 'background' && v === '#ffffff') return true;
+  if (last === 'color' && grandparent === 'border' && ['all', 'top', 'bottom', 'left', 'right'].includes(parent) && v === '#d9d9d9') return true;
+  return false;
+}
 
 function collectColorPaths(node) {
   const found = [];
@@ -359,6 +384,7 @@ function checkStyleOffToken(node, ctx, out) {
     overridesArr.filter(isPlainObject).map((o) => [o.prop, o]),
   );
   for (const { path, value } of colors) {
+    if (isFrameworkDefaultColor(path, value)) continue;
     const ov = overrideByProp.get(path);
     const covered = isPlainObject(ov) && typeof ov.source === 'string' && ov.source.length > 0
       && typeof ov.evidence === 'string' && ov.evidence.length > 0;
@@ -460,12 +486,24 @@ function checkLooseButton(node, ctx, out) {
 
 // ---------------------------------------------------------------------------
 // T2-PROPERTYNAME-CASE
+//
+// Corrected in Task 5: a DOTTED propertyName (e.g. "usedModule.name",
+// "baseProject.status") is a sanctioned Shesha convention for reaching a
+// property on a related/nested entity — it appears throughout this very
+// skill's own bundled canonical seeds (assets/examples/rs-detail-with-
+// header.json, rs-table.json, rs-subtable-tab-fragment.json). The original
+// regex had no notion of a path separator, so it flagged every nested
+// binding as a case violation even when each individual segment was
+// correctly camelCase. isCamel() now checks each dot-separated segment
+// independently; a genuine violation (a segment that is snake_case,
+// PascalCase, etc.) is still caught.
 // ---------------------------------------------------------------------------
 
 const CAMEL_RE = /^[a-z][a-zA-Z0-9]*$/;
 
 function isCamel(name) {
-  return typeof name === 'string' && name.length > 0 && CAMEL_RE.test(name);
+  if (typeof name !== 'string' || name.length === 0) return false;
+  return name.split('.').every((segment) => CAMEL_RE.test(segment));
 }
 
 function lowerFirst(s) {
@@ -548,13 +586,25 @@ function checkDropdownSource(node, ctx, out) {
       ));
     }
   } else if (node.dataSourceType === 'entitiesList') {
+    // Corrected in Task 5: entityType accepts EITHER the { name, module }
+    // object OR a non-empty full-class-name string — the same
+    // isEntityTypeIdentifier/getEntityTypeIdentifier normalization
+    // (providers/metadataDispatcher/entities/utils.ts) that resolves
+    // formSettings.modelType (see T2-MODELTYPE-SHAPE) also governs
+    // entityPicker's `entityType`, confirmed typed `string |
+    // IEntityTypeIdentifier` and fed through the identical query-param
+    // builder. Corpus grading found full-class-name strings here on real
+    // production forms; only a genuinely absent/empty entityType is a
+    // defect.
     const et = node.entityType;
-    if (!isPlainObject(et) || typeof et.name !== 'string' || !et.name) {
+    const okObject = isPlainObject(et) && typeof et.name === 'string' && et.name.length > 0;
+    const okString = typeof et === 'string' && et.length > 0;
+    if (!okObject && !okString) {
       out.push(finding(
         'T2-DROPDOWN-SOURCE',
         ctx.path,
         `"${node.type}" ("${nodeLabel(node)}") has dataSourceType: "entitiesList" but entityType is ${JSON.stringify(et ?? null)} — an entity-FK source with no entityType renders an empty box.`,
-        'entityType: { name: "<ShortClass>", module: "<Module>" }',
+        'entityType: { name: "<ShortClass>", module: "<Module>" } or a non-empty full-class-name string',
         et ?? null,
       ));
     }
@@ -596,18 +646,34 @@ function checkDateComponent(node, ctx, out) {
 
 // ---------------------------------------------------------------------------
 // T2-MODELTYPE-SHAPE
+//
+// Corrected in Task 5: corpus grading (100 real RequirementsStudio
+// production forms) found 90/100 using a bare full-class-name STRING here,
+// only 1/100 using the { name, module } object — and framework-source
+// verification (shesha-reactjs) confirmed both are first-class, fully
+// supported shapes with NO functional difference: `IFormSettingsCommon.
+// modelType` is typed `IEntityTypeIdentifier | string`, and every metadata
+// consumer (metadataDispatcher/dispatcher.ts's getMetadata/isEntityType,
+// entityMetadataFetcher.ts) branches on `isEntityTypeIdentifier()` and calls
+// symmetrically-implemented fetchers for either shape (getByTypeId vs
+// getByClassName both delegate to the same getByEntityType). The object
+// shape is a newer, ADDITIVE convention layered on top of the string shape
+// (introduced in commit 30ea93c93), not a replacement for it — the 0.43
+// worktree only ever had the string form. A bare string is therefore NOT a
+// defect; only a genuinely missing/empty/malformed modelType is.
 // ---------------------------------------------------------------------------
 
 function checkModelTypeShape(markup, out) {
   const mt = markup?.formSettings?.modelType;
-  const ok = isPlainObject(mt) && typeof mt.name === 'string' && mt.name.length > 0
+  const okObject = isPlainObject(mt) && typeof mt.name === 'string' && mt.name.length > 0
     && typeof mt.module === 'string' && mt.module.length > 0;
-  if (!ok) {
+  const okString = typeof mt === 'string' && mt.length > 0;
+  if (!okObject && !okString) {
     out.push(finding(
       'T2-MODELTYPE-SHAPE',
       'formSettings.modelType',
-      `formSettings.modelType is ${JSON.stringify(mt ?? null)} — current Shesha builds emit the object { name, module } (e.g. { "name": "Person", "module": "Shesha" }); a bare full-class-name string still renders on legacy forms but is not what to author.`,
-      '{ name: "<ShortClass>", module: "<Module>" }',
+      `formSettings.modelType is ${JSON.stringify(mt ?? null)} — it must be either the object { name, module } (e.g. { "name": "Person", "module": "Shesha" }) or a non-empty full-class-name string; both resolve identically at runtime, but an absent/empty/malformed value cannot resolve entity metadata at all.`,
+      '{ name: "<ShortClass>", module: "<Module>" } or a non-empty full-class-name string',
       mt ?? null,
     ));
   }
@@ -625,6 +691,18 @@ function checkModelTypeShape(markup, out) {
 // of the registry's isInput:true types — deliberately excluding structural/
 // meta "input" widgets (dataContext, queryBuilder, metadataEditor, ...) that
 // don't carry this edit/dialog semantic.
+//
+// Corrected in Task 5: `editMode: "readOnly"` is exempted from the mismatch
+// check. references/components/edit-mode.md documents THREE legitimate
+// values — 'editable' | 'readOnly' | 'inherited' — and is explicit that
+// "editMode === 'readOnly' always wins" regardless of form type: it is a
+// deliberate, permanent read-only field (e.g. a computed/audit value), not a
+// detail/dialog-lifecycle bug. The corpus (100 real forms) showed this
+// mismatch firing on every non-detail form with a legitimately read-only
+// field; flagging a field an author explicitly marked readOnly as if it
+// were an accidentally-wrong editable/inherited value was the false
+// positive — the check still fires (correctly) when editMode is missing, or
+// is the OTHER wrong value of the editable/inherited pair.
 // ---------------------------------------------------------------------------
 
 const INTERACTIVE_TYPES = new Set([
@@ -636,6 +714,7 @@ const INTERACTIVE_TYPES = new Set([
 
 function checkEditModeMismatch(node, ctx, comp, isDetailForm, out) {
   if (!INTERACTIVE_TYPES.has(node.type)) return;
+  if (node.editMode === 'readOnly') return;
   const expected = isDetailForm ? 'inherited' : 'editable';
   if (node.editMode !== expected) {
     out.push(finding(
@@ -652,9 +731,23 @@ function checkEditModeMismatch(node, ctx, comp, isDetailForm, out) {
 
 // ---------------------------------------------------------------------------
 // T2-DATACONTEXT-PROPS
+//
+// Corrected in Task 5: `uniqueStateId` removed from the required set.
+// Corpus grading found EVERY dataContext-scoped finding was for this one key
+// (never entityType/sourceType/dataFetchingMode/defaultPageSize) on 37/100
+// real, actively-used production forms — and framework-source verification
+// found `uniqueStateId` is not, and has never been, a property of the
+// dataContext component at all: `IDataContextComponentProps` has no such
+// field, and `dataContextComponent/settings.tsx` doesn't offer it.
+// `uniqueStateId` IS a real property, but of unrelated legacy components
+// (table/childTable/dataSource/entityPicker/wizard/button), where it is read
+// with a `prev['uniqueStateId'] ?? prev['name']` fallback during migration —
+// tolerated, never a hard requirement, even on the types that once had it.
+// The check was validating a property against the wrong component's
+// contract; the corpus forms it fired on were never broken.
 // ---------------------------------------------------------------------------
 
-const DATACONTEXT_REQUIRED = ['entityType', 'sourceType', 'dataFetchingMode', 'defaultPageSize', 'uniqueStateId'];
+const DATACONTEXT_REQUIRED = ['entityType', 'sourceType', 'dataFetchingMode', 'defaultPageSize'];
 
 function checkDataContextProps(node, ctx, out) {
   if (node.type !== 'dataContext') return;

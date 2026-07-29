@@ -1,6 +1,6 @@
 {
-  "calibrated": false,
-  "componentBindingRatioBudget": 4,
-  "evalPassScore": 70,
-  "notes": "Provisional values only. componentBindingRatioBudget and evalPassScore are guesses, not measurements — Task 5 calibrates both against the real form corpus and flips calibrated to true when it does. Until then, tier3()'s return carries uncalibrated: true so no caller can mistake this score for a measured one."
+  "calibrated": true,
+  "componentBindingRatioBudget": 1,
+  "evalPassScore": 96,
+  "notes": "Calibrated in Task 5 against 935 real production forms (RequirementsStudio, MembershipManagement, AssetManagement2, UtilityManagement) graded by scripts/grade-corpus.mjs (see docs/corpus-report.md). Method (per the task-5 brief): rank every form by its Tier 3 score computed WITHOUT T3-COMPONENT-RATIO (the score the check itself produces when no budget is configured); take the top quartile by that score (184 of 735 forms with >=1 binding; score cutoff 94/100) as the 'well-built' cohort. componentBindingRatioBudget = the 75th percentile of components/bindings within that cohort (measured: 1 — 156/184 top-quartile forms carry a propertyName on literally every component, including containers/buttons, a corpus-wide authoring convention, so 'bindings' as this check defines it is much closer to total component count than to 'data-bound fields' in practice). evalPassScore = the median Tier 3 score of that SAME cohort after recomputing with the now-known budget applied (98 before the ratio check is added back in, 96 after — some top-quartile forms still exceed their own cohort's 75th percentile and take the flat 15-point deduction). CAVEAT carried into the report: because the calibrated budget is this tight, T3-COMPONENT-RATIO will fire on any form that includes even one purely-structural component without a propertyName (about 32% of the full corpus does today) — this is expected and acceptable ONLY because Tier 3 is observe-only and never blocks the push hook (validate-form.mjs's rule); do not repurpose this budget as a blocking (Tier 1/2) gate without re-deriving it against a corpus that does NOT stamp propertyName onto structural nodes."
 }

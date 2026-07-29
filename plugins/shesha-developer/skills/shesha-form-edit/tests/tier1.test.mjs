@@ -75,8 +75,47 @@ test('T1-PROP-UNKNOWN: does not flag known dotted/breakpoint-nested props', () =
   assert.ok(!codes(fx('t1-clean')).includes('T1-PROP-UNKNOWN'));
 });
 
-test('T1-ID-NOT-UUID: flags a non-UUID id', () => {
-  assert.ok(codes(fx('t1-id-not-uuid')).includes('T1-ID-NOT-UUID'));
+test('T1-PROP-UNKNOWN: does not flag the common style-schema props on a type the registry under-declares them for', () => {
+  // Corpus grading (Task 5) found border.hideBorder/background.gradient.
+  // direction/font.*/shadow.*/direction/overflow/shadowStyle/
+  // enableStyleOnReadonly/menuItemShadow.* firing T1-PROP-UNKNOWN across
+  // 20-28 DISTINCT component types each — evidence of a registry-scraper
+  // gap in a shared style-editor sub-schema, not 24k corpus typos (see
+  // docs/corpus-report.md). "container" is used here as the exercising
+  // type since its own registry entry does not declare "font".
+  const m = {
+    components: [{
+      id: crypto.randomUUID(), type: 'container', parentId: 'root', version: 7,
+      direction: 'vertical', overflow: 'visible', shadowStyle: 'none', enableStyleOnReadonly: true,
+      desktop: {
+        border: { hideBorder: false },
+        background: { gradient: { direction: 'to right' } },
+        font: { align: 'left', weight: '400', color: '#000', size: '14px', type: 'Arial' },
+        menuItemShadow: { offsetX: 0, offsetY: 0, color: '#000', blurRadius: 0, spreadRadius: 0 },
+      },
+    }],
+  };
+  assert.ok(!codes(m).includes('T1-PROP-UNKNOWN'));
+});
+
+test('T1-PROP-UNKNOWN: still flags a genuinely unrecognized prop outside the common style-schema allowance', () => {
+  const m = { components: [{ id: crypto.randomUUID(), type: 'container', parentId: 'root', version: 7,
+    totallyBogusSettingNoOneWrote: true }] };
+  assert.ok(codes(m).includes('T1-PROP-UNKNOWN'));
+});
+
+test('T1-ID-EMPTY: flags a blank id', () => {
+  assert.ok(codes(fx('t1-id-empty')).includes('T1-ID-EMPTY'));
+});
+
+test('T1-ID-EMPTY: does NOT flag a non-UUID-shaped but non-empty id', () => {
+  // The framework's own designer mints nanoid(30) ids (not RFC4122 UUIDs),
+  // and dashless-hex / semantic-string ids are common in real production
+  // markup (see docs/corpus-report.md) — only a missing/blank/non-string id
+  // is a genuine renderability risk (T1-ID-EMPTY), never the SHAPE of a
+  // non-empty string.
+  const m = { components: [{ id: 'sc-root-container', type: 'textField', parentId: 'root', version: 6 }] };
+  assert.ok(!codes(m).includes('T1-ID-EMPTY'));
 });
 
 test('T1-ID-DUPLICATE: flags two components sharing one id', () => {
@@ -116,6 +155,35 @@ test('T1-JSON-UNSAFE: flags a raw newline inside a script string', () => {
   assert.ok(codes(m).includes('T1-JSON-UNSAFE'));
 });
 
+test('T1-TYPE-UNKNOWN: does NOT flag a datatable column-kind "type" (columnType collides with component type)', () => {
+  // Corpus grading (Task 5): datatable column definitions carry their OWN
+  // `type` field meaning "column kind" ("data"/"action"/"item"/"group"),
+  // which collides with the walk's generic "has a type => it's a component"
+  // heuristic. On the 100-form RS cohort, 100% of T1-TYPE-UNKNOWN findings
+  // were this leak, not a genuine unregistered component type.
+  const m = { components: [{
+    id: crypto.randomUUID(), type: 'datatable', parentId: 'root', version: 29,
+    items: [{ id: crypto.randomUUID(), itemType: 'item', columnType: 'action', type: 'action', caption: '', width: 50 }],
+  }] };
+  assert.ok(!codes(m).includes('T1-TYPE-UNKNOWN'));
+});
+
+test('T1-PARENT-MISSING: does NOT flag a datatable column item (not a real tree node, never has parentId)', () => {
+  const m = { components: [{
+    id: crypto.randomUUID(), type: 'datatable', parentId: 'root', version: 29,
+    items: [{ id: crypto.randomUUID(), itemType: 'item', columnType: 'data', type: 'data', propertyName: 'name' }],
+  }] };
+  assert.ok(!codes(m).includes('T1-PARENT-MISSING'));
+});
+
+test('T1-PARENT-MISSING: still flags a real component whose parentId does not resolve', () => {
+  const m = { components: [{
+    id: crypto.randomUUID(), type: 'container', parentId: 'root', version: 7,
+    components: [{ id: crypto.randomUUID(), type: 'textField', version: 6, parentId: 'some-other-id' }],
+  }] };
+  assert.ok(codes(m).includes('T1-PARENT-MISSING'));
+});
+
 test('T1-TYPE-UNKNOWN: message names the offending type', () => {
   const f = tier1(fx('t1-type-unknown'), { registry }).find((x) => x.code === 'T1-TYPE-UNKNOWN');
   assert.ok(f.message.includes('totallyMadeUpWidget'));
@@ -132,7 +200,7 @@ test('T1-VERSION-STALE: message names both the actual and expected version', () 
 test('every finding on every fixture is tier 1 / severity fail with a path', () => {
   const fixtures = [
     't1-type-unknown', 't1-prop-unknown', 't1-version-missing', 't1-version-stale',
-    't1-id-not-uuid', 't1-id-duplicate', 't1-parent-missing', 't1-defaultvalue-nonstring',
+    't1-id-empty', 't1-id-duplicate', 't1-parent-missing', 't1-defaultvalue-nonstring',
     't1-editcomponent-shape', 't1-double-slot', 't1-script-syntax', 't1-json-unsafe',
   ];
   for (const name of fixtures) {

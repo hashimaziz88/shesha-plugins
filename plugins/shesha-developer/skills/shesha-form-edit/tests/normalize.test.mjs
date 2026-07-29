@@ -44,7 +44,7 @@ test('normalize(normalize(f)) deep-equals normalize(f) across the corpus (or the
   } else {
     // Fallback: every bundled tier1/tier2 fixture plus our own clean fixture.
     const names = [
-      't1-clean', 't2-clean', 't1-id-not-uuid', 't1-id-duplicate', 't1-parent-missing',
+      't1-clean', 't2-clean', 't1-id-empty', 't1-id-duplicate', 't1-parent-missing',
       't1-version-missing', 't2-columns-present', 't2-flexchild-not-container',
       't2-width-on-noncontainer', 't2-flex-no-display', 't2-style-incomplete',
     ];
@@ -71,7 +71,7 @@ test('normalize(normalize(f)) deep-equals normalize(f) across the corpus (or the
 // ---------------------------------------------------------------------------
 
 test('determinism: normalizing the same input twice (independently) yields byte-identical JSON', () => {
-  const m = fx('t1-id-not-uuid');
+  const m = fx('t1-id-empty');
   const a = JSON.stringify(normalize(m, ctx));
   const b = JSON.stringify(normalize(m, ctx));
   assert.equal(a, b);
@@ -108,10 +108,10 @@ test('clears T1-VERSION-MISSING', () => {
   assert.ok(!t1codes(normalize(before, ctx)).includes('T1-VERSION-MISSING'));
 });
 
-test('clears T1-ID-NOT-UUID', () => {
-  const before = fx('t1-id-not-uuid');
-  assert.ok(t1codes(before).includes('T1-ID-NOT-UUID'));
-  assert.ok(!t1codes(normalize(before, ctx)).includes('T1-ID-NOT-UUID'));
+test('clears T1-ID-EMPTY', () => {
+  const before = fx('t1-id-empty');
+  assert.ok(t1codes(before).includes('T1-ID-EMPTY'));
+  assert.ok(!t1codes(normalize(before, ctx)).includes('T1-ID-EMPTY'));
 });
 
 test('clears T1-ID-DUPLICATE', () => {

@@ -155,6 +155,25 @@ test('T2-STYLE-OFF-TOKEN: does not flag a color covered by an overrides[] source
   assert.ok(!codes(m).includes('T2-STYLE-OFF-TOKEN'));
 });
 
+test('T2-STYLE-OFF-TOKEN: does not flag the framework-stamped default border/shadow/background colors', () => {
+  // Corrected in Task 5: #d9d9d9 (border), #000/#000000 (shadow) and
+  // #ffffff (background) are values the framework's own style migrator
+  // stamps on every component load (containerComponent.tsx's v7 migrator,
+  // _common-migrations/migrateStyles.ts) — never a deliberate brand choice,
+  // so no overrides[] provenance should be demanded for them.
+  const m = {
+    components: [{
+      id: crypto.randomUUID(), type: 'container', parentId: 'root', version: 7,
+      desktop: {
+        border: { border: { all: { color: '#d9d9d9' } } },
+        background: { color: '#ffffff' },
+        shadow: { color: '#000000' },
+      },
+    }],
+  };
+  assert.ok(!codes(m).includes('T2-STYLE-OFF-TOKEN'));
+});
+
 test('T2-VALIDATIONERRORS-MISSING: flags a required field with no validationErrors component', () => {
   assert.ok(codes(fx('t2-validationerrors-missing')).includes('T2-VALIDATIONERRORS-MISSING'));
 });
@@ -183,8 +202,30 @@ test('T2-PROPERTYNAME-CASE: also flags a PascalCase datatable column propertyNam
   assert.ok(found.some((f) => /ActionedBy/.test(f.message)));
 });
 
+test('T2-PROPERTYNAME-CASE: does NOT flag a dotted nested-entity propertyName whose segments are each camelCase', () => {
+  // "usedModule.name" / "baseProject.status" is the sanctioned Shesha
+  // convention for reaching a related entity's property — present in this
+  // skill's own bundled seeds (rs-detail-with-header.json, rs-table.json).
+  const m = { components: [{ id: ID(), type: 'textField', propertyName: 'baseProject.name', parentId: 'root', version: 6 }] };
+  assert.ok(!codes(m).includes('T2-PROPERTYNAME-CASE'));
+});
+
+test('T2-PROPERTYNAME-CASE: still flags a dotted propertyName with a non-camelCase segment', () => {
+  const m = { components: [{ id: ID(), type: 'textField', propertyName: 'BaseProject.name', parentId: 'root', version: 6 }] };
+  assert.ok(codes(m).includes('T2-PROPERTYNAME-CASE'));
+});
+
 test('T2-DROPDOWN-SOURCE: flags a dropdown with no dataSourceType', () => {
   assert.ok(codes(fx('t2-dropdown-source')).includes('T2-DROPDOWN-SOURCE'));
+});
+
+test('T2-DROPDOWN-SOURCE: does NOT flag entitiesList entityType given as a bare class-name string', () => {
+  // entityPicker's `entityType` is typed `string | IEntityTypeIdentifier` and
+  // normalized via the same isEntityTypeIdentifier/getEntityTypeIdentifier
+  // path as formSettings.modelType — both shapes resolve identically.
+  const m = { components: [{ id: ID(), type: 'autocomplete', parentId: 'root', version: 6,
+    dataSourceType: 'entitiesList', entityType: 'Shesha.Domain.Person' }] };
+  assert.ok(!codes(m).includes('T2-DROPDOWN-SOURCE'));
 });
 
 test('T2-DATE-COMPONENT: flags a "birthDate" property on a textField', () => {
@@ -196,14 +237,44 @@ test('T2-DATE-COMPONENT: does not flag "candidate" (no word-boundary "date")', (
   assert.ok(!codes(m).includes('T2-DATE-COMPONENT'));
 });
 
-test('T2-MODELTYPE-SHAPE: flags a legacy bare-string modelType', () => {
+test('T2-MODELTYPE-SHAPE: flags a missing modelType', () => {
   assert.ok(codes(fx('t2-modeltype-shape')).includes('T2-MODELTYPE-SHAPE'));
+});
+
+test('T2-MODELTYPE-SHAPE: does NOT flag a bare full-class-name string', () => {
+  // Both { name, module } and a bare string resolve identically at runtime
+  // (isEntityTypeIdentifier/getEntityTypeIdentifier normalize either shape) —
+  // 90/100 real production forms use the string form. Only a genuinely
+  // absent/empty/malformed modelType is a defect.
+  const m = { formSettings: { modelType: 'Shesha.Domain.Person' }, components: [] };
+  assert.ok(!codes(m).includes('T2-MODELTYPE-SHAPE'));
 });
 
 test('T2-EDITMODE-MISMATCH: flags "inherited" on an interactive field with no detail lifecycle', () => {
   const found = tier2(fx('t2-editmode-mismatch'), ctx).find((f) => f.code === 'T2-EDITMODE-MISMATCH');
   assert.ok(found);
   assert.equal(found.expected, 'editMode: "editable"');
+});
+
+test('T2-EDITMODE-MISMATCH: does NOT flag editMode "readOnly" on either form type', () => {
+  // references/components/edit-mode.md documents 'readOnly' as a third,
+  // always-wins state (a deliberate permanent read-only field, e.g. a
+  // computed/audit value) distinct from the editable/inherited pair this
+  // check is meant to police — it is legitimate regardless of whether a
+  // detail lifecycle is present.
+  const noDetailForm = { components: [{ id: ID(), type: 'textField', propertyName: 'createdBy', parentId: 'root', version: 6, editMode: 'readOnly' }] };
+  assert.ok(!codes(noDetailForm).includes('T2-EDITMODE-MISMATCH'));
+
+  const detailForm = {
+    components: [
+      { id: ID(), type: 'textField', propertyName: 'createdBy', parentId: 'root', version: 6, editMode: 'readOnly' },
+      { id: ID(), type: 'buttonGroup', parentId: 'root', version: 15, items: [
+        { id: ID(), itemType: 'item', itemSubType: 'button', label: 'Edit',
+          actionConfiguration: { actionOwner: 'shesha.form', actionName: 'Start Edit' } },
+      ] },
+    ],
+  };
+  assert.ok(!codes(detailForm).includes('T2-EDITMODE-MISMATCH'));
 });
 
 test('T2-EDITMODE-MISMATCH: does not flag "inherited" when a Start Edit lifecycle is present', () => {
@@ -222,7 +293,18 @@ test('T2-EDITMODE-MISMATCH: does not flag "inherited" when a Start Edit lifecycl
 test('T2-DATACONTEXT-PROPS: flags a dataContext missing entityType/sourceType/etc', () => {
   const found = tier2(fx('t2-datacontext-props'), ctx).find((f) => f.code === 'T2-DATACONTEXT-PROPS');
   assert.ok(found);
-  assert.match(found.message, /uniqueStateId/);
+  assert.match(found.message, /entityType/);
+});
+
+test('T2-DATACONTEXT-PROPS: does NOT require uniqueStateId', () => {
+  // uniqueStateId was never a property of the dataContext component
+  // (IDataContextComponentProps has no such field) — it's a legacy property
+  // of unrelated components (table/dataSource/entityPicker/...), tolerantly
+  // migrated to `name` there. Every other required prop present + no
+  // uniqueStateId must be clean.
+  const m = { components: [{ id: ID(), type: 'dataContext', propertyName: 'ctx', parentId: 'root', version: 8,
+    entityType: 'Shesha.Domain.Person', sourceType: 'Entity', dataFetchingMode: 'paging', defaultPageSize: 10 }] };
+  assert.ok(!codes(m).includes('T2-DATACONTEXT-PROPS'));
 });
 
 test('T2-FLOW-INCOMPLETE: flags a form missing required archetype nodes when an archetype IS supplied', () => {

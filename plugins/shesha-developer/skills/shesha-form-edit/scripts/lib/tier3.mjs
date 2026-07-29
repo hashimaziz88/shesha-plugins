@@ -310,6 +310,35 @@ function checkHeaderFont(entries, registry, out) {
 const COLOR_LITERAL_RE = /^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
 const RGB_RE = /^rgba?\(/i;
 
+// Corrected in Task 5: a literal color that exactly matches a value the
+// FRAMEWORK'S OWN style migrator stamps on every component load — never a
+// human's deliberate brand choice — does not need override provenance,
+// because there was no design decision to justify. Verified against
+// shesha-framework source: the container migrator
+// (designer-components/container/containerComponent.tsx's v7 migrator,
+// _common-migrations/migrateStyles.ts) hardcodes border color "#d9d9d9" and
+// shadow color "#000"/"#000000" as unconditional fallbacks, mirrored
+// identically into desktop/tablet/mobile — exactly the pattern measured in
+// the corpus (82/100 forms, 30,188 T3-RAW-HEX instances, virtually all
+// these three exact values). "#ffffff" for background.color carries the
+// same evidence via the framework's initialStyles.ts default generator.
+// Deliberately NOT included: font.color's corpus value ("#1a1a1a") has no
+// confirmed framework-default origin, so it remains a live finding. (Same
+// exemption as tier2.mjs's T2-STYLE-OFF-TOKEN — kept as a sibling copy here
+// rather than a shared import, matching this file's existing pattern of
+// duplicating collectColorPaths rather than sharing it with tier2.mjs.)
+function isFrameworkDefaultColor(path, value) {
+  const parts = path.split('.');
+  const last = parts[parts.length - 1];
+  const parent = parts[parts.length - 2];
+  const grandparent = parts[parts.length - 3];
+  const v = value.toLowerCase();
+  if (last === 'color' && parent === 'shadow' && (v === '#000' || v === '#000000')) return true;
+  if (last === 'color' && parent === 'background' && v === '#ffffff') return true;
+  if (last === 'color' && grandparent === 'border' && ['all', 'top', 'bottom', 'left', 'right'].includes(parent) && v === '#d9d9d9') return true;
+  return false;
+}
+
 function collectColorPaths(node) {
   const found = [];
   function visit(obj, path) {
@@ -338,6 +367,7 @@ function checkRawHex(entries, out) {
       overridesArr.filter(isPlainObject).map((o) => [o.prop, o]),
     );
     for (const { path, value } of colors) {
+      if (isFrameworkDefaultColor(path, value)) continue;
       const ov = overrideByProp.get(path);
       const covered = isPlainObject(ov) && typeof ov.source === 'string' && ov.source.length > 0
         && typeof ov.evidence === 'string' && ov.evidence.length > 0;
