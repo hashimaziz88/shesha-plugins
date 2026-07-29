@@ -52,7 +52,7 @@ The contract that wires the conductor to the sub-skills is [`references/handoff-
 Nothing about a brand is hard-coded into the recipes, blocks, or skills. **Brand lives entirely in one token file.**
 
 ### 1. The brand token file — the single source of brand truth
-`shesha-design-system/assets/themes/<brand>.tokens.json`. **The shipped default is `shesha.tokens.json`** — the framework's own Cobalt/Navy/Athens-Grey brand, used automatically whenever no app-specific brand is named. `requirements-studio.tokens.json` ships alongside it as an **example custom brand** (LandBank green). All brand files live in this one folder; a new brand is a new file dropped here (copy the default, swap values). Each holds, as data:
+`shesha-design-system/assets/themes/<brand>.tokens.json`. **The shipped default is `shesha.tokens.json`** — the framework's own Cobalt/Navy/Athens-Grey brand, used automatically whenever no app-specific brand is named. `requirements-studio.tokens.json` ships alongside it as an **example custom brand** (LandBank green). All brand files live in this one folder. **Resolving which brand to use is a lookup, never an authoring step** — run `shesha-design-system/scripts/resolve-brand.mjs`, which returns the requested brand if its file exists and the default otherwise. Creating a new brand file is a separate, explicitly requested task and must never happen inside a design, form or styling run (see `shesha-design-system` SKILL.md Step 1 for why). Each brand file holds, as data:
 
 - `palette` — `brand`, `accent`, `surfaces`, `lines`, `ink`, `semantic` colour groups
 - `type` — font `family`, a `scale` (micro → title), `weights`, `lineHeights`
