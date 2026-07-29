@@ -21,6 +21,11 @@
     { "label": "Passenger Last Name", "property": "passengerLastName", "component": "textField", "datatype": "string" },
     { "label": "Travel Date", "property": "travelDate", "component": "dateField", "datatype": "datetime" }
   ],
-  "assertions": [],
+  "assertions": [
+    "parent-of(dialogRoot, validationErrors)",
+    "parent-of(dialogRoot, passengerName)",
+    "parent-of(dialogRoot, travelDate)",
+    "parent-of(dialogRoot, exitButtonGroup)"
+  ],
   "dependencies": []
 }

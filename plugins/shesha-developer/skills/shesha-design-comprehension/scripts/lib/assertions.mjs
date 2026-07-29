@@ -43,13 +43,18 @@
  * for probes that don't yet stamp blueprint node names onto the DOM — same
  * ambiguity the routed-fix prose in verification-loop.md already lived with.
  *
- * TAB IDENTITY is a known open gap: layout-probe.js's three Task 2 fixes
- * (childWidths / no 24-unit grid / row-band clustering) do not add tab-key
- * capture to the DOM walk. `tab(a, key)` here checks for a `tabKey` field on
- * `a` or any of its ancestors (by `parentId` chain) — real captures need a
- * future probe extension to populate `tabKey` (e.g. reading `aria-controls`/
- * `data-tab-key`) for this predicate to resolve against a genuine build;
- * synthetic/test probes can set `tabKey` directly.
+ * TAB IDENTITY: `layout-probe.js` stamps a `tabKey` onto every node (the key
+ * of its nearest enclosing `role="tabpanel"`, or `null` if it isn't under any
+ * tabs) — see that file's "tab-pane detection" section and scripts/lib/tabkey.mjs
+ * for the real Ant Design / rc-tabs DOM shape this reads. `tab(a, key)` here
+ * checks for a `tabKey` field on `a` or any of its ancestors (by `parentId`
+ * chain) as a defensive fallback for hand-authored/synthetic probes that only
+ * set `tabKey` on specific nodes rather than stamping every node — a real
+ * capture already carries `tabKey` directly on `a` itself. One caveat carries
+ * over from the probe: a tab pane never activated during capture is never
+ * mounted into the DOM at all (rc-tabs default), so `tab()` can only resolve
+ * against panes that were visited at least once before the final probe run —
+ * see layout-probe.js's header and ../references/verification-loop.md.
  * ───────────────────────────────────────────────────────────────────────── */
 
 'use strict';

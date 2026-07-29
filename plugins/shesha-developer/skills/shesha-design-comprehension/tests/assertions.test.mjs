@@ -255,6 +255,68 @@ test('every assertion in every one of the 8 blueprint fixtures parses under the 
   });
 });
 
+// Regression guard for the capture-dialog gap (Phase 3, Gap 2): its only
+// assertion was a pure absence claim ("no Submit button") that no predicate
+// could express, and it was dropped during the Task 3 migration, leaving it
+// with NO placement contract at all while every other fixture kept one. That
+// silent state — a fixture parsing fine with zero assertions — must never
+// recur for ANY fixture, so this asserts every one of the 8 carries at least
+// one real (non-empty-string) assertion.
+test('every one of the 8 blueprint fixtures has at least one non-empty assertion', () => {
+  var fixturesDir = path.join(__dirname, '..', 'assets', 'blueprint-examples');
+  var files = readdirSync(fixturesDir).filter((f) => f.endsWith('.blueprint.json'));
+  assert.equal(files.length, 8, 'expected all 8 archetype fixtures');
+  files.forEach((file) => {
+    var blueprint = JSON.parse(readFileSync(path.join(fixturesDir, file), 'utf8'));
+    var assertions = blueprint.assertions || [];
+    assert.ok(
+      assertions.length > 0 && assertions.every((a) => typeof a === 'string' && a.trim().length > 0),
+      file + ' has no placement contract — every fixture must carry at least one assertion'
+    );
+  });
+});
+
+// Gap 2: capture-dialog now carries a real (non-absence) placement contract —
+// prove it actually evaluates true against a probe matching its own node
+// tree, not just that it parses.
+test('capture-dialog\'s real placement assertions pass against a probe matching its structure', () => {
+  var fixturePath = path.join(__dirname, '..', 'assets', 'blueprint-examples', 'capture-dialog.blueprint.json');
+  var blueprint = JSON.parse(readFileSync(fixturePath, 'utf8'));
+  var probe = {
+    nodes: [
+      { id: 1, parentId: null, name: 'dialogRoot', label: 'dialogRoot', rect: { x: 0, y: 0, w: 600, h: 400 } },
+      { id: 2, parentId: 1, name: 'validationErrors', label: 'validationErrors', rect: { x: 0, y: 0, w: 600, h: 20 } },
+      { id: 3, parentId: 1, name: 'passengerName', label: 'passengerName', rect: { x: 0, y: 20, w: 600, h: 30 } },
+      { id: 4, parentId: 1, name: 'travelDate', label: 'travelDate', rect: { x: 0, y: 50, w: 600, h: 30 } },
+      { id: 5, parentId: 1, name: 'exitButtonGroup', label: 'exitButtonGroup', rect: { x: 0, y: 80, w: 600, h: 30 } }
+    ],
+    multiColumnContainers: []
+  };
+  var results = evaluate(blueprint.assertions, probe);
+  assert.equal(results.length, 4);
+  results.forEach((r) => assert.equal(r.pass, true, r.assertion + ': ' + r.message));
+});
+
+test('capture-dialog\'s assertions correctly fail when a node is misplaced (not under dialogRoot)', () => {
+  var fixturePath = path.join(__dirname, '..', 'assets', 'blueprint-examples', 'capture-dialog.blueprint.json');
+  var blueprint = JSON.parse(readFileSync(fixturePath, 'utf8'));
+  var probe = {
+    nodes: [
+      { id: 1, parentId: null, name: 'dialogRoot', label: 'dialogRoot', rect: { x: 0, y: 0, w: 600, h: 400 } },
+      { id: 2, parentId: 1, name: 'validationErrors', label: 'validationErrors', rect: { x: 0, y: 0, w: 600, h: 20 } },
+      { id: 3, parentId: 1, name: 'passengerName', label: 'passengerName', rect: { x: 0, y: 20, w: 600, h: 30 } },
+      { id: 4, parentId: 1, name: 'travelDate', label: 'travelDate', rect: { x: 0, y: 50, w: 600, h: 30 } },
+      // exitButtonGroup escaped the dialog root, e.g. rendered outside the dialog body entirely
+      { id: 6, parentId: null, name: 'someOtherRoot', label: 'someOtherRoot', rect: { x: 0, y: 400, w: 600, h: 30 } },
+      { id: 5, parentId: 6, name: 'exitButtonGroup', label: 'exitButtonGroup', rect: { x: 0, y: 400, w: 600, h: 30 } }
+    ],
+    multiColumnContainers: []
+  };
+  var results = evaluate(blueprint.assertions, probe);
+  var exitResult = results.find((r) => r.assertion.indexOf('exitButtonGroup') !== -1);
+  assert.equal(exitResult.pass, false);
+});
+
 test('verify-placement.mjs accepts an optional --design probe without affecting the result', () => {
   withTempDir((dir) => {
     var probe = buildProbe();
