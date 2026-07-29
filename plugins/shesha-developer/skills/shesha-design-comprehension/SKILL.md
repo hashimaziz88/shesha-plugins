@@ -55,7 +55,7 @@ markitdown (MCP `convert_to_markdown`, or the CLI) **flattens 2-D layout by desi
 |---|---|
 | Print the browser_evaluate payload (this environment) | `node scripts/layout-probe.js --emit-eval --screen <name>` then pass it to `mcp__playwright__browser_evaluate` |
 | Run locally (CI / playwright installed) | `node scripts/layout-probe.js --url <url> --screen <name> --out <file>.json` |
-| Read the signal | the `multiColumnContainers` array = split-child count + child widths per container; record widths in native units (px/fr/%) and map each child to a flex-container `desktop.dimensions.width` (calc / % / px) for the blueprint |
+| Read the signal | the `multiColumnContainers` array gives `columnCount`, `columnEdges` and `childIds` per container. **It does NOT emit a `childWidths` field** — read each child's native width off its own `rect.w` in the flat `nodes[]` array, cross-referenced via `childIds`. Record widths in native units (px/fr/%) and map each child to a flex-container `desktop.dimensions.width` (calc / % / px). See [blueprint-ir.md](references/blueprint-ir.md) for the Phase 2 note on extending the probe. |
 
 Pin **one** viewport (default 1440×900) for *both* capture and verification. Probe output is structural — assert on split-child **membership / grouping / nesting depth / tab key**, never absolute pixels.
 

@@ -385,10 +385,9 @@ An override without `source` + `evidence` fails `T2-STYLE-OFF-TOKEN`. Anything n
     { "node": "page",         "type": "container", "role": "page-root" },
     { "node": "pageHeader",   "type": "container", "role": "header-band", "slot": "page", "children": ["heading","subtitle"] },
     { "node": "toolbar",      "type": "container", "role": "toolbar-row", "slot": "page",
-      "children": ["addButtonGroup","quickSearch","columnChooser"] },
+      "children": ["addButtonGroup","quickSearch"] },
     { "node": "addButtonGroup","type": "buttonGroup", "wiring": "showDialog:<create-form>", "dependsOn": "createForm" },
     { "node": "quickSearch",  "type": "datatable.quickSearch" },
-    { "node": "columnChooser","type": "datatable.selectColumnsButton" },
     { "node": "table",        "type": "datatable", "role": "grid-surface", "slot": "page",
       "requiresColumn": { "columnType": "action", "action": "navigate", "dependsOn": "detailForm" } },
     { "node": "pagerRow",     "type": "container", "role": "toolbar-row-right", "slot": "page", "children": ["pager"] },
@@ -400,6 +399,8 @@ An override without `source` + `evidence` fails `T2-STYLE-OFF-TOKEN`. Anything n
   ]
 }
 ```
+
+**A manifest may only require `authorable` types.** A column chooser was in an earlier draft of this manifest, but the registry marks `datatable.selectColumnsButton` as `isHidden` — the framework does not offer it in the designer toolbox, and it appears in no meaningful number of production forms. A hidden component has no place in a "required for a complete flow" set, and `validateFlow` rejects one. The registry is the arbiter here, not the draft.
 
 **The styled blueprint** carries three synchronised representations, because they serve different readers:
 

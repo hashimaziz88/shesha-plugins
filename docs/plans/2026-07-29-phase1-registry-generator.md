@@ -1035,10 +1035,15 @@ test('versions match the framework, including the high ones', () => {
 });
 
 test('prop coverage is real, not the thin hand-index surface', () => {
-  // The hand index gave container ~15 props.
-  assert.ok(C.container.props.length >= 70, `container had ${C.container.props.length}`);
-  assert.ok(C.textField.props.length >= 80);
-  assert.ok(C.datatable.props.length >= 95);
+  // The hand index gave container ~15 props. Thresholds are the MEASURED
+  // post-filter counts (raw extraction is ~8 higher per type before the
+  // scaffolding denylist runs): container 63, textField 74, datatable 92,
+  // columns 50, button 61, dropdown 133, tabs 96.
+  assert.ok(C.container.props.length >= 60, `container had ${C.container.props.length}`);
+  assert.ok(C.textField.props.length >= 70, `textField had ${C.textField.props.length}`);
+  assert.ok(C.datatable.props.length >= 90, `datatable had ${C.datatable.props.length}`);
+  assert.ok(C.columns.props.length >= 45);
+  assert.ok(C.button.props.length >= 55);
 });
 
 test('no scaffolding survived into any prop list', () => {
@@ -1064,8 +1069,14 @@ test('customContainerNames capture child slots', () => {
 });
 
 test('a versionless component is null, never undefined-shaped', () => {
+  // 21 of 116 genuinely have no migrator on their live component definition —
+  // verified by instrumenting the extractor: no exception is being swallowed.
+  // `dataContext` is among them: the live tableContextComponent.tsx has no
+  // migrator, while a dead unimported twin (dataContextComponent/index.tsx)
+  // carries an unrelated one. Do NOT merge the dead twin's version in.
   const versionless = Object.values(C).filter((c) => c.version === null);
   assert.ok(versionless.length > 0, 'expected some components to have no migrator');
+  assert.ok(versionless.length <= 25, `unexpectedly many versionless: ${versionless.length}`);
   for (const c of versionless) assert.equal(c.version, null);
 });
 
