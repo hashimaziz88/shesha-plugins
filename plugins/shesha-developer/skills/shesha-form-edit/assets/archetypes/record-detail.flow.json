@@ -1,0 +1,23 @@
+{
+  "archetype": "record-detail",
+  "purpose": "Per-record page: header band with the Start Edit/Submit/Cancel Edit lifecycle, plus a body split into a main column and a related-panels rail.",
+  "requires": [
+    { "node": "dataContext", "type": "dataContext",
+      "props": ["entityType", "sourceType", "dataFetchingMode", "uniqueStateId"] },
+    { "node": "page", "type": "container", "role": "page-root" },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "children": ["heading", "lifecycleButtonGroup"] },
+    { "node": "heading", "type": "text" },
+    { "node": "lifecycleButtonGroup", "type": "buttonGroup",
+      "actions": [
+        { "actionName": "Start Edit", "actionOwner": "shesha.form" },
+        { "actionName": "Submit", "actionOwner": "shesha.form" },
+        { "actionName": "Cancel Edit", "actionOwner": "shesha.form" }
+      ] },
+    { "node": "validationErrors", "type": "validationErrors", "slot": "page" },
+    { "node": "body", "type": "container", "slot": "page", "children": ["mainColumn", "detailRail"] },
+    { "node": "mainColumn", "type": "container", "role": "section-card" },
+    { "node": "detailRail", "type": "container", "role": "detail-rail" }
+  ],
+  "dependencies": []
+}

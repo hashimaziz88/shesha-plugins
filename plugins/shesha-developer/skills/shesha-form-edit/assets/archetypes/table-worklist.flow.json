@@ -1,0 +1,27 @@
+{
+  "archetype": "table-worklist",
+  "purpose": "Dense admin grid: dataContext + toolbar + datatable + pager.",
+  "requires": [
+    { "node": "dataContext", "type": "dataContext",
+      "props": ["entityType", "sourceType", "dataFetchingMode", "defaultPageSize", "uniqueStateId"] },
+    { "node": "page", "type": "container", "role": "page-root" },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "children": ["heading", "subtitle"] },
+    { "node": "heading", "type": "text" },
+    { "node": "subtitle", "type": "text" },
+    { "node": "toolbar", "type": "container", "role": "toolbar-row", "slot": "page",
+      "children": ["addButtonGroup", "quickSearch"] },
+    { "node": "addButtonGroup", "type": "buttonGroup", "wiring": "showDialog:<create-form>",
+      "dependsOn": "createForm" },
+    { "node": "quickSearch", "type": "datatable.quickSearch" },
+    { "node": "table", "type": "datatable", "role": "grid-surface", "slot": "page",
+      "requiresColumn": { "columnType": "action", "action": "navigate", "dependsOn": "detailForm" } },
+    { "node": "pagerRow", "type": "container", "role": "toolbar-row-right", "slot": "page",
+      "children": ["pager"] },
+    { "node": "pager", "type": "datatable.pager" }
+  ],
+  "dependencies": [
+    { "id": "createForm", "archetype": "capture-dialog", "naming": "{entity-kebab}-create" },
+    { "id": "detailForm", "archetype": "record-detail", "naming": "{entity-kebab}-detail" }
+  ]
+}

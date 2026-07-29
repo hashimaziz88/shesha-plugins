@@ -1,0 +1,17 @@
+{
+  "archetype": "standalone-capture",
+  "purpose": "Full-page create/edit with a Submit action and a Back exit — the single most-forgotten defect is a form you can save but not leave.",
+  "requires": [
+    { "node": "page", "type": "container", "role": "page-root" },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "children": ["heading"] },
+    { "node": "heading", "type": "text" },
+    { "node": "validationErrors", "type": "validationErrors", "slot": "page" },
+    { "node": "actionRow", "type": "buttonGroup", "slot": "page",
+      "actions": [
+        { "actionName": "Submit", "actionOwner": "shesha.form" },
+        { "actionName": "Navigate", "actionOwner": "shesha.common" }
+      ] }
+  ],
+  "dependencies": []
+}
