@@ -38,10 +38,10 @@ The whole point of the rework is a **clean responsibility split** — each skill
 ## How they tie together (the flow)
 
 1. **Ingest** (`shesha-claude-designer`) — read the design source; extract the token set + screen list. *Run* a compiled prototype and probe it; never parse a minified bundle.
-2. **Comprehend** (`shesha-design-comprehension`) — each screen → `blueprints/<screen>.blueprint.md`, a measured layout map with a placement `assertions` block. This is what stops container placement from drifting.
+2. **Comprehend** (`shesha-design-comprehension`) — each screen → `blueprints/<screen>.blueprint.json`, a measured layout node tree with a typed placement `assertions` block. This is what stops container placement from drifting.
 3. **Plan** (`shesha-claude-designer`) — establish the theme **once**, then map each blueprint region to a **block** (`shesha-form-edit/assets/blocks`) + its paired **style overlay/recipe** (`shesha-design-system`). The per-screen plan is `{archetype, blocks[], recipes[]}`.
-4. **Build** — for each screen: **(a)** `shesha-form-edit` composes the blocks into native structure, wires CRUD, validates, pushes; **(b)** `shesha-design-system` resolves the token overlays and returns styled JSON — which `shesha-form-edit` pushes through its single push path.
-5. **Verify** — three gates in order: **structural** (native components, fully flexed, fields bound) → **placement diff** (`shesha-design-comprehension` re-measures the live form against the blueprint assertions) → **visual** (screenshot vs theme). Mismatches route back to the owning skill.
+4. **Build** — for each screen: **(a)** `shesha-form-edit` **compiles** the blueprint (`scripts/compile-spec.mjs` → `scripts/validate-form.mjs`, see `shesha-form-edit/references/compiling.md`) into native structure with CRUD already wired, then pushes; **(b)** `shesha-design-system` resolves the token overlays and returns styled JSON — which `shesha-form-edit` pushes through its single push path.
+5. **Verify** — three gates in order: **structural** (native components, fully flexed, fields bound) → **placement** (`shesha-design-comprehension` re-measures the live form and `scripts/verify-placement.mjs`'s exit code is the gate against the blueprint assertions) → **visual** (screenshot vs theme). Mismatches route back to the owning skill.
 
 The contract that wires the conductor to the sub-skills is [`references/handoff-contract.md`](references/handoff-contract.md).
 
@@ -100,13 +100,14 @@ shesha-design-comprehension/
   SKILL.md
   scripts/layout-probe.js ........ measures DOM x-clusters + computed styles (live)
   references/blueprint-ir.md ..... the measured blueprint format (flex-split, never columns)
-  references/verification-loop.md  the placement-diff gate (re-measure vs assertions)
+  references/verification-loop.md  the placement gate (re-measure, verify-placement.mjs exit code vs typed assertions)
 
 shesha-form-edit/                  ── STRUCTURE ──
   SKILL.md ....................... build/CRUD/validate/single-push; load-on-demand refs
-  references/block-library.md .... index of the blocks ▼
+  references/compiling.md ........ the blueprint → markup compiler contract (compile-spec.mjs + validate-form.mjs)
+  references/block-library.md .... index of the blocks ▼ (non-blueprint builds)
   assets/blocks/*.block.json ..... structure skeletons; each names its $styleOverlay + $validatedAgainst
-  references/blueprint-consumption.md  blueprint → components/propertyNames (flex, not columns)
+  references/blueprint-consumption.md  blueprint field mapping + compile-failure troubleshooting
   scripts/validate-blocks.js ..... gates blocks against ▼ the capability matrix
 
 shesha-design-system/              ── APPEARANCE ──

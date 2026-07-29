@@ -22,7 +22,7 @@ Assert on properties that are stable across the design's pixel grid and Shesha's
 | **Split-cell membership** | which x-cluster a node falls in (`colIndex` within its parent) | `same-cluster(a, b)` |
 | **Row grouping** | nodes sharing a `rowBand` (y-band) | `same-rowband(a, b)` |
 | **Nesting depth / parent** | the `parentId` ancestor chain | `parent-of(a, b)` |
-| **Tab assignment** | which tab panel a node lives under | `tab(a, key)` |
+| **Tab assignment** | which tab panel a node lives under | `tab(a, key)` — **known gap:** today's `layout-probe.js` doesn't capture which tab an element sits under (Ant Design hides inactive panes with `display:none`), so this predicate reports unresolved rather than passing against a real build until the probe gains `tabKey` capture; only a synthetic/test probe that sets `tabKey` directly resolves it today |
 | **Split ratio (range)** | left:right width ratio, with tolerance | `ratio(a, b, min, max)` — reads `multiColumnContainers[].childWidths` (`scripts/layout-probe.js`), never an absolute pixel |
 
 **Never** assert absolute pixels or exact width expressions — a `minmax(0,1fr) 332px` design grid is *satisfied* by a flex-row split whose fill cell is `width:"calc(100% - 356px)"` and whose rail cell is a fixed `width:"332px"` (the ratio, not the exact calc, is what matters). `ratio` is the only quantitative predicate for exactly this reason, and it always takes a `[min, max]` range. Fail only on **wrong cluster / wrong parent / wrong tab / ratio out of range**.

@@ -1,28 +1,27 @@
 # Consuming a layout blueprint (from shesha-design-comprehension)
 
-When this skill is invoked by `shesha-claude-designer` (or directly with a design to match), the requirements arrive as a **layout blueprint** — a `<screen>.blueprint.md` produced by `shesha-developer:shesha-design-comprehension`. The blueprint is a *measured placement contract*; build to it exactly, then expect a placement re-measure (gate 5a.5) against its `assertions`.
+When this skill is invoked by `shesha-claude-designer` (or directly with a design to match), the requirements arrive as a **layout blueprint** — a `<screen>.blueprint.json` produced by `shesha-developer:shesha-design-comprehension`, conforming to `../shesha-design-comprehension/assets/blueprint.schema.json`. Building from it is a **compile, not an authoring task** — see [compiling.md](compiling.md) for the one-command path (`compile-spec.mjs` then `validate-form.mjs`) and the full contract. This file is the field-mapping reference for reading a blueprint and troubleshooting a compile that fails or produces the wrong thing.
 
-## How to read it
+## What's in a blueprint, and what the compiler does with each part
 
-A blueprint has, per screen: a header (entity modelType, form identity, **Archetype**, fidelity/confidence/viewport) and per-region `layout-tree`, `bindings`, and `assertions` fenced blocks. Map them onto a build:
-
-| Blueprint part | Drives |
+| Blueprint field | What the compiler does with it |
 |---|---|
-| `Archetype:` (one of the 8) | which seed to copy — see [examples.md](examples.md) for the priority order (record-detail → `assets/exemplars/record-detail-simple.json` or `record-detail-with-children.json`; list/table → `assets/examples/rs-table.json`; create dialog → `assets/examples/rs-create-dialog.json`; link-add → `assets/examples/rs-link-add-dialog.json`) |
-| `layout-tree` `row=[…]` / `flex=[…]` | a flex **`container` row** (`display:"flex"` + `flexDirection:"row"` + `gap`) — **never the `columns` component**; size each child via `desktop.dimensions.width` (fill = `"calc(100% - <others>px)"`, fixed rail = `"332px"`). `native=[…px]` flags a fixed-width child |
-| `layout-tree` nesting (indentation) | the container nesting + every component's `parentId` |
-| `layout-tree` `kind` (card/tabs/datatable/datalist/field/buttonGroup/chip) | the component `type` to use |
-| `bindings` table | each input's `propertyName` + component `type` (validate every propertyName against the entity metadata, Step 4.5) |
-| region `recipe:` annotations | passed through to `shesha-design-system` for styling (not your concern — build structure only) |
-| `assertions` block | what gate 5a.5 will re-measure: column membership, row grouping, nesting depth, tab assignment |
+| `archetype` (one of the 8 — [archetypes.md](archetypes.md)) | Selects the flow manifest (`assets/archetypes/<archetype>.flow.json`) that completes any node the blueprint itself omitted, and resolves the `isDetailForm`/`editMode` logic (a "Start Edit"/`shesha.form` action anywhere marks a detail-lifecycle form) |
+| `nodes[]` (each with `node`, `type`, optional `role`/`style`/`slot`/`children`/`items`/`tabs`) | Walked into the raw component tree (`scripts/lib/compile/tree.mjs`) — resolves each node's concrete registry `type`, its container style (role → full per-breakpoint style block), its buttonGroup/dataContext/datatable/tabs/wizard shape |
+| `bindings[]` (`{ label, property }`) | Matched to a leaf node by its `content` label; drives that leaf's `propertyName` (camelCased) |
+| `entity.modelType` (`{ name, module }`) | Becomes `formSettings.modelType` verbatim; if absent, a placeholder is synthesized (flagged in `report.defaults`) — see `compile-spec.mjs`'s `buildFormSettings()` |
+| `dependencies[]` | Resolved into `{ module, name }` form references used by Show Dialog / row-navigate wiring (`deriveDependsOnForms()` in `tree.mjs`) |
+| `assertions[]` | NOT consumed by the compiler at all — this is gate 5a.5's input, evaluated post-build by `verify-placement.mjs` against a probe of the rendered form. See `shesha-design-comprehension`'s `verification-loop.md`. |
 
-## Building to the placement (the part that drifts)
+Layout splits (a design's two-column row, a fixed-width rail) are expressed in a blueprint node's `role`/`style`, never as a separate "layout-tree" annotation to hand-translate — the compiler resolves a container's role straight into a complete flex `container` (`display:"flex"` + `flexDirection:"row"`, each child sized via `desktop.dimensions.width`) via `container-style.mjs`. **Never the `columns` component** — this project's only split mechanism, enforced by the compiler (it never emits `columns`) and by `T2-COLUMNS-PRESENT` on a hand-edit.
 
-- **Restructure the seed to match the `layout-tree`** — don't keep the seed's body just because it's there. If the blueprint says an 18/6 body with a right rail of panels, the seed's "full-width attributes + bottom tabs" body must be rebuilt into that split (attributes into the rail, the main list into the wide column).
-- **Every split child needs an explicit `desktop.dimensions.width`, AND the row needs `display:"flex"`.** A flex row missing `display:"flex"` renders `display:block` → children stack full-width (the single most common placement failure: related panels end up under the main column instead of in the rail). `customStyle:{flex}` does NOT size the child — it is inert on the outer div; use `dimensions.width`.
-- **Fixed-width rail:** for a `native=[…,332px]` rail, set the rail child `desktop.dimensions.width:"332px"` (`minWidth`/`maxWidth` `"332px"`) and the main child `width:"calc(100% - 348px)"` (332 rail + 16 gap). Collapse to stacked full-width on tablet/mobile.
-- **Re-stamp `parentId` on every moved component** so the new nesting is real (wrong/missing parentIds render blank).
+## When the compile fails or produces the wrong thing
 
-## After build — expect the placement diff
+- **`compileSpec` throws "blueprint failed schema validation"** — the blueprint itself is malformed. That's `shesha-design-comprehension`'s artifact; route the fix there, don't hand-patch the compiled output.
+- **`compileSpec` throws "referenced by a slot/children/tabs entry but no blueprint node defines it"**, or **"defined but never reachable from a root"** — the blueprint's node graph has a dangling reference or an orphaned node. Same as above: a `shesha-design-comprehension` authoring bug, not a markup patch.
+- **The compiled markup fails `validate-form.mjs` with a real (non-zero) finding** — every one of the 8 archetype fixtures plus the card/collapsiblePanel fixture compiles to zero Tier 1/2 findings today (`tests/e2e-compile.test.mjs`, `tests/card-collapsible-fixture.test.mjs`), so a finding on a real blueprint names either a genuine gap in that blueprint (e.g. a role the compiler can't resolve) or a compiler bug — do not paper over it by hand-editing the compiled JSON; report it.
+- **The build matches structurally but fails gate 5a.5 (placement)** — that's a `shesha-design-comprehension`/`verify-placement.mjs` concern, not this skill's. Read the failing assertion's message (it names the measured vs. asserted fact) and fix the blueprint or the compiler's role/style resolution, not the pushed markup directly.
 
-`shesha-design-comprehension` re-probes the built, published, table→details-navigated form and diffs measured placement against the blueprint `assertions`. Mismatches come back as concrete, routed fixes in this skill's vocabulary (move node into the right flex `container` row; give the child its `desktop.dimensions.width`; add `display:"flex"` to a row that's stacking; wrap rows 2-cell; assign to the right tab). Apply, re-push, repeat until all assertions pass. Don't consider the form done at "it renders" — done is "placement assertions pass".
+## Styling passes through untouched
+
+A blueprint node's `recipe:` annotations (if present) are for `shesha-design-system` — not this skill's concern. Structure only.
