@@ -1,8 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { tier1 } from '../scripts/lib/tier1.mjs';
 import { tier2 } from '../scripts/lib/tier2.mjs';
 import { loadFlow } from '../scripts/lib/flow.mjs';
 
@@ -11,11 +12,41 @@ const registry = JSON.parse(readFileSync(join(ROOT, 'assets/registry/registry-0.
 const roles = JSON.parse(readFileSync(
   join(ROOT, '../shesha-design-system/assets/roles.styles.json'), 'utf8'));
 const ARCHETYPE_DIR = join(ROOT, 'assets/archetypes');
+const FIXTURES_DIR = join(ROOT, 'tests/fixtures');
 
 const fx = (n) => JSON.parse(readFileSync(join(ROOT, `tests/fixtures/${n}.json`), 'utf8'));
 const ctx = { registry, roles, flows: {} };
 const codes = (m, extra) => tier2(m, { ...ctx, ...extra }).map((f) => f.code);
 const ID = () => crypto.randomUUID();
+
+// Every fixture whose name contains "clean" (t1-clean, t2-clean,
+// t3-bad-score-clean, ...) claims to be free of Tier 1/Tier 2 findings —
+// each was historically authored to be clean for only ITS OWN tier, which
+// is a trap for anyone later writing a cross-tier test (see the task-4b
+// report: a previous agent hit exactly this and had to build a third
+// "genuinely clean" fixture, t3-cli-clean.json, just to get a real exit-0
+// CLI proof). t1-clean.json and t2-clean.json were corrected to be clean
+// across BOTH tiers, making t3-cli-clean.json redundant (deleted; see
+// tests/validate-cli.test.mjs). This test guards against the trap
+// recurring for any current or future "*clean*" fixture.
+function cleanFixtureFiles() {
+  return readdirSync(FIXTURES_DIR)
+    .filter((name) => name.endsWith('.json') && name.includes('clean'))
+    .map((name) => join(FIXTURES_DIR, name));
+}
+
+function load(file) {
+  return JSON.parse(readFileSync(file, 'utf8'));
+}
+
+test('every *-clean fixture is clean against BOTH tier1 and tier2', () => {
+  for (const file of cleanFixtureFiles()) {
+    const m = load(file);
+    assert.deepEqual(tier1(m, { registry }), [], `${file} has tier1 findings`);
+    const t2 = tier2(m, ctx).filter((f) => f.code !== 'T2-SKIPPED');
+    assert.deepEqual(t2, [], `${file} has tier2 findings`);
+  }
+});
 
 // --- Brief's representative assertions (verbatim) ---
 

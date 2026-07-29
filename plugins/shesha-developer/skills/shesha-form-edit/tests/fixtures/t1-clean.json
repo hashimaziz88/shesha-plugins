@@ -1,4 +1,7 @@
 {
+  "formSettings": {
+    "modelType": { "name": "Person", "module": "Shesha" }
+  },
   "components": [
     {
       "id": "11111111-1111-4111-8111-111111111111",
@@ -7,7 +10,24 @@
       "parentId": "root",
       "version": 7,
       "hidden": false,
+      "display": "flex",
       "flexDirection": "column",
+      "flexWrap": "nowrap",
+      "gap": 16,
+      "justifyContent": "flex-start",
+      "alignItems": "stretch",
+      "desktop": {
+        "dimensions": { "width": "100%", "minWidth": "0", "maxWidth": "none", "height": "auto", "minHeight": "fit-content", "maxHeight": "none" },
+        "stylingBox": "{\"padding\":\"24\"}"
+      },
+      "tablet": {
+        "dimensions": { "width": "100%", "minWidth": "0", "maxWidth": "none", "height": "auto", "minHeight": "fit-content", "maxHeight": "none" },
+        "stylingBox": "{\"padding\":\"16\"}"
+      },
+      "mobile": {
+        "dimensions": { "width": "100%", "minWidth": "0", "maxWidth": "none", "height": "auto", "minHeight": "fit-content", "maxHeight": "none" },
+        "stylingBox": "{\"padding\":\"12\"}"
+      },
       "components": [
         {
           "id": "22222222-2222-4222-8222-222222222222",
@@ -17,17 +37,20 @@
           "parentId": "11111111-1111-4111-8111-111111111111",
           "version": 6,
           "hidden": false,
+          "editMode": "editable",
           "textType": "text",
           "defaultValue": "{{data.name}}",
           "validate": {
             "required": true,
             "maxLength": 50
-          },
-          "desktop": {
-            "dimensions": {
-              "width": "100%"
-            }
           }
+        },
+        {
+          "id": "33333333-3333-4333-8333-333333333333",
+          "type": "validationErrors",
+          "componentName": "validationErrors",
+          "parentId": "11111111-1111-4111-8111-111111111111",
+          "version": 0
         }
       ]
     }

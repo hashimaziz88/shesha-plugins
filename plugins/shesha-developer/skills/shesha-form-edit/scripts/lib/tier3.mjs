@@ -29,7 +29,7 @@ export function tier3(markup, { registry, thresholds, blueprint } = {}) {
 
   checkLabelCasing(entries, out);
   checkActionZones(entries, out);
-  checkHeaderFont(entries, out);
+  checkHeaderFont(entries, registry, out);
   checkRawHex(entries, out);
   checkComponentRatio(entries, thresholds, out);
   checkOrphanContainers(entries, out);
@@ -81,7 +81,7 @@ function nodeLabel(node) {
 //    explicit size/weight usually still renders (inherits body text styling)
 //    — a real but modest miss.
 //  - T3-RAW-HEX (4/occurrence, cap 16): a literal hex/rgb color outside the
-//    documented styleOverrides convention erodes theming, scored per
+//    documented overrides[] convention erodes theming, scored per
 //    occurrence since a form that's hardcoded everywhere is worse than one
 //    stray value, but capped so it doesn't dominate the whole score.
 //  - T3-COMPONENT-RATIO (flat 15, single whole-form finding): one signal,
@@ -227,14 +227,39 @@ function checkActionZones(entries, out) {
 // A "header/title" text node is identified by a heading level of 1, or by
 // its component/property name reading as a heading (mirrors the
 // componentName: "heading" convention already used elsewhere in this
-// skill's own fixtures). The explicit-styling check looks for the flat
-// `fontSize`/`fontWeight` fields that convention uses, not the registry's
-// nested `font.size`/`font.weight` — this check is about whether a human
-// author deliberately styled the title, which is exactly the shape real
-// markup in this repo already uses for that intent.
+// skill's own fixtures). The explicit-styling check looks for the
+// registry's real nested `font.size`/`font.weight` fields — the "text"
+// component has NO flat `fontSize`/`fontWeight` props at all (verified
+// against assets/registry/registry-0.45.1.json: its font settings are
+// exclusively `font`, `font.align`, `font.color`, `font.size`,
+// `font.type`, `font.weight`). An earlier version of this check looked for
+// flat fontSize/fontWeight, sourced from tests/fixtures/t2-clean.json
+// rather than the registry — that fixture was itself non-conformant (the
+// flat spelling tripped T1-PROP-UNKNOWN) and has since been corrected. The
+// required prop names are derived from the registry's own
+// `components.text.props`, the same way T2-STYLE-INCOMPLETE derives its
+// required set from `registry.components.container.props`, so a framework
+// change to the text component's font props can't silently desync this
+// check again.
 // ---------------------------------------------------------------------------
 
 const HEADER_NAME_RE = /head|title/i;
+const FONT_PROP_NAMES = new Set(['font.size', 'font.weight']);
+
+function requiredFontProps(registry) {
+  const textProps = registry?.components?.text?.props ?? [];
+  return textProps.filter((p) => FONT_PROP_NAMES.has(p));
+}
+
+function hasPath(obj, path) {
+  const parts = path.split('.');
+  let cur = obj;
+  for (const p of parts) {
+    if (cur == null || typeof cur !== 'object' || !(p in cur)) return false;
+    cur = cur[p];
+  }
+  return cur !== undefined;
+}
 
 function isHeaderText(node) {
   if (node.type !== 'text') return false;
@@ -242,17 +267,20 @@ function isHeaderText(node) {
   return HEADER_NAME_RE.test(String(node.componentName ?? '')) || HEADER_NAME_RE.test(String(node.propertyName ?? ''));
 }
 
-function checkHeaderFont(entries, out) {
+function checkHeaderFont(entries, registry, out) {
+  const required = requiredFontProps(registry);
+  if (!required.length) return; // no registry info to derive the required set from — nothing to check
+
   for (const { node, ctx } of entries) {
     if (!isHeaderText(node)) continue;
-    const hasExplicitFont = node.fontSize !== undefined && node.fontWeight !== undefined;
-    if (!hasExplicitFont) {
+    const missing = required.filter((p) => !hasPath(node, p));
+    if (missing.length) {
       out.push(finding(
         'T3-HEADER-FONT-INCOMPLETE',
         ctx.path,
-        `Header/title text "${nodeLabel(node)}" has no explicit fontSize/fontWeight — it will inherit ambient body-text styling rather than reading as a title.`,
-        'fontSize and fontWeight both set',
-        { fontSize: node.fontSize ?? null, fontWeight: node.fontWeight ?? null },
+        `Header/title text "${nodeLabel(node)}" is missing ${missing.join(', ')} — it will inherit ambient body-text styling rather than reading as a title.`,
+        `${required.join(' and ')} both set`,
+        { 'font.size': node.font?.size ?? null, 'font.weight': node.font?.weight ?? null },
       ));
     }
   }
@@ -265,9 +293,18 @@ function checkHeaderFont(entries, out) {
 // `container` nodes only, per its own comment — every role in
 // roles.styles.json resolves to a container). Tier 3 has no such
 // blocking-severity concern, so it scans every node type for a literal
-// hex/rgb(a) color, still honoring the same styleOverrides[path] = {source,
-// evidence} provenance record as an exemption where a node happens to carry
-// one.
+// hex/rgb(a) color.
+//
+// Override contract: this used to read a `styleOverrides[path] = {source,
+// evidence}` object, a superseded shape. The project standardised on the
+// Phase 1 blueprint schema's (../shesha-design-comprehension/assets/
+// blueprint.schema.json) `overrides[] = {prop, value, source, evidence}` —
+// tier2.mjs's T2-STYLE-OFF-TOKEN was already migrated to it (see its own
+// comment). This check now reads `node.overrides[]` (matched by `.prop`)
+// the same way, so all consumers of the override concept agree on one
+// shape. An override entry missing `source` or `evidence` does not count
+// as covered — a literal color may only deviate from a theme token when it
+// carries measurement provenance.
 // ---------------------------------------------------------------------------
 
 const COLOR_LITERAL_RE = /^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
@@ -278,7 +315,7 @@ function collectColorPaths(node) {
   function visit(obj, path) {
     if (!isPlainObject(obj)) return;
     for (const key of Object.keys(obj)) {
-      if (STRUCTURAL_KEYS.has(key) || key === 'styleOverrides') continue;
+      if (STRUCTURAL_KEYS.has(key) || key === 'overrides') continue;
       const value = obj[key];
       const p = path ? `${path}.${key}` : key;
       if (key === 'color' && typeof value === 'string' && (COLOR_LITERAL_RE.test(value) || RGB_RE.test(value))) {
@@ -296,17 +333,20 @@ function checkRawHex(entries, out) {
   for (const { node, ctx } of entries) {
     const colors = collectColorPaths(node);
     if (!colors.length) continue;
-    const overrides = isPlainObject(node.styleOverrides) ? node.styleOverrides : {};
+    const overridesArr = Array.isArray(node.overrides) ? node.overrides : [];
+    const overrideByProp = new Map(
+      overridesArr.filter(isPlainObject).map((o) => [o.prop, o]),
+    );
     for (const { path, value } of colors) {
-      const ov = overrides[path];
+      const ov = overrideByProp.get(path);
       const covered = isPlainObject(ov) && typeof ov.source === 'string' && ov.source.length > 0
         && typeof ov.evidence === 'string' && ov.evidence.length > 0;
       if (!covered) {
         out.push(finding(
           'T3-RAW-HEX',
           `${ctx.path}.${path}`,
-          `"${node.type}" ("${nodeLabel(node)}") hardcodes ${path}: ${JSON.stringify(value)} — no design-system role/token and no styleOverrides["${path}"] provenance record.`,
-          'a design-system role/token, or styleOverrides["<path>"] = { source, evidence }',
+          `"${node.type}" ("${nodeLabel(node)}") hardcodes ${path}: ${JSON.stringify(value)} — no design-system role/token and no overrides[] entry ({ prop: "${path}", value, source, evidence }).`,
+          `a design-system role/token, or overrides[] entry { prop: "${path}", value, source, evidence }`,
           value,
         ));
       }

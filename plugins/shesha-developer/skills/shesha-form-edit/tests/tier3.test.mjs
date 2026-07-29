@@ -121,15 +121,23 @@ test('T3-DESTRUCTIVE-PRIMARY: does not flag Delete when it is not primary', () =
   assert.ok(!codes(m).includes('T3-DESTRUCTIVE-PRIMARY'));
 });
 
-test('T3-HEADER-FONT-INCOMPLETE: flags a heading text with no explicit fontSize/fontWeight', () => {
+test('T3-HEADER-FONT-INCOMPLETE: flags a heading text with no explicit font.size/font.weight', () => {
   const m = { components: [{ id: ID(), type: 'text', componentName: 'heading', parentId: 'root', version: 5, content: 'Widget' }] };
   const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-HEADER-FONT-INCOMPLETE');
   assert.ok(found);
 });
 
-test('T3-HEADER-FONT-INCOMPLETE: does not flag a heading with both fontSize and fontWeight set', () => {
-  const m = { components: [{ id: ID(), type: 'text', componentName: 'heading', parentId: 'root', version: 5, content: 'Widget', fontSize: 24, fontWeight: '600' }] };
+test('T3-HEADER-FONT-INCOMPLETE: does not flag a heading with both font.size and font.weight set (registry-real nested shape)', () => {
+  const m = { components: [{ id: ID(), type: 'text', componentName: 'heading', parentId: 'root', version: 5, content: 'Widget', font: { size: 24, weight: '600' } }] };
   assert.ok(!codes(m).includes('T3-HEADER-FONT-INCOMPLETE'));
+});
+
+test('T3-HEADER-FONT-INCOMPLETE: DOES flag the old flat fontSize/fontWeight shape (not a registry prop for "text")', () => {
+  // Regression guard for the original bug: "text" has no flat fontSize/fontWeight
+  // props at all (see registry-0.45.1.json) — a heading using the flat spelling
+  // must still be reported as incomplete, not treated as "styled".
+  const m = { components: [{ id: ID(), type: 'text', componentName: 'heading', parentId: 'root', version: 5, content: 'Widget', fontSize: 24, fontWeight: '600' }] };
+  assert.ok(codes(m).includes('T3-HEADER-FONT-INCOMPLETE'));
 });
 
 test('T3-HEADER-FONT-INCOMPLETE: does not flag an ordinary (non-heading) text node', () => {
@@ -144,12 +152,31 @@ test('T3-RAW-HEX: flags a hex color on a non-container node (broader than T2\'s 
   assert.match(found.message, /#ff0000/);
 });
 
-test('T3-RAW-HEX: does not flag a color covered by a styleOverrides source+evidence record', () => {
+test('T3-RAW-HEX: does not flag a color covered by an overrides[] source+evidence entry', () => {
+  // Reconciled alongside tier2's T2-STYLE-OFF-TOKEN: this now reads the
+  // blueprint schema's overrides[] = {prop, value, source, evidence} shape,
+  // not the legacy styleOverrides[path] object.
+  const m = { components: [{
+    id: ID(), type: 'text', componentName: 'blurb', parentId: 'root', version: 5, content: 'x', font: { color: '#ff0000' },
+    overrides: [{ prop: 'font.color', value: '#ff0000', source: 'brand guideline', evidence: 'design review' }],
+  }] };
+  assert.ok(!codes(m).includes('T3-RAW-HEX'));
+});
+
+test('T3-RAW-HEX: DOES flag an overrides[] entry missing source or evidence (no provenance, not covered)', () => {
+  const m = { components: [{
+    id: ID(), type: 'text', componentName: 'blurb', parentId: 'root', version: 5, content: 'x', font: { color: '#ff0000' },
+    overrides: [{ prop: 'font.color', value: '#ff0000', source: '', evidence: '' }],
+  }] };
+  assert.ok(codes(m).includes('T3-RAW-HEX'));
+});
+
+test('T3-RAW-HEX: does NOT accept the superseded styleOverrides[path] shape as coverage anymore', () => {
   const m = { components: [{
     id: ID(), type: 'text', componentName: 'blurb', parentId: 'root', version: 5, content: 'x', font: { color: '#ff0000' },
     styleOverrides: { 'font.color': { source: 'brand guideline', evidence: 'design review' } },
   }] };
-  assert.ok(!codes(m).includes('T3-RAW-HEX'));
+  assert.ok(codes(m).includes('T3-RAW-HEX'));
 });
 
 test('T3-COMPONENT-RATIO: flags a form whose components/bindings ratio exceeds the budget', () => {

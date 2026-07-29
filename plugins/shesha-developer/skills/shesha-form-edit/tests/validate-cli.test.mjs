@@ -33,30 +33,25 @@ test('exits 1 on a Tier 2 fixture', () => {
 });
 
 test('exits 0 on a fixture with no Tier 1 or Tier 2 findings', () => {
-  // NOTE: t1-clean.json (the fixture named in this task's brief) does NOT
-  // exit 0 through the full CLI — verified directly: it has zero Tier 1
-  // findings (that's what it was built to prove, before Tier 2 existed) but
-  // six real, unrelated Tier 2 findings (T2-MODELTYPE-SHAPE,
-  // T2-STYLE-INCOMPLETE, T2-FLEX-NO-DISPLAY, T2-WIDTH-ON-NONCONTAINER,
-  // T2-EDITMODE-MISMATCH, T2-VALIDATIONERRORS-MISSING) because it predates
-  // Tier 2's full layout/modelType/editMode contract and was never a target
-  // for those checks. Symmetrically, t2-clean.json is not Tier 1-clean
-  // either (its header text's flat fontSize/fontWeight aren't registry
-  // props for "text", so T1-PROP-UNKNOWN fires twice). Neither existing
-  // "-clean" fixture is clean across BOTH tiers at once, so this test uses
-  // a new fixture (t3-cli-clean.json) built to satisfy both, and the next
-  // test below asserts the real, current behaviour of t1-clean.json instead
-  // of a false expectation.
-  const { status } = run([fixture('t3-cli-clean')]);
+  // t1-clean.json and t2-clean.json used to each be clean for only their own
+  // tier (t1-clean predated Tier 2's full layout/modelType/editMode contract;
+  // t2-clean's header text used the flat fontSize/fontWeight spelling, which
+  // is not a registry prop for "text" and tripped T1-PROP-UNKNOWN). Both were
+  // corrected to be clean across BOTH tiers (see the cross-tier assertion in
+  // tests/tier1.test.mjs / tests/tier2.test.mjs), so the third fixture that
+  // used to exist solely to prove a genuine exit-0 case (t3-cli-clean.json)
+  // was redundant and has been deleted; t1-clean.json now covers this case
+  // directly.
+  const { status } = run([fixture('t1-clean')]);
   assert.equal(status, 0);
 });
 
-test('t1-clean.json exits 1 through the full CLI (pre-existing Tier 2 gaps, not a Tier 3/CLI regression)', () => {
+test('t1-clean.json exits 0 through the full CLI, clean across BOTH Tier 1 and Tier 2', () => {
   const { status, stdout } = run([fixture('t1-clean'), '--json']);
   const parsed = JSON.parse(stdout);
-  assert.equal(parsed.tier1.length, 0, 't1-clean.json should still be Tier-1 clean');
-  assert.ok(parsed.tier2.length > 0, 't1-clean.json is not Tier-2 clean (see comment above)');
-  assert.equal(status, 1);
+  assert.equal(parsed.tier1.length, 0, 't1-clean.json should be Tier-1 clean');
+  assert.equal(parsed.tier2.length, 0, 't1-clean.json should now also be Tier-2 clean');
+  assert.equal(status, 0);
 });
 
 test('exits 0 on a form with a low Tier 3 score and no Tier 1/2 findings (Tier 3 never blocks)', () => {
@@ -94,7 +89,7 @@ test('exits 1 with a clear message (no stack trace) when an overridden asset pat
 // ---------------------------------------------------------------------------
 
 test('--json output parses and carries the documented keys', () => {
-  const { status, stdout } = run([fixture('t3-cli-clean'), '--json']);
+  const { status, stdout } = run([fixture('t1-clean'), '--json']);
   assert.equal(status, 0);
   const parsed = JSON.parse(stdout);
   assert.equal(parsed.exitCode, 0);
@@ -128,6 +123,6 @@ test('human output groups findings by tier and prints a one-line verdict', () =>
 });
 
 test('human output on a passing form says PASS', () => {
-  const { stdout } = run([fixture('t3-cli-clean')]);
+  const { stdout } = run([fixture('t1-clean')]);
   assert.match(stdout, /PASS/);
 });
