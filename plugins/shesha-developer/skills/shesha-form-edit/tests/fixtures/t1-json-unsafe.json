@@ -1,0 +1,15 @@
+{
+  "components": [
+    {
+      "id": "13131313-1313-4131-8131-131313131313",
+      "type": "textField",
+      "propertyName": "greeting",
+      "componentName": "greeting",
+      "parentId": "root",
+      "version": 6,
+      "hidden": false,
+      "textType": "text",
+      "onChangeCustom": "const msg = `Hello ${data.name}`; setFormData({ values: { msg } });"
+    }
+  ]
+}
