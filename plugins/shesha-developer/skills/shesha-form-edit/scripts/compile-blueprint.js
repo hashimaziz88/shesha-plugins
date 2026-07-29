@@ -252,17 +252,157 @@ const STYLE_BY_ROLE = {
   appPrimary: STYLE.colors.appPrimary,
   baseRadius: STYLE.radius.base,
   cardRadius: STYLE.radius.card,
+  mutedText: STYLE.colors.mutedText,
+  helperText: STYLE.colors.helperText,
+  divider: STYLE.colors.divider,
+  hoverBg: STYLE.colors.hoverBg,
+  selectedBg: STYLE.colors.selectedBg,
+  readOnlyFieldBg: STYLE.colors.readOnlyFieldBg,
   'type.scale.body': STYLE.type.bodySize,
   'type.scale.title': STYLE.type.headingSizes[1],
   'type.scale.subtitle': STYLE.type.headingSizes[2],
   'type.scale.cardHeader': STYLE.type.headingSizes[3],
+  'type.scale.dense': STYLE.type.denseSize,
+  'type.scale.micro': STYLE.type.microSize,
   'type.weights.semibold': STYLE.type.semiboldWeight,
+  'type.weights.medium': STYLE.type.mediumWeight,
+  'type.weights.regular': STYLE.type.regularWeight,
 };
 function tk(pathOrRole, fallback) {
   const v = STYLE_BY_ROLE[pathOrRole];
   return v ?? fallback;
 }
 const HEADING_TOKEN = { 1: 'type.scale.title', 2: 'type.scale.subtitle', 3: 'type.scale.cardHeader', 4: 'type.scale.body' };
+
+// ---- DESIGN INTENT → measured channels ----------------------------------------
+// emphasis / tone / density / surface / format are the blueprint's design vocabulary.
+// They resolve HERE, against the style plan, onto channels the component KB records for
+// the target component. That is the whole point of putting them in the IR: the same
+// blueprint is on-brand for any theme, and no later pass has to guess a size or a shade.
+
+/**
+ * Where an element sits in the reading order.
+ *
+ * `bump` steps the type scale UP for the single focal point only. Everything else keeps
+ * the size it would have had and differs by weight and ink — which is the standards'
+ * "hierarchy is carried by ink shade and weight", and is what stops a page from having
+ * several loud things and therefore no hierarchy.
+ */
+const EMPHASIS = {
+  identity: { weight: 'type.weights.semibold', color: 'bodyText', bump: 0 },
+  primary: { weight: 'type.weights.semibold', color: 'bodyText', bump: 1 },
+  secondary: { weight: 'type.weights.regular', color: 'bodyText', bump: 0 },
+  muted: { weight: 'type.weights.regular', color: 'mutedText', bump: 0 },
+};
+const TONE_ROLE = { body: 'bodyText', secondary: 'secondaryText', muted: 'mutedText', helper: 'helperText' };
+// ascending type steps, used only to resolve an emphasis `bump`
+const SCALE_STEPS = ['type.scale.micro', 'type.scale.dense', 'type.scale.body', 'type.scale.cardHeader', 'type.scale.subtitle', 'type.scale.title'];
+
+/**
+ * emphasis (+ optional tone) → a `font` block for the desktop breakpoint.
+ * @param baseToken the scale token this element would use anyway
+ * @param opts.allowBump false inside a table row, where a size change would make row
+ *   heights uneven — there emphasis is expressed by weight and ink alone.
+ */
+function emphasisFont(emphasis, tone, baseToken, opts = {}) {
+  const e = EMPHASIS[emphasis] ?? null;
+  const font = {};
+  let token = baseToken;
+  if (e && e.bump && opts.allowBump !== false) {
+    const i = SCALE_STEPS.indexOf(baseToken);
+    if (i >= 0) token = SCALE_STEPS[Math.min(i + e.bump, SCALE_STEPS.length - 1)];
+  }
+  font.size = tk(token, 14);
+  if (e) {
+    font.weight = String(tk(e.weight, 400));
+    font.color = tk(e.color, '#181818');
+  }
+  if (tone && TONE_ROLE[tone]) font.color = tk(TONE_ROLE[tone], font.color ?? '#181818');
+  return font;
+}
+
+/**
+ * Information density. Table values land on the rowPadding sides; layout values on
+ * gap/padding. `dense` type for compact rows is what makes an operational worklist
+ * readable at 20+ rows without shrinking the whole page's body text.
+ */
+const DENSITY = {
+  compact: { rowPadY: 6, rowPadX: 12, cellToken: 'type.scale.dense', gap: 8, pad: 12 },
+  default: { rowPadY: 10, rowPadX: 16, cellToken: 'type.scale.body', gap: 12, pad: 16 },
+  comfortable: { rowPadY: 14, rowPadX: 20, cellToken: 'type.scale.body', gap: 16, pad: 24 },
+};
+/** node density > screen density > archetype default */
+const ARCHETYPE_DENSITY = {
+  'table-worklist': 'compact', 'inline-card': 'compact', dashboard: 'comfortable',
+  'list-card': 'default', 'record-detail': 'default', capture: 'default',
+};
+function densityOf(node) {
+  const key = node?.density ?? bp.density ?? ARCHETYPE_DENSITY[bp.archetype] ?? 'default';
+  return DENSITY[key] ?? DENSITY.default;
+}
+
+/**
+ * What a container reads as. `card` is border-forward per the Shesha philosophy — the
+ * hairline carries the structure and the shadow is a whisper; a brand that wants more
+ * says so in its own shadow token rather than here.
+ */
+function surfaceStyle(surface) {
+  switch (surface) {
+    case 'card':
+      return {
+        background: { type: 'color', color: tk('cardBg', '#ffffff') },
+        border: { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', color: tk('hairline', '#e5e7eb'), style: 'solid' } }, radius: { all: tk('cardRadius', 8) } },
+        shadow: { offsetX: 0, offsetY: 1, blurRadius: 4, spreadRadius: 0, color: 'rgba(0,0,0,0.08)' },
+      };
+    case 'canvas':
+      return { background: { type: 'color', color: tk('pageBg', '#f5f5f5') } };
+    case 'sunken':
+      return {
+        background: { type: 'color', color: tk('readOnlyFieldBg', '#fafafa') },
+        border: { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', color: tk('hairline', '#e5e7eb'), style: 'solid' } }, radius: { all: tk('baseRadius', 6) } },
+      };
+    default:
+      return null; // 'none' or unset — pure layout, paints nothing
+  }
+}
+
+/**
+ * A blueprint `format` → the display channels of the `text` component that renders the
+ * value. Only what the runtime actually honours: see the schema's note on why there is
+ * no currency code, unit or percent.
+ */
+function formatChannels(format) {
+  if (!format) return {};
+  switch (format.kind) {
+    case 'currency':
+      return { dataType: 'number', numberFormat: format.decimals === 0 ? 'round' : 'currency' };
+    case 'number':
+      if (format.thousands) return { dataType: 'number', numberFormat: 'thousandSeparator' };
+      return { dataType: 'number', numberFormat: format.decimals === 0 ? 'round' : 'double' };
+    case 'date':
+      return { dataType: 'date-time', dateFormat: format.pattern ?? 'DD MMM YYYY' };
+    case 'datetime':
+      return { dataType: 'date-time', dateFormat: format.pattern ?? 'DD MMM YYYY HH:mm' };
+    case 'text': {
+      const out = { dataType: 'string' };
+      if (format.truncate) out.ellipsis = true;
+      if (format.transform && format.transform !== 'none') {
+        // textTransform has no font channel; the `style` code-mode string is the
+        // measured way to reach it (capability-matrix: text customStyle code-mode).
+        out.style = `return { textTransform: '${format.transform}' };`;
+      }
+      return out;
+    }
+    default:
+      return {};
+  }
+}
+
+/** numeric formats read right-aligned; anything else defaults to the natural side. */
+const RIGHT_ALIGNED = new Set(['currency', 'number']);
+function defaultAlign(col) {
+  return RIGHT_ALIGNED.has(col.format?.kind) ? 'right' : 'left';
+}
 
 const bindingIndex = new Map((bp.bindings ?? []).map((b) => [b.property, b]));
 
@@ -299,11 +439,158 @@ function fieldComponent(node, idKey) {
       console.error(`WARN: ${prop} compiled as ${type} but metadata shows no referenceListName`);
     }
   }
+  // A read-only field is a VALUE, not an input — and its emphasis/format belong to the
+  // value's own display channels rather than to an input border.
+  const emphasis = node.emphasis ?? binding.emphasis;
+  const format = node.format ?? binding.format;
+  if (emphasis || format) {
+    comp.desktop.font = {
+      ...(comp.desktop.font ?? {}),
+      ...emphasisFont(emphasis, undefined, 'type.scale.body'),
+    };
+  }
+  if (node.readOnly) {
+    comp.editMode = 'readOnly';
+    Object.assign(comp, formatChannels(format));
+  }
   if (type === 'autocomplete') {
     const p = propsMeta?.get(String(prop).toLowerCase());
     if (p?.entityType) Object.assign(comp, { dataSourceType: 'entitiesList', entityTypeShortAlias: p.entityType, mode: 'single' });
   }
   return comp;
+}
+
+/**
+ * One datatable column.
+ *
+ * A bare string is shorthand for { property }. The object form is the whole point of the
+ * rich column model: the blueprint's own label, cell component, alignment and number
+ * format all land here. Before this, columns hardcoded `caption: titleCase(property)` and
+ * `displayComponent: '[default]'`, so a blueprint's carefully chosen "Reference" compiled
+ * to "Booking Reference" and an intended status chip rendered as raw enum text.
+ */
+function tableColumn(raw, i, idKey, cellToken) {
+  const col = typeof raw === 'string' ? { property: raw } : raw;
+  const prop = col.property;
+  const align = col.align ?? defaultAlign(col);
+  if (col.align === 'left' && RIGHT_ALIGNED.has(col.format?.kind)) {
+    console.error(`WARN: column ${prop} is ${col.format.kind} but explicitly left-aligned — the standards right-align numbers`);
+  }
+  const item = {
+    id: gymUuid('bp', bp.form.name, `${idKey}/col/${prop}`),
+    itemType: 'item', sortOrder: i, columnType: 'data',
+    propertyName: prop,
+    caption: col.label ?? titleCase(prop),
+    isVisible: true,
+    allowSorting: col.sortable ?? true,
+    displayComponent: { type: '[default]' },
+    editComponent: { type: '[not-editable]' },
+    createComponent: { type: '[not-editable]' },
+  };
+  if (col.description) item.description = col.description;
+  if (col.width !== undefined) { item.minWidth = col.width; item.maxWidth = col.width; }
+  else {
+    if (col.minWidth !== undefined) item.minWidth = col.minWidth;
+    if (col.maxWidth !== undefined) item.maxWidth = col.maxWidth;
+  }
+
+  // A non-default cell needs a FULL migrated component model in displayComponent.settings:
+  // the runtime runs upgradeComponent over it and injects id/type, so the version must be
+  // the KB version or the migration chain starts at the wrong step.
+  const needsCell = !!(col.component || col.format || col.emphasis || align === 'right' || align === 'center');
+  if (needsCell) {
+    const cellType = col.component ?? 'text';
+    assertTypeRenders(cellType, `column ${prop}`);
+    const settings = {
+      type: cellType, version: ver(cellType),
+      propertyName: prop, componentName: `${prop}Cell`,
+      hideLabel: true,
+    };
+    if (cellType === 'text') {
+      Object.assign(settings, { textType: 'span', contentDisplay: 'content' }, formatChannels(col.format));
+      const font = emphasisFont(col.emphasis, undefined, cellToken, { allowBump: false });
+      if (align !== 'left') font.align = align;
+      settings.desktop = { font };
+    } else if (cellType === 'refListStatus') {
+      // the reflist item supplies colour AND word together [R-036]
+      Object.assign(settings, { solidBackground: true, showIcon: false, showReflistName: false });
+      const p = propsMeta?.get(String(prop).toLowerCase());
+      if (p?.referenceListName) {
+        settings.referenceListId = { module: p.referenceListModule ?? null, name: p.referenceListName.split('.').pop() };
+      } else if (propsMeta) {
+        console.error(`WARN: column ${prop} is a refListStatus but metadata shows no referenceListName — the chip will render without colours`);
+      }
+    }
+    item.displayComponent = { type: cellType, settings };
+  }
+  return item;
+}
+
+/** rowAction → the datatable's onRowClick / onRowDoubleClick action configuration. */
+function rowActionChannels(ra) {
+  const key = ra.trigger === 'doubleClick' ? 'onRowDoubleClick' : 'onRowClick';
+  const cfg = ra.type === 'dialog'
+    ? {
+      _type: 'action-config', actionName: 'Show Dialog', actionOwner: 'shesha.common',
+      actionArguments: {
+        modalTitle: 'Details', showModalFooter: false,
+        formId: { name: ra.form, module: ra.module ?? bp.form.module },
+      },
+      handleSuccess: false, handleFail: false,
+    }
+    : {
+      _type: 'action-config', actionName: 'Navigate', actionOwner: 'shesha.common',
+      actionArguments: ra.url
+        ? { navigationType: 'url', url: ra.url }
+        : { navigationType: 'form', formId: { name: ra.form, module: ra.module ?? bp.form.module } },
+      handleSuccess: false, handleFail: false,
+    };
+  return { [key]: cfg };
+}
+
+/**
+ * Toolbar actions → buttonGroup items. At most ONE may be primary (the brand-filled
+ * button); the rest are default white, because colour is an accent and not a surface.
+ */
+function toolbarButtons(actions, idKey) {
+  let primaryUsed = false;
+  return actions.map((a, i) => {
+    let isPrimary = a.emphasis === 'primary' || (a.emphasis === undefined && a.type === 'create' && i === 0);
+    if (isPrimary && primaryUsed) {
+      console.error(`WARN: more than one primary toolbar action — "${a.label ?? a.type}" demoted to default`);
+      isPrimary = false;
+    }
+    if (isPrimary) primaryUsed = true;
+    const ICON = { create: 'PlusOutlined', navigate: 'ArrowRightOutlined', refresh: 'ReloadOutlined', export: 'DownloadOutlined', dialog: 'EditOutlined' };
+    const label = a.label ?? titleCase(a.type);
+    const item = {
+      id: gymUuid('bp', bp.form.name, `${idKey}/tb/${i}:${a.type}`),
+      itemType: 'item', itemSubType: 'button', sortOrder: i,
+      name: `btn${label.replace(/[^A-Za-z0-9]+/g, '')}`,
+      label, buttonType: isPrimary ? 'primary' : 'default',
+      icon: ICON[a.type], editMode: 'inherited',
+    };
+    if (a.type === 'refresh') {
+      item.actionConfiguration = { _type: 'action-config', actionName: 'Refresh table', actionOwner: 'shesha.dataTable', handleSuccess: false, handleFail: false };
+    } else if (a.type === 'export') {
+      item.actionConfiguration = { _type: 'action-config', actionName: 'Export to Excel', actionOwner: 'shesha.dataTable', handleSuccess: false, handleFail: false };
+    } else if (a.type === 'dialog' || (a.type === 'create' && a.form && !a.url)) {
+      item.actionConfiguration = {
+        _type: 'action-config', actionName: 'Show Dialog', actionOwner: 'shesha.common',
+        actionArguments: { modalTitle: label, showModalFooter: true, formId: { name: a.form, module: a.module ?? bp.form.module } },
+        handleSuccess: false, handleFail: false,
+      };
+    } else {
+      item.actionConfiguration = {
+        _type: 'action-config', actionName: 'Navigate', actionOwner: 'shesha.common',
+        actionArguments: a.url
+          ? { navigationType: 'url', url: a.url }
+          : { navigationType: 'form', formId: { name: a.form, module: a.module ?? bp.form.module } },
+        handleSuccess: false, handleFail: false,
+      };
+    }
+    return item;
+  });
 }
 
 /**
@@ -326,14 +613,19 @@ function compileNode(node, idPrefix, ordinal = 0) {
   switch (node.kind) {
     case 'field':
       return fieldComponent(node, idKey);
-    case 'text':
-      return {
+    case 'text': {
+      const comp = {
         id: gymUuid('bp', bp.form.name, idKey),
         type: 'text', version: ver('text'),
         componentName: node.name ?? nameFromKey(idKey, 'text'),
         content: node.content ?? node.title ?? '', textType: 'span', contentDisplay: 'content',
-        desktop: { font: { size: tk('type.scale.body', 14), color: tk('bodyText', '#181818') } },
+        // emphasis/tone resolve the size, weight and ink together, so a supporting line
+        // is visibly supporting rather than the same weight as the thing it supports.
+        desktop: { font: emphasisFont(node.emphasis ?? 'secondary', node.tone, 'type.scale.body') },
       };
+      if (node.truncate) comp.ellipsis = true;
+      return comp;
+    }
     case 'heading': {
       const lvl = node.level ?? 2;
       const h = HEADING[lvl] ?? HEADING[2];
@@ -342,31 +634,70 @@ function compileNode(node, idPrefix, ordinal = 0) {
         type: 'text', version: ver('text'),
         componentName: node.name ?? nameFromKey(idKey, 'heading'),
         content: node.content ?? node.title ?? '', textType: 'span', contentDisplay: 'content',
-        // on-brand hierarchy from the theme type scale + heading ink [R-030]
-        desktop: { font: { size: tk(HEADING_TOKEN[lvl], h.size), weight: String(tk('type.weights.semibold', 600)), color: tk('sectionHeading', '#181818') } },
+        // on-brand hierarchy from the theme type scale + heading ink [R-030]. A heading
+        // level sets the BASE step; emphasis then bumps the one focal point up and drops
+        // a de-emphasised heading to the muted ink, so level and importance stay separable.
+        desktop: {
+          font: {
+            ...emphasisFont(node.emphasis ?? 'identity', undefined, HEADING_TOKEN[lvl] ?? 'type.scale.body'),
+            weight: String(tk(node.emphasis === 'muted' ? 'type.weights.medium' : 'type.weights.semibold', 600)),
+            color: node.emphasis === 'muted' ? tk('mutedText', '#8c8c8c') : tk('sectionHeading', '#181818'),
+          },
+        },
       };
     }
     case 'buttonGroup':
     case 'actions':
       return floorButtonGroup(idKey);
     case 'datatable': {
+      const d = densityOf(node);
+      const nm0 = node.name ?? 'table';
       const table = {
         id: gymUuid('bp', bp.form.name, `${idKey}/table`),
         type: 'datatable', version: ver('datatable'),
-        componentName: `${node.name ?? 'table'}Grid`, propertyName: `${node.name ?? 'table'}Grid`,
-        canEditInline: 'no', canAddInline: 'no', canDeleteInline: 'no', useMultiselect: false,
-        items: (node.columns ?? []).map((col, i) => ({
-          id: gymUuid('bp', bp.form.name, `${idKey}/col/${col}`),
-          itemType: 'item', sortOrder: i, columnType: 'data',
-          propertyName: col, caption: titleCase(col), isVisible: true, allowSorting: true,
-          displayComponent: { type: '[default]' }, editComponent: { type: '[not-editable]' }, createComponent: { type: '[not-editable]' },
-        })),
+        componentName: `${nm0}Grid`, propertyName: `${nm0}Grid`,
+        canEditInline: 'no', canAddInline: 'no', canDeleteInline: 'no',
+        selectionMode: node.selection ?? 'none',
+        useMultiselect: node.selection === 'multiple',
+        items: (node.columns ?? []).map((raw, i) => tableColumn(raw, i, idKey, d.cellToken)),
+        // TABLE CHROME from density + the brand. Without these a datatable renders as
+        // default AntD, which the styled-ness gate and the design critic both read as
+        // unfinished — and every one of these is a channel the KB records for v29.
+        headerFont: {
+          type: undefined, size: tk('type.scale.dense', 13),
+          weight: String(tk('type.weights.medium', 500)),
+          color: tk('sectionHeading', '#181818'), align: 'left',
+        },
+        headerBackgroundColor: tk('cardHeaderBg', '#fafafa'),
+        rowPaddingTop: `${d.rowPadY}px`, rowPaddingBottom: `${d.rowPadY}px`,
+        rowPaddingLeft: `${d.rowPadX}px`, rowPaddingRight: `${d.rowPadX}px`,
+        rowBackgroundColor: tk('cardBg', '#ffffff'),
+        rowHoverBackgroundColor: tk('hoverBg', '#fafafa'),
+        rowSelectedBackgroundColor: tk('selectedBg', '#e6f4ff'),
+        cellBorderColor: tk('divider', '#f0f0f0'),
+        sortableIndicatorColor: tk('secondaryText', '#8c8c8c'),
+        hoverHighlight: true,
+        // rowDividers carry row separation; stripes on top of dividers read as noise, so
+        // striped defaults OFF and alternate-row colour is only set when asked for.
+        rowDividers: node.rowDividers ?? true,
+        cellBorders: false,
+        striped: node.striped === true,
+        freezeHeaders: node.freezeHeader ?? true,
       };
+      if (node.striped === true) table.rowAlternateBackgroundColor = tk('hoverBg', '#fafafa');
+      // Designed empty state. A default "No Data" scrawl is a bar failure, and these are
+      // the channels the golden corpus proves a datatable honours.
+      if (node.emptyState) {
+        table.noDataText = node.emptyState.title;
+        if (node.emptyState.body) table.noDataSecondaryText = node.emptyState.body;
+        if (node.emptyState.icon) table.noDataIcon = node.emptyState.icon;
+      }
+      if (node.rowAction) Object.assign(table, rowActionChannels(node.rowAction));
       const ctx = {
         id: gymUuid('bp', bp.form.name, `${idKey}/ctx`),
         type: 'dataContext', version: ver('dataContext'),
         entityType: bp.entity.fullClassName, sourceType: 'Entity',
-        dataFetchingMode: 'paging', defaultPageSize: 10,
+        dataFetchingMode: 'paging', defaultPageSize: node.pageSize ?? 10,
         uniqueStateId: node.name ?? 'table', componentName: node.name ?? 'table', propertyName: node.name ?? 'table',
         sortMode: 'standard', allowReordering: 'no',
         components: [table],
@@ -378,7 +709,7 @@ function compileNode(node, idPrefix, ordinal = 0) {
       // without a way to search or page, which reads as an unfinished screen. The
       // chrome's component types were capability-gated above, so this only emits types
       // the runtime is measured to register.
-      if (bp.archetype === 'table-worklist') {
+      if (bp.archetype === 'table-worklist' || (node.toolbar ?? []).length) {
         const nm = node.name ?? 'table';
         const toolbarChildren = [];
         for (const [type, suffix, extra] of [
@@ -391,6 +722,19 @@ function compileNode(node, idPrefix, ordinal = 0) {
             type, version: ver(type),
             componentName: `${nm}${suffix}`, propertyName: `${nm}${suffix}`,
             ...extra,
+          });
+        }
+        // The blueprint's SEMANTIC actions sit between search and the pager, so the
+        // primary action and the pager do not compete for the same right-hand corner.
+        if ((node.toolbar ?? []).length) {
+          assertTypeRenders('buttonGroup', `${bp.archetype} toolbar actions`);
+          const items = toolbarButtons(node.toolbar, idKey);
+          toolbarChildren.splice(1, 0, {
+            id: gymUuid('bp', bp.form.name, `${idKey}/chrome/actions`),
+            type: 'buttonGroup', version: ver('buttonGroup'),
+            componentName: `${nm}Actions`, propertyName: `${nm}Actions`,
+            label: 'Table Actions', hideLabel: true, isInline: true, editMode: 'editable',
+            items,
           });
         }
         const toolbar = {
@@ -416,25 +760,68 @@ function compileNode(node, idPrefix, ordinal = 0) {
       return ctx;
     }
     case 'datalist': {
+      const d = densityOf(node);
       const list = {
         id: gymUuid('bp', bp.form.name, `${idKey}/list`),
         type: 'datalist', version: ver('datalist'),
         componentName: `${node.name ?? 'list'}List`, propertyName: `${node.name ?? 'list'}List`,
         formSelectionMode: 'name',
-        formId: { name: node.itemForm ?? `${bp.form.name}-item`, module: bp.form.module },
-        orientation: 'vertical', selectionMode: 'none',
+        formId: { name: node.itemForm ?? `${bp.form.name}-item`, module: node.itemModule ?? bp.form.module },
+        orientation: node.orientation ?? 'vertical',
+        selectionMode: node.selection ?? 'none',
+        gap: resolveSpace(node.gap, d.gap),
       };
+      // designed empty state — datalist's own noData* channels [KB v11]
+      if (node.emptyState) {
+        list.noDataText = node.emptyState.title;
+        if (node.emptyState.body) list.noDataSecondaryText = node.emptyState.body;
+        if (node.emptyState.icon) list.noDataIcon = node.emptyState.icon;
+      }
+      if (node.rowAction) {
+        const ra = node.rowAction;
+        const cfg = rowActionChannels({ ...ra, trigger: 'click' }).onRowClick;
+        // datalist names the same intent differently — onListItemClick, or the
+        // dblClick slot when the blueprint asked for a double click.
+        if (ra.trigger === 'doubleClick') list.dblClickActionConfiguration = cfg;
+        else list.onListItemClick = cfg;
+      }
       const ctx = {
         id: gymUuid('bp', bp.form.name, `${idKey}/ctx`),
         type: 'dataContext', version: ver('dataContext'),
         entityType: bp.entity.fullClassName, sourceType: 'Entity',
-        dataFetchingMode: 'paging', defaultPageSize: 10,
+        dataFetchingMode: 'paging', defaultPageSize: node.pageSize ?? 10,
         uniqueStateId: node.name ?? 'list', componentName: node.name ?? 'list', propertyName: node.name ?? 'list',
         sortMode: 'standard', allowReordering: 'no',
         components: [list],
       };
       list.parentId = ctx.id;
       return ctx;
+    }
+    case 'chip': {
+      // There is no `chip` component in the runtime — a status pill IS refListStatus,
+      // which pairs the reference-list item's colour with its word [R-036].
+      assertTypeRenders('refListStatus', 'chip node');
+      const comp = {
+        id: gymUuid('bp', bp.form.name, idKey),
+        type: 'refListStatus', version: ver('refListStatus'),
+        componentName: node.name ?? nameFromKey(idKey, 'chip'),
+        propertyName: node.property,
+        hideLabel: true,
+        solidBackground: node.solid ?? true,
+        showIcon: node.showIcon ?? false,
+        showReflistName: node.showLabel ?? false,
+        desktop: {
+          font: emphasisFont(node.emphasis, undefined, 'type.scale.micro', { allowBump: false }),
+          dimensions: { width: node.width ?? 'auto', minWidth: '0px' },
+        },
+      };
+      const p = propsMeta?.get(String(node.property).toLowerCase());
+      if (p?.referenceListName) {
+        comp.referenceListId = { module: p.referenceListModule ?? null, name: p.referenceListName.split('.').pop() };
+      } else if (propsMeta) {
+        console.error(`WARN: chip ${node.property} has no referenceListName in metadata — it will render without colours`);
+      }
+      return comp;
     }
     case 'tabs': {
       const tabs = {
@@ -517,13 +904,14 @@ function buildContainer(node, idKey) {
   // NOT from root-level props — this is THE reason root display/flexDirection did
   // nothing and rows stacked. Build the full desktop style object (mirrors the
   // container's own defaultStyles shape) so layout is honoured. [R-030/R-032]
+  const d = densityOf(node);
   const desktop = {
     display: 'flex',
     flexDirection: isRow ? 'row' : 'column',
     flexWrap: node.kind === 'grid' ? 'wrap' : 'nowrap',
     justifyContent: node.justify ? (JUSTIFY[node.justify] ?? node.justify) : 'flex-start',
     alignItems: node.align ? (ALIGN[node.align] ?? node.align) : (isRow ? 'flex-start' : 'stretch'),
-    gap: `${resolveSpace(node.gap, isRow ? 16 : 12)}px`,
+    gap: `${resolveSpace(node.gap, isRow ? d.gap + 4 : d.gap)}px`,
     dimensions: {
       width: node.width ?? (isRow ? '100%' : 'auto'),
       height: 'auto', minHeight: 'auto', maxHeight: 'auto',
@@ -532,13 +920,16 @@ function buildContainer(node, idKey) {
     stylingBox: node.padding !== undefined ? paddingBox(node.padding) : '{}',
   };
 
-  // card: on-brand surface from tokens (border-forward per the Shesha philosophy —
-  // hairline border, whisper shadow) so it's designed in the first output [R-030]
-  if (node.kind === 'card') {
-    desktop.background = { type: 'color', color: tk('cardBg', '#ffffff') };
-    desktop.border = { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', color: tk('hairline', '#e5e7eb'), style: 'solid' } }, radius: { all: tk('cardRadius', 8) } };
-    desktop.shadow = { offsetX: 0, offsetY: 1, blurRadius: 4, spreadRadius: 0, color: 'rgba(0,0,0,0.08)' };
-    if (node.padding === undefined) desktop.stylingBox = paddingBox('4'); // spacing.4 = 16
+  // SURFACE. A card defaults to the `card` surface (border-forward per the Shesha
+  // philosophy — hairline border, whisper shadow) so it is designed in the first output
+  // [R-030]; any container may ask for a surface explicitly, which is how a page gets
+  // the standards' "most of a page is NOT white".
+  const surface = node.surface ?? (node.kind === 'card' ? 'card' : undefined);
+  const surfStyle = surfaceStyle(surface);
+  if (surfStyle) {
+    Object.assign(desktop, surfStyle);
+    // a painted surface needs padding or its content touches the border
+    if (node.padding === undefined && surface !== 'canvas') desktop.stylingBox = paddingBox(d.pad);
   }
 
   const container = {
@@ -548,7 +939,7 @@ function buildContainer(node, idKey) {
     // root duplicates kept for migration compatibility; desktop is authoritative
     direction: isRow ? 'horizontal' : 'vertical',
     display: 'flex', flexDirection: isRow ? 'row' : 'column',
-    gap: resolveSpace(node.gap, isRow ? 16 : 12),
+    gap: resolveSpace(node.gap, isRow ? d.gap + 4 : d.gap),
     flexWrap: node.kind === 'grid' ? 'wrap' : 'nowrap',
     stylingBox: desktop.stylingBox,
     desktop,

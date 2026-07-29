@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "shesha-blueprint.schema.json",
   "title": "Shesha blueprint IR (machine twin)",
-  "description": "The JSON twin of a screen blueprint. Comprehension emits it alongside the Markdown blueprint (fenced blueprint-json block); shesha-form-edit's compile-blueprint.js validates against this schema and refuses to compile a blueprint that does not satisfy it. This file is a VALIDATOR, not a prompt — the authoring guidance for the node grammar lives in shesha-form-edit/references/designing-like-react.md.",
+  "description": "The JSON twin of a screen blueprint. Comprehension emits it alongside the Markdown blueprint (fenced blueprint-json block); shesha-form-edit's compile-blueprint.js validates against this schema and refuses to compile a blueprint that does not satisfy it. This file is a VALIDATOR, not a prompt — the authoring guidance for the node grammar lives in shesha-form-edit/references/designing-like-react.md.\n\nDESIGN INTENT IS PART OF THE IR. A blueprint states hierarchy (`emphasis`), surface (`surface`), information density (`density`), number and date presentation (`format`), and the designed empty state (`emptyState`). The compiler resolves each of these to concrete component channels using the brand token file — so the SAME blueprint renders on-brand for any theme, and nothing about the visual outcome is left for a later pass to invent. Every slot here maps to a channel the component KB records for the target component; there is no decorative key that the compiler silently drops.",
   "type": "object",
   "required": ["screen", "entity", "form", "archetype", "layout"],
   "additionalProperties": false,
@@ -47,9 +47,14 @@
     "theme": { "type": "string", "description": "brand token file name (e.g. 'shesha'); resolved to a style plan at compile time" },
     "fidelity": { "enum": ["A", "B", "C"], "description": "A readable source · B runnable probe · C screenshot/vision" },
     "viewport": { "type": "string", "description": "the ONE viewport used for both capture and verification" },
+    "density": {
+      "$ref": "#/$defs/density",
+      "description": "screen-wide default density. Nodes inherit it unless they set their own. Omitted, the archetype's default applies (worklists compact, capture/detail default)."
+    },
     "layout": { "$ref": "#/$defs/node" },
     "bindings": {
       "type": "array",
+      "description": "Per-property presentation for FIELD nodes. Datatable columns do NOT read this — a column carries its own label/component/format inline, so there is no second list to keep in agreement.",
       "items": {
         "type": "object",
         "required": ["property"],
@@ -58,7 +63,9 @@
           "label": { "type": "string" },
           "property": { "$ref": "#/$defs/propertyPath" },
           "component": { "type": "string", "description": "explicit component type; omit for by-datatype selection" },
-          "datatype": { "type": "string" }
+          "datatype": { "type": "string" },
+          "format": { "$ref": "#/$defs/format" },
+          "emphasis": { "$ref": "#/$defs/emphasis" }
         }
       }
     },
@@ -91,6 +98,125 @@
     "align": { "enum": ["start", "center", "end", "stretch", "baseline"] },
     "justify": { "enum": ["start", "center", "end", "space-between", "space-around"] },
 
+    "emphasis": {
+      "enum": ["identity", "primary", "secondary", "muted"],
+      "description": "Where this element sits in the reading order — the schema slot for the design standard 'one element is clearly most important per view'.\n\nidentity = the value that names the record (a reference, a person's name); rendered at the strong ink and weight.\nprimary  = the single focal point of the view. Validation FAILS a screen with two `primary` siblings in the same region, because two focal points is none.\nsecondary = normal reading weight; the default when omitted.\nmuted    = supporting metadata, de-emphasised ink.\n\nResolved to desktop.font.{size,weight,color} from the brand type scale and ink roles — never to a hard-coded hex."
+    },
+    "tone": {
+      "enum": ["body", "secondary", "muted", "helper"],
+      "description": "ink role for non-structural text, resolved to roles.{bodyText,secondaryText,mutedText,helperText}. Use `emphasis` for hierarchy and `tone` only to pick a shade within it."
+    },
+    "density": {
+      "enum": ["compact", "default", "comfortable"],
+      "description": "Information density — the schema slot for 'density matches the audience'. On a datatable it resolves to rowPadding* and rowDimensions; on a layout node to gap and padding. compact = operational worklists that enumerate; comfortable = executive summaries that aggregate."
+    },
+    "surface": {
+      "enum": ["canvas", "card", "sunken", "none"],
+      "description": "What this container reads as, resolved from the brand roles: canvas = the muted page background (roles.pageBg) · card = white panel with the brand hairline, plus the brand card shadow only if the brand defines one (roles.cardBg) · sunken = inset/read-only surface (roles.readOnlyFieldBg) · none = no background, pure layout. Supports the standard that most of a page is NOT white."
+    },
+    "format": {
+      "description": "How a bound value is PRESENTED. Resolved to the display component's real channels — `dataType` (string|date-time|number|boolean), `numberFormat` (currency|double|round|thousandSeparator) and `dateFormat`. Discriminated on `kind`, so a date pattern on a number is a validation error rather than a silently ignored key.\n\nThis def deliberately carries NOTHING the runtime cannot honour. In particular there is no currency `code` and no `unit`: the framework's formatter hard-codes en-ZA/ZAR (utils/string.ts), and no unit channel exists — so a unit belongs in the column LABEL ('Total (ZAR)'), which is also how the standards' 'every number carries a unit' is meant to be satisfied. There is no `percent` kind for the same reason.",
+      "oneOf": [
+        {
+          "type": "object", "required": ["kind"], "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "currency", "description": "→ numberFormat 'currency'. Rendered in ZAR by the framework formatter; state a different currency in the label." },
+            "decimals": { "enum": [0, 2], "default": 2, "description": "0 → 'round', 2 → 'double'-style two-decimal money. The formatter offers no other precision." }
+          }
+        },
+        {
+          "type": "object", "required": ["kind"], "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "number" },
+            "decimals": { "enum": [0, 2], "description": "0 → 'round' (integer), 2 → 'double'" },
+            "thousands": { "type": "boolean", "description": "true → 'thousandSeparator'. Mutually exclusive with `decimals` — the formatter applies one numberFormat, not both." }
+          }
+        },
+        {
+          "type": "object", "required": ["kind"], "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "date" },
+            "pattern": { "type": "string", "description": "day.js pattern → dateFormat; default DD MMM YYYY" }
+          }
+        },
+        {
+          "type": "object", "required": ["kind"], "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "datetime" },
+            "pattern": { "type": "string", "description": "day.js pattern → dateFormat; default DD MMM YYYY HH:mm" }
+          }
+        },
+        {
+          "type": "object", "required": ["kind"], "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "text" },
+            "transform": { "enum": ["none", "uppercase", "capitalize"], "description": "emitted via the `style` code-mode channel — the measured way to reach textTransform, which the font channel cannot express" },
+            "truncate": { "type": "boolean", "description": "→ ellipsis. A line COUNT is not available; the runtime truncates to one line." }
+          }
+        }
+      ]
+    },
+    "emptyState": {
+      "type": "object",
+      "description": "The designed no-data state. The standards call a bare default 'No Data' a failure of the bar, and this is the slot that lets a blueprint say otherwise. Resolved to noDataText / noDataSecondaryText / noDataIcon.",
+      "required": ["title"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "minLength": 1, "description": "e.g. 'No bookings yet'" },
+        "body": { "type": "string", "description": "one line telling the user what to do about it" },
+        "icon": { "type": "string", "description": "AntD icon name, e.g. 'InboxOutlined'" }
+      }
+    },
+    "column": {
+      "description": "One datatable column. A bare string is shorthand for { property } — use the object form to state label, component, alignment and number format, so nothing about the column is left to be inferred after the blueprint.",
+      "oneOf": [
+        { "$ref": "#/$defs/propertyPath" },
+        {
+          "type": "object", "required": ["property"], "additionalProperties": false,
+          "properties": {
+            "property": { "$ref": "#/$defs/propertyPath" },
+            "label": { "type": "string", "minLength": 1, "description": "column caption. Omitted, the compiler title-cases the property, which is usually NOT what a reader wants ('bookingReference' → 'Booking Reference' rather than 'Reference')." },
+            "component": { "type": "string", "description": "cell component type for a non-default rendering, e.g. refListStatus for a status chip. Compiled to the column's displayComponent with a full migrated settings model." },
+            "align": { "enum": ["left", "center", "right"], "description": "cell + header alignment. Numbers belong right-aligned per the standards; the compiler defaults numeric formats to right and warns when a currency/number column is explicitly left-aligned." },
+            "format": { "$ref": "#/$defs/format" },
+            "emphasis": { "$ref": "#/$defs/emphasis" },
+            "width": { "type": "integer", "minimum": 40, "description": "fixed px width; sets minWidth = maxWidth so the column does not breathe" },
+            "minWidth": { "type": "integer", "minimum": 40 },
+            "maxWidth": { "type": "integer", "minimum": 40 },
+            "sortable": { "type": "boolean", "default": true },
+            "description": { "type": "string", "description": "header tooltip; the place to expand an abbreviation on first use" }
+          }
+        }
+      ]
+    },
+    "rowAction": {
+      "type": "object",
+      "description": "What clicking a row does. Compiled to onRowClick (or onRowDoubleClick when trigger is doubleClick). Omit for a read-only table — but on a worklist whose rows have a detail view, omitting it is the most common reason a built screen feels unfinished.",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "enum": ["navigate", "dialog"], "description": "navigate = go to a form/url · dialog = open a modal form" },
+        "trigger": { "enum": ["click", "doubleClick"], "default": "click" },
+        "form": { "type": "string", "description": "target form name, e.g. 'flight-booking-detail'" },
+        "module": { "type": "string", "description": "target form module; defaults to this form's module" },
+        "url": { "type": "string", "description": "type=navigate with a raw url instead of a form" }
+      }
+    },
+    "toolbarAction": {
+      "type": "object",
+      "description": "One toolbar button. The compiler always emits quick search and a pager for a table; these are the SEMANTIC actions on top of that chrome.",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "enum": ["create", "navigate", "refresh", "export", "dialog"] },
+        "label": { "type": "string", "minLength": 1 },
+        "form": { "type": "string", "description": "target form for create/dialog/navigate" },
+        "module": { "type": "string" },
+        "url": { "type": "string" },
+        "emphasis": { "$ref": "#/$defs/emphasis", "description": "at most ONE toolbar action may be `primary` — the brand-filled button. The rest render as default white buttons, per 'colour is an accent, never a surface'." }
+      }
+    },
+
     "node": {
       "description": "One layout node, discriminated on `kind`. Each kind carries only the properties that mean something for it, so a width on a field or columns on a card is a validation error rather than a silently ignored key.",
       "oneOf": [
@@ -118,6 +244,7 @@
         "kind": { "const": "region" }, "name": { "type": "string" }, "title": { "type": "string" },
         "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
         "align": { "$ref": "#/$defs/align" }, "justify": { "$ref": "#/$defs/justify" },
+        "surface": { "$ref": "#/$defs/surface" }, "density": { "$ref": "#/$defs/density" },
         "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
       }
     },
@@ -127,6 +254,7 @@
         "kind": { "const": "stack" }, "name": { "type": "string" }, "title": { "type": "string" },
         "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
         "align": { "$ref": "#/$defs/align" }, "justify": { "$ref": "#/$defs/justify" },
+        "surface": { "$ref": "#/$defs/surface" }, "density": { "$ref": "#/$defs/density" },
         "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
       }
     },
@@ -137,6 +265,7 @@
         "kind": { "const": "container" }, "name": { "type": "string" }, "title": { "type": "string" },
         "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
         "align": { "$ref": "#/$defs/align" }, "justify": { "$ref": "#/$defs/justify" },
+        "surface": { "$ref": "#/$defs/surface" }, "density": { "$ref": "#/$defs/density" },
         "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
       }
     },
@@ -147,6 +276,7 @@
         "kind": { "const": "row" }, "name": { "type": "string" },
         "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
         "align": { "$ref": "#/$defs/align" }, "justify": { "$ref": "#/$defs/justify" },
+        "surface": { "$ref": "#/$defs/surface" }, "density": { "$ref": "#/$defs/density" },
         "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
       }
     },
@@ -156,6 +286,9 @@
         "kind": { "const": "card" }, "name": { "type": "string" },
         "title": { "type": "string", "description": "card header text" },
         "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
+        "surface": { "$ref": "#/$defs/surface", "description": "defaults to `card` — a card node that sets surface:none is a layout group and should probably be a stack" },
+        "density": { "$ref": "#/$defs/density" },
+        "emphasis": { "$ref": "#/$defs/emphasis", "description": "emphasis of the card TITLE" },
         "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
       }
     },
@@ -165,6 +298,8 @@
       "properties": {
         "kind": { "const": "section" }, "name": { "type": "string" }, "title": { "type": "string", "minLength": 1 },
         "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
+        "surface": { "$ref": "#/$defs/surface" }, "density": { "$ref": "#/$defs/density" },
+        "emphasis": { "$ref": "#/$defs/emphasis", "description": "emphasis of the section TITLE" },
         "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
       }
     },
@@ -177,6 +312,7 @@
         "name": { "type": "string" },
         "width": { "$ref": "#/$defs/width" }, "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
         "align": { "$ref": "#/$defs/align" },
+        "surface": { "$ref": "#/$defs/surface" }, "density": { "$ref": "#/$defs/density" },
         "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
       }
     },
@@ -195,6 +331,7 @@
         "kind": { "const": "tab" }, "name": { "type": "string" }, "title": { "type": "string", "minLength": 1 },
         "key": { "type": "string", "description": "stable tab key; assertions reference it" },
         "gap": { "$ref": "#/$defs/spacing" }, "padding": { "$ref": "#/$defs/spacing" },
+        "surface": { "$ref": "#/$defs/surface" }, "density": { "$ref": "#/$defs/density" },
         "children": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/node" } }
       }
     },
@@ -207,14 +344,19 @@
         "component": { "type": "string", "description": "explicit component type override; omit for by-datatype selection" },
         "title": { "type": "string", "description": "label override" },
         "name": { "type": "string" },
-        "width": { "$ref": "#/$defs/width" }
+        "width": { "$ref": "#/$defs/width" },
+        "format": { "$ref": "#/$defs/format" },
+        "emphasis": { "$ref": "#/$defs/emphasis" },
+        "readOnly": { "type": "boolean", "description": "render as a read-only value rather than an input" }
       }
     },
     "text": {
       "type": "object", "required": ["kind", "content"], "additionalProperties": false,
       "properties": {
         "kind": { "const": "text" }, "content": { "type": "string", "minLength": 1 },
-        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" }
+        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" },
+        "emphasis": { "$ref": "#/$defs/emphasis" }, "tone": { "$ref": "#/$defs/tone" },
+        "truncate": { "type": "boolean", "description": "→ ellipsis. The runtime truncates to one line; there is no line-count channel." }
       }
     },
     "heading": {
@@ -222,32 +364,56 @@
       "properties": {
         "kind": { "const": "heading" }, "content": { "type": "string", "minLength": 1 },
         "level": { "type": "integer", "minimum": 1, "maximum": 4, "description": "1 page title … 4 label. Drives the type scale, so it is required — an unsized heading renders at body size and the page loses hierarchy." },
-        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" }
+        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" },
+        "emphasis": { "$ref": "#/$defs/emphasis" }
       }
     },
     "datatable": {
-      "description": "`columns` is the list of BOUND PROPERTIES to show, not a count.",
+      "description": "`columns` is the list of BOUND PROPERTIES to show, not a count. The compiler always wraps it in a dataContext and emits quick search + a pager; `toolbar` and `rowAction` add the screen's semantic actions on top.",
       "type": "object", "required": ["kind", "columns"], "additionalProperties": false,
       "properties": {
         "kind": { "const": "datatable" },
-        "columns": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/propertyPath" } },
-        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" }
+        "columns": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/column" } },
+        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" },
+        "density": { "$ref": "#/$defs/density", "description": "resolves rowPaddingTop/Right/Bottom/Left and rowDimensions" },
+        "emptyState": { "$ref": "#/$defs/emptyState" },
+        "rowAction": { "$ref": "#/$defs/rowAction" },
+        "toolbar": { "type": "array", "items": { "$ref": "#/$defs/toolbarAction" } },
+        "selection": { "enum": ["none", "single", "multiple"], "default": "none" },
+        "pageSize": { "type": "integer", "minimum": 5, "maximum": 100, "default": 10 },
+        "striped": { "type": "boolean", "description": "zebra rows. Defaults false — rowDividers carry row separation per the standards, and stripes on top of dividers reads as noise." },
+        "freezeHeader": { "type": "boolean", "default": true },
+        "rowDividers": { "type": "boolean", "default": true }
       }
     },
     "datalist": {
+      "description": "repeats an item form per record. Use for card lists; use datatable for anything a reader will scan in columns.",
       "type": "object", "required": ["kind", "itemForm"], "additionalProperties": false,
       "properties": {
         "kind": { "const": "datalist" },
         "itemForm": { "type": "string", "minLength": 1, "description": "item card form name" },
-        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" }
+        "itemModule": { "type": "string", "description": "item form module; defaults to this form's module" },
+        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" },
+        "orientation": { "enum": ["vertical", "horizontal", "wrap"], "default": "vertical" },
+        "gap": { "$ref": "#/$defs/spacing" },
+        "density": { "$ref": "#/$defs/density" },
+        "emptyState": { "$ref": "#/$defs/emptyState" },
+        "rowAction": { "$ref": "#/$defs/rowAction" },
+        "selection": { "enum": ["none", "single", "multiple"], "default": "none" },
+        "pageSize": { "type": "integer", "minimum": 5, "maximum": 100 }
       }
     },
     "chip": {
+      "description": "A status pill. Compiles to refListStatus — there is no `chip` component in the runtime, so the reference-list item supplies the colour and the word together [R-036]. Colour alone never conveys status.",
       "type": "object", "required": ["kind", "property"], "additionalProperties": false,
       "properties": {
         "kind": { "const": "chip" },
         "property": { "$ref": "#/$defs/propertyPath", "description": "the reference-list status property; the chip colour comes from the reflist item [R-036]" },
-        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" }
+        "name": { "type": "string" }, "width": { "$ref": "#/$defs/width" },
+        "solid": { "type": "boolean", "default": true, "description": "filled pill (solidBackground) rather than text-only" },
+        "showIcon": { "type": "boolean", "default": false },
+        "showLabel": { "type": "boolean", "default": false, "description": "prefix the reference list's own name; usually noise on a card" },
+        "emphasis": { "$ref": "#/$defs/emphasis" }
       }
     },
     "actions": {

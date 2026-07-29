@@ -33,9 +33,39 @@ export const NEUTRAL_PLAN = {
     pageBg: '#f5f5f5', cardBg: '#ffffff', cardHeaderBg: '#fafafa',
     bodyText: '#262626', sectionHeading: '#262626', secondaryText: '#8c8c8c',
     inputBorder: '#d9d9d9', hairline: '#f0f0f0', appPrimary: '#1677ff',
+    mutedText: '#8c8c8c', helperText: '#8c8c8c', divider: '#f0f0f0',
+    hoverBg: '#fafafa', selectedBg: '#e6f4ff', readOnlyFieldBg: '#fafafa',
   },
   radius: { base: '4px', card: '8px' },
-  type: { bodySize: '14px', semiboldWeight: 600, headingSizes: { 1: '24px', 2: '18px', 3: '16px', 4: '13px' } },
+  type: {
+    bodySize: '14px', semiboldWeight: 600,
+    headingSizes: { 1: '24px', 2: '18px', 3: '16px', 4: '13px' },
+    microSize: '12px', denseSize: '13px', mediumWeight: 500, regularWeight: 400,
+  },
+};
+
+/**
+ * Keys the blueprint's design-intent slots need (emphasis ink shades, table hover and
+ * selected rows, dividers, dense/micro type steps) which older brand files predate.
+ *
+ * They resolve through a FALLBACK CHAIN rather than being required, because a brand
+ * that has not named its hover shade is not a broken brand — collapsing it to the
+ * neutral plan over one shade would lose the whole palette. Each chain ends in a role
+ * every theme does define.
+ */
+const DERIVED_COLORS = {
+  mutedText: ['mutedText', 'secondaryText'],
+  helperText: ['helperText', 'secondaryText'],
+  divider: ['divider', 'hairline'],
+  hoverBg: ['hoverBg', 'cardHeaderBg'],
+  selectedBg: ['selectedBg', 'cardHeaderBg'],
+  readOnlyFieldBg: ['readOnlyFieldBg', 'cardHeaderBg'],
+};
+const DERIVED_TYPE = {
+  microSize: ['type.scale.micro', 'type.scale.dense', 'type.scale.body'],
+  denseSize: ['type.scale.dense', 'type.scale.body'],
+  mediumWeight: ['type.weights.medium', 'type.weights.semibold'],
+  regularWeight: ['type.weights.regular'],
 };
 
 function deref(tokens, dotted) {
@@ -56,6 +86,14 @@ function resolve(tokens, pathOrRole) {
 /** Build the plan. Returns { plan, missing[] } — never throws on an incomplete theme. */
 export function buildStylePlan(tokens) {
   const r = (k) => resolve(tokens, k);
+  /** first chain entry the theme actually resolves, else the neutral value */
+  const chain = (keys, neutral) => {
+    for (const k of keys) {
+      const v = r(k);
+      if (v != null && v !== '' && !(typeof v === 'string' && TOKEN_PREFIX.test(v))) return v;
+    }
+    return neutral;
+  };
   const plan = {
     brand: tokens?.$brand ?? 'unknown',
     colors: {
@@ -63,6 +101,8 @@ export function buildStylePlan(tokens) {
       bodyText: r('bodyText'), sectionHeading: r('sectionHeading'),
       secondaryText: r('secondaryText'), inputBorder: r('inputBorder'),
       hairline: r('hairline'), appPrimary: r('appPrimary'),
+      ...Object.fromEntries(Object.entries(DERIVED_COLORS)
+        .map(([k, keys]) => [k, chain(keys, NEUTRAL_PLAN.colors[k])])),
     },
     radius: { base: r('baseRadius'), card: r('cardRadius') },
     type: {
@@ -72,6 +112,8 @@ export function buildStylePlan(tokens) {
         1: r('type.scale.title'), 2: r('type.scale.subtitle'),
         3: r('type.scale.cardHeader'), 4: r('type.scale.body'),
       },
+      ...Object.fromEntries(Object.entries(DERIVED_TYPE)
+        .map(([k, keys]) => [k, chain(keys, NEUTRAL_PLAN.type[k])])),
     },
   };
   const missing = [];

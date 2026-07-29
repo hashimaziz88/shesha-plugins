@@ -28,7 +28,13 @@
         "secondaryText": { "$ref": "#/$defs/color" },
         "inputBorder": { "$ref": "#/$defs/color", "description": "makes inputs visible before the app-level AntD theme is applied" },
         "hairline": { "$ref": "#/$defs/color", "description": "1px separators — Shesha default style is borders, not shadows" },
-        "appPrimary": { "$ref": "#/$defs/color", "description": "interactive anchor. Applied via the app theme, never per button" }
+        "appPrimary": { "$ref": "#/$defs/color", "description": "interactive anchor. Applied via the app theme, never per button" },
+        "mutedText": { "$ref": "#/$defs/color", "description": "emphasis:muted ink. Falls back to secondaryText when a brand has not named it." },
+        "helperText": { "$ref": "#/$defs/color", "description": "tone:helper ink" },
+        "divider": { "$ref": "#/$defs/color", "description": "row separators inside a surface, distinct from the hairline that outlines it" },
+        "hoverBg": { "$ref": "#/$defs/color", "description": "table/list row hover tint" },
+        "selectedBg": { "$ref": "#/$defs/color", "description": "selected row tint. MUST differ from hoverBg or selection is invisible while hovering." },
+        "readOnlyFieldBg": { "$ref": "#/$defs/color", "description": "surface:sunken — inset and read-only surfaces" }
       }
     },
     "radius": {
@@ -42,7 +48,7 @@
     },
     "type": {
       "type": "object",
-      "required": ["bodySize", "semiboldWeight", "headingSizes"],
+      "required": ["bodySize", "semiboldWeight", "headingSizes", "microSize", "denseSize", "mediumWeight", "regularWeight"],
       "additionalProperties": false,
       "properties": {
         "bodySize": { "$ref": "#/$defs/length" },
@@ -61,7 +67,11 @@
             "3": { "$ref": "#/$defs/length" },
             "4": { "$ref": "#/$defs/length" }
           }
-        }
+        },
+        "microSize": { "$ref": "#/$defs/length", "description": "uppercase micro-labels and status-chip text" },
+        "denseSize": { "$ref": "#/$defs/length", "description": "compact-density table cells" },
+        "mediumWeight": { "type": ["integer", "string"], "description": "table headers, chip text, cell emphasis" },
+        "regularWeight": { "type": ["integer", "string"], "description": "body and values" }
       }
     }
   },
