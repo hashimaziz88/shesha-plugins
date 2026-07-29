@@ -1,0 +1,29 @@
+{
+  "components": [
+    {
+      "id": "43333333-3333-4333-8333-333333333331",
+      "type": "buttonGroup",
+      "componentName": "toolbar",
+      "parentId": "root",
+      "version": 15,
+      "items": [
+        {
+          "id": "43333333-3333-4333-8333-333333333332",
+          "itemType": "item",
+          "itemSubType": "button",
+          "label": "Add",
+          "buttonAction": "dialogue",
+          "actionConfiguration": {
+            "actionOwner": "shesha.common",
+            "actionName": "Show Dialog",
+            "_type": "action-config",
+            "actionArguments": {
+              "modalTitle": "Add Employee",
+              "formId": { "module": "A.Test", "name": "employee-create-typo" }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

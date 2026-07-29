@@ -1,0 +1,31 @@
+{
+  "components": [
+    {
+      "id": "3ddddddd-dddd-4ddd-8ddd-ddddddddddd1",
+      "type": "textField",
+      "propertyName": "FirstName",
+      "parentId": "root",
+      "version": 6,
+      "editMode": "editable"
+    },
+    {
+      "id": "3ddddddd-dddd-4ddd-8ddd-ddddddddddd2",
+      "type": "datatable",
+      "propertyName": "employeesTable",
+      "parentId": "root",
+      "version": 29,
+      "items": [
+        {
+          "id": "col1",
+          "columnType": "data",
+          "propertyName": "ActionedBy",
+          "caption": "Actioned By",
+          "itemType": "item",
+          "displayComponent": { "type": "[default]" },
+          "editComponent": { "type": "[not-editable]" },
+          "createComponent": { "type": "[not-editable]" }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "formSettings": {
+    "modelType": { "name": "Person", "module": "Shesha" },
+    "layout": "horizontal",
+    "labelCol": 8,
+    "wrapperCol": 16
+  },
+  "components": [
+    {
+      "id": "c1111111-1111-4111-8111-111111111111",
+      "type": "container",
+      "componentName": "page",
+      "parentId": "root",
+      "version": 7,
+      "display": "flex",
+      "flexDirection": "column",
+      "flexWrap": "nowrap",
+      "gap": 16,
+      "justifyContent": "flex-start",
+      "alignItems": "stretch",
+      "desktop": {
+        "dimensions": { "width": "100%", "minWidth": "0", "maxWidth": "none", "height": "auto", "minHeight": "fit-content", "maxHeight": "none" },
+        "stylingBox": "{\"padding\":\"24\"}"
+      },
+      "tablet": {
+        "dimensions": { "width": "100%", "minWidth": "0", "maxWidth": "none", "height": "auto", "minHeight": "fit-content", "maxHeight": "none" },
+        "stylingBox": "{\"padding\":\"16\"}"
+      },
+      "mobile": {
+        "dimensions": { "width": "100%", "minWidth": "0", "maxWidth": "none", "height": "auto", "minHeight": "fit-content", "maxHeight": "none" },
+        "stylingBox": "{\"padding\":\"12\"}"
+      },
+      "components": [
+        {
+          "id": "c1111111-1111-4111-8111-111111111112",
+          "type": "text",
+          "componentName": "heading",
+          "parentId": "c1111111-1111-4111-8111-111111111111",
+          "version": 5,
+          "content": "Person",
+          "fontSize": 24,
+          "fontWeight": "600"
+        },
+        {
+          "id": "c1111111-1111-4111-8111-111111111113",
+          "type": "textField",
+          "propertyName": "firstName",
+          "componentName": "firstName",
+          "label": "First Name",
+          "parentId": "c1111111-1111-4111-8111-111111111111",
+          "version": 6,
+          "editMode": "editable",
+          "validate": { "required": true }
+        },
+        {
+          "id": "c1111111-1111-4111-8111-111111111114",
+          "type": "validationErrors",
+          "componentName": "validationErrors",
+          "parentId": "c1111111-1111-4111-8111-111111111111",
+          "version": 0
+        },
+        {
+          "id": "c1111111-1111-4111-8111-111111111115",
+          "type": "buttonGroup",
+          "componentName": "actionRow",
+          "parentId": "c1111111-1111-4111-8111-111111111111",
+          "version": 15,
+          "items": [
+            {
+              "id": "c1111111-1111-4111-8111-111111111116",
+              "itemType": "item",
+              "itemSubType": "button",
+              "label": "Save",
+              "buttonType": "primary",
+              "buttonAction": "submit",
+              "actionConfiguration": { "actionOwner": "shesha.form", "actionName": "Submit", "_type": "action-config" }
+            },
+            {
+              "id": "c1111111-1111-4111-8111-111111111117",
+              "itemType": "item",
+              "itemSubType": "button",
+              "label": "Back",
+              "buttonType": "default",
+              "buttonAction": "navigate",
+              "actionConfiguration": {
+                "actionOwner": "shesha.common",
+                "actionName": "Navigate",
+                "_type": "action-config",
+                "actionArguments": { "navigationType": "url", "url": "/dynamic/Shesha/persons" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
