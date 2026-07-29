@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/validate-push.mjs\"",
+            "timeout": 60,
+            "statusMessage": "Validating Shesha form push (normalize + Tier 1/2 gate)..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/validate-push.mjs\"",
+            "timeout": 30,
+            "statusMessage": "Checking for unvalidated form pushes this session..."
+          }
+        ]
+      }
+    ]
+  }
+}
