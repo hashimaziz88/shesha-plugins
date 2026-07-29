@@ -1186,3 +1186,105 @@ All four suites pass: hooks 33/33, shesha-form-edit 271/271 (265 baseline +
 47-test suite (8-archetype clean, determinism, normalize-no-op, flow-manifest
 completion, no-columns/no-split-width, override survival/rejection, CLI
 smoke) is included in that 271 and remains fully green.
+
+## Task 5 (Phase 3) — proving the compiler end to end against the real damage
+
+The whole point of `compile-spec.mjs` is to replace the hand-written
+blueprint→markup scripts that produced 9 visibly broken real forms
+(`flight-details`, `flight-create`, `flight-booking-create`,
+`flight-booking-details`, `flights`, `flight-bookings`, `asset-create`,
+`asset-detail`, `asset-table` — see Task 8's forensic table above). This task
+adds two new suites that prove that, not just that the compiler produces
+schema-valid output.
+
+### `tests/e2e-compile.test.mjs` — per-archetype chain (8 tests)
+
+For each of the 8 archetypes: compile → zero Tier 1 + zero Tier 2 → render
+the ASCII mock (`render-mock.mjs`) from the SAME flow-completed blueprint the
+compiler consumed → assert the mock's node set equals the compiled tree's
+node set (componentName). The mock and the compiled tree are two
+independent traversals of the same blueprint; a mismatch would mean one had
+drifted from the other. All 8 pass with an empty node-set diff, modulo
+`normalize()`'s own synthetic `*Wrap` structural wrappers (e.g.
+`table-worklist`/`list-card`'s `addButtonGroupWrap`/`quickSearchWrap`/
+`pagerWrap`), which the mock — walking the pre-normalize blueprint — has no
+way to know about and are explicitly whitelisted by name pattern, not
+silently ignored.
+
+### `tests/forensic-regression.test.mjs` — the money test (8 tests, 1 failing by design)
+
+A blueprint built to `flight-details`' real structure and bindings (same
+three field tabs — service/schedule/commercial — same field names/labels/
+types, same header title+subtitle, same detail-rail idea), compiled through
+the real, unmodified compiler, then checked against each of the six
+forensic defects individually:
+
+| # | Defect | Real symptom | Result |
+|---|---|---|---|
+| 1 | Proportional width on an input leaf | cells rendered 257/285/247px vs ~446px | **NOT REPRODUCED** — `leaf.mjs` never reads `bpNode.style` for any leaf type at all; a leaf's compiled output is built purely from its binding/content. There is no code path by which a width, split or otherwise, ever reaches a leaf. The wrapping container correctly carries the split width instead. |
+| 2 | Card's own layout style stranded off its `content`/`header` slot | `"StatusFlight status"`, `"RecordCapturedUpdated"` | **GENUINE COMPILER GAP FOUND** (see below) — worse than a reproduction: `tree.mjs`'s `buildNode()` has no branch for `"card"` (or `"collapsiblePanel"`, tier1.mjs's other `DOUBLE_SLOT_TYPE`) at all. |
+| 3 | Entity-bound title/subtitle via `_mode:"code"` string concatenation | header showed a literal `"."` and a literal `"() → ()"` | **NOT REPRODUCED** — the blueprint schema's `node.content` is typed as a plain string only; there is no vocabulary for authoring a `_mode:"code"` block at all, and `leaf.mjs`'s text branch copies `bpNode.content` verbatim. The compiler can only ever emit a literal string (mustache included), never an object. |
+| 4 | Horizontal `labelCol` applied to sub-50%-width field rows | `"Assign Employ…"` truncated, `"Asset Name :"` crammed | **NOT REPRODUCED** — `compile-spec.mjs`'s `buildFormSettings` only ever sets `modelType`; no code path sets `formSettings.layout` or `labelCol` at all, regardless of how narrow any field row is. |
+| 5 | Row-list container/tab-pane with no vertical gap | wildly uneven vertical gaps between field rows | **NOT REPRODUCED** — `normalize-form.mjs`'s `normalizeTabRowListGap` (Phase A2, added in Task 8) wraps a tab pane's 2+ row-children in one new child container stamped with the theme's section gap; `normalizeRowListGap` does the same for a real `container` host. Both run unconditionally as part of `compileSpec`'s own final `normalize()` call. |
+| 6 | Standalone text node duplicating a sibling control's own hidden label | rail items unspaced, orphaned unlabelled checkbox | **NOT REPRODUCED** — the blueprint schema has no `hideLabel` field at all, and `leaf.mjs` never stamps one on any leaf it builds. `T2-DUPLICATE-CAPTION` only fires when a sibling carries `hideLabel:true`; the compiler structurally cannot produce that on any control. |
+
+**Defect 2 in detail — the one real finding of this task.** Attempting to
+compile a minimal blueprint fragment with a `card` node (children referenced
+via `slot`, exactly the real shape) throws before producing any markup:
+
+```
+compileSpec: blueprint node(s) [statusPanelTitle, statusChip] are defined
+but never reachable from a root (no slot/children/tabs path to them).
+```
+
+`tree.mjs`'s `buildNode()` switches on `container`/`tabs`/`buttonGroup`/
+`dataContext`/`datatable`/`datalist`/`wizard`, then falls through to
+`buildLeafComponent()` for everything else — including `"card"`. `leaf.mjs`
+has no card-shaped branch either, so it returns a bare
+`{componentName, propertyName, label}` object with no `content`/`header`
+slot and no style, and the card's children (referenced via their own
+`slot: "statusPanel"`) are never passed to `buildNode()` at all, so
+`compileSpec`'s own reachability check (correctly) throws before
+`normalize()` ever runs.
+
+The notable part: `normalize-form.mjs`'s `propagateSlotStyle()` (Task 8's
+Phase A2.1) is EXACTLY the correct fix for the original defect — it already
+mirrors a slot-hosting node's own layout style onto its `content`/`header`/
+`customHeader` slot whenever that slot has 2+ children and no style of its
+own. It just never gets the chance to run, because no archetype's flow
+manifest or blueprint fixture uses `"card"`/`"collapsiblePanel"` today, so
+this gap was invisible to every other test in this phase. The
+`forensic-regression.test.mjs` "defect 2" test asserts the CORRECT behaviour
+(compiles, and the layout style lands on `content`) and is deliberately left
+FAILING — a loud, informative failure naming the exact defect and gap is the
+honest outcome the task brief calls for, not a passing suite that tests
+nothing. Recommended follow-up: add a `card`/`collapsiblePanel` builder
+branch to `tree.mjs` (out of this task's file-touch scope).
+
+### Deliverable 3 — the compiler beats the real, broken markup
+
+Running the SAME validator (`tier1`/`tier2`, `archetype: "record-detail"`)
+over the real `flight-details.pushed.json` (read only from the scratchpad;
+never copied into this repo) and over the compiled equivalent above:
+
+| | Tier 1 | Tier 2 (non-skip) | Total |
+|---|---|---|---|
+| Real pushed markup | 21 | 93 | **114** |
+| Compiled equivalent | 0 | 0 | **0** |
+
+The compiled equivalent has strictly fewer findings — 114 fewer, all the way
+to zero — which is the headline result of this whole phase: the compiler
+does not just produce schema-valid markup, it produces markup with none of
+the defects that made the real forms visibly broken (modulo the one
+genuine, precisely-scoped gap above, which no archetype exercises today).
+
+### Tests (updated)
+
+All four suites: hooks 33/33, shesha-design-system 24/24,
+shesha-design-comprehension 71/71 — unchanged. shesha-form-edit:
+**287 total, 286 passing, 1 failing by design** (271 baseline + 16 new: 8
+`e2e-compile.test.mjs` + 8 `forensic-regression.test.mjs`, of which
+"defect 2" fails on purpose per above). No corpus or `*.pushed.json` data
+was copied into this repo — both blueprints used in these suites are
+hand-authored fixtures derived from the real forms' structure/bindings, and
+the real markup is read only from the scratchpad path at test time.
