@@ -236,14 +236,30 @@ test('T3-COMPONENT-RATIO: is skipped when thresholds carries no budget', () => {
 });
 
 test('T3-ORPHAN-CONTAINER: flags a container with exactly one child and no styling of its own', () => {
+  // The child is deliberately a NON-binding `text` node. A container whose only
+  // child is a BOUND input leaf is a "field cell" — the normalizer inserts
+  // exactly those so a field's geometry has a node that can hold it (a width on
+  // an input leaf lands inside an antd Form.Item chain forced to
+  // width:100% !important). Those are mandated structure, not wrapper debt, and
+  // are exempt — see isFieldCell in tier3.mjs and tests/field-cell-exemption.test.mjs.
   const m = { components: [
     container({ componentName: 'wrapper', components: [
-      { id: ID(), type: 'textField', propertyName: 'f', parentId: 'root', version: 6 },
+      { id: ID(), type: 'text', parentId: 'root', version: 5 },
     ] }),
   ] };
   const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-ORPHAN-CONTAINER');
   assert.ok(found);
   assert.match(found.message, /wrapper/);
+});
+
+test('T3-ORPHAN-CONTAINER: does NOT flag a field cell (container wrapping one bound input)', () => {
+  const m = { components: [
+    container({ componentName: 'fieldCell', components: [
+      { id: ID(), type: 'textField', propertyName: 'f', parentId: 'root', version: 6 },
+    ] }),
+  ] };
+  assert.ok(!codes(m).includes('T3-ORPHAN-CONTAINER'),
+    'a normalizer-inserted field cell is mandated structure, not wrapper debt');
 });
 
 test('T3-ORPHAN-CONTAINER: does not flag a single-child container that carries real border/background styling', () => {

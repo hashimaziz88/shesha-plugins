@@ -394,6 +394,32 @@ function checkRawHex(entries, out) {
 // a ratio against zero bindings is meaningless, not "infinitely bad".
 // ---------------------------------------------------------------------------
 
+/**
+ * A "field cell" is a `container` whose only typed child is a single input
+ * leaf. The normalizer inserts exactly these to carry a field's geometry,
+ * because a width set on an input leaf lands inside an antd Form.Item chain
+ * forced to `width: 100% !important` and cannot size a flex track.
+ *
+ * They are structural, machine-inserted, and mandated — so they must not
+ * count against a form's component budget or be reported as orphan wrapper
+ * debt. Without this exemption a 4-node form scoring clean at ratio 1.33
+ * trips the budget at 2.33 purely because normalization did its job, which
+ * would corrupt the very scores used to calibrate the eval threshold.
+ *
+ * Detected structurally rather than by a marker prop: a marker would be an
+ * undeclared property and would itself trip T1-PROP-UNKNOWN.
+ */
+export function isFieldCell(node) {
+  if (node?.type !== 'container') return false;
+  const kids = (node.components ?? []).filter((c) => c && typeof c.type === 'string');
+  if (kids.length !== 1) return false;
+  const child = kids[0];
+  // An input leaf: binds a property and holds no children of its own.
+  return typeof child.propertyName === 'string'
+    && child.propertyName.length > 0
+    && !(child.components ?? []).some((c) => c && typeof c.type === 'string');
+}
+
 function checkComponentRatio(entries, thresholds, out) {
   const budget = thresholds?.componentBindingRatioBudget;
   if (typeof budget !== 'number' || !(budget > 0)) return;
@@ -401,12 +427,15 @@ function checkComponentRatio(entries, thresholds, out) {
   const bindings = entries.filter(({ node }) => typeof node.propertyName === 'string' && node.propertyName.length > 0).length;
   if (bindings === 0) return;
 
-  const ratio = entries.length / bindings;
+  // Exempt normalizer-inserted field cells — see isFieldCell above.
+  const counted = entries.filter(({ node }) => !isFieldCell(node));
+
+  const ratio = counted.length / bindings;
   if (ratio > budget) {
     out.push(finding(
       'T3-COMPONENT-RATIO',
       'components',
-      `${entries.length} components for ${bindings} bound field(s) (ratio ${ratio.toFixed(2)}) exceeds the provisional budget of ${budget} — this form may be more deeply wrapped/nested than its data warrants.`,
+      `${counted.length} components for ${bindings} bound field(s) (ratio ${ratio.toFixed(2)}) exceeds the provisional budget of ${budget} — this form may be more deeply wrapped/nested than its data warrants. (${entries.length - counted.length} normalizer-inserted field cell(s) excluded.)`,
       `components/bindings <= ${budget}`,
       Number(ratio.toFixed(2)),
     ));
@@ -479,6 +508,10 @@ function checkOrphanContainers(entries, out) {
   for (const { node, ctx } of entries) {
     if (node.type !== 'container') continue;
     if ((childCount.get(node) ?? 0) !== 1) continue;
+    // A field cell is a mandated structural wrapper, not wrapper debt — the
+    // normalizer inserts it so the field's geometry has a node that can hold
+    // it. Flagging it would be flagging the fix. See isFieldCell.
+    if (isFieldCell(node)) continue;
     if (hasOwnVisualStyling(node)) continue;
     out.push(finding(
       'T3-ORPHAN-CONTAINER',
