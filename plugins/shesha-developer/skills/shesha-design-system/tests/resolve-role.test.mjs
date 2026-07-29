@@ -63,6 +63,21 @@ test('throws on an unknown role rather than returning an empty block', () => {
     /unknown role: no-such-role/);
 });
 
+test('resolves a token whose value is a bare number, not a dotted path', () => {
+  const numTokens = { chrome: { railWidth: 332 } };
+  const numRoles = {
+    rail: {
+      componentType: 'container',
+      desktop: { dimensions: { width: '$chrome.railWidth', minWidth: '$chrome.railWidth', maxWidth: '$chrome.railWidth' } },
+    },
+  };
+  const r = resolveRole('rail', { roles: numRoles, tokens: numTokens });
+  assert.equal(r.desktop.dimensions.width, 332);
+  assert.equal(typeof r.desktop.dimensions.width, 'number');
+  assert.equal(r.desktop.dimensions.minWidth, 332);
+  assert.equal(r.desktop.dimensions.maxWidth, 332);
+});
+
 test('throws on an unresolvable token reference', () => {
   const bad = { r: { componentType: 'container', desktop: { gap: '$spacing.99' } } };
   assert.throws(() => resolveRole('r', { roles: bad, tokens, componentType: 'container' }),

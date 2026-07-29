@@ -30,11 +30,17 @@
         "width": "100%", "minWidth": "0", "maxWidth": "none",
         "height": "auto", "minHeight": "fit-content", "maxHeight": "none"
       },
-      "background": { "type": "color", "color": "$roles.headerBandBg" },
+      "background": { "type": "color", "color": "$roles.cardHeaderBg" },
       "border": {
-        "borderType": "none", "radiusType": "all",
+        "borderType": "custom", "radiusType": "all",
         "radius": { "all": "$radius.xs" },
-        "border": { "all": { "color": "transparent", "style": "none", "width": "0px" } }
+        "border": {
+          "all": { "color": "transparent", "style": "none", "width": "0px" },
+          "top": { "color": "transparent", "style": "none", "width": "0px" },
+          "bottom": { "color": "$roles.hairline", "style": "solid", "width": "1px" },
+          "left": { "color": "transparent", "style": "none", "width": "0px" },
+          "right": { "color": "transparent", "style": "none", "width": "0px" }
+        }
       },
       "shadow": { "offsetX": 0, "offsetY": 0, "blurRadius": 0, "spreadRadius": 0, "color": "transparent" },
       "stylingBox": {
@@ -159,7 +165,7 @@
       "display": "flex", "flexDirection": "column", "flexWrap": "nowrap",
       "gap": "$spacing.4", "justifyContent": "flex-start", "alignItems": "stretch",
       "dimensions": {
-        "width": "332px", "minWidth": "332px", "maxWidth": "332px",
+        "width": "$chrome.railWidth", "minWidth": "$chrome.railWidth", "maxWidth": "$chrome.railWidth",
         "height": "auto", "minHeight": "fit-content", "maxHeight": "none"
       },
       "background": { "type": "color", "color": "$roles.pageBg" },
