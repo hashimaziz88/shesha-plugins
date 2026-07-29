@@ -15,6 +15,7 @@ import {
   resolveGateMode,
   evaluatePreToolUse,
   loadDefaultContext,
+  translatePosixDrivePath,
   DEFAULT_POLICY_PATH,
 } from '../validate-push.mjs';
 
@@ -65,6 +66,21 @@ test('gate-policy.json loads and has all three groups', () => {
   assert.ok(policy.groups.A.codes['T1-JSON-UNSAFE']);
   assert.ok(policy.groups.B.codes['T1-ID-DUPLICATE']);
   assert.ok(policy.groups.C.codes['T1-PROP-UNKNOWN']);
+});
+
+test('gate-policy.json: task 8\'s six new codes are placed in their measured groups, none accidentally left ungated or in Group C', () => {
+  const policy = JSON.parse(readFileSync(DEFAULT_POLICY_PATH, 'utf8'));
+  // Mechanically fixed by the normalizer -> Group B (block only if it
+  // survives normalization).
+  for (const code of ['T2-SPLIT-WIDTH-ON-LEAF', 'T2-SLOT-STYLE-MISMATCH', 'T2-ROWLIST-NO-VGAP']) {
+    assert.ok(policy.groups.B.codes[code], `${code} missing from Group B`);
+    assert.ok(!policy.groups.A.codes[code] && !policy.groups.C.codes[code], `${code} duplicated across groups`);
+  }
+  // Not mechanically fixable, low measured rate -> Group A (block).
+  for (const code of ['T2-CODEMODE-TITLE', 'T2-DUPLICATE-CAPTION', 'T2-LABELCOL-VS-NARROW-ROW']) {
+    assert.ok(policy.groups.A.codes[code], `${code} missing from Group A`);
+    assert.ok(!policy.groups.B.codes[code] && !policy.groups.C.codes[code], `${code} duplicated across groups`);
+  }
 });
 
 // ---------------------------------------------------------------------------
@@ -329,4 +345,96 @@ test('loadMarkupTree errors (does not throw) when components[] is missing', () =
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
+});
+
+// ---------------------------------------------------------------------------
+// Path bug fix (task 8): Git Bash / WSL emit POSIX-style drive paths that
+// win32 Node's own fs functions mis-resolve. Before the fix, a push command
+// whose file reference or cwd took this shape hit loadMarkupTree's error
+// path and fell through to fail-open "skip" — see validate-push.mjs's own
+// header comment on translatePosixDrivePath for the full mechanism.
+// ---------------------------------------------------------------------------
+
+// A real absolute Windows path (this repo's own fixtures dir) rewritten as
+// Git Bash / WSL would emit it, so the test proves the ACTUAL translation
+// this machine needs, not a synthetic example.
+function toGitBashPath(winPath) {
+  const m = /^([a-zA-Z]):[\\/](.*)$/.exec(winPath);
+  assert.ok(m, `not an absolute Windows path: ${winPath}`);
+  return `/${m[1].toLowerCase()}/${m[2].replace(/\\/g, '/')}`;
+}
+
+function toWslPath(winPath) {
+  const m = /^([a-zA-Z]):[\\/](.*)$/.exec(winPath);
+  assert.ok(m, `not an absolute Windows path: ${winPath}`);
+  return `/mnt/${m[1].toLowerCase()}/${m[2].replace(/\\/g, '/')}`;
+}
+
+test('translatePosixDrivePath: converts a Git-Bash-style "/c/..." path to "C:/..." on win32', () => {
+  assert.equal(
+    translatePosixDrivePath('/c/Users/Hashim/form.json', { platform: 'win32' }),
+    'C:/Users/Hashim/form.json',
+  );
+});
+
+test('translatePosixDrivePath: converts a WSL-style "/mnt/c/..." path to "C:/..." on win32', () => {
+  assert.equal(
+    translatePosixDrivePath('/mnt/c/Users/Hashim/form.json', { platform: 'win32' }),
+    'C:/Users/Hashim/form.json',
+  );
+});
+
+test('translatePosixDrivePath: leaves a path untouched on a non-win32 platform', () => {
+  assert.equal(
+    translatePosixDrivePath('/c/Users/Hashim/form.json', { platform: 'linux' }),
+    '/c/Users/Hashim/form.json',
+  );
+});
+
+test('translatePosixDrivePath: leaves an already-Windows path, and a genuinely unrelated POSIX path, untouched', () => {
+  assert.equal(translatePosixDrivePath('C:/Users/Hashim/form.json', { platform: 'win32' }), 'C:/Users/Hashim/form.json');
+  assert.equal(translatePosixDrivePath('/home/hashim/form.json', { platform: 'win32' }), '/home/hashim/form.json');
+});
+
+test('loadMarkupTree: a Git-Bash-style absolute path now resolves and loads (was unresolvable before this fix)', () => {
+  const winPath = fixturePath('t1-clean.json');
+  const gitBashPath = toGitBashPath(winPath);
+  const loaded = loadMarkupTree({ kind: 'raw', path: gitBashPath }, { platform: 'win32' });
+  assert.ok(!loaded.error, `expected no error, got: ${loaded.error}`);
+  assert.ok(Array.isArray(loaded.tree.components));
+});
+
+test('loadMarkupTree: a WSL-style absolute path also resolves and loads', () => {
+  const winPath = fixturePath('t1-clean.json');
+  const wslPath = toWslPath(winPath);
+  const loaded = loadMarkupTree({ kind: 'raw', path: wslPath }, { platform: 'win32' });
+  assert.ok(!loaded.error, `expected no error, got: ${loaded.error}`);
+  assert.ok(Array.isArray(loaded.tree.components));
+});
+
+test('loadMarkupTree: a Git-Bash-style cwd + relative path also resolves (the $(pwd)-derived case from the brief)', () => {
+  const dir = tmpDir();
+  const path = join(dir, 'form.json');
+  writeFileSync(path, readFileSync(fixturePath('t1-clean.json'), 'utf8'), 'utf8');
+  try {
+    const gitBashCwd = toGitBashPath(dir);
+    const loaded = loadMarkupTree({ kind: 'raw', path: 'form.json' }, { cwd: gitBashCwd, platform: 'win32' });
+    assert.ok(!loaded.error, `expected no error, got: ${loaded.error}`);
+    assert.ok(Array.isArray(loaded.tree.components));
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('evaluatePreToolUse: a Git-Bash-style path end-to-end actually GATES (denies a Group A finding), not just resolves', () => {
+  const winPath = fixturePath('t1-json-unsafe.json');
+  const gitBashPath = toGitBashPath(winPath);
+  const command = importJsonCommand(gitBashPath);
+  const payload = payloadFor(command, { cwd: toGitBashPath(process.cwd()) });
+  const env = { ...process.env };
+  delete env.SHESHA_SKIP_FORM_VALIDATION;
+  delete env.SHESHA_FORM_GATE;
+  const result = evaluatePreToolUse(payload, { env, ...ctx, platform: 'win32' });
+  assert.equal(result.decision, 'deny');
+  assert.equal(result.output.hookSpecificOutput.permissionDecision, 'deny');
 });

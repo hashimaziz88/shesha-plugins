@@ -114,13 +114,55 @@ export function extractMarkupRef(command) {
   return { kind: 'unknown' };
 }
 
+// ---------------------------------------------------------------------------
+// Path bug fix (task 8): a Bash/PowerShell command's file reference and cwd
+// come from whatever SHELL issued it, not from win32 Node. On this machine
+// (and most dev machines running Git Bash as the primary shell), `pwd`
+// emits POSIX-style drive paths — "/c/Users/Hashim/..." — and a script that
+// derives its markup path from `$(pwd)` inherits that shape. win32 Node's
+// own path functions do NOT understand it as the Windows path it actually
+// names: `fs.existsSync("/c/Users/...")` resolves the leading "/" against
+// the CURRENT drive (producing something like "C:\c\Users\..." — a bogus
+// path with a spurious "c" segment) and returns false, while the very same
+// location spelled "C:/Users/..." resolves and returns true. Before this
+// fix, EVERY push whose path or cwd took this shape silently hit
+// loadMarkupTree's error path and fell through to fail-open "skip" — the
+// gate was a no-op for the most common case on this machine.
+//
+// Fix: translate a POSIX-style drive path to its Windows equivalent before
+// any path resolution happens. Two shapes are recognised — Git Bash's own
+// "/c/..." and WSL's "/mnt/c/..." (which Node on native Windows would
+// mis-resolve exactly the same way if it ever saw one). Anything else is
+// left untouched: this is a targeted translation, not a general path
+// rewriter, and a genuinely unresolvable path must still fall through to
+// the existing fail-open behaviour (see loadMarkupTree's own doc comment)
+// — that decision is correct and this fix does not change it.
+//
+// Gated to win32 only: on a real POSIX platform "/c/Users/..." could
+// (in principle) be a real absolute path, and this translation would
+// corrupt it. The bug this fixes is specific to win32 Node's own path
+// resolution, so the fix is scoped the same way.
+const GITBASH_DRIVE_RE = /^\/([a-zA-Z])\/(.*)$/;
+const WSL_DRIVE_RE = /^\/mnt\/([a-zA-Z])\/(.*)$/;
+
+export function translatePosixDrivePath(p, { platform = process.platform } = {}) {
+  if (typeof p !== 'string' || platform !== 'win32') return p;
+  const wsl = WSL_DRIVE_RE.exec(p);
+  if (wsl) return `${wsl[1].toUpperCase()}:/${wsl[2]}`;
+  const gitBash = GITBASH_DRIVE_RE.exec(p);
+  if (gitBash) return `${gitBash[1].toUpperCase()}:/${gitBash[2]}`;
+  return p;
+}
+
 /**
  * Reads and unwraps the markup tree from the referenced file. Every failure
  * mode returns `{ error }` rather than throwing — the caller's job is to
  * treat any `{ error }` result as "cannot determine", which means ALLOW.
  */
-export function loadMarkupTree(ref, { cwd = process.cwd(), readFileSync: readFn = readFileSync } = {}) {
-  const abs = isAbsolute(ref.path) ? ref.path : resolve(cwd, ref.path);
+export function loadMarkupTree(ref, { cwd = process.cwd(), readFileSync: readFn = readFileSync, platform } = {}) {
+  const path = translatePosixDrivePath(ref.path, { platform });
+  const resolvedCwd = translatePosixDrivePath(cwd, { platform });
+  const abs = isAbsolute(path) ? path : resolve(resolvedCwd, path);
   let raw;
   try {
     raw = readFn(abs, 'utf8');
@@ -258,7 +300,7 @@ function baseLogEntry(payload, extra) {
 
 /**
  * @param {object} payload - the PreToolUse stdin payload (session_id, tool_name, tool_input, cwd, ...).
- * @param {object} ctx - { env, readFileSync, cwd, registry, roles, tokens, policy }
+ * @param {object} ctx - { env, readFileSync, cwd, platform, registry, roles, tokens, policy }
  * @returns {{decision: 'ignore'|'bypass'|'skip'|'allow'|'deny', output?: object, logEntry?: object}}
  */
 export function evaluatePreToolUse(payload, ctx = {}) {
@@ -266,6 +308,7 @@ export function evaluatePreToolUse(payload, ctx = {}) {
     env = process.env,
     readFileSync: readFn = readFileSync,
     cwd = payload?.cwd || process.cwd(),
+    platform = process.platform,
     registry,
     roles,
     tokens,
@@ -295,7 +338,7 @@ export function evaluatePreToolUse(payload, ctx = {}) {
     return skipResult(payload, command, 'could not determine the markup file path from the command');
   }
 
-  const loaded = loadMarkupTree(ref, { cwd, readFileSync: readFn });
+  const loaded = loadMarkupTree(ref, { cwd, readFileSync: readFn, platform });
   if (loaded.error) {
     return skipResult(payload, command, loaded.error, ref.path);
   }

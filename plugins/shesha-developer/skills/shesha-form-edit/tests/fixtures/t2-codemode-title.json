@@ -1,0 +1,17 @@
+{
+  "components": [
+    {
+      "id": "d4444444-4444-4444-8444-444444444441",
+      "type": "text",
+      "componentName": "heading",
+      "propertyName": "heading",
+      "parentId": "root",
+      "version": 5,
+      "hideLabel": true,
+      "content": {
+        "_mode": "code",
+        "_code": "return (data?.flightNumber ?? '') + \" · \" + (data?.airline ?? '');"
+      }
+    }
+  ]
+}

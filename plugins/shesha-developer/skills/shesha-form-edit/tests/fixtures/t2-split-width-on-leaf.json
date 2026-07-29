@@ -1,0 +1,49 @@
+{
+  "components": [
+    {
+      "id": "d1111111-1111-4111-8111-111111111111",
+      "type": "container",
+      "componentName": "rowService",
+      "propertyName": "rowService",
+      "parentId": "root",
+      "version": 7,
+      "display": "flex",
+      "flexDirection": "row",
+      "flexWrap": "nowrap",
+      "gap": 12,
+      "justifyContent": "flex-start",
+      "alignItems": "center",
+      "desktop": { "display": "flex", "flexDirection": "row", "gap": 12, "dimensions": { "width": "100%" } },
+      "tablet": { "display": "flex", "flexDirection": "row", "gap": 12, "dimensions": { "width": "100%" } },
+      "mobile": { "display": "flex", "flexDirection": "column", "gap": 12, "dimensions": { "width": "100%" } },
+      "components": [
+        {
+          "id": "d1111111-1111-4111-8111-111111111112",
+          "type": "textField",
+          "propertyName": "flightNumber",
+          "componentName": "flightNumber",
+          "label": "Flight number",
+          "parentId": "d1111111-1111-4111-8111-111111111111",
+          "version": 6,
+          "editMode": "editable",
+          "desktop": { "dimensions": { "width": "calc(50% - 6px)" } },
+          "tablet": { "dimensions": { "width": "calc(50% - 6px)" } },
+          "mobile": { "dimensions": { "width": "100%" } }
+        },
+        {
+          "id": "d1111111-1111-4111-8111-111111111113",
+          "type": "textField",
+          "propertyName": "airline",
+          "componentName": "airline",
+          "label": "Airline",
+          "parentId": "d1111111-1111-4111-8111-111111111111",
+          "version": 6,
+          "editMode": "editable",
+          "desktop": { "dimensions": { "width": "calc(50% - 6px)" } },
+          "tablet": { "dimensions": { "width": "calc(50% - 6px)" } },
+          "mobile": { "dimensions": { "width": "100%" } }
+        }
+      ]
+    }
+  ]
+}

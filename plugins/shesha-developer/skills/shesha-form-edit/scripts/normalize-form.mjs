@@ -40,6 +40,8 @@ import {
   isPlainObject,
   getPath,
   BREAKPOINTS,
+  isSplitWidthValue,
+  resolveRole,
 } from './lib/expand-style.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -55,6 +57,23 @@ export function normalize(markup, { registry, roles, tokens } = {}) {
   // Phase A — structural + per-node transforms, top-down.
   for (const node of doc.components) {
     visitStructural(node, { roles, tokens });
+  }
+
+  // Phase A2 (task 8) — row-list vertical gap, a SEPARATE pass over the tree
+  // AFTER Phase A has fully normalized every node. This must not be inlined
+  // into visitStructural's own top-down walk: a parent evaluating "are 2+ of
+  // my children row-like containers" needs each child's OWN display already
+  // fixed (Phase A's A6 step) to answer that reliably, but top-down means
+  // the parent is visited BEFORE its children — so on a first pass some
+  // children are still pre-fix (display not yet 'flex') and get
+  // undercounted, while a SECOND normalize() pass sees them already fixed
+  // and counts differently, which broke idempotence (see the task-8
+  // report). Running this as its own pass, strictly after Phase A finishes
+  // for the WHOLE tree, means every child's display is already stable
+  // before any row-list gap decision is made — first pass and every
+  // subsequent pass agree.
+  for (const node of doc.components) {
+    visitRowListGap(node, { roles, tokens });
   }
 
   // Phase B — id/parentId/version, single ordered pass over the FINAL tree.
@@ -113,6 +132,26 @@ function visitStructural(node, opts) {
     convertColumnsNode(node);
   }
 
+  // A2.1 (task 8). propagate a slot-hosting component's own layout style onto
+  // its content/header/customHeader slot when the slot has 2+ children and
+  // carries none of its own — see T2-SLOT-STYLE-MISMATCH. Runs before A6/A3
+  // (doesn't interact with either) and works off the node's OWN already-
+  // resolved style (post role-expansion if this node used a role).
+  propagateSlotStyle(node);
+
+  // A2.2 (task 8). wrap any non-container child, in ANY of this node's child
+  // slots, that carries a PROPORTIONAL width (%, calc() under 100) directly
+  // on itself — see T2-SPLIT-WIDTH-ON-LEAF. Deliberately independent of
+  // isFlexRowNode/A3 below: a split-width leaf is wrong under ANY parent
+  // (Form.Item forces the leaf's OWN wrapper to 100% regardless of the
+  // parent's display mode), and real corpus containers were found carrying
+  // their flex props ONLY nested under desktop/tablet/mobile with no
+  // top-level mirror — exactly the shape isFlexRowNode's top-level-only
+  // check does not see. Runs BEFORE A3: a child this step already wrapped is
+  // now type:"container", so A3's own non-container check skips it (no
+  // double-wrap).
+  wrapSplitWidthLeaves(node);
+
   // A6 (before A3 on purpose). add display:"flex" wherever a flex-only prop
   // is set without it. MUST run before the flex-row wrap check below: a
   // container authored with e.g. display:"grid" + flexDirection:"row" is not
@@ -139,7 +178,7 @@ function visitStructural(node, opts) {
   // A7. sentence-case the label.
   if (typeof node.label === 'string') node.label = sentenceCaseLabel(node.label);
 
-  // Recurse into whatever child arrays now exist (post A1-A3 mutation).
+  // Recurse into whatever child arrays now exist (post A1-A3/A2.1-A2.2 mutation).
   for (const ref of getChildArrayRefs(node)) {
     for (const child of ref.get()) visitStructural(child, opts);
   }
@@ -261,6 +300,72 @@ function extractAndStripWidth(child) {
   return widths;
 }
 
+// --- A2.1. propagate slot-hosting component's own style to its slot (task 8) -
+//
+// Mirror of tier2.mjs's T2-SLOT-STYLE-MISMATCH check: a component whose
+// children live in a separate content/header/customHeader slot styles the
+// OUTER node via its own top-level/per-breakpoint props, but the slot's
+// children are laid out by whatever style sits on the SLOT OBJECT ITSELF —
+// a fully separate prop surface. Fix: copy the node's own resolved layout
+// style directly onto the slot when the slot has 2+ children and none of
+// its own (matches the check's own >=2 threshold — a single-child slot has
+// no adjacency to collapse, so nothing to fix).
+
+const SLOT_KEYS = ['content', 'header', 'customHeader'];
+
+/** Merge a node's top-level flex props with its `desktop` breakpoint block
+ * (the nested value wins) — the same merge tier2.mjs's bpView() performs,
+ * needed here because real corpus containers were found carrying flex
+ * props ONLY nested under desktop/tablet/mobile with no top-level mirror. */
+function desktopView(node) {
+  const merged = {};
+  for (const key of FLEX_PROP_NAMES) {
+    if (node[key] !== undefined) merged[key] = node[key];
+  }
+  const nested = isPlainObject(node.desktop) ? node.desktop : {};
+  return { ...merged, ...nested };
+}
+
+function propagateSlotStyle(node) {
+  for (const slotKey of SLOT_KEYS) {
+    const slot = node[slotKey];
+    if (!isPlainObject(slot) || !Array.isArray(slot.components) || slot.components.length < 2) continue;
+    const slotHasAnyStyle = FLEX_PROP_NAMES.some((p) => slot[p] !== undefined);
+    if (slotHasAnyStyle) continue;
+    const view = desktopView(node);
+    for (const p of FLEX_PROP_NAMES) {
+      if (view[p] !== undefined) slot[p] = view[p];
+    }
+  }
+}
+
+// --- A2.2. wrap a split-width leaf, anywhere, independent of A3 (task 8) -----
+//
+// Mirror of tier2.mjs's T2-SPLIT-WIDTH-ON-LEAF check. Deliberately does NOT
+// reuse isFlexRowNode's top-level-only flex-row detection (A3's own
+// trigger): a proportional width on a leaf is wrong under ANY parent, flex-
+// row or not, since the leaf's own Form.Item wrapper is forced 100% either
+// way. Reuses A3's own wrapFlexChild/extractAndStripWidth verbatim — the
+// repair (extract the width(s) onto a new wrapper container, leave the leaf
+// width-less so Form.Item's forced 100% is the only value in effect) is
+// identical; only the TRIGGER differs (any split width, not "any non-
+// container child of a flex-row parent").
+
+function hasSplitWidth(child) {
+  if (!isPlainObject(child) || child.type === 'container') return false;
+  if (isSplitWidthValue(child.dimensions?.width)) return true;
+  return BREAKPOINTS.some((bp) => isSplitWidthValue(child[bp]?.dimensions?.width));
+}
+
+function wrapSplitWidthLeaves(node) {
+  for (const ref of getChildArrayRefs(node)) {
+    const arr = ref.get();
+    for (let i = 0; i < arr.length; i++) {
+      if (hasSplitWidth(arr[i])) arr[i] = wrapFlexChild(arr[i]);
+    }
+  }
+}
+
 // --- A5. strip dimensions.width from non-containers --------------------------
 
 function stripDimensionsWidth(node) {
@@ -285,6 +390,99 @@ function ensureDisplayFlex(node) {
     if (!isPlainObject(nested)) continue;
     const effectiveDisplay = nested.display !== undefined ? nested.display : node.display;
     if (hasFlexTrigger(nested) && effectiveDisplay !== 'flex') nested.display = 'flex';
+  }
+}
+
+// --- A8. stamp a vertical gap on a row-list host (task 8) --------------------
+//
+// Mirror of tier2.mjs's T2-ROWLIST-NO-VGAP check. Two host shapes, because a
+// "row list" can sit under either a real `container` (has its own gap prop —
+// stamp it directly) or a `tabs` component's tab-pane object (the registry's
+// "tabs" schema gives tab-pane objects, {id, key, title, components}, NO
+// style props at all — a pane can never carry a fix-able gap, so the rows
+// are wrapped in one new child container that carries it instead).
+//
+// SECTION_GAP resolves dynamically off the design-system's "section-card"
+// role (flexDirection:"column", the same vertical-stack shape a row list
+// is) when roles/tokens are available, falling back to the literal 16
+// ($spacing.4 in shesha.tokens.json — also detail-rail/dialog-root/
+// wizard-shell's gap) otherwise, so a brand/token change is picked up
+// without touching this file.
+
+function isRowLikeContainerForNormalize(child) {
+  if (!isPlainObject(child) || child.type !== 'container') return false;
+  const view = desktopView(child);
+  return view.display === 'flex' && ROW_LIKE.has(view.flexDirection);
+}
+
+function hasPositiveGapValue(gap) {
+  if (typeof gap === 'number') return gap > 0;
+  if (typeof gap === 'string') return parseFloat(gap) > 0;
+  return false;
+}
+
+function sectionGapValue({ roles, tokens } = {}) {
+  try {
+    const resolved = resolveRole('section-card', { roles, tokens });
+    if (typeof resolved?.desktop?.gap === 'number') return resolved.desktop.gap;
+  } catch {
+    // fall through to the literal default below
+  }
+  return 16; // $spacing.4 — see the header comment above
+}
+
+function stampGap(node, gap) {
+  node.gap = gap;
+  for (const bp of BREAKPOINTS) {
+    if (!isPlainObject(node[bp])) node[bp] = {};
+    node[bp].gap = gap;
+  }
+}
+
+function normalizeRowListGap(node, opts) {
+  if (node.type !== 'container') return;
+  const children = Array.isArray(node.components) ? node.components : [];
+  const rowChildren = children.filter(isRowLikeContainerForNormalize);
+  if (rowChildren.length < 2) return;
+  if (hasPositiveGapValue(desktopView(node).gap)) return;
+  stampGap(node, sectionGapValue(opts));
+  // The gap we just stamped is itself a flex-trigger prop; fix `display` in
+  // the SAME step rather than waiting for a future pass's A6 to notice it
+  // (this runs strictly after Phase A/A6, in its own pass — see the
+  // Phase A2 comment in normalize() for why).
+  ensureDisplayFlex(node);
+}
+
+function normalizeTabRowListGap(node, opts) {
+  if (node.type !== 'tabs' || !Array.isArray(node.tabs)) return;
+  for (const tab of node.tabs) {
+    if (!isPlainObject(tab) || !Array.isArray(tab.components)) continue;
+    const rowChildren = tab.components.filter(isRowLikeContainerForNormalize);
+    if (rowChildren.length < 2) continue; // already wrapped (1 child) or nothing to wrap
+    const wrapper = {
+      type: 'container',
+      componentName: 'sectionGap',
+      components: tab.components,
+    };
+    applyNeutralStyleTo(wrapper, { flexDirection: 'column' });
+    stampGap(wrapper, sectionGapValue(opts));
+    tab.components = [wrapper];
+  }
+}
+
+/**
+ * Phase A2's own driver: recurse the (already Phase-A-normalized) tree,
+ * applying the two row-list-gap transforms at every node. Separate from
+ * visitStructural's own recursion (see normalize()'s Phase A2 comment for
+ * why this must run as an independent pass rather than being inlined into
+ * the top-down Phase A walk).
+ */
+function visitRowListGap(node, opts) {
+  if (!isPlainObject(node)) return;
+  normalizeRowListGap(node, opts);
+  normalizeTabRowListGap(node, opts);
+  for (const ref of getChildArrayRefs(node)) {
+    for (const child of ref.get()) visitRowListGap(child, opts);
   }
 }
 

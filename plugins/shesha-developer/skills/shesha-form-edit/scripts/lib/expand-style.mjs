@@ -131,4 +131,29 @@ export function neutralContainerStyle({ flexDirection = 'column', widthByBp = {}
   return out;
 }
 
+/**
+ * Task 8 — is this width value a PROPORTIONAL/split width (a percentage
+ * under 100, or a calc() expression), as opposed to a fixed px/em/rem/auto
+ * value or the literal "100%"? Shared between tier2.mjs's
+ * T2-SPLIT-WIDTH-ON-LEAF check and normalize-form.mjs's matching wrap
+ * transform, so the two can never drift out of sync on what counts as "the
+ * split-width defect".
+ *
+ * "100%" is deliberately NOT split — it is the exact value the fix stamps
+ * onto a leaf, and firing on it would make the check permanently
+ * un-satisfiable. calc() is always treated as split regardless of its
+ * literal percentage (calc(100% - 24px) is still a fractional-of-parent
+ * split, unlike a bare "100%").
+ */
+const PERCENT_RE = /^(\d+(?:\.\d+)?)%$/;
+const CALC_RE = /^calc\(/;
+
+export function isSplitWidthValue(w) {
+  if (typeof w !== 'string') return false;
+  const s = w.trim();
+  if (CALC_RE.test(s)) return true;
+  const m = PERCENT_RE.exec(s);
+  return m ? parseFloat(m[1]) < 100 : false;
+}
+
 export { getPath, setPath };

@@ -1,0 +1,52 @@
+{
+  "components": [
+    {
+      "id": "d2222222-2222-4222-8222-222222222221",
+      "type": "card",
+      "componentName": "statusPanel",
+      "propertyName": "statusPanel",
+      "parentId": "root",
+      "version": 3,
+      "label": "",
+      "hideLabel": true,
+      "desktop": {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": 16,
+        "justifyContent": "flex-start",
+        "alignItems": "stretch",
+        "dimensions": { "width": "100%" }
+      },
+      "tablet": { "display": "flex", "flexDirection": "column", "gap": 16, "dimensions": { "width": "100%" } },
+      "mobile": { "display": "flex", "flexDirection": "column", "gap": 16, "dimensions": { "width": "100%" } },
+      "header": { "id": "d2222222-2222-4222-8222-222222222222", "components": [] },
+      "content": {
+        "id": "d2222222-2222-4222-8222-222222222223",
+        "components": [
+          {
+            "id": "d2222222-2222-4222-8222-222222222224",
+            "type": "text",
+            "componentName": "statusPanelTitle",
+            "propertyName": "statusPanelTitle",
+            "parentId": "d2222222-2222-4222-8222-222222222221",
+            "version": 5,
+            "hideLabel": true,
+            "content": "Status"
+          },
+          {
+            "id": "d2222222-2222-4222-8222-222222222225",
+            "type": "refListStatus",
+            "componentName": "statusChip",
+            "propertyName": "status",
+            "label": "Flight status",
+            "hideLabel": true,
+            "parentId": "d2222222-2222-4222-8222-222222222221",
+            "version": 6,
+            "editMode": "readOnly",
+            "referenceListId": { "module": "boxfusion.test", "name": "FlightStatus" }
+          }
+        ]
+      }
+    }
+  ]
+}

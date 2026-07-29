@@ -461,3 +461,169 @@ block the skill's own recommended workflow. This is a real, useful gate today
 — it should ship as the Task 6 default, with the remaining higher-hit-rate
 codes wired as WARN (visible, non-blocking) until the three items above are
 addressed.
+
+## Task 8 — six checks derived from a forensic analysis of two real failed builds
+
+Two live sessions built 9 Shesha forms (`flight-details`, `flight-create`,
+`flight-booking-create`, `flight-booking-details`, `flights`,
+`flight-bookings`, `asset-create`, `asset-detail`, `asset-table`) whose
+create/detail pages came out visibly broken, even though design comprehension,
+blueprints, and entity metadata were all correct — the defects were introduced
+downstream, in hand-written blueprint→markup compiler scripts. The pushed
+markup for all 9 forms was analyzed directly (never committed to this repo)
+to derive six new Tier 2 codes, each proven to fire on the specific broken
+form(s) it was derived from and NOT on the forms confirmed clean. The full
+935-form corpus + 15 bundled seeds were then re-graded with all six in place.
+
+### The six codes
+
+| Code | Corpus rate | Seed rate | Normalizer fixes it? | Group |
+|---|---|---|---|---|
+| `T2-SPLIT-WIDTH-ON-LEAF` | 0.4% (4/935, 12 instances) | 0% | Yes | B |
+| `T2-SLOT-STYLE-MISMATCH` | 0% (0/935) | 0% | Yes | B |
+| `T2-ROWLIST-NO-VGAP` | 3.7% (35/935, 52 instances) | 6.7% (1/15) | Yes | B |
+| `T2-CODEMODE-TITLE` | 1.2% (11/935, 23 instances) | 0% | No (deliberately) | A |
+| `T2-DUPLICATE-CAPTION` | 0.9% (8/935, 10 instances) | 0% | No | A |
+| `T2-LABELCOL-VS-NARROW-ROW` | 1.8% (17/935, 17 instances) | 6.7% (1/15) | No | A |
+
+All six are comfortably below every existing Group C threshold (lowest
+existing Group C entry is 9.1%) — none needed to be placed in Group C
+regardless of how useful they are; that discipline is the point of Group C.
+
+**1. `T2-SPLIT-WIDTH-ON-LEAF`** — a proportional width (`%`, `calc()`) on a
+non-container leaf. Fires on all four flight-* detail/create forms (30, 30,
+34, 30 findings respectively — 62 of 69 real inputs, matching the brief's own
+measurement) and on 0 findings for `asset-create`/`asset-detail` (the
+`wrap_cells.py`-fixed negative fixture). Evidence: `flight-details`'
+`rowService` container holds `flightNumber`/`airline` textFields directly,
+each carrying `calc(50% - 6px)` on itself — Form.Item forces that leaf's
+wrapper to `width:100% !important`, so the calc() resolves against an
+already-100%-wide box and the fields render at intrinsic content width
+(257/285/247px measured, not ~446px).
+
+**Supersede vs. scope-apart decision for `T2-SPLIT-WIDTH-ON-LEAF` vs.
+`T2-WIDTH-ON-NONCONTAINER`: scoped apart, not superseded.**
+`T2-WIDTH-ON-NONCONTAINER`'s existing Group B classification and its
+(pre-task-8) 19.9% corpus rate covered EVERY width value on a non-container —
+proportional, fixed px, and the literal "100%" alike. Collapsing it into the
+new, narrower check would throw away that broader coverage (a fixed px
+"190px toolbar filter" is still worth flagging as inert, even though it's
+benign compared to a proportional split). Instead, `T2-WIDTH-ON-NONCONTAINER`
+was narrowed to exclude BOTH a proportional value (now
+`T2-SPLIT-WIDTH-ON-LEAF`'s exclusive territory) AND the literal `"100%"`
+(the exact value `T2-SPLIT-WIDTH-ON-LEAF`'s own fix stamps onto a leaf —
+flagging it here would mean the two checks' fixed points could never both be
+satisfied for the same node at once). The two codes now partition the space
+instead of overlapping on the same node/path; re-measured post-narrowing,
+`T2-WIDTH-ON-NONCONTAINER`'s corpus rate is 13.3% (124/935 forms, 1,182
+instances) — down from 19.9%, entirely because "100%"-on-a-leaf (2,985
+corpus instances, always harmless/redundant, never a real defect) and
+proportional widths no longer count under this code at all.
+
+**2. `T2-SLOT-STYLE-MISMATCH`** — a component whose children live in a
+separate `content`/`header`/`customHeader` slot must have that layout style
+(display/flexDirection/gap/justifyContent/alignItems) on the SLOT itself, not
+only on the component's own top-level props (scoped to slots with 2+ children
+— a single-child slot has no adjacency to collapse). Fires on `flight-details`
+and `flight-booking-details` (2 each: `statusPanel` + `metaPanel`), 0
+elsewhere. Evidence: `statusPanel`'s `content = {id, components: [...]}`
+carries no style at all while the card itself declares
+`desktop:{display:"flex",flexDirection:"column",gap:16}` — its two children
+(a hideLabel "Status" text + a hideLabel `refListStatus` chip) collapse into
+the literal run-on string `"StatusFlight status"`. Not present anywhere in
+the 935-form historical corpus or the 15 bundled seeds (0% both cohorts) —
+this exact pattern appears to be specific to the newer ad-hoc compiler script
+that produced the flight-*/asset-* forms, not the historically-graded
+production corpus. Placed in Group B anyway: the direct clearing proof against
+the real evidence forms (4/4 instances cleared to 0) plus the inherent low
+noise of the `>=2` children threshold make a 0%-measured rate the safest
+possible Group B candidate, not a reason to withhold it.
+
+**3. `T2-ROWLIST-NO-VGAP`** — a container/tab/column whose direct children are
+2+ row-containers (each with its own horizontal gap) must declare its OWN
+vertical gap, or row-to-row spacing falls back to each row's intrinsic
+content height (a `dateField` picker row sits taller than a `textField` row,
+producing visibly uneven gaps even though every row's horizontal gap is
+identical). Fires on `flight-details` (3: `service`/`schedule`/`commercial`
+tabs) and `flight-booking-details` (2), 0 on the other seven forms. 3.7% of
+the corpus (35/935, 52 instances), 6.7% of seeds (`rs-detail-with-header.json`).
+
+### Normalizer transforms added (Group B — mechanically fixed)
+
+All three run in `scripts/normalize-form.mjs` and were proven to clear their
+own finding to 0/instances across the FULL 935-form corpus (not just the
+evidence forms), with zero normalizer crashes:
+
+- **`wrapSplitWidthLeaves`** (new Phase A2.2, runs before A3): wraps ANY
+  non-container child, in any of a node's child slots, that carries a
+  proportional width — independent of the pre-existing `isFlexRowNode`/A3
+  flex-row-only detection, which real corpus containers were found to defeat
+  entirely (they carry `display`/`flexDirection` only nested under
+  `desktop`/`tablet`/`mobile`, with no top-level mirror — `isFlexRowNode`
+  checks the top level only). Reuses A3's own `wrapFlexChild`/
+  `extractAndStripWidth` verbatim for the actual repair. Runs before A3 so a
+  child this step already wrapped (now `type:"container"`) is skipped by A3's
+  own non-container check — no double-wrap.
+- **`propagateSlotStyle`** (new Phase A2.1): copies a node's own resolved
+  layout style directly onto its `content`/`header`/`customHeader` slot when
+  the slot has 2+ children and none of its own.
+- **`normalizeRowListGap` / `normalizeTabRowListGap`** (new Phase A2, a
+  SEPARATE pass run strictly after the whole Phase A per-node walk
+  completes — not inlined into it): stamps a vertical gap directly on a real
+  `container` hosting 2+ row-children; wraps a tab pane's rows in one new
+  gap-bearing child container when the pane itself can't carry a gap (the
+  registry's `tabs` component schema gives tab-pane objects — `{id, key,
+  title, components}` — no style props at all). This had to become its own
+  pass, run AFTER Phase A's per-node walk finishes for the whole tree, rather
+  than being inlined into `visitStructural`'s own top-down walk: a parent
+  evaluating "are 2+ of my children row-like" needs each child's OWN
+  `display` already fixed (Phase A's A6 step, applied to that child later in
+  the SAME top-down recursion) to answer reliably. Inlined, a first
+  `normalize()` pass under-counted (children still pre-A6), while a second
+  pass (`normalize(normalize(x))`) saw the same children already fixed and
+  counted differently — a genuine idempotence break, caught by the
+  100-form corpus idempotence test and fixed by moving this to its own later
+  pass (plus calling `ensureDisplayFlex` immediately after stamping a NEW gap,
+  so the display fix lands in the same pass that introduced the trigger).
+
+`T2-CODEMODE-TITLE`, `T2-DUPLICATE-CAPTION`, and `T2-LABELCOL-VS-NARROW-ROW`
+were deliberately NOT wired into the normalizer — each repair requires a
+judgment call a mechanical transform must not make unilaterally (which
+separator string the author intended; which of two duplicated captions to
+delete; whether to switch the whole form to vertical layout or resize every
+`labelCol`/`wrapperCol` span). All three are Group A instead.
+
+### Idempotence
+
+`normalize(normalize(f))` deep-equals `normalize(f)` across the full 100-form
+`forms-rs.jsonl` corpus dump after every task-8 transform was added — the
+existing `tests/normalize.test.mjs` idempotence test (and its determinism/
+preservation siblings) all still pass. One real idempotence break was found
+and fixed during this task (the row-list-gap ordering issue described above)
+before landing.
+
+### Hook path bug
+
+`hooks/validate-push.mjs`'s `loadMarkupTree` resolved a command's file
+reference against `cwd` using win32 Node's own `path.resolve`/`isAbsolute`,
+which does not understand a POSIX-style drive path — `pwd` under Git Bash
+(the primary shell on this machine) emits `/c/Users/Hashim/...`, and
+`fs.existsSync("/c/Users/...")` on win32 Node returns `false` (it resolves the
+leading `/` against the current drive, producing a bogus path with a spurious
+extra segment) while `"C:/Users/..."` returns `true`. Any push script that
+derived its path from `$(pwd)` silently hit the "could not read markup file"
+branch and fell through to fail-open `skip` — the gate was a no-op for the
+single most common case on this machine.
+
+Fixed with `translatePosixDrivePath(p, { platform })`, applied to both `cwd`
+and the extracted file reference before resolution: `/c/...` → `C:/...`
+(Git Bash) and `/mnt/c/...` → `C:/...` (WSL), gated to `platform === 'win32'`
+(on a genuine POSIX platform, `/c/...` could in principle be a real absolute
+path, so the translation only applies where the underlying bug exists). Any
+other path shape — including a genuinely unresolvable one — passes through
+untouched, preserving the existing fail-open behaviour, which is correct and
+was not changed. A new end-to-end test (`evaluatePreToolUse: a Git-Bash-style
+path ... actually GATES`) proves a Git-Bash-style `cwd` + file reference now
+resolves AND reaches a real `deny` decision on a Group A finding — not merely
+that the path resolves, but that the gate it was silently bypassing is
+restored.

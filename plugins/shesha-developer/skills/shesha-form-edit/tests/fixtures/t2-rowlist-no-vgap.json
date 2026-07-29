@@ -1,0 +1,44 @@
+{
+  "components": [
+    {
+      "id": "d3333333-3333-4333-8333-333333333331",
+      "type": "tabs",
+      "componentName": "detailTabs",
+      "parentId": "root",
+      "version": 4,
+      "tabs": [
+        {
+          "id": "d3333333-3333-4333-8333-333333333332",
+          "key": "service",
+          "title": "Service",
+          "components": [
+            {
+              "id": "d3333333-3333-4333-8333-333333333333",
+              "type": "container",
+              "componentName": "rowService",
+              "propertyName": "rowService",
+              "parentId": "d3333333-3333-4333-8333-333333333331",
+              "version": 7,
+              "display": "flex",
+              "flexDirection": "row",
+              "desktop": { "display": "flex", "flexDirection": "row", "gap": 12, "dimensions": { "width": "100%" } },
+              "components": []
+            },
+            {
+              "id": "d3333333-3333-4333-8333-333333333334",
+              "type": "container",
+              "componentName": "rowOrigin",
+              "propertyName": "rowOrigin",
+              "parentId": "d3333333-3333-4333-8333-333333333331",
+              "version": 7,
+              "display": "flex",
+              "flexDirection": "row",
+              "desktop": { "display": "flex", "flexDirection": "row", "gap": 12, "dimensions": { "width": "100%" } },
+              "components": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

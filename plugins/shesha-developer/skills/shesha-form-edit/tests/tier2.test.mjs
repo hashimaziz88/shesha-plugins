@@ -53,13 +53,16 @@ test('every *-clean fixture is clean against BOTH tier1 and tier2', () => {
 test('flags a bare input as a flex-row child', () => {
   // dimensions.width on a bare input lands inside the antd Form.Item chain,
   // which is forced width:100% !important — two such fields do NOT split 50/50.
+  // A PROPORTIONAL width ("50%") is T2-SPLIT-WIDTH-ON-LEAF's exclusive
+  // territory (task 8) — T2-WIDTH-ON-NONCONTAINER was narrowed to exclude it.
   const m = { components: [{ id: ID(), type: 'container', parentId: 'root', version: 7,
     display: 'flex', flexDirection: 'row',
     components: [{ id: ID(), type: 'textField', parentId: 'p', version: 6,
       desktop: { dimensions: { width: '50%' } } }] }] };
   const c = tier2(m, ctx).map((f) => f.code);
   assert.ok(c.includes('T2-FLEXCHILD-NOT-CONTAINER'));
-  assert.ok(c.includes('T2-WIDTH-ON-NONCONTAINER'));
+  assert.ok(c.includes('T2-SPLIT-WIDTH-ON-LEAF'));
+  assert.ok(!c.includes('T2-WIDTH-ON-NONCONTAINER'));
 });
 
 test('flags gap without display:flex as inert', () => {
@@ -327,6 +330,130 @@ test('T2-DANGLING-FORMREF: does not flag a formId that IS in knownForms', () => 
   assert.ok(!codes(fx('t2-dangling-formref'), { knownForms }).includes('T2-DANGLING-FORMREF'));
 });
 
+// --- Task 8: forensic-analysis checks (derived from real flight-*/asset-*
+// pushed markup — see docs/corpus-report.md's task-8 section) ---
+
+test('T2-SPLIT-WIDTH-ON-LEAF: flags a proportional width on a bare flex-row child (flight-details rowService/flightNumber pattern)', () => {
+  const found = tier2(fx('t2-split-width-on-leaf'), ctx).filter((f) => f.code === 'T2-SPLIT-WIDTH-ON-LEAF');
+  assert.equal(found.length, 4); // flightNumber + airline, each flagged on BOTH desktop and tablet
+});
+
+test('T2-SPLIT-WIDTH-ON-LEAF: does NOT flag a fixed px width on a leaf (the benign "190px toolbar filter" case)', () => {
+  assert.ok(!codes(fx('t2-width-on-noncontainer')).includes('T2-SPLIT-WIDTH-ON-LEAF'));
+});
+
+test('T2-SPLIT-WIDTH-ON-LEAF: does NOT flag a container that legitimately carries a proportional width', () => {
+  const m = { components: [{ id: ID(), type: 'container', parentId: 'root', version: 7,
+    display: 'flex', flexDirection: 'row',
+    desktop: { dimensions: { width: 'calc(50% - 6px)' } },
+    components: [] }] };
+  assert.ok(!codes(m).includes('T2-SPLIT-WIDTH-ON-LEAF'));
+});
+
+test('T2-SPLIT-WIDTH-ON-LEAF and T2-WIDTH-ON-NONCONTAINER never both fire on the same node (scoped apart, not overlapping)', () => {
+  const found = tier2(fx('t2-split-width-on-leaf'), ctx);
+  const paths = new Set(found.filter((f) => f.code === 'T2-WIDTH-ON-NONCONTAINER').map((f) => f.path));
+  const splitPaths = new Set(found.filter((f) => f.code === 'T2-SPLIT-WIDTH-ON-LEAF').map((f) => f.path));
+  for (const p of splitPaths) assert.ok(!paths.has(p), `${p} double-reported under both codes`);
+});
+
+test('T2-SLOT-STYLE-MISMATCH: flags a card whose content slot has no style while the card itself does (flight-details statusPanel)', () => {
+  const found = tier2(fx('t2-slot-style-mismatch'), ctx).find((f) => f.code === 'T2-SLOT-STYLE-MISMATCH');
+  assert.ok(found);
+  assert.equal(found.path, 'components[0].content');
+});
+
+test('T2-SLOT-STYLE-MISMATCH: does NOT flag a slot with fewer than 2 children (nothing to collide)', () => {
+  const m = { components: [{ id: ID(), type: 'card', parentId: 'root', version: 3,
+    desktop: { display: 'flex', flexDirection: 'column', gap: 16 },
+    header: { id: ID(), components: [{ id: ID(), type: 'text', parentId: 'p', version: 5, content: 'Title' }] },
+    content: { id: ID(), components: [] } }] };
+  assert.ok(!codes(m).includes('T2-SLOT-STYLE-MISMATCH'));
+});
+
+test('T2-ROWLIST-NO-VGAP: flags a tab pane hosting 2+ row-containers with no vertical gap (flight-details service tab)', () => {
+  const found = tier2(fx('t2-rowlist-no-vgap'), ctx).find((f) => f.code === 'T2-ROWLIST-NO-VGAP');
+  assert.ok(found);
+  assert.equal(found.path, 'components[0].tabs[0]');
+});
+
+test('T2-ROWLIST-NO-VGAP: flags a plain container hosting 2+ row-containers with no vertical gap', () => {
+  const m = { components: [{ id: ID(), type: 'container', parentId: 'root', version: 7,
+    display: 'flex', flexDirection: 'column', desktop: { display: 'flex', flexDirection: 'column' },
+    components: [
+      { id: ID(), type: 'container', parentId: 'p', version: 7, display: 'flex', flexDirection: 'row',
+        desktop: { display: 'flex', flexDirection: 'row', gap: 12 }, components: [] },
+      { id: ID(), type: 'container', parentId: 'p', version: 7, display: 'flex', flexDirection: 'row',
+        desktop: { display: 'flex', flexDirection: 'row', gap: 12 }, components: [] },
+    ] }] };
+  assert.ok(codes(m).includes('T2-ROWLIST-NO-VGAP'));
+});
+
+test('T2-ROWLIST-NO-VGAP: does NOT flag when the host already declares a positive vertical gap', () => {
+  const m = { components: [{ id: ID(), type: 'container', parentId: 'root', version: 7,
+    display: 'flex', flexDirection: 'column', gap: 16, desktop: { display: 'flex', flexDirection: 'column', gap: 16 },
+    components: [
+      { id: ID(), type: 'container', parentId: 'p', version: 7, display: 'flex', flexDirection: 'row',
+        desktop: { display: 'flex', flexDirection: 'row', gap: 12 }, components: [] },
+      { id: ID(), type: 'container', parentId: 'p', version: 7, display: 'flex', flexDirection: 'row',
+        desktop: { display: 'flex', flexDirection: 'row', gap: 12 }, components: [] },
+    ] }] };
+  assert.ok(!codes(m).includes('T2-ROWLIST-NO-VGAP'));
+});
+
+test('T2-CODEMODE-TITLE: flags a text node whose content._mode:"code" string-concatenates data fields (flight-details heading)', () => {
+  const found = tier2(fx('t2-codemode-title'), ctx).find((f) => f.code === 'T2-CODEMODE-TITLE');
+  assert.ok(found);
+  assert.match(found.message, /flightNumber/);
+});
+
+test('T2-CODEMODE-TITLE: does NOT flag a plain mustache/string content, or code with no data-field concatenation', () => {
+  const m = { components: [
+    { id: ID(), type: 'text', parentId: 'root', version: 5, content: '{{data.flightNumber}} · {{data.airline}}' },
+    { id: ID(), type: 'text', parentId: 'root', version: 5, content: { _mode: 'code', _code: "return form.formMode === 'edit';" } },
+  ] };
+  assert.ok(!codes(m).includes('T2-CODEMODE-TITLE'));
+});
+
+test('T2-DUPLICATE-CAPTION: flags a text node duplicating a hideLabel sibling\'s label (asset-detail railStatusPanel)', () => {
+  const found = tier2(fx('t2-duplicate-caption'), ctx).find((f) => f.code === 'T2-DUPLICATE-CAPTION');
+  assert.ok(found);
+  assert.match(found.message, /On active register/);
+});
+
+test('T2-DUPLICATE-CAPTION: does NOT flag a caption whose sibling shows its OWN visible label (hideLabel false)', () => {
+  const m = { components: [{ id: ID(), type: 'container', parentId: 'root', version: 7, components: [
+    { id: ID(), type: 'text', parentId: 'p', version: 5, content: 'On active register' },
+    { id: ID(), type: 'checkbox', parentId: 'p', version: 5, propertyName: 'isActive', label: 'On active register', hideLabel: false },
+  ] }] };
+  assert.ok(!codes(m).includes('T2-DUPLICATE-CAPTION'));
+});
+
+test('T2-LABELCOL-VS-NARROW-ROW: flags horizontal layout + labelCol.span with an input inside a sub-50%-width container (asset-detail)', () => {
+  const found = tier2(fx('t2-labelcol-vs-narrow-row'), ctx).find((f) => f.code === 'T2-LABELCOL-VS-NARROW-ROW');
+  assert.ok(found);
+});
+
+test('T2-LABELCOL-VS-NARROW-ROW: does NOT flag vertical layout regardless of narrow containers (the flight-* forms\' own pattern)', () => {
+  const m = {
+    formSettings: { layout: 'vertical' },
+    components: [{ id: ID(), type: 'container', parentId: 'root', version: 7,
+      desktop: { dimensions: { width: 'calc(50% - 6px)' } },
+      components: [{ id: ID(), type: 'textField', parentId: 'p', version: 6, propertyName: 'flightNumber' }] }],
+  };
+  assert.ok(!codes(m).includes('T2-LABELCOL-VS-NARROW-ROW'));
+});
+
+test('T2-LABELCOL-VS-NARROW-ROW: does NOT flag horizontal layout with no narrow container', () => {
+  const m = {
+    formSettings: { layout: 'horizontal', labelCol: { span: 6 }, wrapperCol: { span: 18 } },
+    components: [{ id: ID(), type: 'container', parentId: 'root', version: 7,
+      desktop: { dimensions: { width: '100%' } },
+      components: [{ id: ID(), type: 'textField', parentId: 'p', version: 6, propertyName: 'assetName' }] }],
+  };
+  assert.ok(!codes(m).includes('T2-LABELCOL-VS-NARROW-ROW'));
+});
+
 // --- Shape / quality-bar checks ---
 
 test('every finding carries a path and a diagnosable message', () => {
@@ -344,6 +471,8 @@ test('every non-skip finding across all fixtures is tier 2 / severity fail with 
     't2-validationerrors-missing', 't2-submit-wiring', 't2-exit-missing', 't2-loose-button',
     't2-propertyname-case', 't2-dropdown-source', 't2-date-component', 't2-modeltype-shape',
     't2-editmode-mismatch', 't2-datacontext-props',
+    't2-split-width-on-leaf', 't2-slot-style-mismatch', 't2-rowlist-no-vgap',
+    't2-codemode-title', 't2-duplicate-caption', 't2-labelcol-vs-narrow-row',
   ];
   for (const name of fixtures) {
     // Every fixture here is exercised with no archetype/knownForms, so

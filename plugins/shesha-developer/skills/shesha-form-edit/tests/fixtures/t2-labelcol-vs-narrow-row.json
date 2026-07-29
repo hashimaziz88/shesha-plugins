@@ -1,0 +1,33 @@
+{
+  "formSettings": {
+    "modelType": { "name": "Asset", "module": "boxfusion.test" },
+    "layout": "horizontal",
+    "labelCol": { "span": 6 },
+    "wrapperCol": { "span": 18 }
+  },
+  "components": [
+    {
+      "id": "d6666666-6666-4666-8666-666666666661",
+      "type": "container",
+      "componentName": "rowHalf",
+      "propertyName": "rowHalf",
+      "parentId": "root",
+      "version": 7,
+      "display": "flex",
+      "flexDirection": "row",
+      "desktop": { "display": "flex", "flexDirection": "row", "dimensions": { "width": "calc(50% - 8px)" } },
+      "components": [
+        {
+          "id": "d6666666-6666-4666-8666-666666666662",
+          "type": "textField",
+          "propertyName": "assetName",
+          "componentName": "assetName",
+          "label": "Asset Name",
+          "parentId": "d6666666-6666-4666-8666-666666666661",
+          "version": 6,
+          "editMode": "editable"
+        }
+      ]
+    }
+  ]
+}

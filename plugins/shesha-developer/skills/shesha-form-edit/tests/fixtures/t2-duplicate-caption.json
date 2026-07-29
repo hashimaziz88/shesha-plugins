@@ -1,0 +1,40 @@
+{
+  "components": [
+    {
+      "id": "d5555555-5555-4555-8555-555555555551",
+      "type": "container",
+      "componentName": "railStatusPanel",
+      "propertyName": "railStatusPanel",
+      "parentId": "root",
+      "version": 7,
+      "display": "flex",
+      "flexDirection": "column",
+      "desktop": { "display": "flex", "flexDirection": "column", "gap": 16, "dimensions": { "width": "100%" } },
+      "components": [
+        {
+          "id": "d5555555-5555-4555-8555-555555555552",
+          "type": "text",
+          "componentName": "railActiveLabel",
+          "propertyName": "railActiveLabel",
+          "label": "On active register",
+          "hideLabel": true,
+          "parentId": "d5555555-5555-4555-8555-555555555551",
+          "version": 5,
+          "content": "On active register"
+        },
+        {
+          "id": "d5555555-5555-4555-8555-555555555553",
+          "type": "checkbox",
+          "componentName": "railActive",
+          "propertyName": "isActive",
+          "label": "On active register",
+          "labelAlign": "right",
+          "hideLabel": true,
+          "editMode": "editable",
+          "parentId": "d5555555-5555-4555-8555-555555555551",
+          "version": 5
+        }
+      ]
+    }
+  ]
+}
