@@ -141,21 +141,55 @@ test('T2-STYLE-INCOMPLETE: the required set is derived from registry container.p
   assert.ok(after.length > 0, 'a registry that grows a new dimensions.* prop must grow the requirement too');
 });
 
-test('T2-STYLE-OFF-TOKEN: flags a hardcoded hex color with no styleOverrides record', () => {
+test('T2-STYLE-OFF-TOKEN: flags an arbitrary hex color matching no theme token and no overrides[] record', () => {
+  // t2-style-off-token.json's #123456 matches no entry anywhere in
+  // shesha.tokens.json (the default theme this check falls back to) — a
+  // genuinely off-token, unexplained literal.
   const found = tier2(fx('t2-style-off-token'), ctx).find((f) => f.code === 'T2-STYLE-OFF-TOKEN');
   assert.ok(found);
-  assert.match(found.message, /#f4f8ff/);
+  assert.match(found.message, /#123456/);
+});
+
+test('T2-STYLE-OFF-TOKEN: does NOT flag a hex that matches a token in the active theme, even with no overrides[]', () => {
+  // Theme-aware fix: resolveRole legitimately resolves role/token references
+  // down to literal hex (e.g. "$roles.pageBg" -> palette.surfaces.canvas ->
+  // "#F8F8F9") — that literal is on-token by definition and needs no
+  // overrides[] provenance. #F8F8F9 is shesha.tokens.json's own
+  // palette.surfaces.canvas value (also case-insensitively matched).
+  const m = {
+    components: [{
+      id: crypto.randomUUID(), type: 'container', parentId: 'root', version: 7,
+      desktop: { background: { type: 'color', color: '#F8F8F9' } },
+    }],
+  };
+  assert.ok(!codes(m).includes('T2-STYLE-OFF-TOKEN'));
 });
 
 test('T2-STYLE-OFF-TOKEN: does not flag a color covered by an overrides[] source+evidence entry', () => {
   // Reconciled in task 7: this check now reads the blueprint schema's
   // overrides[] = {prop, value, source, evidence} shape, not the legacy
   // styleOverrides[path] object (see tier2.mjs's checkStyleOffToken comment).
+  // Uses the fixture's genuinely off-token #123456 — a real, measured
+  // deviation, not a value the theme would already cover on its own.
   const m = fx('t2-style-off-token');
   m.components[0].overrides = [
-    { prop: 'desktop.background.color', value: '#f4f8ff', source: 'brand guideline v3', evidence: 'design-system review 2026-07-01' },
+    { prop: 'desktop.background.color', value: '#123456', source: 'brand guideline v3', evidence: 'design-system review 2026-07-01' },
   ];
   assert.ok(!codes(m).includes('T2-STYLE-OFF-TOKEN'));
+});
+
+test('T2-STYLE-OFF-TOKEN: an overrides[] entry missing evidence (or source) is still rejected', () => {
+  const m = fx('t2-style-off-token');
+  m.components[0].overrides = [
+    { prop: 'desktop.background.color', value: '#123456', source: 'brand guideline v3' }, // no evidence
+  ];
+  assert.ok(codes(m).includes('T2-STYLE-OFF-TOKEN'));
+
+  const m2 = fx('t2-style-off-token');
+  m2.components[0].overrides = [
+    { prop: 'desktop.background.color', value: '#123456', evidence: 'design-system review 2026-07-01' }, // no source
+  ];
+  assert.ok(codes(m2).includes('T2-STYLE-OFF-TOKEN'));
 });
 
 test('T2-STYLE-OFF-TOKEN: does not flag the framework-stamped default border/shadow/background colors', () => {
@@ -240,7 +274,7 @@ test('T2-DATE-COMPONENT: does not flag "candidate" (no word-boundary "date")', (
   assert.ok(!codes(m).includes('T2-DATE-COMPONENT'));
 });
 
-test('T2-MODELTYPE-SHAPE: flags a missing modelType', () => {
+test('T2-MODELTYPE-SHAPE: flags a missing modelType on an entity-bound form (has a propertyName field)', () => {
   assert.ok(codes(fx('t2-modeltype-shape')).includes('T2-MODELTYPE-SHAPE'));
 });
 
@@ -251,6 +285,45 @@ test('T2-MODELTYPE-SHAPE: does NOT flag a bare full-class-name string', () => {
   // absent/empty/malformed modelType is a defect.
   const m = { formSettings: { modelType: 'Shesha.Domain.Person' }, components: [] };
   assert.ok(!codes(m).includes('T2-MODELTYPE-SHAPE'));
+});
+
+test('T2-MODELTYPE-SHAPE: does NOT flag a missing modelType on a genuinely entity-less form (hub/dashboard-shaped)', () => {
+  // No propertyName-bearing interactive field, no dataContext node, no
+  // dataLoaderType — exactly the shape a hub/dashboard archetype compiles
+  // to (navigation tiles / metric text, never bound inputs).
+  const m = {
+    formSettings: {},
+    components: [
+      { id: ID(), type: 'container', parentId: 'root', version: 7, components: [
+        { id: ID(), type: 'text', propertyName: 'heading', parentId: 'p', version: 5, content: 'Operations Hub' },
+        { id: ID(), type: 'buttonGroup', parentId: 'p', version: 15, items: [] },
+      ] },
+    ],
+  };
+  assert.ok(!codes(m).includes('T2-MODELTYPE-SHAPE'));
+});
+
+test('T2-MODELTYPE-SHAPE: still flags a MALFORMED modelType even on an entity-less form', () => {
+  // The "must be present" half of the rule is gated on entity-binding; the
+  // shape rule itself is not — a bogus value is still a bogus value.
+  const m = { formSettings: { modelType: { name: '' } }, components: [] };
+  assert.ok(codes(m).includes('T2-MODELTYPE-SHAPE'));
+});
+
+test('T2-MODELTYPE-SHAPE: a dataContext node alone marks the form entity-bound', () => {
+  const m = {
+    formSettings: {},
+    components: [
+      { id: ID(), type: 'dataContext', parentId: 'root', version: 4, entityType: 'Shesha.Domain.Person',
+        sourceType: 'entity', dataFetchingMode: 'paging', defaultPageSize: 10 },
+    ],
+  };
+  assert.ok(codes(m).includes('T2-MODELTYPE-SHAPE'));
+});
+
+test('T2-MODELTYPE-SHAPE: formSettings.dataLoaderType not "none" marks the form entity-bound', () => {
+  const m = { formSettings: { dataLoaderType: 'gql' }, components: [] };
+  assert.ok(codes(m).includes('T2-MODELTYPE-SHAPE'));
 });
 
 test('T2-EDITMODE-MISMATCH: flags "inherited" on an interactive field with no detail lifecycle', () => {

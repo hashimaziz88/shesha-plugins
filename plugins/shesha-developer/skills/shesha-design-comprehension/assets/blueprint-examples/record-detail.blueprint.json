@@ -40,7 +40,7 @@
     { "node": "detailRail", "type": "container", "role": "detail-rail", "slot": "body",
       "style": { "desktop": { "dimensions": { "width": "332px", "minWidth": "332px", "maxWidth": "332px" } } },
       "children": ["relatedInvoices"] },
-    { "node": "relatedInvoices", "type": "subTable", "slot": "detailRail", "content": "Related Invoices" }
+    { "node": "relatedInvoices", "type": "datatable", "slot": "detailRail", "content": "Related Invoices" }
   ],
   "bindings": [
     { "label": "Passenger Last Name", "property": "passengerLastName", "component": "textField", "datatype": "string" },

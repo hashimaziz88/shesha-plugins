@@ -1081,3 +1081,108 @@ All four suites pass: hooks 33/33, shesha-form-edit 208/208 (206 baseline +
 shesha-design-system 14/14, shesha-design-comprehension 37/37. Framework repo
 (`shesha-reactjs`) left clean — `git status --short` shows only the
 pre-existing untracked `shesha-reactjs-043/`.
+
+## Phase 3 — replacing two compiler workarounds with real check fixes
+
+`scripts/compile-spec.mjs` (the blueprint->markup compiler) reported two
+tensions it had worked around rather than solved: it self-stamped synthetic
+`overrides[]` provenance onto every role-derived container color to survive
+`T2-STYLE-OFF-TOKEN`, and it synthesized a placeholder `formSettings.modelType`
+on entity-less archetypes (`hub`, `dashboard`) to survive `T2-MODELTYPE-SHAPE`.
+Both were forgeries: they made the check trivially satisfiable rather than
+correct, permanently unable to catch the genuine defect either exists to
+catch. This pass fixed the two checks at their real fault site and removed
+both compiler workarounds entirely.
+
+**`T2-STYLE-OFF-TOKEN` made theme-aware.** `resolveRole` legitimately resolves
+a role's token references down to literal hex — that IS what resolution
+means, not a defect. The check now loads the active theme's token file
+(defaulting to `shesha.tokens.json` when a caller supplies none — same
+default-path pattern `compile-spec.mjs` already uses) and treats any color
+literal matching a token anywhere in that theme as on-token by definition,
+with no `overrides[]` required. Only a value matching no theme token, and
+carrying no genuine override provenance, is still a finding.
+
+**`T2-MODELTYPE-SHAPE` made conditional on entity-binding.** The check now
+requires `modelType` only when the form actually binds an entity — signalled
+by an interactive field carrying a real `propertyName`, a `dataContext` node
+(which per `T2-DATACONTEXT-PROPS` always carries a real `entityType`), or
+`formSettings.dataLoaderType` set to anything other than `"none"`. A form with
+none of these (a hub's navigation tiles, a dashboard's metric rollup) is
+legitimately entity-less and no longer needs a modelType at all. The shape
+rule itself (`{name, module}` or a non-empty string) still applies
+unconditionally whenever a modelType IS present — a malformed value on an
+entity-less form is still a defect.
+
+### Re-grading: before/after, same 935-form corpus + 14-seed cohort
+
+Re-ran `scripts/grade-corpus.mjs` against the exact same corpus dump
+(`forms-all.jsonl`, 935 forms) and bundled-seed cohort (`--seeds`, 14 forms)
+used throughout this report, once on the pre-fix code and once post-fix
+(via `git stash`/`git stash pop` around the same grading command, so both
+runs graded byte-identical input):
+
+| Code | Corpus before | Corpus after | Seeds before | Seeds after |
+|---|---|---|---|---|
+| `T2-STYLE-OFF-TOKEN` | 85/935 (9.1%), 3,299 instances | 85/935 (9.1%), 3,269 instances | 0/14 | 0/14 |
+| `T2-MODELTYPE-SHAPE` | 204/935 (21.8%), 204 instances | 171/935 (18.3%), 171 instances | 3/14 (21.4%) | 3/14 (21.4%) |
+
+`T2-STYLE-OFF-TOKEN`'s forms-affected rate is unchanged — the historically-
+graded corpus rarely uses a literal color that happens to equal a `shesha`
+theme token verbatim (most residual findings are genuinely off-brand hex,
+e.g. the `#1a1a1a` font-color case already noted above as a live finding);
+30 instances (out of 3,299) did turn out to be on-token and are no longer
+flagged. `T2-MODELTYPE-SHAPE` moved more: 33 forms (204->171) that were
+previously flagged for a "missing" modelType are genuinely entity-less and no
+longer fire — a real reduction in false positives, not just a compiler-side
+effect, since these are real production forms that never went through
+`compile-spec.mjs` at all.
+
+**Neither change justifies a `gate-policy.json` group change.**
+`T2-STYLE-OFF-TOKEN` stays Group A (rate unchanged at 9.1%).
+`T2-MODELTYPE-SHAPE` stays Group C — its corpus rate (18.3%) and seed rate
+(21.4%, unchanged) both still exceed every current Group A member (max
+15.5%), and the check remains non-normalizer-fixable, so Group B is not an
+option either. `gate-policy.json`'s `T2-MODELTYPE-SHAPE` rate/justification
+was updated to the re-measured 18.3% so the recorded number reflects the
+check's current, real behaviour rather than the pre-fix figure.
+
+### Compiler-side verification
+
+All three "give the compiler an escape hatch" workarounds flagged by the
+compiler's own author were removed with no replacement forgery:
+`scripts/lib/compile/container-style.mjs` no longer stamps any synthetic
+`overrides[]` entry (verified: `overrides` appears zero times in any of the
+8 compiled archetypes' output); `scripts/compile-spec.mjs`'s
+`buildFormSettings` no longer synthesizes a placeholder `modelType` for
+entity-less archetypes. All three compiler-property tests still hold with
+the workarounds gone: all 8 archetypes recompile to zero Tier 1/2 findings,
+compiling the same blueprint twice is byte-identical, and
+`normalize(compileSpec(bp).markup)` is a no-op — proving the checks' own
+fixes, not compiler-side forgery, are what make the 8 archetypes clean.
+
+A third, unrelated workaround was also removed: `record-detail.blueprint.json`
+used a non-existent `"subTable"` type that `scripts/lib/compile/
+type-registry.mjs` silently aliased to `"datatable"`. The fixture now authors
+`"datatable"` directly (a real, authorable registry type — confirmed against
+`assets/archetypes/record-detail.flow.json`, which imposes no stricter
+requirement on that node), and the alias table was deleted from
+`type-registry.mjs` entirely — an unknown blueprint type is now always a hard
+compile error, with no silent substitution. `../shesha-design-comprehension/
+assets/blueprint.schema.json`'s node `type` property was additionally given
+an `enum` of the registry's 105 authorable types, so a future blueprint
+authoring the same class of mistake (a type that isn't real, authorable
+vocabulary) is caught by schema validation at compile time rather than
+requiring a compiler-side alias or a runtime `T1-TYPE-UNKNOWN` finding. This
+enum is a snapshot of `registry-0.45.1.json`'s authorable set as of this
+task; it is not derived automatically and needs a manual update if the
+registry's authorable set changes.
+
+### Tests
+
+All four suites pass: hooks 33/33, shesha-form-edit 271/271 (265 baseline +
+6 new `T2-STYLE-OFF-TOKEN`/`T2-MODELTYPE-SHAPE` tests), shesha-design-system
+24/24, shesha-design-comprehension 37/37. `scripts/compile-spec.mjs`'s own
+47-test suite (8-archetype clean, determinism, normalize-no-op, flow-manifest
+completion, no-columns/no-split-width, override survival/rejection, CLI
+smoke) is included in that 271 and remains fully green.

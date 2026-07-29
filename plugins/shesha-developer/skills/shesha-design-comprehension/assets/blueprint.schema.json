@@ -98,7 +98,30 @@
         },
         "type": {
           "type": "string",
-          "description": "Component type. One of the registry's authorable types (shesha-form-edit/assets/registry/registry-0.45.1.json), or a structural pseudo-type such as \"dataContext\"."
+          "description": "Component type. Must be one of the registry's authorable types (shesha-form-edit/assets/registry/registry-0.45.1.json's authorable:true set, e.g. \"dataContext\" and \"datatable\" are both real, directly-authorable registry entries — not pseudo-types). This enum is a snapshot of that authorable set as of registry-0.45.1.json; a blueprint-only alias/pseudo-type (like the removed \"subTable\") is exactly the class of error this enum exists to catch at schema-validation time rather than at compile time.",
+          "enum": [
+            "KeyInformationBar", "address", "alert", "attachmentsEditor", "autocomplete",
+            "autocompleteTagGroup", "barChart", "button", "buttonGroup", "buttons", "calendar",
+            "card", "checkbox", "checkboxGroup", "chevron", "codeEditor", "collapsiblePanel",
+            "colorPicker", "columns", "component-selector", "configurableActionConfigurator",
+            "configurableItemAutocomplete", "container", "contextPropertyAutocomplete", "dataContext",
+            "dataSortingEditor", "dataSource", "datalist", "datatable", "datatable.filter",
+            "datatable.pager", "datatable.quickSearch", "dateField", "divider", "drawer", "dropdown",
+            "dynamicItemsConfigurator", "dynamicView", "editModeSelector", "editableTagGroup",
+            "endpointsAutocomplete", "entityPicker", "entityReference", "entityTypeAutocomplete",
+            "fileUpload", "formAutocomplete", "headerAppControl", "htmlRender", "iconPicker", "image",
+            "imagePicker", "kanban", "labelConfigurator", "labelValueEditor", "lineChart", "link",
+            "list", "logViewer", "mainMenuEditor", "markdown", "menuList", "metadataEditor", "notes",
+            "notificationAutocomplete", "numberField", "passwordCombo", "permissionAutocomplete",
+            "permissionTagGroup", "permissionedObjectsTree", "permissionsTree", "pieChart",
+            "polarAreaChart", "processMonitor", "profileDropdown", "progress", "propertyAutocomplete",
+            "propertyRouter", "queryBuilder", "radio", "rate", "refListStatus",
+            "referenceListAutocomplete", "richTextEditor", "scheduledJobExecutionLog",
+            "searchableTabs", "section", "sectionSeparator", "setting", "sizableColumns", "slider",
+            "statistic", "statusTag", "styleBox", "subForm", "switch", "tableViewSelector", "tabs",
+            "text", "textArea", "textField", "themeEditor", "timePicker", "title", "validationErrors",
+            "wizard"
+          ]
         },
         "role": {
           "type": "string",

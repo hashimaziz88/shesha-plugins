@@ -25,79 +25,26 @@ import {
 const FLEX_PROP_NAMES = ['display', 'flexDirection', 'flexWrap', 'gap', 'justifyContent', 'alignItems'];
 
 // ---------------------------------------------------------------------------
-// Role-color provenance stamping.
+// Role-derived colors and T2-STYLE-OFF-TOKEN.
 //
-// tier2.mjs's T2-STYLE-OFF-TOKEN flags ANY literal hex/rgb(a) `color` leaf on
-// a container that has no matching `overrides[]` entry — including a color
-// that came from resolving a design-system ROLE (roles.styles.json's own
-// $roles.pageBg/$roles.cardHeaderBg/$roles.hairline tokens all resolve to
-// literal hex, e.g. "#F8F8F9"/"#E8EAF0"), because the check has no way to
-// see WHERE a post-resolution literal came from — it only ever sees the
-// resolved value. Every one of the 15 roles carries at least one such color,
-// so every role-styled container would otherwise trip this check on every
-// single archetype. tier2.mjs's own header comment frames `overrides[]` as
-// exactly the escape hatch for "this literal is deliberate, not a
-// copy-pasted accident" — a role's own governed default IS deliberate (it is
-// the project's sanctioned token, not an ad hoc choice), so the compiler
-// self-documents every such color with a synthetic `overrides[]` entry
-// naming the role/token as its `source`/`evidence`, rather than leaving a
-// human to hand-add one entry per color per role per breakpoint. A
-// blueprint-authored override (real deviation, real provenance) is left
-// completely untouched and never duplicated.
-const COLOR_LITERAL_RE = /^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
-const RGB_RE = /^rgba?\(/i;
-
-// Mirrors tier2.mjs's own isFrameworkDefaultColor() exactly (duplicated, not
-// imported — tier2.mjs exports only its main `tier2` function).
-function isFrameworkDefaultColor(path, value) {
-  const parts = path.split('.');
-  const last = parts[parts.length - 1];
-  const parent = parts[parts.length - 2];
-  const grandparent = parts[parts.length - 3];
-  const v = value.toLowerCase();
-  if (last === 'color' && parent === 'shadow' && (v === '#000' || v === '#000000')) return true;
-  if (last === 'color' && parent === 'background' && v === '#ffffff') return true;
-  if (last === 'color' && grandparent === 'border' && ['all', 'top', 'bottom', 'left', 'right'].includes(parent) && v === '#d9d9d9') return true;
-  return false;
-}
-
-function collectColorLeaves(obj, prefix = '') {
-  const found = [];
-  if (!isPlainObject(obj)) return found;
-  for (const key of Object.keys(obj)) {
-    const value = obj[key];
-    const p = prefix ? `${prefix}.${key}` : key;
-    if (key === 'color' && typeof value === 'string' && (COLOR_LITERAL_RE.test(value) || RGB_RE.test(value))) {
-      found.push({ path: p, value });
-    } else if (isPlainObject(value)) {
-      found.push(...collectColorLeaves(value, p));
-    }
-  }
-  return found;
-}
-
-function stampColorProvenance(resolved, bpNode) {
-  const existing = Array.isArray(bpNode.overrides) ? bpNode.overrides.filter(isPlainObject) : [];
-  const coveredProps = new Set(existing.map((o) => o.prop));
-  const synthetic = [];
-  for (const bp of BREAKPOINTS) {
-    for (const { path, value } of collectColorLeaves(resolved[bp])) {
-      if (isFrameworkDefaultColor(path, value)) continue;
-      const prop = `${bp}.${path}`;
-      if (coveredProps.has(prop)) continue;
-      synthetic.push({
-        prop,
-        value,
-        source: bpNode.role ? `design-system role "${bpNode.role}"` : 'blueprint style block',
-        evidence: bpNode.role
-          ? `resolved from roles.styles.json role "${bpNode.role}" via its token reference (shesha.tokens.json)`
-          : "literal value from this blueprint node's own \"style\" block",
-      });
-      coveredProps.add(prop);
-    }
-  }
-  return [...existing, ...synthetic];
-}
+// `resolveRole` (shesha-design-system) legitimately resolves a role's token
+// references down to literal hex ("$roles.pageBg" -> "palette.surfaces.
+// canvas" -> "#F8F8F9") — that IS what resolution means, not a defect to
+// paper over. This module used to self-stamp a synthetic `overrides[]`
+// entry onto every such color so it would survive tier2.mjs's
+// T2-STYLE-OFF-TOKEN check — but `overrides[]` exists to record a *measured*
+// deviation (`source`/`evidence` naming a real, human-reviewed decision);
+// auto-generating one for every ordinary theme color forged exactly the
+// provenance record the check exists to verify, making the check trivially
+// satisfiable and permanently unable to catch a genuine off-token value
+// again. The fix belongs in the check, not here: tier2.mjs's
+// T2-STYLE-OFF-TOKEN is now THEME-AWARE — it resolves the active theme's
+// token file itself and treats any color literal that matches a token in it
+// as on-token by definition, with no override required. This module's own
+// job is therefore back to just resolving the role/style, verbatim, with no
+// provenance bookkeeping — any `overrides[]` on the OUTPUT is exactly (and
+// only) whatever the blueprint node itself genuinely authored.
+// ---------------------------------------------------------------------------
 
 function deepMerge(base, patch) {
   if (!isPlainObject(patch)) return base;
@@ -174,6 +121,10 @@ export function resolveContainerStyle(bpNode, { roles, tokens }) {
   const out = { desktop: base.desktop, tablet: base.tablet, mobile: base.mobile };
   const flexMirror = {};
   for (const p of FLEX_PROP_NAMES) flexMirror[p] = out.desktop[p];
-  const overridesOut = stampColorProvenance(out, bpNode);
+  // Only genuinely blueprint-authored overrides survive onto the output node
+  // — no synthetic provenance is ever stamped (see this file's header
+  // comment). T2-STYLE-OFF-TOKEN itself resolves whether a role-derived
+  // literal is on-token; this module has nothing further to prove.
+  const overridesOut = overrides.filter(isPlainObject);
   return { ...flexMirror, ...out, ...(overridesOut.length ? { overrides: overridesOut } : {}) };
 }

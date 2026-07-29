@@ -1,6 +1,34 @@
+import { readFileSync, existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { flatten, CHILD_KEYS } from './walk.mjs';
 import { requiredNodes } from './flow.mjs';
 import { isSplitWidthValue } from './expand-style.mjs';
+
+// ---------------------------------------------------------------------------
+// Default theme tokens — loaded lazily, only when a caller doesn't supply
+// its own `tokens`. Mirrors compile-spec.mjs's own default-path pattern:
+// validate-form.mjs's CLI (which this check ultimately runs under) has no
+// `--tokens` flag and never will (it is on the "do not modify" list for this
+// task), so T2-STYLE-OFF-TOKEN resolving "the active theme" on its own,
+// falling back to the project's default brand, is what makes it usable from
+// that CLI at all rather than only from callers sophisticated enough to pass
+// tokens explicitly.
+// ---------------------------------------------------------------------------
+const HERE = dirname(fileURLToPath(import.meta.url));
+const DEFAULT_TOKENS_PATH = join(HERE, '../../../shesha-design-system/assets/themes/shesha.tokens.json');
+
+let cachedDefaultTokens;
+function loadDefaultTokens() {
+  if (cachedDefaultTokens !== undefined) return cachedDefaultTokens;
+  try {
+    cachedDefaultTokens = existsSync(DEFAULT_TOKENS_PATH) ? JSON.parse(readFileSync(DEFAULT_TOKENS_PATH, 'utf8')) : {};
+  } catch {
+    cachedDefaultTokens = {};
+  }
+  return cachedDefaultTokens;
+}
 
 /**
  * Tier 2 — contract checks.
@@ -17,23 +45,25 @@ import { isSplitWidthValue } from './expand-style.mjs';
  * @param {{
  *   registry: object,
  *   roles: object,
+ *   tokens?: object,
  *   flows?: Record<string, object>,
  *   archetype?: string,
  *   knownForms?: Array<{module: string, name: string}>,
  * }} opts
  * @returns {Finding[]}
  */
-export function tier2(markup, { registry, roles, flows, archetype, knownForms } = {}) {
+export function tier2(markup, { registry, roles, tokens, flows, archetype, knownForms } = {}) {
   const out = [];
   const components = Array.isArray(markup?.components) ? markup.components : [];
   const entries = flatten(components);
+  const themeTokenColors = collectThemeTokenColors(tokens ?? loadDefaultTokens());
 
   // --- Whole-tree / whole-form checks ---
   checkColumnsPresent(entries, out);
   checkValidationErrorsMissing(entries, out);
   checkSubmitWiring(entries, out);
   checkExitMissing(entries, out);
-  checkModelTypeShape(markup, out);
+  checkModelTypeShape(markup, entries, out);
   checkFlowIncomplete(entries, { archetype, flows }, out);
   checkDanglingFormRef(entries, { knownForms }, out);
   checkRowListNoVGap(entries, out);
@@ -50,7 +80,7 @@ export function tier2(markup, { registry, roles, flows, archetype, knownForms } 
       checkNoDefaultStylingDropsStyle(node, ctx, out);
       checkStyleIncomplete(node, ctx, registry, out);
       checkFlexChildNotContainer(node, ctx, out);
-      checkStyleOffToken(node, ctx, out);
+      checkStyleOffToken(node, ctx, themeTokenColors, out);
     } else {
       checkWidthOnNonContainer(node, ctx, out);
       checkSplitWidthOnLeaf(node, ctx, out);
@@ -382,6 +412,26 @@ function checkStyleIncomplete(node, ctx, registry, out) {
 // scripts/lib/tier3.mjs's T3-RAW-HEX was ALSO reconciled to this same
 // `overrides[]` shape (see its own header comment) — both consumers of the
 // override concept now agree on one shape.
+//
+// Made THEME-AWARE in the Phase 3 compiler-placement pass: `resolveRole`
+// (shesha-design-system) legitimately resolves a role's token references
+// down to literal hex ("$roles.pageBg" -> "palette.surfaces.canvas" ->
+// "#F8F8F9") — that is what resolution IS, not a defect. The check used to
+// have no way to tell such a governed literal apart from an ad hoc
+// copy-pasted hex, which forced the compiler to self-stamp synthetic
+// `overrides[]` provenance onto every role-derived color just to survive
+// this check — forging the exact "this is a measured deviation" record
+// `overrides[]` exists to guarantee is real. The fix belongs here: this
+// check now loads the active theme's token file (`tokens`, defaulting to
+// shesha.tokens.json when a caller doesn't supply one — see
+// `loadDefaultTokens` above) and treats ANY literal color value that
+// appears anywhere in that theme (not just in a role, but the theme's whole
+// token tree — palette, statusLifecycle, $antdTheme, ...) as on-token by
+// definition, with no override required. Only a hex/rgb(a) matching NO
+// token in the active theme, and carrying no genuine `overrides[]`
+// provenance, is still a finding — a raw hex that happens to equal a real
+// design-system token is not a "copy-pasted accident" needing a paper
+// trail; a hex nothing in the theme can explain still needs one.
 // ---------------------------------------------------------------------------
 
 const COLOR_LITERAL_RE = /^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
@@ -413,6 +463,48 @@ function isFrameworkDefaultColor(path, value) {
   return false;
 }
 
+// Normalize a color-literal string for equality matching: lowercase, no
+// internal whitespace (rgba(0, 59, 178, 0.2) vs rgba(0,59,178,0.2) are the
+// same token either way this check will ever encounter it).
+function normalizeColorForMatch(value) {
+  if (typeof value !== 'string') return null;
+  const s = value.trim();
+  if (!COLOR_LITERAL_RE.test(s) && !RGB_RE.test(s)) return null;
+  return s.toLowerCase().replace(/\s+/g, '');
+}
+
+// Walk the ENTIRE active theme token document (not just roles.styles.json —
+// palette, statusLifecycle badges, $antdTheme, anything else the theme
+// carries) and collect every literal hex/rgb(a) value it contains anywhere,
+// normalized for matching. This is "the active theme resolved into a flat
+// set of known tokens" — a value equal to any of these is on-token by
+// definition, per how `resolveRole` (shesha-design-system) actually
+// resolves a role's token references down to these exact literals.
+function collectThemeTokenColors(tokens) {
+  const set = new Set();
+  function visit(value) {
+    if (typeof value === 'string') {
+      const norm = normalizeColorForMatch(value);
+      if (norm) set.add(norm);
+      return;
+    }
+    if (Array.isArray(value)) {
+      value.forEach(visit);
+      return;
+    }
+    if (isPlainObject(value)) {
+      for (const v of Object.values(value)) visit(v);
+    }
+  }
+  visit(tokens);
+  return set;
+}
+
+function isOnToken(value, themeTokenColors) {
+  const norm = normalizeColorForMatch(value);
+  return norm !== null && themeTokenColors.has(norm);
+}
+
 function collectColorPaths(node) {
   const found = [];
   function visit(obj, path) {
@@ -432,7 +524,7 @@ function collectColorPaths(node) {
   return found;
 }
 
-function checkStyleOffToken(node, ctx, out) {
+function checkStyleOffToken(node, ctx, themeTokenColors, out) {
   if (node.type !== 'container') return;
   const colors = collectColorPaths(node);
   if (!colors.length) return;
@@ -442,6 +534,7 @@ function checkStyleOffToken(node, ctx, out) {
   );
   for (const { path, value } of colors) {
     if (isFrameworkDefaultColor(path, value)) continue;
+    if (isOnToken(value, themeTokenColors)) continue;
     const ov = overrideByProp.get(path);
     const covered = isPlainObject(ov) && typeof ov.source === 'string' && ov.source.length > 0
       && typeof ov.evidence === 'string' && ov.evidence.length > 0;
@@ -718,10 +811,53 @@ function checkDateComponent(node, ctx, out) {
 // (introduced in commit 30ea93c93), not a replacement for it — the 0.43
 // worktree only ever had the string form. A bare string is therefore NOT a
 // defect; only a genuinely missing/empty/malformed modelType is.
+//
+// Made CONDITIONAL in the Phase 3 compiler-placement pass: this check used
+// to fire unconditionally, on every form, with no way to express that
+// `hub`/`dashboard` archetypes (a landing page of navigation tiles, a
+// metrics rollup) are legitimately not bound to any entity at all — the
+// compiler was forced to synthesize a placeholder modelType purely to
+// survive this check, planting meaningless data into real form config that
+// a runtime loader might actually try to resolve, which is worse than no
+// modelType at all. The real fault was in the check, not the compiler: a
+// missing modelType is only a defect when the form actually needs one.
+// `formHasBoundFields` decides that from the markup alone (no blueprint is
+// available at check time) via the signals an entity-bound form actually
+// carries: an INTERACTIVE_TYPES field with a real propertyName (a create/
+// edit form's own inputs), or a `dataContext` node (which, per
+// T2-DATACONTEXT-PROPS, always carries a real `entityType` — its mere
+// presence already proves an entity binding exists), or
+// `formSettings.dataLoaderType` set to anything other than "none". A
+// modelType's SHAPE, when one IS present, is still validated unconditionally
+// — an entity-less form that carries a malformed modelType anyway is still
+// a defect; only the "must be present at all" half of the rule is gated.
 // ---------------------------------------------------------------------------
 
-function checkModelTypeShape(markup, out) {
+function formHasBoundFields(markup, entries) {
+  const dataLoaderType = markup?.formSettings?.dataLoaderType;
+  if (typeof dataLoaderType === 'string' && dataLoaderType !== 'none') return true;
+  return entries.some(({ node }) => {
+    if (node.type === 'dataContext') return true;
+    return INTERACTIVE_TYPES.has(node.type) && typeof node.propertyName === 'string' && node.propertyName.length > 0;
+  });
+}
+
+function checkModelTypeShape(markup, entries, out) {
   const mt = markup?.formSettings?.modelType;
+  const isMissing = mt === undefined || mt === null || mt === '';
+
+  if (isMissing) {
+    if (!formHasBoundFields(markup, entries)) return; // genuinely entity-less archetype (hub, dashboard, ...) — nothing to bind
+    out.push(finding(
+      'T2-MODELTYPE-SHAPE',
+      'formSettings.modelType',
+      `formSettings.modelType is ${JSON.stringify(mt ?? null)}, but this form is entity-bound (it has an interactive input with a propertyName, a dataContext node, or formSettings.dataLoaderType set to a real loader) — it must be either the object { name, module } (e.g. { "name": "Person", "module": "Shesha" }) or a non-empty full-class-name string; an absent/empty value cannot resolve entity metadata at all.`,
+      '{ name: "<ShortClass>", module: "<Module>" } or a non-empty full-class-name string',
+      mt ?? null,
+    ));
+    return;
+  }
+
   const okObject = isPlainObject(mt) && typeof mt.name === 'string' && mt.name.length > 0
     && typeof mt.module === 'string' && mt.module.length > 0;
   const okString = typeof mt === 'string' && mt.length > 0;
@@ -729,7 +865,7 @@ function checkModelTypeShape(markup, out) {
     out.push(finding(
       'T2-MODELTYPE-SHAPE',
       'formSettings.modelType',
-      `formSettings.modelType is ${JSON.stringify(mt ?? null)} — it must be either the object { name, module } (e.g. { "name": "Person", "module": "Shesha" }) or a non-empty full-class-name string; both resolve identically at runtime, but an absent/empty/malformed value cannot resolve entity metadata at all.`,
+      `formSettings.modelType is ${JSON.stringify(mt ?? null)} — it must be either the object { name, module } (e.g. { "name": "Person", "module": "Shesha" }) or a non-empty full-class-name string; both resolve identically at runtime, but a malformed value cannot resolve entity metadata at all.`,
       '{ name: "<ShortClass>", module: "<Module>" } or a non-empty full-class-name string',
       mt ?? null,
     ));
