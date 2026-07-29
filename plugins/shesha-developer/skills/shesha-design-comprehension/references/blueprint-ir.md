@@ -120,14 +120,16 @@ which was wrong (348 = 332 + 16, a 16px-gap figure that does not belong to this 
 derive the constant from the actual rail width and gap in front of you rather than copying a
 literal from a different measurement.
 
-**Phase 2 dependency, not yet available**: an earlier draft of this section assumed
-`multiColumnContainers[].childWidths` from `scripts/layout-probe.js`'s output could supply per-child
-native widths directly. **The probe does not emit that field today** — `multiColumnContainers[]`
-entries carry `columnCount`, `columnEdges` and `childIds` only (see `layout-probe.js`'s `PROBE_FN`).
-Until the probe is extended to emit `childWidths`, native cell widths must be read off each child's
-own `rect.w` in the flat `nodes[]` array (cross-referenced via `childIds`) rather than a
-convenience field that does not exist yet. Treat `childWidths` as **Phase 2 work**, not a dependency
-this phase can rely on.
+`multiColumnContainers[]` entries carry `columnCount`, `columnEdges`, `childIds` **and
+`childWidths`** — each split child's own measured width (`rect.w`, native px), index-aligned with
+`childIds` (`scripts/layout-probe.js`'s `PROBE_FN`, clustering logic in `scripts/lib/cluster.mjs`).
+Read a split cell's native width directly off `childWidths[i]` (or, equivalently, off that child's
+own `rect.w` in the flat `nodes[]` array — the two always agree). Widths are never normalised to a
+24-unit grid — the project's only split mechanism is a flex `container` row with explicit
+`desktop.dimensions.width` per child, never the Shesha `columns` component (see above). `columnCount`
+is derived from **horizontal overlap within a shared row band**, not from left-edge distinctness
+alone — a vertically-stacked pair of children at different left indents (Shesha's outer/inner div
+nesting systematically indents) shares no row band and so counts as one column, not two.
 
 ## Worked example — `table-worklist` (Bookings Register), all three representations
 
