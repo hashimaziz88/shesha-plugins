@@ -24,6 +24,14 @@ import { buildDataContext } from './datacontext.mjs';
 import { buildColumns } from './columns.mjs';
 import { buildLeafComponent } from './leaf.mjs';
 import { deterministicId } from './ids.mjs';
+import { isPlainObject, flexPropsOf, BREAKPOINTS } from '../expand-style.mjs';
+
+// Types whose children live in a separate slot object (content.components /
+// header.components / customHeader.components) rather than a top-level
+// `components[]` — tier1.mjs's own DOUBLE_SLOT_TYPES. Slot NAMES themselves
+// are never hardcoded here; see buildSlottedNode below, which reads
+// `registry.components[type].customContainerNames`.
+const SLOTTED_TYPES = new Set(['card', 'collapsiblePanel']);
 
 function toKebab(s) {
   return String(s).replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
@@ -83,6 +91,86 @@ export function buildTree(blueprint, opts) {
       const childNames = childrenOf(bpNode);
       const node = { type: 'container', componentName: name, ...style };
       if (childNames.length) node.components = buildChildren(childNames, path);
+      return node;
+    }
+
+    // -------------------------------------------------------------------
+    // card / collapsiblePanel ("slotted" components — SLOTTED_TYPES above).
+    //
+    // Slot names come from the registry entry itself
+    // (`customContainerNames`, e.g. card: ["header","content"],
+    // collapsiblePanel: ["header","content","customHeader"]) rather than
+    // being hardcoded here, so a framework change to which slots a type
+    // exposes surfaces as an explicit error below, not a silent
+    // misplacement. `children`/slot-derived children all target the
+    // "content" slot (the one real fixture that exercises this —
+    // assets/blocks/rail-panel.block.json — puts its real body in content
+    // and leaves header empty; the blueprint schema has no per-child way to
+    // target header/customHeader instead, so every OTHER declared slot is
+    // built as present-but-empty, matching that same real shape). Never
+    // stamps a top-level `components[]` alongside `content` — that
+    // combination is exactly T1-DOUBLE-SLOT.
+    //
+    // Layout-style split (the defect-2 fix): display/flexDirection/
+    // flexWrap/gap/justifyContent/alignItems are NOT declared props for
+    // either type in the registry — confirmed empirically: stamping them
+    // directly on a card node (exactly tests/fixtures/
+    // t2-slot-style-mismatch.json's shape, the real pushed defect) trips
+    // T1-PROP-UNKNOWN for all six. Real children are laid out by whatever
+    // style sits on the SLOT OBJECT ITSELF, a separate prop surface
+    // tier1.mjs never validates (a slot object carries no `type`, so
+    // walk.mjs never visits it as a node). So: any genuinely-declared box
+    // style this node resolves (border/background/shadow/font/dimensions —
+    // all real card/collapsiblePanel props) stays on the node; the six
+    // flex props go on the slot instead. This mirrors normalize-form.mjs's
+    // propagateSlotStyle()/tier2.mjs's T2-SLOT-STYLE-MISMATCH mechanism
+    // exactly (same six props, same flat/no-breakpoint shape on the slot)
+    // rather than reimplementing it — building it correctly here means
+    // that pass runs as idempotent confirmation, not a repair.
+    if (SLOTTED_TYPES.has(resolvedType)) {
+      const comp = registry.components[resolvedType];
+      const slotNames = Array.isArray(comp?.customContainerNames) ? comp.customContainerNames : [];
+      if (!slotNames.length) {
+        throw new Error(`compileSpec: registry entry for "${resolvedType}" declares no customContainerNames — cannot place "${name}"'s children into any slot.`);
+      }
+      const targetSlot = slotNames.includes('content') ? 'content' : slotNames[0];
+      const childNames = childrenOf(bpNode);
+      const hasRoleOrStyle = (typeof bpNode.role === 'string' && bpNode.role.length > 0) || isPlainObject(bpNode.style);
+
+      const node = { type: resolvedType, componentName: name };
+      let slotFlexProps = {};
+
+      if (hasRoleOrStyle) {
+        const resolved = resolveContainerStyle(bpNode, { roles, tokens });
+        const flex = flexPropsOf(resolved.desktop);
+        for (const [k, v] of Object.entries(flex)) {
+          if (v !== undefined) slotFlexProps[k] = v;
+        }
+        for (const bp of BREAKPOINTS) {
+          const {
+            display, flexDirection, flexWrap, gap, justifyContent, alignItems, ...boxStyle
+          } = resolved[bp];
+          node[bp] = boxStyle;
+        }
+        if (resolved.overrides) node.overrides = resolved.overrides;
+      } else if (childNames.length >= 2) {
+        // No role/style authored at all: give a 2+-child slot a minimal
+        // neutral stacked layout so its children never collapse into one
+        // run-on string by default — the exact real symptom ("StatusFlight
+        // status") this branch exists to prevent.
+        slotFlexProps = {
+          display: 'flex', flexDirection: 'column', flexWrap: 'nowrap', gap: 0, justifyContent: 'flex-start', alignItems: 'stretch',
+        };
+      }
+
+      for (const slotName of slotNames) {
+        if (slotName === targetSlot) {
+          const slotChildren = childNames.length ? buildChildren(childNames, `${path}.${targetSlot}`) : [];
+          node[slotName] = { components: slotChildren, ...slotFlexProps };
+        } else {
+          node[slotName] = { components: [] };
+        }
+      }
       return node;
     }
 
