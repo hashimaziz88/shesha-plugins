@@ -1,4 +1,5 @@
 import { flatten, CHILD_KEYS } from './walk.mjs';
+import { themeColorSet, isOnToken } from './theme-tokens.mjs';
 
 /**
  * Tier 3 — appearance/quality observations.
@@ -22,7 +23,7 @@ import { flatten, CHILD_KEYS } from './walk.mjs';
  * }} opts
  * @returns {{ score: number, findings: Finding[], uncalibrated: boolean }}
  */
-export function tier3(markup, { registry, thresholds, blueprint } = {}) {
+export function tier3(markup, { registry, thresholds, blueprint, tokens } = {}) {
   const out = [];
   const components = Array.isArray(markup?.components) ? markup.components : [];
   const entries = flatten(components);
@@ -30,7 +31,7 @@ export function tier3(markup, { registry, thresholds, blueprint } = {}) {
   checkLabelCasing(entries, out);
   checkActionZones(entries, out);
   checkHeaderFont(entries, registry, out);
-  checkRawHex(entries, out);
+  checkRawHex(entries, out, tokens);
   checkComponentRatio(entries, thresholds, out);
   checkOrphanContainers(entries, out);
   checkNonAuthorableType(entries, registry, out);
@@ -358,7 +359,16 @@ function collectColorPaths(node) {
   return found;
 }
 
-function checkRawHex(entries, out) {
+function checkRawHex(entries, out, tokens) {
+  // `resolveRole` resolves a role's token references down to literal hex
+  // values — that is what resolution means — so a correctly-themed form is
+  // full of literal hexes that all came from the active theme. Without this
+  // set, the check fires on exactly the output the design system is supposed
+  // to produce: it depressed every compiled archetype's score from 85 to 69.
+  // Shared with T2-STYLE-OFF-TOKEN via theme-tokens.mjs so the two cannot
+  // drift — they already did once, which is why this module exists.
+  const themeTokenColors = themeColorSet(tokens);
+
   for (const { node, ctx } of entries) {
     const colors = collectColorPaths(node);
     if (!colors.length) continue;
@@ -368,6 +378,8 @@ function checkRawHex(entries, out) {
     );
     for (const { path, value } of colors) {
       if (isFrameworkDefaultColor(path, value)) continue;
+      // On-token by definition: the value IS a colour the active theme defines.
+      if (isOnToken(value, themeTokenColors)) continue;
       const ov = overrideByProp.get(path);
       const covered = isPlainObject(ov) && typeof ov.source === 'string' && ov.source.length > 0
         && typeof ov.evidence === 'string' && ov.evidence.length > 0;
