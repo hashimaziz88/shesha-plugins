@@ -1,0 +1,39 @@
+{
+  "screen": "Property Gallery",
+  "archetype": "list-card",
+  "theme": "requirements-studio",
+  "viewport": "1440x900",
+  "entity": {
+    "fullClassName": "Boxfusion.Property.Domain.Listing",
+    "modelType": { "name": "Listing", "module": "Boxfusion.Property" }
+  },
+  "form": { "module": "property", "name": "listings-gallery", "label": "Properties" },
+  "nodes": [
+    { "node": "dataContext", "type": "dataContext" },
+    { "node": "page", "type": "container", "role": "page-root",
+      "children": ["pageHeader", "toolbar", "list", "pagerRow"] },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "children": ["heading"] },
+    { "node": "heading", "type": "text", "slot": "pageHeader", "content": "Properties" },
+    { "node": "toolbar", "type": "container", "role": "toolbar-row", "slot": "page",
+      "children": ["addButtonGroup"] },
+    { "node": "addButtonGroup", "type": "buttonGroup", "slot": "toolbar",
+      "items": [{ "label": "Add Listing", "action": { "actionName": "Show Dialog", "actionOwner": "shesha.common" } }] },
+    { "node": "list", "type": "datalist", "role": "grid-surface", "slot": "page", "rowTemplate": "listing-card" },
+    { "node": "pagerRow", "type": "container", "role": "toolbar-row-right", "slot": "page",
+      "children": ["pager"] },
+    { "node": "pager", "type": "datatable.pager", "slot": "pagerRow" }
+  ],
+  "bindings": [
+    { "label": "Address", "property": "address", "component": "text (card)", "datatype": "string" },
+    { "label": "Status", "property": "status", "component": "refListStatus / chip (card)", "datatype": "refList" }
+  ],
+  "assertions": [
+    "A1  list renders as a repeating card row, never a datatable column grid"
+  ],
+  "dependencies": [
+    { "id": "rowTemplate", "archetype": "row-template", "naming": "listing-card" },
+    { "id": "createForm", "archetype": "capture-dialog", "naming": "listing-create" },
+    { "id": "detailForm", "archetype": "record-detail", "naming": "listing-detail" }
+  ]
+}

@@ -21,7 +21,11 @@
 
 // Node types that render as a bordered box (header + optional interior +
 // recursed children + footer). Everything else renders as a single line.
-const BOX_TYPES = new Set(['container', 'datatable', 'tabs', 'card', 'region']);
+const BOX_TYPES = new Set(['container', 'datatable', 'tabs', 'card', 'region', 'wizard', 'datalist']);
+
+// Chart component types the registry marks authorable (references/archetypes.md,
+// dashboard.flow.json) — any of these get their chart type named in the mock.
+const CHART_TYPES = new Set(['barChart', 'lineChart', 'pieChart', 'polarAreaChart']);
 
 /**
  * Build a resolved-value summary line from a node's resolved `desktop` style.
@@ -38,6 +42,10 @@ function formatSummary(style) {
   } else if (style.display) {
     parts.push(String(style.display));
   }
+
+  // Only surface flexWrap when it actually wraps — "nowrap" is the
+  // uninteresting default and would just add noise to every summary line.
+  if (style.flexWrap === 'wrap') parts.push('wrap');
 
   if (style.gap !== undefined && style.gap !== null) parts.push(`gap ${style.gap}`);
   if (style.justifyContent) parts.push(`justify:${style.justifyContent}`);
@@ -62,6 +70,25 @@ function columnLabel(col) {
   return String(col);
 }
 
+/**
+ * Render one buttonGroup item inline with the action it fires, marking the
+ * primary — e.g. "[Save]◄primary → Submit/shesha.form". Wiring that is
+ * invisible in the mock is wiring a reviewer cannot check, so every item
+ * shows its actionOwner/actionName pair (and its navigate target, when set)
+ * rather than just the button label.
+ */
+function formatButtonGroupItem(item) {
+  const label = item && (item.label || item.actionName || '?');
+  let out = `[${label}]`;
+  if (item && item.primary) out += '◄primary'; // ◄primary
+  const action = item && item.action;
+  if (action && (action.actionName || action.actionOwner)) {
+    out += ` → ${action.actionName || '?'}/${action.actionOwner || '?'}`; // →
+  }
+  if (item && item.target) out += ` → ${item.target}`;
+  return out;
+}
+
 /** Resolve the ordered list of child node-names for a node. */
 function childNamesOf(node, nodesByName) {
   if (Array.isArray(node.children)) return node.children;
@@ -74,14 +101,15 @@ function childNamesOf(node, nodesByName) {
   return out;
 }
 
-function renderNode(node, depth, nodesByName, lines) {
+function renderNode(node, depth, nodesByName, lines, opts = {}) {
+  const { headerPrefix = '' } = opts;
   const indent = '  '.repeat(depth);
   const childIndent = '  '.repeat(depth + 1);
   const isBox = BOX_TYPES.has(node.type);
   const flowMarker = node.addedBy === 'flow-manifest' ? '  (added by flow)' : '';
 
   if (isBox) {
-    let header = `${indent}┌─ ${node.node}`;
+    let header = `${indent}┌─ ${headerPrefix}${node.node}`;
     if (node.role) header += ` ─── role: ${node.role}`;
     header += flowMarker;
     lines.push(header);
@@ -93,24 +121,75 @@ function renderNode(node, depth, nodesByName, lines) {
       lines.push(`${childIndent}│ ${node.columns.map(columnLabel).join(' | ')} │`);
     }
 
+    // A datalist is a repeating row-template card, never a column grid — the
+    // shape must be visibly different from a datatable's "│ col | col │"
+    // header, since drawing a card collection as a grid is a documented
+    // defect class (references/archetypes.md's list-card entry).
+    if (node.type === 'datalist') {
+      lines.push(`${childIndent}╭ card ╮ ╭ card ╮ ╭ card ╮  ⋯ (repeating card row)`);
+      lines.push(`${childIndent}row-template → ${node.rowTemplate || '(row template unspecified)'}`);
+    }
+
     if (Array.isArray(node.overrides)) {
       for (const ov of node.overrides) {
         lines.push(`${childIndent}Δ ${ov.prop}=${ov.value} [${ov.source}]`);
       }
     }
 
-    const kids = childNamesOf(node, nodesByName);
-    for (const kidName of kids) {
-      const kid = nodesByName.get(kidName);
-      if (!kid) continue;
-      renderNode(kid, depth + 1, nodesByName, lines);
+    if (node.type === 'tabs' && Array.isArray(node.tabs) && node.tabs.length) {
+      // Tab assignment drifts more than anything else in this codebase, so
+      // each tab's key/title and its member nodes render explicitly rather
+      // than falling back to a flat children[] list.
+      for (const tab of node.tabs) {
+        let tabHeader = `${childIndent}▤ tab: ${tab.key}`;
+        if (tab.title) tabHeader += ` ("${tab.title}")`;
+        lines.push(tabHeader);
+        const tabKids = Array.isArray(tab.children) ? tab.children : [];
+        for (const kidName of tabKids) {
+          const kid = nodesByName.get(kidName);
+          if (!kid) continue;
+          renderNode(kid, depth + 2, nodesByName, lines);
+        }
+      }
+    } else if (node.type === 'wizard') {
+      // Steps render as an ordered sequence with step names, so a reviewer
+      // can see which nodes belong to which step at a glance.
+      const kids = childNamesOf(node, nodesByName);
+      kids.forEach((kidName, i) => {
+        const kid = nodesByName.get(kidName);
+        if (!kid) return;
+        renderNode(kid, depth + 1, nodesByName, lines, { headerPrefix: `Step ${i + 1}: ` });
+      });
+    } else if (node.type !== 'datalist') {
+      const kids = childNamesOf(node, nodesByName);
+      for (const kidName of kids) {
+        const kid = nodesByName.get(kidName);
+        if (!kid) continue;
+        renderNode(kid, depth + 1, nodesByName, lines);
+      }
     }
 
     lines.push(`${indent}└─`);
   } else {
-    let line = `${indent}${node.node}`;
+    let line = `${indent}${headerPrefix}${node.node}`;
     if (node.role) line += ` ─── role: ${node.role}`;
     if (node.content !== undefined && node.content !== null) line += ` "${node.content}"`;
+
+    // buttonGroup wiring is invisible in prose — render every item inline
+    // with the action it fires and mark the primary, so a reviewer can check
+    // the wiring without opening the built form.
+    if (node.type === 'buttonGroup' && Array.isArray(node.items) && node.items.length) {
+      line += ` ─── buttonGroup: ${node.items.map(formatButtonGroupItem).join('  ')}`;
+    }
+
+    if (CHART_TYPES.has(node.type)) line += ` ⟨chart: ${node.type}⟩`;
+
+    if (node.valueBinding) {
+      const vb = node.valueBinding;
+      const agg = vb.aggregate ? `${vb.aggregate} ` : '';
+      line += ` ⟨bind: ${agg}${vb.property}⟩`;
+    }
+
     line += flowMarker;
     lines.push(line);
   }

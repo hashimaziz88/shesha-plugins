@@ -1,0 +1,28 @@
+{
+  "screen": "Add Booking",
+  "archetype": "capture-dialog",
+  "theme": "requirements-studio",
+  "viewport": "1440x900",
+  "entity": {
+    "fullClassName": "Boxfusion.Travel.Domain.Booking",
+    "modelType": { "name": "Booking", "module": "Boxfusion.Travel" }
+  },
+  "form": { "module": "travel", "name": "booking-create", "label": "Add Booking" },
+  "nodes": [
+    { "node": "dialogRoot", "type": "container", "role": "dialog-root",
+      "children": ["validationErrors", "passengerName", "travelDate", "exitButtonGroup"] },
+    { "node": "validationErrors", "type": "validationErrors", "slot": "dialogRoot" },
+    { "node": "passengerName", "type": "textField", "slot": "dialogRoot", "content": "Passenger Last Name" },
+    { "node": "travelDate", "type": "dateField", "slot": "dialogRoot", "content": "Travel Date" },
+    { "node": "exitButtonGroup", "type": "buttonGroup", "slot": "dialogRoot",
+      "items": [{ "label": "Close Dialog", "action": { "actionName": "Close Dialog", "actionOwner": "shesha.common" } }] }
+  ],
+  "bindings": [
+    { "label": "Passenger Last Name", "property": "passengerLastName", "component": "textField", "datatype": "string" },
+    { "label": "Travel Date", "property": "travelDate", "component": "dateField", "datatype": "datetime" }
+  ],
+  "assertions": [
+    "A1  no in-body Submit button — the dialog footer supplies Save/Cancel"
+  ],
+  "dependencies": []
+}

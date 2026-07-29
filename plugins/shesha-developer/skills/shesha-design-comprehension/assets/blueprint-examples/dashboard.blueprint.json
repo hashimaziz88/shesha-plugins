@@ -1,0 +1,30 @@
+{
+  "screen": "Bookings Dashboard",
+  "archetype": "dashboard",
+  "theme": "requirements-studio",
+  "viewport": "1440x900",
+  "form": { "module": "travel", "name": "bookings-dashboard", "label": "Dashboard" },
+  "nodes": [
+    { "node": "page", "type": "container", "role": "page-root", "children": ["pageHeader", "metricRow", "chartSurface"] },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page", "children": ["heading"] },
+    { "node": "heading", "type": "text", "slot": "pageHeader", "content": "Bookings Dashboard" },
+    { "node": "metricRow", "type": "container", "role": "card-grid", "slot": "page",
+      "style": { "desktop": { "display": "flex", "flexDirection": "row", "flexWrap": "wrap", "gap": 16 } },
+      "children": ["metric1", "metric2"] },
+    { "node": "metric1", "type": "container", "role": "metric-tile", "slot": "metricRow", "children": ["metric1Label", "metric1Value"] },
+    { "node": "metric1Label", "type": "text", "slot": "metric1", "content": "Total Bookings" },
+    { "node": "metric1Value", "type": "text", "slot": "metric1", "content": "1,284",
+      "valueBinding": { "property": "bookingCount", "aggregate": "count" } },
+    { "node": "metric2", "type": "container", "role": "metric-tile", "slot": "metricRow", "children": ["metric2Label", "metric2Value"] },
+    { "node": "metric2Label", "type": "text", "slot": "metric2", "content": "Revenue (MTD)" },
+    { "node": "metric2Value", "type": "text", "slot": "metric2", "content": "R 842,110",
+      "valueBinding": { "property": "revenue", "aggregate": "sum" } },
+    { "node": "chartSurface", "type": "container", "role": "chart-surface", "slot": "page", "children": ["chart"] },
+    { "node": "chart", "type": "barChart", "slot": "chartSurface", "content": "Bookings by Route" }
+  ],
+  "assertions": [
+    "A1  each metric tile shows a label/value pair; metric1Value binds bookingCount (count), metric2Value binds revenue (sum)",
+    "A2  chartSurface names its chart type (barChart) so a reviewer can check it against the design"
+  ],
+  "dependencies": []
+}

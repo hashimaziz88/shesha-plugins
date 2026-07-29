@@ -1,0 +1,54 @@
+{
+  "screen": "Booking Detail",
+  "archetype": "record-detail",
+  "theme": "requirements-studio",
+  "viewport": "1440x900",
+  "entity": {
+    "fullClassName": "Boxfusion.Travel.Domain.Booking",
+    "modelType": { "name": "Booking", "module": "Boxfusion.Travel" }
+  },
+  "form": { "module": "travel", "name": "booking-detail", "label": "Booking" },
+  "nodes": [
+    { "node": "dataContext", "type": "dataContext" },
+    { "node": "page", "type": "container", "role": "page-root",
+      "children": ["pageHeader", "validationErrors", "body"] },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "children": ["heading", "lifecycleButtonGroup"] },
+    { "node": "heading", "type": "text", "slot": "pageHeader", "content": "Booking BK-1042" },
+    { "node": "lifecycleButtonGroup", "type": "buttonGroup", "slot": "pageHeader",
+      "items": [
+        { "label": "Start Edit", "action": { "actionName": "Start Edit", "actionOwner": "shesha.form" } },
+        { "label": "Submit", "primary": true, "action": { "actionName": "Submit", "actionOwner": "shesha.form" } },
+        { "label": "Cancel Edit", "action": { "actionName": "Cancel Edit", "actionOwner": "shesha.form" } }
+      ] },
+    { "node": "validationErrors", "type": "validationErrors", "slot": "page" },
+    { "node": "body", "type": "container", "slot": "page",
+      "style": { "desktop": { "display": "flex", "flexDirection": "row", "gap": 24, "dimensions": { "width": "100%" } } },
+      "children": ["mainColumn", "detailRail"] },
+    { "node": "mainColumn", "type": "container", "role": "section-card", "slot": "body",
+      "style": { "desktop": { "display": "flex", "flexDirection": "column", "gap": 16,
+        "dimensions": { "width": "calc(100% - 356px)" } } },
+      "children": ["detailTabs"] },
+    { "node": "detailTabs", "type": "tabs", "slot": "mainColumn",
+      "tabs": [
+        { "key": "general", "title": "General", "children": ["passengerName", "travelDate"] },
+        { "key": "documents", "title": "Documents", "children": ["attachments"] }
+      ] },
+    { "node": "passengerName", "type": "textField", "slot": "detailTabs", "content": "Passenger Last Name" },
+    { "node": "travelDate", "type": "dateField", "slot": "detailTabs", "content": "Travel Date" },
+    { "node": "attachments", "type": "attachmentsEditor", "slot": "detailTabs", "content": "Attachments" },
+    { "node": "detailRail", "type": "container", "role": "detail-rail", "slot": "body",
+      "style": { "desktop": { "dimensions": { "width": "332px", "minWidth": "332px", "maxWidth": "332px" } } },
+      "children": ["relatedInvoices"] },
+    { "node": "relatedInvoices", "type": "subTable", "slot": "detailRail", "content": "Related Invoices" }
+  ],
+  "bindings": [
+    { "label": "Passenger Last Name", "property": "passengerLastName", "component": "textField", "datatype": "string" },
+    { "label": "Travel Date", "property": "travelDate", "component": "dateField", "datatype": "datetime" }
+  ],
+  "assertions": [
+    "A1  body is a single flex row: mainColumn fills, detailRail is a fixed 332px rail",
+    "A2  passengerName and travelDate sit under the general tab; attachments sits under the documents tab"
+  ],
+  "dependencies": []
+}

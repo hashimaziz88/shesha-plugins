@@ -1,0 +1,49 @@
+{
+  "screen": "Bookings Register",
+  "archetype": "table-worklist",
+  "theme": "requirements-studio",
+  "viewport": "1440x900",
+  "entity": {
+    "fullClassName": "Boxfusion.Travel.Domain.Booking",
+    "modelType": { "name": "Booking", "module": "Boxfusion.Travel" }
+  },
+  "form": { "module": "travel", "name": "bookings-table", "label": "Bookings" },
+  "nodes": [
+    { "node": "dataContext", "type": "dataContext" },
+    { "node": "page", "type": "container", "role": "page-root",
+      "style": { "desktop": { "display": "flex", "flexDirection": "column", "gap": 24,
+        "dimensions": { "width": "100%", "minHeight": "fit-content" }, "stylingBox": { "padding": 24 } } },
+      "children": ["pageHeader", "toolbar", "table", "pagerRow"] },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "style": { "desktop": { "display": "flex", "flexDirection": "column", "gap": 4,
+        "dimensions": { "width": "100%" } } },
+      "children": ["heading"] },
+    { "node": "heading", "type": "text", "slot": "pageHeader", "content": "Bookings" },
+    { "node": "toolbar", "type": "container", "role": "toolbar-row", "slot": "page",
+      "style": { "desktop": { "display": "flex", "flexDirection": "row", "gap": 12,
+        "justifyContent": "space-between", "dimensions": { "width": "100%" } } },
+      "children": ["addButtonGroup", "quickSearch"] },
+    { "node": "addButtonGroup", "type": "buttonGroup", "slot": "toolbar", "addedBy": "flow-manifest",
+      "items": [{ "label": "Add Booking", "action": { "actionName": "Show Dialog", "actionOwner": "shesha.common" } }] },
+    { "node": "quickSearch", "type": "datatable.quickSearch", "slot": "toolbar", "addedBy": "flow-manifest" },
+    { "node": "table", "type": "datatable", "role": "grid-surface", "slot": "page",
+      "columns": ["bookingReference", "passengerLastName", "status", "travelDate"] },
+    { "node": "pagerRow", "type": "container", "role": "toolbar-row-right", "slot": "page",
+      "style": { "desktop": { "display": "flex", "flexDirection": "row", "gap": 8,
+        "justifyContent": "flex-end", "dimensions": { "width": "100%" } } },
+      "children": ["pager"], "addedBy": "flow-manifest" },
+    { "node": "pager", "type": "datatable.pager", "slot": "pagerRow", "addedBy": "flow-manifest" }
+  ],
+  "bindings": [
+    { "label": "Booking Reference", "property": "bookingReference", "component": "text (column)", "datatype": "string" },
+    { "label": "Status", "property": "status", "component": "refListStatus / chip (column)", "datatype": "refList" }
+  ],
+  "assertions": [
+    "A1  toolbar is a single flex row directly under the header band; Add Booking left, quick search right",
+    "A2  the pager row sits directly below the datatable, right-aligned"
+  ],
+  "dependencies": [
+    { "id": "createForm", "archetype": "capture-dialog", "naming": "booking-create" },
+    { "id": "detailForm", "archetype": "record-detail", "naming": "booking-detail" }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "screen": "Operations Hub",
+  "archetype": "hub",
+  "theme": "requirements-studio",
+  "viewport": "1440x900",
+  "form": { "module": "travel", "name": "operations-hub", "label": "Operations" },
+  "nodes": [
+    { "node": "page", "type": "container", "role": "page-root", "children": ["pageHeader", "tileGrid"] },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page", "children": ["heading"] },
+    { "node": "heading", "type": "text", "slot": "pageHeader", "content": "Operations" },
+    { "node": "tileGrid", "type": "container", "role": "card-grid", "slot": "page",
+      "style": { "desktop": { "display": "flex", "flexDirection": "row", "flexWrap": "wrap", "gap": 16 } },
+      "children": ["tile1", "tile2", "tile3"] },
+    { "node": "tile1", "type": "container", "role": "nav-tile", "slot": "tileGrid", "children": ["tile1Label", "tile1Action"] },
+    { "node": "tile1Label", "type": "text", "slot": "tile1", "content": "Bookings" },
+    { "node": "tile1Action", "type": "buttonGroup", "slot": "tile1",
+      "items": [{ "label": "Navigate", "action": { "actionName": "Navigate", "actionOwner": "shesha.common" }, "target": "bookings-table" }] },
+    { "node": "tile2", "type": "container", "role": "nav-tile", "slot": "tileGrid", "children": ["tile2Label", "tile2Action"] },
+    { "node": "tile2Label", "type": "text", "slot": "tile2", "content": "Invoices" },
+    { "node": "tile2Action", "type": "buttonGroup", "slot": "tile2",
+      "items": [{ "label": "Navigate", "action": { "actionName": "Navigate", "actionOwner": "shesha.common" }, "target": "invoices-table" }] },
+    { "node": "tile3", "type": "container", "role": "nav-tile", "slot": "tileGrid", "children": ["tile3Label", "tile3Action"] },
+    { "node": "tile3Label", "type": "text", "slot": "tile3", "content": "Properties" },
+    { "node": "tile3Action", "type": "buttonGroup", "slot": "tile3",
+      "items": [{ "label": "Navigate", "action": { "actionName": "Navigate", "actionOwner": "shesha.common" }, "target": "listings-gallery" }] }
+  ],
+  "assertions": [
+    "A1  tileGrid wraps (flexWrap: wrap) rather than forcing a single fixed row",
+    "A2  each tile's navigate target matches a real published screen"
+  ],
+  "dependencies": []
+}

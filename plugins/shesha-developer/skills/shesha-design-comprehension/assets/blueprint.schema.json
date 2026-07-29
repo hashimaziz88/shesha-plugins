@@ -102,7 +102,7 @@
         },
         "role": {
           "type": "string",
-          "description": "One of the nine roles in shesha-design-system/assets/roles.styles.json.",
+          "description": "One of the fifteen roles in shesha-design-system/assets/roles.styles.json.",
           "enum": [
             "page-root",
             "dialog-root",
@@ -112,7 +112,13 @@
             "grid-surface",
             "section-card",
             "detail-rail",
-            "field-row"
+            "field-row",
+            "card-grid",
+            "nav-tile",
+            "metric-tile",
+            "chart-surface",
+            "wizard-shell",
+            "wizard-step"
           ]
         },
         "slot": {
@@ -164,6 +170,72 @@
           "type": "string",
           "description": "Set to \"flow-manifest\" when this node was injected by the archetype's flow manifest (Task 9) rather than authored from the design/prompt. renderMock() surfaces this as a \"(added by flow)\" marker.",
           "enum": ["flow-manifest"]
+        },
+        "items": {
+          "type": "array",
+          "description": "For a buttonGroup node: its ordered items, each with the action it wires to. renderMock() renders every item inline (e.g. \"[Save]◄primary → Submit/shesha.form\") so wiring is visible to a reviewer, not just the button label.",
+          "items": { "$ref": "#/definitions/buttonGroupItem" }
+        },
+        "rowTemplate": {
+          "type": "string",
+          "description": "For a datalist node: the form name of the row-template it delegates each card to (see shesha-form-edit/references/archetypes.md's list-card entry). renderMock() names it directly under the repeating-card-row marker."
+        },
+        "tabs": {
+          "type": "array",
+          "description": "For a tabs node: its ordered tab groups, each carrying the tab key/title and the node names that sit under it. Tab assignment is one of the things that drifts most, so renderMock() renders each tab's key/title and its member nodes explicitly rather than falling back to a flat children[] list.",
+          "items": { "$ref": "#/definitions/tab" }
+        },
+        "valueBinding": {
+          "type": "object",
+          "description": "For a metric-tile's value slot: the entity property (and optional aggregate) the displayed value is bound to. renderMock() surfaces this as \"⟨bind: <aggregate> <property>⟩\".",
+          "additionalProperties": false,
+          "required": ["property"],
+          "properties": {
+            "property": { "type": "string" },
+            "aggregate": {
+              "type": "string",
+              "description": "E.g. \"count\", \"sum\", \"avg\" — omitted when the value binds a plain scalar property with no aggregation."
+            }
+          }
+        }
+      }
+    },
+
+    "buttonGroupItem": {
+      "type": "object",
+      "required": ["label", "action"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string", "description": "The button's visible text, e.g. \"Save\"." },
+        "primary": { "type": "boolean", "description": "Marks this item as the group's primary action." },
+        "action": {
+          "type": "object",
+          "description": "The action this item fires — mirrors a flow manifest's actions[] entry (shesha-form-edit/assets/archetypes/*.flow.json).",
+          "additionalProperties": false,
+          "required": ["actionName", "actionOwner"],
+          "properties": {
+            "actionName": { "type": "string" },
+            "actionOwner": { "type": "string" }
+          }
+        },
+        "target": {
+          "type": "string",
+          "description": "For a Navigate action: the screen/form it navigates to, e.g. \"bookings-list\". Omitted for actions with no navigation target (Submit, Cancel Edit, ...)."
+        }
+      }
+    },
+
+    "tab": {
+      "type": "object",
+      "required": ["key", "children"],
+      "additionalProperties": false,
+      "properties": {
+        "key": { "type": "string", "description": "The tab's key, matching the built form's actual tab component key." },
+        "title": { "type": "string", "description": "The tab's visible title." },
+        "children": {
+          "type": "array",
+          "description": "Ordered node names that sit under this tab.",
+          "items": { "type": "string" }
         }
       }
     },

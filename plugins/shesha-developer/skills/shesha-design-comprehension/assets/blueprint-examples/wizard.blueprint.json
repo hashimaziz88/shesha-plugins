@@ -1,0 +1,34 @@
+{
+  "screen": "Grant Application Wizard",
+  "archetype": "wizard",
+  "theme": "requirements-studio",
+  "viewport": "1440x900",
+  "entity": {
+    "fullClassName": "Boxfusion.Grants.Domain.Application",
+    "modelType": { "name": "Application", "module": "Boxfusion.Grants" }
+  },
+  "form": { "module": "grants", "name": "application-wizard", "label": "Grant Application" },
+  "nodes": [
+    { "node": "page", "type": "container", "role": "page-root", "children": ["pageHeader", "validationErrors", "wizard"] },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page", "children": ["heading"] },
+    { "node": "heading", "type": "text", "slot": "pageHeader", "content": "Grant Application" },
+    { "node": "validationErrors", "type": "validationErrors", "slot": "page" },
+    { "node": "wizard", "type": "wizard", "role": "wizard-shell", "slot": "page",
+      "children": ["step1", "step2", "step3"] },
+    { "node": "step1", "type": "container", "role": "wizard-step", "slot": "wizard", "children": ["applicantName"] },
+    { "node": "applicantName", "type": "textField", "slot": "step1", "content": "Applicant Name" },
+    { "node": "step2", "type": "container", "role": "wizard-step", "slot": "wizard", "children": ["fundingAmount"] },
+    { "node": "fundingAmount", "type": "numberField", "slot": "step2", "content": "Funding Requested" },
+    { "node": "step3", "type": "container", "role": "wizard-step", "slot": "wizard", "children": ["supportingDocs"] },
+    { "node": "supportingDocs", "type": "attachmentsEditor", "slot": "step3", "content": "Supporting Documents" }
+  ],
+  "bindings": [
+    { "label": "Applicant Name", "property": "applicantName", "component": "textField", "datatype": "string" },
+    { "label": "Funding Requested", "property": "fundingAmount", "component": "numberField", "datatype": "number" }
+  ],
+  "assertions": [
+    "A1  step1 holds applicantName, step2 holds fundingAmount, step3 holds supportingDocs — in that order",
+    "A2  no separate navigation buttonGroup — the wizard component's own Back/Next/Done affordances handle it"
+  ],
+  "dependencies": []
+}

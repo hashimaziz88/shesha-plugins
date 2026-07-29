@@ -7,7 +7,7 @@ description: Use when a Shesha form must match a specific visual design and cont
 
 ## Overview
 
-**Core principle: placement is measured, not guessed.** When a form is built from a *prose* description of a design ("a header, then a two-column body, then related panels"), the builder has to re-imagine where every container sits — so columns, nesting depth, tab assignment and grouping drift. This skill removes the guessing: it produces a **layout blueprint** — a hybrid-Markdown intermediate representation that carries the *exact* container tree, flex-row split-child counts, native widths, tab keys and field bindings — and then **verifies the built Shesha form against that blueprint by re-measuring the rendered DOM**. The blueprint is a placement *contract*, and the verification loop enforces it.
+**Core principle: placement is measured, not guessed.** When a form is built from a *prose* description of a design ("a header, then a two-column body, then related panels"), the builder has to re-imagine where every container sits — so columns, nesting depth, tab assignment and grouping drift. This skill removes the guessing: it produces a **styled blueprint** — a JSON node tree ([references/blueprint-ir.md](references/blueprint-ir.md)) that carries the *exact* container tree, resolved styles, flex-row split-child widths, tab keys, buttonGroup wiring and field bindings — plus an **ASCII placement mock rendered from that same tree** (`scripts/lib/render-mock.mjs`), so the mock cannot drift from what the builder actually consumes. It then **verifies the built Shesha form against the blueprint by re-measuring the rendered DOM**. The blueprint is a placement *contract*, and the verification loop enforces it.
 
 This is the layer between "I have a design" and "build the form". It does **not** author form JSON, pick colours, or push — it tells the builder *exactly what to build where*, and checks that it did.
 
@@ -21,7 +21,7 @@ This is the layer between "I have a design" and "build the form". It does **not*
 
 ## The three things this skill produces
 
-1. A **layout blueprint** per screen — `<workdir>/blueprints/<screen>.blueprint.md`. Format spec + worked example: [references/blueprint-ir.md](references/blueprint-ir.md).
+1. A **styled blueprint** per screen — `<workdir>/blueprints/<screen>.blueprint.json`, conforming to [assets/blueprint.schema.json](assets/blueprint.schema.json) — plus its **rendered ASCII mock**, generated from that same JSON by `renderMock()` (never hand-drawn). Format spec + one worked example per archetype: [references/blueprint-ir.md](references/blueprint-ir.md) and [references/blueprint-examples.md](references/blueprint-examples.md). Archetype vocabulary: `shesha-form-edit/references/archetypes.md`.
 2. A **capture** of the design's real layout — via one of three fidelity tiers (source / runnable / screenshot). How, and where markitdown fits: [references/capture-pipeline.md](references/capture-pipeline.md).
 3. A **placement verification** of the built form against the blueprint. Method + the routed-fix loop: [references/verification-loop.md](references/verification-loop.md).
 
@@ -31,7 +31,7 @@ This is the layer between "I have a design" and "build the form". It does **not*
 digraph { rankdir=LR;
   ingest [label="detect\nfidelity tier"];
   capture [label="capture layout\n(probe / source / vision)"];
-  blueprint [label="write\nblueprint.md"];
+  blueprint [label="write blueprint.json\n+ render mock"];
   build [label="shesha-form-edit\nbuilds from blueprint"];
   verify [label="re-probe built form\ndiff vs assertions"];
   ingest -> capture -> blueprint -> build -> verify;
@@ -41,7 +41,7 @@ digraph { rankdir=LR;
 
 1. **Detect the fidelity tier** of the design source — readable source (A, best), runnable app (B), screenshots/PDF only (C). [capture-pipeline.md](references/capture-pipeline.md).
 2. **Capture the layout.** For a runnable design or any rendered page, use the measurement instrument [scripts/layout-probe.js](scripts/layout-probe.js): it walks the DOM at a **pinned viewport** and emits column counts, spans, nesting and row grouping per container. For readable source, parse the grid templates directly. For screenshots/PDF, normalise content with markitdown and read spatial layout from the image.
-3. **Write the blueprint** — narrate the captured signal into [blueprint-ir.md](references/blueprint-ir.md) format: a human-reviewable Markdown doc with three fenced machine blocks per region — `layout-tree`, `bindings`, `assertions`.
+3. **Write the blueprint** — turn the captured signal into a JSON node tree per [blueprint-ir.md](references/blueprint-ir.md) (`nodes[]` with resolved `role`/`style`, `bindings[]`, `assertions[]`), validate it against [assets/blueprint.schema.json](assets/blueprint.schema.json), then run `renderMock()` (`scripts/lib/render-mock.mjs`) to produce the ASCII mock for human review.
 4. **Hand the blueprint to `shesha-form-edit`** as the build's requirements (archetype + seed selection + column spans + per-field binding). **REQUIRED PARTNER:** `shesha-developer:shesha-form-edit` builds the structure.
 5. **Verify by measurement.** Re-probe the built, published, table→details-navigated Shesha form; diff actual placement against the blueprint's `assertions`; route concrete mismatches back to `shesha-form-edit`. [verification-loop.md](references/verification-loop.md).
 

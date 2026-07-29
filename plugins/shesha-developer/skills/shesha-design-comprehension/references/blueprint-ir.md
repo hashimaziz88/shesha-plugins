@@ -2,10 +2,10 @@
 
 The intermediate representation that carries a screen's placement from design to build. One file
 per screen: `<workdir>/blueprints/<screen>.blueprint.json`, conforming to
-`assets/blueprint.schema.json`. (This supersedes the `<screen>.blueprint.md` naming used elsewhere
-in this skill's other reference docs — `SKILL.md` and `capture-pipeline.md` still describe the
-retired Markdown-with-fenced-blocks format and are due a follow-up pass; this file is the current
-source of truth for the IR's shape.)
+`assets/blueprint.schema.json`. This supersedes the retired `<screen>.blueprint.md` prose format
+with its `layout-tree` grammar — `SKILL.md` and `capture-pipeline.md` now describe this JSON +
+rendered-mock format too; this file remains the source of truth for the IR's shape. Eight worked
+examples (one per archetype) live in [blueprint-examples.md](blueprint-examples.md).
 
 ## Why a JSON blueprint, not hand-authored Markdown
 
@@ -36,8 +36,8 @@ object**, so none of them can disagree with what the compiler consumes:
    `validateFlow` in `shesha-form-edit/scripts/lib/flow.mjs`). A node the manifest added carries
    `addedBy: "flow-manifest"`; the renderer surfaces it as `(added by flow)` so a reviewer can see
    which placement decisions came from the archetype contract rather than being re-imagined by the
-   model. See `shesha-form-edit/references/archetypes.md` for the eight-archetype vocabulary and
-   which four ship a flow manifest today.
+   model. See `shesha-form-edit/references/archetypes.md` for the eight-archetype vocabulary — all
+   eight now ship a flow manifest (`assets/archetypes/*.flow.json`).
 
 Pure prose was the thing that drifted. A blueprint that IS the compiler's input, rendered rather
 than transcribed, cannot.
@@ -61,14 +61,44 @@ A blueprint JSON file has the shape (`assets/blueprint.schema.json`):
 }
 ```
 
-`nodes[]` carries the full container/leaf tree: `role` for anything drawing from the nine-role
+`nodes[]` carries the full container/leaf tree: `role` for anything drawing from the fifteen-role
 catalogue in `shesha-design-system/assets/roles.styles.json` (`page-root`, `dialog-root`,
 `header-band`, `toolbar-row`, `toolbar-row-right`, `grid-surface`, `section-card`, `detail-rail`,
-`field-row`); `slot` naming the parent a node renders inside (nodes with no `slot` are roots);
-`style.desktop/tablet/mobile` as **resolved** literal values, never token references; `overrides[]`
-for any per-node deviation from its role's default style, where each override is
-`{ prop, value, source, evidence }` — `source` and `evidence` are required by the schema precisely
-because an override with no measurement provenance is what this whole design discipline forbids.
+`field-row`, plus the six added for the four newer archetypes: `card-grid`, `nav-tile`,
+`metric-tile`, `chart-surface`, `wizard-shell`, `wizard-step`); `slot` naming the parent a node
+renders inside (nodes with no `slot` are roots — **every** non-root node needs a `slot`, even one
+only reachable through a `tabs[].children` list or a `datalist`/`wizard`'s own special rendering,
+or `renderMock()` mistakes it for an extra root); `style.desktop/tablet/mobile` as **resolved**
+literal values, never token references; `overrides[]` for any per-node deviation from its role's
+default style, where each override is `{ prop, value, source, evidence }` — `source` and `evidence`
+are required by the schema precisely because an override with no measurement provenance is what
+this whole design discipline forbids.
+
+**Shape fields for the newer archetypes** (all in `assets/blueprint.schema.json`'s `node`
+definition):
+
+- **`items`** (buttonGroup) — the group's ordered items, each `{ label, primary?, action: {
+  actionName, actionOwner }, target? }`. `renderMock()` renders every item inline with the action it
+  fires, e.g. `[Save]◄primary → Submit/shesha.form`, or `[Navigate] → Navigate/shesha.common →
+  bookings-table` when a `target` is set (a hub tile's navigate destination). Wiring invisible in
+  the mock is wiring a reviewer can't check.
+- **`rowTemplate`** (datalist) — the form name the datalist delegates each row to, e.g.
+  `"listing-card"`. `renderMock()` draws a datalist as a repeating card row (`╭ card ╮ ╭ card ╮ ⋯`),
+  visibly different from a datatable's `│ col | col │` header — a collection drawn as a grid when
+  the design shows cards is a documented defect class (`shesha-form-edit/references/archetypes.md`'s
+  `list-card` entry).
+- **`tabs`** (a `tabs`-type node) — ordered tab groups, each `{ key, title?, children: [nodeName,
+  ...] }`. `renderMock()` renders each tab's key/title and its member nodes explicitly (`▤ tab:
+  general ("General")` followed by that tab's nodes, indented) rather than a flat list, because tab
+  assignment is one of the things that drifts most.
+- **`valueBinding`** (a metric-tile's value text node) — `{ property, aggregate? }` binding the
+  displayed value to an entity property (optionally aggregated, e.g. `"count"`/`"sum"`).
+  `renderMock()` surfaces it as `⟨bind: count bookingCount⟩`.
+- A **`wizard`**-type node's `children[]` are its ordered `wizard-step` containers; `renderMock()`
+  numbers them `Step 1: <node>`, `Step 2: <node>`, … so a reviewer can see which nodes belong to
+  which step without a separate legend.
+- A leaf node typed `barChart`/`lineChart`/`pieChart`/`polarAreaChart` (a chart-surface's child) has
+  its chart type named directly in the mock, e.g. `chart ⟨chart: barChart⟩`.
 
 ## Rail / split-cell width derivation
 
@@ -233,5 +263,12 @@ justified against the manifest rather than silently present or silently missing.
       `(added by flow)`.
 - [ ] Every bound field has an entry in `bindings[]`; `assertions[]` covers split-cell membership,
       row grouping, nesting depth and tab assignment — the things that drift. No pixel asserts.
+- [ ] A `buttonGroup` node's `items[]` each carry an `action` — wiring invisible in the mock is wiring
+      a reviewer cannot check; mark the item that's `primary`.
+- [ ] A `datalist` node carries `rowTemplate`; a `tabs` node carries `tabs[]` (not just a flat
+      `children[]`) so tab assignment renders explicitly.
 - [ ] Regenerate the rendered mock from `renderMock()` before pasting it anywhere — never hand-draw
       one; a hand-drawn mock is the exact failure mode this IR replaces.
+- [ ] Validate the blueprint against `assets/blueprint.schema.json` (see
+      `scripts/lib/validate-blueprint.mjs`, exercised in `tests/blueprint-schema.test.mjs`) before
+      treating it as complete.
