@@ -22,10 +22,11 @@
  *   node scripts/grade-corpus.mjs --in <corpus.jsonl> --out <report.json> [--seeds]
  *
  * --seeds also grades the bundled assets/examples/*.json + assets/patterns/*.json
- * seed forms as a SEPARATE cohort (these are NOT read from --in; they are
- * read directly from this skill's own assets/, which is fine to read from —
- * the constraint is not committing CORPUS data, and the seeds are already
- * committed, versioned project assets, not corpus data).
+ * + assets/exemplars/*.json seed forms as a SEPARATE cohort (these are NOT
+ * read from --in; they are read directly from this skill's own assets/,
+ * which is fine to read from — the constraint is not committing CORPUS data,
+ * and the seeds are already committed, versioned project assets, not corpus
+ * data).
  */
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -45,6 +46,7 @@ const ROLES_PATH = join(SKILL_ROOT, '../shesha-design-system/assets/roles.styles
 const TOKENS_PATH = join(SKILL_ROOT, '../shesha-design-system/assets/themes/shesha.tokens.json');
 const EXAMPLES_DIR = join(SKILL_ROOT, 'assets/examples');
 const PATTERNS_DIR = join(SKILL_ROOT, 'assets/patterns');
+const EXEMPLARS_DIR = join(SKILL_ROOT, 'assets/exemplars');
 
 function loadJson(p) {
   return JSON.parse(readFileSync(p, 'utf8'));
@@ -229,7 +231,7 @@ function* readJsonlForms(path) {
 
 function loadSeedForms() {
   const out = [];
-  for (const dir of [EXAMPLES_DIR, PATTERNS_DIR]) {
+  for (const dir of [EXAMPLES_DIR, PATTERNS_DIR, EXEMPLARS_DIR]) {
     let files;
     try {
       files = readdirSync(dir).filter((f) => f.endsWith('.json'));

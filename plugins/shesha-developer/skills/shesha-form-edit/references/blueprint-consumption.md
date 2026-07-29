@@ -8,7 +8,7 @@ A blueprint has, per screen: a header (entity modelType, form identity, **Archet
 
 | Blueprint part | Drives |
 |---|---|
-| `Archetype:` (one of the 8) | which seed to copy from `assets/examples/` (record-detail → `rs-detail-with-header.json`; list/table → `rs-table.json`; create dialog → `rs-create-dialog.json`; link-add → `rs-link-add-dialog.json`) |
+| `Archetype:` (one of the 8) | which seed to copy — see [examples.md](examples.md) for the priority order (record-detail → `assets/exemplars/record-detail-simple.json` or `record-detail-with-children.json`; list/table → `assets/examples/rs-table.json`; create dialog → `assets/examples/rs-create-dialog.json`; link-add → `assets/examples/rs-link-add-dialog.json`) |
 | `layout-tree` `row=[…]` / `flex=[…]` | a flex **`container` row** (`display:"flex"` + `flexDirection:"row"` + `gap`) — **never the `columns` component**; size each child via `desktop.dimensions.width` (fill = `"calc(100% - <others>px)"`, fixed rail = `"332px"`). `native=[…px]` flags a fixed-width child |
 | `layout-tree` nesting (indentation) | the container nesting + every component's `parentId` |
 | `layout-tree` `kind` (card/tabs/datatable/datalist/field/buttonGroup/chip) | the component `type` to use |

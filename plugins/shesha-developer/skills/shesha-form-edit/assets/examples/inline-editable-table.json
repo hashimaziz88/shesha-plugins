@@ -3,103 +3,392 @@
     {
       "id": "5422e967-7b2f-4011-a604-8f958210adcc",
       "type": "container",
-      "propertyName": "inventoryTablePage",
       "componentName": "inventoryTablePage",
+      "propertyName": "inventoryTablePage",
       "parentId": "root",
       "version": 7,
-      "flexDirection": "column",
-      "display": "flex",
-      "alignItems": "stretch",
       "hidden": false,
+      "display": "flex",
+      "flexDirection": "column",
+      "alignItems": "stretch",
       "components": [
         {
           "id": "6ba72a4b-7005-47b0-b31a-6dcfc4d067d8",
           "type": "dataContext",
-          "propertyName": "inventoryCtx",
           "componentName": "inventoryCtx",
+          "propertyName": "inventoryCtx",
           "parentId": "5422e967-7b2f-4011-a604-8f958210adcc",
           "version": 8,
-          "entityType": "boxfusion.test.Domain.InventoryItems.InventoryItem",
-          "sourceType": "Entity",
-          "dataFetchingMode": "paging",
-          "defaultPageSize": 10,
-          "uniqueStateId": "inventoryCtx",
-          "sortMode": "standard",
-          "strictSortBy": "creationTime",
-          "strictSortOrder": "desc",
-          "allowReordering": "no",
           "hidden": false,
           "components": [
             {
               "id": "d840dae0-b658-4d64-83a7-cbd5d7a00310",
               "type": "container",
-              "propertyName": "inventoryToolbar",
               "componentName": "inventoryToolbar",
+              "propertyName": "inventoryToolbar",
               "parentId": "6ba72a4b-7005-47b0-b31a-6dcfc4d067d8",
               "version": 7,
-              "flexDirection": "row",
+              "hidden": false,
               "display": "flex",
+              "flexDirection": "row",
               "justifyContent": "space-between",
               "alignItems": "center",
-              "hidden": false,
               "components": [
                 {
-                  "id": "a1d4b0bb-0821-4382-bf38-6d9f548b70ca",
-                  "type": "datatable.quickSearch",
-                  "propertyName": "quickSearch",
-                  "componentName": "quickSearch",
+                  "id": "39dcedaf-4669-47e0-a45a-03dc7be6a9e9",
+                  "type": "container",
+                  "componentName": "quickSearchWrap",
                   "parentId": "d840dae0-b658-4d64-83a7-cbd5d7a00310",
-                  "version": 3,
-                  "hidden": false
+                  "version": 7,
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "flexWrap": "nowrap",
+                  "gap": 0,
+                  "justifyContent": "flex-start",
+                  "alignItems": "stretch",
+                  "desktop": {
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexWrap": "nowrap",
+                    "gap": 0,
+                    "justifyContent": "flex-start",
+                    "alignItems": "stretch",
+                    "background": {
+                      "type": "color",
+                      "color": "transparent"
+                    },
+                    "border": {
+                      "border": {
+                        "all": {
+                          "color": "transparent",
+                          "style": "none",
+                          "width": "0px"
+                        }
+                      },
+                      "borderType": "none",
+                      "radius": {
+                        "all": 0
+                      },
+                      "radiusType": "all"
+                    },
+                    "dimensions": {
+                      "height": "auto",
+                      "maxHeight": "none",
+                      "maxWidth": "none",
+                      "minHeight": "fit-content",
+                      "minWidth": "0",
+                      "width": "auto"
+                    },
+                    "shadow": {
+                      "blurRadius": 0,
+                      "color": "transparent",
+                      "offsetX": 0,
+                      "offsetY": 0,
+                      "spreadRadius": 0
+                    },
+                    "stylingBox": "{}"
+                  },
+                  "tablet": {
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexWrap": "nowrap",
+                    "gap": 0,
+                    "justifyContent": "flex-start",
+                    "alignItems": "stretch",
+                    "background": {
+                      "type": "color",
+                      "color": "transparent"
+                    },
+                    "border": {
+                      "border": {
+                        "all": {
+                          "color": "transparent",
+                          "style": "none",
+                          "width": "0px"
+                        }
+                      },
+                      "borderType": "none",
+                      "radius": {
+                        "all": 0
+                      },
+                      "radiusType": "all"
+                    },
+                    "dimensions": {
+                      "height": "auto",
+                      "maxHeight": "none",
+                      "maxWidth": "none",
+                      "minHeight": "fit-content",
+                      "minWidth": "0",
+                      "width": "auto"
+                    },
+                    "shadow": {
+                      "blurRadius": 0,
+                      "color": "transparent",
+                      "offsetX": 0,
+                      "offsetY": 0,
+                      "spreadRadius": 0
+                    },
+                    "stylingBox": "{}"
+                  },
+                  "mobile": {
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexWrap": "nowrap",
+                    "gap": 0,
+                    "justifyContent": "flex-start",
+                    "alignItems": "stretch",
+                    "background": {
+                      "type": "color",
+                      "color": "transparent"
+                    },
+                    "border": {
+                      "border": {
+                        "all": {
+                          "color": "transparent",
+                          "style": "none",
+                          "width": "0px"
+                        }
+                      },
+                      "borderType": "none",
+                      "radius": {
+                        "all": 0
+                      },
+                      "radiusType": "all"
+                    },
+                    "dimensions": {
+                      "height": "auto",
+                      "maxHeight": "none",
+                      "maxWidth": "none",
+                      "minHeight": "fit-content",
+                      "minWidth": "0",
+                      "width": "auto"
+                    },
+                    "shadow": {
+                      "blurRadius": 0,
+                      "color": "transparent",
+                      "offsetX": 0,
+                      "offsetY": 0,
+                      "spreadRadius": 0
+                    },
+                    "stylingBox": "{}"
+                  },
+                  "components": [
+                    {
+                      "id": "a1d4b0bb-0821-4382-bf38-6d9f548b70ca",
+                      "type": "datatable.quickSearch",
+                      "componentName": "quickSearch",
+                      "propertyName": "quickSearch",
+                      "parentId": "39dcedaf-4669-47e0-a45a-03dc7be6a9e9",
+                      "version": 3,
+                      "hidden": false
+                    }
+                  ]
                 },
                 {
-                  "id": "babd5977-aa53-45b4-8826-af2bf2d4352c",
-                  "type": "datatable.pager",
-                  "propertyName": "pager",
-                  "componentName": "pager",
+                  "id": "5a7a94e5-2a0c-4510-aa5e-a61a453d1f2c",
+                  "type": "container",
+                  "componentName": "pagerWrap",
                   "parentId": "d840dae0-b658-4d64-83a7-cbd5d7a00310",
-                  "version": 4,
-                  "hidden": false
+                  "version": 7,
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "flexWrap": "nowrap",
+                  "gap": 0,
+                  "justifyContent": "flex-start",
+                  "alignItems": "stretch",
+                  "desktop": {
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexWrap": "nowrap",
+                    "gap": 0,
+                    "justifyContent": "flex-start",
+                    "alignItems": "stretch",
+                    "background": {
+                      "type": "color",
+                      "color": "transparent"
+                    },
+                    "border": {
+                      "border": {
+                        "all": {
+                          "color": "transparent",
+                          "style": "none",
+                          "width": "0px"
+                        }
+                      },
+                      "borderType": "none",
+                      "radius": {
+                        "all": 0
+                      },
+                      "radiusType": "all"
+                    },
+                    "dimensions": {
+                      "height": "auto",
+                      "maxHeight": "none",
+                      "maxWidth": "none",
+                      "minHeight": "fit-content",
+                      "minWidth": "0",
+                      "width": "auto"
+                    },
+                    "shadow": {
+                      "blurRadius": 0,
+                      "color": "transparent",
+                      "offsetX": 0,
+                      "offsetY": 0,
+                      "spreadRadius": 0
+                    },
+                    "stylingBox": "{}"
+                  },
+                  "tablet": {
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexWrap": "nowrap",
+                    "gap": 0,
+                    "justifyContent": "flex-start",
+                    "alignItems": "stretch",
+                    "background": {
+                      "type": "color",
+                      "color": "transparent"
+                    },
+                    "border": {
+                      "border": {
+                        "all": {
+                          "color": "transparent",
+                          "style": "none",
+                          "width": "0px"
+                        }
+                      },
+                      "borderType": "none",
+                      "radius": {
+                        "all": 0
+                      },
+                      "radiusType": "all"
+                    },
+                    "dimensions": {
+                      "height": "auto",
+                      "maxHeight": "none",
+                      "maxWidth": "none",
+                      "minHeight": "fit-content",
+                      "minWidth": "0",
+                      "width": "auto"
+                    },
+                    "shadow": {
+                      "blurRadius": 0,
+                      "color": "transparent",
+                      "offsetX": 0,
+                      "offsetY": 0,
+                      "spreadRadius": 0
+                    },
+                    "stylingBox": "{}"
+                  },
+                  "mobile": {
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexWrap": "nowrap",
+                    "gap": 0,
+                    "justifyContent": "flex-start",
+                    "alignItems": "stretch",
+                    "background": {
+                      "type": "color",
+                      "color": "transparent"
+                    },
+                    "border": {
+                      "border": {
+                        "all": {
+                          "color": "transparent",
+                          "style": "none",
+                          "width": "0px"
+                        }
+                      },
+                      "borderType": "none",
+                      "radius": {
+                        "all": 0
+                      },
+                      "radiusType": "all"
+                    },
+                    "dimensions": {
+                      "height": "auto",
+                      "maxHeight": "none",
+                      "maxWidth": "none",
+                      "minHeight": "fit-content",
+                      "minWidth": "0",
+                      "width": "auto"
+                    },
+                    "shadow": {
+                      "blurRadius": 0,
+                      "color": "transparent",
+                      "offsetX": 0,
+                      "offsetY": 0,
+                      "spreadRadius": 0
+                    },
+                    "stylingBox": "{}"
+                  },
+                  "components": [
+                    {
+                      "id": "babd5977-aa53-45b4-8826-af2bf2d4352c",
+                      "type": "datatable.pager",
+                      "componentName": "pager",
+                      "propertyName": "pager",
+                      "parentId": "5a7a94e5-2a0c-4510-aa5e-a61a453d1f2c",
+                      "version": 4,
+                      "hidden": false
+                    }
+                  ]
                 }
               ]
             },
             {
               "id": "585dec2f-f158-4c98-8a32-35afad1dd139",
               "type": "container",
-              "propertyName": "inventoryContent",
               "componentName": "inventoryContent",
+              "propertyName": "inventoryContent",
               "parentId": "6ba72a4b-7005-47b0-b31a-6dcfc4d067d8",
               "version": 7,
-              "flexDirection": "column",
-              "display": "flex",
-              "alignItems": "stretch",
               "hidden": false,
+              "display": "flex",
+              "flexDirection": "column",
+              "alignItems": "stretch",
               "components": [
                 {
-                  "id": "Kw65oSx72UWN3UXHSfJCS",
+                  "id": "16ac21f4-ca83-4806-ad59-c54032506aa4",
                   "type": "datatable",
-                  "version": 29,
-                  "propertyName": "inventoryTable",
                   "componentName": "inventoryTable",
+                  "propertyName": "inventoryTable",
+                  "parentId": "585dec2f-f158-4c98-8a32-35afad1dd139",
+                  "version": 29,
+                  "hidden": false,
                   "items": [
                     {
                       "id": "84e52b08-0c5a-48a7-b6c8-360f86ac4d25",
-                      "columnType": "crud-operations",
                       "caption": "",
+                      "columnType": "crud-operations",
                       "isVisible": true,
-                      "sortOrder": -1,
-                      "itemType": "item"
+                      "itemType": "item",
+                      "sortOrder": -1
                     },
                     {
                       "id": "36b85fde-ce96-4774-bd3d-88fb9554d53e",
-                      "columnType": "data",
                       "propertyName": "name",
-                      "caption": "Item Name",
-                      "isVisible": true,
-                      "itemType": "item",
-                      "minWidth": 200,
-                      "maxWidth": null,
                       "allowSorting": true,
+                      "caption": "Item Name",
+                      "columnType": "data",
+                      "createComponent": {
+                        "type": "textField",
+                        "settings": {
+                          "type": "textField",
+                          "isDynamic": false,
+                          "label": "",
+                          "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 6,
+                          "editMode": "inherited",
+                          "hidden": false,
+                          "description": "Label of the item, can be used in lists as a user friendly name",
+                          "validate": {
+                            "maxLength": 200
+                          },
+                          "textType": "text"
+                        }
+                      },
                       "displayComponent": {
                         "type": "[default]"
                       },
@@ -107,49 +396,49 @@
                         "type": "textField",
                         "settings": {
                           "type": "textField",
+                          "isDynamic": false,
                           "label": "",
                           "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 6,
+                          "editMode": "inherited",
                           "hidden": false,
-                          "isDynamic": false,
+                          "description": "Label of the item, can be used in lists as a user friendly name",
                           "validate": {
                             "maxLength": 200
                           },
-                          "textType": "text",
-                          "version": 6,
-                          "editMode": "inherited",
-                          "description": "Label of the item, can be used in lists as a user friendly name",
-                          "hideLabel": true
+                          "textType": "text"
                         }
                       },
-                      "createComponent": {
-                        "type": "textField",
-                        "settings": {
-                          "type": "textField",
-                          "label": "",
-                          "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
-                          "validate": {
-                            "maxLength": 200
-                          },
-                          "textType": "text",
-                          "version": 6,
-                          "editMode": "inherited",
-                          "description": "Label of the item, can be used in lists as a user friendly name",
-                          "hideLabel": true
-                        }
-                      }
+                      "isVisible": true,
+                      "itemType": "item",
+                      "maxWidth": null,
+                      "minWidth": 200
                     },
                     {
                       "id": "085bb6cb-1a37-44dc-a311-81a491b2a272",
-                      "columnType": "data",
                       "propertyName": "assetTag",
-                      "caption": "Asset Tag",
-                      "isVisible": true,
-                      "itemType": "item",
-                      "minWidth": 130,
-                      "maxWidth": null,
                       "allowSorting": true,
+                      "caption": "Asset Tag",
+                      "columnType": "data",
+                      "createComponent": {
+                        "type": "textField",
+                        "settings": {
+                          "type": "textField",
+                          "isDynamic": false,
+                          "label": "",
+                          "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 6,
+                          "editMode": "inherited",
+                          "hidden": false,
+                          "description": "Label of the item, can be used in lists as a user friendly name",
+                          "validate": {
+                            "maxLength": 200
+                          },
+                          "textType": "text"
+                        }
+                      },
                       "displayComponent": {
                         "type": "[default]"
                       },
@@ -157,49 +446,57 @@
                         "type": "textField",
                         "settings": {
                           "type": "textField",
+                          "isDynamic": false,
                           "label": "",
                           "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 6,
+                          "editMode": "inherited",
                           "hidden": false,
-                          "isDynamic": false,
+                          "description": "Label of the item, can be used in lists as a user friendly name",
                           "validate": {
                             "maxLength": 200
                           },
-                          "textType": "text",
-                          "version": 6,
-                          "editMode": "inherited",
-                          "description": "Label of the item, can be used in lists as a user friendly name",
-                          "hideLabel": true
+                          "textType": "text"
                         }
                       },
-                      "createComponent": {
-                        "type": "textField",
-                        "settings": {
-                          "type": "textField",
-                          "label": "",
-                          "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
-                          "validate": {
-                            "maxLength": 200
-                          },
-                          "textType": "text",
-                          "version": 6,
-                          "editMode": "inherited",
-                          "description": "Label of the item, can be used in lists as a user friendly name",
-                          "hideLabel": true
-                        }
-                      }
+                      "isVisible": true,
+                      "itemType": "item",
+                      "maxWidth": null,
+                      "minWidth": 130
                     },
                     {
                       "id": "174137d6-d4a4-4a93-95bd-a0d3d976ac03",
-                      "columnType": "data",
                       "propertyName": "category",
-                      "caption": "Category",
-                      "isVisible": true,
-                      "itemType": "item",
-                      "minWidth": 140,
-                      "maxWidth": null,
                       "allowSorting": true,
+                      "caption": "Category",
+                      "columnType": "data",
+                      "createComponent": {
+                        "type": "dropdown",
+                        "settings": {
+                          "type": "dropdown",
+                          "isDynamic": false,
+                          "label": "",
+                          "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 7,
+                          "editMode": "inherited",
+                          "hidden": false,
+                          "description": "Used for endpoints with 'Inherited' access",
+                          "validate": {},
+                          "dataSourceType": "referenceList",
+                          "disableItemValue": false,
+                          "filter": null,
+                          "ignoredValues": "1,2",
+                          "mode": "single",
+                          "referenceListId": {
+                            "name": "InventoryCategory",
+                            "module": "boxfusion.test"
+                          },
+                          "useRawValues": false,
+                          "valueFormat": "simple"
+                        }
+                      },
                       "displayComponent": {
                         "type": "[default]"
                       },
@@ -207,65 +504,61 @@
                         "type": "dropdown",
                         "settings": {
                           "type": "dropdown",
+                          "isDynamic": false,
                           "label": "",
                           "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
-                          "version": 7,
-                          "dataSourceType": "referenceList",
-                          "useRawValues": false,
-                          "referenceListId": {
-                            "module": "boxfusion.test",
-                            "name": "InventoryCategory"
-                          },
-                          "valueFormat": "simple",
-                          "description": "Used for endpoints with 'Inherited' access",
-                          "mode": "single",
-                          "validate": {},
-                          "filter": null,
-                          "disableItemValue": false,
-                          "ignoredValues": "1,2",
                           "hideLabel": true,
-                          "editMode": "inherited"
+                          "version": 7,
+                          "editMode": "inherited",
+                          "hidden": false,
+                          "description": "Used for endpoints with 'Inherited' access",
+                          "validate": {},
+                          "dataSourceType": "referenceList",
+                          "disableItemValue": false,
+                          "filter": null,
+                          "ignoredValues": "1,2",
+                          "mode": "single",
+                          "referenceListId": {
+                            "name": "InventoryCategory",
+                            "module": "boxfusion.test"
+                          },
+                          "useRawValues": false,
+                          "valueFormat": "simple"
                         }
                       },
-                      "createComponent": {
-                        "type": "dropdown",
-                        "settings": {
-                          "type": "dropdown",
-                          "label": "",
-                          "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
-                          "version": 7,
-                          "dataSourceType": "referenceList",
-                          "useRawValues": false,
-                          "referenceListId": {
-                            "module": "boxfusion.test",
-                            "name": "InventoryCategory"
-                          },
-                          "valueFormat": "simple",
-                          "description": "Used for endpoints with 'Inherited' access",
-                          "mode": "single",
-                          "validate": {},
-                          "filter": null,
-                          "disableItemValue": false,
-                          "ignoredValues": "1,2",
-                          "hideLabel": true,
-                          "editMode": "inherited"
-                        }
-                      }
+                      "isVisible": true,
+                      "itemType": "item",
+                      "maxWidth": null,
+                      "minWidth": 140
                     },
                     {
                       "id": "f4020762-00ea-4e65-9f2d-eb98a3a864fe",
-                      "columnType": "data",
                       "propertyName": "quantity",
-                      "caption": "Qty",
-                      "isVisible": true,
-                      "itemType": "item",
-                      "minWidth": 80,
-                      "maxWidth": null,
                       "allowSorting": true,
+                      "caption": "Qty",
+                      "columnType": "data",
+                      "createComponent": {
+                        "type": "numberField",
+                        "settings": {
+                          "type": "numberField",
+                          "isDynamic": false,
+                          "label": "",
+                          "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 3,
+                          "editMode": "inherited",
+                          "hidden": false,
+                          "description": "",
+                          "validate": {
+                            "maxValue": "",
+                            "minValue": "",
+                            "required": true
+                          },
+                          "placeholder": "",
+                          "stepNumeric": 1,
+                          "stepString": "0.1"
+                        }
+                      },
                       "displayComponent": {
                         "type": "[default]"
                       },
@@ -273,57 +566,53 @@
                         "type": "numberField",
                         "settings": {
                           "type": "numberField",
+                          "isDynamic": false,
                           "label": "",
                           "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 3,
+                          "editMode": "inherited",
                           "hidden": false,
-                          "isDynamic": false,
-                          "placeholder": "",
                           "description": "",
                           "validate": {
-                            "required": true,
+                            "maxValue": "",
                             "minValue": "",
-                            "maxValue": ""
+                            "required": true
                           },
+                          "placeholder": "",
                           "stepNumeric": 1,
-                          "stepString": "0.1",
-                          "version": 3,
-                          "hideLabel": true,
-                          "editMode": "inherited"
+                          "stepString": "0.1"
                         }
                       },
-                      "createComponent": {
-                        "type": "numberField",
-                        "settings": {
-                          "type": "numberField",
-                          "label": "",
-                          "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
-                          "placeholder": "",
-                          "description": "",
-                          "validate": {
-                            "required": true,
-                            "minValue": "",
-                            "maxValue": ""
-                          },
-                          "stepNumeric": 1,
-                          "stepString": "0.1",
-                          "version": 3,
-                          "hideLabel": true,
-                          "editMode": "inherited"
-                        }
-                      }
+                      "isVisible": true,
+                      "itemType": "item",
+                      "maxWidth": null,
+                      "minWidth": 80
                     },
                     {
                       "id": "35f5263a-7870-4fd0-b026-584d2530da7e",
-                      "columnType": "data",
                       "propertyName": "location",
-                      "caption": "Location",
-                      "isVisible": true,
-                      "itemType": "item",
-                      "minWidth": 160,
-                      "maxWidth": null,
                       "allowSorting": true,
+                      "caption": "Location",
+                      "columnType": "data",
+                      "createComponent": {
+                        "type": "textField",
+                        "settings": {
+                          "type": "textField",
+                          "isDynamic": false,
+                          "label": "",
+                          "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 6,
+                          "editMode": "inherited",
+                          "hidden": false,
+                          "description": "Label of the item, can be used in lists as a user friendly name",
+                          "validate": {
+                            "maxLength": 200
+                          },
+                          "textType": "text"
+                        }
+                      },
                       "displayComponent": {
                         "type": "[default]"
                       },
@@ -331,49 +620,57 @@
                         "type": "textField",
                         "settings": {
                           "type": "textField",
+                          "isDynamic": false,
                           "label": "",
                           "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 6,
+                          "editMode": "inherited",
                           "hidden": false,
-                          "isDynamic": false,
+                          "description": "Label of the item, can be used in lists as a user friendly name",
                           "validate": {
                             "maxLength": 200
                           },
-                          "textType": "text",
-                          "version": 6,
-                          "editMode": "inherited",
-                          "description": "Label of the item, can be used in lists as a user friendly name",
-                          "hideLabel": true
+                          "textType": "text"
                         }
                       },
-                      "createComponent": {
-                        "type": "textField",
-                        "settings": {
-                          "type": "textField",
-                          "label": "",
-                          "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
-                          "validate": {
-                            "maxLength": 200
-                          },
-                          "textType": "text",
-                          "version": 6,
-                          "editMode": "inherited",
-                          "description": "Label of the item, can be used in lists as a user friendly name",
-                          "hideLabel": true
-                        }
-                      }
+                      "isVisible": true,
+                      "itemType": "item",
+                      "maxWidth": null,
+                      "minWidth": 160
                     },
                     {
                       "id": "b0559ff7-d87a-4177-8a60-aa3e6f541bd4",
-                      "columnType": "data",
                       "propertyName": "condition",
-                      "caption": "Condition",
-                      "isVisible": true,
-                      "itemType": "item",
-                      "minWidth": 140,
-                      "maxWidth": null,
                       "allowSorting": true,
+                      "caption": "Condition",
+                      "columnType": "data",
+                      "createComponent": {
+                        "type": "dropdown",
+                        "settings": {
+                          "type": "dropdown",
+                          "isDynamic": false,
+                          "label": "",
+                          "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 7,
+                          "editMode": "inherited",
+                          "hidden": false,
+                          "description": "Used for endpoints with 'Inherited' access",
+                          "validate": {},
+                          "dataSourceType": "referenceList",
+                          "disableItemValue": false,
+                          "filter": null,
+                          "ignoredValues": "1,2",
+                          "mode": "single",
+                          "referenceListId": {
+                            "name": "InventoryCondition",
+                            "module": "boxfusion.test"
+                          },
+                          "useRawValues": false,
+                          "valueFormat": "simple"
+                        }
+                      },
                       "displayComponent": {
                         "type": "[default]"
                       },
@@ -381,65 +678,67 @@
                         "type": "dropdown",
                         "settings": {
                           "type": "dropdown",
+                          "isDynamic": false,
                           "label": "",
                           "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
-                          "version": 7,
-                          "dataSourceType": "referenceList",
-                          "useRawValues": false,
-                          "referenceListId": {
-                            "module": "boxfusion.test",
-                            "name": "InventoryCondition"
-                          },
-                          "valueFormat": "simple",
-                          "description": "Used for endpoints with 'Inherited' access",
-                          "mode": "single",
-                          "validate": {},
-                          "filter": null,
-                          "disableItemValue": false,
-                          "ignoredValues": "1,2",
                           "hideLabel": true,
-                          "editMode": "inherited"
+                          "version": 7,
+                          "editMode": "inherited",
+                          "hidden": false,
+                          "description": "Used for endpoints with 'Inherited' access",
+                          "validate": {},
+                          "dataSourceType": "referenceList",
+                          "disableItemValue": false,
+                          "filter": null,
+                          "ignoredValues": "1,2",
+                          "mode": "single",
+                          "referenceListId": {
+                            "name": "InventoryCondition",
+                            "module": "boxfusion.test"
+                          },
+                          "useRawValues": false,
+                          "valueFormat": "simple"
                         }
                       },
-                      "createComponent": {
-                        "type": "dropdown",
-                        "settings": {
-                          "type": "dropdown",
-                          "label": "",
-                          "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
-                          "version": 7,
-                          "dataSourceType": "referenceList",
-                          "useRawValues": false,
-                          "referenceListId": {
-                            "module": "boxfusion.test",
-                            "name": "InventoryCondition"
-                          },
-                          "valueFormat": "simple",
-                          "description": "Used for endpoints with 'Inherited' access",
-                          "mode": "single",
-                          "validate": {},
-                          "filter": null,
-                          "disableItemValue": false,
-                          "ignoredValues": "1,2",
-                          "hideLabel": true,
-                          "editMode": "inherited"
-                        }
-                      }
+                      "isVisible": true,
+                      "itemType": "item",
+                      "maxWidth": null,
+                      "minWidth": 140
                     },
                     {
                       "id": "a2a43bfa-ff03-4e97-8c97-6b05304121a1",
-                      "columnType": "data",
                       "propertyName": "assignedTo",
-                      "caption": "Assigned To",
-                      "isVisible": true,
-                      "itemType": "item",
-                      "minWidth": 180,
-                      "maxWidth": null,
                       "allowSorting": true,
+                      "caption": "Assigned To",
+                      "columnType": "data",
+                      "createComponent": {
+                        "type": "autocomplete",
+                        "settings": {
+                          "type": "autocomplete",
+                          "isDynamic": false,
+                          "label": "",
+                          "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 8,
+                          "editMode": "inherited",
+                          "hidden": false,
+                          "description": "Specifies the type of 'Model Type' you want the form to bind to. This determines the information that the form will be able to access and display.",
+                          "validate": {
+                            "required": true
+                          },
+                          "dataSourceType": "entitiesList",
+                          "dataSourceUrl": "/api/services/app/Metadata/EntityTypeAutocomplete",
+                          "entityType": {
+                            "name": "Person",
+                            "module": "Shesha"
+                          },
+                          "keyPropName": "value",
+                          "mode": "single",
+                          "onChangeCustom": "    form.setFieldValue('description',`Displays details of a ${value}`)",
+                          "useRawValues": false,
+                          "valueFormat": "simple"
+                        }
+                      },
                       "displayComponent": {
                         "type": "[default]"
                       },
@@ -447,69 +746,64 @@
                         "type": "autocomplete",
                         "settings": {
                           "type": "autocomplete",
+                          "isDynamic": false,
                           "label": "",
                           "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
+                          "hideLabel": true,
                           "version": 8,
-                          "dataSourceType": "entitiesList",
-                          "useRawValues": false,
-                          "mode": "single",
-                          "valueFormat": "simple",
-                          "keyPropName": "value",
-                          "description": "Specifies the type of 'Model Type' you want the form to bind to. This determines the information that the form will be able to access and display.",
-                          "dataSourceUrl": "/api/services/app/Metadata/EntityTypeAutocomplete",
                           "editMode": "inherited",
+                          "hidden": false,
+                          "description": "Specifies the type of 'Model Type' you want the form to bind to. This determines the information that the form will be able to access and display.",
                           "validate": {
                             "required": true
                           },
-                          "onChangeCustom": "    form.setFieldValue('description',`Displays details of a ${value}`)",
-                          "hideLabel": true,
+                          "dataSourceType": "entitiesList",
+                          "dataSourceUrl": "/api/services/app/Metadata/EntityTypeAutocomplete",
                           "entityType": {
                             "name": "Person",
                             "module": "Shesha"
-                          }
+                          },
+                          "keyPropName": "value",
+                          "mode": "single",
+                          "onChangeCustom": "    form.setFieldValue('description',`Displays details of a ${value}`)",
+                          "useRawValues": false,
+                          "valueFormat": "simple"
                         }
                       },
-                      "createComponent": {
-                        "type": "autocomplete",
-                        "settings": {
-                          "type": "autocomplete",
-                          "label": "",
-                          "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
-                          "version": 8,
-                          "dataSourceType": "entitiesList",
-                          "useRawValues": false,
-                          "mode": "single",
-                          "valueFormat": "simple",
-                          "keyPropName": "value",
-                          "description": "Specifies the type of 'Model Type' you want the form to bind to. This determines the information that the form will be able to access and display.",
-                          "dataSourceUrl": "/api/services/app/Metadata/EntityTypeAutocomplete",
-                          "editMode": "inherited",
-                          "validate": {
-                            "required": true
-                          },
-                          "onChangeCustom": "    form.setFieldValue('description',`Displays details of a ${value}`)",
-                          "hideLabel": true,
-                          "entityType": {
-                            "name": "Person",
-                            "module": "Shesha"
-                          }
-                        }
-                      }
+                      "isVisible": true,
+                      "itemType": "item",
+                      "maxWidth": null,
+                      "minWidth": 180
                     },
                     {
                       "id": "8ec8809d-b544-4cfa-9d95-18d91d739812",
-                      "columnType": "data",
                       "propertyName": "purchaseDate",
-                      "caption": "Purchase Date",
-                      "isVisible": true,
-                      "itemType": "item",
-                      "minWidth": 150,
-                      "maxWidth": null,
                       "allowSorting": true,
+                      "caption": "Purchase Date",
+                      "columnType": "data",
+                      "createComponent": {
+                        "type": "dateField",
+                        "settings": {
+                          "type": "dateField",
+                          "isDynamic": false,
+                          "label": "",
+                          "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 7,
+                          "editMode": "inherited",
+                          "hidden": false,
+                          "description": null,
+                          "validate": {},
+                          "dateFormat": "DD/MM/YYYY",
+                          "defaultToMidnight": true,
+                          "disabledDateMode": "none",
+                          "picker": "date",
+                          "readOnly": true,
+                          "showNow": false,
+                          "showTime": true,
+                          "timeFormat": "HH:mm:ss"
+                        }
+                      },
                       "displayComponent": {
                         "type": "[default]"
                       },
@@ -517,59 +811,54 @@
                         "type": "dateField",
                         "settings": {
                           "type": "dateField",
+                          "isDynamic": false,
                           "label": "",
                           "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
-                          "picker": "date",
-                          "showTime": true,
-                          "dateFormat": "DD/MM/YYYY",
-                          "timeFormat": "HH:mm:ss",
-                          "defaultToMidnight": true,
+                          "hideLabel": true,
                           "version": 7,
-                          "description": null,
-                          "readOnly": true,
-                          "disabledDateMode": "none",
-                          "validate": {},
                           "editMode": "inherited",
+                          "hidden": false,
+                          "description": null,
+                          "validate": {},
+                          "dateFormat": "DD/MM/YYYY",
+                          "defaultToMidnight": true,
+                          "disabledDateMode": "none",
+                          "picker": "date",
+                          "readOnly": true,
                           "showNow": false,
-                          "hideLabel": true
+                          "showTime": true,
+                          "timeFormat": "HH:mm:ss"
                         }
                       },
-                      "createComponent": {
-                        "type": "dateField",
-                        "settings": {
-                          "type": "dateField",
-                          "label": "",
-                          "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
-                          "picker": "date",
-                          "showTime": true,
-                          "dateFormat": "DD/MM/YYYY",
-                          "timeFormat": "HH:mm:ss",
-                          "defaultToMidnight": true,
-                          "version": 7,
-                          "description": null,
-                          "readOnly": true,
-                          "disabledDateMode": "none",
-                          "validate": {},
-                          "editMode": "inherited",
-                          "showNow": false,
-                          "hideLabel": true
-                        }
-                      }
+                      "isVisible": true,
+                      "itemType": "item",
+                      "maxWidth": null,
+                      "minWidth": 150
                     },
                     {
                       "id": "5266f7dd-2783-4921-8324-8f042c1a30e8",
-                      "columnType": "data",
                       "propertyName": "notes",
-                      "caption": "Notes",
-                      "isVisible": true,
-                      "itemType": "item",
-                      "minWidth": 220,
-                      "maxWidth": null,
                       "allowSorting": true,
+                      "caption": "Notes",
+                      "columnType": "data",
+                      "createComponent": {
+                        "type": "textField",
+                        "settings": {
+                          "type": "textField",
+                          "isDynamic": false,
+                          "label": "",
+                          "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 6,
+                          "editMode": "inherited",
+                          "hidden": false,
+                          "description": "Label of the item, can be used in lists as a user friendly name",
+                          "validate": {
+                            "maxLength": 200
+                          },
+                          "textType": "text"
+                        }
+                      },
                       "displayComponent": {
                         "type": "[default]"
                       },
@@ -577,73 +866,65 @@
                         "type": "textField",
                         "settings": {
                           "type": "textField",
+                          "isDynamic": false,
                           "label": "",
                           "labelAlign": "right",
+                          "hideLabel": true,
+                          "version": 6,
+                          "editMode": "inherited",
                           "hidden": false,
-                          "isDynamic": false,
+                          "description": "Label of the item, can be used in lists as a user friendly name",
                           "validate": {
                             "maxLength": 200
                           },
-                          "textType": "text",
-                          "version": 6,
-                          "editMode": "inherited",
-                          "description": "Label of the item, can be used in lists as a user friendly name",
-                          "hideLabel": true
+                          "textType": "text"
                         }
                       },
-                      "createComponent": {
-                        "type": "textField",
-                        "settings": {
-                          "type": "textField",
-                          "label": "",
-                          "labelAlign": "right",
-                          "hidden": false,
-                          "isDynamic": false,
-                          "validate": {
-                            "maxLength": 200
-                          },
-                          "textType": "text",
-                          "version": 6,
-                          "editMode": "inherited",
-                          "description": "Label of the item, can be used in lists as a user friendly name",
-                          "hideLabel": true
-                        }
-                      }
+                      "isVisible": true,
+                      "itemType": "item",
+                      "maxWidth": null,
+                      "minWidth": 220
                     }
                   ],
-                  "canEditInline": "yes",
                   "canAddInline": "yes",
                   "canDeleteInline": "yes",
+                  "canEditInline": "yes",
                   "crud": false,
                   "inlineEditMode": "one-by-one",
                   "inlineSaveMode": "manual",
                   "newRowCapturePosition": "top",
                   "newRowInsertPosition": "top",
-                  "selectionMode": "none",
                   "noDataText": "No items",
-                  "hidden": false,
-                  "parentId": "585dec2f-f158-4c98-8a32-35afad1dd139"
+                  "selectionMode": "none"
                 }
               ]
             }
-          ]
+          ],
+          "allowReordering": "no",
+          "dataFetchingMode": "paging",
+          "defaultPageSize": 10,
+          "entityType": "boxfusion.test.Domain.InventoryItems.InventoryItem",
+          "sortMode": "standard",
+          "sourceType": "Entity",
+          "strictSortBy": "creationTime",
+          "strictSortOrder": "desc"
         }
       ]
     }
   ],
   "formSettings": {
-    "layout": "horizontal",
+    "version": 8,
+    "access": 3,
     "colon": true,
+    "dataLoaderType": "none",
+    "dataSubmitterType": "none",
     "labelCol": {
       "span": 6
     },
+    "layout": "horizontal",
+    "modelType": "boxfusion.test.Domain.InventoryItems.InventoryItem",
     "wrapperCol": {
       "span": 18
-    },
-    "modelType": "boxfusion.test.Domain.InventoryItems.InventoryItem",
-    "access": 3,
-    "version": 8,
-    "dataLoaderType": "none",
-    "dataSubmitterType": "none"
+    }
   }
 }

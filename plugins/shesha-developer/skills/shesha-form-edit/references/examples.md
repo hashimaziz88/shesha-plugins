@@ -1,8 +1,32 @@
-# Canonical Example Forms — copy these first
+# Seeds — exemplars first, then blocks, then examples
 
-`assets/examples/` holds four **Shesha-standard reference forms** captured verbatim from a working A.Test backend. They are the single source of truth for layout, component selection, and CRUD wiring. **Before authoring any new form, open the matching example and copy its structure** — change only `modelType`, `entityType`, `propertyName`s, captions, and the `formId` references. Do not invent structure the examples don't have.
+**One priority order for picking a starting point, stated in [SKILL.md](../SKILL.md) — this file is
+the detail/index for the last two tiers of it:**
+
+1. **`assets/exemplars/`** — small, validator-clean, one form per archetype. Check here first.
+2. **`assets/blocks/`** — compose small vetted blocks when no exemplar covers the shape (see
+   [block-library.md](block-library.md)).
+3. **`assets/examples/`** (this file's index, below) — the fuller CRUD-loop seeds, real Shesha-standard
+   forms captured verbatim from a working A.Test backend. Fallback when neither of the above has
+   the shape. `assets/patterns/` (other vendor seeds — see [patterns.md](patterns.md)) is the tier
+   below that.
+
+Whichever tier you copy from: change only `modelType`, `entityType`, `propertyName`s, captions, and
+`formId` references. Do not invent structure the seed doesn't have.
 
 These contain template tokens `{{GEN_KEY}}` / `{{NEW_KEY}}` for some ids — replace each with a fresh `crypto.randomUUID()` (the same token must map to the same UUID within one form so parent/child links stay intact).
+
+## `assets/exemplars/` — check here first
+
+| File | Archetype | Demonstrates |
+|---|---|---|
+| `record-detail-simple.json` | `record-detail` | Start Edit/Submit/Cancel Edit lifecycle header, `editMode:"inherited"` fields, `validationErrors` — no child tables. |
+| `record-detail-with-children.json` | `record-detail` | Same header + one field, plus a `tabs` pane holding an Entity-sourced `dataContext` + `datatable` filtered on the parent via `permanentFilter` on `{{data.id}}` (the FK child-table pattern). |
+
+Both are under ~400 lines, PASS the push-hook gate with zero Tier 1/2 findings, and are safe to read
+in full (never need `Grep`/offset).
+
+## `assets/examples/` — index (10 files)
 
 ### When you copy a seed, swap ALL of these (easy to miss):
 
@@ -20,18 +44,23 @@ These contain template tokens `{{GEN_KEY}}` / `{{NEW_KEY}}` for some ids — rep
 
 | Need | Example file | Use when |
 |---|---|---|
-| **Table** / index / grid page | `assets/examples/employee-table.json` | "table", "grid", "manage X", "spreadsheet of X" — tabular data with sortable columns |
+| **Table** / index / grid page | `assets/examples/employee-table.json`, `assets/examples/rs-table.json` | "table", "grid", "manage X", "spreadsheet of X" — tabular data with sortable columns |
 | **Card list** (datalist) | `assets/examples/entity-datalist.json` **+** `assets/examples/entity-card.json` | "**list** of X", "cards", "feed", "tiles", "gallery", "directory" — repeating card view; multi-select via `selectionMode: "multiple"`. Copy **BOTH**: the list (`dataContext` → `datalist`) and its **row-template card form**, then point the datalist's `formId` at your card form. (Live-verified row-template mode — see [data-tables.md](components/data-tables.md). Do NOT use inline `items`; it renders blank on 0.45.x.) |
 | Inline-editable table (edit/add/delete in-row) | `assets/examples/inline-editable-table.json` | "edit details / add / remove **directly inside the rows**", inline-CRUD grid — has `crud-operations` column + concrete `{type, settings}` editors. See [components/inline-editable-tables.md](components/inline-editable-tables.md) |
-| Create / edit in modal | `assets/examples/employee-create.json` | the form the table's **Add** button opens; submit comes from the modal footer (no in-form button row) |
+| Create / edit in modal | `assets/examples/employee-create.json`, `assets/examples/rs-create-dialog.json` | the form the table's **Add** button opens; submit comes from the modal footer (no in-form button row) |
 | Standalone create / edit **page** (own Save + Back) | `assets/examples/standalone-create.json` | a full-page create/edit form the user opens directly (not in a modal), e.g. "create a person form" or "a form with a required first-name field" — the Save + Back row is mandatory even when the prompt never mentions buttons; see note below |
-| Detail page, no children | `assets/examples/employee-detail-without-child-tables.json` | a standalone record view with the **Start Edit / Save / Cancel Edit toggle** lifecycle |
-| Detail page with child tables | `assets/examples/employee-detail-with-child-tables.json` | record view that also lists related child entities |
+| Detail page, no children | `assets/exemplars/record-detail-simple.json` (an exemplar, not in this folder — see above) | a standalone record view with the **Start Edit / Save / Cancel Edit toggle** lifecycle |
+| Detail page with child tables | `assets/exemplars/record-detail-with-children.json` (an exemplar, not in this folder — see above) | record view that also lists related child entities |
+| Add/link dialog opened from a subtable toolbar | `assets/examples/rs-link-add-dialog.json` | a modal that links an existing record rather than creating a new one |
+| Subtable fragment inside a `tabs` pane | `assets/examples/rs-subtable-tab-fragment.json` | the tab-pane-level `dataContext` + `datatable` shape referenced from a detail form's body |
+
+Every file present in `assets/examples/` is listed above; none are undocumented. (Three seeds that used to live here — `rs-detail-with-header.json`, `employee-detail-with-child-tables.json`, `employee-detail-without-child-tables.json` — were retired: at 25,010 / ~14,300 / ~8,800 lines they were unreadable by construction, contradicting the "never read a large seed wholesale" rule below. The two `assets/exemplars/` forms above replace their teaching value at a fraction of the size.)
 
 ### Standalone create / edit page (own Save + Back) — copy the seed
 
 `assets/examples/standalone-create.json` is the canonical full-page create/edit form: a
-`validationErrors`, a 2-column `detailsPanel`, and one `buttonGroup` with **Save** (primary,
+`validationErrors`, a 2-column flex split (two `container`s at `desktop.dimensions.width: "50%"`
+each, never the `columns` component), and one `buttonGroup` with **Save** (primary,
 `Submit`/`shesha.form`) + **Back** (default, `Navigate`/`shesha.common`). It's a Person create
 page — swap `modelType`, the field `propertyName`s/labels, the title `content`, and the Back
 button's `actionArguments.url` to the target entity's list form. This is the seed to reach for
@@ -47,6 +76,10 @@ Key points the seed already encodes — preserve them:
 
 - `editMode: "editable"` on the inputs (a standalone create/edit page is always in edit mode —
   `inherited` renders dead inputs here; that mode is only for the toggle-lifecycle detail view).
+- `formSettings.layout: "vertical"` — a form with any sub-50%-width field row must not pair
+  `layout:"horizontal"` with a global `labelCol` span (it truncates/crams the label the instant a
+  row is narrower than full width; see [form-quality.md](form-quality.md)). Vertical layout has no
+  such row-width dependency, so it's the safe default for any form with a column split.
 - The `validationErrors` component (mandatory once any field is required).
 - Buttons live **inside the `buttonGroup`**, never as standalone `type: "button"` components —
   tooling reads form intent largely from `buttonGroup` items, so loose buttons can get the
@@ -58,15 +91,15 @@ debug text. Match the component count to the field list + validationErrors + the
 
 ### Scope note — what these seeds do and don't cover
 
-- The employee seeds demonstrate **FK child tables**: `employee-detail-with-child-tables` filters an **Entity-sourced** `dataContext` with a `permanentFilter` on the child's `<parentFk>` (shape below).
+- The `record-detail-with-children` exemplar and `rs-subtable-tab-fragment.json` demonstrate **FK child tables**: an **Entity-sourced** `dataContext` filtered with a `permanentFilter` on the child's `<parentFk>` (shape below).
 - **M:M junction subtables are NOT in this seed set** — they use the **Url-sourced** `dataContext` canon (code-object `endpoint` returning a `/api/dynamic/<module>/<Junction>/Crud/GetAll?filter=...` URL): see [components/junction-subtables.md](components/junction-subtables.md).
 - **Create dialogs that preset a parent FK** need more than the create seed: pass the parent via `formArguments` on the opening button AND inject it in `formSettings.onPrepareSubmitData` — `setFieldsValue` alone never survives submit (the gql submitter serializes only `_formFields`): see [components/add-dialogs.md](components/add-dialogs.md).
 
-## The CRUD loop (how the four fit together)
+## The CRUD loop (how table / create / detail fit together)
 
-1. **Table** (`employee-table`) lists records. Its toolbar **Add** button is a `buttonGroup` item with `buttonAction: "dialogue"` → `actionName: "Show Dialog"` (owner `shesha.common`) → `actionArguments.formId: { name: "<create-form>", module: "<module>" }`, `modalWidth: "60%"`, `formMode: "edit"`. It does **not** navigate. The Add button's `onSuccess` should be `Refresh table` with `actionOwner` = the `dataContext` **component id** (full shape below).
-2. **Create** (`employee-create`) renders inside that modal. `dataLoaderType: "gql"`, `dataSubmitterType: "gql"`; the dialog's OK button submits it via the form's default endpoints.
-3. **Detail** opens a full record. The header `buttonGroup` carries the lifecycle: **Edit** = `Start Edit` (owner `shesha.form`), **Save** = `Submit` (owner `shesha.form`), **Cancel** = `Cancel Edit` (owner `shesha.form`), plus an optional **Audit Log** = `Show Dialog` → `entity-change-audit-log` (module `Shesha`). There is **no** manual navigate-back Save.
+1. **Table** (`employee-table`/`rs-table`) lists records. Its toolbar **Add** button is a `buttonGroup` item with `buttonAction: "dialogue"` → `actionName: "Show Dialog"` (owner `shesha.common`) → `actionArguments.formId: { name: "<create-form>", module: "<module>" }`, `modalWidth: "60%"`, `formMode: "edit"`. It does **not** navigate. The Add button's `onSuccess` should be `Refresh table` with `actionOwner` = the `dataContext` **component id** (full shape below).
+2. **Create** (`employee-create`/`rs-create-dialog`) renders inside that modal. `dataLoaderType: "gql"`, `dataSubmitterType: "gql"`; the dialog's OK button submits it via the form's default endpoints.
+3. **Detail** (`record-detail-simple`/`record-detail-with-children` exemplars) opens a full record. The header `buttonGroup` carries the lifecycle: **Edit** = `Start Edit` (owner `shesha.form`), **Save** = `Submit` (owner `shesha.form`), **Cancel** = `Cancel Edit` (owner `shesha.form`), plus an optional **Audit Log** = `Show Dialog` → `entity-change-audit-log` (module `Shesha`). There is **no** manual navigate-back Save.
 4. **Child tables** live in a `tabs` component; each tab is a `dataContext` + `datatable` filtered to the parent.
 
 ## Recommended improvement over the raw example: refresh the table after Add
@@ -86,9 +119,9 @@ The captured `employee-table` Add button has `handleSuccess: false`, so creating
 
 ## Non-obvious specifics the examples encode
 
-- **Data context type is `dataContext`** (canonical here) with `sourceType: "Entity"`, `entityType: "<full.Class.Name>"`, `dataFetchingMode: "paging"`, `defaultPageSize: 10`, `uniqueStateId`, `componentName`, `propertyName`, `sortMode: "standard"`, `allowReordering: "no"`. (`dataContext` is an accepted alias but match the example and use `dataContext`.)
+- **Data context type is `dataContext`** (canonical here) with `sourceType: "Entity"`, `entityType: "<full.Class.Name>"`, `dataFetchingMode: "paging"`, `defaultPageSize: 10`, `componentName`, `propertyName`, `sortMode: "standard"`, `allowReordering: "no"`. (`uniqueStateId` is NOT a real `dataContext` prop despite appearing in some older captures — framework-verified absent from `IDataContextComponentProps`; don't add it to a new form.)
 - **Toolbar buttons are context-scoped**: Refresh = `actionName: "Refresh table"`, column toggle = `"Toggle Columns Selector"`, both with `actionOwner` set to the **dataContext component's id** (not `shesha.common`).
-- **Layout uses a `columns` component** named `detailsPanel`, `hideLabel: true`, `gutterX: 10`, `gutterY: 10`, two columns each `flex: 12` (24-grid → 50/50). Fields go inside the columns' `components`.
+- **Side-by-side field layout is a flex `container` row** — two (or more) child `container`s each carrying `desktop.dimensions.width` (e.g. `"50%"`), inside a parent with `display:"flex"` + `flexDirection:"row"`. **Never the `columns` component** — this project's firm rule; a form seed that still shows `columns` has not yet been normalized (`scripts/normalize-form.mjs` converts it automatically).
 - **Component choice is driven by the property's data type** — see [components/by-datatype.md](components/by-datatype.md).
 - **Child-table filter** uses JsonLogic + mustache:
   ```json

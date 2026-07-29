@@ -2,7 +2,7 @@
 
 > **Scope**: This file covers SIMPLE FK child tables (Entity-sourced + `permanentFilter` on `{{data.id}}`). For M:M JUNCTION subtables — Url-sourced dataContext, link/unlink, drill-down columns, delete actions — see [junction-subtables.md](junction-subtables.md); for the Add/create dialogs they open, see [add-dialogs.md](add-dialogs.md).
 
-Pattern from `assets/examples/employee-detail-with-child-tables.json` (verified rendering 8-column Payslips table with live paging under an employee).
+Pattern from `assets/exemplars/record-detail-with-children.json` (a compact, validator-clean exemplar of the tabs + filtered-child-datatable shape) and `assets/examples/rs-subtable-tab-fragment.json`.
 
 A child table = related records that point back to the record on screen via a foreign key. Structure:
 

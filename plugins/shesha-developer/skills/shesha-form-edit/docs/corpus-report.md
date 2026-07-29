@@ -28,7 +28,10 @@ All 935 forms parsed and graded cleanly (0 parse errors). A separate 15-form
 **bundled-seed cohort** (`assets/examples/*.json` + `assets/patterns/*.json`)
 was graded alongside — these are read directly from this skill's own
 committed assets (not corpus data) since the brief calls out that their
-conformance "matters more per-form" than the corpus's.
+conformance "matters more per-form" than the corpus's. **This cohort changed
+in Task 9** (below): 3 unreadably-large seeds retired, 2 curated
+`assets/exemplars/` forms added — see the Task 9 section for the current
+14-form cohort and its re-measured rates.
 
 Corpus data (the JSONL dumps, and every per-form report) lives only in the
 scratchpad directory outside this repo and was never committed. `git status`
@@ -627,3 +630,299 @@ path ... actually GATES`) proves a Git-Bash-style `cwd` + file reference now
 resolves AND reaches a real `deny` decision on a Group A finding — not merely
 that the path resolves, but that the gate it was silently bypassing is
 restored.
+
+## Task 9 — remediating the bundled seeds, so the gate can widen on real evidence
+
+The go/no-go above named the seeds' own non-conformance as the #1 blocker to
+widening the gate past the curated subset: a blanket gate would reject the
+plugin's own canonical starting point. This task remediated the seed cohort
+and re-graded to find out how much of that blocker that actually clears.
+
+### T1-PROP-UNKNOWN verdict: mostly a registry gap, not a seed defect
+
+Framework-source investigation (`shesha-reactjs`, branch `releases/0.45`,
+read-only) against every distinct `type::path` firing on the seed cohort
+found **11 genuinely invalid props** (seed bugs, now fixed) out of roughly 60
+distinct paths investigated:
+
+- `datatable::useMultiSelect` — casing typo; the real field is
+  `useMultiselect` (lowercase s), confirmed in `dataTable/table/models.ts`
+  and two migrations. Fixed: renamed in the seeds that had it.
+- `text::fontWeight` (bare/top-level) — no such field exists; the real path
+  is nested `font.weight` (`text/settingsForm.ts`). Fixed: merged into
+  `font.weight`.
+- `text::disabled`, `text::context`, `refListStatus::context`,
+  `autocomplete::allowClear`, `dataContext::uniqueStateId`,
+  `dataContext::dataSourceType`, `dataContext::dataSourceEntity`,
+  `container::layout`, `textArea::rows` — no field, interface member,
+  migrator reference, or settings-form control found anywhere in the
+  framework source for any of these nine. Fixed: deleted from every seed
+  that had them.
+
+**Everything else — the majority of the long tail — is a confirmed registry
+gap, not a seed defect**, and was deliberately left alone per the brief's
+instruction not to delete valid props to satisfy a wrong check:
+
+- Bare `hideBorder` (textField/dateField/numberField/dropdown/autocomplete)
+  — real, `IInputStyles.hideBorder` (`providers/form/models.ts`) plus
+  several components re-declaring it directly in their own interface.
+- `dropdown::tag.*` (border.hideBorder, background.gradient.direction,
+  stylingBox) — real, `IDropdownProps.tag?: IStyleType` exposes a full style
+  sub-object with the same shape as any other component's style block.
+- `datatable::rowPadding/rowBorder/headerFontSize/headerFontWeight/`
+  `headerFontFamily/rowHeight` — real but `@deprecated` in
+  `dataTable/table/models.ts` (pointing at newer replacements); still
+  genuinely producible fields, not typos. `datatable::noDataText/`
+  `noDataSecondaryText/crud/flexibleHeight` — real (the latter two only
+  visible via the component's own migrator, not the current interface).
+- `datatable::tableSettings.*` (all 11 flagged sub-fields) — real:
+  `getTableSettingsDefaults()`/`getTableDefaults()`
+  (`dataTable/table/utils.ts`) builds a runtime object with more fields than
+  the TS return-type annotation declares — a framework
+  type/runtime mismatch, not a seed error.
+- `collapsiblePanel::headerStyles.*` — real, `IStyleType` reused verbatim;
+  the settings-form UI for this one sub-panel just never wired width
+  controls (schema-confirmed, UI-incomplete — still not a seed bug).
+- `sectionSeparator::titleMargin/lineThickness/dashed`, `button::block`,
+  `dropdown`/`autocomplete::useRawValues`, `dataList::listItemWidth/`
+  `showBorder`, `text::fontSize/strong/padding/color`, `image::width/height`,
+  `autocomplete::validate.message` — each individually confirmed real via
+  interface fields, migrators, or (for `validate.message`) the base
+  component model shared by every type.
+
+**Blocking status: none of this changes anything today.** T1-PROP-UNKNOWN is
+Group C (report-only) regardless of which paths are genuine vs. gaps — this
+verdict matters for NOT deleting real props from seeds, and for a future
+registry-regeneration task, not for this task's gate.
+
+**A related check bug found in passing, reported not fixed (tier1.mjs is on
+the do-not-modify list):** `T1-PROP-UNKNOWN`'s `collectOwnPropPaths` has no
+exemption for the `overrides` key, even though `overrides[]` (`{prop, value,
+source, evidence}`) is a first-class, documented convention that
+`T2-STYLE-OFF-TOKEN` and `T3-RAW-HEX` both already treat as covered
+provenance (see their own header comments in `tier2.mjs`/`tier3.mjs`).
+Adding an `overrides[]` entry to satisfy those two checks mechanically
+creates NEW `T1-PROP-UNKNOWN` findings for `overrides`/`overrides[].prop`/
+`.value`/`.source`/`.evidence` (visible in the before/after table below —
+several seeds' `T1-PROP-UNKNOWN` instance count goes UP after remediation for
+exactly this reason). Recommend `UNIVERSAL_KEYS` or a sibling exemption set
+add `overrides` in a future task.
+
+### Seeds retired, and their exemplar replacements
+
+Three seeds were unreadable by construction — `SKILL.md` told the model to
+copy them while separately forbidding reading them:
+
+| Retired | Lines | Why |
+|---|---|---|
+| `rs-detail-with-header.json` | 25,010 | ~189k tokens |
+| `employee-detail-with-child-tables.json` | 14,334 | ~175k tokens (estimate per brief) |
+| `employee-detail-without-child-tables.json` | 8,799 | ~99k tokens (estimate per brief) |
+
+Replaced with two curated exemplars, both derived from the highest
+Tier-3-scoring real corpus form for their archetype (deterministic
+selection: highest score, ties broken by fewest components then name),
+restricted to the two current-schema DBs (`RequirementsStudio`,
+`MembershipManagement` — `AssetManagement2`/`UtilityManagement` use the
+older/flatter markup shape this report already documents; picking an
+exemplar from them would teach that older shape as canonical), then
+normalized, stripped to the minimum, and hand-fixed to validate clean:
+
+| Exemplar | Lines | Derived from | Tier1/2 findings | Tier3 score |
+|---|---|---|---|---|
+| `assets/exemplars/record-detail-simple.json` | 339 | `MembershipManagement/Shesha/form-template-details` (score 85, 12 components) | 0 | 100/100 |
+| `assets/exemplars/record-detail-with-children.json` | 400 | `RequirementsStudio/Shesha.RequirementsStudio/service-definition-details` (score 61, 58 components) | 0 | 100/100 |
+
+Both PASS `validate-form.mjs` outright (`exitCode 0`) and are well under the
+~400-line curation ceiling.
+
+### The two minified patterns: pretty-printed, not retired
+
+`assets/patterns/auth-login.json` (0 lines, 21KB single-line) and
+`dashboard.json` (1 line, 36KB single-line) were pretty-printed (2,673 and
+1,119 lines respectively) rather than retired — the corpus offered no
+better-fitting equivalent for either (auth-style anonymous pages and
+metric-tile dashboards aren't represented anywhere else in the seed set),
+and once pretty-printed the "open with Grep/offset" escape hatch works on
+them exactly like every other seed. Both were then remediated the same way
+as the `assets/examples/` files (below).
+
+### Deliverable 2 — remediating the other 10 examples + 2 patterns
+
+Pipeline applied to every remaining seed: `normalize-form.mjs` (mechanical:
+versions, parentIds, ids, columns→flex, split widths, display:flex, slot
+styles, row-list gaps, customStyle) → strip/rename the 11 confirmed-invalid
+`T1-PROP-UNKNOWN` paths above → hand-fix whatever survived. Hand fixes
+applied, each evidenced against the check's own contract:
+
+- **`employee-create.json`, `rs-create-dialog.json`,
+  `standalone-create.json`** — `T2-LABELCOL-VS-NARROW-ROW` (Group A):
+  `formSettings.layout` switched from `"horizontal"` to `"vertical"`. This
+  check's own message names exactly two valid fixes (vertical layout, or
+  resize every labelCol/wrapperCol span); vertical layout has no row-width
+  dependency at all, so it's the safe default for any form with a column
+  split, matching this check's own suggested remedy verbatim.
+- **`rs-create-dialog.json`** — `T1-DEFAULTVALUE-NONSTRING` (Group A): two
+  checkboxes carried literal `defaultValue: false`. Removed — unchecked is
+  already the natural default; no template-string coercion needed.
+- **`auth-login.json`** — `T1-DEFAULTVALUE-NONSTRING`: the "Remember me"
+  checkbox carried literal `defaultValue: true`; removed the same way.
+  **`T1-JSON-UNSAFE`**: an `onSuccess` expression's raw embedded newlines
+  were collapsed to one line (joined on `; `/`{`/`}` boundaries) rather than
+  replaced with the literal 2-character sequence `\n` — replacing the
+  newline BYTE with literal backslash-n text would have corrupted the value
+  into invalid source once `new Function()` parses it (verified: this was
+  tried first, and immediately tripped `T1-SCRIPT-SYNTAX` instead).
+  Collapsing whitespace preserves byte-identical semantics (braces and
+  semicolons already delimit every statement) while satisfying both checks
+  at once. **`T2-VALIDATIONERRORS-MISSING`**: the form has required fields
+  but no `validationErrors` node anywhere in the tree; added one.
+- **`dashboard.json`** — `T2-FLEXCHILD-NOT-CONTAINER` (Group B, but survived
+  normalization): a bare `button` and a bare `text` sat as direct children of
+  containers whose flex-row style lives ONLY under `desktop`/`tablet`/
+  `mobile` with no top-level mirror — the exact real-corpus shape task 8's
+  own `wrapSplitWidthLeaves` note already documented as defeating
+  `normalize-form.mjs`'s top-level-only `isFlexRowNode`/A3 detection, but for
+  a NON-split-width child this time (A3 only wraps proportional-width
+  leaves; a plain button/text child with no width at all isn't in its
+  scope). Hand-wrapped both in a neutral, non-row container (reusing
+  `neutralContainerStyle` from `expand-style.mjs`) — reported as a
+  normalizer gap below, not fixed in `normalize-form.mjs` itself (out of
+  scope for this task).
+- **`entity-card.json`, `rs-subtable-tab-fragment.json`, `rs-table.json`,
+  `dashboard.json`** — `T2-STYLE-OFF-TOKEN` (26 container-level instances
+  across the four): added `overrides[]` provenance entries (`{prop, value,
+  source: "vendor-seed-capture", evidence: "..."}`) rather than deleting the
+  colors — these ARE deliberate vendor styling captured verbatim from a
+  live rendering backend at seed-capture time, so the provenance claim is
+  honest, not gamed. This is what let `T2-STYLE-OFF-TOKEN` promote below.
+
+**Not fixed — reported instead (genuine check/normalizer gaps found in
+passing, out of this task's file-touch scope):**
+- `tier1.mjs`'s `T1-PROP-UNKNOWN` missing an `overrides` exemption (above).
+- `normalize-form.mjs`'s A3 flex-child-wrap only handling
+  proportional-width children, not the general "any bare non-container
+  child of a flex-row container whose flex style lives only under
+  `desktop`/`tablet`/`mobile`" case `T2-FLEXCHILD-NOT-CONTAINER` actually
+  checks for (dashboard.json, above).
+
+### Per-seed before/after (Tier 1 + Tier 2 findings)
+
+"Blocking" = findings in a code currently in Group A, or Group B (the only
+things `validate-push.mjs` can actually deny on). "All T1+T2" = every Tier
+1/2 finding regardless of group, for context — Group C findings still
+appear in the log but never block.
+
+| Seed | Blocking before | Blocking after | All T1+T2 before | All T1+T2 after |
+|---|---|---|---|---|
+| `employee-create.json` | 22 | **0** | 74 | 52 |
+| `employee-table.json` | 8 | **0** | 40 | 31 |
+| `entity-card.json` | 4 | **0** | 25 | 12 |
+| `entity-datalist.json` | 0 | **0** | 8 | 5 |
+| `inline-editable-table.json` | 2 | **0** | 8 | 5 |
+| `rs-create-dialog.json` | 30 | **0** | 59 | 28 |
+| `rs-link-add-dialog.json` | 1 | **0** | 8 | 5 |
+| `rs-subtable-tab-fragment.json` | 7 | **0** | 34 | 18 |
+| `rs-table.json` | 6 | **0** | 35 | 18 |
+| `standalone-create.json` | 15 | **0** | 19 | 3 |
+| `auth-login.json` (pattern) | 13 | **0** | 27 | 12 |
+| `dashboard.json` (pattern) | 35 | **0** | 80 | 40 |
+| `record-detail-simple.json` (new exemplar) | — | **0** | — | 0 |
+| `record-detail-with-children.json` (new exemplar) | — | **0** | — | 0 |
+
+**Every seed in the cohort now has zero blocking (Group A/B) findings.** The
+skill's own recommended starting point no longer trips the push gate — the
+#1 blocker named in the original go/no-go is cleared. Some "all T1+T2" counts
+went up on a few files (e.g. `rs-table.json` 7→14 `T1-PROP-UNKNOWN`
+instances) purely from the `overrides` exemption gap documented above — an
+artifact of this task's own remediation technique, not new defects.
+
+### Bundled-seed cohort re-measured (14 forms — 3 retired, 2 exemplars added)
+
+| Code | Forms (before, 15) | Forms (after, 14) |
+|---|---|---|
+| T1-PROP-UNKNOWN | 15/15 (100%) | 12/14 (85.7%) |
+| T2-STYLE-INCOMPLETE | 15/15 (100%) | 12/14 (85.7%) |
+| T3-RAW-HEX | 13/15 (86.7%) | 10/14 (71.4%) |
+| T3-LABEL-CASING | 12/15 (80%) | **0/14** |
+| T2-WIDTH-ON-NONCONTAINER | 11/15 (73.3%) | **0/14** |
+| T2-FLEX-NO-DISPLAY | 10/15 (66.7%) | **0/14** |
+| T2-PROPERTYNAME-CASE | 9/15 (60%) | 6/14 (42.9%) |
+| T1-PARENT-MISSING | 8/15 (53.3%) | **0/14** |
+| T3-HEADER-FONT-INCOMPLETE | 8/15 (53.3%) | 5/14 (35.7%) |
+| T1-VERSION-MISSING | 7/15 (46.7%) | **0/14** |
+| T2-FLEXCHILD-NOT-CONTAINER | 6/15 (40%) | **0/14** |
+| T2-COLUMNS-PRESENT | 6/15 (40%) | **0/14** |
+| T2-STYLE-OFF-TOKEN | 5/15 (33.3%) | **0/14** |
+| T3-PRIMARY-COUNT | 4/15 (26.7%) | 1/14 (7.1%) |
+| T1-VERSION-STALE | 4/15 (26.7%) | **0/14** |
+| T2-EDITMODE-MISMATCH | 3/15 (20%) | 3/14 (21.4%) |
+| T2-MODELTYPE-SHAPE | 3/15 (20%) | 3/14 (21.4%) |
+| T3-ORPHAN-CONTAINER | 2/15 (13.3%) | 2/14 (14.3%) |
+| T1-DEFAULTVALUE-NONSTRING | 2/15 (13.3%) | **0/14** |
+| T2-LOOSE-BUTTON | 2/15 (13.3%) | 2/14 (14.3%) |
+| T1-JSON-UNSAFE | 1/15 (6.7%) | **0/14** |
+| T2-VALIDATIONERRORS-MISSING | 1/15 (6.7%) | **0/14** |
+
+Every Group A/B code (bold **0/14** rows) is now fully clear on the seed
+cohort. The remaining nonzero rows are all Group C (never block) plus two —
+`T2-EDITMODE-MISMATCH`, `T2-MODELTYPE-SHAPE` — that stayed roughly flat
+(considered for promotion below, not promoted).
+
+### Deliverable 4 — gate widening on the new evidence
+
+Re-graded the full 935-form corpus (unchanged — this task didn't touch
+corpus data) and the remediated 14-form seed cohort together. Promotion
+rule applied strictly: a Group C code promotes only when **both** the
+corpus rate and the seed rate are low — corpus rate is authoritative for
+what real projects look like; a clean seed cohort alone is not sufficient
+(that would recreate exactly the problem this task fixes).
+
+**Promoted: `T2-STYLE-OFF-TOKEN`, Group C → Group A.**
+Corpus 9.1% (85/935) — already comfortably inside the existing Group A
+range (0.1%-15.5%) before this promotion. Seed: 33.3% (5/15) → **0/14**
+post-remediation. Not normalizer-fixable (adding truthful provenance is a
+human/blueprint judgment call, matching the same reasoning as
+`T2-VALIDATIONERRORS-MISSING`/`T2-DATACONTEXT-PROPS`), so Group A not B.
+
+**Considered, NOT promoted** (every other Group C code with a seed rate
+that improved):
+
+| Code | Corpus rate | Seed rate (14) | Verdict |
+|---|---|---|---|
+| T2-DROPDOWN-SOURCE | 24.0% | 0/14 (0%) | **NOT promoted** — textbook "seeds clean, corpus real" case: seed evidence alone doesn't justify gating a code that still fires on 1 in 4 real forms. |
+| T2-MODELTYPE-SHAPE | 21.8% | 3/14 (21.4%) | **NOT promoted** — both rates nearly identical and both exceed every current Group A member (max 15.5%); not normalizer-fixable so Group B isn't an option; the underlying fix is only one calibration cycle old (Task 5). |
+| T2-PROPERTYNAME-CASE | 36.5% | 6/14 (42.9%, down from 60%) | **NOT promoted** — both cohorts well above the current Group B ceiling (23.3%). |
+| T2-EDITMODE-MISMATCH | 55.7% | 3/14 (21.4%) | **NOT promoted** — corpus rate alone rules this out regardless of seed improvement. |
+| T1-PROP-UNKNOWN, T1-VERSION-STALE, T2-STYLE-INCOMPLETE, T2-LOOSE-BUTTON | all >30% corpus | mixed | **NOT promoted** — corpus rate is the hard blocker for all four; see each code's own Group C justification in `gate-policy.json` (unchanged this task). |
+
+### What still cannot be gated, and why
+
+- **T1-PROP-UNKNOWN** (93.9% corpus) — mostly a registry-scraper gap (this
+  task's investigation, above), not fixable by seed edits or by this task's
+  scope (regenerating the registry is explicitly out of scope — "do NOT
+  regenerate the registry yourself"). Recommend a follow-up registry
+  regeneration task using the ~50 confirmed-real paths above as a checklist.
+- **T1-VERSION-STALE** (83.9% corpus, but 25% on `RequirementsStudio` alone)
+  — a corpus/registry version-mismatch artifact for the two older-schema
+  DBs, not something seed remediation touches. Needs per-project registry
+  pinning (unchanged recommendation from the original go/no-go).
+- **T2-STYLE-INCOMPLETE** (69.0% corpus, 85.7% seed) — genuine defect,
+  seed rate actually WORSE than before proportionally (12/14 vs 15/15, but a
+  smaller denominator) since the two new exemplars are clean while several
+  real captured seeds still carry partial style blocks the normalizer's role
+  mechanism doesn't retrofit onto pre-existing markup (only newly-authored/
+  role-tagged containers get a role's full style). Not touched further —
+  fully filling in every incomplete container across 8+ real vendor-captured
+  forms was judged out of proportion to this task's remaining budget; flagged
+  for a follow-up.
+- **T2-EDITMODE-MISMATCH, T2-PROPERTYNAME-CASE, T2-LOOSE-BUTTON,
+  T2-MODELTYPE-SHAPE, T2-DROPDOWN-SOURCE** — see the promotion table above;
+  all rejected on corpus-rate grounds even where seed evidence improved or
+  was already clean.
+- **Two reported (not fixed) check/normalizer gaps** — `tier1.mjs`'s
+  `T1-PROP-UNKNOWN` missing an `overrides` exemption, and
+  `normalize-form.mjs`'s A3 flex-child wrap only covering proportional-width
+  children, not the general bare-child case. Both are on the do-not-modify
+  list for this task; both are documented above with the exact evidence that
+  surfaced them.

@@ -1,778 +1,772 @@
 {
- "components": [
-  {
-   "isDynamic": false,
-   "hidden": false,
-   "id": "{{GEN_KEY}}",
-   "type": "container",
-   "propertyName": "containerMain",
-   "label": "Container",
-   "componentName": "container",
-   "components": [
+  "components": [
     {
-     "id": "47cf0871-3c74-455d-b7d7-45846ee8f3aa",
-     "type": "autocomplete",
-     "propertyName": "moduleDefinition",
-     "componentName": "moduleDefinition",
-     "label": "Module",
-     "labelAlign": "right",
-     "parentId": "{{GEN_KEY}}",
-     "hidden": false,
-     "editMode": "readOnly",
-     "dataSourceType": "entitiesList",
-     "entityType": {
-      "name": "ModuleDefinition",
-      "module": "Shesha.RequirementsStudio"
-     },
-     "version": 12
-    },
-    {
-     "id": "bcd636064e0c4c7bbf169ee8",
-     "hidden": false,
-     "type": "validationErrors",
-     "isDynamic": false,
-     "label": "Validation Errors",
-     "parentId": "{{GEN_KEY}}",
-     "propertyName": "validationErrors",
-     "componentName": "validationErrors",
-     "version": 0,
-     "enableStyleOnReadonly": false,
-     "desktop": {
-      "border": {
-       "hideBorder": false,
-       "radiusType": "all",
-       "borderType": "all",
-       "border": {
-        "all": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
+      "id": "642772cf-7c9b-49fa-908e-c22026f2dc59",
+      "type": "container",
+      "isDynamic": false,
+      "componentName": "container",
+      "propertyName": "containerMain",
+      "label": "Container",
+      "parentId": "root",
+      "version": 7,
+      "editMode": "inherited",
+      "hidden": false,
+      "display": "flex",
+      "flexWrap": "wrap",
+      "justifyContent": "left",
+      "desktop": {
+        "flexWrap": "wrap",
+        "gap": 8,
+        "justifyContent": "left",
+        "background": {
+          "type": "color",
+          "color": "",
+          "gradient": {
+            "colors": {},
+            "direction": "to right"
+          },
+          "position": "center",
+          "repeat": "no-repeat",
+          "size": "auto",
+          "storedFile": {
+            "id": null
+          },
+          "uploadFile": null,
+          "url": ""
         },
-        "top": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
+        "border": {
+          "hideBorder": false,
+          "border": {
+            "all": {
+              "color": "#d9d9d9",
+              "style": "none",
+              "width": "1px"
+            },
+            "bottom": {},
+            "left": {},
+            "right": {},
+            "top": {}
+          },
+          "borderType": "all",
+          "radius": {
+            "all": "8"
+          },
+          "radiusType": "all"
         },
-        "bottom": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
+        "dimensions": {
+          "height": "auto",
+          "maxHeight": "auto",
+          "maxWidth": "auto",
+          "minHeight": "32px",
+          "minWidth": "0px",
+          "width": "auto"
         },
-        "left": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
+        "direction": "vertical",
+        "enableStyleOnReadonly": false,
+        "font": {
+          "align": "left",
+          "weight": "400"
         },
-        "right": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
+        "overflow": true,
+        "shadow": {
+          "blurRadius": 0,
+          "color": "#000000",
+          "offsetX": 0,
+          "offsetY": 0,
+          "spreadRadius": 0
+        },
+        "showAdvanced": false,
+        "stylingBox": "{}"
+      },
+      "tablet": {
+        "flexWrap": "wrap",
+        "gap": 8,
+        "justifyContent": "left",
+        "background": {
+          "type": "color",
+          "color": "",
+          "gradient": {
+            "colors": {},
+            "direction": "to right"
+          },
+          "position": "center",
+          "repeat": "no-repeat",
+          "size": "auto",
+          "storedFile": {
+            "id": null
+          },
+          "uploadFile": null,
+          "url": ""
+        },
+        "border": {
+          "hideBorder": false,
+          "border": {
+            "all": {
+              "color": "#d9d9d9",
+              "style": "none",
+              "width": "1px"
+            },
+            "bottom": {},
+            "left": {},
+            "right": {},
+            "top": {}
+          },
+          "borderType": "all",
+          "radius": {
+            "all": "8"
+          },
+          "radiusType": "all"
+        },
+        "dimensions": {
+          "height": "auto",
+          "maxHeight": "auto",
+          "maxWidth": "auto",
+          "minHeight": "32px",
+          "minWidth": "0px",
+          "width": "auto"
+        },
+        "direction": "vertical",
+        "enableStyleOnReadonly": false,
+        "font": {
+          "align": "left",
+          "weight": "400"
+        },
+        "overflow": true,
+        "shadow": {
+          "blurRadius": 0,
+          "color": "#000000",
+          "offsetX": 0,
+          "offsetY": 0,
+          "spreadRadius": 0
+        },
+        "showAdvanced": false,
+        "stylingBox": "{}"
+      },
+      "mobile": {
+        "flexWrap": "wrap",
+        "gap": 8,
+        "justifyContent": "left",
+        "background": {
+          "type": "color",
+          "color": "",
+          "gradient": {
+            "colors": {},
+            "direction": "to right"
+          },
+          "position": "center",
+          "repeat": "no-repeat",
+          "size": "auto",
+          "storedFile": {
+            "id": null
+          },
+          "uploadFile": null,
+          "url": ""
+        },
+        "border": {
+          "hideBorder": false,
+          "border": {
+            "all": {
+              "color": "#d9d9d9",
+              "style": "none",
+              "width": "1px"
+            },
+            "bottom": {},
+            "left": {},
+            "right": {},
+            "top": {}
+          },
+          "borderType": "all",
+          "radius": {
+            "all": "8"
+          },
+          "radiusType": "all"
+        },
+        "dimensions": {
+          "height": "auto",
+          "maxHeight": "auto",
+          "maxWidth": "auto",
+          "minHeight": "32px",
+          "minWidth": "0px",
+          "width": "auto"
+        },
+        "direction": "vertical",
+        "enableStyleOnReadonly": false,
+        "font": {
+          "align": "left",
+          "weight": "400"
+        },
+        "overflow": true,
+        "shadow": {
+          "blurRadius": 0,
+          "color": "#000000",
+          "offsetX": 0,
+          "offsetY": 0,
+          "spreadRadius": 0
+        },
+        "showAdvanced": false,
+        "stylingBox": "{}"
+      },
+      "components": [
+        {
+          "id": "47cf0871-3c74-455d-b7d7-45846ee8f3aa",
+          "type": "autocomplete",
+          "componentName": "moduleDefinition",
+          "propertyName": "moduleDefinition",
+          "label": "Module",
+          "labelAlign": "right",
+          "parentId": "642772cf-7c9b-49fa-908e-c22026f2dc59",
+          "version": 8,
+          "editMode": "readOnly",
+          "hidden": false,
+          "dataSourceType": "entitiesList",
+          "entityType": {
+            "name": "ModuleDefinition",
+            "module": "Shesha.RequirementsStudio"
+          }
+        },
+        {
+          "id": "8204d9d5-30ab-4f33-9836-1607da6b7938",
+          "type": "validationErrors",
+          "isDynamic": false,
+          "componentName": "validationErrors",
+          "propertyName": "validationErrors",
+          "label": "Validation errors",
+          "parentId": "642772cf-7c9b-49fa-908e-c22026f2dc59",
+          "version": 0,
+          "hidden": false,
+          "desktop": {
+            "background": {
+              "type": "color",
+              "color": "",
+              "gradient": {
+                "colors": {},
+                "direction": "to right"
+              },
+              "position": "center",
+              "repeat": "no-repeat",
+              "size": "auto",
+              "storedFile": {
+                "id": null
+              },
+              "uploadFile": null,
+              "url": ""
+            },
+            "border": {
+              "hideBorder": false,
+              "border": {
+                "all": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "bottom": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "left": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "right": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "top": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                }
+              },
+              "borderType": "all",
+              "radius": {
+                "all": 8,
+                "bottomLeft": 8,
+                "bottomRight": 8,
+                "topLeft": 8,
+                "topRight": 8
+              },
+              "radiusType": "all"
+            },
+            "dimensions": {
+              "height": "auto",
+              "maxHeight": "auto",
+              "maxWidth": "auto",
+              "minHeight": "0px",
+              "minWidth": "0px"
+            },
+            "enableStyleOnReadonly": false,
+            "font": {
+              "type": "Segoe UI",
+              "align": "left",
+              "color": "#000",
+              "size": 14,
+              "weight": "400"
+            },
+            "shadow": {
+              "blurRadius": 0,
+              "color": "#000",
+              "offsetX": 0,
+              "offsetY": 0,
+              "spreadRadius": 0
+            },
+            "stylingBox": "{\"paddingLeft\":12,\"paddingBottom\":12,\"paddingTop\":12,\"paddingRight\":12,\"marginBottom\":\"8\"}"
+          },
+          "tablet": {
+            "background": {
+              "type": "color",
+              "color": "",
+              "gradient": {
+                "colors": {},
+                "direction": "to right"
+              },
+              "position": "center",
+              "repeat": "no-repeat",
+              "size": "auto",
+              "storedFile": {
+                "id": null
+              },
+              "uploadFile": null,
+              "url": ""
+            },
+            "border": {
+              "hideBorder": false,
+              "border": {
+                "all": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "bottom": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "left": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "right": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "top": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                }
+              },
+              "borderType": "all",
+              "radius": {
+                "all": 8,
+                "bottomLeft": 8,
+                "bottomRight": 8,
+                "topLeft": 8,
+                "topRight": 8
+              },
+              "radiusType": "all"
+            },
+            "dimensions": {
+              "height": "auto",
+              "maxHeight": "auto",
+              "maxWidth": "auto",
+              "minHeight": "0px",
+              "minWidth": "0px"
+            },
+            "enableStyleOnReadonly": false,
+            "font": {
+              "type": "Segoe UI",
+              "align": "left",
+              "color": "#000",
+              "size": 14,
+              "weight": "400"
+            },
+            "shadow": {
+              "blurRadius": 0,
+              "color": "#000",
+              "offsetX": 0,
+              "offsetY": 0,
+              "spreadRadius": 0
+            },
+            "stylingBox": "{\"paddingLeft\":12,\"paddingBottom\":12,\"paddingTop\":12,\"paddingRight\":12,\"marginBottom\":\"8\"}"
+          },
+          "mobile": {
+            "background": {
+              "type": "color",
+              "color": "",
+              "gradient": {
+                "colors": {},
+                "direction": "to right"
+              },
+              "position": "center",
+              "repeat": "no-repeat",
+              "size": "auto",
+              "storedFile": {
+                "id": null
+              },
+              "uploadFile": null,
+              "url": ""
+            },
+            "border": {
+              "hideBorder": false,
+              "border": {
+                "all": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "bottom": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "left": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "right": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "top": {
+                  "color": "",
+                  "style": "solid",
+                  "width": "1px"
+                }
+              },
+              "borderType": "all",
+              "radius": {
+                "all": 8,
+                "bottomLeft": 8,
+                "bottomRight": 8,
+                "topLeft": 8,
+                "topRight": 8
+              },
+              "radiusType": "all"
+            },
+            "dimensions": {
+              "height": "auto",
+              "maxHeight": "auto",
+              "maxWidth": "auto",
+              "minHeight": "0px",
+              "minWidth": "0px"
+            },
+            "enableStyleOnReadonly": false,
+            "font": {
+              "type": "Segoe UI",
+              "align": "left",
+              "color": "#000",
+              "size": 14,
+              "weight": "400"
+            },
+            "shadow": {
+              "blurRadius": 0,
+              "color": "#000",
+              "offsetX": 0,
+              "offsetY": 0,
+              "spreadRadius": 0
+            },
+            "stylingBox": "{\"paddingLeft\":12,\"paddingBottom\":12,\"paddingTop\":12,\"paddingRight\":12,\"marginBottom\":\"8\"}"
+          },
+          "enableStyleOnReadonly": false
+        },
+        {
+          "id": "8580b696-baa5-4909-af41-836de4bd8514",
+          "type": "autocomplete",
+          "isDynamic": false,
+          "componentName": "autocomplete",
+          "propertyName": "usedModule",
+          "label": "Used module",
+          "parentId": "642772cf-7c9b-49fa-908e-c22026f2dc59",
+          "version": 8,
+          "hidden": false,
+          "desktop": {
+            "background": {
+              "type": "color",
+              "color": "#fff",
+              "gradient": {
+                "colors": {},
+                "direction": "to right"
+              },
+              "position": "center",
+              "repeat": "no-repeat",
+              "size": "auto",
+              "storedFile": {
+                "id": null
+              },
+              "uploadFile": null,
+              "url": ""
+            },
+            "border": {
+              "hideBorder": false,
+              "border": {
+                "all": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "bottom": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "left": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "right": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "top": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                }
+              },
+              "borderType": "all",
+              "radius": {
+                "all": 8,
+                "bottomLeft": 8,
+                "bottomRight": 8,
+                "topLeft": 8,
+                "topRight": 8
+              },
+              "radiusType": "all"
+            },
+            "borderRadius": 8,
+            "dimensions": {
+              "height": "auto",
+              "maxHeight": "auto",
+              "maxWidth": "auto",
+              "minHeight": "0px",
+              "minWidth": "0px"
+            },
+            "enableStyleOnReadonly": false,
+            "font": {
+              "type": "Segoe UI",
+              "align": "left",
+              "color": "#000",
+              "size": 14,
+              "weight": "400"
+            },
+            "shadow": {
+              "blurRadius": 0,
+              "color": "#000",
+              "offsetX": 0,
+              "offsetY": 0,
+              "spreadRadius": 0
+            },
+            "stylingBox": "{}"
+          },
+          "tablet": {
+            "background": {
+              "type": "color",
+              "color": "#fff",
+              "gradient": {
+                "colors": {},
+                "direction": "to right"
+              },
+              "position": "center",
+              "repeat": "no-repeat",
+              "size": "auto",
+              "storedFile": {
+                "id": null
+              },
+              "uploadFile": null,
+              "url": ""
+            },
+            "border": {
+              "hideBorder": false,
+              "border": {
+                "all": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "bottom": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "left": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "right": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "top": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                }
+              },
+              "borderType": "all",
+              "radius": {
+                "all": 8,
+                "bottomLeft": 8,
+                "bottomRight": 8,
+                "topLeft": 8,
+                "topRight": 8
+              },
+              "radiusType": "all"
+            },
+            "borderRadius": 8,
+            "dimensions": {
+              "height": "auto",
+              "maxHeight": "auto",
+              "maxWidth": "auto",
+              "minHeight": "0px",
+              "minWidth": "0px"
+            },
+            "enableStyleOnReadonly": false,
+            "font": {
+              "type": "Segoe UI",
+              "align": "left",
+              "color": "#000",
+              "size": 14,
+              "weight": "400"
+            },
+            "shadow": {
+              "blurRadius": 0,
+              "color": "#000",
+              "offsetX": 0,
+              "offsetY": 0,
+              "spreadRadius": 0
+            },
+            "stylingBox": "{}"
+          },
+          "mobile": {
+            "background": {
+              "type": "color",
+              "color": "#fff",
+              "gradient": {
+                "colors": {},
+                "direction": "to right"
+              },
+              "position": "center",
+              "repeat": "no-repeat",
+              "size": "auto",
+              "storedFile": {
+                "id": null
+              },
+              "uploadFile": null,
+              "url": ""
+            },
+            "border": {
+              "hideBorder": false,
+              "border": {
+                "all": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "bottom": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "left": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "right": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                },
+                "top": {
+                  "color": "#d9d9d9",
+                  "style": "solid",
+                  "width": "1px"
+                }
+              },
+              "borderType": "all",
+              "radius": {
+                "all": 8,
+                "bottomLeft": 8,
+                "bottomRight": 8,
+                "topLeft": 8,
+                "topRight": 8
+              },
+              "radiusType": "all"
+            },
+            "borderRadius": 8,
+            "dimensions": {
+              "height": "auto",
+              "maxHeight": "auto",
+              "maxWidth": "auto",
+              "minHeight": "0px",
+              "minWidth": "0px"
+            },
+            "enableStyleOnReadonly": false,
+            "font": {
+              "type": "Segoe UI",
+              "align": "left",
+              "color": "#000",
+              "size": 14,
+              "weight": "400"
+            },
+            "shadow": {
+              "blurRadius": 0,
+              "color": "#000",
+              "offsetX": 0,
+              "offsetY": 0,
+              "spreadRadius": 0
+            },
+            "stylingBox": "{}"
+          },
+          "validate": {
+            "message": "Please select a Used Module",
+            "required": true
+          },
+          "dataSourceType": "entitiesList",
+          "enableStyleOnReadonly": false,
+          "entityType": "Shesha.RequirementsStudio.Domain.ModuleDefinition",
+          "mode": "single",
+          "useRawValues": false,
+          "valueFormat": "entityReference"
         }
-       },
-       "radius": {
-        "all": 8,
-        "topLeft": 8,
-        "topRight": 8,
-        "bottomLeft": 8,
-        "bottomRight": 8
-       }
-      },
-      "background": {
-       "type": "color",
-       "color": "",
-       "repeat": "no-repeat",
-       "size": "auto",
-       "position": "center",
-       "gradient": {
-        "direction": "to right",
-        "colors": {}
-       },
-       "url": "",
-       "storedFile": {
-        "id": null
-       },
-       "uploadFile": null
-      },
-      "font": {
-       "color": "#000",
-       "type": "Segoe UI",
-       "align": "left",
-       "size": 14,
-       "weight": "400"
-      },
-      "dimensions": {
-       "width": "100%",
-       "height": "auto",
-       "minHeight": "0px",
-       "maxHeight": "auto",
-       "minWidth": "0px",
-       "maxWidth": "auto"
-      },
-      "shadow": {
-       "offsetX": 0,
-       "offsetY": 0,
-       "color": "#000",
-       "blurRadius": 0,
-       "spreadRadius": 0
-      },
-      "stylingBox": "{\"paddingLeft\":12,\"paddingBottom\":12,\"paddingTop\":12,\"paddingRight\":12,\"marginBottom\":\"8\"}",
-      "enableStyleOnReadonly": false
-     },
-     "tablet": {
-      "border": {
-       "hideBorder": false,
-       "radiusType": "all",
-       "borderType": "all",
-       "border": {
-        "all": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
-        },
-        "top": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
-        },
-        "bottom": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
-        },
-        "left": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
-        },
-        "right": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
-        }
-       },
-       "radius": {
-        "all": 8,
-        "topLeft": 8,
-        "topRight": 8,
-        "bottomLeft": 8,
-        "bottomRight": 8
-       }
-      },
-      "background": {
-       "type": "color",
-       "color": "",
-       "repeat": "no-repeat",
-       "size": "auto",
-       "position": "center",
-       "gradient": {
-        "direction": "to right",
-        "colors": {}
-       },
-       "url": "",
-       "storedFile": {
-        "id": null
-       },
-       "uploadFile": null
-      },
-      "font": {
-       "color": "#000",
-       "type": "Segoe UI",
-       "align": "left",
-       "size": 14,
-       "weight": "400"
-      },
-      "dimensions": {
-       "width": "100%",
-       "height": "auto",
-       "minHeight": "0px",
-       "maxHeight": "auto",
-       "minWidth": "0px",
-       "maxWidth": "auto"
-      },
-      "shadow": {
-       "offsetX": 0,
-       "offsetY": 0,
-       "color": "#000",
-       "blurRadius": 0,
-       "spreadRadius": 0
-      },
-      "stylingBox": "{\"paddingLeft\":12,\"paddingBottom\":12,\"paddingTop\":12,\"paddingRight\":12,\"marginBottom\":\"8\"}",
-      "enableStyleOnReadonly": false
-     },
-     "mobile": {
-      "border": {
-       "hideBorder": false,
-       "radiusType": "all",
-       "borderType": "all",
-       "border": {
-        "all": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
-        },
-        "top": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
-        },
-        "bottom": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
-        },
-        "left": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
-        },
-        "right": {
-         "width": "1px",
-         "style": "solid",
-         "color": ""
-        }
-       },
-       "radius": {
-        "all": 8,
-        "topLeft": 8,
-        "topRight": 8,
-        "bottomLeft": 8,
-        "bottomRight": 8
-       }
-      },
-      "background": {
-       "type": "color",
-       "color": "",
-       "repeat": "no-repeat",
-       "size": "auto",
-       "position": "center",
-       "gradient": {
-        "direction": "to right",
-        "colors": {}
-       },
-       "url": "",
-       "storedFile": {
-        "id": null
-       },
-       "uploadFile": null
-      },
-      "font": {
-       "color": "#000",
-       "type": "Segoe UI",
-       "align": "left",
-       "size": 14,
-       "weight": "400"
-      },
-      "dimensions": {
-       "width": "100%",
-       "height": "auto",
-       "minHeight": "0px",
-       "maxHeight": "auto",
-       "minWidth": "0px",
-       "maxWidth": "auto"
-      },
-      "shadow": {
-       "offsetX": 0,
-       "offsetY": 0,
-       "color": "#000",
-       "blurRadius": 0,
-       "spreadRadius": 0
-      },
-      "stylingBox": "{\"paddingLeft\":12,\"paddingBottom\":12,\"paddingTop\":12,\"paddingRight\":12,\"marginBottom\":\"8\"}",
-      "enableStyleOnReadonly": false
-     }
-    },
-    {
-     "allowClear": true,
-     "id": "8df709b7c34f4147a682f27d",
-     "validate": {
-      "message": "Please select a Used Module",
-      "required": true
-     },
-     "propertyName": "usedModule",
-     "mode": "single",
-     "hidden": false,
-     "type": "autocomplete",
-     "isDynamic": false,
-     "parentId": "{{GEN_KEY}}",
-     "label": "Used Module",
-     "componentName": "autocomplete",
-     "entityType": "Shesha.RequirementsStudio.Domain.ModuleDefinition",
-     "version": 8,
-     "dataSourceType": "entitiesList",
-     "useRawValues": false,
-     "desktop": {
-      "borderRadius": 8,
-      "stylingBox": "{}",
-      "border": {
-       "hideBorder": false,
-       "radiusType": "all",
-       "borderType": "all",
-       "border": {
-        "all": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        },
-        "top": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        },
-        "bottom": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        },
-        "left": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        },
-        "right": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        }
-       },
-       "radius": {
-        "all": 8,
-        "topLeft": 8,
-        "topRight": 8,
-        "bottomLeft": 8,
-        "bottomRight": 8
-       }
-      },
-      "background": {
-       "type": "color",
-       "color": "#fff",
-       "repeat": "no-repeat",
-       "size": "auto",
-       "position": "center",
-       "gradient": {
-        "direction": "to right",
-        "colors": {}
-       },
-       "url": "",
-       "storedFile": {
-        "id": null
-       },
-       "uploadFile": null
-      },
-      "font": {
-       "color": "#000",
-       "type": "Segoe UI",
-       "align": "left",
-       "size": 14,
-       "weight": "400"
-      },
-      "dimensions": {
-       "width": "100%",
-       "height": "auto",
-       "minHeight": "0px",
-       "maxHeight": "auto",
-       "minWidth": "0px",
-       "maxWidth": "auto"
-      },
-      "shadow": {
-       "offsetX": 0,
-       "offsetY": 0,
-       "color": "#000",
-       "blurRadius": 0,
-       "spreadRadius": 0
-      },
-      "enableStyleOnReadonly": false
-     },
-     "tablet": {
-      "borderRadius": 8,
-      "stylingBox": "{}",
-      "border": {
-       "hideBorder": false,
-       "radiusType": "all",
-       "borderType": "all",
-       "border": {
-        "all": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        },
-        "top": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        },
-        "bottom": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        },
-        "left": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        },
-        "right": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        }
-       },
-       "radius": {
-        "all": 8,
-        "topLeft": 8,
-        "topRight": 8,
-        "bottomLeft": 8,
-        "bottomRight": 8
-       }
-      },
-      "background": {
-       "type": "color",
-       "color": "#fff",
-       "repeat": "no-repeat",
-       "size": "auto",
-       "position": "center",
-       "gradient": {
-        "direction": "to right",
-        "colors": {}
-       },
-       "url": "",
-       "storedFile": {
-        "id": null
-       },
-       "uploadFile": null
-      },
-      "font": {
-       "color": "#000",
-       "type": "Segoe UI",
-       "align": "left",
-       "size": 14,
-       "weight": "400"
-      },
-      "dimensions": {
-       "width": "100%",
-       "height": "auto",
-       "minHeight": "0px",
-       "maxHeight": "auto",
-       "minWidth": "0px",
-       "maxWidth": "auto"
-      },
-      "shadow": {
-       "offsetX": 0,
-       "offsetY": 0,
-       "color": "#000",
-       "blurRadius": 0,
-       "spreadRadius": 0
-      },
-      "enableStyleOnReadonly": false
-     },
-     "mobile": {
-      "borderRadius": 8,
-      "stylingBox": "{}",
-      "border": {
-       "hideBorder": false,
-       "radiusType": "all",
-       "borderType": "all",
-       "border": {
-        "all": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        },
-        "top": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        },
-        "bottom": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        },
-        "left": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        },
-        "right": {
-         "width": "1px",
-         "style": "solid",
-         "color": "#d9d9d9"
-        }
-       },
-       "radius": {
-        "all": 8,
-        "topLeft": 8,
-        "topRight": 8,
-        "bottomLeft": 8,
-        "bottomRight": 8
-       }
-      },
-      "background": {
-       "type": "color",
-       "color": "#fff",
-       "repeat": "no-repeat",
-       "size": "auto",
-       "position": "center",
-       "gradient": {
-        "direction": "to right",
-        "colors": {}
-       },
-       "url": "",
-       "storedFile": {
-        "id": null
-       },
-       "uploadFile": null
-      },
-      "font": {
-       "color": "#000",
-       "type": "Segoe UI",
-       "align": "left",
-       "size": 14,
-       "weight": "400"
-      },
-      "dimensions": {
-       "width": "100%",
-       "height": "auto",
-       "minHeight": "0px",
-       "maxHeight": "auto",
-       "minWidth": "0px",
-       "maxWidth": "auto"
-      },
-      "shadow": {
-       "offsetX": 0,
-       "offsetY": 0,
-       "color": "#000",
-       "blurRadius": 0,
-       "spreadRadius": 0
-      },
-      "enableStyleOnReadonly": false
-     },
-     "valueFormat": "entityReference",
-     "enableStyleOnReadonly": false
+      ],
+      "direction": "vertical",
+      "enableStyleOnReadonly": false,
+      "showAdvanced": false
     }
-   ],
-   "direction": "vertical",
-   "parentId": "root",
-   "version": 7,
-   "justifyContent": "left",
-   "flexWrap": "wrap",
-   "editMode": "inherited",
-   "showAdvanced": false,
-   "desktop": {
-    "stylingBox": "{}",
-    "showAdvanced": false,
-    "direction": "vertical",
-    "justifyContent": "left",
-    "flexWrap": "wrap",
-    "gap": 8,
-    "overflow": true,
-    "border": {
-     "hideBorder": false,
-     "radiusType": "all",
-     "borderType": "all",
-     "border": {
-      "all": {
-       "width": "1px",
-       "color": "#d9d9d9",
-       "style": "none"
-      },
-      "top": {},
-      "bottom": {},
-      "left": {},
-      "right": {}
-     },
-     "radius": {
-      "all": "8"
-     }
+  ],
+  "formSettings": {
+    "version": 8,
+    "permissions": [],
+    "access": 3,
+    "dataLoaderType": "gql",
+    "dataLoadersSettings": {
+      "gql": {}
     },
-    "background": {
-     "type": "color",
-     "color": "",
-     "repeat": "no-repeat",
-     "size": "auto",
-     "position": "center",
-     "gradient": {
-      "direction": "to right",
-      "colors": {}
-     },
-     "url": "",
-     "storedFile": {
-      "id": null
-     },
-     "uploadFile": null
+    "dataSubmitterType": "gql",
+    "dataSubmittersSettings": {
+      "gql": {}
     },
-    "font": {
-     "align": "left",
-     "weight": "400"
+    "labelCol": {
+      "span": 6
     },
-    "dimensions": {
-     "width": "auto",
-     "height": "auto",
-     "minHeight": "32px",
-     "maxHeight": "auto",
-     "minWidth": "0px",
-     "maxWidth": "auto"
-    },
-    "shadow": {
-     "offsetX": 0,
-     "offsetY": 0,
-     "color": "#000000",
-     "blurRadius": 0,
-     "spreadRadius": 0
-    },
-    "enableStyleOnReadonly": false
-   },
-   "tablet": {
-    "stylingBox": "{}",
-    "showAdvanced": false,
-    "direction": "vertical",
-    "justifyContent": "left",
-    "flexWrap": "wrap",
-    "gap": 8,
-    "overflow": true,
-    "border": {
-     "hideBorder": false,
-     "radiusType": "all",
-     "borderType": "all",
-     "border": {
-      "all": {
-       "width": "1px",
-       "color": "#d9d9d9",
-       "style": "none"
-      },
-      "top": {},
-      "bottom": {},
-      "left": {},
-      "right": {}
-     },
-     "radius": {
-      "all": "8"
-     }
-    },
-    "background": {
-     "type": "color",
-     "color": "",
-     "repeat": "no-repeat",
-     "size": "auto",
-     "position": "center",
-     "gradient": {
-      "direction": "to right",
-      "colors": {}
-     },
-     "url": "",
-     "storedFile": {
-      "id": null
-     },
-     "uploadFile": null
-    },
-    "font": {
-     "align": "left",
-     "weight": "400"
-    },
-    "dimensions": {
-     "width": "auto",
-     "height": "auto",
-     "minHeight": "32px",
-     "maxHeight": "auto",
-     "minWidth": "0px",
-     "maxWidth": "auto"
-    },
-    "shadow": {
-     "offsetX": 0,
-     "offsetY": 0,
-     "color": "#000000",
-     "blurRadius": 0,
-     "spreadRadius": 0
-    },
-    "enableStyleOnReadonly": false
-   },
-   "mobile": {
-    "stylingBox": "{}",
-    "showAdvanced": false,
-    "direction": "vertical",
-    "justifyContent": "left",
-    "flexWrap": "wrap",
-    "gap": 8,
-    "overflow": true,
-    "border": {
-     "hideBorder": false,
-     "radiusType": "all",
-     "borderType": "all",
-     "border": {
-      "all": {
-       "width": "1px",
-       "color": "#d9d9d9",
-       "style": "none"
-      },
-      "top": {},
-      "bottom": {},
-      "left": {},
-      "right": {}
-     },
-     "radius": {
-      "all": "8"
-     }
-    },
-    "background": {
-     "type": "color",
-     "color": "",
-     "repeat": "no-repeat",
-     "size": "auto",
-     "position": "center",
-     "gradient": {
-      "direction": "to right",
-      "colors": {}
-     },
-     "url": "",
-     "storedFile": {
-      "id": null
-     },
-     "uploadFile": null
-    },
-    "font": {
-     "align": "left",
-     "weight": "400"
-    },
-    "dimensions": {
-     "width": "auto",
-     "height": "auto",
-     "minHeight": "32px",
-     "maxHeight": "auto",
-     "minWidth": "0px",
-     "maxWidth": "auto"
-    },
-    "shadow": {
-     "offsetX": 0,
-     "offsetY": 0,
-     "color": "#000000",
-     "blurRadius": 0,
-     "spreadRadius": 0
-    },
-    "enableStyleOnReadonly": false
-   },
-   "enableStyleOnReadonly": false
+    "layout": "horizontal",
+    "modelType": "Shesha.RequirementsStudio.Domain.ModuleDefinitionUsedModule",
+    "onBeforeDataLoad": "const args = form.formArguments || {};\r\nconst vals = {...args};\r\n\r\nif (vals.moduleDefinition) {\r\n    form.setFieldsValue(vals);\r\n}",
+    "onPrepareSubmitData": "const a = form.formArguments; if (a && a.moduleDefinition && a.moduleDefinition.id) { data.moduleDefinition = { id: a.moduleDefinition.id }; } return data;",
+    "wrapperCol": {
+      "span": 18
+    }
   }
- ],
- "formSettings": {
-  "onBeforeDataLoad": "const args = form.formArguments || {};\r\nconst vals = {...args};\r\n\r\nif (vals.moduleDefinition) {\r\n    form.setFieldsValue(vals);\r\n}",
-  "dataSubmitterType": "gql",
-  "labelCol": {
-   "span": 6
-  },
-  "modelType": "Shesha.RequirementsStudio.Domain.ModuleDefinitionUsedModule",
-  "version": 8,
-  "layout": "horizontal",
-  "dataLoaderType": "gql",
-  "wrapperCol": {
-   "span": 18
-  },
-  "access": 3,
-  "permissions": [],
-  "dataLoadersSettings": {
-   "gql": {}
-  },
-  "dataSubmittersSettings": {
-   "gql": {}
-  },
-  "onPrepareSubmitData": "const a = form.formArguments; if (a && a.moduleDefinition && a.moduleDefinition.id) { data.moduleDefinition = { id: a.moduleDefinition.id }; } return data;"
- }
 }

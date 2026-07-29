@@ -1,0 +1,400 @@
+{
+  "components": [
+    {
+      "id": "rdc-root",
+      "type": "container",
+      "componentName": "pageRoot",
+      "propertyName": "pageRoot",
+      "name": "pageRoot",
+      "label": "Page root",
+      "labelAlign": "right",
+      "parentId": "root",
+      "version": 7,
+      "hidden": false,
+      "isDynamic": false,
+      "components": [
+        {
+          "id": "rdc-title",
+          "type": "text",
+          "componentName": "title",
+          "propertyName": "title",
+          "name": "title",
+          "label": "Title",
+          "labelAlign": "right",
+          "parentId": "rdc-root",
+          "version": 5,
+          "hidden": false,
+          "isDynamic": false,
+          "textType": "title",
+          "level": 1,
+          "content": "Service definition details",
+          "font": {
+            "size": 20,
+            "weight": "600"
+          }
+        },
+        {
+          "id": "rdc-lifecycle",
+          "type": "buttonGroup",
+          "componentName": "lifecycleButtons",
+          "propertyName": "lifecycleButtons",
+          "name": "lifecycleButtons",
+          "label": "Lifecycle buttons",
+          "labelAlign": "right",
+          "parentId": "rdc-root",
+          "version": 15,
+          "hidden": false,
+          "isDynamic": false,
+          "editMode": "editable",
+          "isInline": true,
+          "items": [
+            {
+              "id": "rdc-btn-cancel",
+              "itemType": "item",
+              "itemSubType": "button",
+              "sortOrder": 0,
+              "name": "cancelEdit",
+              "label": "Cancel",
+              "icon": "CloseOutlined",
+              "buttonType": "link",
+              "editMode": "inherited",
+              "customVisibility": "return formMode === 'edit';",
+              "actionConfiguration": {
+                "_type": "action-config",
+                "actionName": "Cancel Edit",
+                "actionOwner": "shesha.form"
+              }
+            },
+            {
+              "id": "rdc-btn-edit",
+              "itemType": "item",
+              "itemSubType": "button",
+              "sortOrder": 1,
+              "name": "startEdit",
+              "label": "Edit",
+              "icon": "EditOutlined",
+              "buttonType": "default",
+              "editMode": "inherited",
+              "customVisibility": "return formMode === 'readonly';",
+              "actionConfiguration": {
+                "_type": "action-config",
+                "actionName": "Start Edit",
+                "actionOwner": "shesha.form"
+              }
+            },
+            {
+              "id": "rdc-btn-save",
+              "itemType": "item",
+              "itemSubType": "button",
+              "sortOrder": 2,
+              "name": "submit",
+              "label": "Save",
+              "icon": "CheckOutlined",
+              "buttonType": "primary",
+              "editMode": "inherited",
+              "customVisibility": "return formMode === 'edit';",
+              "actionConfiguration": {
+                "_type": "action-config",
+                "actionName": "Submit",
+                "actionOwner": "shesha.form"
+              }
+            }
+          ]
+        },
+        {
+          "id": "rdc-name",
+          "type": "textField",
+          "componentName": "name",
+          "propertyName": "name",
+          "name": "name",
+          "label": "Name",
+          "labelAlign": "right",
+          "parentId": "rdc-root",
+          "version": 6,
+          "hidden": false,
+          "isDynamic": false,
+          "editMode": "inherited",
+          "textType": "text",
+          "validate": {
+            "required": true
+          }
+        },
+        {
+          "id": "rdc-tabs",
+          "type": "tabs",
+          "componentName": "childTabs",
+          "propertyName": "childTabs",
+          "name": "childTabs",
+          "label": "Child tabs",
+          "labelAlign": "right",
+          "parentId": "rdc-root",
+          "version": 4,
+          "hidden": false,
+          "isDynamic": false,
+          "tabs": [
+            {
+              "id": "rdc-tab-steps",
+              "key": "rdc-tab-steps",
+              "title": "Steps",
+              "editMode": "inherited",
+              "components": [
+                {
+                  "id": "rdc-steps-ctx",
+                  "type": "dataContext",
+                  "componentName": "stepsTable",
+                  "propertyName": "stepsTable",
+                  "name": "stepsTable",
+                  "label": "Steps table",
+                  "labelAlign": "right",
+                  "parentId": "rdc-tabs",
+                  "hidden": false,
+                  "isDynamic": false,
+                  "entityType": "Shesha.RequirementsStudio.Domain.ServiceDefinitionStep",
+                  "sourceType": "Entity",
+                  "dataFetchingMode": "paging",
+                  "defaultPageSize": 10,
+                  "sortMode": "standard",
+                  "allowReordering": "no",
+                  "permanentFilter": {
+                    "and": [
+                      {
+                        "==": [
+                          {
+                            "var": "serviceDefinition"
+                          },
+                          {
+                            "evaluate": [
+                              {
+                                "expression": "{{data.id}}",
+                                "required": true,
+                                "type": "mustache"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "components": [
+                    {
+                      "id": "rdc-steps-table",
+                      "type": "datatable",
+                      "componentName": "stepsDatatable",
+                      "propertyName": "stepsDatatable",
+                      "name": "stepsDatatable",
+                      "label": "Steps",
+                      "labelAlign": "right",
+                      "parentId": "rdc-steps-ctx",
+                      "version": 29,
+                      "hidden": false,
+                      "isDynamic": false,
+                      "items": [
+                        {
+                          "id": "rdc-col-order",
+                          "itemType": "item",
+                          "columnType": "data",
+                          "propertyName": "orderIndex",
+                          "caption": "Order",
+                          "sortOrder": 0
+                        },
+                        {
+                          "id": "rdc-col-name",
+                          "itemType": "item",
+                          "columnType": "data",
+                          "propertyName": "name",
+                          "caption": "Name",
+                          "sortOrder": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "rdc-validation-errors",
+          "type": "validationErrors",
+          "componentName": "validationErrors",
+          "propertyName": "validationErrors",
+          "name": "validationErrors",
+          "label": "Validation errors",
+          "labelAlign": "right",
+          "parentId": "rdc-root",
+          "version": 0,
+          "hidden": false,
+          "isDynamic": false
+        }
+      ],
+      "desktop": {
+        "display": "flex",
+        "flexDirection": "column",
+        "flexWrap": "nowrap",
+        "gap": 16,
+        "justifyContent": "flex-start",
+        "alignItems": "stretch",
+        "dimensions": {
+          "width": "auto",
+          "minWidth": "0",
+          "maxWidth": "none",
+          "height": "auto",
+          "minHeight": "fit-content",
+          "maxHeight": "none"
+        },
+        "background": {
+          "type": "color",
+          "color": "transparent"
+        },
+        "border": {
+          "borderType": "none",
+          "radiusType": "all",
+          "radius": {
+            "all": 0
+          },
+          "border": {
+            "all": {
+              "color": "transparent",
+              "style": "none",
+              "width": "0px"
+            }
+          }
+        },
+        "shadow": {
+          "offsetX": 0,
+          "offsetY": 0,
+          "blurRadius": 0,
+          "spreadRadius": 0,
+          "color": "transparent"
+        },
+        "stylingBox": "{}"
+      },
+      "tablet": {
+        "display": "flex",
+        "flexDirection": "column",
+        "flexWrap": "nowrap",
+        "gap": 16,
+        "justifyContent": "flex-start",
+        "alignItems": "stretch",
+        "dimensions": {
+          "width": "auto",
+          "minWidth": "0",
+          "maxWidth": "none",
+          "height": "auto",
+          "minHeight": "fit-content",
+          "maxHeight": "none"
+        },
+        "background": {
+          "type": "color",
+          "color": "transparent"
+        },
+        "border": {
+          "borderType": "none",
+          "radiusType": "all",
+          "radius": {
+            "all": 0
+          },
+          "border": {
+            "all": {
+              "color": "transparent",
+              "style": "none",
+              "width": "0px"
+            }
+          }
+        },
+        "shadow": {
+          "offsetX": 0,
+          "offsetY": 0,
+          "blurRadius": 0,
+          "spreadRadius": 0,
+          "color": "transparent"
+        },
+        "stylingBox": "{}"
+      },
+      "mobile": {
+        "display": "flex",
+        "flexDirection": "column",
+        "flexWrap": "nowrap",
+        "gap": 16,
+        "justifyContent": "flex-start",
+        "alignItems": "stretch",
+        "dimensions": {
+          "width": "auto",
+          "minWidth": "0",
+          "maxWidth": "none",
+          "height": "auto",
+          "minHeight": "fit-content",
+          "maxHeight": "none"
+        },
+        "background": {
+          "type": "color",
+          "color": "transparent"
+        },
+        "border": {
+          "borderType": "none",
+          "radiusType": "all",
+          "radius": {
+            "all": 0
+          },
+          "border": {
+            "all": {
+              "color": "transparent",
+              "style": "none",
+              "width": "0px"
+            }
+          }
+        },
+        "shadow": {
+          "offsetX": 0,
+          "offsetY": 0,
+          "blurRadius": 0,
+          "spreadRadius": 0,
+          "color": "transparent"
+        },
+        "stylingBox": "{}"
+      },
+      "display": "flex",
+      "flexDirection": "column",
+      "flexWrap": "nowrap",
+      "gap": 16,
+      "justifyContent": "flex-start",
+      "alignItems": "stretch"
+    }
+  ],
+  "formSettings": {
+    "_formFields": [
+      "modelType",
+      "layout",
+      "colon",
+      "labelCol.span",
+      "wrapperCol.span"
+    ],
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": {
+      "name": "ServiceDefinition",
+      "module": "Shesha.RequirementsStudio"
+    },
+    "uniqueFormId": "",
+    "access": 1,
+    "permissions": null,
+    "dataLoaderType": "gql",
+    "dataSubmitterType": "gql",
+    "dataLoadersSettings": {
+      "gql": {
+        "endpointType": "default"
+      }
+    },
+    "dataSubmittersSettings": {
+      "gql": {
+        "endpointType": "default"
+      }
+    }
+  }
+}
