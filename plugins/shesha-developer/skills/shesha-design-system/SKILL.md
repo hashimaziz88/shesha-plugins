@@ -21,12 +21,26 @@ A form looks "cheap" when only one layer is done (AntD still default-blue, or no
 
 ## Steps
 
-1. **Pick the theme — default vs custom brand.** Theme token files live in one folder: `plugins/shesha-developer/skills/shesha-design-system/assets/themes/<brand>.tokens.json`. Choose which brand applies:
-   - **No brand named, or a generic Shesha app → use the shipped default `shesha`** (`shesha.tokens.json`): Cobalt `#003BB2` interactive anchor, Navy `#000E8E` sidebar/header chrome, system-ui type, Nero `#181818` ink, white cards on Athens Grey `#F8F8F9` canvas, radii 2/4/6/8, **borders-not-shadows**, five operational status tones, and a ready-to-apply `$antdTheme` ConfigProvider block. This is the fallback whenever the user does not specify a brand.
-   - **User names a brand / hands you brand tokens / an app-specific `<brand>.tokens.json` already exists → use that brand.** The shipped example of a custom brand is `requirements-studio` (LandBank green `#0d685a`, Inter, white cards on `#f0f2f5` canvas, radii 4/6/12, RsStatus lifecycle Draft→Confirmed→InBuild→Delivered→Rejected→OnHold).
-   - **A design introduces a genuinely new brand → author it in that same `assets/themes/` folder:** copy the default `shesha.tokens.json` → `<brand>.tokens.json`, swap the values (palette / type / spacing / radius / shadow / statusLifecycle / roles, and the `$antdTheme` block), but **keep every key name identical** so all recipes, block-overlays and `roles.*` resolve unchanged. Then treat the new file as the active brand.
+1. **Resolve the theme — this step is a lookup, never an authoring task.** Run:
 
-   Load the chosen file with Read; resolve `roles.*` (role → token path) before authoring.
+   ```bash
+   node scripts/resolve-brand.mjs [<requested-brand>]
+   ```
+
+   It prints the brand file to use and exits 0. That is the whole step. Two outcomes only:
+   - The requested brand file exists in `assets/themes/` → it is used.
+   - It does not exist, or none was requested → **the shipped default `shesha` is used**, and the script says so.
+
+   **NEVER author a new `<brand>.tokens.json` during a design, form, or styling run. Not ever, and not "quickly".** A brand token file is ~290 keys including an `$antdTheme` block; writing one costs a large fraction of a run's budget and delivers nothing the default does not already deliver. A telemetry review found a run that spent most of its turns authoring a `skyline` brand that **no user had asked for** — 32 references to `tokens.json`, 5 to `$antdTheme`, and zero user messages requesting a theme.
+
+   Specifically, these are NOT reasons to author a brand file:
+   - a blueprint or spec carries a `theme:` field naming a brand that does not exist → **use the default**, note it in one line, move on
+   - the design's palette looks distinct from the default → **irrelevant**; per-component style comes from roles + recipes, and brand colour is one app-level primary
+   - it "seems tidier" to have a matching brand name → no
+
+   The only path to a new brand file is the user **explicitly asking for one as the task**, or handing over a token file. Then it is its own task, gated and costed up front — never smuggled into a form run.
+
+   Then load the resolved file with Read and resolve `roles.*` (role → token path) before authoring.
 2. **Apply the app-level theme (once per project).** Set brand primary, font, base radius so the portal inherits them. [app-theme.md](references/app-theme.md). Skip only for a one-off tweak where the app theme is already correct; never skip when the complaint is "buttons/links are the wrong colour".
 3. **Apply per-component v7 blocks.** For each component the design touches, copy the matching recipe from [component-recipes.md](references/component-recipes.md) and fill it with the theme's resolved values; map token→exact prop via [token-to-prop-mapping.md](references/token-to-prop-mapping.md). Mirror the block across desktop/tablet/mobile unless the design is genuinely responsive.
 4. **Audit (optional).** Given a screenshot + the theme, return **prop-level fixes** (component, prop path, current vs target, one-line reason), ordered by impact. Suggestions, not blockers. Grading rubric: [references/appearance-quality.md](references/appearance-quality.md) (the appearance companion to `shesha-form-edit`'s construction `form-quality.md` — never override a construction guardrail).
