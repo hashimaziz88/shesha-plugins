@@ -1,0 +1,28 @@
+{
+  "archetype": "list-card",
+  "purpose": "A collection rendered as cards, not a grid: dataContext + toolbar (Add) + a datalist of row-template cards + a pager.",
+  "requires": [
+    { "node": "dataContext", "type": "dataContext",
+      "props": ["entityType", "sourceType", "dataFetchingMode", "defaultPageSize", "uniqueStateId"] },
+    { "node": "page", "type": "container", "role": "page-root" },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "children": ["heading", "subtitle"] },
+    { "node": "heading", "type": "text" },
+    { "node": "subtitle", "type": "text" },
+    { "node": "toolbar", "type": "container", "role": "toolbar-row", "slot": "page",
+      "children": ["addButtonGroup"] },
+    { "node": "addButtonGroup", "type": "buttonGroup", "wiring": "showDialog:<create-form>",
+      "dependsOn": "createForm" },
+    { "node": "list", "type": "datalist", "role": "grid-surface", "slot": "page",
+      "requiresRowTemplate": { "prop": "formId", "dependsOn": "rowTemplate" },
+      "requiresNavigate": { "prop": "onListItemClick", "action": "navigate", "dependsOn": "detailForm" } },
+    { "node": "pagerRow", "type": "container", "role": "toolbar-row-right", "slot": "page",
+      "children": ["pager"] },
+    { "node": "pager", "type": "datatable.pager" }
+  ],
+  "dependencies": [
+    { "id": "rowTemplate", "archetype": "row-template", "naming": "{entity-kebab}-card" },
+    { "id": "createForm", "archetype": "capture-dialog", "naming": "{entity-kebab}-create" },
+    { "id": "detailForm", "archetype": "record-detail", "naming": "{entity-kebab}-detail" }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "archetype": "dashboard",
+  "purpose": "Metrics page: page + header band + a row of metric tiles + at least one chart surface. No single entity binding.",
+  "requires": [
+    { "node": "page", "type": "container", "role": "page-root" },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "children": ["heading"] },
+    { "node": "heading", "type": "text" },
+    { "node": "metricRow", "type": "container", "role": "card-grid", "slot": "page",
+      "children": ["metric1", "metric2", "metric3"] },
+    { "node": "metric1", "type": "container", "role": "metric-tile", "slot": "metricRow",
+      "children": ["metric1Label", "metric1Value"] },
+    { "node": "metric1Label", "type": "text" },
+    { "node": "metric1Value", "type": "text" },
+    { "node": "metric2", "type": "container", "role": "metric-tile", "slot": "metricRow",
+      "children": ["metric2Label", "metric2Value"] },
+    { "node": "metric2Label", "type": "text" },
+    { "node": "metric2Value", "type": "text" },
+    { "node": "metric3", "type": "container", "role": "metric-tile", "slot": "metricRow",
+      "children": ["metric3Label", "metric3Value"] },
+    { "node": "metric3Label", "type": "text" },
+    { "node": "metric3Value", "type": "text" },
+    { "node": "chartSurface", "type": "container", "role": "chart-surface", "slot": "page",
+      "children": ["chart"] },
+    { "node": "chart", "type": "barChart", "slot": "chartSurface" }
+  ],
+  "dependencies": []
+}

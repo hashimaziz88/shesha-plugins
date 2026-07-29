@@ -239,5 +239,156 @@
       "flexDirection": "column", "alignItems": "flex-start",
       "stylingBox": { "padding": "$spacing.2" }
     }
+  },
+
+  "card-grid": {
+    "componentType": "container",
+    "desktop": {
+      "display": "flex", "flexDirection": "row", "flexWrap": "wrap",
+      "gap": "$spacing.4", "justifyContent": "flex-start", "alignItems": "stretch",
+      "dimensions": {
+        "width": "100%", "minWidth": "0", "maxWidth": "none",
+        "height": "auto", "minHeight": "fit-content", "maxHeight": "none"
+      },
+      "background": { "type": "color", "color": "$roles.pageBg" },
+      "border": {
+        "borderType": "none", "radiusType": "all",
+        "radius": { "all": "$radius.xs" },
+        "border": { "all": { "color": "transparent", "style": "none", "width": "0px" } }
+      },
+      "shadow": { "offsetX": 0, "offsetY": 0, "blurRadius": 0, "spreadRadius": 0, "color": "transparent" },
+      "stylingBox": { "padding": 0 }
+    },
+    "tablet": { "$inherit": "desktop" },
+    "mobile": { "$inherit": "desktop", "flexDirection": "column", "alignItems": "stretch" }
+  },
+
+  "nav-tile": {
+    "componentType": "container",
+    "desktop": {
+      "display": "flex", "flexDirection": "column", "flexWrap": "nowrap",
+      "gap": "$spacing.2", "justifyContent": "center", "alignItems": "center",
+      "dimensions": {
+        "width": "$chrome.navTileWidth", "minWidth": "$chrome.navTileWidth", "maxWidth": "$chrome.navTileWidth",
+        "height": "auto", "minHeight": "fit-content", "maxHeight": "none"
+      },
+      "background": { "type": "color", "color": "$roles.cardBg" },
+      "border": {
+        "borderType": "all", "radiusType": "all",
+        "radius": { "all": "$radius.lg" },
+        "border": { "all": { "color": "$roles.hairline", "style": "solid", "width": "1px" } }
+      },
+      "shadow": { "offsetX": 0, "offsetY": 0, "blurRadius": 0, "spreadRadius": 0, "color": "transparent" },
+      "stylingBox": { "padding": "$spacing.4" }
+    },
+    "tablet": { "$inherit": "desktop" },
+    "mobile": {
+      "$inherit": "desktop",
+      "dimensions": {
+        "width": "100%", "minWidth": "0", "maxWidth": "100%",
+        "height": "auto", "minHeight": "fit-content", "maxHeight": "none"
+      }
+    }
+  },
+
+  "metric-tile": {
+    "componentType": "container",
+    "desktop": {
+      "display": "flex", "flexDirection": "column", "flexWrap": "nowrap",
+      "gap": "$spacing.1", "justifyContent": "flex-start", "alignItems": "flex-start",
+      "dimensions": {
+        "width": "$chrome.metricTileWidth", "minWidth": "$chrome.metricTileWidth", "maxWidth": "$chrome.metricTileWidth",
+        "height": "auto", "minHeight": "fit-content", "maxHeight": "none"
+      },
+      "background": { "type": "color", "color": "$roles.cardBg" },
+      "border": {
+        "borderType": "all", "radiusType": "all",
+        "radius": { "all": "$radius.lg" },
+        "border": { "all": { "color": "$roles.hairline", "style": "solid", "width": "1px" } }
+      },
+      "shadow": { "offsetX": 0, "offsetY": 0, "blurRadius": 0, "spreadRadius": 0, "color": "transparent" },
+      "stylingBox": { "padding": "$spacing.4" }
+    },
+    "tablet": { "$inherit": "desktop" },
+    "mobile": {
+      "$inherit": "desktop",
+      "dimensions": {
+        "width": "100%", "minWidth": "0", "maxWidth": "100%",
+        "height": "auto", "minHeight": "fit-content", "maxHeight": "none"
+      }
+    }
+  },
+
+  "chart-surface": {
+    "componentType": "container",
+    "desktop": {
+      "display": "flex", "flexDirection": "column", "flexWrap": "nowrap",
+      "gap": "$spacing.3", "justifyContent": "flex-start", "alignItems": "stretch",
+      "dimensions": {
+        "width": "100%", "minWidth": "0", "maxWidth": "none",
+        "height": "auto", "minHeight": "$chrome.chartMinHeight", "maxHeight": "none"
+      },
+      "background": { "type": "color", "color": "$roles.cardBg" },
+      "border": {
+        "borderType": "all", "radiusType": "all",
+        "radius": { "all": "$radius.lg" },
+        "border": { "all": { "color": "$roles.hairline", "style": "solid", "width": "1px" } }
+      },
+      "shadow": { "offsetX": 0, "offsetY": 0, "blurRadius": 0, "spreadRadius": 0, "color": "transparent" },
+      "stylingBox": { "padding": "$spacing.4" }
+    },
+    "tablet": { "$inherit": "desktop" },
+    "mobile": { "$inherit": "desktop" }
+  },
+
+  "wizard-shell": {
+    "componentType": "container",
+    "desktop": {
+      "display": "flex", "flexDirection": "column", "flexWrap": "nowrap",
+      "gap": "$spacing.4", "justifyContent": "flex-start", "alignItems": "stretch",
+      "dimensions": {
+        "width": "100%", "minWidth": "0", "maxWidth": "$chrome.formColMax",
+        "height": "auto", "minHeight": "fit-content", "maxHeight": "none"
+      },
+      "background": { "type": "color", "color": "$roles.cardBg" },
+      "border": {
+        "borderType": "all", "radiusType": "all",
+        "radius": { "all": "$radius.lg" },
+        "border": { "all": { "color": "$roles.hairline", "style": "solid", "width": "1px" } }
+      },
+      "shadow": { "offsetX": 0, "offsetY": 0, "blurRadius": 0, "spreadRadius": 0, "color": "transparent" },
+      "stylingBox": { "padding": "$spacing.6" }
+    },
+    "tablet": { "$inherit": "desktop", "stylingBox": { "padding": "$spacing.4" } },
+    "mobile": {
+      "$inherit": "desktop",
+      "stylingBox": { "padding": "$spacing.3" },
+      "dimensions": {
+        "width": "100%", "minWidth": "0", "maxWidth": "none",
+        "height": "auto", "minHeight": "fit-content", "maxHeight": "none"
+      }
+    }
+  },
+
+  "wizard-step": {
+    "componentType": "container",
+    "desktop": {
+      "display": "flex", "flexDirection": "column", "flexWrap": "nowrap",
+      "gap": "$spacing.4", "justifyContent": "flex-start", "alignItems": "stretch",
+      "dimensions": {
+        "width": "100%", "minWidth": "0", "maxWidth": "none",
+        "height": "auto", "minHeight": "fit-content", "maxHeight": "none"
+      },
+      "background": { "type": "color", "color": "$roles.cardBg" },
+      "border": {
+        "borderType": "none", "radiusType": "all",
+        "radius": { "all": "$radius.xs" },
+        "border": { "all": { "color": "transparent", "style": "none", "width": "0px" } }
+      },
+      "shadow": { "offsetX": 0, "offsetY": 0, "blurRadius": 0, "spreadRadius": 0, "color": "transparent" },
+      "stylingBox": { "padding": 0 }
+    },
+    "tablet": { "$inherit": "desktop" },
+    "mobile": { "$inherit": "desktop" }
   }
 }

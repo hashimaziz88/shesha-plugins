@@ -1,0 +1,19 @@
+{
+  "archetype": "wizard",
+  "purpose": "Multi-step capture: the wizard component with its steps, validationErrors, and per-step navigation — handled by the wizard's own Back/Next/Done affordances, not a separate buttonGroup.",
+  "requires": [
+    { "node": "page", "type": "container", "role": "page-root" },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "children": ["heading"] },
+    { "node": "heading", "type": "text" },
+    { "node": "validationErrors", "type": "validationErrors", "slot": "page" },
+    { "node": "wizard", "type": "wizard", "role": "wizard-shell", "slot": "page",
+      "children": ["step1", "step2", "step3"],
+      "props": ["steps", "showBackButton", "showDoneButton", "backButtonText", "nextButtonText",
+                "doneButtonText", "buttonsLayout"] },
+    { "node": "step1", "type": "container", "role": "wizard-step", "slot": "wizard" },
+    { "node": "step2", "type": "container", "role": "wizard-step", "slot": "wizard" },
+    { "node": "step3", "type": "container", "role": "wizard-step", "slot": "wizard" }
+  ],
+  "dependencies": []
+}

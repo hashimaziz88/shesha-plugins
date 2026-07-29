@@ -1,0 +1,28 @@
+{
+  "archetype": "hub",
+  "purpose": "Landing page of navigation tiles into other screens: page + header band + a wrapping tile grid + repeated tile nodes, each a container holding a text label and a navigate action.",
+  "requires": [
+    { "node": "page", "type": "container", "role": "page-root" },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "children": ["heading"] },
+    { "node": "heading", "type": "text" },
+    { "node": "tileGrid", "type": "container", "role": "card-grid", "slot": "page",
+      "children": ["tile1", "tile2", "tile3"] },
+    { "node": "tile1", "type": "container", "role": "nav-tile", "slot": "tileGrid",
+      "children": ["tile1Label", "tile1Action"] },
+    { "node": "tile1Label", "type": "text" },
+    { "node": "tile1Action", "type": "buttonGroup",
+      "actions": [{ "actionName": "Navigate", "actionOwner": "shesha.common" }] },
+    { "node": "tile2", "type": "container", "role": "nav-tile", "slot": "tileGrid",
+      "children": ["tile2Label", "tile2Action"] },
+    { "node": "tile2Label", "type": "text" },
+    { "node": "tile2Action", "type": "buttonGroup",
+      "actions": [{ "actionName": "Navigate", "actionOwner": "shesha.common" }] },
+    { "node": "tile3", "type": "container", "role": "nav-tile", "slot": "tileGrid",
+      "children": ["tile3Label", "tile3Action"] },
+    { "node": "tile3Label", "type": "text" },
+    { "node": "tile3Action", "type": "buttonGroup",
+      "actions": [{ "actionName": "Navigate", "actionOwner": "shesha.common" }] }
+  ],
+  "dependencies": []
+}

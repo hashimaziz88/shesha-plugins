@@ -114,8 +114,9 @@ test('the shipped catalogue is valid against the registry and resolves fully', (
 
   assert.deepEqual(validateRoles({ roles, registry }), []);
 
-  for (const name of ['page-root', 'dialog-root', 'header-band', 'toolbar-row', 'toolbar-row-right',
-                      'grid-surface', 'section-card', 'detail-rail', 'field-row']) {
+  // Iterate every key in the shipped catalogue, not a hardcoded list, so newly
+  // added roles are covered automatically without editing this test again.
+  for (const name of Object.keys(roles)) {
     const r = resolveRole(name, { roles, tokens });
     for (const bp of ['desktop', 'tablet', 'mobile']) {
       assert.ok(r[bp], `${name}.${bp} missing`);

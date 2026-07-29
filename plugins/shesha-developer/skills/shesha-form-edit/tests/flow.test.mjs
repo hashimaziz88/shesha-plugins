@@ -47,10 +47,50 @@ test('standalone-capture requires validationErrors and a Submit/exit pair', () =
 });
 
 test('every shipped manifest validates against the registry and role catalogue', () => {
-  for (const a of ['table-worklist', 'record-detail', 'capture-dialog', 'standalone-capture']) {
+  for (const a of ['table-worklist', 'record-detail', 'capture-dialog', 'standalone-capture',
+                   'list-card', 'hub', 'dashboard', 'wizard']) {
     const problems = validateFlow(loadFlow(a, { dir: DIR }), { registry, roles });
     assert.deepEqual(problems, [], `${a}: ${problems.join('; ')}`);
   }
+});
+
+test('list-card requires a datalist and NOT a datatable', () => {
+  const types = requiredNodes(loadFlow('list-card', { dir: DIR })).map((n) => n.type);
+  assert.ok(types.includes('datalist'), 'flow must require datalist');
+  assert.ok(!types.includes('datatable'), 'flow must not require a grid datatable');
+});
+
+test('list-card declares its row-template, create and detail dependencies', () => {
+  const flow = loadFlow('list-card', { dir: DIR });
+  const ids = flow.dependencies.map((d) => d.id);
+  assert.ok(ids.includes('rowTemplate'), 'needs the row-template form dependency');
+  assert.ok(ids.includes('createForm'));
+  assert.ok(ids.includes('detailForm'));
+  for (const d of flow.dependencies) {
+    assert.ok(d.archetype, `dependency ${d.id} needs an archetype`);
+    assert.ok(d.naming, `dependency ${d.id} needs a naming rule`);
+  }
+});
+
+test('hub requires more than one tile node', () => {
+  const nodes = requiredNodes(loadFlow('hub', { dir: DIR }));
+  const tiles = nodes.filter((n) => n.role === 'nav-tile');
+  assert.ok(tiles.length > 1, 'flow must require more than one nav-tile node');
+});
+
+test('dashboard requires a chart type', () => {
+  const CHART_TYPES = new Set(['barChart', 'lineChart', 'pieChart', 'polarAreaChart']);
+  const types = requiredNodes(loadFlow('dashboard', { dir: DIR })).map((n) => n.type);
+  assert.ok(types.some((t) => CHART_TYPES.has(t)), 'flow must require a chart type');
+});
+
+test('wizard requires validationErrors and the wizard component with multiple steps', () => {
+  const nodes = requiredNodes(loadFlow('wizard', { dir: DIR }));
+  assert.ok(nodes.some((n) => n.type === 'validationErrors'));
+  const wizardNode = nodes.find((n) => n.type === 'wizard');
+  assert.ok(wizardNode, 'flow must require the wizard component');
+  const steps = nodes.filter((n) => n.role === 'wizard-step');
+  assert.ok(steps.length > 1, 'flow must require more than one wizard-step node');
 });
 
 test('validateFlow rejects a type absent from the registry', () => {
