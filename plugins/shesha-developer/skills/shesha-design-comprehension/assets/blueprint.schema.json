@@ -1,0 +1,248 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://shesha-plugins/shesha-design-comprehension/blueprint.schema.json",
+  "title": "Styled blueprint",
+  "description": "The resolved node tree that carries a screen's placement from design to build. This is the SAME tree renderMock() (scripts/lib/render-mock.mjs) walks to produce the ASCII placement mock, and the same tree shesha-form-edit consumes as its build input — a hand-drawn wireframe can drift from what gets built, this cannot.",
+  "type": "object",
+  "required": ["screen", "archetype", "nodes"],
+  "additionalProperties": false,
+  "properties": {
+    "screen": {
+      "type": "string",
+      "description": "Human name for the screen, e.g. \"Bookings Register\"."
+    },
+    "archetype": {
+      "type": "string",
+      "description": "One of the eight archetypes in shesha-form-edit/references/archetypes.md (table-worklist, record-detail, capture-dialog, standalone-capture, list-card, hub, dashboard, wizard).",
+      "enum": [
+        "table-worklist",
+        "record-detail",
+        "capture-dialog",
+        "standalone-capture",
+        "list-card",
+        "hub",
+        "dashboard",
+        "wizard"
+      ]
+    },
+    "theme": {
+      "type": "string",
+      "description": "Design-system theme id whose tokens the resolved styles below were expanded from, e.g. \"requirements-studio\"."
+    },
+    "viewport": {
+      "type": "string",
+      "description": "The single pinned viewport this blueprint was authored/measured against, e.g. \"1440x900\". Never mix viewports within one blueprint.",
+      "pattern": "^[0-9]+x[0-9]+$"
+    },
+    "entity": {
+      "type": "object",
+      "description": "The entity the screen is bound to, resolved live (not guessed) against the backend metadata.",
+      "additionalProperties": false,
+      "required": ["fullClassName", "modelType"],
+      "properties": {
+        "fullClassName": { "type": "string" },
+        "modelType": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "module"],
+          "properties": {
+            "name": { "type": "string" },
+            "module": { "type": "string" }
+          }
+        }
+      }
+    },
+    "form": {
+      "type": "object",
+      "description": "The Shesha form configuration identity this blueprint builds.",
+      "additionalProperties": false,
+      "required": ["module", "name"],
+      "properties": {
+        "module": { "type": "string" },
+        "name": { "type": "string" },
+        "label": { "type": "string" }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "description": "The full container/leaf tree, flattened. A node with no `slot` is a root. renderMock() throws on an empty array rather than rendering an empty frame.",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/node" }
+    },
+    "bindings": {
+      "type": "array",
+      "description": "label -> entity property -> component -> datatype, for every bound field on the screen.",
+      "items": { "$ref": "#/definitions/binding" }
+    },
+    "assertions": {
+      "type": "array",
+      "description": "The placement contract re-measured by the verification loop (references/verification-loop.md) — split-cell membership, row grouping, nesting depth, tab assignment. No pixel asserts.",
+      "items": { "type": "string" }
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "Other blueprints/forms this screen depends on (e.g. a table-worklist's createForm/detailForm), mirroring a flow manifest's `dependencies[]` (shesha-form-edit/assets/archetypes/*.flow.json).",
+      "items": { "$ref": "#/definitions/dependency" }
+    }
+  },
+
+  "definitions": {
+    "node": {
+      "type": "object",
+      "required": ["node", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "node": {
+          "type": "string",
+          "description": "Unique node name within this blueprint, referenced by other nodes' `slot` and `children[]`."
+        },
+        "type": {
+          "type": "string",
+          "description": "Component type. One of the registry's authorable types (shesha-form-edit/assets/registry/registry-0.45.1.json), or a structural pseudo-type such as \"dataContext\"."
+        },
+        "role": {
+          "type": "string",
+          "description": "One of the nine roles in shesha-design-system/assets/roles.styles.json.",
+          "enum": [
+            "page-root",
+            "dialog-root",
+            "header-band",
+            "toolbar-row",
+            "toolbar-row-right",
+            "grid-surface",
+            "section-card",
+            "detail-rail",
+            "field-row"
+          ]
+        },
+        "slot": {
+          "type": "string",
+          "description": "The `node` name of this node's parent. Absent (or null) marks this node as a root."
+        },
+        "children": {
+          "type": "array",
+          "description": "Ordered child node names. When present, this order wins over slot-derived order for rendering/build purposes.",
+          "items": { "type": "string" }
+        },
+        "style": {
+          "type": "object",
+          "description": "Resolved style per breakpoint — literal values only, never token references (e.g. gap: 24, not gap: \"$spacing.6\").",
+          "additionalProperties": false,
+          "properties": {
+            "desktop": { "$ref": "#/definitions/resolvedStyle" },
+            "tablet": { "$ref": "#/definitions/resolvedStyle" },
+            "mobile": { "$ref": "#/definitions/resolvedStyle" }
+          }
+        },
+        "overrides": {
+          "type": "array",
+          "description": "Per-node deviations from the role's default style. Each entry MUST carry measurement provenance — an override with no source/evidence is exactly what this design discipline forbids.",
+          "items": { "$ref": "#/definitions/override" }
+        },
+        "content": {
+          "type": "string",
+          "description": "Literal content for a text/label-like leaf node."
+        },
+        "columns": {
+          "type": "array",
+          "description": "For a datatable node: the ordered column list, rendered as its header row by renderMock().",
+          "items": {
+            "anyOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "field": { "type": "string" },
+                  "propertyName": { "type": "string" }
+                }
+              }
+            ]
+          }
+        },
+        "addedBy": {
+          "type": "string",
+          "description": "Set to \"flow-manifest\" when this node was injected by the archetype's flow manifest (Task 9) rather than authored from the design/prompt. renderMock() surfaces this as a \"(added by flow)\" marker.",
+          "enum": ["flow-manifest"]
+        }
+      }
+    },
+
+    "resolvedStyle": {
+      "type": "object",
+      "description": "A fully-resolved style block — same shape as one breakpoint entry in shesha-design-system/assets/roles.styles.json, but with every token reference expanded to its literal value.",
+      "properties": {
+        "display": { "type": "string" },
+        "flexDirection": { "type": "string", "enum": ["row", "column", "row-reverse", "column-reverse"] },
+        "flexWrap": { "type": "string" },
+        "gap": { "type": ["number", "string"] },
+        "justifyContent": { "type": "string" },
+        "alignItems": { "type": "string" },
+        "dimensions": {
+          "type": "object",
+          "properties": {
+            "width": { "type": ["string", "number"] },
+            "minWidth": { "type": ["string", "number"] },
+            "maxWidth": { "type": ["string", "number"] },
+            "height": { "type": ["string", "number"] },
+            "minHeight": { "type": ["string", "number"] },
+            "maxHeight": { "type": ["string", "number"] }
+          }
+        },
+        "background": { "type": "object" },
+        "border": { "type": "object" },
+        "shadow": { "type": "object" },
+        "stylingBox": {
+          "type": "object",
+          "description": "Padding/margin. May be a single `padding` number or per-side paddingTop/Right/Bottom/Left."
+        }
+      }
+    },
+
+    "override": {
+      "type": "object",
+      "required": ["prop", "value", "source", "evidence"],
+      "additionalProperties": false,
+      "properties": {
+        "prop": {
+          "type": "string",
+          "description": "The style property path being overridden, e.g. \"dimensions.width\"."
+        },
+        "value": {
+          "description": "The literal override value."
+        },
+        "source": {
+          "type": "string",
+          "description": "Where this override's value came from — required. E.g. \"layout-probe measurement\", \"source grid-template\", \"design token override\"."
+        },
+        "evidence": {
+          "type": "string",
+          "description": "The concrete measurement/reference backing this override — required. E.g. a probe file path + rect, a source line, a screenshot region."
+        }
+      }
+    },
+
+    "binding": {
+      "type": "object",
+      "required": ["label", "property", "component", "datatype"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string" },
+        "property": { "type": "string" },
+        "component": { "type": "string" },
+        "datatype": { "type": "string" }
+      }
+    },
+
+    "dependency": {
+      "type": "object",
+      "required": ["id", "archetype"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "archetype": { "type": "string" },
+        "naming": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,144 +1,237 @@
 # Layout blueprint IR
 
-The intermediate representation that carries a screen's placement from design to build. One file per screen: `<workdir>/blueprints/<screen>.blueprint.md`.
+The intermediate representation that carries a screen's placement from design to build. One file
+per screen: `<workdir>/blueprints/<screen>.blueprint.json`, conforming to
+`assets/blueprint.schema.json`. (This supersedes the `<screen>.blueprint.md` naming used elsewhere
+in this skill's other reference docs — `SKILL.md` and `capture-pipeline.md` still describe the
+retired Markdown-with-fenced-blocks format and are due a follow-up pass; this file is the current
+source of truth for the IR's shape.)
 
-## Why hybrid Markdown (not pure JSON/YAML)
+## Why a JSON blueprint, not hand-authored Markdown
 
-The blueprint has two audiences. A **human** reviews and approves placement at the planning gate — they read Markdown, not a 24-deep JSON tree. A **builder** (`shesha-form-edit`) consumes it as a requirements brief — archetype + layout spec + bindings is exactly the input it already takes. So the doc is human-readable Markdown **headings/prose**, with the machine-precise parts isolated in **three fenced code blocks per region**:
+The blueprint has two audiences. A **human** reviews and approves placement at the planning gate.
+A **builder** (`shesha-form-edit`) consumes it as a requirements brief — archetype + layout spec +
+bindings is exactly the input it already takes. Earlier drafts of this IR tried to serve both from
+one hand-authored Markdown document with a prose `layout-tree` grammar (arrows, `row=[…]`
+annotations, recipe notes). That grammar was itself a wireframe — authored by a human transcribing
+what they intended — and could drift from the JSON actually handed to the builder, which is exactly
+the failure mode this whole layer exists to prevent.
 
-- ` ```layout-tree ` — the container tree: regions → sections → flex-row splits → split children → fields, with explicit child counts and per-child native widths.
-- ` ```bindings ` — a table mapping each label to its entity property, component type and datatype.
-- ` ```assertions ` — the placement contract: the statements the verification loop re-measures against.
+The blueprint is now **one JSON object** (`assets/blueprint.schema.json`) carrying `nodes[]` with
+resolved `role` and resolved `style.desktop/tablet/mobile` (literal values — a fully-expanded
+`page-root` node looks like the resolved form of `shesha-design-system/assets/roles.styles.json`'s
+`page-root` entry, not a token reference). Three representations are then **generated from that one
+object**, so none of them can disagree with what the compiler consumes:
 
-Pure JSON would be unreviewable; pure prose is the thing that drifts. The fenced blocks recover everything the machine needs without making the whole doc machine-only.
+1. **The ASCII mock** — `renderMock(blueprint)` in `scripts/lib/render-mock.mjs`. Depth-first,
+   one box per container, indentation by depth, a resolved-style summary line per container, a
+   header row for `datatable` columns, and a `(added by flow)` marker on any node the flow manifest
+   contributed. This is what a human reads at the planning gate.
+2. **The machine blocks** — `bindings[]` (label → entity property → component → datatype),
+   `assertions[]` (the placement contract the verification loop re-measures against — see
+   `verification-loop.md`), and the resolved `style` carried directly on each node in `nodes[]`.
+   These are not transcribed from the mock; the mock is rendered from them.
+3. **The flow-manifest expansion** — which nodes in `nodes[]` came from the design/prompt and which
+   were injected by the archetype's `*.flow.json` (Task 9: `loadFlow` / `requiredNodes` /
+   `validateFlow` in `shesha-form-edit/scripts/lib/flow.mjs`). A node the manifest added carries
+   `addedBy: "flow-manifest"`; the renderer surfaces it as `(added by flow)` so a reviewer can see
+   which placement decisions came from the archetype contract rather than being re-imagined by the
+   model. See `shesha-form-edit/references/archetypes.md` for the eight-archetype vocabulary and
+   which four ship a flow manifest today.
+
+Pure prose was the thing that drifted. A blueprint that IS the compiler's input, rendered rather
+than transcribed, cannot.
 
 ## Document structure
 
+A blueprint JSON file has the shape (`assets/blueprint.schema.json`):
+
 ```
-# Blueprint — <screen-slug>
-Screen identity:  <human name + where it lives>
-Entity (modelType, resolve live):  <Entity>   ·   Form identity:  <module> / <form-name>
-Archetype:  <one of the 8 — see below>  [+ variant note]
-Fidelity tier:  A | B | C        Confidence:  high | medium | low
-Viewport captured:  <w>x<h>      Source:  <probe file / source path / screenshot>
-
-## Region N — <name>  (recipe: <design-system recipe>)
-```layout-tree …``` 
-(prose notes about this region if helpful)
-
-## Bindings
-```bindings …```
-
-## Assertions  (placement contract — verified by verification-loop.md)
-```assertions …```
+{
+  "screen": "<human name>",
+  "archetype": "<one of the eight — see shesha-form-edit/references/archetypes.md>",
+  "theme": "<design-system theme id>",
+  "viewport": "<w>x<h>",
+  "entity": { "fullClassName": "...", "modelType": { "name": "...", "module": "..." } },
+  "form": { "module": "...", "name": "...", "label": "..." },
+  "nodes": [ { "node": "...", "type": "...", "role": "...", "slot": "...", "style": {...}, ... } ],
+  "bindings": [ { "label": "...", "property": "...", "component": "...", "datatype": "..." } ],
+  "assertions": [ "..." ],
+  "dependencies": [ { "id": "...", "archetype": "...", "naming": "..." } ]
+}
 ```
 
-## The eight archetypes (target vocabulary)
+`nodes[]` carries the full container/leaf tree: `role` for anything drawing from the nine-role
+catalogue in `shesha-design-system/assets/roles.styles.json` (`page-root`, `dialog-root`,
+`header-band`, `toolbar-row`, `toolbar-row-right`, `grid-surface`, `section-card`, `detail-rail`,
+`field-row`); `slot` naming the parent a node renders inside (nodes with no `slot` are roots);
+`style.desktop/tablet/mobile` as **resolved** literal values, never token references; `overrides[]`
+for any per-node deviation from its role's default style, where each override is
+`{ prop, value, source, evidence }` — `source` and `evidence` are required by the schema precisely
+because an override with no measurement provenance is what this whole design discipline forbids.
 
-The blueprint's `Archetype` must be one of `shesha-form-edit`'s archetypes, so the builder picks the right seed:
-`record-detail` · `hub` · `list-card` · `capture` · `dashboard` · `solution-map` · `wizard` · `inline-card`.
-(See `shesha-form-edit/references/archetypes.md` for each one's seed + structure.)
+## Rail / split-cell width derivation
 
-## `layout-tree` grammar
+The only split mechanism in this project is a flex `container` row with explicit
+`desktop.dimensions.width` on each child — never the Shesha `columns` component (see
+`shesha-form-edit/references/archetypes.md` and `blueprint-consumption.md`). For a two-cell row
+`row=[fill, <railPx>px]` with row `gap=<gapPx>`, the filling cell's width is **derived**, not
+independently measured:
 
-Indentation = nesting (DOM depth). Each line: `<node-name>  <kind> [attributes]`.
-
-- **kind**: `region | container | row | card | tabs | tab | datatable | datalist | field | text | buttonGroup | chip`. A `row` is a flex-row split — a `container` that builds with `display:"flex"` + `flexDirection:"row"` + `gap`; its children are split cells, each its own `container`.
-- **`row` attributes**: `row=[a,b,…]` listing each child's native size (`1fr` / `fill` for a filling cell, `<n>px` for a fixed cell, e.g. `row=[1fr, 332px]` or `row=[fill, 332px]`), plus optionally `gap=<px>`, `align=start|center|stretch`. Each child of the row maps to a `container` sized via **`desktop.dimensions.width`**: a `fill`/`1fr` cell → `width:"calc(100% - <fixed+gap>px)"` (e.g. `"calc(100% - 348px)"` for a 332px sibling + 16px gap); a fixed cell → `width:"<n>px"` with matching `minWidth`/`maxWidth`. The row container itself MUST carry `display:"flex"` (or the children stack full-width) + `flexDirection:"row"` + the `gap`.
-- **fixed-width cell**: write `row=[fill, 332px]` — keep the native fixed px so the builder sets a fixed rail width (`width:"332px"`, `minWidth`/`maxWidth` `"332px"`) and the diff can reason structurally.
-- **field/text/chip**: append `← <Entity>.<property>` for a binding, and `(recipe: <name>)` for the design-system recipe.
-
-## Native-width recording rules
-
-- Measure child widths within their container (probe `multiColumnContainers[].childWidths`) and record them in **native units** (px for fixed cells, `fill`/`1fr` for the filling cell) in `row=[…]`. Do NOT normalise to a 24-unit grid and do NOT use the Shesha `columns` component.
-- A **fixed-width** cell (rail, icon column, action column) is recorded as its native px and builds to a `container` with `width:"<n>px"` (+ `minWidth`/`maxWidth`). The filling sibling builds to `width:"calc(100% - <fixed+gap>px)"`.
-- A sub-pixel/handle cell (e.g. a 16px drag handle) keeps its small fixed px (`16px`) — never collapse it to 0; the builder needs a real fixed cell.
-
-## Worked example — `view-detail` (measured, Tier A/B, 1440×900)
-
-Grounded in the live probe of the design's *Grant Application Form* view-detail screen: body split measured `widths=[962,332]` → `row=[fill, 332px]` (left fills `calc(100% - 348px)`, rail fixed at **332px**, gap 24); KIB measured 6 equal cells; header content split `[fill, 332px]`-style; requirement rows `[handle 16px / content fill]`.
-
-````markdown
-# Blueprint — view-detail
-Screen identity:  View Detail — the per-View record page (Views list → row → detail)
-Entity (modelType, resolve live):  ViewDefinition    ·    Form identity:  Shesha.RequirementsStudio / view-definition-details
-Archetype:  record-detail — Variant B (wide capture/attributes left + count-badged related-panel rail right)
-Fidelity tier:  B (runnable design, probed)    Confidence:  high
-Viewport captured:  1440x900    Source:  blueprints/_probe/view-detail-design.layout.json
-
-## Region 1 — Header band  (recipe: page-title-band)
-```layout-tree
-region: header-band            container col
-  ├─ breadcrumb                text  "Project / Module / Views / {name}"        (recipe: breadcrumb)
-  ├─ title-row                 row  row=[fill, auto] gap=16 align=center   (flex: display:flex+flexDirection:row)
-  │   ├─ title-block (cell 1)  container col   width:"calc(100% - <actions+gap>px)" (fill)
-  │   │   ├─ title             text  ← ViewDefinition.name                       (recipe: page-title)
-  │   │   ├─ status-chip       chip  ← ViewDefinition.status                     (recipe: status-chip)
-  │   │   └─ subtitle          text  ← ViewDefinition.description                (recipe: subtitle)
-  │   └─ actions (cell 2)      buttonGroup  [Mockup | Trace]   (fixed/auto-width cell, right-aligned)  (recipe: ghost-link-actions)
+```
+fill cell width = calc(100% - <railPx + gapPx>px)
 ```
 
-## Region 2 — Key Info Bar (KIB)  (recipe: kib-strip)
-```layout-tree
-region: kib                    row  row=[1fr,1fr,1fr,1fr,1fr,1fr]  native=6-equal  gap=<g> align=stretch   (flex: display:flex+flexDirection:row; each cell width≈"calc((100% - 5*<g>px)/6)" or flex-basis equivalent)
-  ├─ Module                    field  micro-label + value ← ViewDefinition.module
-  ├─ Release                   field  ← ViewDefinition.release
-  ├─ View Type                 field  ← ViewDefinition.viewType
-  ├─ Central Entity            field  ← ViewDefinition.centralEntity
-  ├─ Mockup                    field  ← ViewDefinition.mockupStatus
-  └─ Completeness              field  progress + % ← ViewDefinition.completeness
+**Worked example** — a 332px rail with a 24px row gap: `332 + 24 = 356`, so the filling cell is
+`width: "calc(100% - 356px)"`, and the rail cell is `width: "332px"` with matching
+`minWidth`/`maxWidth`. This is the only numbers this document uses for this shape — an earlier
+draft stated `calc(100% - 348px)` for this same 332px-rail/24px-gap case elsewhere in this file,
+which was wrong (348 = 332 + 16, a 16px-gap figure that does not belong to this example); always
+derive the constant from the actual rail width and gap in front of you rather than copying a
+literal from a different measurement.
+
+**Phase 2 dependency, not yet available**: an earlier draft of this section assumed
+`multiColumnContainers[].childWidths` from `scripts/layout-probe.js`'s output could supply per-child
+native widths directly. **The probe does not emit that field today** — `multiColumnContainers[]`
+entries carry `columnCount`, `columnEdges` and `childIds` only (see `layout-probe.js`'s `PROBE_FN`).
+Until the probe is extended to emit `childWidths`, native cell widths must be read off each child's
+own `rect.w` in the flat `nodes[]` array (cross-referenced via `childIds`) rather than a
+convenience field that does not exist yet. Treat `childWidths` as **Phase 2 work**, not a dependency
+this phase can rely on.
+
+## Worked example — `table-worklist` (Bookings Register), all three representations
+
+This is the actual output of `renderMock()` run against the fixture below — not hand-drawn. If the
+renderer's contract ever changes, regenerate this block; do not hand-edit it.
+
+### 1. The blueprint (abridged `nodes[]`, resolved style, `addedBy` from the flow manifest)
+
+```json
+{
+  "screen": "Bookings Register",
+  "archetype": "table-worklist",
+  "theme": "requirements-studio",
+  "viewport": "1440x900",
+  "entity": {
+    "fullClassName": "Boxfusion.Travel.Domain.Booking",
+    "modelType": { "name": "Booking", "module": "Boxfusion.Travel" }
+  },
+  "form": { "module": "travel", "name": "bookings-table", "label": "Bookings" },
+  "nodes": [
+    { "node": "dataContext", "type": "dataContext" },
+    { "node": "page", "type": "container", "role": "page-root",
+      "style": { "desktop": { "display": "flex", "flexDirection": "column", "gap": 24,
+        "justifyContent": "flex-start", "alignItems": "stretch",
+        "dimensions": { "width": "100%", "minHeight": "fit-content" },
+        "stylingBox": { "padding": 24 } } },
+      "children": ["pageHeader", "toolbar", "table", "pagerRow"] },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "style": { "desktop": { "display": "flex", "flexDirection": "column", "gap": 4,
+        "justifyContent": "flex-start", "alignItems": "flex-start",
+        "dimensions": { "width": "100%" } } },
+      "children": ["heading", "subtitle"] },
+    { "node": "heading", "type": "text", "slot": "pageHeader", "content": "Bookings" },
+    { "node": "subtitle", "type": "text", "slot": "pageHeader",
+      "content": "All passenger bookings across active routes" },
+    { "node": "toolbar", "type": "container", "role": "toolbar-row", "slot": "page",
+      "style": { "desktop": { "display": "flex", "flexDirection": "row", "gap": 12,
+        "justifyContent": "space-between", "alignItems": "center",
+        "dimensions": { "width": "100%" } } },
+      "children": ["addButtonGroup", "quickSearch"] },
+    { "node": "addButtonGroup", "type": "buttonGroup", "slot": "toolbar",
+      "content": "[Add Booking]", "addedBy": "flow-manifest" },
+    { "node": "quickSearch", "type": "datatable.quickSearch", "slot": "toolbar",
+      "addedBy": "flow-manifest" },
+    { "node": "table", "type": "datatable", "role": "grid-surface", "slot": "page",
+      "columns": ["bookingReference", "passengerLastName", "status", "travelDate"] },
+    { "node": "pagerRow", "type": "container", "role": "toolbar-row-right", "slot": "page",
+      "style": { "desktop": { "display": "flex", "flexDirection": "row", "gap": 8,
+        "justifyContent": "flex-end", "alignItems": "center",
+        "dimensions": { "width": "100%" } } },
+      "children": ["pager"], "addedBy": "flow-manifest" },
+    { "node": "pager", "type": "datatable.pager", "slot": "pagerRow",
+      "addedBy": "flow-manifest" }
+  ],
+  "bindings": [
+    { "label": "Booking Reference", "property": "bookingReference", "component": "text (column)", "datatype": "string" },
+    { "label": "Passenger Last Name", "property": "passengerLastName", "component": "text (column)", "datatype": "string" },
+    { "label": "Status", "property": "status", "component": "refListStatus / chip (column)", "datatype": "refList" },
+    { "label": "Travel Date", "property": "travelDate", "component": "date (column)", "datatype": "datetime" }
+  ],
+  "assertions": [
+    "A1  toolbar is a single flex row directly under the header band; Add Booking left, quick search right (justify:space-between)",
+    "A2  the pager row sits directly below the datatable, right-aligned (role: toolbar-row-right, justify:flex-end)",
+    "A3  quickSearch, the pager row and its pager are present even though the source design did not depict them — required by the table-worklist flow manifest, not optional polish"
+  ],
+  "dependencies": []
+}
 ```
 
-## Region 3 — Body  (the split that drifts — measured 962/332)
-```layout-tree
-region: body                   row  row=[fill, 332px] native=[1fr,332px] gap=24 align=start   (flex: display:flex+flexDirection:row+gap:24)
-  ├─ LEFT (fill) ─ capture   container col   width:"calc(100% - 356px)"   (332px rail + 24px gap)
-  │   └─ requirements-card     card  (header: "View Requirements" + count-badge ← count; filter; Cards/Notepad toggle)
-  │       └─ req-list          datalist  ← ViewDefinition.requirements         (capture rows)
-  │            row: [handle 16px | seq | category-chip | status-chip | description | refs(UC,endpoint) | delete]
-  └─ RIGHT (fixed 332px) ─ rail   container col   width:"332px" minWidth/maxWidth:"332px", gap=16
-      ├─ details-card          card "Details"  → rows (label-left / control-right)
-      │     fields ← status, viewType, sequence, module, release, centralEntity, mockupStatus
-      ├─ panel: Realises Use Cases   card + count-badge + "+"  → datalist ← ViewDefinition.realisesUseCases
-      └─ panel: Required End-points  card + count-badge + "+"  → datalist ← ViewDefinition.requiredEndpoints
+### 2. The rendered ASCII mock
+
+```
+Bookings Register (table-worklist)
+viewport 1440x900
+
+dataContext
+
+┌─ page ─── role: page-root
+  flex column · gap 24 · justify:flex-start · align:stretch · w:100% minH:fit-content · pad 24
+  ┌─ pageHeader ─── role: header-band
+    flex column · gap 4 · justify:flex-start · align:flex-start · w:100%
+    heading "Bookings"
+    subtitle "All passenger bookings across active routes"
+  └─
+  ┌─ toolbar ─── role: toolbar-row
+    flex row · gap 12 · justify:space-between · align:center · w:100%
+    addButtonGroup "[Add Booking]"  (added by flow)
+    quickSearch  (added by flow)
+  └─
+  ┌─ table ─── role: grid-surface
+    │ bookingReference | passengerLastName | status | travelDate │
+  └─
+  ┌─ pagerRow ─── role: toolbar-row-right  (added by flow)
+    flex row · gap 8 · justify:flex-end · align:center · w:100%
+    pager  (added by flow)
+  └─
+└─
 ```
 
-## Bindings
-```bindings
-label              | entity property        | component              | datatype
-View name          | name                   | text (name-mode)       | string
-Status             | status                 | refListStatus / chip   | refList
-View type          | viewType               | dropdown               | refList
-Sequence           | sequence               | numberField            | int
-Module             | module                 | entityAutocomplete     | FK → ModuleDefinition
-Release            | release                | entityAutocomplete     | FK → ReleaseDefinition
-Central Entity     | centralEntity          | entityAutocomplete     | FK → EntityDefinition
-Mockup             | mockupStatus           | dropdown               | refList
-Requirements       | requirements           | datalist (capture)     | child → ViewRequirement
-Realises UseCases  | realisesUseCases       | datalist panel         | M:M → UseCase  (count badge)
-Required End-points| requiredEndpoints      | datalist panel         | M:M → ApiDefinition
-```
+### 3. The flow-manifest expansion
 
-> **Component-column rules the builder must honor (not just placement):** a `datalist panel` / `datalist (capture)` builds a **`datalist` row-template** — NEVER a `datatable` (a related collection drawn as a grid is a defect even though the data is collection-shaped). A rail attribute control (`dropdown` / `entityAutocomplete` rows in a read-only Details summary) is **read-only display** — author it `editMode: "readOnly"`, not `inherited` (which renders blank in the view state). A `refListStatus` is a status **chip**, not a dropdown. Row-template datalists need a fetch **projection** for their nested bindings — see `shesha-form-edit/references/components/data-tables.md` ("cards render empty" trap).
+Reading the mock's `(added by flow)` markers against `table-worklist.flow.json`'s `requires[]`:
 
-## Assertions  (placement contract — verified by verification-loop.md)
-```assertions
-A1  body is a 2-column split; left:right width ratio ≈ 18:6 (left ≥ 2.5× right); right rail ≈ 332px fixed
-A2  the related panels (Realises Use Cases, Required End-points) are BOTH in the RIGHT column (same x-cluster as the Details card), stacked vertically
-A3  the requirements list/capture card is in the LEFT column (not the rail)
-A4  the "Details" card rows are 2-cell (label + control side by side), not full-width stacked
-A5  nesting: the related panels are children of the rail column, not of the page root
-A6  the KIB is a single flex row of 6 equal cells directly under the header band
-A7  header actions (Mockup, Trace) sit in the header band, right-aligned on the title row
-```
-````
+| Node | In the design/prompt? | Added by flow manifest? | Why it would otherwise be dropped |
+|---|---|---|---|
+| `page`, `pageHeader`, `heading`, `subtitle`, `toolbar` | yes | no | Directly visible in the design/prompt. |
+| `table` (datatable, `grid-surface`) | yes | no | The screen's whole point; never omitted. |
+| `addButtonGroup` | no | **yes** | An admin grid needs a create action; a prose brief describing "a table of bookings" routinely omits it. |
+| `quickSearch` | no | **yes** | Same failure mode `references/archetypes.md` documents: dropped when reverse-engineered from prose. |
+| `pagerRow` / `pager` | no | **yes** | Easy to omit when the design mock shows one page of rows and no visible pager control. |
 
-This one document is simultaneously: the thing a reviewer signs off (prose + tree), the requirements brief the builder works from (archetype → seed `rs-detail-with-header.json`, splits → flex-row `container`s with per-child `desktop.dimensions.width`, bindings → component+propertyName), and the contract the verification loop measures (`assertions` A1–A7).
+This is the concrete version of the abstract claim in `references/archetypes.md`: "a blueprint
+declared only a heading, a text and a datatable, while its assertions demanded an Add action, a row
+action, quick search and a pager." Here those four nodes are visible in the mock, tagged, and
+justified against the manifest rather than silently present or silently missing.
 
 ## Authoring checklist
 
-- [ ] `Archetype` is one of the eight, with a variant note if needed.
-- [ ] Every `row` line records native cell widths (`row=[…]`, `fill`/`1fr` + fixed px) and a `gap`; no Shesha `columns` component, no `/24` normalisation. Each cell maps to a `container` sized via `desktop.dimensions.width` (fill → `calc(100% - <fixed+gap>px)`, fixed → `<n>px`); the row carries `display:"flex"`.
-- [ ] Every bound field has `← Entity.property`; every region names its design-system `recipe`.
-- [ ] `assertions` cover: split-cell membership, row grouping, nesting depth, tab assignment — the things that drift. No pixel asserts.
-- [ ] Fidelity tier + confidence + viewport stamped at the top.
+- [ ] `archetype` is one of the eight in `shesha-form-edit/references/archetypes.md`, with a variant
+      note if needed.
+- [ ] Every node with `slot` resolves to a real parent `node` name; every root (`slot` absent) is
+      intentional — `renderMock` throws `renderMock: no nodes` on an empty tree rather than silently
+      emitting nothing.
+- [ ] Every `container`-role node carries resolved `style.desktop/tablet/mobile` (literal values, no
+      token references) with all six `dimensions.*` set per `roles.styles.json`'s Task 8 contract.
+- [ ] Every `overrides[]` entry carries `source` and `evidence` — no override without measurement
+      provenance.
+- [ ] Every split cell's fill width is the derived `calc(100% - <railPx + gapPx>px)`, computed from
+      the rail width and gap actually in front of you (see "Rail / split-cell width derivation"
+      above) — never a copied literal from a different measurement.
+- [ ] Run the archetype's flow manifest against the blueprint (`validateFlow`, Task 9) before
+      treating it as complete; every node it adds should be visible in the rendered mock tagged
+      `(added by flow)`.
+- [ ] Every bound field has an entry in `bindings[]`; `assertions[]` covers split-cell membership,
+      row grouping, nesting depth and tab assignment — the things that drift. No pixel asserts.
+- [ ] Regenerate the rendered mock from `renderMock()` before pasting it anywhere — never hand-draw
+      one; a hand-drawn mock is the exact failure mode this IR replaces.
