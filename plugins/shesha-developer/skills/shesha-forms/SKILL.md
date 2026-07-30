@@ -1,6 +1,6 @@
 ---
 name: shesha-forms
-description: Creates and modifies Shesha UI form configurations using the Shesha MCP server. Use when the user asks to create, update, design, or modify configuration-based forms, form views, table views, or form layouts in a Shesha application.
+description: DEPRECATED — superseded by shesha-form-edit; the Shesha MCP server this skill depends on has stopped receiving development and should not be used for new work. Retained only for legacy environments where shesha-form-edit's compiler pipeline is unavailable. Historically this skill created and modified Shesha UI form configurations via the Shesha MCP server's create_form_configuration tool for configuration-based forms, form views, table views, or form layouts.
 allowed-tools:
   - Bash(claude mcp *)
   - Bash(dotnet *)
@@ -14,6 +14,8 @@ allowed-tools:
 ---
 
 # Shesha Forms
+
+> **DEPRECATED.** The Shesha MCP server has stopped receiving development. Use `shesha-form-edit` for all new form creation, editing, and styling work. This skill is retained only for legacy environments that still have no compiler pipeline available.
 
 Create and modify Shesha UI form configurations via the Shesha MCP server.
 
