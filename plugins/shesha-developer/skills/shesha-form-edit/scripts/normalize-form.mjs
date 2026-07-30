@@ -296,8 +296,27 @@ function needsFlexChildWrap(child) {
   return isPlainObject(child) && typeof child.type === 'string' && child.type !== 'container';
 }
 
+// A width-less child of a flex ROW must not fall through to
+// neutralContainerStyle's `width:"auto"` default. `auto` resolves flex-basis to
+// the child's content size, and flex-grow is 0, so the wrapper hugs its content
+// and the row never splits — two fields in a row each shrink to their own label
+// width and leave the rest of the track empty. That is a layout defect the
+// styled-ness checks cannot see, because T2-STYLE-INCOMPLETE only asks whether
+// the `width` key is PRESENT, and `"auto"` satisfies it.
+//
+// `100%` at every breakpoint is the fix, and it needs no knowledge of the
+// sibling count: every width-less child gets an equal flex-basis of the full
+// track, flex-shrink defaults to 1, and minWidth is already `0`, so N children
+// shrink proportionally to exactly `(track - gaps) / N` each. A sibling with a
+// real declared width keeps it, and a fixed rail declared with matching
+// minWidth/maxWidth (the documented convention) does not shrink at all.
+const FILL_ROW_WIDTH = Object.freeze({ desktop: '100%', tablet: '100%', mobile: '100%' });
+
 function wrapFlexChild(child) {
-  const widthByBp = extractAndStripWidth(child);
+  const extracted = extractAndStripWidth(child);
+  // Empty only ever means "A3 wrapped a width-less child of a flex row" —
+  // A2.2's trigger (hasSplitWidth) guarantees a width was present there.
+  const widthByBp = Object.keys(extracted).length > 0 ? extracted : { ...FILL_ROW_WIDTH };
   const wrapper = {
     type: 'container',
     componentName: `${child.propertyName ?? child.componentName ?? 'field'}Wrap`,

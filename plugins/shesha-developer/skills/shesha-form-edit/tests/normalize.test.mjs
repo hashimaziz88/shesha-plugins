@@ -292,6 +292,75 @@ test('wraps a BARE, NO-WIDTH child of a flex-row container whose flex style live
   assert.deepStrictEqual(normalize(after, ctx), after);
 });
 
+test('a width-less flex-row child is wrapped at width 100%, never "auto" (the row must actually split)', () => {
+  // `auto` resolves flex-basis to content size and flex-grow is 0, so each
+  // wrapper would hug its own content and the row would never split — the
+  // defect that renders two fields as two narrow stubs with an empty track
+  // beside them. T2-STYLE-INCOMPLETE cannot catch it: it only asks whether the
+  // `width` key is present, and "auto" is present.
+  const rowId = 'c5555555-5555-4555-8555-555555555551';
+  const before = {
+    components: [{
+      id: rowId,
+      type: 'container',
+      componentName: 'row',
+      parentId: 'root',
+      version: 7,
+      desktop: { display: 'flex', flexDirection: 'row', gap: 8 },
+      components: [
+        { id: 'c5555555-5555-4555-8555-555555555552', type: 'textField', propertyName: 'firstName', parentId: rowId, version: 6 },
+        { id: 'c5555555-5555-4555-8555-555555555553', type: 'textField', propertyName: 'lastName', parentId: rowId, version: 6 },
+      ],
+    }],
+  };
+  const after = normalize(before, ctx);
+  const row = after.components[0];
+  assert.equal(row.components.length, 2);
+  for (const wrapper of row.components) {
+    assert.equal(wrapper.type, 'container');
+    for (const bp of ['desktop', 'tablet', 'mobile']) {
+      assert.equal(
+        wrapper[bp].dimensions.width,
+        '100%',
+        `${bp}: a width-less row child must get an equal-share basis, not "auto"`,
+      );
+    }
+    // minWidth 0 is what lets the equal bases shrink to (track - gaps) / N.
+    assert.equal(wrapper.desktop.dimensions.minWidth, '0');
+  }
+  assert.deepStrictEqual(normalize(after, ctx), after);
+});
+
+test('a flex-row child that DECLARED a width keeps it — the fill default never overrides a real value', () => {
+  const rowId = 'c6666666-6666-4666-8666-666666666661';
+  const before = {
+    components: [{
+      id: rowId,
+      type: 'container',
+      componentName: 'row',
+      parentId: 'root',
+      version: 7,
+      desktop: { display: 'flex', flexDirection: 'row', gap: 16 },
+      components: [
+        {
+          id: 'c6666666-6666-4666-8666-666666666662',
+          type: 'textField',
+          propertyName: 'mainField',
+          parentId: rowId,
+          version: 6,
+          desktop: { dimensions: { width: 'calc(100% - 348px)' } },
+        },
+        { id: 'c6666666-6666-4666-8666-666666666663', type: 'textField', propertyName: 'railField', parentId: rowId, version: 6 },
+      ],
+    }],
+  };
+  const after = normalize(before, ctx);
+  const [mainWrap, railWrap] = after.components[0].components;
+  assert.equal(mainWrap.desktop.dimensions.width, 'calc(100% - 348px)', 'a declared width is relocated verbatim');
+  assert.equal(railWrap.desktop.dimensions.width, '100%', 'only the width-less sibling takes the fill default');
+  assert.deepStrictEqual(normalize(after, ctx), after);
+});
+
 test('strips customStyle and remaining dimensions.width from non-containers', () => {
   const before = {
     components: [{

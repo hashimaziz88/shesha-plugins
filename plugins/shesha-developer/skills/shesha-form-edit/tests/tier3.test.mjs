@@ -346,3 +346,64 @@ test('the shared bad-score fixture scores low (proves the CLI test fixture is me
   const result = tier3(fx('t3-bad-score-clean'), ctx);
   assert.ok(result.score < 60, `expected a low score, got ${result.score}`);
 });
+
+// ---------------------------------------------------------------------------
+// T3-ROW-CHILD-NOFILL — a row child at width "auto" cannot take a share of
+// the track, and no blocking check sees it (T2-STYLE-INCOMPLETE only asks
+// whether the width key exists, and "auto" exists).
+// ---------------------------------------------------------------------------
+
+function row(children) {
+  return {
+    id: ID(),
+    type: 'container',
+    componentName: 'row',
+    parentId: 'root',
+    version: 7,
+    desktop: { display: 'flex', flexDirection: 'row', gap: 8 },
+    components: children,
+  };
+}
+
+function bpChild(name, width) {
+  return {
+    id: ID(),
+    type: 'container',
+    componentName: name,
+    parentId: 'root',
+    version: 7,
+    desktop: { display: 'flex', flexDirection: 'column', dimensions: { width } },
+    components: [],
+  };
+}
+
+test('T3-ROW-CHILD-NOFILL: flags each auto-width child of a multi-child flex row', () => {
+  const markup = { components: [row([bpChild('a', 'auto'), bpChild('b', 'auto')])] };
+  const found = codes(markup).filter((c) => c === 'T3-ROW-CHILD-NOFILL');
+  assert.equal(found.length, 2);
+});
+
+test('T3-ROW-CHILD-NOFILL: silent when the row children carry real widths', () => {
+  const markup = { components: [row([bpChild('a', '50%'), bpChild('b', 'calc(100% - 348px)')])] };
+  assert.ok(!codes(markup).includes('T3-ROW-CHILD-NOFILL'));
+});
+
+test('T3-ROW-CHILD-NOFILL: silent for a single-child row (nothing to share with)', () => {
+  const markup = { components: [row([bpChild('only', 'auto')])] };
+  assert.ok(!codes(markup).includes('T3-ROW-CHILD-NOFILL'));
+});
+
+test('T3-ROW-CHILD-NOFILL: silent under a COLUMN parent — auto stretches there', () => {
+  const col = row([bpChild('a', 'auto'), bpChild('b', 'auto')]);
+  col.desktop.flexDirection = 'column';
+  assert.ok(!codes({ components: [col] }).includes('T3-ROW-CHILD-NOFILL'));
+});
+
+test('T3-ROW-CHILD-NOFILL: is an observation, never a blocker', () => {
+  const markup = { components: [row([bpChild('a', 'auto'), bpChild('b', 'auto')])] };
+  for (const f of tier3(markup, ctx).findings) {
+    if (f.code !== 'T3-ROW-CHILD-NOFILL') continue;
+    assert.equal(f.tier, 3);
+    assert.equal(f.severity, 'observe');
+  }
+});

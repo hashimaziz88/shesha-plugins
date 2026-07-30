@@ -35,6 +35,7 @@ export function tier3(markup, { registry, thresholds, blueprint, tokens } = {}) 
   checkComponentRatio(entries, thresholds, out);
   checkOrphanContainers(entries, out);
   checkNonAuthorableType(entries, registry, out);
+  checkRowChildNoFill(entries, out);
 
   const uncalibrated = !(thresholds && thresholds.calibrated === true);
   const score = computeScore(out);
@@ -93,6 +94,13 @@ function nodeLabel(node) {
 //    is explicit that this is "legitimate in existing markup", so it costs
 //    the least of any category; it exists to be noticed in NEW markup, not
 //    to punish forms that already use these types.
+//  - T3-ROW-CHILD-NOFILL (6/occurrence, cap 18): a row that fails to split is
+//    a visible layout defect, so it outweighs housekeeping items; scored per
+//    occurrence because a form where every row collapses is much worse than
+//    one stray container, and capped so a wide form still lands legibly.
+//    It sits in Tier 3 rather than Tier 2 only because the CORRECT width is
+//    intent-dependent (equal share vs. filling column vs. fixed rail), which
+//    makes it a judgement call rather than a contract violation.
 //
 // A single occurrence of any one check therefore costs at most 15 points
 // (T3-COMPONENT-RATIO or T3-PRIMARY-COUNT/T3-DESTRUCTIVE-PRIMARY are the
@@ -110,6 +118,7 @@ const WEIGHTS = {
   'T3-COMPONENT-RATIO': { per: 15, cap: 15 },
   'T3-ORPHAN-CONTAINER': { per: 3, cap: 15 },
   'T3-NON-AUTHORABLE-TYPE': { per: 2, cap: 10 },
+  'T3-ROW-CHILD-NOFILL': { per: 6, cap: 18 },
 };
 
 function computeScore(findings) {
@@ -555,6 +564,65 @@ function checkNonAuthorableType(entries, registry, out) {
         `"${node.type}" is marked authorable: false in the registry (reason: ${comp.authorableReason ?? 'unspecified'}) — legitimate if this is existing/migrated markup, worth a second look if this was just authored.`,
         'an authorable type, or a deliberate legacy/hidden-type choice',
         node.type,
+      ));
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// T3-ROW-CHILD-NOFILL
+//
+// A container child of a flex ROW whose own desktop `dimensions.width` is
+// `"auto"` cannot fill its share of the track: `auto` resolves flex-basis to
+// the child's content size and flex-grow defaults to 0, so the child hugs its
+// content and the row silently fails to split. Two fields meant to sit
+// side-by-side render as two narrow stubs with empty space beside them.
+//
+// This is deliberately invisible to the styled-ness checks: T2-STYLE-INCOMPLETE
+// asks only whether the `width` KEY is present, and `"auto"` is present. So the
+// defect passes every blocking gate while looking, to the checks, fully styled.
+//
+// Report-only on purpose. The width that IS correct depends on intent — an
+// equal share (`100%`, letting equal bases shrink to `(track - gaps) / N`), a
+// filling main column (`calc(100% - <rail+gap>px)`), or a fixed rail (`<n>px`
+// with matching min/max) — so this names the problem and leaves the choice to
+// the author. `normalize-form.mjs`'s A3 already applies the equal-share default
+// to any width-less row child it wraps; what reaches here is markup that
+// declared `"auto"` explicitly, or a container the normalizer did not synthesize.
+// ---------------------------------------------------------------------------
+
+const T3_ROW_LIKE = new Set(['row', 'row-reverse']);
+
+function t3DesktopView(node) {
+  const merged = {};
+  for (const key of ['display', 'flexDirection', 'dimensions']) {
+    if (node[key] !== undefined) merged[key] = node[key];
+  }
+  const nested = isPlainObject(node.desktop) ? node.desktop : {};
+  return { ...merged, ...nested };
+}
+
+function checkRowChildNoFill(entries, out) {
+  for (const { node, ctx } of entries) {
+    if (node.type !== 'container') continue;
+    const view = t3DesktopView(node);
+    if (view.display !== 'flex' || !T3_ROW_LIKE.has(view.flexDirection)) continue;
+
+    const children = Array.isArray(node.components) ? node.components : [];
+    // A single child has no siblings to share the track with, so "auto" there
+    // is a styling choice rather than a broken split.
+    if (children.length < 2) continue;
+
+    for (const child of children) {
+      if (!isPlainObject(child) || child.type !== 'container') continue;
+      const width = t3DesktopView(child).dimensions?.width;
+      if (width !== 'auto') continue;
+      out.push(finding(
+        'T3-ROW-CHILD-NOFILL',
+        `${ctx.path} > ${nodeLabel(child)}`,
+        `"${nodeLabel(child)}" is a child of a flex row but its desktop dimensions.width is "auto" — flex-basis resolves to its content size and flex-grow is 0, so it hugs its content instead of taking a share of the row.`,
+        'an explicit share of the track — "100%" for an equal split, "calc(100% - <rail+gap>px)" for a filling main column, or "<n>px" with matching minWidth/maxWidth for a fixed rail',
+        'auto',
       ));
     }
   }
