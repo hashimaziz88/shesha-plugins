@@ -5,7 +5,7 @@ argument-hint: <module>/<form-name> [--expect-data]
 
 Audit the form `$ARGUMENTS` without modifying it:
 
-1. Fetch its markup (`shesha-form-edit` references/api.md — GetByName/GetJson)
+1. Fetch its markup (`shesha-form-edit/references/api.md` — GetByName/GetJson)
    into the workdir.
 2. Run the gate chain read-only from
    `plugins/shesha-developer/skills/shesha-form-edit/scripts/`:

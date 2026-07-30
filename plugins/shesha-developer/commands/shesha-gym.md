@@ -3,19 +3,14 @@ description: Rerun the component gym against a backend to regenerate the measure
 argument-hint: [--backend url] [--portal url] [--only type1,type2]
 ---
 
-Rerun the Shesha component gym per
-`plugins/shesha-developer/skills/shesha-form-edit/references/gym.md`:
+Rerun the Shesha component gym using `shesha-developer:shesha-gym` (invoke
+the skill now and follow its process exactly).
 
-1. Preconditions: backend + adminportal running; `npm install && npx
-   playwright install chromium` in the shesha-form-edit skill folder.
-2. If the target Shesha release differs from `assets/components-kb/_meta.json`:
-   regenerate the KB first (`generate-component-kb.js` against that release's
-   `designer-components` source) and re-extract enums (`extract-enums.js`),
-   then regenerate the schema (`generate-schema.js`).
-3. `node scripts/generate-component-gym.js $ARGUMENTS` →
-   `node scripts/run-gym.js $ARGUMENTS` (baseline-salvage any form-level
-   crashes with `--baseline-only --only <types>`).
-4. `node scripts/merge-capability.js --dry-run`, review contradictions, then
-   run it for real.
-5. Report the coverage summary (renderStatus counts, per-effect totals,
-   contradictions) and commit the regenerated artifacts.
+Arguments: `$ARGUMENTS` — forwarded as-is to
+`shesha-form-edit/scripts/generate-component-gym.js`/`shesha-form-edit/scripts/run-gym.js`
+(e.g. `--backend url`, `--portal url`, `--only type1,type2`).
+
+The skill owns the authoritative procedure (preconditions, KB/enum/schema
+regeneration order, generate + measure, merge, verify + commit — including
+the green-tests requirement before committing). Do not shortcut its steps
+here.

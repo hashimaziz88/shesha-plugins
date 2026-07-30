@@ -152,6 +152,14 @@ Push: `POST FormConfiguration/Create` (new) / `PUT UpdateMarkup` (existing) —
 (`.claude/cache/shesha-form-edit/push-ledger.json`); the Stop hook blocks
 session end while any entry is unverified [R-046].
 
+**Publish (Draft → Live)** before anything below re-probes the form: `PUT
+ConfigurationItem/UpdateStatus` with `{"filter": "{\"==\":[{\"var\":\"id\"},\"<form-guid>\"]}",
+"status": 3}`. On mutable 0.45 test builds this may 404 — that's expected
+(the form is already effectively live), not a failure; don't retry it or
+block on it. On a versioned backend it is required — a placement probe
+against an un-published Draft measures nothing. Full model:
+[references/renderer-physics.md](references/renderer-physics.md#publish-model).
+
 The oracle judges the deliverable through four fail-closed layers — a green
 render alone never means done. Full model: [references/quality-gates.md](references/quality-gates.md).
 1. **Re-fetch + diff** — the pushed markup equals what you sent; a 200 alone
