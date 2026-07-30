@@ -12,8 +12,7 @@
 3. **`assets/blocks/`** — compose small vetted blocks when neither of the above covers the shape (see
    [block-library.md](block-library.md)).
 4. **`assets/examples/`** (this file's fragment index, below) — the two sub-screen **fragments** no
-   single archetype covers, for grafting into a hub/detail build. `assets/patterns/` (other vendor
-   seeds — see [patterns.md](patterns.md)) is the tier below that.
+   single archetype covers, for grafting into a hub/detail build.
 
 Whichever tier you copy from: change only `modelType`, `entityType`, `propertyName`s, captions, and
 `formId` references. Do not invent structure the seed doesn't have. Project-tied seeds live in

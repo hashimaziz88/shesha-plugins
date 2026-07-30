@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "measuredAgainst": "935-form production corpus (RequirementsStudio, MembershipManagement, AssetManagement2, UtilityManagement) + 14 bundled seeds (assets/examples/ + assets/patterns/ + assets/exemplars/, post-remediation — see skills/shesha-form-edit/docs/corpus-report.md's Task 9 section)",
+  "measuredAgainst": "935-form production corpus (RequirementsStudio, MembershipManagement, AssetManagement2, UtilityManagement) + 14 bundled seeds, post-remediation — see skills/shesha-form-edit/docs/corpus-report.md's Task 9 section. At calibration time the 14 seeds were drawn from assets/examples/ + assets/patterns/ + assets/exemplars/; assets/patterns/ was pruned in a later cleanup (its seeds retired or folded into assets/golden/) and no longer exists, so this exact 14-seed cohort is NOT reconstructible today — treat the rates below as historical measurements, not a re-runnable check.",
   "notes": [
     "This policy gates a CURATED SUBSET of Tier 1/2 codes, not every Tier 1/2 finding. A blanket gate was measured and rejected — see corpus-report.md's go/no-go section: T1-PROP-UNKNOWN fires on 93.9% of real forms and (pre-Task-9) 100% of this plugin's own bundled seeds.",
     "validate-push.mjs runs normalize() BEFORE tier1/tier2, so a Group B finding present in the validator's output already survived normalization — no separate before/after comparison is needed.",

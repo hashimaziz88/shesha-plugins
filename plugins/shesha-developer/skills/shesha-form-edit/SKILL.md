@@ -220,10 +220,9 @@ never as done.
 0. **`assets/exemplars/` — small, validator-clean, one form per archetype.** Check here FIRST for any table/list/create/detail shape — these are curated, normalized, and pass the push-hook gate outright. Copy whole; they're short enough to read in full.
 1. **`assets/blocks/` — the BLOCK LIBRARY (compose, don't copy-a-seed)** when no exemplar covers the shape you need. Build the form by composing small, individually-validated blocks (`flex-split-main-rail`, `page-header-band`, `meta-strip`, `card-with-header-strip`, `rail-panel`, `rail-label-value-row`, `status-pill`, `completeness-bar`, `requirement-datalist-row`, `dashed-add-button`) — assembly workflow in [references/block-library.md](references/block-library.md). Each block is a structure skeleton paired with a `shesha-design-system` style overlay and validated against the capability matrix (`scripts/validate-blocks.js`).
 2. **`assets/examples/` — the fuller CRUD-loop seeds (fallback when neither above has the shape).** See [references/examples.md](references/examples.md) for the index and the CRUD-loop wiring (modal Add button, Start Edit/Submit detail header, child-table tabs). Copy the matching example and change only `modelType`/`entityType`/`propertyName`/captions/`formId`s. **Prefer the small/lean seeds; never read the multi-thousand-line ones in full.**
-3. `assets/patterns/` — other vendor seeds (index: [references/patterns.md](references/patterns.md)).
-4. `.claude/cache/shesha-form-edit/seeds/` — project-specific forms cached from prior edits.
-5. **MCP `search_forms`** — query `mcp__shesha__search_forms` for forms in this backend matching the layout type. Use the closest match as a seed; cache it under `seeds/` for next time.
-6. Author from scratch only if no seed fits — guided by the design plan from Step 0.
+3. `.claude/cache/shesha-form-edit/seeds/` — project-specific forms cached from prior edits.
+4. **MCP `search_forms`** — query `mcp__shesha__search_forms` for forms in this backend matching the layout type. Use the closest match as a seed; cache it under `seeds/` for next time.
+5. Author from scratch only if no seed fits — guided by the design plan from Step 0.
 
 **Picking the input component for each field** — driven by the property's `dataType` (string→textField, number→numberField, date→dateField, reference-list-item→dropdown, entity FK→autocomplete, …). Full table + config in [references/components/by-datatype.md](references/components/by-datatype.md).
 
