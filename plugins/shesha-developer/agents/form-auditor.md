@@ -28,7 +28,7 @@ Recurse ALL of: `components[]`, `content.components[]`, `header.components[]`, `
 ## Check families (run the ones the spec names)
 
 - **structure** — unique UUID ids; every component's `parentId` equals its actual parent's id (root children = `"root"`); top-level `components` is an array.
-- **types-and-props** — every `type` exists in `SKILL_ROOT/assets/groups/index.json`; flag any `type` absent from the index as invalid (e.g. a mis-cased or non-canonical component name); props validated against the group file (template-origin props the index lacks are documented false positives — flag as `info`, not `fail`).
+- **types-and-props** — every `type` exists in `SKILL_ROOT/assets/registry/registry-0.45.1.json` (`registry.components[type]`); flag any `type` absent from the registry as invalid (e.g. a mis-cased or non-canonical component name); props validated against `registry.components[type].props` (template-origin props the registry lacks are documented false positives — flag as `info`, not `fail`).
 - **crud-wiring** — Add button = Show Dialog with resolvable formId + onSuccess Refresh table (actionOwner = dataContext id); detail lifecycle = Start Edit / Submit / Cancel Edit; action identifiers use spaced names + lowercase owners.
 - **subtable-canon** — per `SKILL_ROOT/references/components/junction-subtables.md`: dataContext sourceType/entityType/code-object endpoint, toolbar classes, drill-down column targeting, delete recipe (never `Delete row`/`table`).
 - **submit-mechanics** — any dialog presetting a required FK has BOTH a bound component AND `formSettings.onPrepareSubmitData` (per `references/components/add-dialogs.md`).

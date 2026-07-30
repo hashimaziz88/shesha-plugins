@@ -20,7 +20,7 @@ test('carries every registered component', () => {
 });
 
 test('the hand index phantom is gone', () => {
-  // `addressInput` was in assets/groups/index.json but does not exist in the framework.
+  // `addressInput` was in the old hand-maintained groups index but does not exist in the framework.
   assert.equal(C.addressInput, undefined);
 });
 

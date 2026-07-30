@@ -11,7 +11,7 @@ You draft ONE Shesha form's markup from a canonical seed. You never push to a ba
 
 ## Required inputs (from the dispatch prompt — stop and report if missing)
 
-- `SKILL_ROOT` — path to the shesha-form-edit skill (for `assets/examples/`, `references/`, `assets/groups/`)
+- `SKILL_ROOT` — path to the shesha-form-edit skill (for `assets/examples/`, `references/`, `assets/registry/`)
 - Seed file to start from (an `assets/examples/*.json` path), or "author from scratch" with a named pattern
 - Target entity `modelType` + entity metadata (a cached `Metadata/GetProperties` JSON path, or backend URL + bearer-token file to fetch it)
 - The form's requirements (fields, columns, actions, layout asks) and the output file path

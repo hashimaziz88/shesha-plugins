@@ -8,7 +8,7 @@ props each accepts, and each type's current `version`.
 - Looking a component up
 - What `authorable` means
 - Regenerating
-- Why this replaced assets/groups/
+- Why this replaced the old hand-maintained index
 
 ## Looking a component up
 
@@ -50,7 +50,7 @@ The acceptance test (`tests/registry-acceptance.test.mjs`) fails if the componen
 count drops or scaffolding props leak back in. `registry.meta.json` records the
 source branch and commit the registry was built from.
 
-## Why this replaced assets/groups/
+## Why this replaced the old hand-maintained index
 
 The hand-maintained index carried 65 of 116 types, one type that does not exist
 in the framework (`addressInput`), and ~15 props for `container` against a real 71.

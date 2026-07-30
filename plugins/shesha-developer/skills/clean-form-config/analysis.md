@@ -19,69 +19,56 @@ Verify you have an object with a `components` array before continuing.
 
 ---
 
-## Step 3: Load the component properties index
+## Step 3: Load the component registry
 
-The index ships as a set of group files under `plugins/shesha-developer/skills/clean-form-config/assets/groups/`.
+The registry lives in the sibling `shesha-form-edit` skill, one directory up from this skill's own root:
+
+```
+../shesha-form-edit/assets/registry/registry-0.45.1.json
+```
 
 **Loading procedure:**
 
-1. Read `assets/groups/index.json` — contains `components: { [type]: groupName }` and `groupFiles: [...]`.
-2. Read `assets/groups/base.json` — always required; contains `base` and `_formSettings`.
-3. For each unique component type in the form, look up `index.components[type]` to find its group file, then read `assets/groups/<groupName>.json`. Cache loaded files — don't re-read the same group file twice.
+1. Read that one file. There is nothing else to load and nothing to cache-merge — each component type's entry already carries its full, flattened prop set (component-specific props plus the props every component gets, such as `customStyle`, `hidden`, `onChangeCustom`).
+2. For each unique component type in the form, look up `registry.components[type]`.
 
-**File structure** (v3):
-
-Each entry (`base`, `_formSettings`, or a component type like `textField`) contains a single `props` array of property descriptors:
+**File structure:**
 
 ```json
 {
-  "name": "alertType",
-  "type": "string",
-  "options": ["success", "info", "warning", "error"],
-  "desc": "Determines the alert color and icon.",
-  "required": false,
-  "JsReturnType": "string"
+  "frameworkVersion": "0.45.1",
+  "components": {
+    "textField": {
+      "type": "textField",
+      "name": "Text field",
+      "group": null,
+      "version": 6,
+      "isInput": true,
+      "isOutput": true,
+      "isHidden": false,
+      "authorable": true,
+      "authorableReason": null,
+      "props": ["background", "background.color", "…", "hidden", "onChangeCustom", "…"]
+    }
+  }
 }
 ```
 
-Descriptor fields:
-- `name` — property key.
-- `type` — storage type: `string | boolean | number | object | array | script`. Omitted when unknown.
-- `options` — valid string values for `type: "string"` enums.
-- `desc` — human-readable description.
-- `required` — whether the property must be present.
-- `JsReturnType` — what a `_mode: "code"` JS expression must return. For non-script props mirrors `type`; for `type: "script"` props it is the specific return type (e.g. `"boolean"`, `"void"`, `"object"`).
-- `async` — (`type: "script"` only) whether the script must be declared async.
-- `context` — (`type: "script"` only) variable names available in scope.
-- `keyCase` — (`type: "script"`, style-returning) return object keys must be `"camel"`.
-- `valueType` — (`type: "script"`, style-returning) return object values must be `"string"`.
-
-`base.json` contains two entries:
-- `base` — props valid on **every** component (including `customStyle`, `customVisibility`, all event handlers, etc.).
-- `_formSettings` — props valid on the form-level `formSettings` object.
-
-Each group file contains only the component-specific props (props not already in `base`).
+`props` is a **flat list of valid property-path strings** — existence only. Unlike the old hand-maintained per-type index, the registry does **not** carry a per-prop `type`, `options`, `JsReturnType`, `async`/`context`/`keyCase`/`valueType` script descriptor, or a `formSettings` entry (form-level settings aren't a component in the framework's toolbox, so the registry — which is extracted from component definitions — has no equivalent object for them).
 
 For each component being analyzed, build:
 
 ```
-groupFile   = loadedGroups[index.components[component.type]]   // undefined for unknown types
-basePropMap = Object.fromEntries(base.base.props.map(p => [p.name, p]))
-compPropMap = Object.fromEntries((groupFile?.[component.type]?.props ?? []).map(p => [p.name, p]))
-propMap     = { ...basePropMap, ...compPropMap }   // component props override base if same name
-allowedKeys = new Set(Object.keys(propMap))
+allowedKeys = new Set(registry.components[component.type]?.props ?? [])
 ```
 
-Then for type-checking: `propMap[key].type` gives the expected type; `propMap[key].options` gives valid enum values.
+If `component.type` is not a key in `registry.components` at all, treat it as **`[TYPE UNKNOWN — manual review]`** per Step 4 — do not attempt a base-only fallback check (there is no separate "base" prop set to fall back to; every known type's `props` array is already fully flattened).
 
-For the `formSettings` object:
-
-```
-fsPropMap           = Object.fromEntries(base._formSettings.props.map(p => [p.name, p]))
-formSettingsAllowed = new Set(Object.keys(fsPropMap))
-```
-
-Properties in `allowedKeys`/`formSettingsAllowed` with no `type` have ambiguous/union types — skip type-checking for those.
+**Capability change from the old hand-maintained per-type index** (retired because its data no longer exists anywhere, and duplicating it back into this skill would recreate exactly the problem the registry migration fixed):
+- **Existence-based dead-property / unknown-type detection for components is fully preserved** — this is the core of Step 4 and is unaffected; it is now checked against the accurate 116-type registry instead of the old 65-type hand index.
+- **Component-level type-mismatch detection (Step 4c) is retired** — the registry has no per-prop expected type, so every property is now the "ambiguous/union type — skip type-checking" case that was already a documented fallback path, applied uniformly.
+- **`formSettings` dead-property/type-mismatch detection is retired** — the registry has no `formSettings` coverage at all, and there is no other authority for it in the plugin. See Step 4 below.
+- **The Step 4g keyCase-driven style-script check now names its three known style-returning props directly** (`customStyle`, `style`, `wrapperStyle`) instead of reading `keyCase` off a prop descriptor — this is a fixed, well-known set, not a per-type index, so hardcoding it does not reintroduce the hand-index problem.
 
 ---
 
@@ -92,22 +79,16 @@ The `components` array is a **nested tree** — each component may have a child 
 For each component:
 
 1. Get `component.type`.
-2. Build `allowedKeys` and `typeMap` as described in Step 3.
+2. Build `allowedKeys` as described in Step 3.
 3. For each key on the component object:
    - Skip keys starting with `_` or `shesha:`.
    - Skip the key `components`.
    - If the key is **not in `allowedKeys`** → dead property candidate.
-4. If the type is **not in the index at all** (unknown/custom type):
-   - Only check against `base.props`.
-   - Tag results with `[TYPE UNKNOWN — manual review]`.
-   - Do **not** include these in the auto-clean list.
+4. If the type is **not in the registry at all** (unknown/custom type):
+   - Tag the whole component as `[TYPE UNKNOWN — manual review]`.
+   - Do **not** attempt key-level dead-property detection for it, and do **not** include it in the auto-clean list.
 
-**Also validate `formSettings`:**
-
-For each key in the `formSettings` object:
-- Skip keys starting with `_`.
-- If the key is **not in `formSettingsAllowedKeys`** → dead formSettings property.
-- Report these separately under "Dead formSettings properties".
+**`formSettings` is not validated.** The registry has no `formSettings` entry (form-level settings aren't a component type), and its previous source — the `base` group file's `_formSettings` entry — was retired along with the rest of the hand-maintained index. There is currently no dead-property or type-mismatch detection for `formSettings`; skip straight to Step 4b.
 
 ---
 
@@ -130,28 +111,9 @@ Track each removal:
 
 ---
 
-## Step 4c: Type validation for known properties
+## Step 4c: Type validation for known properties (retired)
 
-Also type-check the `formSettings` object: for each key in `formSettings` that IS in `formSettingsAllowedKeys`, apply the same type-check logic using `formSettingsTypeMap[key]`. Report these under "formSettings type mismatches".
-
-For each component, for each key that IS in `allowedKeys` (valid properties):
-
-1. `propDef = propMap[key]` — if not present → skip (ambiguous type). `expectedType = propDef?.type`. If `expectedType === 'script'` → skip type-checking (value is a JS string evaluated at runtime; validate its content in Steps 4g and 4g-style).
-2. `rawValue = component[key]`
-3. Unwrap `IPropertySetting` wrapper if present:
-   - If `rawValue` is an object with `_mode === 'code'` → skip (JS expression, runtime type unknown).
-   - If `rawValue` is an object with `_mode === 'value'` → `checkValue = rawValue._value`.
-   - Otherwise → `checkValue = rawValue`.
-4. If `checkValue === null` or `checkValue === undefined` → skip.
-5. Determine `actualType`:
-   - `Array.isArray(checkValue)` → `'array'`
-   - `typeof checkValue === 'object' && checkValue !== null` → `'object'`
-   - Otherwise → `typeof checkValue` (string/boolean/number)
-6. Compare `actualType` vs `expectedType`. If mismatch:
-   - **Auto-fixable**:
-     - boolean expected, got string `"true"` or `"false"` → auto-fixable
-     - number expected, got string matching `/^\d+(\.\d+)?$/` → auto-fixable
-   - **Manual review**: all other mismatches
+**This step is retired.** It depended on a per-prop `type`/`options` descriptor that lived in the old hand-maintained per-type index; the registry that replaced that index (Step 3) only records that a property name is valid, not its expected value type, and carries no `formSettings` entry at all. There is no other source for this data in the plugin, and hand-maintaining a replacement type table here would recreate the exact problem the registry migration fixed. Every property is therefore always in the "ambiguous/union type" case — skip type-checking entirely. Do not produce "type mismatches" or "formSettings type mismatches" findings; skip Step 5c and the type-fix portions of Steps 6, 7, and 8 accordingly.
 
 ---
 
@@ -233,7 +195,7 @@ Output format per finding:
 
 **Additional check for style-returning scripts (`customStyle`, `style`, `wrapperStyle`):**
 
-For any script property where `propMap[key]?.keyCase === 'camel'`, attempt to extract the returned object literal from the script string (look for `return {` or an arrow-function implicit `({`). For each key found in the object literal:
+For any script property whose key is `customStyle`, `style`, or `wrapperStyle` (these three are the known style-returning, camelCase-keyed script props — the registry carries no `keyCase` descriptor to look this up dynamically), attempt to extract the returned object literal from the script string (look for `return {` or an arrow-function implicit `({`). For each key found in the object literal:
 
 - Flag any key in kebab-case (contains `-`) as `[WARNING — use camelCase key]`
 - Flag any value that is a bare number without units (e.g. `fontSize: 14` instead of `fontSize: '14px'`) as `[WARNING — value should be a quoted string]`
@@ -379,17 +341,9 @@ Output format per finding:
 
 ## Step 5: Present the dead property findings
 
-If no dead properties are found in either components or `formSettings`, skip this section.
+If no dead properties are found, skip this section. (`formSettings` is not validated — see Step 4.)
 
-Otherwise show `formSettings` dead properties first (if any):
-
-```
-Dead formSettings properties (if any):
-  - onBeforeData:  "console.log(data)"  [DEAD — not in IFormSettings]
-  - postUrl:       "https://..."        [LEGACY — replaced by dataSubmittersSettings]
-```
-
-Then component dead properties:
+Component dead properties:
 
 ```
 Found N dead properties across M components:
@@ -428,20 +382,9 @@ Total: 3 console.log calls removed from 2 components
 
 ---
 
-## Step 5c: Present type mismatch findings
+## Step 5c: Present type mismatch findings (retired)
 
-If no type mismatches were found, skip this section.
-
-Otherwise show:
-
-```
-Type mismatches:
-  • "First Name" (textField) → spellCheck: expected boolean, got string ("true") [AUTO-FIXABLE]
-  • "Age" (numberField) → max: expected number, got string ("100") [AUTO-FIXABLE]
-  • "Container" (container) → alignItems: expected string, got object [MANUAL REVIEW]
-
-Total: N mismatches (X auto-fixable, Y need manual review)
-```
+Retired along with Step 4c — always skip this section.
 
 ---
 
@@ -586,7 +529,6 @@ Ask the user a **single** confirm prompt covering all findings:
 > Apply N cleanups:
 >   - X dead properties removed
 >   - Y console.log calls removed
->   - Z type fixes (W items need manual review — listed above)
 >   - V values shape fixes (U items need manual review — listed above)
 >   - X layout fixes (Y items need manual review — listed above)
 >   - N script label references (manual review only — listed above)
@@ -595,46 +537,40 @@ Ask the user a **single** confirm prompt covering all findings:
 >   - U API call(s) missing async handling auto-fixed (P need manual review — listed above)
 >   - V API call(s) using .then() — manual review recommended (listed above)
 >
-> Proceed? (yes / no / skip-type-fixes)
+> Proceed? (yes / no)
 
-Adjust to omit whichever counts are zero. If there is nothing to clean, tell the user and stop.
+Adjust to omit whichever counts are zero. If there is nothing to clean, tell the user and stop. (Type-mismatch fixes are retired — see Step 4c — so there is no `skip-type-fixes` option and no type-fix line item any more.)
 
 - **no** → stop, output nothing.
-- **yes** → apply everything (dead props + console.log + all auto-fixable type/values/API fixes).
-- **skip-type-fixes** → apply dead props and console.log only (skips type, values, and API auto-fixes).
+- **yes** → apply everything (dead props + console.log + all auto-fixable values/layout/API fixes).
 
 ---
 
 ## Step 7: Output the cleaned form
 
 1. Deep-clone the markup object.
-2. Walk the component tree. For each component flagged in Step 4, delete the dead property keys.
-3. Delete dead keys from `formSettings`.
-4. Apply console.log cleanup: for every string value that contained `console.log`, replace with the regex-stripped, blank-lines-collapsed version.
-5. Apply auto-fixable type fixes (components and `formSettings`):
-   - `"true"` → `true`, `"false"` → `false` for boolean properties.
-   - `"123"` → `parseFloat("123")` for number properties.
-   - If the value was wrapped (`_mode: 'value'`), fix `_value` rather than the outer key.
-   - Do **not** modify `[MANUAL REVIEW]` items.
-6. Apply auto-fixable values shape fixes:
+2. Walk the component tree. For each component flagged in Step 4, delete the dead property keys. (`formSettings` is not validated in Step 4, so nothing is deleted from it here.)
+3. Apply console.log cleanup: for every string value that contained `console.log`, replace with the regex-stripped, blank-lines-collapsed version.
+4. Type fixes are retired along with Step 4c — there is nothing to apply here.
+5. Apply auto-fixable values shape fixes:
    - For each item flagged with missing `color` → add `"color": ""` to the item.
    - Do **not** modify items flagged `[MANUAL REVIEW]`.
-7. Apply auto-fixable layout fixes (L2 span fixes only):
+6. Apply auto-fixable layout fixes (L2 span fixes only):
    - For each `[AUTO-FIXABLE]` L2 issue: set the absent/null span to `24 − knownSpan` on the same object (`formSettings`, `component.labelCol`, or `component.wrapperCol`).
    - Do **not** modify `[MANUAL REVIEW]` layout items.
-8. Do **not** auto-fix script label references from Step 4f — these are manual review only.
-9. Apply auto-fixable try-catch fixes (Step 4h `[AUTO-FIXABLE]` items):
+7. Do **not** auto-fix script label references from Step 4f — these are manual review only.
+8. Apply auto-fixable try-catch fixes (Step 4h `[AUTO-FIXABLE]` items):
    - For each flagged script, locate the outermost function body and wrap its content in `try { ... } catch (error) { console.error('API call failed:', error); }`.
    - Update the property string value in the cloned component/formSettings object.
    - Do **not** modify `[MANUAL REVIEW]` try-catch items.
-10. Apply auto-fixable async/await fixes (Step 4i `[AUTO-FIXABLE]` items):
+9. Apply auto-fixable async/await fixes (Step 4i `[AUTO-FIXABLE]` items):
     - **Scenario A**: In the script string, find the function declaration or arrow that owns the `await` and insert `async` before the `function` keyword or before the parameter list of an arrow function.
     - **Scenario B**: Apply the Scenario A async-add first, then prepend `await ` before each matched API call expression that is not already preceded by `await `.
     - Update the property string value in the cloned component/formSettings object.
     - Do **not** modify `[MANUAL REVIEW]` async items.
-11. Do **not** auto-fix `.then()` chaining findings from Step 4j — these are manual review only.
-12. Do **not** modify component structure or any valid non-flagged properties.
-13. Output the cleaned `{ components, formSettings }` object as a formatted JSON code block.
+10. Do **not** auto-fix `.then()` chaining findings from Step 4j — these are manual review only.
+11. Do **not** modify component structure or any valid non-flagged properties.
+12. Output the cleaned `{ components, formSettings }` object as a formatted JSON code block.
 
 ---
 
@@ -651,18 +587,11 @@ console.log calls removed:
   • "My Component" (textField) → onChangeCustom: 2 call(s)
   • "Submit" (button) → customVisibility._code: 1 call(s)
 
-Type fixes applied:
-  • "First Name" (textField) → spellCheck: "true" → true
-  • "Age" (numberField) → max: "100" → 100
-
 Values shape fixes applied:
   • "Category" (dropdown) → item[1]: added color ""
 
 Values items needing manual review (not changed):
   • "Status" (dropdown) → item[0]: label is not a string
-
-Items needing manual review (not changed):
-  • "Container" (container) → alignItems: expected string, got object
 
 Layout fixes applied:
   • [L2] formSettings: wrapperCol.span set to 16

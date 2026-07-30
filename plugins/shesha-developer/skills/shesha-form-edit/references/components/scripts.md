@@ -14,7 +14,7 @@ Read when authoring any embedded JS (`onChangeCustom`, `onClickCustom`, `customV
 
 Symptoms of form-context access in `onBeforeDataLoad`: `setFormData is not defined`, `Cannot read properties of undefined (reading formMode)`. Move the script to `onDataLoaded`.
 
-- The groups index (`assets/groups/base.json` → `_formSettings.scripts`) lists `form`/`setFormData`/`formMode` in the `onBeforeDataLoad` context — runtime disagrees; trust runtime.
+- Some older documentation lists `form`/`setFormData`/`formMode` as available in the `onBeforeDataLoad` context — runtime disagrees; trust runtime.
 - Console errors from `onBeforeDataLoad` scripts are often pre-existing — verify they predate your change before treating them as regressions.
 - Seeding values in *any* hook does not make them submit — only real components (`_formFields`) serialize; required contextual FKs need a component **and** `onPrepareSubmitData` injection. See [add-dialogs.md](add-dialogs.md).
 

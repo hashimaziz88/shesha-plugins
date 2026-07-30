@@ -65,7 +65,7 @@ Every component has:
 ```
 
 - `id` — unique GUID. **Stable; never regenerate on existing components.** When cloning, deep-clone with new ids; never touch originals.
-- `type` — must be a valid component type. Look up the exact type string in `assets/groups/index.json` (bundled in this skill's assets); if the type is missing from the index, you have the wrong name.
+- `type` — must be a valid component type. Look up the exact type string in `assets/registry/registry-0.45.1.json` (bundled in this skill's assets — `registry.components[type]` truthy means it exists; see [component-registry.md](../component-registry.md)); if the type is missing from the registry, you have the wrong name.
 - `propertyName` — for **input** components, the entity property to bind. **camelCase** (`firstName`); the underlying entity is PascalCase (`FirstName`); the framework maps automatically. Don't double-case.
 - `parentId` — `'root'` for top-level, otherwise the parent container's id. Every child's `parentId` must reference an `id` that exists in the tree. After moving components, sweep to verify.
 - `label` — display label. Hidden if `hideLabel: true`.
@@ -100,5 +100,5 @@ The `Create` endpoint may not honour `access` on initial create. After `POST /Cr
 
 ## When in doubt
 
-- The authoritative valid-keys-per-type list is in `assets/groups/` (bundled in this skill's assets). Look up the component type in `assets/groups/index.json` to find its group file, then check if the key exists in that group file. If a key isn't listed there, you're probably wrong.
+- The authoritative valid-keys-per-type list is in `assets/registry/registry-0.45.1.json` (bundled in this skill's assets — see [component-registry.md](../component-registry.md)). Look up the component type, then check `registry.components[type].props.includes(key)`. If a key isn't listed there, you're probably wrong.
 - For component types not covered in any reference file (kanban, charts, queryBuilder, themeEditor, mainMenuEditor, processMonitor, kpi-style cards), inspect an existing form that uses them — the designer's output is canonical.

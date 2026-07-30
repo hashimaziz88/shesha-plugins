@@ -1,25 +1,25 @@
 ---
 name: clean-form-config
-description: Analyzes a Shesha form configuration JSON and removes dead/obsolete component properties, strips console.log calls from JS code strings, validates property value types, validates the shape of dropdown values items, detects scripts referencing component labels instead of propertyNames, runs layout validations (container dimension overflow, labelCol+wrapperCol span checks, device-specific style path conflicts), validates JavaScript syntax of embedded code strings, auto-fixes API calls missing try-catch by wrapping the function body in try/catch, and auto-fixes API calls in async-context properties that are missing async/await by adding the async keyword and awaiting calls. Falls back to manual review when function structure is ambiguous. Also detects API calls using .then() chaining and flags them for conversion to async/await + try-catch. Use when a form has been migrated, components have been refactored, or you want to clean up stale properties and debug statements.
+description: Analyzes a Shesha form configuration JSON and removes dead/obsolete component properties (checked against the shared component registry), strips console.log calls from JS code strings, validates the shape of dropdown values items, detects scripts referencing component labels instead of propertyNames, runs layout validations (container dimension overflow, labelCol+wrapperCol span checks, device-specific style path conflicts), validates JavaScript syntax of embedded code strings, auto-fixes API calls missing try-catch by wrapping the function body in try/catch, and auto-fixes API calls in async-context properties that are missing async/await by adding the async keyword and awaiting calls. Falls back to manual review when function structure is ambiguous. Also detects API calls using .then() chaining and flags them for conversion to async/await + try-catch. Use when a form has been migrated, components have been refactored, or you want to clean up stale properties and debug statements.
 ---
 
 # Clean Form Configuration
 
-Identify and remove **dead properties**, **console.log debug statements**, and **type mismatches** from a Shesha form configuration.
+Identify and remove **dead properties** and **console.log debug statements** from a Shesha form configuration, plus a set of narrower structural/script validations (dropdown values shape, layout, script syntax, try-catch/async coverage).
 
 ---
 
-## Step 1: Load the component properties index
+## Step 1: Load the component registry
 
-Read the bundled index from the skill's own assets folder:
+Read the shared registry from the sibling `shesha-form-edit` skill (relative to this skill's own root — the same cross-skill path `shesha-design-system`'s test suite already reads):
 
 ```
-plugins/shesha-developer/skills/clean-form-config/assets/groups/index.json
+plugins/shesha-developer/skills/shesha-form-edit/assets/registry/registry-0.45.1.json
 ```
 
-Then load `base.json` and whichever group files are needed for the components in the form (see Step 3 of [analysis.md](analysis.md) for the full loading procedure). All files are maintained by the skill author and ship with the plugin — no generation step is needed. Proceed directly to Step 2.
+i.e. `../shesha-form-edit/assets/registry/registry-0.45.1.json` from `SKILL_ROOT`. This is the same generated-from-framework-source registry `shesha-form-edit` uses (116 component types); it replaced this skill's own hand-maintained per-type index copy, which carried only 65 of those types and materially wrong prop counts (e.g. ~15 for `container` against a real 99). See Step 3 of [analysis.md](analysis.md) for what the registry does and does not cover, and proceed directly to Step 2.
 
-> **Note for skill maintainers:** To refresh the index after a shesha-reactjs upgrade, follow [generate-index.md](generate-index.md) and replace the files in the `assets/groups/` folder.
+> **Note for skill maintainers:** the registry is regenerated from `shesha-form-edit/scripts/gen-registry.mjs` (see that skill's [component-registry.md](../shesha-form-edit/references/component-registry.md)) — never hand-edit it here or duplicate it into this skill.
 
 ---
 
@@ -39,15 +39,16 @@ In both cases normalise to `{ components, formSettings }` as described in the No
 
 Follow [analysis.md](analysis.md) for:
 
-- **Step 3** — Load and interpret the component properties index (v2 format).
+- **Step 3** — Load and interpret the component registry (`assets/registry/registry-0.45.1.json` in the sibling `shesha-form-edit` skill).
 - **Step 4** — Walk the component tree; identify dead properties and unknown types.
 - **Step 4b** — Scan all string values for `console.log` calls.
-- **Step 4c / 4d / 4e / 4f** — Type-check valid properties; validate dropdown `values` item shapes; run layout checks (overflow, span, device-style path); scan scripts for label used instead of propertyName.
+- **Step 4c** — retired (no per-prop type data available from the registry).
+- **Step 4d / 4e / 4f** — validate dropdown `values` item shapes; run layout checks (overflow, span, device-style path); scan scripts for label used instead of propertyName.
 - **Step 4g** — Validate JavaScript syntax of all embedded code strings; flag broken scripts as `[CRITICAL]`.
 - **Step 4h** — Detect API calls missing try-catch; auto-fix by wrapping the function body in try/catch where the structure is unambiguous; fall back to `[MANUAL REVIEW]` for complex scripts.
 - **Step 4i** — Detect API calls in async-context properties (onFinish, onSubmit, getData, etc.) missing async/await; auto-fix by adding `async` to the function signature and `await` before the call; fall back to `[MANUAL REVIEW]` for ambiguous structures. Also detects `await` used outside an `async` function (Scenario A) and auto-fixes it.
 - **Step 4j** — Detect API calls using `.then()` chaining; flag as `[MANUAL REVIEW]` with a recommendation to convert to async/await + try-catch.
-- **Step 5 / 5b / 5c / 5d / 5e / 5f / 5g / 5h / 5i / 5j** — Present findings (dead props, console.log, type mismatches, values shape issues, layout issues, label references, script syntax errors, missing try-catch, missing async/promise, .then() chaining).
+- **Step 5 / 5b / 5d / 5e / 5f / 5g / 5h / 5i / 5j** — Present findings (dead props, console.log, values shape issues, layout issues, label references, script syntax errors, missing try-catch, missing async/promise, .then() chaining). Step 5c is retired along with 4c.
 - **Step 6** — Single confirmation prompt.
 - **Step 7** — Apply all cleanups and output cleaned JSON.
 - **Step 8** — Summary with size reduction.
@@ -78,6 +79,5 @@ After producing the cleaned JSON, ask the user:
 - **Structural keys are never removed**: `id`, `type`, `parentId`, `components`.
 - **Nested objects are not deep-cleaned**: only top-level component keys are checked.
 - **`IPropertySetting` wrappers** (`{ _mode, _value, _code }`) are valid for any property.
-- **`_mode: 'code'` values are never type-checked** — runtime expressions.
-- **`null` values are never type-checked** — valid for any property type.
-- To regenerate the index after upgrading shesha-reactjs, delete `.claude/shesha/component-properties.json` and re-run the skill.
+- **Type-checking is retired** (see Step 4c in [analysis.md](analysis.md)) — the registry records prop existence, not expected value type, so this skill no longer flags type mismatches on components or `formSettings`.
+- To regenerate the registry after a shesha-reactjs upgrade, follow the `shesha-form-edit` skill's own regeneration process ([component-registry.md](../shesha-form-edit/references/component-registry.md)) — do not add a local index here.
