@@ -1,0 +1,9 @@
+{
+  "name": "shesha-developer-evals",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.mjs\"",
+    "evals": "node run-evals.mjs --runs 3"
+  }
+}

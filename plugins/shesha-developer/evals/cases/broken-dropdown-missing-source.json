@@ -1,0 +1,8 @@
+{
+  "id": "broken-dropdown-missing-source",
+  "description": "DELIBERATELY BROKEN — proves the harness has teeth. A standalone-capture blueprint adds a bare \"dropdown\" node with no dataSourceType. compileSpec()'s leaf builder (scripts/lib/compile/leaf.mjs) never sets dataSourceType on any field type, so this ALWAYS trips tier2.mjs's T2-DROPDOWN-SOURCE (\"missing source fails silently\") — a genuine, real Tier 2 finding, not a contrived schema error. This case is expected to FAIL and must keep failing; if it ever starts passing, the harness itself has broken.",
+  "archetype": "standalone-capture",
+  "blueprint": "fixtures/broken-dropdown.blueprint.json",
+  "threshold": 80,
+  "expectFail": true
+}

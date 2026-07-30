@@ -1,0 +1,35 @@
+{
+  "screen": "Broken New Employee (deliberately-broken eval fixture)",
+  "archetype": "standalone-capture",
+  "theme": "requirements-studio",
+  "viewport": "1440x900",
+  "entity": {
+    "fullClassName": "Boxfusion.HR.Domain.Employee",
+    "modelType": { "name": "Employee", "module": "Boxfusion.HR" }
+  },
+  "form": { "module": "hr", "name": "employee-create-broken", "label": "New Employee" },
+  "nodes": [
+    { "node": "page", "type": "container", "role": "page-root",
+      "children": ["pageHeader", "validationErrors", "firstName", "lastName", "department", "actionRow"] },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "children": ["heading"] },
+    { "node": "heading", "type": "text", "slot": "pageHeader", "content": "New Employee" },
+    { "node": "validationErrors", "type": "validationErrors", "slot": "page" },
+    { "node": "firstName", "type": "textField", "slot": "page", "content": "First Name" },
+    { "node": "lastName", "type": "textField", "slot": "page", "content": "Last Name" },
+    { "node": "department", "type": "dropdown", "slot": "page", "content": "Department" },
+    { "node": "actionRow", "type": "buttonGroup", "slot": "page",
+      "items": [
+        { "label": "Submit", "primary": true, "action": { "actionName": "Submit", "actionOwner": "shesha.form" } },
+        { "label": "Back", "action": { "actionName": "Navigate", "actionOwner": "shesha.common" }, "target": "employee-table" }
+      ] }
+  ],
+  "bindings": [
+    { "label": "First Name", "property": "firstName", "component": "textField", "datatype": "string" },
+    { "label": "Last Name", "property": "lastName", "component": "textField", "datatype": "string" }
+  ],
+  "assertions": [
+    "parent-of(page, actionRow)"
+  ],
+  "dependencies": []
+}

@@ -1,6 +1,6 @@
 ---
 name: shesha-design-comprehension
-description: Use when a Shesha form must match a specific visual design and container/component placement keeps drifting — columns, nesting, tabs, or grouping landing in the wrong place versus the design. Also use to diagnose why an already-built form doesn't match its design. Turns a design source (readable HTML/JSX, a runnable prototype, or screenshots/PDF) into a measured, annotated layout blueprint, and verifies a built Shesha form against it by measurement. Invoked by shesha-claude-designer; pairs with shesha-form-edit (structure) and shesha-design-system (style).
+description: Produces the styled blueprint that the Shesha build pipeline compiles from, and verifies placement afterwards by re-measuring the rendered DOM. A SUB-SKILL — normally preloaded by the shesha-form-designer agent or sequenced by shesha-claude-designer, not selected directly. Converts a design source (readable HTML/JSX, a runnable prototype, or screenshots/PDF) into a JSON node tree with resolved roles, native split widths, bindings and typed placement assertions, plus an ASCII placement mock rendered from that same tree. Also use directly to diagnose why a built form's containers, nesting, tabs or grouping sit in the wrong place, or to run the placement gate (verify-placement.mjs) against a form that is already live.
 ---
 
 # Shesha Design Comprehension

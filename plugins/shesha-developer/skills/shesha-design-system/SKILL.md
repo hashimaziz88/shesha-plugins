@@ -1,6 +1,6 @@
 ---
 name: shesha-design-system
-description: Use whenever a Shesha form or page needs to LOOK like a specific design or brand — "make it match the design", "apply our branding", "style this form", "it doesn't look good", "match Requirements Studio / the Figma / the Claude design", or any request for a polished, consistent visual result rather than just working fields. Maps design tokens (colour, type, spacing, radius, shadow, status lifecycle) onto Shesha's app-level Ant Design theme and per-component v7 style blocks. Themeable, ships the requirements-studio theme and accepts new brand token files. Pairs with shesha-form-edit (which builds structure) and is orchestrated by shesha-claude-designer. Do NOT use it to author structure/components, wire CRUD, or fix runtime errors — that is shesha-form-edit's job.
+description: Owns Shesha appearance — the style-role catalogue, the brand token files, the app-level Ant Design theme, and per-component v7 style blocks. A SUB-SKILL for design runs: normally sequenced by shesha-claude-designer or consumed via the role catalogue that the form compiler resolves. Use it DIRECTLY when restyling an already-working form — "apply our branding", "style this form", "the buttons are the wrong colour", "raise the polish" — or to audit a rendered form against its theme and return prop-level fixes. Brand selection is a lookup via resolve-brand.mjs, never an authoring task. Do NOT use it to author structure or components, wire CRUD, or fix runtime errors — that is shesha-form-edit's job.
 ---
 
 # Shesha Design System

@@ -1,0 +1,7 @@
+{
+  "id": "flight-details-forensic",
+  "description": "The flight-details forensic case (Phase 3 forensic-regression.test.mjs traced 6 real defects from a user's hand-pushed flight-details/asset-detail forms). This blueprint reproduces the same field names, tab layout, mustache-bound header, and detail-rail caption/checkbox shape at a trimmed scale, and asserts compileSpec()'s output stays Tier 1 + Tier 2 clean — the same claim the forensic suite proves at unit-test granularity, asserted here as an eval.",
+  "archetype": "record-detail",
+  "blueprint": "fixtures/flight-details.blueprint.json",
+  "threshold": 80
+}
