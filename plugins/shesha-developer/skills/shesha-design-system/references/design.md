@@ -2,10 +2,17 @@
 
 > Moved here from `shesha-form-edit` (2026-07-30, Task 4): this is an aesthetic-critique
 > workflow — a fourth styling authority — and belongs in the appearance skill, not the
-> structure skill. `shesha-form-edit/SKILL.md` Steps 0 and 9.5 invoke it by path; the step
-> numbers below (**0**, **9.5**) are `shesha-form-edit`'s own workflow steps, not this skill's.
+> structure skill. Neither integration point below is a mandatory step in
+> `shesha-form-edit`'s own `0 · Route` … `7 · Report` pipeline — the **pre-build
+> consultation** is an optional, explicitly-requested extra a caller (a user, or
+> `shesha-claude-designer`'s own Step 1 "Ingest the design") may run before handing
+> requirements to `shesha-form-edit` at all; the **post-render review** is the
+> optional 5th, ask-first oracle layer `shesha-form-edit/SKILL.md`'s `6 · Push +
+> Oracle` names explicitly (non-blocking, never a substitute for the mandatory
+> design-critic layer). Both are named **pre-build** / **post-render** below —
+> not step numbers — since neither owns a numbered slot in either skill's scheme.
 
-Two integration points: **Step 0 (pre-edit)** for new forms / major restructures, and **Step 9.5 (post-render)** for aesthetic review of the rendered output.
+Two integration points: **pre-build consultation** for new forms / major restructures (run before `shesha-form-edit` is ever invoked), and **post-render review** (the optional 5th oracle layer in `shesha-form-edit`'s `6 · Push + Oracle`) for aesthetic review of the rendered output.
 
 The `frontend-design` skill is published by Anthropic; it's about creating distinctive, production-grade interfaces (typography, color, motion, spatial composition). It generates *design thinking and reference code* — we apply its output by tuning Shesha component props (`desktop.font`, `desktop.background`, `stylingBox`, `border.radius`, `shadow`, etc.), not by emitting React/HTML.
 
@@ -19,11 +26,11 @@ If `frontend-design` is not in the available-skills list, the user has to instal
 
 (or the equivalent in their Claude Code version — the plugin is in the `claude-plugins-official` marketplace.)
 
-The skill must be reachable as `Skill(skill="frontend-design", ...)`. If invocation returns "skill not found", warn the user and **continue without** the design pass — Step 5 still works on its own. Don't block the flow.
+The skill must be reachable as `Skill(skill="frontend-design", ...)`. If invocation returns "skill not found", warn the user and **continue without** the design pass — `shesha-form-edit`'s `5 · Style` still works on its own (compile-time token bake-in, no `frontend-design` dependency). Don't block the flow.
 
 ---
 
-## Step 0 — Design consultation (pre-edit)
+## Pre-build — Design consultation
 
 **Always ask the user first** via `AskUserQuestion` — never invoke `frontend-design` silently. The check has a real cost (extra round-trip, more tokens) and only pays off for substantial design work.
 
@@ -43,7 +50,7 @@ The skill must be reachable as `Skill(skill="frontend-design", ...)`. If invocat
 > - **Yes — get a design plan** (recommended for new pages / major restructures)
 > - **No — author from seeds only** (good for adding fields, small tweaks, internal forms)
 
-If user picks No, skip directly to Step 1; cache a one-line `# Skipped — user declined` at `.claude/cache/shesha-form-edit/design-plans/<form-name>.md` so Step 9.5 also knows to skip.
+If user picks No, proceed straight to seed-first authoring (`shesha-form-edit`'s normal path — no design source); cache a one-line `# Skipped — user declined` at `.claude/cache/shesha-form-edit/design-plans/<form-name>.md` so the post-render review below also knows to skip.
 
 ### Invocation (on Yes)
 
@@ -74,7 +81,7 @@ Directive template:
 
 ### Caching the plan
 
-Save the returned plan to `.claude/cache/shesha-form-edit/design-plans/<form-name>.md`. Step 9.5 reads it back to grade the rendered output against the spec.
+Save the returned plan to `.claude/cache/shesha-form-edit/design-plans/<form-name>.md`. `shesha-form-edit`'s optional aesthetic-review layer (the 5th layer of **6 · Push + Oracle**) reads it back to grade the rendered output against the spec.
 
 ### Applying the plan to Shesha JSON
 
@@ -94,15 +101,15 @@ Reference existing seeds (`shesha-form-edit/assets/golden/auth-page--auth-login.
 
 ---
 
-## Step 9.5 — Aesthetic review (post-render)
+## Post-render — Aesthetic review
 
-**Ask the user first** via `AskUserQuestion`:
+This is `shesha-form-edit`'s optional 5th, ask-first oracle layer (`SKILL.md`'s `6 · Push + Oracle`) — non-blocking, and never a substitute for that section's mandatory design-critic layer. **Ask the user first** via `AskUserQuestion`:
 
 > Run an aesthetic review on the rendered form via `frontend-design`? It compares the screenshot against the design plan and returns up to 5 prop-level tweaks.
 > - **Yes — review and suggest tweaks**
 > - **No — confirm and finish**
 
-On No, jump to Step 10. On Yes, invoke `frontend-design` as a critic, not a generator.
+On No, proceed straight to `7 · Report`. On Yes, invoke `frontend-design` as a critic, not a generator.
 
 ```
 Skill(skill="frontend-design", args="<critique directive>")
@@ -127,9 +134,9 @@ Critique directive template:
 
 ### Acting on findings
 
-Findings are **suggestions, not blockers**. Surface them to the user as a numbered list. Ask: "Want me to apply any of these?" — accept/reject per item. On accept, loop back to Step 5 (apply targeted edits to the cached form JSON), then re-run Step 6 → 9.
+Findings are **suggestions, not blockers**. Surface them to the user as a numbered list. Ask: "Want me to apply any of these?" — accept/reject per item. On accept, loop back to `shesha-form-edit`'s `5 · Style` (apply targeted edits to the cached form JSON — recompile if the tweak is structural), then re-run `6 · Push + Oracle`.
 
-If the form is acceptable as-rendered, skip the loop and confirm (Step 10). The aesthetic pass is opt-in to apply.
+If the form is acceptable as-rendered, skip the loop and confirm (`7 · Report`). The aesthetic pass is opt-in to apply.
 
 ---
 

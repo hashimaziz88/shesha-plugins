@@ -105,7 +105,7 @@ Backend rules that constrain what the form/table layer can rely on:
 
 ## 7. When to dispatch the prereq checker
 
-For **new entity-bound forms** or any entity you have not verified this session, dispatch the `shesha-developer:fullstack-prereq-checker` agent (via the Task tool) **before authoring** — it front-loads sections 1–3 (entity exists, metadata resolves, reflists populated, CRUD endpoints answer) instead of you discovering them one runtime failure at a time. See SKILL.md **Step 4.5** for the inline fallback (entity existence check via `Metadata/GetProperties`, `modelType` resolution, `test-entity-crud-api --no-fix`).
+For **new entity-bound forms** or any entity you have not verified this session, dispatch the `shesha-developer:fullstack-prereq-checker` agent (via the Task tool) **before authoring** — it front-loads sections 1–3 (entity exists, metadata resolves, reflists populated, CRUD endpoints answer) instead of you discovering them one runtime failure at a time. See SKILL.md's **`1 · Pre-flight`** entity-binding gate for the inline fallback (entity existence check via `Metadata/GetProperties`, `modelType` resolution, `test-entity-crud-api --no-fix`).
 
 ---
 

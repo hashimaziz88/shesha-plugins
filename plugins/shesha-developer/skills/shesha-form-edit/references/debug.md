@@ -1,13 +1,13 @@
 # Debug — symptom → cause catalog
 
-When a push succeeds but the form misbehaves in the browser, **consult this table before guessing**. Each row maps a visible symptom to the most likely cause(s) and the fix. Loaded only on demand by Step 9 (browser smoke) or when the user reports a runtime issue.
+When a push succeeds but the form misbehaves in the browser, **consult this table before guessing**. Each row maps a visible symptom to the most likely cause(s) and the fix. Loaded only on demand by `SKILL.md`'s **6 · Push + Oracle** (render-instrument / browser-verification layer) or when the user reports a runtime issue.
 
 ## Reading order
 
 1. Match the symptom you observe.
 2. Walk the listed causes top-to-bottom (most common first).
-3. Apply the fix; re-validate via Step 6 + 8.
-4. Re-run the smoke step.
+3. Apply the fix; re-validate via **4 · Gates** + **6 · Push + Oracle**.
+4. Re-run the render instrument / browser smoke.
 
 If multiple symptoms fire at once, fix them in source order — earlier rows often unblock later ones.
 
@@ -46,16 +46,27 @@ If multiple symptoms fire at once, fix them in source order — earlier rows oft
 | 27 | **Datatable shows column headers and a correct row count in the pager, but every cell is blank / no visible rows** | Column `propertyName`s are **PascalCase** (e.g. `ActionedBy`, `CreationTime`) copied verbatim from `Metadata/GetProperties` `path`. Shesha camelCases the *query* (so data fetches and the count is right) but the cell accessor reads the literal `propertyName` against camelCase row keys → `undefined`. | **camelCase every column `propertyName`** (`ActionedBy`→`actionedBy`); same for every input/binding `propertyName`. | [form-quality.md](form-quality.md) |
 | 28 | **Datalist card: text overlaps, a multi-line quote clips at the card top, fields collapse, the status chip is missing, or an inner scrollbar appears** | The datalist renders each row's card form in a cell that collapses `ant-form-item` heights and forces `white-space: nowrap`; plain content-mode text and shared-row chips collapse. | Build the card per **Building the row-template card form** in [data-tables.md](components/data-tables.md): name-mode bound text, `dimensions: fit-content`, single-line `ellipsis` for long text, chip on its own row, legacy `style` for padding + `overflow:'hidden'`, card `height:"auto"`. | [components/data-tables.md](components/data-tables.md) |
 | 29 | **Create/edit fields render as read-only spans (not inputs) standalone** (distinct from row 1 — this is NOT an editMode issue) | Components missing an integer `version` → the renderer takes a legacy read-only fallback path (typically from modelling a form on a versionless legacy seed). | Stamp the current `version` on every component from the KB or a live versioned form (e.g. a login form); never seed from a versionless legacy form [R-003]. | [renderer-physics.md](renderer-physics.md) |
+| 30 | **`HTTP 400` on dataContext data load** | Entity doesn't have GQL query API enabled in backend. | Invoke `shesha-developer:domain-model` to enable GQL on the entity, or use `sourceType: "Url"` with an explicit REST endpoint. | [full-stack-prereqs.md](full-stack-prereqs.md) |
+| 31 | **`HTTP 404` on metadata fetch** (`"Failed to fetch metadata of type …"`) | Wrong entity class name in `formSettings.modelType`. | Re-verify entity type via `EntityConfig/GetMainDataList` or `FormConfiguration/GetAll` on existing forms. | [api.md §10](api.md) |
+| 32 | **`HTTP 500` on dataContext** | `entityType` or `sourceType` missing on the `dataContext` component. | Add `entityType`, `sourceType: "Entity"`, `dataFetchingMode`, `defaultPageSize`. | [components/data-tables.md](components/data-tables.md) |
+| 33 | **`JSON parse error` in browser console** | Malformed script string in form markup — template literals or literal newlines. | Run `node scripts/validate-form.mjs` (`T1-JSON-UNSAFE`); replace template literals with concatenation. | [components/scripts.md](components/scripts.md) |
+| 34 | **Form shows blank/empty without error** | Short IDs (`pr1`, `btn2`) or all-`root` parentIds. | Re-run `node scripts/validate-form.mjs` (`T1-ID-EMPTY`/`T1-PARENT-MISSING`); re-mint ids with `crypto.randomUUID()` and re-stamp `parentId`. | [SKILL.md](../SKILL.md) Non-negotiables |
+| 35 | **Detail form shows blank when navigated to without `?id=`** | Normal — the `gql` loader has no ID to fetch. | Expected; test detail forms with `?id=<real-guid>`, or via the table row's view link. | [form-shape.md](components/form-shape.md) |
+| 36 | **Create/edit fields show as read-only labels (no input boxes) standalone** | `editMode: "inherited"` on a form not currently in an edit context. | Expected — they become inputs inside the Add modal (`formMode: "edit"`) or after Start Edit. Don't "fix" by forcing `editable`. | [edit-mode.md](components/edit-mode.md) |
+| 37 | **Dropdown opens but shows "No matches" / no options** | The backend **reference list has no items**, or wrong `referenceListId`. | Verify the reflist name via property metadata; confirm items exist in the backend reflist editor. The form config itself (see [by-datatype.md](components/by-datatype.md)) is likely correct. | [dropdowns.md](components/dropdowns.md) |
+| 38 | **Autocomplete (FK) shows "No matches"** | Target entity has no records, or wrong `entityType:{name,module}`. | Confirm the FK target's short class name + module; ensure records exist. | [selectors.md](components/selectors.md) |
+| 39 | **Junction/child `Crud/Create` 500 on dialog submit** | Contextually-preset FK never reached the payload (`_formFields` rule). | Add a real component + `formSettings.onPrepareSubmitData`. | [add-dialogs.md](components/add-dialogs.md) |
+| 40 | **Push returned 200 and the API re-fetch diff is clean, but the browser still shows the old markup** | The frontend's IndexedDB form cache is serving a stale copy. | Clear it from a static page (`/favicon.ico`) before debugging anything else — a cache hit makes a correct push look like a failed one. | [verification.md](verification.md) |
 
 ---
 
 ## Capture protocol
 
-When the playwright smoke step (Step 9) reports a finding:
+When the render-instrument / browser-smoke check (`SKILL.md`'s **6 · Push + Oracle**) reports a finding:
 
 1. Quote the captured error / network response **verbatim** in your reply.
 2. Reference the row number above (e.g. "matches debug.md row 1 — editMode missing").
-3. Apply the fix; re-run Step 6 (validate) and Step 8 (verify).
-4. Re-run the smoke step before reporting success.
+3. Apply the fix; re-run **4 · Gates** (validate) and **6 · Push + Oracle** (verify).
+4. Re-run the render instrument / browser smoke before reporting success.
 
 If no row matches: **don't guess**. Report "no match in debug.md" and ask the user how to proceed. Adding a new row here is a maintenance task, not a runtime workaround.

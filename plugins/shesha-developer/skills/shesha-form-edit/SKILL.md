@@ -67,9 +67,9 @@ service — never guessed [R-026]: [references/api.md](references/api.md).
 
 Backend URL resolution order: **task-supplied context block (always wins)** → **`SHESHA_BACKEND_URL` environment variable** (sandboxed/ephemeral environments where the backend runs in a separate process or pod, not at `localhost`) → `src/*.Web.Host/Properties/launchSettings.json` (`profiles.Project.applicationUrl`) → `src/*.Web.Host/appsettings.json` (`Kestrel:Endpoints:Http:Url`) → fallback `http://localhost:21021`. Strip trailing slash. Store as `$BASE_URL`. Ping `$BASE_URL/swagger/index.html` to confirm reachability; if it fails, stop and tell the user to start the backend.
 
-- **A small edit** (one component / property / script / action on an existing form) → stay inline, do Steps 1–8 only, skip the design pass, and only do a browser check (Step 9) if the change is visual/behavioral. Keep it cheap — don't run the full pipeline for a one-line tweak.
-- **One whole form** (table / list / create / details / dialog / subform) → inline, full Steps 0–10, seed-first (exemplars → blocks → examples, see line above). ("table"/grid → `datatable`; "list"/cards → `datalist`.)
-- **Backend prerequisites may be missing** (entity / property / reflist / API / menu item) → gate on Step 4.5 (or the `fullstack-prereq-checker` agent) and fix gaps via the owning sibling skill BEFORE writing form JSON.
+- **A small edit** (one component / property / script / action on an existing form) → stay inline, do **1 · Pre-flight** through **4 · Gates** only, skip the design pass, and only do the browser-verification layer of **6 · Push + Oracle** if the change is visual/behavioral. Keep it cheap — don't run the full pipeline for a one-line tweak.
+- **One whole form** (table / list / create / details / dialog / subform) → inline, full **0 · Route** through **7 · Report**, seed-first (exemplars → blocks → examples, see line above). ("table"/grid → `datatable`; "list"/cards → `datalist`.)
+- **Backend prerequisites may be missing** (entity / property / reflist / API / menu item) → gate on the entity-binding check below (`scripts/backend-probe.mjs`) — or the `fullstack-prereq-checker` agent — and fix gaps via the owning sibling skill BEFORE writing form JSON.
 - **Multiple linked pages, or a whole app from a brief** → don't build it all in one context: plan first, then build in waves (create → details → table, then cross-link), orchestrating with `superpowers:dispatching-parallel-agents`. State the rough cost up front. See [orchestration.md](references/orchestration.md).
 
 For entity-bound work run `scripts/backend-probe.mjs` — one probe returns
@@ -128,6 +128,44 @@ Entity-bound forms MUST pass `resolve-bindings.js` (live backend) before push.
 Fix findings by rule id; never bypass a gate. JSON-safety for embedded scripts:
 [R-013] + [references/components/scripts.md](references/components/scripts.md).
 
+Compiled output carries the same acceptance property the compiler is judged
+against — **run the combined validator too** (mandatory, blocking):
+`node scripts/validate-form.mjs <form.json>`. It exits 0 only when there are
+zero Tier 1 (renderability) and zero Tier 2 (construction-contract) findings;
+Tier 3 (appearance) is reported but never blocks. Full code list + which ones
+actually block a push: [references/push-hook.md](references/push-hook.md) —
+these checks also run automatically, post-normalize, in the `PreToolUse` hook
+on every `UpdateMarkup`/`ImportJson` call, so running it yourself first is a
+chance to see and fix a finding before the hook denies the push. **Never push
+a config that fails validation without user confirmation.**
+
+Then run the **[form-quality checklist](references/form-quality.md)** —
+human-readable labels, dropdown sources complete, primary action visible,
+consistent layout (the parts of "is this a good form" the validator doesn't
+check structurally).
+
+Then **invoke `clean-form-config` ONCE, right before the final push**
+(mandatory, blocking) — covers layout overflow, label-vs-propertyName refs,
+missing try/catch, missing async, broken script syntax:
+
+```
+Skill(skill="shesha-developer:clean-form-config", args="<path to your edited form>")
+```
+
+**Run it once on the finished markup — not after every intermediate edit**
+(re-running it per change is a large, repeated cost for no extra signal).
+**Known false positives — don't re-investigate or strip these:** the
+`dataContext` data props (`entityType`, `sourceType`, `dataFetchingMode`,
+`defaultPageSize`, …), container `direction`/`flexDirection`, `text.padding`,
+and the datatable inline props (`canEditInline`/`canAddInline`/`canDeleteInline`/
+`inlineEditMode`/`inlineSaveMode`) are valid and render in live forms; the
+bundled index just doesn't enumerate them.
+
+**Before any bulk push (>3 forms changed): fan out `shesha-developer:form-auditor`
+agents — one per form** — with the verdict contract from
+[orchestration.md](references/orchestration.md); aggregate and never push a
+form with a `fail` verdict.
+
 ## 5 · Style — compiled in, not a second pass
 
 Design is a **compile-time input**: `compile-blueprint.js --theme <brand>`
@@ -147,10 +185,30 @@ theme falls back to neutral tokens.
 
 ## 6 · Push + Oracle
 
-Push: `POST FormConfiguration/Create` (new) / `PUT UpdateMarkup` (existing) —
-[references/api.md](references/api.md). Record every form in the push ledger
-(`.claude/cache/shesha-form-edit/push-ledger.json`); the Stop hook blocks
-session end while any entry is unverified [R-046].
+Push: **UpdateMarkup** (default, existing form) — `PUT
+$BASE_URL/api/services/Shesha/FormConfiguration/UpdateMarkup`, body
+`{ "id": "$FORM_ID", "markup": "<stringified form JSON>" }` — or **Create**
+(`POST FormConfiguration/Create`, new form). Alternative: **ImportJson** —
+multipart upload (`ItemId` + `file`). Both write `Markup` on the form
+configuration. Build the body in Node to avoid escaping pain. See
+[references/api.md §5-6](references/api.md). Record every form in the push
+ledger (`.claude/cache/shesha-form-edit/push-ledger.json`); the Stop hook
+blocks session end while any entry is unverified [R-046].
+
+**Scratch-script hygiene (avoids a recurring time-sink):** write build/push
+scripts and staged JSON into the **supplied working directory**, NOT `/tmp` —
+git-bash `/tmp` maps to `%TEMP%` (e.g. `C:\Users\…\AppData\Local\Temp`), which
+is a *different* path than Windows `C:\tmp` and from PowerShell `$env:TEMP`,
+so a file written by `bash` is frequently "not found" by `node`/PowerShell.
+Pass values into Node via **env vars** (`VAR=x node script.js`), not
+positional argv that the shell may not forward. Prefer **one combined
+fetch→mutate→push script** over many small probe commands (each round-trip
+is cost). Success: HTTP 200 with `{ "result": ... }`.
+
+**On push failure (any non-200):** (1) surface the raw response and a short
+diagnosis; (2) ask the user via `AskUserQuestion`: **retry as-is** /
+**re-fetch and re-apply** / **abort**; (3) act on the choice. **Never
+silently retry. Never just stop.**
 
 **Publish (Draft → Live)** before anything below re-probes the form: `PUT
 ConfigurationItem/UpdateStatus` with `{"filter": "{\"==\":[{\"var\":\"id\"},\"<form-guid>\"]}",
@@ -162,13 +220,37 @@ against an un-published Draft measures nothing. Full model:
 
 The oracle judges the deliverable through four fail-closed layers — a green
 render alone never means done. Full model: [references/quality-gates.md](references/quality-gates.md).
-1. **Re-fetch + diff** — the pushed markup equals what you sent; a 200 alone
-   proves nothing [R-047] ([references/verification.md](references/verification.md)).
+1. **Re-fetch + diff** — via `GetByName`/`GetJson`; the pushed markup equals
+   what you sent — a 200 alone proves nothing [R-047]
+   ([references/verification.md](references/verification.md)). Surface any
+   normalization the server applied. For anonymous forms (`access: 5`),
+   confirm `result.access === 5` — the `Create` endpoint may not honor
+   `access` on initial create; call `UpdateMarkup` once more if it didn't
+   stick.
 2. **Render instrument** (objective, unless `--no-browser`):
    `node scripts/render-instrument.js --form <module>/<name>` — navigate, probe,
    screenshot, console/network dump, binding smoke, and layout-quality checks
    (stacked splits, collapsed inputs/buttons, overflow). Exit ≠ 0 → fix and
-   re-run; diagnose via [references/debug.md](references/debug.md).
+   re-run. Frontend URL: `adminportal/` (auth forms) or `publicportal/`
+   (anonymous) — read the dev port from `<app>/.env*` or `<app>/package.json`;
+   if neither is running, skip this layer and warn the user. Test `*-details`
+   forms via the **table row's view link**, never a pasted `?id=` URL —
+   direct loads render but subtable Add/Create submits 500 (missing page
+   context). If the browser disagrees with a verified API re-fetch, clear the
+   **IndexedDB form cache from `/favicon.ico`** before debugging further. On
+   any captured error or 4xx/5xx, consult
+   [references/debug.md](references/debug.md) before guessing — it maps ~40
+   symptom rows to causes and fixes; quote the captured error verbatim and
+   cite the matching row number.
+   **Verification cost discipline (this is where runs blow up — keep it
+   tight):** assert with the **a11y snapshot** +
+   `getBoundingClientRect`/`getComputedStyle`, **not screenshots** (take at
+   most ONE, at the very end, for a final visual confirmation); **batch all
+   DOM measurements into a single `evaluate` call** rather than climbing the
+   tree across many calls; check whether the layout question is already
+   answered by a documented recipe (full recipes:
+   [references/verification.md](references/verification.md)) before reaching
+   for the browser at all.
 3. **Placement diff** (intent) — blueprint builds re-probe against the
    blueprint's `assertions`; this is what catches "the layout I intended didn't
    happen" (comprehension owns it).
@@ -178,11 +260,24 @@ render alone never means done. Full model: [references/quality-gates.md](referen
    build is NOT done until the critic PASSes (styled ≥ acceptable). A green
    render-instrument does not substitute for it.
 
+**Optional 5th layer — aesthetic review (ask first, non-blocking).** If a
+design source exists for this form, you MAY ask the user via
+`AskUserQuestion` whether to run one further post-render pass via
+`frontend-design`, comparing the screenshot against the design source and
+returning up to 5 prop-level tweaks as **suggestions, not blockers**
+(accept/reject per item). This is separate from — and never a substitute
+for — the mandatory design-critic layer above; skip it entirely when
+`--no-design` is passed or no design source exists. Recipe:
+[../shesha-design-system/references/design.md](../shesha-design-system/references/design.md).
+On any accepted tweak, loop back to **5 · Style** (re-touch the token/role
+input, recompile if the tweak is structural) then **6 · Push + Oracle**.
+
 ## 7 · Report
 
 One summary: every form (module + name + id), archetype used, gate results,
-oracle verdict, ledger state. Anything unverified is reported as UNVERIFIED,
-never as done.
+oracle verdict, ledger state. Authenticated forms render at
+`/dynamic/<module>/<form>`; anonymous at `/no-auth/<module>/<form>`.
+Anything unverified is reported as UNVERIFIED, never as done.
 
 ## Reference map
 
@@ -248,105 +343,14 @@ never as done.
 3. **Take the `version` from the registry** and stamp it. `null` means the component
    has no migrator; omit `version` for those.
 4. **Validate every prop against that type's `props` array.** Anything absent will be
-   stripped at Step 6.
+   stripped at **4 · Gates**.
 5. **Scan for a better fit** — e.g. `refListStatus` rather than `dropdown` for read-only
    status. For side-by-side layout use a flex `container` whose children are themselves
    `container`s, never the `columns` component (see the split rule below).
 
 Tree-editing principles: preserve every existing component's `id` and `parentId` (fresh GUIDs only on clones / new nodes); when re-parenting, update only the moved node and add it to the new parent's `components`; don't touch `formSettings` unless asked.
 
-**`parentId` is mandatory on every component** — the Shesha renderer crashes entirely when it's absent. Building from a blueprint: `compile-spec.mjs` stamps every `parentId` for you (`normalize-form.mjs` Phase B2 — root-level = `"root"`, else the parent's id); nothing to do by hand. Hand-editing: set it to the direct parent's `id` (root-level components get `"root"`; components inside a `columns` slot get the `columns` component's own `id`, not the slot's), then let Step 6's validator catch an omission (`T1-PARENT-MISSING`) before push. Full contract: [references/compiling.md](references/compiling.md).
-
-## Step 6 — Validate
-
-**Run the validator** (mandatory, blocking): `node scripts/validate-form.mjs <path-to-your-edited-form>.json`. It exits 0 only when there are zero Tier 1 (renderability) and zero Tier 2 (construction-contract) findings; Tier 3 (appearance) is reported but never blocks. Its checks are what this step used to describe as a manual walk — unique/valid ids, parent chain, per-component `version`, `defaultValue` shape, datatable `editComponent` shape, dropdown/checkboxGroup source shape, `dataContext` props, buttonGroup Submit/exit wiring, `propertyName` casing, `validationErrors` presence, and JSON-safety of every script string (`T1-JSON-UNSAFE` — the old "Step 5.5" snippet's job, now a real check with a real exit code). Full code list + which ones actually block a push: [references/push-hook.md](references/push-hook.md) — the same checks also run automatically, post-normalize, in the `PreToolUse` hook on every `UpdateMarkup`/`ImportJson` call, so this step is a chance to see and fix a finding *before* the hook denies the push. A finding names the exact path and expected shape — fix it, don't reason around it. **Never push a config that fails validation without user confirmation.**
-
-Then run the **[form-quality checklist](references/form-quality.md)** — human-readable labels, dropdown sources complete, primary action visible, consistent layout (the parts of "is this a good form" the validator doesn't check structurally).
-
-Then **invoke `clean-form-config` ONCE, right before the final push** (mandatory, blocking) — covers layout overflow, label-vs-propertyName refs, missing try/catch, missing async, broken script syntax:
-
-```
-Skill(skill="shesha-developer:clean-form-config", args="<path to your edited form>")
-```
-
-**Run it once on the finished markup — not after every intermediate edit** (re-running it per change is a large, repeated cost for no extra signal). **Known false positives — don't re-investigate or strip these:** the `dataContext` data props (`entityType`, `sourceType`, `dataFetchingMode`, `defaultPageSize`, …), container `direction`/`flexDirection`, `text.padding`, and the datatable inline props (`canEditInline`/`canAddInline`/`canDeleteInline`/`inlineEditMode`/`inlineSaveMode`) are valid and render in live forms; the bundled index just doesn't enumerate them.
-
-**Before any bulk push (>3 forms changed): fan out `shesha-developer:form-auditor` agents — one per form** — with the verdict contract from [orchestration.md](references/orchestration.md); aggregate and never push a form with a `fail` verdict.
-
-## Step 7 — Push
-
-Default: **UpdateMarkup** — `PUT $BASE_URL/api/services/Shesha/FormConfiguration/UpdateMarkup`, body `{ "id": "$FORM_ID", "markup": "<stringified form JSON>" }`. Build the body in Node to avoid escaping pain. See [api.md §5](references/api.md).
-
-**Scratch-script hygiene (avoids a recurring time-sink):** write build/push scripts and staged JSON into the **supplied working directory**, NOT `/tmp` — git-bash `/tmp` maps to `%TEMP%` (e.g. `C:\Users\…\AppData\Local\Temp`), which is a *different* path than Windows `C:\tmp` and from PowerShell `$env:TEMP`, so a file written by `bash` is frequently "not found" by `node`/PowerShell. Pass values into Node via **env vars** (`VAR=x node script.js`), not positional argv that the shell may not forward. Prefer **one combined fetch→mutate→push script** over many small probe commands (each round-trip is cost).
-
-Alternative: **ImportJson** — multipart upload (`ItemId` + `file`). See [api.md §6](references/api.md). Both write `Markup` on the form configuration.
-
-Success: HTTP 200 with `{ "result": ... }`.
-
-### On push failure (any non-200)
-
-1. Surface the raw response and a short diagnosis.
-2. Ask the user via `AskUserQuestion`: **retry as-is** / **re-fetch and re-apply** / **abort**.
-3. Act on the choice. **Never silently retry. Never just stop.**
-
-## Step 8 — Verify
-
-Re-fetch via `GetByName`/`GetJson`; diff against what you sent. Surface any normalization the server applied. For anonymous forms (`access: 5`), confirm `result.access === 5` — the `Create` endpoint may not honor `access` on initial create; call `UpdateMarkup` once more if it didn't stick.
-
-## Step 8.5 — Diagnose common runtime errors
-
-After verifying, watch for these patterns in the browser console or from Playwright:
-
-| Error | Cause | Fix |
-|---|---|---|
-| `HTTP 400` on dataContext data load | Entity doesn't have GQL query API enabled in backend | Invoke `shesha-developer:domain-model` to enable GQL on entity, or use `sourceType: "Url"` with an explicit REST endpoint |
-| `HTTP 404` on metadata fetch (`"Failed to fetch metadata of type …"`) | Wrong entity class name in `formSettings.modelType` | Re-verify entity type via `EntityConfig/GetMainDataList` or `FormConfiguration/GetAll` on existing forms |
-| `HTTP 500` on dataContext | `entityType` or `sourceType` missing on the `dataContext` component | Add `entityType`, `sourceType: "Entity"`, `dataFetchingMode`, `defaultPageSize` |
-| `JSON parse error` in browser console | Malformed script string in form markup — template literals or literal newlines | Run `node scripts/validate-form.mjs` (`T1-JSON-UNSAFE`); replace template literals with concatenation |
-| Form shows blank/empty without error | Short IDs (`pr1`, `btn2`) or all-`root` parentIds | Re-run `node scripts/validate-form.mjs` (`T1-ID-EMPTY`/`T1-PARENT-MISSING`); re-mint ids with `crypto.randomUUID()` and re-stamp `parentId` |
-| Detail form shows blank when navigated to without `?id=` | Normal — `gql` loader has no ID to fetch | This is expected; test detail forms with `?id=<real-guid>` |
-| Create/edit fields show as read-only labels (no input boxes) standalone | `editMode: "inherited"` + form not in edit context | Expected — they become inputs inside the Add modal (`formMode: "edit"`) or after Start Edit. Don't "fix" by forcing `editable`. |
-| Dropdown opens but shows "No matches" / no options | The backend **reference list has no items**, or wrong `referenceListId` | Verify the reflist name via property metadata; confirm items exist in the backend reflist editor. Config itself (see by-datatype.md) is likely correct. |
-| Autocomplete (FK) shows "No matches" | Target entity has no records, or wrong `entityType:{name,module}` | Confirm the FK target short class name + module; ensure records exist. |
-| Junction/child `Crud/Create` 500 on dialog submit | Contextually-preset FK never reached the payload (`_formFields` rule) | Real component + `formSettings.onPrepareSubmitData` — see [add-dialogs.md](references/components/add-dialogs.md) |
-| Push returned 200 but the browser shows old markup | Frontend IndexedDB form cache | Clear from a static page (`/favicon.ico`) — see [verification.md](references/verification.md) |
-
-Full catalog (~40 rows, grouped): [references/debug.md](references/debug.md).
-
-## Step 9 — Browser smoke (default; `--no-browser` opts out)
-
-Invoke the playwright skill to load the form, screenshot, and capture console + network errors that JSON validation can't catch (editMode regressions, runtime script failures, broken layout). Recipe in [api.md §12](references/api.md):
-
-```
-Skill(skill="playwright", args="<directive from api.md §12, with FRONTEND_URL + form path filled in>")
-```
-
-Frontend URL: `adminportal/` (auth forms) or `publicportal/` (anonymous) — read the dev port from `<app>/.env*` or `<app>/package.json`. If neither front-end is running, skip the smoke step and warn the user.
-
-Test `*-details` forms via the **table row's view link**, never a pasted `?id=` URL — direct loads render but subtable Add/Create submits 500 (missing page context). If the browser disagrees with a verified API re-fetch, clear the **IndexedDB form cache from `/favicon.ico`** before debugging further.
-
-**Verification cost discipline (this is where runs blow up — keep it tight):**
-- Assert with the **a11y snapshot** + `getBoundingClientRect`/`getComputedStyle`, **not screenshots**. Reading a full-page screenshot is ~60 KB of tokens each — take **at most ONE screenshot, at the very end** for a final visual confirmation, never one per iteration.
-- **Batch all DOM measurements into a single `evaluate` call** rather than climbing the tree across many calls.
-- Before reaching for the browser, check whether the layout question is already answered by a recipe — e.g. full-width = `display:"flex"` + `flexDirection:"column"` + `alignItems:"stretch"`; a flex container needs an explicit `display:"flex"` or `flexDirection` is inert; date renders `&#x2F;` = use `{{{triple-brace}}}`. (v7 styling mechanics now live in `shesha-design-system/references/styling-mechanics.md`.) Don't rediscover documented gotchas with a long browser loop.
-
-Full recipes: [references/verification.md](references/verification.md).
-
-**On any captured error or 4xx/5xx**: consult [references/debug.md](references/debug.md) before guessing — it maps common symptoms to causes. Quote the captured error verbatim; reference the matching row number.
-
-## Step 9.5 — Aesthetic review (ask first; skip if `--no-design` or no Step 0 plan)
-
-If a design plan exists for this form, **ask the user via `AskUserQuestion`** whether to run a post-render aesthetic critique:
-
-> Run an aesthetic review on the rendered form via `frontend-design`? It compares the screenshot against the design plan and returns up to 5 prop-level tweaks.
-> - **Yes — review and suggest tweaks**
-> - **No — confirm and finish**
-
-On Yes: pass screenshot + plan + original requirements to `frontend-design`. Surface findings as **suggestions, not blockers** — accept/reject per item; on accept, loop back to Step 5 → 8 → 9. Recipe: [../shesha-design-system/references/design.md](../shesha-design-system/references/design.md) (owned by shesha-design-system).
-
-## Step 10 — Confirm
-
-Tell the user: form `$FORM_ID` updated. Authenticated forms render at `/dynamic/<module>/<form>`; anonymous at `/no-auth/<module>/<form>`.
+**`parentId` is mandatory on every component** — the Shesha renderer crashes entirely when it's absent. Building from a blueprint: `compile-spec.mjs` stamps every `parentId` for you (`normalize-form.mjs` Phase B2 — root-level = `"root"`, else the parent's id); nothing to do by hand. Hand-editing: set it to the direct parent's `id` (root-level components get `"root"`; components inside a `columns` slot get the `columns` component's own `id`, not the slot's), then let **4 · Gates**' validator catch an omission (`T1-PARENT-MISSING`) before push. Full contract: [references/compiling.md](references/compiling.md).
 
 ## Cache (`.claude/cache/shesha-form-edit/`)
 
@@ -358,7 +362,7 @@ Project-scoped learning state. **Skill reads `.summary.md` by default; opens raw
 - **Every `propertyName` is camelCase — including datatable column `propertyName`s.** Entity GQL field keys are camelCase, but `Metadata/GetProperties` returns the `path` in PascalCase. A PascalCase column still fetches data + shows the right row count, but renders **blank cells** (the cell accessor reads the literal key). Lower-case the first letter (`ActionedBy`→`actionedBy`) — `compile-spec.mjs` does this for you (`leaf.mjs`'s `camelCase()`); hand-edits are caught by `T2-PROPERTYNAME-CASE`. **Datalist row-template cards** also have their own runtime rules (name-mode bound text, `dimensions: fit-content`, single-line `ellipsis` for long text, status chip on its own row, padding/overflow via the legacy `style` prop, card `height:"auto"`) — see [data-tables.md](references/components/data-tables.md).
 - **`dataContext` (v8) is the data wrapper for `datatable`/`datalist`.** It's the universal wrapper — verified to render display tables, multiselect tables, datalists, AND inline-editable tables, and it reliably fires the entity data query. Wrap every `datatable`/`datalist` in a `dataContext` carrying `sourceType: "Entity"` + `entityType` (string) + the fetching props. The canonical seed `table-worklist--employee-table.json` uses it.
 - **`dataContext` requires explicit `entityType` + `sourceType`** — it does NOT inherit from `formSettings.modelType`. A bare `dataContext` without these props causes HTTP 500 on page load. Building from a blueprint, `compile-spec.mjs`'s `datacontext.mjs` builder emits the full required set (`entityType`, `sourceType: "Entity"`, `dataFetchingMode: "paging"`, `defaultPageSize: 10`) unconditionally — see [compiling.md](references/compiling.md) for the exact shape. Hand-editing one, match that same shape; `T2-DATACONTEXT-PROPS` catches an omission.
-- **`id` must be a generated unique id (a UUID or a nanoid) — never a short placeholder; `parentId` set on every component.** Building from a blueprint, both are minted/stamped automatically (`normalize-form.mjs` Phase B — deterministic ids seeded from tree path, `parentId` from the walked tree, root-level = `"root"`). Hand-editing, use `crypto.randomUUID()`/`uuid.v4()` (short placeholders like `btn1` are NOT valid — the renderer ignores non-generated ids and the form renders blank) and set `parentId` to the direct parent's `id`. `T1-ID-EMPTY`/`T1-ID-DUPLICATE`/`T1-PARENT-MISSING` catch either omission at Step 6, and the push hook re-checks (post-normalize) on every push regardless.
+- **`id` must be a generated unique id (a UUID or a nanoid) — never a short placeholder; `parentId` set on every component.** Building from a blueprint, both are minted/stamped automatically (`normalize-form.mjs` Phase B — deterministic ids seeded from tree path, `parentId` from the walked tree, root-level = `"root"`). Hand-editing, use `crypto.randomUUID()`/`uuid.v4()` (short placeholders like `btn1` are NOT valid — the renderer ignores non-generated ids and the form renders blank) and set `parentId` to the direct parent's `id`. `T1-ID-EMPTY`/`T1-ID-DUPLICATE`/`T1-PARENT-MISSING` catch either omission at **4 · Gates**, and the push hook re-checks (post-normalize) on every push regardless.
 - **Every authored component carries its component-type's current `version`** (an integer) — a component with no `version` is treated as `-1`, so the ENTIRE legacy migration chain re-runs on already-current data and a step can throw (`e.match is not a function`, `reading 'migrator'`/`'version'`), and a stale/too-low version can also SILENTLY DROP the component's `desktop` style block. Building from a blueprint, `normalize-form.mjs` Phase B3 stamps the current version straight from the registry (`assets/registry/registry-0.45.1.json`) — never hand-maintain a version list, the registry is the single source of truth. Hand-editing, look the type up in the registry or [component-cheatsheet.md](references/component-cheatsheet.md); `T1-VERSION-MISSING`/`T1-VERSION-STALE` catch an omission or a stale value.
 - **`defaultValue` is a mustache-TEMPLATE STRING, never a literal non-string.** At render the value resolver does `defaultValue.match(/{{key.accessor}}/)` to detect templates. A literal **array** (e.g. a multi-select default `["a","b"]`), **number**, or **object** has no `.match` → **`e.match is not a function`**, and the component (often the whole form) fails to render. Allowed: a plain string (returned as-is when not a `{{…}}` expression) or a mustache string. For a multi-select default (checkboxGroup / multi-`dropdown`), do NOT set a literal-array `defaultValue` — bind the value through form data / the data loader, or omit it. `T1-DEFAULTVALUE-NONSTRING` catches a violation.
 - **Datatable inline-editing column editors (verified shape):** an inline-editable `data` column's `editComponent`/`createComponent` MUST be either `{ "type": "[not-editable]" }` (read-only cell) OR `{ "type": "<editorType>", "settings": { <FULL component model: its own `type` + `version` + `editMode:"inherited"` + `hideLabel:true` + styling> } }`. **NEVER `{ "type": "[default]" }`** (only `displayComponent` resolves `[default]`; edit/create cells pass it straight to the component wrapper → `F6()["[default]"]` is `undefined` → `reading 'migrator'`), and **NEVER a FLAT model without the `settings` wrapper** (the cell wrapper reads `customComponent.settings`; flat → `undefined` → `reading 'version'`). Per-row Edit/Delete/Save controls require a `{ "columnType": "crud-operations", "sortOrder": -1, "itemType": "item" }` column, plus `canEditInline`/`canAddInline`/`canDeleteInline: "yes"` on the datatable. The compiler does not build inline-editable tables — this stays a hand-authoring concern. Full recipe + seed: [inline-editable-tables.md](references/components/inline-editable-tables.md). `T1-EDITCOMPONENT-SHAPE` catches the `[default]`/flat-model mistakes.
@@ -375,7 +379,7 @@ Project-scoped learning state. **Skill reads `.summary.md` by default; opens raw
 - **Contextually-preset required FKs on create dialogs need BOTH a real component AND `formSettings.onPrepareSubmitData`** — `formArguments`/`setFieldsValue` alone never reach the submit payload (only `_formFields` serialize). Omission = `Crud/Create` 500. See [add-dialogs.md](references/components/add-dialogs.md).
 - **Row delete/unlink = Execute Script + `await http.delete(...)` + onSuccess `Refresh table` with actionOwner = the dataContext component id.** `actionName: "Delete row"` with owner `"table"` does not exist and throws. See [junction-subtables.md](references/components/junction-subtables.md).
 - **Code-mode props are objects** — a dataContext `endpoint` (or any code-carrying prop) stored as a plain JS string is silently stripped on save; use `{ "_mode": "code", "_code": "..." }`.
-- **JSON-safe script strings** — ALL script values embedded in form JSON must be serialisable without breaking the outer `JSON.stringify`: no template literals (use concatenation instead of `` `${x}` ``), no unescaped newlines (use `\n`), no smart/curly quotes. A broken script string produces `"Expected ',' or '}' after property value"` parse errors in the browser. The compiler never emits template-literal or raw-newline script strings, so this only bites hand-edited scripts — `T1-JSON-UNSAFE`/`T1-SCRIPT-SYNTAX` catch it at Step 6, and the push hook (Group A, [push-hook.md](references/push-hook.md)) blocks the push outright if it survives to there.
+- **JSON-safe script strings** — ALL script values embedded in form JSON must be serialisable without breaking the outer `JSON.stringify`: no template literals (use concatenation instead of `` `${x}` ``), no unescaped newlines (use `\n`), no smart/curly quotes. A broken script string produces `"Expected ',' or '}' after property value"` parse errors in the browser. The compiler never emits template-literal or raw-newline script strings, so this only bites hand-edited scripts — `T1-JSON-UNSAFE`/`T1-SCRIPT-SYNTAX` catch it at **4 · Gates**, and the push hook (Group A, [push-hook.md](references/push-hook.md)) blocks the push outright if it survives to there.
 - **No `globalState`** for cross-form state. Default to `contexts.appContext` (app-wide) or `pageContext` (inter-page). `localStorage` / `sessionStorage` are OK only when state must survive a hard refresh AND the data is not sensitive (no auth tokens / PII) — see [shared-state.md](references/components/shared-state.md).
 - **API calls in scripts**: `try/catch` + `async/await` (no `.then()` chains) — see [scripts.md](references/components/scripts.md).
 - **Mustache expressions always use `{{double braces}}`** — e.g. `{{data.id}}`, `{{selectedRow.id}}`. Never write `{data.id}` (single brace). Single-brace expressions are silently ignored at runtime, producing empty values with no error.
@@ -383,7 +387,7 @@ Project-scoped learning state. **Skill reads `.summary.md` by default; opens raw
 - **`access: 5`** on anonymous forms (login, register, OTP). Verify post-push via re-fetch.
 - **PowerShell + non-ASCII body**: pass UTF-8 bytes (em dashes / curly quotes trigger server 500 — `Unable to translate bytes [E2] ... from specified code page to Unicode`). Use `[System.Text.Encoding]::UTF8.GetBytes($jsonBody)` or `curl --data-binary @file`. And write staged JSON files **without a BOM** (`New-Object System.Text.UTF8Encoding $false`) — `Out-File -Encoding utf8` emits a BOM that breaks Node's `JSON.parse`. Recipe in [api.md](references/api.md).
 - **Human-readable labels on every field** — labels are user-facing AND how browser-based tests locate fields; a raw `propertyName` as a label fails both. Full contract: [form-quality.md](references/form-quality.md).
-- **`modelType` is the object `{ name, module }`, resolved, never assumed** — write `formSettings.modelType` as `{ "name": "<ShortClass>", "module": "<Module>" }` (e.g. `{ "name": "Person", "module": "Shesha" }`), the shape current Shesha builds emit. A bare full-class-name string still renders on legacy forms but is not the shape to author. Resolve `name`+`module` (and the `fullClassName` string the metadata fetch + `dataContext.entityType` need) from `EntityConfig/GetMainDataList` for the running backend (Step 4.5). Never hardcode a namespace from memory or from this doc's examples; `Shesha.Core.*` vs `Shesha.Domain.*` is version-dependent and a mismatch 500s at runtime. (`compile-spec.mjs` synthesizes a placeholder `modelType` only for a blueprint with no bound entity at all — hub/dashboard archetypes — flagged in its `report.defaults`; that placeholder is never a substitute for resolving a real entity when one exists.)
+- **`modelType` is the object `{ name, module }`, resolved, never assumed** — write `formSettings.modelType` as `{ "name": "<ShortClass>", "module": "<Module>" }` (e.g. `{ "name": "Person", "module": "Shesha" }`), the shape current Shesha builds emit. A bare full-class-name string still renders on legacy forms but is not the shape to author. Resolve `name`+`module` (and the `fullClassName` string the metadata fetch + `dataContext.entityType` need) from `EntityConfig/GetMainDataList` for the running backend (the entity-binding check in **1 · Pre-flight**). Never hardcode a namespace from memory or from this doc's examples; `Shesha.Core.*` vs `Shesha.Domain.*` is version-dependent and a mismatch 500s at runtime. (`compile-spec.mjs` synthesizes a placeholder `modelType` only for a blueprint with no bound entity at all — hub/dashboard archetypes — flagged in its `report.defaults`; that placeholder is never a substitute for resolving a real entity when one exists.)
 - **Favour the default endpoints when binding a form to a type.** An entity-bound form (`formSettings.modelType` set) uses `dataLoaderType: "gql"` + `dataSubmitterType: "gql"` — the entity's standard dynamic CRUD/GraphQL endpoints, resolved from `modelType` with no URL supplied. Use `"none"` only for non-loading forms (card templates, anonymous/action pages). A **custom form-level loader/submitter endpoint is opt-in only** — wire one solely when the user explicitly asks for a specific endpoint (or in a documented forced case), and build/verify it via `shesha-developer:shesha-app-layer` first. Never reach for a custom endpoint by default. Detail + decision table: [form-shape.md](references/components/form-shape.md).
 - **A `validationErrors` component is ALWAYS in the tree** (conventionally just above the action row) **whenever the form has any required input**. Omitting it makes a failed submit render nothing — the user sees a dead form. Type string is exactly `validationErrors`; it takes no props. This applies to simple forms too — it is not an "advanced" extra. Building from a blueprint, every archetype's flow manifest requires it and `flow-complete.mjs` synthesizes it if the blueprint omitted it; `T2-VALIDATIONERRORS-MISSING` catches an omission on a hand-edit.
 - **Form action buttons live in a `buttonGroup`, never as standalone `button` components — and the Save button MUST carry `actionConfiguration: { actionName: "Submit", actionOwner: "shesha.form" }`, paired with an exit action (Navigate/Close Dialog/Cancel Edit).** This is the **single highest-leverage rule** — a standalone `button`, a Submit wired to anything else, or a Submit with no exit each break the form in a different way (ungrouped layout, dead submit, or a user who can save but not leave). Building from a blueprint, `actions.mjs` emits this shape and pairing directly. Hand-editing, copy a `buttonGroup` from a seed in `assets/examples/`; `T2-SUBMIT-WIRING`/`T2-EXIT-MISSING`/`T2-LOOSE-BUTTON` catch a violation. The standalone `button` type ([actions.md](references/components/actions.md)) is reserved for rare inline-in-content cases, never the form's action row.
@@ -393,16 +397,16 @@ Project-scoped learning state. **Skill reads `.summary.md` by default; opens raw
 
 | Trigger | Invoke | Strength |
 |---|---|---|
-| Entity/property/reflist missing or broken (Step 4.5 gate) | `shesha-developer:domain-model` | MUST before any form push |
+| Entity/property/reflist missing or broken (`1 · Pre-flight`'s entity-binding gate) | `shesha-developer:domain-model` | MUST before any form push |
 | After a domain change (entity/property/reflist/migration created) | [backend-restart.md](references/backend-restart.md) runbook (rebuild + restart + 2-boot + poll CRUD) | MUST before building the form |
 | New entity-bound form / unverified entity this session | `shesha-developer:fullstack-prereq-checker` agent | MUST (block until `ready`) |
 | Form needs a custom (non-dynamic) endpoint for a Url-source or submit | `shesha-developer:shesha-app-layer` | MUST before wiring the endpoint |
-| Every push (Step 6) | `shesha-developer:clean-form-config` | MUST (respect its documented false positives) |
-| >3 forms changed (Step 6) | `shesha-developer:form-auditor` fan-out | MUST before pushing |
+| Every push (`4 · Gates`) | `shesha-developer:clean-form-config` | MUST (respect its documented false positives) |
+| >3 forms changed (`4 · Gates`) | `shesha-developer:form-auditor` fan-out | MUST before pushing |
 | Any bulk mutation | `shesha-developer:fleet-transformer` agent (exactly one) | MUST |
 | 2+ distinct new forms | `shesha-developer:form-author` per form | SHOULD (parallel) |
-| Any runtime error / failed smoke (Step 8.5/9) | `superpowers:systematic-debugging` | MUST before proposing fixes |
-| Before claiming done (Step 10) | `superpowers:verification-before-completion` | MUST — evidence (re-fetch diff + smoke output) first |
+| Any runtime error / failed smoke (`6 · Push + Oracle`) | `superpowers:systematic-debugging` | MUST before proposing fixes |
+| Before claiming done (`7 · Report`) | `superpowers:verification-before-completion` | MUST — evidence (re-fetch diff + smoke output) first |
 | Multi-form plan execution | `superpowers:subagent-driven-development` / `dispatching-parallel-agents` | SHOULD |
 | >10 forms or a restructure | `superpowers:writing-plans` first | SHOULD |
 | Requirement mentions notifications / app settings | `shesha-developer:shesha-notifications` / `shesha-settings` | SHOULD |
@@ -412,4 +416,4 @@ Project-scoped learning state. **Skill reads `.summary.md` by default; opens raw
 
 ## Doc fallback
 
-When you hit an unfamiliar API / component / action, fetch docs first via `WebFetch` instead of guessing — `https://shesha-grads.vercel.app/docs/` for practical how-to ("how do I X"), `https://docs.shesha.io/` for canonical contracts ("what is the contract for X"). Quote field names and gotchas verbatim; cache distillates in `.claude/cache/shesha-form-edit/docs/<topic>.summary.md`. If the token expires (24h default), re-run Step 2.
+When you hit an unfamiliar API / component / action, fetch docs first via `WebFetch` instead of guessing — `https://shesha-grads.vercel.app/docs/` for practical how-to ("how do I X"), `https://docs.shesha.io/` for canonical contracts ("what is the contract for X"). Quote field names and gotchas verbatim; cache distillates in `.claude/cache/shesha-form-edit/docs/<topic>.summary.md`. If the token expires (24h default), re-run **1 · Pre-flight**'s authentication step.

@@ -284,7 +284,7 @@ Returns `result.items[]` with `{ id, name, label, module: {...} }`.
 
 ## 10. Fetch entity metadata (scoped — `GetProperties`)
 
-Used by Step 4.5 of the skill to validate `propertyName` references against the actual entity. **Prefer the scoped `GetProperties` endpoint** (returns a direct array of the entity's properties, no envelope) over any full-metadata / `GetAll` dump — fetch exactly the container you need, once per entity, and reuse the cached summary.
+Used by `SKILL.md`'s **1 · Pre-flight** entity-binding gate to validate `propertyName` references against the actual entity. **Prefer the scoped `GetProperties` endpoint** (returns a direct array of the entity's properties, no envelope) over any full-metadata / `GetAll` dump — fetch exactly the container you need, once per entity, and reuse the cached summary.
 
 **Never read the raw metadata response inline** — a full entity's properties can exceed the 25k-token `Read` limit and force a retry with offsets. Always pipe it straight to a file (`-o`), distill, and read only the `.summary.md`.
 
@@ -357,7 +357,7 @@ curl -s -G "$BASE_URL/api/services/app/ConfigurationItem/GetCurrent" \
 
 ## 10.6 Combined one-shot backend probe
 
-A form build otherwise fires ~10 tiny round-trips — the module-id lookup (§7), the per-entity `EntityConfig` resolve (§10 / Step 4.5), each metadata route (§10, often with 404 retries), and one reflist existence check per reflist-bound prop (§10.5). `scripts/backend-probe.mjs` **replaces all of them with a single run** (module id + entity resolve + metadata + reflist existence, per entity), so prefer it over issuing those calls separately.
+A form build otherwise fires ~10 tiny round-trips — the module-id lookup (§7), the per-entity `EntityConfig` resolve (§10 / `SKILL.md`'s **1 · Pre-flight** entity-binding gate), each metadata route (§10, often with 404 retries), and one reflist existence check per reflist-bound prop (§10.5). `scripts/backend-probe.mjs` **replaces all of them with a single run** (module id + entity resolve + metadata + reflist existence, per entity), so prefer it over issuing those calls separately.
 
 ```bash
 # spec.json: { "module": "<Mod>", "entities": [ { "name": "ShortlistResult", "reflistProps": ["outcome","status"] } ] }
@@ -377,7 +377,7 @@ Emits ONE compact JSON summary to stdout (per entity: `modelType`, `fullClassNam
 
 ## 11. Round-trip verify (post-push)
 
-Step 8 of the skill. Re-fetch the form just pushed and diff against the markup we sent:
+The re-fetch + diff layer of `SKILL.md`'s **6 · Push + Oracle**. Re-fetch the form just pushed and diff against the markup we sent:
 
 ```bash
 curl -s -G "$BASE_URL/api/services/Shesha/FormConfiguration/GetJson" \
@@ -402,7 +402,7 @@ Common server normalizations to ignore (not bugs): re-ordered keys inside an obj
 
 ## 12. Browser smoke via the playwright skill
 
-Step 9 of the skill. Invoke as:
+The render-instrument / browser-verification layer of `SKILL.md`'s **6 · Push + Oracle**. Invoke as:
 
 ```
 Skill(skill="playwright", args="<directive>")

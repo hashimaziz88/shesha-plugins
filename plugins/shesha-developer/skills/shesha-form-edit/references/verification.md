@@ -1,6 +1,6 @@
 # Runtime verification and browser testing
 
-Workflow for proving a push actually landed and smoke-testing it in the browser. Read after any push (Step 8/9) and before claiming success. Symptom→cause lookup lives in [debug.md](debug.md); API recipes in [api.md](api.md).
+Workflow for proving a push actually landed and smoke-testing it in the browser. Read after any push, during `SKILL.md`'s **6 · Push + Oracle**, and before claiming success. Symptom→cause lookup lives in [debug.md](debug.md); API recipes in [api.md](api.md).
 
 ---
 

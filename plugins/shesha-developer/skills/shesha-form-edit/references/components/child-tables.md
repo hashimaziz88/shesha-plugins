@@ -46,5 +46,5 @@ Add more `tab` entries to the same `tabs` component — each with its own `dataC
 ## Gotchas
 
 - The child `dataContext` needs its **own** `componentName` (don't reuse the main form's). (`uniqueStateId` is not a real `dataContext` prop — see `examples.md` — do not add it.)
-- The child entity must have a working query endpoint — if it returns HTTP 400, the table chrome renders but rows won't load (a backend/entity-config issue, not a form issue; see Step 8.5).
+- The child entity must have a working query endpoint — if it returns HTTP 400, the table chrome renders but rows won't load (a backend/entity-config issue, not a form issue; see [debug.md](../debug.md) row 30).
 - Inline add/edit on the child grid comes from the `datatable` `canAddInline` / `canEditInline` / `crud` props — copy them from the example as-is.
