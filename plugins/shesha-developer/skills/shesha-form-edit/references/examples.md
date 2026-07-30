@@ -81,7 +81,7 @@ on any "create a form for X" / "make me a person form" request, including terse 
    properties [R-004]; datatable column `items` → your columns.
 3. The Add button's `actionArguments.formId` → your create form.
 4. Title text content; delete any debug text components.
-5. `uniqueStateId`/`componentName` on each `dataContext` — unique per table.
+5. `componentName` on each `dataContext` — unique per table (`uniqueStateId` is NOT a real `dataContext` prop — see #142 below — don't add it).
 6. Re-stamp ids on clones and `parentId` everywhere (descend into `components`,
    `columns[].components`, `tabs[].components`, `content.components`) [R-001].
 7. Strip every node the request doesn't need — but never the validationErrors

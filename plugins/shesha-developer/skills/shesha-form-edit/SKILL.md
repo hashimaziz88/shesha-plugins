@@ -293,7 +293,7 @@ After verifying, watch for these patterns in the browser console or from Playwri
 |---|---|---|
 | `HTTP 400` on dataContext data load | Entity doesn't have GQL query API enabled in backend | Invoke `shesha-developer:domain-model` to enable GQL on entity, or use `sourceType: "Url"` with an explicit REST endpoint |
 | `HTTP 404` on metadata fetch (`"Failed to fetch metadata of type …"`) | Wrong entity class name in `formSettings.modelType` | Re-verify entity type via `EntityConfig/GetMainDataList` or `FormConfiguration/GetAll` on existing forms |
-| `HTTP 500` on dataContext | `entityType` or `sourceType` missing on the `dataContext` component | Add `entityType`, `sourceType: "Entity"`, `dataFetchingMode`, `defaultPageSize`, `uniqueStateId` |
+| `HTTP 500` on dataContext | `entityType` or `sourceType` missing on the `dataContext` component | Add `entityType`, `sourceType: "Entity"`, `dataFetchingMode`, `defaultPageSize` |
 | `JSON parse error` in browser console | Malformed script string in form markup — template literals or literal newlines | Run `node scripts/validate-form.mjs` (`T1-JSON-UNSAFE`); replace template literals with concatenation |
 | Form shows blank/empty without error | Short IDs (`pr1`, `btn2`) or all-`root` parentIds | Re-run `node scripts/validate-form.mjs` (`T1-ID-NOT-UUID`/`T1-PARENT-MISSING`); re-mint ids with `crypto.randomUUID()` and re-stamp `parentId` |
 | Detail form shows blank when navigated to without `?id=` | Normal — `gql` loader has no ID to fetch | This is expected; test detail forms with `?id=<real-guid>` |

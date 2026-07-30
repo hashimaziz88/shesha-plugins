@@ -49,7 +49,7 @@ bottom) and trust that.
 // dataContext (wrapper for datatable/datalist — needs explicit entityType + sourceType)
 { "id": "<uuid>", "type": "dataContext", "version": 8, "parentId": "<pid>",
   "entityType": "<exact modelType>", "sourceType": "Entity", "dataFetchingMode": "paging",
-  "defaultPageSize": 10, "uniqueStateId": "<name>", "componentName": "<name>", "propertyName": "<name>" }
+  "defaultPageSize": 10, "componentName": "<name>", "propertyName": "<name>" }
 
 // buttonGroup (action buttons NEVER as standalone `button` in a toolbar)
 { "id": "<uuid>", "type": "buttonGroup", "version": 15, "parentId": "<pid>", "isInline": true, "editMode": "editable",
