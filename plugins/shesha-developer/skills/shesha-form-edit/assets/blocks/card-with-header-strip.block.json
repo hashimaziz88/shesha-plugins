@@ -28,7 +28,7 @@
     "container:font(no-op -> font on text child)",
     "text:fontSize/fontWeight/color/align"
   ],
-  "$note": "2026-07-30 hex cleanup (Task 4): background.color/border.all.color/border.bottom.color/cardCountBadge.background were literal hexes duplicating the paired overlay's own $role:/$palette. values at these exact paths — replaced with those SAME references where the literal matched a shesha.tokens.json value exactly (background #ffffff -> $role:cardBg; cardCountBadge background #f0f2f5 -> $palette.surfaces.surfaceInset). Three literals do NOT match any shesha.tokens.json token and were left as-is rather than invented: cardWithHeaderStrip border.all.color #e5e7eb, cardHeaderStrip background #fafafa, cardHeaderStrip border.bottom.color #f0f0f0 — all three match requirements-studio.tokens.json exactly (lines.border / surfaces.surfaceAlt / lines.divider respectively), so they are RS-prototype-era literals, not shesha-default values. The overlay already stamps its own $role:hairline/$role:cardHeaderBg/$role:divider over these same paths at compose time, so no real pushed form's rendered colour changes either way — see task-4-report.md.",
+  "$note": "2026-07-30 hex cleanup (Task 4): background.color/border.all.color/border.bottom.color/cardCountBadge.background were literal hexes duplicating the paired overlay's own $role:/$palette. values at these exact paths — replaced with those SAME references where the literal matched a shesha.tokens.json value exactly (background #ffffff -> $role:cardBg; cardCountBadge background #f0f2f5 -> $palette.surfaces.surfaceInset). 2026-07-30 hex cleanup (Phase 5 item 3): the remaining three literals — cardWithHeaderStrip border.all.color #e5e7eb, cardHeaderStrip background #fafafa, cardHeaderStrip border.bottom.color #f0f0f0 — matched NO token in shesha.tokens.json but matched requirements-studio.tokens.json exactly (lines.border / surfaces.surfaceAlt / lines.divider respectively): a default-brand block skeleton was carrying another shipped brand's literal colour, RS-prototype-era, not a shesha-default value. The paired overlay already declared a role at each of these exact same three paths ($role:hairline / $role:cardHeaderBg / $role:divider — see card-with-header-strip.style.json), so this was expressible without inventing anything: replaced all three literals with those SAME role references. No token value was invented. This changes no rendered form's colour: per block-library.md's assembly step 5, the overlay's resolved style always stamps over the skeleton's own colour defaults at composition time, so the overlay's role value (not the skeleton's literal) was already what reached every real pushed form both before and after this edit — see task-56-report.md for the resolve-before/resolve-after equivalence proof.",
   "subtree": {
     "type": "container",
     "version": 7,
@@ -59,7 +59,7 @@
         "radiusType": "all",
         "borderType": "all",
         "border": {
-          "all": { "width": "1px", "style": "solid", "color": "#e5e7eb" },
+          "all": { "width": "1px", "style": "solid", "color": "$role:hairline" },
           "top": {}, "bottom": {}, "left": {}, "right": {}
         },
         "radius": { "all": 12 }
@@ -94,7 +94,7 @@
           "flexWrap": "nowrap",
           "gap": "8",
           "dimensions": { "width": "100%", "minHeight": "fit-content" },
-          "background": { "type": "color", "color": "#fafafa" },
+          "background": { "type": "color", "color": "$role:cardHeaderBg" },
           "border": {
             "hideBorder": false,
             "radiusType": "all",
@@ -102,7 +102,7 @@
             "border": {
               "all": {},
               "top": {},
-              "bottom": { "width": "1px", "style": "solid", "color": "#f0f0f0" },
+              "bottom": { "width": "1px", "style": "solid", "color": "$role:divider" },
               "left": {}, "right": {}
             },
             "radius": { "all": 0 }

@@ -82,3 +82,14 @@ overrides. **All brand styling — colour, type scale, spacing rhythm, shadow, s
 comes from the paired overlay in `shesha-design-system`**, addressed by `$styleOverlay` and
 resolved through `$role:` tokens. If you find yourself typing a hex into a block subtree, stop:
 that value belongs in the overlay. form-edit composes; design-system styles.
+
+`card-with-header-strip`'s hairline/header-bg/divider colours are `$role:` references matching
+the exact roles its paired overlay already declares at those same paths (never a stray literal —
+Phase 5 item 3 tokenised the last 3 that were). Exactly one literal hex remains anywhere under
+`assets/blocks/**`: `completeness-bar`'s `trailColor` (`#e5e7eb`), which matches no
+`shesha.tokens.json` value and has no overlay-declared role to point at (its paired overlay
+declares nothing for `strokeColor`/`trailColor` — direct antd `progress` props, not v7 style
+channels). Reported, not invented; see `assets/blocks/completeness-bar.block.json`'s `$note`.
+`scripts/validate-blocks.js`'s hex check stays a WARN, not a hard failure, for exactly this
+reason — promoting it while a real hex still fires would just fail the suite, not catch a
+regression.

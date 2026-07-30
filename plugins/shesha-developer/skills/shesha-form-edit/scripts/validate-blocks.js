@@ -29,14 +29,23 @@
  * Exit code is non-zero if a block has a hard failure: bad skeleton JSON, a
  * $validatedAgainst entry pointing at a missing/no-op matrix row, or a "columns"
  * component. The hex-colour check stays a WARN — Task 4 (2026-07-30) tokenised
- * the 2 of 6 remaining literal hexes across completeness-bar and
- * card-with-header-strip that matched a shesha.tokens.json value exactly; the
- * other 4 (card-with-header-strip's border.all/cardHeaderStrip background+
- * bottom-border, completeness-bar's trailColor) match NO token in the shipped
- * default brand — 3 of them match requirements-studio.tokens.json exactly
- * instead, i.e. they are RS-prototype-era literals, not invented fixes — so
- * promoting this check to a hard failure would still fail the suite today
- * rather than catch a regression. See task-4-report.md.
+ * 2 of 6 remaining literal hexes that matched a shesha.tokens.json value
+ * exactly; Phase 5 item 3 (2026-07-30) tokenised 3 more in card-with-header-strip
+ * (border.all/cardHeaderStrip background+bottom-border) — those matched no
+ * shesha.tokens.json value but matched requirements-studio.tokens.json exactly,
+ * and the paired overlay already declared a role at each of those same paths,
+ * so they were expressible without inventing anything. That leaves exactly ONE
+ * literal hex anywhere under assets/blocks/**: completeness-bar's
+ * completenessProgress.trailColor (#e5e7eb) — it matches requirements-studio.tokens.json
+ * (lines.border) but matches no shesha.tokens.json value, AND the paired
+ * completeness-bar.style.json overlay declares no role at all for
+ * trailColor/strokeColor (they are direct antd Progress props, not v7
+ * desktop/tablet/mobile channels) — there is no existing role to point it at
+ * without inventing one, which is out of scope for this check. So promoting
+ * this check to a hard failure would still fail the suite today rather than
+ * catch a regression; it stays a WARN until that one hex is resolved by
+ * whoever owns the token/role schema decision. See task-4-report.md and
+ * task-56-report.md.
  *
  * Usage:
  *   node validate-blocks.js
@@ -69,7 +78,10 @@ const MATRIX_PATH = path.resolve(
 
 // Blocks known to carry structural-neutral hexes (surface/hairline defaults the
 // overlay overrides). Their hex warnings get a softer note; still warnings, never fatal.
-const ALLOW_HEX = new Set(['card-with-header-strip']);
+// (Empty as of Phase 5 item 3 — card-with-header-strip's last 3 hexes were
+// tokenised, so it no longer trips the hex check at all. Left declared, not
+// deleted, so a future structural-neutral case has an obvious place to land.)
+const ALLOW_HEX = new Set([]);
 
 // ---- helpers ---------------------------------------------------------------
 
