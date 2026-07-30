@@ -1,9 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { tier3 } from '../scripts/lib/tier3.mjs';
+import { compileSpec } from '../scripts/compile-spec.mjs';
+import { loadFlow } from '../scripts/lib/flow.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const registry = JSON.parse(readFileSync(join(ROOT, 'assets/registry/registry-0.45.1.json'), 'utf8'));
@@ -53,7 +56,10 @@ test('uncalibrated is true when a caller supplies thresholds with calibrated: fa
 });
 
 test('a clean form scores 100 with no findings', () => {
-  const m = { components: [container({ componentName: 'page' })] };
+  // desktop + font are here so the ported T3-STYLE-COVERAGE/T3-STYLE-TYPOGRAPHY
+  // checks stay silent too — this fixture is meant to be clean across EVERY
+  // check, not just the pre-port set.
+  const m = { components: [container({ componentName: 'page', desktop: { dimensions: { width: '100%' } }, font: { size: 14 } })] };
   const result = tier3(m, ctx);
   assert.equal(result.score, 100);
   assert.deepEqual(result.findings, []);
@@ -299,15 +305,21 @@ test('T3-NON-AUTHORABLE-TYPE: does not flag an authorable type', () => {
 // ---------------------------------------------------------------------------
 
 test('a single minor observation (one Title Case label) costs very little, nowhere near 20', () => {
-  const m = { components: [{ id: ID(), type: 'textField', propertyName: 'firstName', label: 'First Name', parentId: 'root', version: 6 }] };
+  // desktop + font keep this silent on the ported T3-STYLE-COVERAGE/
+  // T3-STYLE-TYPOGRAPHY checks so the assertion below isolates label-casing.
+  const m = { components: [{ id: ID(), type: 'textField', propertyName: 'firstName', label: 'First Name', parentId: 'root', version: 6, desktop: { dimensions: { width: '100%' } }, font: { size: 14 } }] };
   const result = tier3(m, ctx);
   assert.equal(result.findings.length, 1);
   assert.ok(result.score >= 90, `expected a near-100 score for one label-casing observation, got ${result.score}`);
 });
 
 test('many occurrences of the same low-weight check are capped, not summed without bound', () => {
+  // desktop + font on every field keep this silent on the ported
+  // T3-STYLE-COVERAGE/T3-STYLE-TYPOGRAPHY checks so the capped score below
+  // isolates T3-LABEL-CASING alone.
   const fields = Array.from({ length: 20 }, (_, i) => ({
     id: ID(), type: 'textField', propertyName: `field${i}`, label: `Field Number ${i}`, parentId: 'root', version: 6,
+    desktop: { dimensions: { width: '100%' } }, font: { size: 14 },
   }));
   const m = { components: fields };
   const result = tier3(m, ctx);
@@ -406,4 +418,245 @@ test('T3-ROW-CHILD-NOFILL: is an observation, never a blocker', () => {
     assert.equal(f.tier, 3);
     assert.equal(f.severity, 'observe');
   }
+});
+
+// ---------------------------------------------------------------------------
+// Ported checks — see tier3.mjs's module docstring: these came from the
+// retired validate-guardrails.js / validate-styledness.js toolchain and cite
+// a `_rules.json` rule id. Same "one fires / one silent / one tier+severity"
+// shape as the pre-existing checks above.
+// ---------------------------------------------------------------------------
+
+function navigateItem(actionArguments) {
+  return {
+    id: ID(), itemType: 'item', itemSubType: 'button', label: 'Go', buttonType: 'default', buttonAction: 'navigate',
+    actionConfiguration: {
+      actionOwner: 'shesha.common', actionName: 'Navigate', _type: 'action-config',
+      ...(actionArguments ? { actionArguments } : {}),
+    },
+  };
+}
+
+test('T3-NAVIGATE-TARGET-MISSING: flags a buttonGroup item with a Navigate action and no target/url/formId', () => {
+  const m = { components: [{ id: ID(), type: 'buttonGroup', parentId: 'root', version: 15, componentName: 'actions', items: [navigateItem(undefined)] }] };
+  const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-NAVIGATE-TARGET-MISSING');
+  assert.ok(found);
+  assert.match(found.message, /R-008/);
+});
+
+test('T3-NAVIGATE-TARGET-MISSING: silent when actionArguments carries a non-empty url (the compiler\'s own shape)', () => {
+  const m = { components: [{ id: ID(), type: 'buttonGroup', parentId: 'root', version: 15, componentName: 'actions', items: [navigateItem({ navigationType: 'url', url: '/dynamic/app/employee-table' })] }] };
+  assert.ok(!codes(m).includes('T3-NAVIGATE-TARGET-MISSING'));
+});
+
+test('T3-NAVIGATE-TARGET-MISSING: also flags a standalone node carrying a Navigate action directly (not inside a buttonGroup)', () => {
+  const m = { components: [{ id: ID(), type: 'button', parentId: 'root', version: 2, componentName: 'goBtn', buttonAction: 'navigate', actionConfiguration: { actionOwner: 'shesha.common', actionName: 'Navigate', _type: 'action-config' } }] };
+  assert.ok(codes(m).includes('T3-NAVIGATE-TARGET-MISSING'));
+});
+
+test('T3-NAVIGATE-TARGET-MISSING: is tier 3 / severity observe', () => {
+  const m = { components: [{ id: ID(), type: 'buttonGroup', parentId: 'root', version: 15, componentName: 'actions', items: [navigateItem(undefined)] }] };
+  const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-NAVIGATE-TARGET-MISSING');
+  assert.equal(found.tier, 3);
+  assert.equal(found.severity, 'observe');
+});
+
+test('T3-CHECKBOXGROUP-VALUES-KEY: flags dataSourceType:"values" with a `values` array instead of `items`', () => {
+  const m = { components: [{ id: ID(), type: 'checkboxGroup', propertyName: 'flags', parentId: 'root', version: 5, dataSourceType: 'values', values: [{ id: '1', label: 'A', value: 'a' }] }] };
+  const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-CHECKBOXGROUP-VALUES-KEY');
+  assert.ok(found);
+  assert.match(found.message, /R-011/);
+});
+
+test('T3-CHECKBOXGROUP-VALUES-KEY: silent when the checkboxGroup correctly uses `items`', () => {
+  const m = { components: [{ id: ID(), type: 'checkboxGroup', propertyName: 'flags', parentId: 'root', version: 5, dataSourceType: 'values', items: [{ label: 'A', value: 'a' }] }] };
+  assert.ok(!codes(m).includes('T3-CHECKBOXGROUP-VALUES-KEY'));
+});
+
+test('T3-CHECKBOXGROUP-VALUES-KEY: silent for a dropdown using `values` (that IS the correct shape there)', () => {
+  const m = { components: [{ id: ID(), type: 'dropdown', propertyName: 'flag', parentId: 'root', version: 5, dataSourceType: 'values', values: [{ id: '1', label: 'A', value: 'a' }] }] };
+  assert.ok(!codes(m).includes('T3-CHECKBOXGROUP-VALUES-KEY'));
+});
+
+test('T3-CHECKBOXGROUP-VALUES-KEY: is tier 3 / severity observe', () => {
+  const m = { components: [{ id: ID(), type: 'checkboxGroup', propertyName: 'flags', parentId: 'root', version: 5, dataSourceType: 'values', values: [{ id: '1', label: 'A', value: 'a' }] }] };
+  const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-CHECKBOXGROUP-VALUES-KEY');
+  assert.equal(found.tier, 3);
+  assert.equal(found.severity, 'observe');
+});
+
+function deleteRowItem(actionOwner) {
+  return {
+    id: ID(), itemType: 'item', columnType: 'action', icon: 'DeleteOutlined', minWidth: 35, maxWidth: 35,
+    actionConfiguration: { actionName: 'Delete row', actionOwner, _type: 'action-config' },
+  };
+}
+
+test('T3-DELETE-ROW-ACTION: flags actionName:"Delete row" with actionOwner:"table"', () => {
+  const m = { components: [{ id: ID(), type: 'datatable', parentId: 'root', version: 3, componentName: 'grid', items: [deleteRowItem('table')] }] };
+  const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-DELETE-ROW-ACTION');
+  assert.ok(found);
+  assert.match(found.message, /R-044/);
+});
+
+test('T3-DELETE-ROW-ACTION: silent when actionOwner is the enclosing dataContext id, not "table"', () => {
+  const m = { components: [{ id: ID(), type: 'datatable', parentId: 'root', version: 3, componentName: 'grid', items: [deleteRowItem('dataContext1')] }] };
+  assert.ok(!codes(m).includes('T3-DELETE-ROW-ACTION'));
+});
+
+test('T3-DELETE-ROW-ACTION: silent when actionOwner is "table" but the action is not "Delete row"', () => {
+  const m = { components: [{ id: ID(), type: 'datatable', parentId: 'root', version: 3, componentName: 'grid', items: [{ id: ID(), itemType: 'item', columnType: 'action', actionConfiguration: { actionName: 'Execute Script', actionOwner: 'table', _type: 'action-config' } }] }] };
+  assert.ok(!codes(m).includes('T3-DELETE-ROW-ACTION'));
+});
+
+test('T3-DELETE-ROW-ACTION: is tier 3 / severity observe', () => {
+  const m = { components: [{ id: ID(), type: 'datatable', parentId: 'root', version: 3, componentName: 'grid', items: [deleteRowItem('table')] }] };
+  const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-DELETE-ROW-ACTION');
+  assert.equal(found.tier, 3);
+  assert.equal(found.severity, 'observe');
+});
+
+// The denominator is STYLE_BEARING_TYPES, not the retired validator's verbatim
+// VISUAL set: this architecture deliberately never styles an input leaf (the
+// Form.Item chain forces width:100% !important, so T2 rejects style there) or a
+// buttonGroup (colour comes from the app theme). Counting leaves scored the
+// compiler's own gate-clean output 54/100. These fixtures therefore use
+// containers — the things that genuinely do or don't carry the compiled theme.
+const bare = (name) => ({ id: ID(), type: 'container', componentName: name, parentId: 'root', version: 7 });
+const dressed = (name) => ({ ...bare(name), desktop: { dimensions: { width: '100%' } } });
+
+test('T3-STYLE-COVERAGE: flags a form where fewer than 40% of style-bearing components carry any styling', () => {
+  const m = { components: [bare('a'), bare('b'), bare('c'), dressed('d')] };
+  const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-STYLE-COVERAGE');
+  assert.ok(found, '1/4 styled (25%) should be below the 40% bar');
+  assert.match(found.message, /R-042/);
+});
+
+test('T3-STYLE-COVERAGE: silent when at least 40% of style-bearing components carry explicit styling', () => {
+  const m = { components: [dressed('a'), dressed('b'), bare('c')] };
+  assert.ok(!codes(m).includes('T3-STYLE-COVERAGE'), '2/3 styled (67%) is above the 40% bar');
+});
+
+test('T3-STYLE-COVERAGE: unstyled input leaves alone never trip it (they are never styled by design)', () => {
+  const m = { components: [
+    { id: ID(), type: 'textField', propertyName: 'a', parentId: 'root', version: 6 },
+    { id: ID(), type: 'dateField', propertyName: 'b', parentId: 'root', version: 6 },
+    { id: ID(), type: 'buttonGroup', componentName: 'actions', parentId: 'root', version: 5, items: [] },
+    { id: ID(), type: 'validationErrors', componentName: 've', parentId: 'root', version: 3 },
+  ] };
+  assert.ok(!codes(m).includes('T3-STYLE-COVERAGE'), 'leaves are not the pipeline\'s styling surface');
+});
+
+test('T3-STYLE-COVERAGE: is tier 3 / severity observe', () => {
+  const m = { components: [bare('a')] };
+  const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-STYLE-COVERAGE');
+  assert.equal(found.tier, 3);
+  assert.equal(found.severity, 'observe');
+});
+
+test('T3-STYLE-TYPOGRAPHY: flags a tree with zero explicit font declarations anywhere', () => {
+  const m = { components: [{ id: ID(), type: 'text', componentName: 'blurb', parentId: 'root', version: 5, content: 'x' }] };
+  const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-STYLE-TYPOGRAPHY');
+  assert.ok(found);
+  assert.match(found.message, /R-042/);
+});
+
+test('T3-STYLE-TYPOGRAPHY: silent when at least one node declares font.size/font.weight', () => {
+  const m = { components: [{ id: ID(), type: 'text', componentName: 'blurb', parentId: 'root', version: 5, content: 'x', font: { size: 14 } }] };
+  assert.ok(!codes(m).includes('T3-STYLE-TYPOGRAPHY'));
+});
+
+test('T3-STYLE-TYPOGRAPHY: is tier 3 / severity observe', () => {
+  const m = { components: [{ id: ID(), type: 'text', componentName: 'blurb', parentId: 'root', version: 5, content: 'x' }] };
+  const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-STYLE-TYPOGRAPHY');
+  assert.equal(found.tier, 3);
+  assert.equal(found.severity, 'observe');
+});
+
+test('T3-STYLE-INLINE-CONFLICT: flags a node with both a legacy inline `style` string and a structured desktop block', () => {
+  const m = { components: [{ id: ID(), type: 'container', parentId: 'root', version: 7, style: 'color: red;', desktop: { background: { type: 'color', color: '#ffffff' } } }] };
+  const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-STYLE-INLINE-CONFLICT');
+  assert.ok(found);
+  assert.match(found.message, /R-030/);
+});
+
+test('T3-STYLE-INLINE-CONFLICT: silent when only the inline style is present (nothing structured to conflict with)', () => {
+  const m = { components: [{ id: ID(), type: 'container', parentId: 'root', version: 7, style: 'color: red;' }] };
+  assert.ok(!codes(m).includes('T3-STYLE-INLINE-CONFLICT'));
+});
+
+test('T3-STYLE-INLINE-CONFLICT: silent when only the structured block is present (nothing legacy to conflict)', () => {
+  const m = { components: [{ id: ID(), type: 'container', parentId: 'root', version: 7, desktop: { background: { type: 'color', color: '#ffffff' } } }] };
+  assert.ok(!codes(m).includes('T3-STYLE-INLINE-CONFLICT'));
+});
+
+test('T3-STYLE-INLINE-CONFLICT: is tier 3 / severity observe', () => {
+  const m = { components: [{ id: ID(), type: 'container', parentId: 'root', version: 7, style: 'color: red;', desktop: { background: { type: 'color', color: '#ffffff' } } }] };
+  const found = tier3(m, ctx).findings.find((f) => f.code === 'T3-STYLE-INLINE-CONFLICT');
+  assert.equal(found.tier, 3);
+  assert.equal(found.severity, 'observe');
+});
+
+// ---------------------------------------------------------------------------
+// Regression guard: the 8 shipped example blueprints must not start tripping
+// the newly-ported correctness codes. These are the golden, hand-curated
+// blueprints e2e-compile.test.mjs already proves compile clean across Tier 1
+// + Tier 2 — porting new Tier 3 checks must not surface a defect in them
+// (which would mean either the port is wrong, or the golden examples
+// genuinely regressed) and must never change what tier1()/tier2() alone
+// already decide about them.
+// ---------------------------------------------------------------------------
+
+test('the ported correctness checks do not fire on any of the 8 shipped example blueprints', () => {
+  const BP_DIR = join(ROOT, '../shesha-design-comprehension/assets/blueprint-examples');
+  const FLOWS_DIR = join(ROOT, 'assets/archetypes');
+  const roles = JSON.parse(readFileSync(join(ROOT, '../shesha-design-system/assets/roles.styles.json'), 'utf8'));
+  const tokens = JSON.parse(readFileSync(join(ROOT, '../shesha-design-system/assets/themes/shesha.tokens.json'), 'utf8'));
+  const ARCHETYPES = [
+    'standalone-capture', 'capture-dialog', 'record-detail', 'table-worklist',
+    'list-card', 'hub', 'dashboard', 'wizard',
+  ];
+  // ALL SIX ported codes, styled-ness included. Excluding the styled-ness three
+  // is what let them ship mis-firing: ported with the retired validator's
+  // verbatim denominator, T3-STYLE-COVERAGE and T3-STYLE-TYPOGRAPHY scored the
+  // compiler's own gate-clean output at 54 and 60 out of 100, and this guard
+  // stayed green throughout. The compiler bakes the theme in [R-042], so its
+  // output must not trip a styled-ness check — if it does, the check is wrong
+  // about this architecture, or the compiler genuinely stopped styling.
+  const NEW_CORRECTNESS_CODES = [
+    'T3-NAVIGATE-TARGET-MISSING', 'T3-CHECKBOXGROUP-VALUES-KEY', 'T3-DELETE-ROW-ACTION',
+    'T3-STYLE-COVERAGE', 'T3-STYLE-TYPOGRAPHY', 'T3-STYLE-INLINE-CONFLICT',
+  ];
+
+  for (const archetype of ARCHETYPES) {
+    const blueprint = JSON.parse(readFileSync(join(BP_DIR, `${archetype}.blueprint.json`), 'utf8'));
+    const flow = loadFlow(archetype, { dir: FLOWS_DIR });
+    const { markup } = compileSpec(blueprint, { registry, roles, tokens, flows: { [archetype]: flow } });
+
+    const result = tier3(markup, { registry, thresholds, tokens });
+    for (const f of result.findings) {
+      assert.equal(f.tier, 3, `${archetype}: ${f.code} is not tier 3`);
+      assert.equal(f.severity, 'observe', `${archetype}: ${f.code} is not severity observe`);
+    }
+    const fired = result.findings.filter((f) => NEW_CORRECTNESS_CODES.includes(f.code));
+    assert.deepStrictEqual(fired, [], `${archetype}: unexpected new-correctness-code finding(s): ${JSON.stringify(fired)}`);
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Tier 3 (ported checks included) must never affect validate-form.mjs's exit
+// code — enforced by validate-form.mjs's own exitCode formula
+// ((t1.length===0 && t2.length===0) ? 0 : 1), not by anything in this file.
+// This runs the actual CLI against the shared bad-score fixture to prove it
+// end to end, mirroring tests/validate-cli.test.mjs's own equivalent check.
+// ---------------------------------------------------------------------------
+
+test('validate-form.mjs CLI: a low Tier 3 score (now including any ported-check findings) still exits 0', () => {
+  const CLI = join(ROOT, 'scripts/validate-form.mjs');
+  const stdout = execFileSync(process.execPath, [CLI, join(ROOT, 'tests/fixtures/t3-bad-score-clean.json'), '--json'], { encoding: 'utf8' });
+  const parsed = JSON.parse(stdout);
+  assert.equal(parsed.exitCode, 0, 'Tier 3 findings must never set a non-zero exitCode');
+  assert.equal(parsed.tier1.length, 0);
+  assert.equal(parsed.tier2.length, 0);
+  assert.ok(parsed.tier3.score < 100, 'expected at least one Tier 3 finding on this fixture to make the assertion meaningful');
 });

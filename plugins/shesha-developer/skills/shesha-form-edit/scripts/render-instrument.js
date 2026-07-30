@@ -145,7 +145,31 @@ try {
       if (vkids.length < 2) continue;
       const rects = vkids.map((k) => k.getBoundingClientRect());
       const sideBySide = rects.some((a, i) => rects.slice(i + 1).some((b) => Math.abs(a.top - b.top) < Math.min(a.height, b.height) * 0.5 && Math.abs(a.left - b.left) > 8));
-      rowContainers.push({ name: c.getAttribute('data-sha-c-name'), children: vkids.length, sideBySide });
+
+      // FILL RATIO. `sideBySide` catches a row that stacked; it does NOT catch a
+      // row that split but left most of the track empty — which is what a child
+      // at width:auto does (flex-basis resolves to content size, flex-grow is 0,
+      // so each child hugs its label). Two fields render as two narrow stubs
+      // side by side, so every existing check passes. This ratio is the only
+      // signal that sees it.
+      const pad = parseFloat(cs.paddingLeft || '0') + parseFloat(cs.paddingRight || '0');
+      const track = Math.max(1, inner.clientWidth - pad);
+      const gaps = (vkids.length - 1) * (parseFloat(cs.columnGap === 'normal' ? '0' : cs.columnGap) || 0);
+      const fill = Math.round(((rects.reduce((s, r) => s + r.width, 0) + gaps) / track) * 100) / 100;
+
+      // Only a DEFAULT-packed row of container children is expected to fill. An
+      // action row, or one deliberately centred / end-packed / space-between, is
+      // legitimately short of the track — flagging those would be noise.
+      const justify = cs.justifyContent;
+      const packsFromStart = justify === 'flex-start' || justify === 'normal' || justify === 'start';
+      const allContainerKids = vkids.every((k) => !k.querySelector('button') && !/button/i.test(k.getAttribute('data-sha-c-type') || ''));
+      rowContainers.push({
+        name: c.getAttribute('data-sha-c-name'),
+        children: vkids.length,
+        sideBySide,
+        fill,
+        fillExpected: sideBySide && packsFromStart && allContainerKids,
+      });
     }
 
     return {
@@ -160,6 +184,10 @@ try {
         overflowX,
         rowsExpectedSideBySide: rowContainers.length,
         rowsThatStacked: rowContainers.filter((r) => !r.sideBySide).map((r) => r.name),
+        // Always reported, so the 0.8 threshold below can be calibrated against
+        // real forms rather than argued about.
+        rowFill: rowContainers.filter((r) => r.fillExpected).map((r) => ({ name: r.name, fill: r.fill })),
+        rowsUnderFilled: rowContainers.filter((r) => r.fillExpected && r.fill < 0.8).map((r) => `${r.name ?? 'unnamed'} @ ${Math.round(r.fill * 100)}%`),
       },
       bodySample: (document.body.innerText || '').slice(0, 200),
     };
@@ -193,6 +221,7 @@ try {
   const L = probe.layout;
   if (L && verdict.settled) {
     if (L.rowsThatStacked.length) verdict.reasons.push(`layout: ${L.rowsThatStacked.length} flex-row container(s) stacked instead of splitting side-by-side (${L.rowsThatStacked.filter(Boolean).join(', ') || 'unnamed'}) [R-029]`);
+    if (L.rowsUnderFilled?.length) verdict.reasons.push(`layout: ${L.rowsUnderFilled.length} flex-row(s) split but left most of the track empty — children are content-sized, not sharing the row (${L.rowsUnderFilled.join(', ')}). A row child at dimensions.width:"auto" does exactly this; give each an explicit share [R-028]`);
     if (L.controls >= 3 && L.tinyControls / L.controls > 0.34) verdict.reasons.push(`layout: ${L.tinyControls}/${L.controls} inputs are <60px wide (collapsed/unusable)`);
     if (L.overflowX > 24) verdict.reasons.push(`layout: content overflows the viewport by ${L.overflowX}px (horizontal scroll)`);
     if (L.collapsedActions > 0) verdict.reasons.push('layout: action row shows an overflow "…" instead of inline buttons (buttonGroup needs isInline:true)');

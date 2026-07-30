@@ -1,6 +1,6 @@
 ---
 name: shesha-claude-designer
-description: THE MAIN SKILL for all Shesha 0.45 designer work — the single entry point whether the user wants to build a new form ("create an asset worklist"), edit an existing one ("add a sector dropdown"), style or brand a form, realise a design source (wireframe, HTML/JSX prototype, runnable app, Figma-style kit, screenshot set), or deliver a whole multi-screen app. Triggers include "build this design in Shesha", "create a form for X", "make it match the design", "implement this mockup across the app". It routes by weight internally and drives the compiler pipeline (blueprint → compile → gates → style → push → oracle) through its execution layers — shesha-design-comprehension (measured blueprints), shesha-form-edit (compile/gates/push/oracle), shesha-design-system (tokens + v7 style blocks) — verifying every deliverable by measurement. Enter here first; the sub-skills remain directly invocable for targeted work.
+description: THE MAIN SKILL for all Shesha 0.45 designer work — the single entry point whether the user wants to build a new form ("create an asset worklist"), edit an existing one, style or brand a form, realise a design source (wireframe, HTML/JSX prototype, runnable app, Figma-style kit, screenshot set), or deliver a whole multi-screen app. Triggers include "build this design in Shesha", "create a form for X", "make it match the design", "implement this mockup across the app". It routes by weight internally and drives the compiler pipeline (blueprint → compile → gates → style → push → oracle) through its execution layers — shesha-design-comprehension (measured blueprints), shesha-form-edit (compile/gates/push/oracle), shesha-design-system (tokens + v7 style blocks) — verifying every deliverable by measurement. Enter here first; the sub-skills remain directly invocable for targeted work.
 ---
 
 # Shesha Claude Designer
@@ -72,7 +72,15 @@ One aggregate envelope for the run: per screen — form (module + name + id), bl
 | Tokens → app theme + v7 style blocks | `shesha-developer:shesha-design-system` |
 | Ground truth (KB / schema / measured capability matrix reruns) | `shesha-developer:shesha-gym` |
 
-Slash commands: `/shesha-build <archetype> <entity>` · `/shesha-audit
-<module>/<form>` · `/shesha-gym` — each enters this pipeline at the right step.
+Slash commands, and what they actually do relative to this pipeline: `/shesha-build
+<archetype> <entity>` invokes `shesha-form-edit` directly for an archetype+entity build with
+no design source — it skips this conductor entirely (Steps 0–1, and Step 2's
+`shesha-design-comprehension` dispatch never runs) and enters `shesha-form-edit`'s own
+pipeline at compile. `/shesha-audit <module>/<form>` does not build or push anything and does
+not enter this pipeline at any step — it is a read-only check that reuses the gate chain,
+`render-instrument.js`, and the `form-auditor`/`design-critic` agents against a form that
+already exists. `/shesha-gym` doesn't touch this pipeline either — it reruns the ground-truth
+regeneration (KB/schema/measured capability matrix) that the gates above read from, via
+`shesha-developer:shesha-gym`.
 
 For the full ownership split — who owns what, and what each skill must NOT do — see the canonical "Skill | Owns | Must NOT" table in [`README.md`](README.md), asserted in one place, not five.

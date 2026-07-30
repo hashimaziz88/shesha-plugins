@@ -32,8 +32,8 @@ skill.
 
 ## Required inputs (from the dispatch prompt — stop and report if missing)
 
-- `SKILL_ROOT` — path to the shesha-form-edit skill (for `assets/examples/`, `references/`, `assets/registry/`)
-- Seed file to start from (an `assets/examples/*.json` path), or "author from scratch" with a named pattern
+- `SKILL_ROOT` — path to the shesha-form-edit skill (for `assets/exemplars/`, `assets/blocks/`, `assets/golden/`, `references/`, `assets/registry/`)
+- Seed to start from, in the priority order `SKILL_ROOT/SKILL.md` itself states: an `assets/exemplars/*.json` whole-form seed first (small, validator-clean, safe to read in full), an `assets/blocks/*.block.json` set to compose second when no exemplar covers the shape, an `assets/golden/*.json` whole-form seed third (grep the fragment you need — never read one whole [R-050]). `assets/examples/` now holds only two sub-screen fragments (link-add dialog, child-table tab), not whole-form seeds — see `SKILL_ROOT/references/examples.md`. Or "author from scratch" with a named pattern.
 - Target entity `modelType` + entity metadata (a cached `Metadata/GetProperties` JSON path, or backend URL + bearer-token file to fetch it)
 - The form's requirements (fields, columns, actions, layout asks) and the output file path
 
@@ -46,8 +46,9 @@ skill.
    archetype, layout tree, bindings — then **compile it**:
    `node SKILL_ROOT/scripts/compile-spec.mjs <spec> --out <output>`. You do not
    hand-type markup while a compiler can emit it. Only when no archetype fits:
-   clone golden fragments (grep — never read a golden whole [R-050]) and compose
-   by hand, noting WHY in your report.
+   fall back to the seed tiers above in order (exemplars, then blocks, then
+   golden — grep golden, never read it whole [R-050]) and compose by hand,
+   noting WHY in your report.
 2. Validate every `propertyName` against the metadata [R-004/R-034] — an
    unresolved property is a blocker you report, never a guess. Reference-list
    identities come verbatim from metadata [R-015].

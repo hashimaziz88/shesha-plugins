@@ -74,6 +74,20 @@ too noisy or too freshly-fixed to gate today: `T1-PROP-UNKNOWN`,
 `T2-DROPDOWN-SOURCE`, `T2-STYLE-OFF-TOKEN`. These still show up in the
 validation log so they stay visible — they just can't halt a push.
 
+Tier 3 now includes six codes PORTED from a retired validator toolchain
+(`validate-guardrails.js` / `validate-styledness.js`), in addition to the
+original appearance-judgement checks: `T3-NAVIGATE-TARGET-MISSING` (R-008),
+`T3-CHECKBOXGROUP-VALUES-KEY` (R-011), `T3-DELETE-ROW-ACTION` (R-044),
+`T3-STYLE-COVERAGE`, `T3-STYLE-TYPOGRAPHY`, and `T3-STYLE-INLINE-CONFLICT`
+(all three R-042/R-030). Some of these describe genuine render-crashes or
+throw-on-click defects rather than appearance opinions, but they sit in
+Tier 3 — and therefore Group C, never gated — because they have never been
+graded against this plugin's own corpus the way every other Group A/B code
+has. `hooks/gate-policy.json`'s `"T3-*"` wildcard entry already covers them;
+no policy change was needed to add them. See `scripts/lib/tier3.mjs`'s
+module docstring and each check's own comment for the source rule and the
+calibration caveat.
+
 ## How the hook decides
 
 1. Fires on `PreToolUse` for `Bash`/`PowerShell` commands. If the command

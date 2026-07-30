@@ -5,6 +5,25 @@
 
 The merge kept both of everything. Tests pass — 474 from P1, 10 from P2 — but nothing is reconciled. P1 touched 221 files, P2 touched 338, and **only 33 were touched by both**, so most of the collision is *silent*: two implementations sitting side by side that never conflicted textually and now both answer the same question differently.
 
+---
+
+## Status — what this plan has actually delivered
+
+Recorded after execution so the plan stops reading as entirely outstanding. Suite:
+**536 tests** (plugin 30 · hooks 33 · form-edit 362 · design-system 27 · comprehension 84) + 16 evals.
+
+**All five user decisions are settled**: `compile-spec.mjs` + `validate-form.mjs` + `assets/registry/` is the one toolchain · one step scheme (`0 · Route … 7 · Report`) · styling is a **compile-time input** [R-042] · the P2 validators are ported · the agents are reconciled.
+
+**P0 — all eight closed.** #1 the `width:"auto"` defect (fixed at the fault site, plus `T3-ROW-CHILD-NOFILL` and a render-instrument **fill-ratio** metric so it is no longer invisible) · #2 one schema · #3 `form-author`'s dead seed contract · #4 the flat-`fontSize` rule that failed correct forms · #5 `uniqueStateId` · #6 the moved seed path · #7 one seed order · #8 gym classifier coverage.
+
+**P1 — closed except one deliberate hold:** #19's second half, whether `shesha-form-designer` duplicates the orchestrator's inline single-screen route, is **still open and needs a ruling**. #14 (13 byte-identical descriptions shared with `shesha-developer-0-43`) is **out of mandate** — reported, never fixed.
+
+**Guard tests: all six added or already present**, plus registry↔KB parity pinning the known `dataContext` (null/8) and `permissionTagGroup` (2/null) divergences so a *new* drift fails.
+
+**Two experiments remain blocked, not skipped** — both need a live backend to push to, and none was reachable. So `R-031`/`customVisibility` is **deliberately un-ported**: the two toolchains flatly contradict each other and neither cites evidence, so choosing by reasoning would be guessing.
+
+**Known-open, reported, not fixed** (each out of the edit scope the user set): two descriptions over the 1024-char limit (`shesha-domain-events` 1253, `clean-form-config` 1167) · `add-public-portal`'s folder ≠ its frontmatter `name` · the shipped `header-band` role resolving to off-token hexes (`#fafafa`/`#e5e7eb`), which is what puts the archetypes at Tier 3 69 rather than 85 · `test-entity-crud-api/scripts/Test-Endpoints.ps1` carrying one project's entity list where its `PLACEHOLDER` belongs.
+
 ## Contents
 - [The one decision that unlocks the rest](#the-one-decision-that-unlocks-the-rest)
 - [Recommended position](#recommended-position)

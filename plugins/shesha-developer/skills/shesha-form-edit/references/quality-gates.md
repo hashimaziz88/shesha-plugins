@@ -34,6 +34,14 @@ container div per the two-div rule [R-032]). Hard-fails on:
 
 - still loading (spinner / unstable component count / no inputs hydrated),
 - a declared flex-row whose children **wrapped/stacked** instead of splitting,
+- a declared flex-row that **did** split but left most of the track empty — the
+  **fill ratio** `(Σ child widths + gaps) / track` below 0.8. This is the one
+  signal that catches content-sized row children (`dimensions.width:"auto"`):
+  they sit side by side, so every other check passes, while the row renders as
+  narrow stubs with dead space beside them. Reported for every graded row as
+  `layout.rowFill`, so the threshold is calibratable. Only **default-packed rows
+  of non-button children** are graded — an action row, or one deliberately
+  centred / end-packed / space-between, is legitimately short of the track.
 - inputs collapsed `<60px` wide, content overflowing the viewport,
 - an action row collapsed to an overflow "…" (no visible labelled button),
 - console errors, failed requests, empty bound regions with `--expect-data`.

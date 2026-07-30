@@ -2,16 +2,29 @@ import { flatten, CHILD_KEYS } from './walk.mjs';
 import { themeColorSet, isOnToken } from './theme-tokens.mjs';
 
 /**
- * Tier 3 — appearance/quality observations.
+ * Tier 3 — appearance/quality observations, PLUS ungraded correctness ports
+ * awaiting corpus calibration.
  *
  * Unlike Tier 1 (renderability) and Tier 2 (construction contract), Tier 3
- * checks judgement calls a human reviewer would raise in a design critique,
- * not things that are objectively broken. Every finding here is
- * `severity: 'observe'` and NONE of them affect a caller's pass/fail
- * decision — that is enforced by `validate-form.mjs`, not by this module,
- * but it is the single most important property of this file: appearance
- * judgement is genuinely subjective, and a subjective check wired to a
- * blocking gate is how a team disables the gate entirely the first time it
+ * started as the home for judgement calls a human reviewer would raise in a
+ * design critique, not things that are objectively broken. That framing is
+ * no longer the whole truth: this module also carries a handful of checks
+ * PORTED from a retired validator toolchain (`validate-guardrails.js`,
+ * `validate-styledness.js`) that describe genuine render-killers or
+ * throw-on-click defects, not appearance opinions. They live here — not in
+ * Tier 1/2 — because they have never been graded against this plugin's own
+ * corpus: unlike every other Tier 1/2 check, nobody has yet measured their
+ * hit-rate or false-positive rate on real forms. Tier 3 residency reflects
+ * that lack of calibration, not a lack of severity — see each ported
+ * check's own comment for its source rule and why it is NOT yet trusted to
+ * block a push.
+ *
+ * Every finding here is `severity: 'observe'` and NONE of them affect a
+ * caller's pass/fail decision — that is enforced by `validate-form.mjs`,
+ * not by this module, but it is the single most important property of this
+ * file: whether a subjective appearance opinion or an uncalibrated
+ * correctness port, a check wired to a blocking gate before its false-positive
+ * rate is known is how a team disables the gate entirely the first time it
  * cries wolf. Tier 3 only ever produces a `score` (0-100) and a list of
  * observations a human can choose to act on.
  *
@@ -36,6 +49,12 @@ export function tier3(markup, { registry, thresholds, blueprint, tokens } = {}) 
   checkOrphanContainers(entries, out);
   checkNonAuthorableType(entries, registry, out);
   checkRowChildNoFill(entries, out);
+  checkNavigateTargetMissing(entries, out);
+  checkCheckboxGroupValuesKey(entries, out);
+  checkDeleteRowAction(entries, out);
+  checkStyleCoverage(entries, out);
+  checkStyleTypography(entries, out);
+  checkStyleInlineConflict(entries, out);
 
   const uncalibrated = !(thresholds && thresholds.calibrated === true);
   const score = computeScore(out);
@@ -102,11 +121,47 @@ function nodeLabel(node) {
 //    intent-dependent (equal share vs. filling column vs. fixed rail), which
 //    makes it a judgement call rather than a contract violation.
 //
+// The remaining six codes are PORTS from the retired validator toolchain
+// (see the module docstring) — ungraded correctness/appearance checks the
+// authoritative side never had. Their weights are set by how loud a reviewer
+// would be about the underlying defect, same as every other row here, but
+// carry the same important caveat: unlike the rest of this table, nobody has
+// yet measured how often they fire on real forms, so treat these numbers as
+// a first, conservative guess pending Task 5-style calibration.
+//
+//  - T3-NAVIGATE-TARGET-MISSING (12/occurrence, cap 24) [R-008]: an empty
+//    Navigate target renders `<Link href=undefined>` and crashes on click —
+//    a genuine render-killer, weighted on par with T3-DESTRUCTIVE-PRIMARY
+//    rather than as a mere style nit, because the underlying defect is a
+//    crash, not an opinion.
+//  - T3-DELETE-ROW-ACTION (12/occurrence, cap 24) [R-044]: `actionName:
+//    "Delete row"` with `actionOwner: "table"` does not exist on 0.45 and
+//    throws — same weight as T3-NAVIGATE-TARGET-MISSING for the same reason
+//    (a throw on click, not a judgement call).
+//  - T3-CHECKBOXGROUP-VALUES-KEY (8/occurrence, cap 16) [R-011]: a
+//    checkboxGroup carrying `values` instead of `items` is a wrong-shape
+//    options list (the registry has no `values` prop on this component at
+//    all) — self-contained to the one widget, so weighted below the two
+//    crash-class ports above.
+//  - T3-STYLE-COVERAGE (flat 15, single whole-form finding) [R-042]: share of
+//    visual components carrying no explicit styling at all — one signal, one
+//    deduction, same shape and cost as T3-COMPONENT-RATIO.
+//  - T3-STYLE-TYPOGRAPHY (flat 10, single whole-form finding) [R-042]: zero
+//    explicit font declarations anywhere in the tree — a narrower signal than
+//    coverage (a form can pass coverage yet never declare a font), so
+//    weighted below it.
+//  - T3-STYLE-INLINE-CONFLICT (5/occurrence, cap 15) [R-030]: a legacy inline
+//    `style` string coexisting with structured desktop/tablet/mobile blocks
+//    on the same node — the inline string wins and silently masks the
+//    structured blocks, so it is scored per-occurrence like T3-RAW-HEX rather
+//    than as a single whole-form flag.
+//
 // A single occurrence of any one check therefore costs at most 15 points
-// (T3-COMPONENT-RATIO or T3-PRIMARY-COUNT/T3-DESTRUCTIVE-PRIMARY are the
-// priciest single dings), so "a form failing one minor observation" cannot
-// land anywhere near 20 — it lands in the 76-98 range depending on which
-// check fired.
+// (T3-COMPONENT-RATIO, T3-STYLE-COVERAGE, T3-PRIMARY-COUNT/
+// T3-DESTRUCTIVE-PRIMARY, T3-NAVIGATE-TARGET-MISSING, T3-DELETE-ROW-ACTION
+// are the priciest single dings), so "a form failing one minor observation"
+// cannot land anywhere near 20 — it lands in the 76-98 range depending on
+// which check fired.
 // ---------------------------------------------------------------------------
 
 const WEIGHTS = {
@@ -119,6 +174,12 @@ const WEIGHTS = {
   'T3-ORPHAN-CONTAINER': { per: 3, cap: 15 },
   'T3-NON-AUTHORABLE-TYPE': { per: 2, cap: 10 },
   'T3-ROW-CHILD-NOFILL': { per: 6, cap: 18 },
+  'T3-NAVIGATE-TARGET-MISSING': { per: 12, cap: 24 },
+  'T3-DELETE-ROW-ACTION': { per: 12, cap: 24 },
+  'T3-CHECKBOXGROUP-VALUES-KEY': { per: 8, cap: 16 },
+  'T3-STYLE-COVERAGE': { per: 15, cap: 15 },
+  'T3-STYLE-TYPOGRAPHY': { per: 10, cap: 10 },
+  'T3-STYLE-INLINE-CONFLICT': { per: 5, cap: 15 },
 };
 
 function computeScore(findings) {
@@ -625,5 +686,302 @@ function checkRowChildNoFill(entries, out) {
         'auto',
       ));
     }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Ported checks — see the module docstring: these came from the retired
+// validate-guardrails.js / validate-styledness.js toolchain, cite the
+// `_rules.json` rule they were verified against, and sit in Tier 3 only
+// because they have never been graded against this plugin's corpus, not
+// because the underlying defect is a mere appearance opinion.
+//
+// Shared collector: buttonGroup items AND datatable action-column items both
+// live in an `items[]` array but carry no top-level `type`, so walk.mjs's
+// flatten() never visits them as their own entries (same reason tier2.mjs
+// keeps its own `collectButtonGroupItems` — kept as a sibling copy here
+// rather than a shared import, matching this file's existing pattern of
+// duplicating small walkers rather than importing from tier2.mjs). This
+// collector is deliberately broader than tier2's (which only reads
+// buttonGroup.items): the retired script's own `walkItems()` recurses into
+// ANY node's `.items[]`, not just buttonGroup's, because a "Delete row"
+// action lives on a datatable's action-column item, not a buttonGroup's.
+// ---------------------------------------------------------------------------
+
+function collectAllItems(entries) {
+  const out = [];
+  for (const { node, ctx } of entries) {
+    if (!Array.isArray(node.items)) continue;
+    node.items.forEach((item, idx) => {
+      if (isPlainObject(item)) out.push({ item, ctx, idx });
+    });
+  }
+  return out;
+}
+
+function itemLabel(item) {
+  return item.componentName ?? item.propertyName ?? item.label ?? item.caption ?? item.icon ?? '(unnamed item)';
+}
+
+// ---------------------------------------------------------------------------
+// T3-NAVIGATE-TARGET-MISSING [R-008]
+//
+// Ported from validate-guardrails.js's navigateTargetMissing()/
+// hasNavigateDestination(). R-008: "Every Navigate action carries a
+// non-empty target/targetUrl. An empty target renders <Link href=undefined>
+// and crashes the page." Checked against BOTH shapes the source walks: a
+// standalone typed node carrying actionConfiguration/buttonAction directly,
+// and a buttonGroup/datatable items[] entry (untyped, reached only via
+// collectAllItems above). The authoritative compiler itself never emits
+// `target`/`targetUrl` (see compile/actions.mjs's own header comment) —
+// it uses `actionArguments: { navigationType: "url", url }` — so `args.url`
+// is checked here too, exactly as the source itself already did.
+// ---------------------------------------------------------------------------
+
+function hasNavigateDestination(actionArguments, obj) {
+  const args = isPlainObject(actionArguments) ? actionArguments : {};
+  const t = args.target ?? args.targetUrl ?? args.url ?? obj?.targetUrl ?? obj?.target;
+  if (t !== undefined && t !== null && String(t).trim() !== '') return true;
+  const f = args.formId;
+  if (f && (typeof f === 'string' ? f.trim() !== '' : (isPlainObject(f) && f.name))) return true;
+  return false;
+}
+
+function isNavigateAction(obj) {
+  if (!isPlainObject(obj)) return false;
+  const ac = obj.actionConfiguration;
+  if (isPlainObject(ac) && ac.actionName === 'Navigate') return true;
+  if (obj.buttonAction === 'navigate' || obj.action === 'navigate') return true;
+  return false;
+}
+
+function navigateTargetMissing(obj) {
+  if (!isNavigateAction(obj)) return false;
+  return !hasNavigateDestination(obj.actionConfiguration?.actionArguments, obj);
+}
+
+function checkNavigateTargetMissing(entries, out) {
+  for (const { node, ctx } of entries) {
+    if (navigateTargetMissing(node)) {
+      out.push(finding(
+        'T3-NAVIGATE-TARGET-MISSING',
+        ctx.path,
+        `[R-008] "${nodeLabel(node)}" carries a Navigate action with no non-empty target/targetUrl/url/formId — renders <Link href=undefined> and crashes on click.`,
+        'a non-empty target/targetUrl/url, or a formId with a name',
+        node.actionConfiguration?.actionArguments ?? null,
+      ));
+    }
+  }
+  for (const { item, ctx, idx } of collectAllItems(entries)) {
+    if (navigateTargetMissing(item)) {
+      out.push(finding(
+        'T3-NAVIGATE-TARGET-MISSING',
+        `${ctx.path}.items[${idx}]`,
+        `[R-008] Item "${itemLabel(item)}" carries a Navigate action with no non-empty target/targetUrl/url/formId — renders <Link href=undefined> and crashes on click.`,
+        'a non-empty target/targetUrl/url, or a formId with a name',
+        item.actionConfiguration?.actionArguments ?? null,
+      ));
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// T3-CHECKBOXGROUP-VALUES-KEY [R-011]
+//
+// Ported from validate-guardrails.js (the `checkboxGroup` branch in
+// walkTree). R-011: "checkboxGroup hardcoded options use items (NOT values),
+// each {label, value}, with dataSourceType 'values'. dropdown/radio use
+// values with {id,label,value} — do not conflate." Confirmed against
+// registry-0.45.1.json: checkboxGroup's own `props` list has no `values`
+// entry at all, only `items` — a checkboxGroup carrying `values` is
+// authored against the wrong component's shape.
+// ---------------------------------------------------------------------------
+
+function checkCheckboxGroupValuesKey(entries, out) {
+  for (const { node, ctx } of entries) {
+    if (node.type !== 'checkboxGroup') continue;
+    if (node.dataSourceType === 'values' && Array.isArray(node.values) && !Array.isArray(node.items)) {
+      out.push(finding(
+        'T3-CHECKBOXGROUP-VALUES-KEY',
+        ctx.path,
+        `[R-011] checkboxGroup "${nodeLabel(node)}" has dataSourceType:"values" but carries \`values\` instead of \`items\` — checkboxGroup hardcoded options use \`items\` of {label, value}; \`values\` (with {id,label,value}) is the dropdown/radio shape.`,
+        'items: [{ label, value }, ...]',
+        node.values,
+      ));
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// T3-DELETE-ROW-ACTION [R-044]
+//
+// Ported from validate-guardrails.js's walkItems(): `actionName === 'Delete
+// row' && actionConfiguration.actionOwner === 'table'`. R-044: "Row
+// delete/unlink = Execute Script + `await http.delete(...)` + onSuccess
+// Refresh table with actionOwner = the dataContext component id. `Delete
+// row`/owner 'table' does not exist and throws." Lives on datatable
+// action-column items (see references/components/junction-subtables.md),
+// reached only via collectAllItems above since these items carry no
+// top-level `type`.
+// ---------------------------------------------------------------------------
+
+function checkDeleteRowAction(entries, out) {
+  for (const { item, ctx, idx } of collectAllItems(entries)) {
+    const ac = item.actionConfiguration;
+    if (isPlainObject(ac) && ac.actionName === 'Delete row' && ac.actionOwner === 'table') {
+      out.push(finding(
+        'T3-DELETE-ROW-ACTION',
+        `${ctx.path}.items[${idx}]`,
+        `[R-044] Item "${itemLabel(item)}" has actionConfiguration { actionName: "Delete row", actionOwner: "table" } — this action/owner pair does not exist on 0.45 and throws.`,
+        'Execute Script + await http.delete(...) + onSuccess Refresh table (actionOwner = the enclosing dataContext id)',
+        { actionName: ac.actionName, actionOwner: ac.actionOwner },
+      ));
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Styled-ness triad [R-042] — ported from validate-styledness.js, whose own
+// `check` field in _rules.json's R-042 IS "validate-styledness.js exit
+// code": "No form ships unstyled. Styling is a COMPILE-TIME input... a
+// structurally-complete default-grey form is a compiler defect." Kept as
+// THREE codes rather than one, matching this file's existing convention of
+// one code per distinct signal (each gets its own WEIGHTS entry and its own
+// silent/fires test cases) rather than bundling unrelated triggers behind a
+// single code the way T3-COMPONENT-RATIO does for one metric.
+//
+// VISUAL_TYPES is copied verbatim from validate-styledness.js's own `VISUAL`
+// set — reused rather than re-derived so the two toolchains' definitions of
+// "a visual component" cannot silently diverge.
+// ---------------------------------------------------------------------------
+
+const VISUAL_TYPES = new Set(['container', 'card', 'text', 'textField', 'textArea', 'numberField', 'dropdown',
+  'autocomplete', 'button', 'buttonGroup', 'datatable', 'datalist', 'alert', 'collapsiblePanel', 'tabs',
+  'columns', 'sectionSeparator', 'refListStatus', 'statusTag', 'dateField', 'checkbox', 'radio', 'progress']);
+
+/**
+ * ...but the coverage DENOMINATOR is narrower than that set, and has to be.
+ *
+ * The retired validator was written for hand-authored markup, where a leaf input
+ * often carried its own style block. This architecture forbids exactly that: an
+ * input renders inside an antd `Form.Item` chain forced `width: 100% !important`,
+ * so geometry on the leaf cannot size the track it sits in — which is why
+ * `T2-SPLIT-WIDTH-ON-LEAF` and `T2-WIDTH-ON-NONCONTAINER` reject it, and why the
+ * compiler puts appearance on the wrapping container instead. Button colour comes
+ * from the app-level AntD theme, never per-button, and `validationErrors` takes no
+ * props at all.
+ *
+ * So counting leaves as "unstyled" measures a deliberate design rule as a defect.
+ * Ported verbatim, this check scored the compiler's own gate-clean output at 54
+ * and 60 out of 100. The denominator is therefore the components this pipeline
+ * actually styles; the signal it was ported for — R-042's "structurally-complete
+ * default-grey form" — survives intact, because that form's CONTAINERS are the
+ * things left unstyled.
+ */
+const STYLE_BEARING_TYPES = new Set(['container', 'card', 'text', 'alert', 'collapsiblePanel',
+  'tabs', 'sectionSeparator', 'datatable', 'datalist', 'progress']);
+
+// 0.45-only: the source's own `hasStructuredStyle()` branches on a
+// `--generation` flag; this plugin only ever validates 0.45 markup (0.43
+// styling lives in the shesha-developer-0-43 plugin), so only the
+// desktop/tablet/mobile branch is ported.
+function hasStructuredStyle(node) {
+  return ['desktop', 'tablet', 'mobile'].some((k) => isPlainObject(node[k]) && Object.keys(node[k]).length > 0);
+}
+
+function isStyled(node) {
+  return hasStructuredStyle(node) || Boolean(node.className) || Boolean(node.stylingBox);
+}
+
+// Mirrors the source's own blob-scan (`/"font"\s*:\s*{/.test(JSON.stringify(node))
+// || node.fontSize || node.fontWeight`) but walks each node's OWN properties
+// (excluding structural/child keys) rather than re-serializing whole
+// subtrees, consistent with this file's collectColorPaths pattern — the
+// source's blob-scan re-counts every descendant's font at every ancestor
+// level, which does not matter for its own boolean-sum use, but this port
+// only needs a single yes/no across the tree so the exact count is moot.
+function hasOwnFontDeclaration(node) {
+  if (node.fontSize || node.fontWeight) return true;
+  function visit(obj) {
+    if (!isPlainObject(obj)) return false;
+    for (const key of Object.keys(obj)) {
+      if (STRUCTURAL_KEYS.has(key)) continue;
+      const value = obj[key];
+      if (key === 'font' && isPlainObject(value)) return true;
+      if (isPlainObject(value) && visit(value)) return true;
+    }
+    return false;
+  }
+  return visit(node);
+}
+
+// T3-STYLE-COVERAGE: mirrors the source's own FAIL bar (<40% styled) rather
+// than its WARN band (40-69%) — Tier 3 checks are binary fire/silent, not
+// the source's three-valued FAIL/WARN/OK, so the more severe of the source's
+// two thresholds is the one ported as "this fires."
+function checkStyleCoverage(entries, out) {
+  let visual = 0;
+  let styled = 0;
+  for (const { node } of entries) {
+    if (!STYLE_BEARING_TYPES.has(node.type)) continue;
+    visual++;
+    if (isStyled(node)) styled++;
+  }
+  if (visual === 0) return; // nothing visual to judge, same reasoning as T3-COMPONENT-RATIO's zero-bindings skip
+  const cov = Math.round((styled / visual) * 100);
+  if (cov < 40) {
+    out.push(finding(
+      'T3-STYLE-COVERAGE',
+      'components',
+      `[R-042] Only ${styled}/${visual} visual component(s) (${cov}%) carry any explicit desktop/tablet/mobile styling, className, or stylingBox — mirrors validate-styledness.js's own FAIL bar (<40%). A structurally-complete but unstyled form is a compiler defect per R-042, not a follow-up pass.`,
+      '>= 40% of visual components explicitly styled',
+      cov,
+    ));
+  }
+}
+
+// T3-STYLE-TYPOGRAPHY: the source has no middle band for this one (OK if any
+// font declaration exists anywhere, FAIL if none) — ported as-is, no
+// threshold invented.
+const TEXT_BEARING_TYPES = new Set(['text', 'card', 'alert', 'collapsiblePanel', 'sectionSeparator']);
+
+function checkStyleTypography(entries, out) {
+  // A form with no text-bearing node has nowhere to put a font declaration —
+  // `capture-dialog` is the case: the dialog chrome supplies the title, so the
+  // form body carries no heading at all. Flagging it would report the archetype's
+  // own correct shape as a defect (it scored the compiler's clean output 60/100).
+  // Inputs are excluded for the same reason as in the coverage denominator above.
+  const canDeclareFont = entries.some(({ node }) => TEXT_BEARING_TYPES.has(node.type));
+  if (!canDeclareFont) return;
+
+  const hasAny = entries.some(({ node }) => hasOwnFontDeclaration(node));
+  if (!hasAny) {
+    out.push(finding(
+      'T3-STYLE-TYPOGRAPHY',
+      'components',
+      '[R-042] No explicit font declaration (font.size/font.weight, or legacy fontSize/fontWeight) found anywhere in the tree — every text element inherits ambient/default typography rather than the compiled theme.',
+      'at least one explicit font declaration somewhere in the tree',
+      0,
+    ));
+  }
+}
+
+// T3-STYLE-INLINE-CONFLICT [R-030]: a legacy inline `style` string on a node
+// that ALSO carries structured desktop/tablet/mobile blocks. R-030: "The
+// legacy `style` JS-string renders inline and WINS over everything — when a
+// stamped prop doesn't render, grep the component and its ancestors for a
+// truthy `style` first." The structured blocks are silently masked, not
+// merely redundant.
+function checkStyleInlineConflict(entries, out) {
+  for (const { node, ctx } of entries) {
+    if (typeof node.style !== 'string' || !node.style.trim()) continue;
+    if (!hasStructuredStyle(node)) continue;
+    out.push(finding(
+      'T3-STYLE-INLINE-CONFLICT',
+      ctx.path,
+      `[R-030] "${node.type}" ("${nodeLabel(node)}") carries both an inline \`style\` string and structured desktop/tablet/mobile blocks — the inline string renders and WINS, silently masking the structured styling.`,
+      'structured desktop/tablet/mobile styling with no competing inline `style` string',
+      node.style,
+    ));
   }
 }
