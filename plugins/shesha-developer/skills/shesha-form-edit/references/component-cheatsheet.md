@@ -68,6 +68,6 @@ def w(o):\n  import collections\n  pass"  # in practice: walk each form's string
 ```
 
 Prefer this over reading large seed files. **Do not** read `table-worklist--employee-table.json`,
-`modal-dialog--rs-create-dialog.json`, or other multi-thousand-line seeds wholesale — open them only with
+`capture-dialog--rs-create-dialog.json`, or other multi-thousand-line seeds wholesale — open them only with
 `Grep`/offset for one specific fragment. Prefer `assets/exemplars/` first — every form there is
 under ~400 lines and safe to read whole.

@@ -94,7 +94,7 @@ The `datalist` here has **no** `entityType`, **no** `sourceType`, **no** `perman
 
 A `datalist` (v11) renders the wrapper's rows as repeating cards. Two ways to define what each card looks like:
 
-- **(b) Row-template form (`formSelectionMode: "name"` + `formId`) — THE DEFAULT. Verified rendering.** Each row is rendered by a separate named **card form**; the row entity is exposed to that card form via `propertyName` bindings / `{{mustache}}` (its `data`). This is the proven pattern — it matches the canonical block above, and is the shape shipped by the golden pair `assets/golden/list-card--entity-datalist.json` + `assets/golden/list-card-item--entity-card.json` (live-verified against `@shesha-io/reactjs 0.45.x`). Shape:
+- **(b) Row-template form (`formSelectionMode: "name"` + `formId`) — THE DEFAULT. Verified rendering.** Each row is rendered by a separate named **card form**; the row entity is exposed to that card form via `propertyName` bindings / `{{mustache}}` (its `data`). This is the proven pattern — it matches the canonical block above, and is the shape shipped by the golden pair `assets/golden/list-card--entity-datalist.json` + `assets/golden/list-card--entity-card-item.json` (live-verified against `@shesha-io/reactjs 0.45.x`). Shape:
   ```json
   {
     "type": "datalist", "version": 11,
@@ -117,7 +117,7 @@ A `datalist` (v11) renders the wrapper's rows as repeating cards. Two ways to de
 
 ### Building the row-template card form (0.45 runtime rules — runtime-verified)
 
-The datalist renders each row's card form inside a cell that **collapses `ant-form-item` heights and forces `white-space: nowrap`**. Plain text components therefore overlap, clip, or vanish unless the card form is built this way (all verified live on 0.45.x; the `assets/golden/list-card-item--entity-card.json` seed encodes them):
+The datalist renders each row's card form inside a cell that **collapses `ant-form-item` heights and forces `white-space: nowrap`**. Plain text components therefore overlap, clip, or vanish unless the card form is built this way (all verified live on 0.45.x; the `assets/golden/list-card--entity-card-item.json` seed encodes them):
 
 - **Bind values with NAME mode, not content mode.** Each field = `text` with `contentDisplay: "name"` + `propertyName: "<prop>"` + `content: "{{data.<prop>}}"` + `textType: "paragraph"`. A `text` in **content mode with a `{{mustache}}` value renders EMPTY** inside a card cell — content mode is only for STATIC decoration text (e.g. a `★` or `/ 5` separator).
 - **Give every field `dimensions: { minHeight: "fit-content", height: "auto", maxHeight: "auto", … }`.** Without it the field's form-item collapses to ~0 height and the text overflows / overlaps its neighbours.
@@ -126,7 +126,7 @@ The datalist renders each row's card form inside a cell that **collapses `ant-fo
 - **Inner padding + no-scroll go on the card container via the legacy `style` prop, NOT `stylingBox`** (which does not apply on the card container in this context): `"style": "return { whiteSpace: 'normal', wordBreak: 'break-word', overflow: 'hidden', padding: '20px 22px', boxSizing: 'border-box' }"`. `overflow: hidden` clips the nowrap quote so the cell shows **no scrollbar**; `padding` keeps text off the border. Set the card container `dimensions.height: "auto"` — **never `"100%"`** (that triggers the inner scroll + overlap).
 - Card chrome (border radius, white background, soft shadow) on the card container's v7 channels (`border` / `background` / `shadow`) renders fine — only `stylingBox` padding is the channel that doesn't take here.
 
-Copy `assets/golden/list-card-item--entity-card.json` (the verified card) and swap the entity + field `propertyName`s. Symptom→fix table: [debug.md](../debug.md).
+Copy `assets/golden/list-card--entity-card-item.json` (the verified card) and swap the entity + field `propertyName`s. Symptom→fix table: [debug.md](../debug.md).
 
 ---
 

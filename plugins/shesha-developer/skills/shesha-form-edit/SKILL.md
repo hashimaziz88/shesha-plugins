@@ -32,7 +32,7 @@ Args: `$ARGUMENTS`. Flags: `--no-browser` (skip the render instrument),
 
 > **For any new table / list / create / detail form, start from a seed — never hand-author structure a seed already provides.** ONE priority order, always: **`assets/exemplars/` first** (small, validator-clean, one per archetype) → **`assets/blocks/`** (compose small vetted blocks when no exemplar fits) → **`assets/examples/`** (the fuller CRUD-loop seeds, fallback when neither above has the shape). Full index + the swap-these-fields checklist: [references/examples.md](references/examples.md). A "**table**"/grid request builds a `datatable`; a "**list**"/cards request builds a `datalist` — different components, pick from the user's wording ([data-tables.md](references/components/data-tables.md)). These seeds are real Shesha-standard forms (verified rendering against a live backend, or curated from graded production markup) and encode the CRUD wiring most models get wrong: the **Add button opens the create form in a modal** (`Show Dialog`), detail views toggle edit in place (`Start Edit`/`Submit`), child tables use `tabs` + a `permanentFilter` on `{{data.id}}`, and inputs are chosen by the property's data type ([by-datatype.md](references/components/by-datatype.md)). Copy the matching seed, swap entity/properties/captions/`formId`s, re-stamp `parentId`s, push.
 
-> **Building a form to match a design?** If the requirements arrive as a **layout blueprint** (`<screen>.blueprint.json` from `shesha-developer:shesha-design-comprehension`, usually via the `shesha-claude-designer` orchestrator), this is a **compile, not an authoring task** — run `node scripts/compile-spec.mjs <screen>.blueprint.json --out <form>.json` then `node scripts/validate-form.mjs <form>.json`. No hand-translation of `layout-tree`/`bindings` into components: the compiler resolves the archetype's seed shape, the flex-container splits, the `parentId`s, and the `propertyName`s from the blueprint directly. Full contract (what it owns, what it doesn't, the acceptance property): [references/compiling.md](references/compiling.md). Then expect a placement re-measure — the orchestrator's gate 5a.5, now `verify-placement.mjs`'s exit code — against the blueprint's `assertions`. Field-mapping reference / troubleshooting a compile failure: [references/blueprint-consumption.md](references/blueprint-consumption.md). (The parallel field-validated toolchain — `compile-blueprint.js`, the Markdown+twin blueprint format — is documented in `../shesha-claude-designer/README.md`'s "Two toolchains" section; both compilers are real, pending reconciliation.)
+> **Building a form to match a design?** If the requirements arrive as a **layout blueprint** (`<screen>.blueprint.json` from `shesha-developer:shesha-design-comprehension`, usually via the `shesha-claude-designer` orchestrator), this is a **compile, not an authoring task** — run `node scripts/compile-spec.mjs <screen>.blueprint.json --out <form>.json` then `node scripts/validate-form.mjs <form>.json`. No hand-translation of `layout-tree`/`bindings` into components: the compiler resolves the archetype's seed shape, the flex-container splits, the `parentId`s, and the `propertyName`s from the blueprint directly. Full contract (what it owns, what it doesn't, the acceptance property): [references/compiling.md](references/compiling.md). Then expect a placement re-measure — the orchestrator's gate 5a.5, now `verify-placement.mjs`'s exit code — against the blueprint's `assertions`. Field-mapping reference / troubleshooting a compile failure: [references/blueprint-consumption.md](references/blueprint-consumption.md). (The retired field-validated toolchain — `compile-blueprint.js`, the Markdown+twin blueprint format — is documented in `../shesha-claude-designer/README.md`'s "One compiler, two open questions" section for historical/troubleshooting reference only; it is not the build path.)
 
 ## Headless runs
 
@@ -79,7 +79,7 @@ entity resolution, metadata, and reflist existence
 ## 2 · Spec — no spec, no build
 
 Every build has a spec: a **blueprint IR** JSON
-(`shesha-design-comprehension/schemas/blueprint.schema.json`).
+(`shesha-design-comprehension/assets/blueprint.schema.json`).
 
 - Design-driven work arrives with one (from `shesha-claude-designer` /
   `shesha-design-comprehension`) — consume it as-is.
@@ -89,9 +89,10 @@ Every build has a spec: a **blueprint IR** JSON
   "table"/grid → `datatable` [R-019]. This is the judgment step: get the
   archetype and the layout tree right here, not in JSON surgery later.
 
-Archetypes: `assets/golden/_index.json` (table-worklist · record-detail · hub
-· capture · modal-dialog · list-card · inline-card · dashboard). Golden files
-are compiler fixtures — grep fragments, never read one whole [R-050].
+Archetypes: `references/archetypes.md`'s single eight (table-worklist ·
+record-detail · capture-dialog · standalone-capture · list-card · hub ·
+dashboard · wizard). Golden/exemplar files are compiler fixtures — grep
+fragments, never read one whole [R-050].
 
 ## 3 · Compile
 
@@ -214,7 +215,7 @@ never as done.
 
 **Authoring 2+ genuinely distinct new forms?** Dispatch one `shesha-developer:form-author` agent per form in parallel (each gets the seed, metadata, requirements, and an output path); you audit and push centrally afterwards. A single new form stays in-context.
 
-**Read [references/component-cheatsheet.md](references/component-cheatsheet.md) FIRST** — it has the current per-component `version` + minimal shape, so you don't burn round-trips probing for versions or read multi-thousand-line seeds. **Never read a large seed wholesale** (`assets/golden/capture--employee-create.json`, `assets/golden/modal-dialog--rs-create-dialog.json`, etc. can run thousands of lines — that's tens of thousands of wasted tokens); open them only with `Grep`/offset for one specific fragment. Prefer the small/lean seeds — every `assets/exemplars/` form is under ~400 lines by construction; among `assets/golden/`, prefer `inline-card--inline-editable-table.json`/`capture-standalone--standalone-create.json` over the multi-thousand-line ones.
+**Read [references/component-cheatsheet.md](references/component-cheatsheet.md) FIRST** — it has the current per-component `version` + minimal shape, so you don't burn round-trips probing for versions or read multi-thousand-line seeds. **Never read a large seed wholesale** (`assets/golden/standalone-capture--employee-create.json`, `assets/golden/capture-dialog--rs-create-dialog.json`, etc. can run thousands of lines — that's tens of thousands of wasted tokens); open them only with `Grep`/offset for one specific fragment. Prefer the small/lean seeds — every `assets/exemplars/` form is under ~400 lines by construction; among `assets/golden/`, prefer `table-worklist--inline-editable-table.json`/`standalone-capture--standalone-create.json` over the multi-thousand-line ones.
 
 **Seed discovery for new forms** — ONE priority order (full detail + swap-fields checklist: [references/examples.md](references/examples.md)):
 0. **`assets/exemplars/` — small, validator-clean, one form per archetype.** Check here FIRST for any table/list/create/detail shape — these are curated, normalized, and pass the push-hook gate outright. Copy whole; they're short enough to read in full.
@@ -357,7 +358,7 @@ Project-scoped learning state. **Skill reads `.summary.md` by default; opens raw
 - **CRUD wiring follows the canonical examples (`references/examples.md`), not ad-hoc navigation.** Building from a blueprint, the Add-button modal wiring and the Submit/exit pairing below are compiler-emitted (`actions.mjs`, completed against the archetype's flow manifest — [compiling.md](references/compiling.md)); the rest (Refresh/column-toggle, row→detail navigation) is not, and stays a hand-authoring concern either way:
   - **Table "Add" button** = a `buttonGroup` item with `buttonAction: "dialogue"`, `actionConfiguration.actionName: "Show Dialog"` (owner `shesha.common`), `actionArguments.formId: { name: "<create-form>", module: "<module>" }`, `modalWidth: "60%"`, `formMode: "edit"`. It opens the create form in a **modal** — verified to render the create form's fields inline. Do NOT make Add a Navigate.
   - **Detail-view lifecycle buttons** = a header `buttonGroup`: Edit → `Start Edit`, Save → `Submit`, Cancel → `Cancel Edit` (all owner `shesha.form`); optional Audit Log → `Show Dialog` → `{ name: "entity-change-audit-log", module: "Shesha" }`. The form toggles edit state in place; there is no manual navigate-back Save.
-  - **Standalone create/edit page Save + Back** = one `buttonGroup`: Save → `Submit`/`shesha.form` (primary), Back → `Navigate`/`shesha.common` (default). Copy `assets/golden/capture-standalone--standalone-create.json` whole. **The Back button is mandatory even when the prompt mentions no buttons** (e.g. "a form with one required field") — a create form with no way out is incomplete.
+  - **Standalone create/edit page Save + Back** = one `buttonGroup`: Save → `Submit`/`shesha.form` (primary), Back → `Navigate`/`shesha.common` (default). Copy `assets/golden/standalone-capture--standalone-create.json` whole. **The Back button is mandatory even when the prompt mentions no buttons** (e.g. "a form with one required field") — a create form with no way out is incomplete.
   - **Toolbar Refresh / column-toggle** buttons use `actionName: "Refresh table"` / `"Toggle Columns Selector"` with `actionOwner` set to the **dataContext component's id**.
   - **Row → detail navigation** (only when a separate detail page is wanted): action column item with `columnType: "action"`, `action: "navigate"`, `targetUrl: "/dynamic/<module>/<form>?id={{selectedRow.id}}"`, `icon: "EditOutlined"`.
 - **`actionArguments.target`** for plain Navigate actions: `{ actionName: "Navigate", actionOwner: "shesha.common", actionArguments: { target: "/dynamic/..." } }`.

@@ -127,7 +127,7 @@ function nodeLabel(node) {
 // (verified against tests/fixtures/t1-clean.json and the brief's own test
 // fixtures), while dimensions/border/background/shadow/stylingBox are
 // nested per-breakpoint under desktop/tablet/mobile (verified against
-// assets/golden/capture--employee-create.json, and the shape roles.styles.json
+// assets/golden/standalone-capture--employee-create.json, and the shape roles.styles.json
 // resolves to). Some fully-styled components duplicate the flex props again
 // inside each breakpoint block. This view merges both: the breakpoint block
 // (if any) overrides the top-level fallback, so a check works whichever shape

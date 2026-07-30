@@ -3,12 +3,12 @@
 **One priority order for picking a starting point, stated in [SKILL.md](../SKILL.md):**
 
 1. **`assets/exemplars/`** — small, validator-clean, one form per archetype. Check here first.
-2. **`assets/golden/`** — the 0.45 golden corpus `compile-blueprint.js` clones from (`_index.json`:
-   **table-worklist · record-detail · hub · capture · capture-standalone · modal-dialog · list-card ·
-   list-card-item · inline-card · dashboard**; archetype keys match the blueprint IR vocabulary,
-   `shesha-design-comprehension/schemas/blueprint.schema.json`). Full-screen shapes (worklist table,
-   card list, inline-CRUD table, standalone create, detail page) live here now — grep the fragment
-   you need, never read one whole [R-050].
+2. **`assets/golden/`** — the 0.45 golden corpus (`_index.json`: **table-worklist · record-detail ·
+   capture-dialog · standalone-capture · list-card · dashboard**, plus one `auth-page` fixture flagged
+   `"status": "unsupported"`; archetype keys are the single eight-archetype vocabulary,
+   [archetypes.md](archetypes.md), backed by `shesha-design-comprehension/assets/blueprint.schema.json`).
+   Full-screen shapes (worklist table, card list, inline-CRUD table, standalone create, detail page)
+   live here now — grep the fragment you need, never read one whole [R-050].
 3. **`assets/blocks/`** — compose small vetted blocks when neither of the above covers the shape (see
    [block-library.md](block-library.md)).
 4. **`assets/examples/`** (this file's fragment index, below) — the two sub-screen **fragments** no
@@ -19,12 +19,10 @@ Whichever tier you copy from: change only `modelType`, `entityType`, `propertyNa
 `.claude/cache/shesha-form-edit/seeds/`, scratch in `.claude/cache/shesha-form-edit/_archive/` —
 never in the shipped asset pools.
 
-The normal build path is the compiler — `scripts/compile-spec.mjs` (registry-backed, builds
-programmatically from blocks/rules) or `scripts/compile-blueprint.js` (field-validated, clones the
-closest `assets/golden/` archetype from the blueprint's `Archetype:` header and re-types it: ids,
-versions [R-003], bindings, dataContext wrappers [R-005]). Manual cloning below is the fallback for
-hand-composition — pick via `_index.json` only, grep the fragment you need, and re-stamp every id +
-`parentId` [R-001/R-002/R-025].
+The normal build path is the compiler — `scripts/compile-spec.mjs` (builds programmatically from
+a blueprint via the registry, roles, and flow manifests; see [compiling.md](compiling.md)). Manual
+cloning below is the fallback for hand-composition — pick via `_index.json` only, grep the
+fragment you need, and re-stamp every id + `parentId` [R-001/R-002/R-025].
 
 ## `assets/exemplars/` — check here first
 
@@ -41,13 +39,13 @@ in full (never need `Grep`/offset).
 | Need | Golden file | Use when |
 |---|---|---|
 | **Table** / index / grid page | `table-worklist--employee-table.json` | "table", "grid", "manage X", "spreadsheet of X" — tabular data with sortable columns |
-| **Card list** (datalist) | `list-card--entity-datalist.json` **+** `list-card-item--entity-card.json` | "**list** of X", "cards", "feed", "tiles", "gallery", "directory" — repeating card view; multi-select via `selectionMode: "multiple"`. Copy **BOTH**: the list (`dataContext` → `datalist`) and its **row-template card form**, then point the datalist's `formId` at your card form. (Live-verified row-template mode — see [data-tables.md](components/data-tables.md). Do NOT use inline `items`; it renders blank on 0.45.x.) |
-| Inline-editable table (edit/add/delete in-row) | `inline-card--inline-editable-table.json` | "edit details / add / remove **directly inside the rows**", inline-CRUD grid — has `crud-operations` column + concrete `{type, settings}` editors. See [components/inline-editable-tables.md](components/inline-editable-tables.md) |
-| Create / edit in modal | `capture--employee-create.json`, `modal-dialog--rs-create-dialog.json` | the form the table's **Add** button opens; submit comes from the modal footer (no in-form button row) |
-| Standalone create / edit **page** (own Save + Back) | `capture-standalone--standalone-create.json` | a full-page create/edit form the user opens directly (not in a modal), e.g. "create a person form" or "a form with a required first-name field" — the Save + Back row is mandatory even when the prompt never mentions buttons; see note below |
+| **Card list** (datalist) | `list-card--entity-datalist.json` **+** `list-card--entity-card-item.json` | "**list** of X", "cards", "feed", "tiles", "gallery", "directory" — repeating card view; multi-select via `selectionMode: "multiple"`. Copy **BOTH**: the list (`dataContext` → `datalist`) and its **row-template card form**, then point the datalist's `formId` at your card form. (Live-verified row-template mode — see [data-tables.md](components/data-tables.md). Do NOT use inline `items`; it renders blank on 0.45.x.) |
+| Inline-editable table (edit/add/delete in-row) | `table-worklist--inline-editable-table.json` | "edit details / add / remove **directly inside the rows**", inline-CRUD grid — has `crud-operations` column + concrete `{type, settings}` editors. See [components/inline-editable-tables.md](components/inline-editable-tables.md) |
+| Create / edit in modal | `standalone-capture--employee-create.json`, `capture-dialog--rs-create-dialog.json` | the form the table's **Add** button opens; submit comes from the modal footer (no in-form button row) — the form body does NOT author its own Submit |
+| Standalone create / edit **page** (own Save + Back) | `standalone-capture--standalone-create.json` | a full-page create/edit form the user opens directly (not in a modal), e.g. "create a person form" or "a form with a required first-name field" — the Save + Back row is mandatory even when the prompt never mentions buttons; see note below |
 | Detail page, no children | `assets/exemplars/record-detail-simple.json` (an exemplar, not golden — see above) | a standalone record view with the **Start Edit / Save / Cancel Edit toggle** lifecycle |
 | Detail page with child tables | `record-detail--employee-detail.json`, or the exemplar `assets/exemplars/record-detail-with-children.json` | record view that also lists related child entities |
-| Main+rail hub (largest fixture) | `hub--rs-detail-with-header.json` | 962/332 split, KIB-style meta strip, tabs, related panels — grep only |
+| Main+rail record detail (largest fixture) | `record-detail--rs-detail-with-header.json` | 962/332 split, KIB-style meta strip, tabs, related panels — grep only. (Renamed from `hub--rs-detail-with-header.json`: it is a `record-detail` shape, not P1's `hub` — see [archetypes.md](archetypes.md)'s "Retired P2 vocabulary".) |
 
 Three seeds that used to live in `assets/examples/` — `rs-detail-with-header.json`,
 `employee-detail-with-child-tables.json`, `employee-detail-without-child-tables.json` — were retired
@@ -63,7 +61,7 @@ fraction of the size.
 | `rs-link-add-dialog.json` | link-existing dialog (M:M junction add) — [components/junction-subtables.md](components/junction-subtables.md) |
 | `rs-subtable-tab-fragment.json` | child-table tab fragment (`dataContext` + filtered `datatable` in a tab) — [components/child-tables.md](components/child-tables.md) |
 
-`assets/golden/capture-standalone--standalone-create.json` is the canonical full-page create/edit form: a
+`assets/golden/standalone-capture--standalone-create.json` is the canonical full-page create/edit form: a
 `validationErrors`, a 2-column flex split (two `container`s at `desktop.dimensions.width: "50%"`
 each, never the `columns` component), and one `buttonGroup` with **Save** (primary,
 `Submit`/`shesha.form`) + **Back** (default, `Navigate`/`shesha.common`). It's a Person create

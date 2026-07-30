@@ -18,17 +18,42 @@ zero problems against the registry and role catalogue.
 |---|---|---|---|
 | `table-worklist` | `table-worklist.flow.json` | `table-worklist--employee-table.json` | Dense admin grid: dataContext + toolbar (Add action, quick search) + datatable + pager. The default for "a list/table of X". |
 | `record-detail` | `record-detail.flow.json` | `assets/exemplars/record-detail-simple.json`, `assets/exemplars/record-detail-with-children.json` | Per-record page reached by navigating from a table row: header band carrying the Start Edit/Submit/Cancel Edit lifecycle, plus a body split into a main column and a related-panels rail. |
-| `capture-dialog` | `capture-dialog.flow.json` | `modal-dialog--rs-create-dialog.json`, `assets/examples/rs-link-add-dialog.json` | Modal create/edit hosted by a parent's Add action (subtable toolbar, table Add button). Submits via the dialog footer — the dialog chrome supplies Save/Cancel, so the form body itself does not author a Submit button. |
-| `standalone-capture` | `standalone-capture.flow.json` | `capture-standalone--standalone-create.json`, `capture--employee-create.json` | Full-page create/edit opened as its own screen (not a dialog) — "make a form for X" with no parent context. Always needs a Submit **and** a Back exit; a form you can save but not leave is the single most-forgotten defect in this codebase (see [form-quality.md](form-quality.md)). |
-| `list-card` | `list-card.flow.json` | `list-card--entity-datalist.json`, `list-card-item--entity-card.json` | A `datalist` of row-template cards rather than a grid — browsing/gallery views. dataContext + toolbar (Add) + `datalist` + pager; the row template (`list-card-item--entity-card.json`-style) is a separately published form, declared as a `rowTemplate` dependency alongside the create and detail dependencies the Add action and row navigation need. |
-| `hub` | `hub.flow.json` | — | Landing page of navigation tiles into other screens: page + header band + a wrapping tile grid (`card-grid`) + repeated `nav-tile` nodes, each a container holding a text label and a navigate action. |
+| `capture-dialog` | `capture-dialog.flow.json` | `capture-dialog--rs-create-dialog.json`, `assets/examples/rs-link-add-dialog.json` | Modal create/edit hosted by a parent's Add action (subtable toolbar, table Add button). Submits via the dialog footer — the dialog chrome supplies Save/Cancel, so the form body itself does not author a Submit button. |
+| `standalone-capture` | `standalone-capture.flow.json` | `standalone-capture--standalone-create.json`, `standalone-capture--employee-create.json` | Full-page create/edit opened as its own screen (not a dialog) — "make a form for X" with no parent context. Always needs a Submit **and** a Back exit; a form you can save but not leave is the single most-forgotten defect in this codebase (see [form-quality.md](form-quality.md)). |
+| `list-card` | `list-card.flow.json` | `list-card--entity-datalist.json`, `list-card--entity-card-item.json` | A `datalist` of row-template cards rather than a grid — browsing/gallery views. dataContext + toolbar (Add) + `datalist` + pager; the row template (`list-card--entity-card-item.json`-style) is a separately published form, declared as a `rowTemplate` dependency alongside the create and detail dependencies the Add action and row navigation need. |
+| `hub` | `hub.flow.json` | — | Landing page of navigation tiles into other screens: page + header band + a wrapping tile grid (`card-grid`) + repeated `nav-tile` nodes, each a container holding a text label and a navigate action. **Not** the same shape as the P2/`golden` corpus's former `hub--rs-detail-with-header.json` — that file was a record-detail page mis-archetyped under the word "hub"; it has been renamed to `record-detail--rs-detail-with-header.json` (see "Retired P2 vocabulary" below). |
 | `dashboard` | `dashboard.flow.json` | — | Metric tiles + a chart, no single entity binding: page + header band + a row of `metric-tile` nodes (`card-grid`) + at least one `chart-surface` wrapping an authorable chart type (`barChart`/`lineChart`/`pieChart`/`polarAreaChart`). |
-| `wizard` | `wizard.flow.json` | — | Multi-step capture split across steps with its own progression state: the `wizard` component (role `wizard-shell`) holding per-step `wizard-step` containers, plus `validationErrors`. Back/Next/Done navigation is the wizard component's own built-in affordance (`showBackButton`, `showDoneButton`, `backButtonText`, …) — no separate navigation `buttonGroup` is authored. |
+| `wizard` | `wizard.flow.json` | — | Multi-step capture split across steps with its own progression state: the `wizard` component (role `wizard-shell`) holding per-step `wizard-step` containers, plus `validationErrors`. Back/Next/Done navigation is the wizard component's own built-in affordance (`showBackButton`, `showDoneButton`, `backButtonText`, …) — no separate navigation `buttonGroup` is authored. This is a real, compilable archetype — do not confuse it with the retired path's `wizard`, which had no node kind and no fixture and silently compiled to a plain stack + Save/Back (see "Retired P2 vocabulary" below). |
 
 Other seeds that don't map to a single archetype above but are useful as fragments:
-`assets/golden/inline-card--inline-editable-table.json` (an inline-edit grid variant of
-`table-worklist`), `assets/examples/rs-subtable-tab-fragment.json` (a subtable-in-tab fragment, used
+`assets/golden/table-worklist--inline-editable-table.json` (an inline-edit grid variant of
+`table-worklist`, filed under that archetype — see "Retired P2 vocabulary" below), and
+`assets/examples/rs-subtable-tab-fragment.json` (a subtable-in-tab fragment, used
 inside `record-detail` bodies).
+
+## Retired P2 vocabulary — the mapping
+
+The `claude-designer-stripped` merge (`docs/RECONCILIATION.md`) brought in a second, 11-value
+archetype enum (`shesha-design-comprehension/schemas/blueprint.schema.json`, now retired). Every
+value in that enum maps to one of the eight above, is explicitly unsupported, or is retired
+outright:
+
+| P2 name | Resolution | Notes |
+|---|---|---|
+| `hub` | → `record-detail` | **False friend**: P2's `hub` meant "main+rail detail page", the opposite of P1's `hub` (a nav-tile landing page). The one golden file using this name (`hub--rs-detail-with-header.json`) was verified as a record-detail shape (Start Edit/Submit/Cancel Edit lifecycle present) and renamed `record-detail--rs-detail-with-header.json`. |
+| `modal-dialog` | → `capture-dialog` | **Semantically inverted**: P1's `capture-dialog` contract is that the dialog chrome supplies Save, so the form body must **not** author a Submit. The retired `compile-blueprint.js` treated `modal-dialog` as a capture archetype and injected a Submit+Back pair — do not port that behaviour. Golden file renamed `modal-dialog--rs-create-dialog.json` → `capture-dialog--rs-create-dialog.json`. |
+| `capture` | → `standalone-capture` | Golden file renamed `capture--employee-create.json` → `standalone-capture--employee-create.json`. |
+| `capture-standalone` | → `standalone-capture` | Near-identical name/word-order to `capture` above — a human reads these as the same archetype. Golden file renamed `capture-standalone--standalone-create.json` → `standalone-capture--standalone-create.json`; the `capture-standalone` spelling is not used anywhere else in the tree. |
+| `list-card-item` | → `list-card`'s row-template | Not a separate archetype: it is the form a `list-card`'s `datalist` delegates each row to via its `rowTemplate` dependency. Golden file renamed `list-card-item--entity-card.json` → `list-card--entity-card-item.json` so the archetype-prefix convention still resolves to one of the eight. |
+| `wizard` | → P1's `wizard` (kept) | **Phantom in P2**: no node kind, no fixture — `compile-blueprint.js`'s `compileNode()` has no `wizard` case, so it silently fell through to `buildContainer()` (a plain stack) plus the capture-archetype floor (Save/Back). P1 ships a real `wizard.flow.json` manifest and component; that is the only `wizard` a build should ever target. |
+| `table-worklist`, `list-card`, `dashboard` | unchanged | Same name, same meaning in both vocabularies. |
+| `inline-card` | → `table-worklist` (fragment) | No P1 equivalent archetype. Already documented above as an inline-edit variant of `table-worklist`, not a standalone archetype — golden file renamed `inline-card--inline-editable-table.json` → `table-worklist--inline-editable-table.json` so its filename prefix also resolves to one of the eight. |
+| `auth-page` | unsupported-for-now | See "Unsupported" below. |
+| `solution-map` | retired outright | No fixture existed anywhere in the corpus and no code path (compiler, gym, evals) ever referenced it — removed with the retired schema, nothing else to migrate. |
+
+## Unsupported (not part of the eight)
+
+- **`auth-page`** — an anonymous full-page login/register/OTP shell (`assets/golden/auth-page--auth-login.json`, flagged `"status": "unsupported"` in `_index.json`). No flow manifest, no compiler support (`compile-spec.mjs` has no auth-page node kinds or flow). Kept in the corpus as a manual-clone reference only, per `references/components/layout.md`'s "house pattern for full-page forms" — copy its JSON by hand when building an anonymous auth screen; do not pass it through `compileSpec()`.
 
 ## How the eight shipped manifests were scoped
 
@@ -57,7 +82,7 @@ build as complete.
 - **`capture-dialog`** — a root container, `validationErrors`, and an exit `buttonGroup` carrying
   `Close Dialog` / `shesha.common`. No Submit button is required in the node set: this archetype
   relies on the dialog footer submit supplied by the hosting `Show Dialog` action, matching every
-  shipped create-dialog seed (`modal-dialog--rs-create-dialog.json`, `assets/examples/rs-link-add-dialog.json`) — none of them
+  shipped create-dialog seed (`capture-dialog--rs-create-dialog.json`, `assets/examples/rs-link-add-dialog.json`) — none of them
   author an in-body Submit button.
 - **`standalone-capture`** — page-root container, header band, `validationErrors`, and an action row
   `buttonGroup` carrying **both** `Submit`/`shesha.form` and `Navigate`/`shesha.common`. This pairing
@@ -70,7 +95,7 @@ build as complete.
   `onListItemClick` row-navigation wiring against a `detailForm` dependency), and a pager row. It
   does **not** require a `datatable`: the whole point of this archetype is a `datalist` of
   row-template cards, not a grid. Three dependencies, not two — the row template
-  (`list-card-item--entity-card.json`-style) is its own separately published form, on top of the create-dialog and
+  (`list-card--entity-card-item.json`-style) is its own separately published form, on top of the create-dialog and
   record-detail dependencies `table-worklist` also needs.
 - **`hub`** — page-root container, header band, a `card-grid` tile grid, and three `nav-tile`
   containers (more than one, to prove the archetype is a grid and not a single tile), each with a

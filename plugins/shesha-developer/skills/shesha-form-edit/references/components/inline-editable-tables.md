@@ -6,7 +6,7 @@ standard display table — the template generator produces display-only tables (
 every column `editComponent:"[not-editable]"`, a modal "Add" button), so you must layer inline
 editing on yourself.
 
-> Seed: copy [`../../assets/golden/inline-card--inline-editable-table.json`](../../assets/golden/inline-card--inline-editable-table.json) — a verified working inline-CRUD table — and swap `entityType`/`modelType`/columns/editors.
+> Seed: copy [`../../assets/golden/table-worklist--inline-editable-table.json`](../../assets/golden/table-worklist--inline-editable-table.json) — a verified working inline-CRUD table — and swap `entityType`/`modelType`/columns/editors.
 
 ---
 
