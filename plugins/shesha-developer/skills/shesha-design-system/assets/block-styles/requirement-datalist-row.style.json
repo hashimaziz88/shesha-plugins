@@ -2,6 +2,14 @@
   "$overlay": "requirement-datalist-row",
   "$note": "Brand visuals for the datalist row CARD (paired with the requirement-datalist-row block). Neutral channels only. rowCard = white surface, hairline border, radius 8, soft card shadow, 14x16 inner padding, minHeight fit-content (grows to content). rowBody = 14px ink paragraph. rowMeta text = 12px muted. CRITICAL: this overlay sets visuals ONLY — the collapse/scroll-arrow fix lives in the block subtree as `style` overflow values + the body minHeight reserve and must NOT be overwritten here. refListStatus pill colours come from the reference list (per-item), not this overlay. The datalist row gap (16) is owned by the host datalist, not the card.",
   "targets": {
+    "requirementsListWrap": {
+      "desktop": { "dimensions": { "width": "100%", "height": "auto", "minHeight": "fit-content" }, "stylingBox": "{}", "border": {}, "background": {}, "shadow": {} },
+      "tablet": {}, "mobile": {}
+    },
+    "requirementsToolbar": {
+      "desktop": { "dimensions": { "width": "100%" }, "stylingBox": "{\"marginBottom\":\"8\"}", "border": {}, "background": {}, "shadow": {} },
+      "tablet": {}, "mobile": {}
+    },
     "rowCard": {
       "desktop": {
         "background": { "type": "color", "color": "#ffffff" },
@@ -38,6 +46,20 @@
     },
     "rowNumberBadge": {
       "desktop": { "font": { "type": "Segoe UI", "size": 12, "weight": "700", "align": "left", "color": "#9BA3B8" }, "border": {}, "background": {}, "shadow": {}, "stylingBox": "{}" },
+      "tablet": {}, "mobile": {}
+    },
+    "rowTypeBadge": {
+      "desktop": {
+        "font": { "type": "Segoe UI", "size": 11, "weight": "600", "align": "center" },
+        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": 0, "style": "none" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 12 } }
+      },
+      "tablet": {}, "mobile": {}
+    },
+    "rowStatusPill": {
+      "desktop": {
+        "font": { "type": "Segoe UI", "size": 11, "weight": "600", "align": "center" },
+        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": 0, "style": "none" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 12 } }
+      },
       "tablet": {}, "mobile": {}
     },
     "rowBody": {

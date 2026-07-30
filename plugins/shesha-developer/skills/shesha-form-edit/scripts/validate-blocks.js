@@ -20,14 +20,17 @@
  *      "fontSize/fontWeight/color/align") match if the entry's channel token is one
  *      of the slash-separated parts; paired components ("datatable/datalist") match
  *      on any shared alias.
- *   3. Structural smells (WARN): any container with flexDirection:"row"/"column" but
- *      no display:"flex" (flex props inert without it); any "columns"-type component
- *      (banned — build splits with flex containers).
+ *   3. Structural smells: any container with flexDirection:"row"/"column" but no
+ *      display:"flex" (flex props inert without it) is a WARN; any "columns"-type
+ *      component (banned — build splits with flex containers) is a HARD FAILURE.
  *   4. Any literal hex colour (#rgb / #rrggbb / #rrggbbaa) in a subtree (WARN) —
  *      brand colour belongs in the design-system overlay via $role tokens, not a block.
  *
- * Exit code is non-zero ONLY if a block has a hard failure (bad skeleton JSON, or a
- * $validatedAgainst entry pointing at a missing/no-op matrix row). Warnings never fail.
+ * Exit code is non-zero if a block has a hard failure: bad skeleton JSON, a
+ * $validatedAgainst entry pointing at a missing/no-op matrix row, or a "columns"
+ * component. The hex-colour check stays a WARN — completeness-bar and
+ * card-with-header-strip already carry literal hexes in their subtrees, so
+ * promoting it would fail the suite today rather than catch a regression.
  *
  * Usage:
  *   node validate-blocks.js
@@ -228,9 +231,11 @@ function validateBlock(blockPath, matrix) {
   for (const key of ['subtree', '$rowTemplate']) {
     if (!block[key] || typeof block[key] !== 'object') continue;
     walk(block[key], (node) => {
-      // columns ban — build splits with flex containers, never the columns component
+      // columns ban — build splits with flex containers, never the columns component.
+      // HARD FAILURE (promoted from warn): confirmed zero blocks trip this today, so
+      // enforcing it now catches the very first regression instead of a silent warn.
       if (node.type === 'columns') {
-        result.warns.push(`"${key}" contains a "columns" component — build splits with flex containers`);
+        result.fails.push(`"${key}" contains a "columns" component — build splits with flex containers`);
       }
       // flex-without-display: flexDirection:"row"/"column" is inert unless display:"flex"
       const isContainer = node.type === 'container' || node.type === 'card';
