@@ -325,7 +325,35 @@
         "label": { "type": "string" },
         "property": { "type": "string" },
         "component": { "type": "string" },
-        "datatype": { "type": "string" }
+        "datatype": { "type": "string" },
+        "referenceList": {
+          "type": "object",
+          "required": ["module", "name"],
+          "additionalProperties": false,
+          "description": "The reference list backing an option input (dropdown/radio/checkboxGroup). REQUIRED for any such input, because the compiler must never invent a reference-list identity — it comes verbatim from live metadata [R-015]. `name` is the FULL-DOTTED list name (e.g. \"Shesha.Core.Gender\"), matching the metadata's referenceListName.",
+          "properties": {
+            "module": { "type": "string" },
+            "name": { "type": "string" }
+          }
+        },
+        "entityType": {
+          "type": "string",
+          "description": "Full class name of the target entity for an entity-FK picker (autocomplete/entityPicker). REQUIRED for those, or the picker renders an empty box."
+        },
+        "values": {
+          "type": "array",
+          "description": "A static, non-reflist option list. Use only when the options are genuinely form-local; anything that exists in the backend belongs in `referenceList`. The compiler mints each item's `id` deterministically.",
+          "items": {
+            "type": "object",
+            "required": ["label", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "label": { "type": "string" },
+              "value": {},
+              "id": { "type": "string" }
+            }
+          }
+        }
       }
     },
 

@@ -27,9 +27,9 @@ function camelCase(name) {
 /**
  * @param {object} bpNode - the blueprint node (already type-resolved)
  * @param {string} resolvedType - the concrete registry type
- * @param {{binding?: object, isDetailForm: boolean}} ctx
+ * @param {{binding?: object, isDetailForm: boolean, notes?: string[]}} ctx
  */
-export function buildLeafComponent(bpNode, resolvedType, { binding, isDetailForm }) {
+export function buildLeafComponent(bpNode, resolvedType, { binding, isDetailForm, notes }) {
   const componentName = bpNode.node;
   const out = { componentName };
 
@@ -72,5 +72,62 @@ export function buildLeafComponent(bpNode, resolvedType, { binding, isDetailForm
     out.editMode = isDetailForm ? 'inherited' : 'editable';
   }
 
+  applyDataSource(out, resolvedType, binding, notes);
+
   return out;
+}
+
+/**
+ * Option/entity inputs need an explicit data source or they render as a silently
+ * empty box — no console error, no failed request, just nothing to pick from
+ * (`T2-DROPDOWN-SOURCE`). The compiler cannot derive the source: a reference
+ * list's identity comes verbatim from live metadata [R-015] and an entity FK's
+ * target comes from the entity config, so both arrive on the binding or not at
+ * all.
+ *
+ * When the binding carries one, emit it. When it does not, emit NOTHING and add
+ * a note naming the binding and the key to supply. Inventing a plausible
+ * reference-list name would produce a form that passes every gate and renders an
+ * empty dropdown — strictly worse than a blocked compile.
+ */
+const DATASOURCE_TYPES = new Set(['dropdown', 'radio', 'checkboxGroup', 'autocomplete']);
+
+function applyDataSource(out, resolvedType, binding, notes) {
+  if (!DATASOURCE_TYPES.has(resolvedType)) return;
+
+  if (binding?.referenceList) {
+    out.dataSourceType = 'referenceList';
+    out.referenceListId = {
+      module: binding.referenceList.module,
+      name: binding.referenceList.name,
+    };
+    return;
+  }
+
+  if (binding?.entityType) {
+    out.dataSourceType = 'entitiesList';
+    out.entityType = binding.entityType;
+    return;
+  }
+
+  if (Array.isArray(binding?.values) && binding.values.length > 0) {
+    out.dataSourceType = 'values';
+    // checkboxGroup reads `items`; the others read `values`. Ids are the
+    // compiler's business, and must be deterministic so regeneration stays
+    // byte-identical — never a fresh UUID.
+    const key = resolvedType === 'checkboxGroup' ? 'items' : 'values';
+    out[key] = binding.values.map((v, i) => (
+      key === 'items'
+        ? { label: v.label, value: v.value }
+        : { id: v.id ?? `${out.propertyName}-opt${i + 1}`, label: v.label, value: v.value }
+    ));
+    return;
+  }
+
+  notes?.push(
+    `${out.componentName} (${resolvedType}): no data source. An option/entity input renders as an `
+    + 'empty box without one, and the compiler cannot invent a reference-list identity [R-015]. Add '
+    + `\`referenceList: { module, name }\` (or \`entityType\`, or \`values[]\`) to the binding labelled `
+    + `"${binding?.label ?? out.label}" in the blueprint's bindings[].`,
+  );
 }

@@ -51,7 +51,7 @@ function deriveDependsOnForms(blueprint) {
 /**
  * @param {object} blueprint - blueprint with `.nodes` already flow-completed
  * @param {{registry, roles, tokens, isDetailForm: boolean}} opts
- * @returns {{ components: object[], report: object[] }}
+ * @returns {{ components: object[], report: object[], notes: string[] }}
  */
 export function buildTree(blueprint, opts) {
   const { registry, roles, tokens, isDetailForm } = opts;
@@ -59,6 +59,7 @@ export function buildTree(blueprint, opts) {
   const bindingsByContent = new Map((blueprint.bindings ?? []).map((b) => [b.label, b]));
   const dependsOnFormsByTarget = deriveDependsOnForms(blueprint);
   const report = [];
+  const notes = [];
   const built = new Set();
 
   function childrenOf(bpNode) {
@@ -227,7 +228,7 @@ export function buildTree(blueprint, opts) {
     // attachmentsEditor, dropdown, barChart, validationErrors,
     // datatable.quickSearch, datatable.pager, ...
     const binding = bindingsByContent.get(bpNode.content);
-    return { type: resolvedType, ...buildLeafComponent(bpNode, resolvedType, { binding, isDetailForm }) };
+    return { type: resolvedType, ...buildLeafComponent(bpNode, resolvedType, { binding, isDetailForm, notes }) };
   }
 
   const roots = blueprint.nodes.filter((n) => n.slot === undefined || n.slot === null).map((n) => n.node);
@@ -238,5 +239,5 @@ export function buildTree(blueprint, opts) {
     throw new Error(`compileSpec: blueprint node(s) [${unreached.join(', ')}] are defined but never reachable from a root (no slot/children/tabs path to them).`);
   }
 
-  return { components, report };
+  return { components, report, notes };
 }

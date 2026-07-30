@@ -317,3 +317,106 @@ test('theme: caller-supplied tokens still win over the blueprint id', () => {
   const { report } = compileSpec(bp, { tokens });
   assert.equal(report.theme, 'caller-supplied');
 });
+
+// ---------------------------------------------------------------------------
+// Option/entity data sources. Before this, `compile-spec.mjs` emitted no source
+// for dropdown/radio/checkboxGroup/autocomplete at all, so ANY blueprint with a
+// reference-list dropdown failed its own T2-DROPDOWN-SOURCE gate — invisible
+// because none of the shipped example blueprints uses one.
+// ---------------------------------------------------------------------------
+
+const t2codes = (markup) => tier2(markup, { registry, roles, flows: {} })
+  .filter((f) => f.severity !== 'skip')
+  .map((f) => f.code);
+
+function withOptionInput({ type, binding }) {
+  const bp = loadBlueprint('standalone-capture');
+  const nodes = bp.nodes.map((n) => (n.node === 'firstName' ? { ...n, type, content: 'Pick one' } : n));
+  const bindings = (bp.bindings ?? [])
+    .filter((b) => b.property !== 'firstName')
+    .concat([{ label: 'Pick one', property: 'pickOne', component: type, datatype: 'reflist', ...binding }]);
+  return { ...bp, nodes, bindings };
+}
+
+function findByName(components, name) {
+  for (const c of components ?? []) {
+    if (c.componentName === name) return c;
+    const hit = findByName(c.components, name);
+    if (hit) return hit;
+  }
+  return null;
+}
+
+test('data source: a binding referenceList becomes dataSourceType referenceList + referenceListId {module,name}', () => {
+  const bp = withOptionInput({
+    type: 'dropdown',
+    binding: { referenceList: { module: 'Acme.HR', name: 'Acme.HR.EmployeeStatus' } },
+  });
+  const { markup } = compileSpec(bp);
+  const node = findByName(markup.components, 'firstName');
+  assert.equal(node.dataSourceType, 'referenceList');
+  assert.deepStrictEqual(node.referenceListId, { module: 'Acme.HR', name: 'Acme.HR.EmployeeStatus' });
+  // and it clears the gate that used to fire unconditionally
+  assert.ok(!t2codes(markup).includes('T2-DROPDOWN-SOURCE'));
+});
+
+test('data source: a binding entityType becomes dataSourceType entitiesList', () => {
+  const bp = withOptionInput({ type: 'autocomplete', binding: { entityType: 'Acme.HR.Domain.Employee' } });
+  const { markup } = compileSpec(bp);
+  const node = findByName(markup.components, 'firstName');
+  assert.equal(node.dataSourceType, 'entitiesList');
+  assert.equal(node.entityType, 'Acme.HR.Domain.Employee');
+  assert.ok(!t2codes(markup).includes('T2-DROPDOWN-SOURCE'));
+});
+
+test('data source: binding values[] become dataSourceType values with deterministic ids', () => {
+  const bp = withOptionInput({
+    type: 'dropdown',
+    binding: { values: [{ label: 'Yes', value: 1 }, { label: 'No', value: 0 }] },
+  });
+  const first = compileSpec(bp).markup;
+  const second = compileSpec(bp).markup;
+  const node = findByName(first.components, 'firstName');
+  assert.equal(node.dataSourceType, 'values');
+  assert.deepStrictEqual(node.values, [
+    { id: 'pickOne-opt1', label: 'Yes', value: 1 },
+    { id: 'pickOne-opt2', label: 'No', value: 0 },
+  ]);
+  assert.ok(!t2codes(first).includes('T2-DROPDOWN-SOURCE'));
+  assert.equal(JSON.stringify(second), JSON.stringify(first), 'ids must be deterministic, never fresh UUIDs');
+});
+
+test('data source: checkboxGroup reads items, not values', () => {
+  const bp = withOptionInput({
+    type: 'checkboxGroup',
+    binding: { values: [{ label: 'A', value: 'a' }] },
+  });
+  const { markup } = compileSpec(bp);
+  const node = findByName(markup.components, 'firstName');
+  assert.equal(node.dataSourceType, 'values');
+  assert.deepStrictEqual(node.items, [{ label: 'A', value: 'a' }]);
+  assert.equal(node.values, undefined);
+});
+
+test('data source: with none supplied the compiler invents nothing and says what is missing', () => {
+  const bp = withOptionInput({ type: 'dropdown', binding: {} });
+  const { markup, report } = compileSpec(bp);
+  const node = findByName(markup.components, 'firstName');
+  assert.equal(node.dataSourceType, undefined, 'never fabricate a source — that would be a gate-clean empty dropdown');
+  assert.equal(node.referenceListId, undefined);
+
+  const note = report.unresolved.find((n) => n.startsWith('firstName'));
+  assert.ok(note, 'the missing source must be reported, not silent');
+  assert.match(note, /referenceList/);
+  assert.match(note, /Pick one/, 'the note must name the binding to fix');
+
+  // the gate still blocks — the fix is to supply the source, not to pass anyway
+  assert.ok(t2codes(markup).includes('T2-DROPDOWN-SOURCE'));
+});
+
+test('data source: report.unresolved is empty for every shipped example blueprint', () => {
+  for (const name of ARCHETYPES) {
+    const { report } = compileSpec(loadBlueprint(name));
+    assert.deepStrictEqual(report.unresolved, [], `${name} must compile with nothing unresolved`);
+  }
+});

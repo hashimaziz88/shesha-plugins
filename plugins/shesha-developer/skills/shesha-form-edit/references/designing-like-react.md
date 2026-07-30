@@ -26,8 +26,22 @@ what lets a node be referenced from `assertions[]`. Authoritative schema:
 | `columns` / `rowTemplate` / `tabs` | datatable columns · datalist card · tab panes |
 
 Field **bindings live in the top-level `bindings[]` array**, not on the node:
-`{ label, property, component, datatype }` — and that object is closed, so a
-binding carries no styling.
+`{ label, property, component, datatype }`, matched to a leaf by its `content`.
+The object is closed, so a binding carries no styling.
+
+**An option or entity input needs its source on the binding**, or it renders as a
+silently empty box (`T2-DROPDOWN-SOURCE` blocks it). Add exactly one of:
+
+| Key | For | Emits |
+|---|---|---|
+| `referenceList: { module, name }` | `dropdown` · `radio` · `checkboxGroup` on a reflist property | `dataSourceType: "referenceList"` + `referenceListId`. `name` is FULL-DOTTED (`Acme.HR.EmployeeStatus`) |
+| `entityType: "<FullClassName>"` | `autocomplete` / entity-FK pickers | `dataSourceType: "entitiesList"` + `entityType` |
+| `values: [{ label, value }]` | genuinely form-local option lists | `dataSourceType: "values"`; the compiler mints each `id` |
+
+The compiler will **not** guess a reference list — its identity comes verbatim
+from live metadata [R-015], and a guessed one would produce a form that passes
+every gate and renders an empty dropdown. Omit the key and it compiles, reports
+the gap under `report.unresolved`, and the Tier 2 gate stops the push.
 
 ## Roles — the 15-name styling vocabulary
 

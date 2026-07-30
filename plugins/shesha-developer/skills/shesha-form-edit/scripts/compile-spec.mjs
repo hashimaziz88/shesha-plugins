@@ -170,7 +170,7 @@ export function compileSpec(blueprint, opts = {}) {
   const completedBlueprint = { ...blueprint, nodes: completedNodes };
 
   const isDetailForm = computeIsDetailForm(completedNodes);
-  const { components, report: treeReport } = buildTree(completedBlueprint, { registry, roles, tokens, isDetailForm });
+  const { components, report: treeReport, notes: treeNotes } = buildTree(completedBlueprint, { registry, roles, tokens, isDetailForm });
 
   const defaults = [];
   const formSettings = buildFormSettings(blueprint, defaults);
@@ -187,6 +187,10 @@ export function compileSpec(blueprint, opts = {}) {
     screen: blueprint.screen,
     form: blueprint.form,
     theme: resolvedTheme ? resolvedTheme.themeId : 'caller-supplied',
+    // Inputs the blueprint had to supply and didn't — the compiler refuses to
+    // invent them (an invented reference-list identity yields a gate-clean form
+    // with an empty dropdown). Each entry names the binding and the key to add.
+    unresolved: treeNotes,
     isDetailForm,
     nodes: treeReport,
     defaults,
@@ -226,6 +230,9 @@ function runCli(argv) {
     writeFileSync(resolve(args.out), `${JSON.stringify(markup, null, 2)}\n`, 'utf8');
     process.stdout.write(`Wrote ${args.out}\n`);
     process.stdout.write(`${report.nodes.length} node(s) emitted (${report.defaults.length} default(s) applied), theme "${report.theme}".\n`);
+    for (const note of report.unresolved) {
+      process.stderr.write(`UNRESOLVED: ${note}\n`);
+    }
   } else {
     process.stdout.write(`${JSON.stringify(markup, null, 2)}\n`);
   }
