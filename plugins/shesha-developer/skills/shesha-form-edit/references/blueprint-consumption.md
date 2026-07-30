@@ -1,6 +1,6 @@
 # Consuming a layout blueprint (from shesha-design-comprehension)
 
-**This skill has one compiler and one blueprint format** (`docs/RECONCILIATION.md` settles the reconciliation between the two that used to coexist here — see `shesha-claude-designer/README.md`'s "One compiler, two open questions" section). This file documents the pure-JSON path (`compile-spec.mjs`) — the one this skill's own test suite proves (`tests/e2e-compile.test.mjs`, `tests/card-collapsible-fixture.test.mjs`). The retired Markdown+twin path (`compile-blueprint.js`) is documented separately, below, for historical/troubleshooting reference only — it is not the build path.
+**This skill has one compiler and one blueprint format** (see `shesha-claude-designer/README.md`'s "One compiler, two open questions" section for how the two that used to coexist here were reconciled). This file documents the pure-JSON path (`compile-spec.mjs`) — the one this skill's own test suite proves (`tests/e2e-compile.test.mjs`, `tests/card-collapsible-fixture.test.mjs`). The retired Markdown+twin path (`compile-blueprint.js`) is documented separately below, for troubleshooting reference only — it is not the build path.
 
 ## The compiler (`compile-spec.mjs`)
 
@@ -30,13 +30,12 @@ Layout splits (a design's two-column row, a fixed-width rail) are expressed in a
 
 A blueprint node's `recipe:` annotations (if present) are for `shesha-design-system` — not this skill's concern. Structure only.
 
-## RETIRED — the field-validated path (`compile-blueprint.js`)
+## RETIRED — the old path (`compile-blueprint.js`)
 
-**Not the build path.** `docs/RECONCILIATION.md` settles the blueprint format/compiler decision
-in favour of the pure-JSON path above; the retired path below is documented only because
-`scripts/compile-blueprint.js` still exists in the tree (nothing executable reads the retired
-`schemas/blueprint.schema.json`, so deleting it did not break the script) and a reader may still
-encounter it. Do not target it for new work.
+**Not the build path.** The pure-JSON path above is the decided format/compiler; the retired
+path below is documented only because `scripts/compile-blueprint.js` still exists in the tree
+(nothing executable reads the retired `schemas/blueprint.schema.json`, so deleting it did not
+break the script) and a reader may still encounter it. Do not target it for new work.
 
 Design-driven requirements used to arrive as a **blueprint**: a Markdown file
 (`<screen>.blueprint.md`) carrying a fenced ```` ```blueprint-json ```` block
@@ -52,9 +51,8 @@ anymore.
    layout tree as flex containers sized via `desktop.dimensions.width`
    [R-028/R-029], typed each node from `kind`, and wired `bindings`.
 3. **Gates onward** as for any build — `validate-schema.js` → `validate-guardrails.js` →
-   `resolve-bindings.js` → `validate-styledness.js` (still-live P2 validator scripts;
-   whether/how these merge with `validate-form.mjs` is a separate, still-open question
-   per `docs/RECONCILIATION.md` §"Recommended position", not settled by this pass).
+   `resolve-bindings.js` → `validate-styledness.js` (still-live P2 validator scripts; whether/how
+   these merge with `validate-form.mjs` is a separate, open question).
 
 ## After push — assertions are verified by comprehension
 

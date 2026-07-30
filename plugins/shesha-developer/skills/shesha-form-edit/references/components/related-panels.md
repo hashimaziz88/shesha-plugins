@@ -1,6 +1,6 @@
 # Related panels: rail structure, live counts, section toolbars
 
-> Moved here from `shesha-design-system` → `component-recipes.md` (Task 4, 2026-07-30): the
+> Moved here from `shesha-design-system` → `component-recipes.md`: the
 > three patterns below are structure/behaviour (re-parenting, `formSettings.onAfterDataLoad`
 > CRUD wiring, and a non-native control's DOM construction) — not appearance. The paired
 > visual recipes (surface, count-badge colour, pill styling) stay in `component-recipes.md`
@@ -16,8 +16,7 @@ A `related-panel` (a `card` whose header carries the section title + count badge
 dataContext's control row**, not left as the card's own native header slot: set the card's
 `hideHeading:true`, then build a flex row (`justifyContent:"space-between"`) as the first
 child inside the `dataContext` — left = `titleGroup` (title text + count badge), right = the
-add `buttonGroup`. Proven on `endpointsCard`/`rolesCard` in `view-definition-details-claude`.
-This re-parenting is what lets the header sit in the same scope as the datalist/add-dialog
+add `buttonGroup`. This re-parenting is what lets the header sit in the same scope as the datalist/add-dialog
 wiring below it; a header left in the card's own header slot renders fine but sits outside
 that scope. Card/count-badge appearance: `shesha-design-system` → `component-recipes.md` →
 `related-panel`.
@@ -39,8 +38,7 @@ form.setFieldsValue({ apiCount: await cnt('ViewDefinitionRequiredApi','viewDefin
 ```
 
 Use **`items.length`, NOT `result.totalCount`** (unreliable at small `maxResultCount`). Bind
-the badge/title text content to `{{data.apiCount}}`. Proven on the rail count badges + the
-"View Requirements · 9" title.
+the badge/title text content to `{{data.apiCount}}`.
 
 ---
 
@@ -60,5 +58,4 @@ rendering) — it does not toggle anything on its own; wire a `style`/`hidden` s
 context value if it needs to actually switch views.
 
 Keep the quick-search + pager **inside the dataContext scope** so their wiring holds. Hide the
-wrapping card's own `hideHeading` so the title isn't duplicated. Proven on
-`view-definition-details-claude`.
+wrapping card's own `hideHeading` so the title isn't duplicated.

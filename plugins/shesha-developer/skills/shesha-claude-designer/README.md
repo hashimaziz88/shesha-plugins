@@ -20,7 +20,7 @@ PUSH → ORACLE (re-fetch diff + render-instrument.js + design-critic verdict*)
    ▼
 report envelope (form ids, gate results, verdicts, probe paths)
 ```
-\* render-instrument.js and the design-critic agent are being built; until present, the visual gate is the screenshot + design-system audit.
+\* Both exist and are live: `shesha-form-edit/scripts/render-instrument.js` (fail-closed, objective) and the `shesha-developer:design-critic` agent, whose verdict is a **blocking** gate — a build is not done until the critic passes (styled ≥ acceptable). The `shesha-design-system` audit returns suggestions and does not substitute for it.
 
 ## The four skills
 
@@ -49,10 +49,10 @@ The contract that wires the conductor to the sub-skills is [`references/handoff-
 
 ### One compiler, two open questions
 
-The compile/validate layer was built twice, independently, from the same blueprint contract.
-**The blueprint format + compiler decision is now settled**: `shesha-design-comprehension/assets/blueprint.schema.json` is the one blueprint schema, and `scripts/compile-spec.mjs` → `scripts/validate-form.mjs` is the one compile/validate entry point. `schemas/blueprint.schema.json` and `scripts/compile-blueprint.js` are the retired path — `compile-blueprint.js` is kept in the tree (nothing executable still reads the retired schema file, so it still runs), but it implements the retired archetype vocabulary and is not the build path any new work should target.
+The compile/validate layer has two independent implementations built from the same blueprint contract.
+**The blueprint format + compiler decision is settled**: `shesha-design-comprehension/assets/blueprint.schema.json` is the one blueprint schema, and `scripts/compile-spec.mjs` → `scripts/validate-form.mjs` is the one compile/validate entry point. `schemas/blueprint.schema.json` and `scripts/compile-blueprint.js` are the retired path — `compile-blueprint.js` is kept in the tree (nothing executable still reads the retired schema file, so it still runs), but it implements the retired archetype vocabulary and is not the build path any new work should target.
 
-What is **still open**, per `docs/RECONCILIATION.md` §"Recommended position" (a separate decision, not settled by this pass):
+What is **still open**:
 
 | | Field-validated (P2) | Registry-backed (P1 — the compiler) |
 |---|---|---|
@@ -60,16 +60,16 @@ What is **still open**, per `docs/RECONCILIATION.md` §"Recommended position" (a
 | Validate | `validate-schema.js`, `validate-guardrails.js`, `validate-styledness.js` | `validate-form.mjs` (3 tiers, exit codes, `hooks/gate-policy.json`) |
 | Golden corpus | `assets/golden/` | `assets/exemplars/` |
 
-The recommended position is to **merge** the validators (P1 as chassis, porting P2's `R-015` and the `validate-styledness` coverage triad) and to **keep both** ground-truth sources with a stated division of labour — neither is decided by this schema/archetype pass. Do not delete either side's validator scripts, ground-truth assets, or corpora on the assumption the other one "is" the pipeline.
+The recommended position is to **merge** the validators (P1 as chassis, porting P2's `R-015` and the `validate-styledness` coverage triad) and to **keep both** ground-truth sources with a stated division of labour. Do not delete either side's validator scripts, ground-truth assets, or corpora on the assumption the other one "is" the pipeline.
 
 ---
 
 ## The design system is generic, editable, and reusable
 
-Nothing about a brand is hard-coded into the recipes, blocks, or skills. **Brand lives almost entirely in one token file** — as of the Task 3 hex audit, every block style-overlay resolves through `$role:`/`$palette.` references except three literal greys in `page-header-band.style.json` (`#f0f0f0`, `#8c8c8c`, `#262626`) that match no colour in `shesha.tokens.json`; see that overlay's `$note` and `.superpowers/sdd/2026-07-29-phase5-debt-paydown/task-3-report.md`.
+Nothing about a brand is hard-coded into the recipes, blocks, or skills. **Brand lives almost entirely in one token file** — every block style-overlay resolves through `$role:`/`$palette.` references except three literal greys in `page-header-band.style.json` (`#f0f0f0`, `#8c8c8c`, `#262626`) that match no colour in `shesha.tokens.json`; see that overlay's `$note` for the detail.
 
 ### 1. The brand token file — the single source of brand truth
-`shesha-design-system/assets/themes/<brand>.tokens.json`. **The shipped default is `shesha.tokens.json`** — the framework's own Cobalt/Navy/Athens-Grey brand, used automatically whenever no app-specific brand is named. `requirements-studio.tokens.json` ships alongside it as an **example custom brand** (LandBank green). All brand files live in this one folder. **Resolving which brand to use is a lookup, never an authoring step** — run `shesha-design-system/scripts/resolve-brand.mjs`, which returns the requested brand if its file exists and the default otherwise. Creating a new brand file is a separate, explicitly requested task and must never happen inside a design, form or styling run (see `shesha-design-system` SKILL.md Step 1 for why). Each brand file holds, as data:
+`shesha-design-system/assets/themes/<brand>.tokens.json`. **The shipped default is `shesha.tokens.json`** — the framework's own Cobalt/Navy/Athens-Grey brand, used automatically whenever no app-specific brand is named. `requirements-studio.tokens.json` ships alongside it as an **example custom brand** (a distinct green palette). All brand files live in this one folder. **Resolving which brand to use is a lookup, never an authoring step** — run `shesha-design-system/scripts/resolve-brand.mjs`, which returns the requested brand if its file exists and the default otherwise. Creating a new brand file is a separate, explicitly requested task and must never happen inside a design, form or styling run (see `shesha-design-system` SKILL.md Step 1 for why). Each brand file holds, as data:
 
 - `palette` — `brand`, `accent`, `surfaces`, `lines`, `ink`, `semantic` colour groups
 - `type` — font `family`, a `scale` (micro → title), `weights`, `lineHeights`

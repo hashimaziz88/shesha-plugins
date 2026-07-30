@@ -141,7 +141,7 @@ To add the missing M:M tab on the other entity: clone any existing tab using the
 2. the datatable column `propertyName`s,
 3. the action column's `formId` + `queryParameters`.
 
-Swap **ALL THREE** or drill-down silently navigates to the WRONG entity (a real audit found 10 tabs with exactly this bug). Then:
+Swap **ALL THREE** or drill-down silently navigates to the WRONG entity — a common miss when cloning a tab. Then:
 
 - Reset column `caption`s per property (captions don't swap with propertyNames).
 - Skip accessors that don't resolve 1:1 to an entity name (self-referential/aliased FKs — verify the FK's target entity, don't capitalize blindly).

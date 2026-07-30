@@ -13,7 +13,7 @@ shapes. Instead:
 
 - **Design in the React grammar** ([designing-like-react.md](designing-like-react.md))
   — Stack/Row/Grid/Card/Field/Actions. Each primitive compiles to ONE
-  gym-verified container shape via `compile-blueprint.js`. There is exactly one
+  gym-verified container shape via `compile-spec.mjs`. There is exactly one
   way to make a Row and it is proven to render (flex model in the `desktop`
   block, child `minWidth:0`, width as the split lever) [R-028/R-029].
 - **Consistency from a fixed scale** — spacing (`xs..2xl`), heading levels,
@@ -59,9 +59,8 @@ excellent|acceptable|default-antd|broken, top-3 fixes). This is the reliable
 judge of professional polish — the thing mechanical DOM heuristics cannot do.
 
 **The critic is a blocking gate, not optional.** A build is not "done" until the
-critic PASSes (styled ≥ acceptable, no failed assertions). Skipping it — as in
-the incident that motivated this doc, where a green render-instrument masked a
-poor layout — is the failure mode this stack exists to prevent.
+critic PASSes (styled ≥ acceptable, no failed assertions). Skipping it lets a green
+render-instrument mask a poorly styled layout — the failure mode this stack exists to prevent.
 
 ## The rule
 

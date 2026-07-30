@@ -3,45 +3,73 @@
 You are good at designing React pages. You are bad at hand-writing Shesha's
 form-config JSON (a leaky proprietary DSL). So **design in the React mental
 model you already have**, express it as the blueprint layout tree, and let
-`compile-blueprint.js` translate each primitive into the Shesha channel the
+`compile-spec.mjs` translate each primitive into the Shesha channel the
 gym-**measured** capability matrix proves works. You never hand-author Shesha
 markup; your flex / spacing / hierarchy instincts translate 1:1.
 
-## Think in these primitives (they are your JSX elements)
+## The node shape (this is your JSX element)
 
-| You'd write in React | Blueprint `kind` | Compiles to |
-|---|---|---|
-| `<div style={{display:'flex',flexDirection:'column',gap}}>` / `<Stack>` | `stack` | flex-column container + `gap` |
-| `<div style={{display:'flex',gap}}>` / `<Row>` | `row` | flex-row container + `gap` |
-| CSS grid of N equal columns | `grid` (`columns: N`) | flex-wrap row, each child `dimensions.width: calc(...)` |
-| `<Card>` / a surfaced panel | `card` (`title?`) | container (compiler bakes in surface/border/radius from the theme) |
-| a titled group | `section` (`title`) | stack with an h3 heading prepended |
-| `<h1>`…`<h4>` | `heading` (`level`) | text with structural `font.size`/`weight` |
-| body copy | `text` | text component |
-| `<input>`/`<select>` bound to a field | `field` (`property`) | by-datatype component, bound + reflist-resolved |
-| a data grid | `datatable` (`columns: [...]`) | dataContext(v8) + datatable |
-| a card list | `datalist` (`itemForm`) | dataContext(v8) + datalist |
-| tabbed panels | `tabs` → `tab` children | tabs |
-| the submit/cancel button row | `actions` | buttonGroup: Submit(primary) + Back |
-| a status pill | `chip` / `field` on a reflist prop | refListStatus |
+`nodes[]` is a **flat** array, not a nested tree — parentage is by name, which is
+what lets a node be referenced from `assertions[]`. Authoritative schema:
+`shesha-design-comprehension/assets/blueprint.schema.json` (`definitions.node`).
 
-## Layout props — the flexbox you know
+| Key | Meaning |
+|---|---|
+| `node` | the node's own name — the id `slot`, `children` and `assertions` refer to |
+| `type` | `"container"`, or a real Shesha component type (`textField`, `text`, `datatable`, `buttonGroup`, `validationErrors`, …) |
+| `role` | optional design-system role — the styling shorthand (see below) |
+| `slot` | the parent node's name. **A node with no `slot` is a root.** |
+| `children` | array of child node **names**, in render order |
+| `style` | `{ desktop, tablet, mobile }`, each a real Shesha style block |
+| `content` | a text node's copy, or an input's label |
+| `items` | a `buttonGroup`'s buttons (`label`, `primary?`, `action`, `target?`) |
+| `columns` / `rowTemplate` / `tabs` | datatable columns · datalist card · tab panes |
 
-Any container node (`stack`/`row`/`grid`/`card`/`section`/`region`) takes:
+Field **bindings live in the top-level `bindings[]` array**, not on the node:
+`{ label, property, component, datatype }` — and that object is closed, so a
+binding carries no styling.
 
-- `gap` — space between children. Number (px) or scale token `xs sm md lg xl 2xl` (4/8/12/16/24/32). → container `gap`.
-- `padding` — inner padding, same units. → `stylingBox`.
-- `align` — cross-axis: `start center end stretch baseline`. → `alignItems`.
-- `justify` — main-axis: `start center end space-between space-around`. → `justifyContent`.
-- `width` on a **child** of a `row` — `%`, `px`, `fr`, or `calc()`. → `desktop.dimensions.width`. This is the ONLY split lever [R-028]; `flex`/`flexBasis` do NOT reach the outer div. A 2/3 + 1/3 split is `width:"66%"` and `width:"33%"` on the two row children.
+## Roles — the 15-name styling vocabulary
 
-Containers always emit `display:"flex"` so the flex props are live [R-029].
+A container's `role` picks a resolved style block from
+`shesha-design-system/assets/roles.styles.json`, so you don't hand-write style
+for ordinary chrome. The whole vocabulary:
+
+`page-root` · `dialog-root` · `header-band` · `toolbar-row` ·
+`toolbar-row-right` · `grid-surface` · `section-card` · `detail-rail` ·
+`field-row` · `card-grid` · `nav-tile` · `metric-tile` · `chart-surface` ·
+`wizard-shell` · `wizard-step`
+
+Reach for `style` only where the design genuinely deviates from a role.
+
+## Layout — the flexbox you know, written as a style block
+
+There is no `gap`/`padding`/`align` shorthand on a node: layout goes in
+`style.desktop` using the real Shesha keys.
+
+```json
+{ "node": "body", "type": "container", "slot": "page",
+  "style": { "desktop": { "display": "flex", "flexDirection": "row", "gap": 24,
+                          "dimensions": { "width": "100%" } } },
+  "children": ["mainColumn", "sideColumn"] }
+```
+
+- **`display: "flex"` is mandatory** on any flex container, or `flexDirection`
+  and `gap` are inert and children stack full-width [R-029].
+- **`dimensions.width` on a row's child is the ONLY split lever** [R-028].
+  `flex`/`flexBasis` do not reach the outer div. A 2/3 + 1/3 split is
+  `width: "66%"` and `width: "33%"` on the two children; a filling main column
+  beside a fixed rail is `calc(100% - <rail+gap>px)` and `<rail>px` with matching
+  `minWidth`/`maxWidth`.
+- **Never leave a row child's width at `auto`** — `auto` resolves flex-basis to
+  content size with flex-grow 0, so the child hugs its content and the row never
+  splits (`T3-ROW-CHILD-NOFILL`).
 
 ## The one rule that differs from web CSS
 
-**Splits are flex children sized by `width`, never a `columns` component** [R-028].
-When you'd reach for a 12-col grid or `<Col span=8>`, use a `row` with children
-carrying `width`, or a `grid` with `columns:N`. The compiler enforces the rest
+**Splits are flex children sized by `width`, never a `columns` component**
+[R-028]. When you'd reach for a 12-col grid or `<Col span=8>`, use a flex-row
+container whose children each carry a `width`. The compiler enforces the rest
 (ids, versions, dataContext wrappers, the validationErrors + Submit/exit floor).
 
 ## Worked example — a capture screen, designed as JSX then as the blueprint
@@ -49,48 +77,88 @@ carrying `width`, or a `grid` with `columns:N`. The compiler enforces the rest
 What you'd sketch in React:
 
 ```jsx
-<Stack gap="lg" padding="lg">
-  <Heading level={1}>Register Asset</Heading>
-  <Row gap="lg">
-    <Stack width="66%" gap="md">
+<Stack gap={16}>
+  <Heading>Register asset</Heading>
+  <Row gap={24}>
+    <Stack width="66%" gap={16}>
       <Field property="name" /><Field property="serialNumber" />
       <Field property="category" /><Field property="purchaseDate" />
     </Stack>
-    <Stack width="33%" gap="md">
+    <Stack width="33%" gap={16}>
       <Field property="status" /><Field property="location" />
-      <Field property="assignedEmployee" />
     </Stack>
   </Row>
   <Actions />
 </Stack>
 ```
 
-The same thing as the blueprint `layout` (the `blueprint-json` block):
+The same thing as `nodes[]` — flat, parented by `slot`. This exact document
+compiles and validates clean (0 Tier 1, 0 Tier 2 against `standalone-capture`):
 
 ```json
-{ "kind": "stack", "gap": "lg", "padding": "lg", "children": [
-  { "kind": "heading", "level": 1, "content": "Register Asset" },
-  { "kind": "row", "gap": "lg", "children": [
-    { "kind": "stack", "width": "66%", "gap": "md", "children": [
-      { "kind": "field", "property": "name" },
-      { "kind": "field", "property": "serialNumber" },
-      { "kind": "field", "property": "category" },
-      { "kind": "field", "property": "purchaseDate" } ] },
-    { "kind": "stack", "width": "33%", "gap": "md", "children": [
-      { "kind": "field", "property": "status" },
-      { "kind": "field", "property": "location" },
-      { "kind": "field", "property": "assignedEmployee" } ] } ] },
-  { "kind": "actions" } ] }
+{
+  "screen": "register-asset", "archetype": "standalone-capture", "theme": "shesha",
+  "entity": { "fullClassName": "Acme.AssetManagement.Domain.Asset",
+              "modelType": { "name": "Asset", "module": "Acme.AssetManagement" } },
+  "form": { "module": "Acme.AssetManagement", "name": "asset-create" },
+  "nodes": [
+    { "node": "page", "type": "container", "role": "page-root",
+      "children": ["pageHeader", "validationErrors", "body", "actionRow"] },
+    { "node": "pageHeader", "type": "container", "role": "header-band", "slot": "page",
+      "children": ["heading"] },
+    { "node": "heading", "type": "text", "slot": "pageHeader", "content": "Register asset" },
+    { "node": "validationErrors", "type": "validationErrors", "slot": "page" },
+
+    { "node": "body", "type": "container", "slot": "page",
+      "style": { "desktop": { "display": "flex", "flexDirection": "row", "gap": 24,
+                              "dimensions": { "width": "100%" } } },
+      "children": ["mainColumn", "sideColumn"] },
+
+    { "node": "mainColumn", "type": "container", "role": "section-card", "slot": "body",
+      "style": { "desktop": { "display": "flex", "flexDirection": "column", "gap": 16,
+                              "dimensions": { "width": "66%" } } },
+      "children": ["name", "serialNumber", "category", "purchaseDate"] },
+    { "node": "name", "type": "textField", "slot": "mainColumn", "content": "Name" },
+    { "node": "serialNumber", "type": "textField", "slot": "mainColumn", "content": "Serial number" },
+    { "node": "category", "type": "textField", "slot": "mainColumn", "content": "Category" },
+    { "node": "purchaseDate", "type": "dateField", "slot": "mainColumn", "content": "Purchase date" },
+
+    { "node": "sideColumn", "type": "container", "role": "section-card", "slot": "body",
+      "style": { "desktop": { "display": "flex", "flexDirection": "column", "gap": 16,
+                              "dimensions": { "width": "33%" } } },
+      "children": ["status", "location"] },
+    { "node": "status", "type": "textField", "slot": "sideColumn", "content": "Status" },
+    { "node": "location", "type": "textField", "slot": "sideColumn", "content": "Location" },
+
+    { "node": "actionRow", "type": "buttonGroup", "slot": "page", "items": [
+      { "label": "Save", "primary": true,
+        "action": { "actionName": "Submit", "actionOwner": "shesha.form" } },
+      { "label": "Back",
+        "action": { "actionName": "Navigate", "actionOwner": "shesha.common" },
+        "target": "asset-table" } ] }
+  ],
+  "bindings": [
+    { "label": "Name", "property": "name", "component": "textField", "datatype": "string" },
+    { "label": "Serial number", "property": "serialNumber", "component": "textField", "datatype": "string" },
+    { "label": "Category", "property": "category", "component": "textField", "datatype": "string" },
+    { "label": "Purchase date", "property": "purchaseDate", "component": "dateField", "datatype": "date" },
+    { "label": "Status", "property": "status", "component": "textField", "datatype": "string" },
+    { "label": "Location", "property": "location", "component": "textField", "datatype": "string" }
+  ],
+  "assertions": [
+    "same-rowband(mainColumn, sideColumn)",
+    "parent-of(body, mainColumn)",
+    "parent-of(mainColumn, name)"
+  ]
+}
 ```
 
-`node scripts/compile-blueprint.js --blueprint <it> --out form.json` produces
-gate-clean Shesha markup: the two-column split via `desktop.dimensions.width`,
-reflist identities resolved from live metadata, the validationErrors + Submit/
-Back floor, KB versions stamped — **and the skin already on it**: pass
-`--theme <brand>` and the compiler resolves brand colour/type/borders from
-`shesha-design-system`'s token file and bakes them into every node as it emits
-[R-042]. You designed the layout; the theme supplied the skin at the same
-moment. There is no follow-up paint step over this output.
+`node scripts/compile-spec.mjs <bp.json> --out form.json` produces gate-clean
+markup: the split via `desktop.dimensions.width`, reflist identities resolved from
+live metadata, the validationErrors + Submit/Back floor, registry versions stamped
+— **and the skin already on it**. The blueprint's own `theme` id selects the brand
+whose tokens the compiler bakes into every node as it emits [R-042]; there is no
+`--theme` flag and no follow-up paint step. `report.theme` names the brand used.
 
 ## Where design judgment still matters (do this, don't delegate it)
 

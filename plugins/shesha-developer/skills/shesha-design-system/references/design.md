@@ -1,6 +1,6 @@
 # Design integration — `frontend-design` skill
 
-> Moved here from `shesha-form-edit` (2026-07-30, Task 4): this is an aesthetic-critique
+> This is an aesthetic-critique
 > workflow — a fourth styling authority — and belongs in the appearance skill, not the
 > structure skill. Neither integration point below is a mandatory step in
 > `shesha-form-edit`'s own `0 · Route` … `7 · Report` pipeline — the **pre-build
@@ -62,10 +62,10 @@ Directive template:
 
 > Design direction for a Shesha form. Context:
 > - Form type: <auth-page | entity-edit | dashboard | datalist-host | wizard | row-template>
-> - Entity: <modelType, e.g. PBF.MembershipManagement.Domain.Domain.Member> (omit if anonymous)
-> - Audience: <e.g. members of the Progressive Business Forum, age 30-65, both individual and corporate>
+> - Entity: <modelType, e.g. Acme.Membership.Domain.Member> (omit if anonymous)
+> - Audience: <e.g. members of a professional association, age 30-65, both individual and corporate>
 > - Tone: <one of brutally minimal, refined editorial, organic/natural, luxury, playful, brutalist, art deco, soft/pastel, industrial — pick what fits the brand; if unclear, ask>
-> - Brand colors / fonts (if any): <hex values from existing seeds — e.g. PBF green #1F9D4D / dark green #0E5A2A>
+> - Brand colors / fonts (if any): <hex values from existing seeds — e.g. brand green #1F9D4D / dark green #0E5A2A>
 > - Constraints: implementation is Shesha JSON form configuration; styling is via component `desktop` / `tablet` / `mobile` style blocks (`font`, `background`, `border`, `dimensions`, `stylingBox`, `shadow`). No custom CSS files; no React. Animation/motion limited to AntD defaults.
 > - Requirements (user-supplied): <verbatim from user>
 >

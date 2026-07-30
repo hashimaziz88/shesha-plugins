@@ -2,16 +2,16 @@
 
 A **domain change** (new/changed entity, property, reference list, or migration) only takes effect
 after the .NET backend is **rebuilt and restarted** — Shesha applies migrations and seeds
-`EntityConfig` on startup. Doing this badly is the single biggest cost/failure sink (one harness run
-burned **$12.50 / 27 min** on 14 restart attempts and corrupted an existing form). Follow this
-runbook instead of improvising.
+`EntityConfig` on startup. Doing this badly is the single biggest cost/failure sink — repeated,
+unplanned restart attempts can corrupt an existing form. Follow this runbook instead of
+improvising.
 
 > **Order of operations — scan ALL prereqs first, build ONCE, forms last.** BEFORE writing any code,
 > run the single combined prereq scan (`scripts/backend-probe.mjs` + the
 > `shesha-developer:fullstack-prereq-checker` agent) to surface EVERY gap at once — missing entity,
 > reflist, endpoint, permissions. Enumerate all the domain + app-layer changes from that one scan, apply
 > them together, then do **one** rebuild + the (double-)boot. **Never discover→build→discover→build** —
-> that serial loop (one run did 5+ rebuild/boot cycles) is what turns a 10-minute change into an hour.
+> that serial loop is what turns a 10-minute change into an hour.
 > A form built before the entity is ready won't render; a form pushed *before* a later restart can be
 > orphaned by that restart (see "re-verify forms" below).
 
@@ -61,8 +61,8 @@ You're headless when the task supplied a context block (Backend URL / Module / W
 you're in `claude -p`. Run this **once** as a single combined sequence (don't probe step-by-step):
 
 ```bash
-WH="<workingDir>/backend/src/<App>.Web.Host"          # e.g. .../boxfusion.test/backend/src/boxfusion.test.Web.Host
-DLL="$WH/bin/Debug/net8.0/<App>.Web.Host.dll"          # e.g. boxfusion.test.Web.Host.dll
+WH="<workingDir>/backend/src/<App>.Web.Host"          # e.g. .../myapp/backend/src/myapp.Web.Host
+DLL="$WH/bin/Debug/net8.0/<App>.Web.Host.dll"          # e.g. myapp.Web.Host.dll
 BASE="http://localhost:21021"
 
 # 1. Stop whatever holds the port (IIS Express + its tray, or the port owner)

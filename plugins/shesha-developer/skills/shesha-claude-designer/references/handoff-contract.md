@@ -4,7 +4,7 @@ The conductor (`shesha-claude-designer`) coordinates three specialists. This is 
 
 ## Roles
 
-See the canonical ownership table in [`shesha-claude-designer/README.md`](../README.md) ("Skill | Owns | Must NOT") — collapsed here in Task 4 (2026-07-30) so the split is asserted in one place, not five.
+See the canonical ownership table in [`shesha-claude-designer/README.md`](../README.md) ("Skill | Owns | Must NOT") — asserted there in one place, not five.
 
 ## Contracts
 

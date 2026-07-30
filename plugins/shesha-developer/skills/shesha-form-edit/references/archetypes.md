@@ -5,10 +5,10 @@ This file is the **single archetype vocabulary** for this skill. It supersedes:
 - the partial archetype list in [blueprint-consumption.md](blueprint-consumption.md) (which mapped
   only 4 of the 8 to seeds);
 - the block-level `$kind` tags found in `assets/blocks/*.block.json` (`fragment`, `list`,
-  `layout`) — Phase 5 reconciled the vocabularies: those are block *kinds* (what a block
-  structurally is), not archetype names, so the field was renamed to `$kind` and no block file
-  carries an `$archetype` value anymore. See [block-library.md](block-library.md) for the `$kind`
-  taxonomy; this file remains the only place archetype names are defined.
+  `layout`) — those are block *kinds* (what a block structurally is), not archetype names, so
+  the field was renamed to `$kind` and no block file carries an `$archetype` value anymore. See
+  [block-library.md](block-library.md) for the `$kind` taxonomy; this file remains the only
+  place archetype names are defined.
 
 There are exactly **eight** archetypes, and all eight now have a flow manifest under
 `assets/archetypes/*.flow.json` — every one loads with `loadFlow` and passes `validateFlow` with
@@ -33,10 +33,9 @@ inside `record-detail` bodies).
 
 ## Retired P2 vocabulary — the mapping
 
-The `claude-designer-stripped` merge (`docs/RECONCILIATION.md`) brought in a second, 11-value
-archetype enum (`shesha-design-comprehension/schemas/blueprint.schema.json`, now retired). Every
-value in that enum maps to one of the eight above, is explicitly unsupported, or is retired
-outright:
+A prior merge brought in a second, 11-value archetype enum
+(`shesha-design-comprehension/schemas/blueprint.schema.json`, now retired). Every value in that
+enum maps to one of the eight above, is explicitly unsupported, or is retired outright:
 
 | P2 name | Resolution | Notes |
 |---|---|---|
@@ -57,10 +56,9 @@ outright:
 
 ## How the eight shipped manifests were scoped
 
-Each manifest states the **complete required node set** for its flow — the fix for a real failure
-mode where a blueprint declared only a heading, a text and a datatable, while its assertions
-demanded an Add action, a row action, quick search and a pager. The model had to reverse-engineer
-those from prose and dropped them. Load a manifest with `loadFlow(archetype, { dir })` from
+Each manifest states the **complete required node set** for its flow, so a required node (Add
+action, row action, quick search, pager, etc.) is never silently dropped when reverse-engineering
+a blueprint from prose. Load a manifest with `loadFlow(archetype, { dir })` from
 `scripts/lib/flow.mjs`, get its flat node list with `requiredNodes(flow)`, and validate it against
 the registry and role catalogue with `validateFlow(flow, { registry, roles })` before treating a
 build as complete.
@@ -71,8 +69,7 @@ build as complete.
   row. It does **not** require a column-chooser button:
   `datatable.selectColumnsButton` is `authorable: false` in the registry (the framework marks it
   `isHidden`), so a manifest requiring it would make `validateFlow` reject every table-worklist
-  build. An earlier draft of this manifest listed a `columnChooser` node using that type — that was
-  a spec error, already corrected before this manifest was authored.
+  build.
 - **`record-detail`** — dataContext, page-root container, a header band carrying the Start
   Edit/Submit/Cancel Edit lifecycle `buttonGroup` (all three actions `actionOwner: "shesha.form"`),
   a `validationErrors` node, and a body split into a main column (`section-card`) and a related

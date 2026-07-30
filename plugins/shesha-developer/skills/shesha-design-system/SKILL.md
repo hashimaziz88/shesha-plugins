@@ -36,10 +36,10 @@ A form looks "cheap" when only one layer is done (AntD still default-blue, or no
    | Brand | File | What it is |
    |---|---|---|
    | `shesha` | `shesha.tokens.json` | **The default** — Cobalt `#003BB2` interactive anchor, Navy chrome, Nero ink, white cards on Athens Grey canvas, borders-not-shadows, ready `$antdTheme` block. Used whenever no brand is named — including form-edit's mandatory no-design pass [R-042] via the cost-capped [default-theme-quickpass.md](references/default-theme-quickpass.md) (for that pass, follow that file only). |
-   | `requirements-studio` | `requirements-studio.tokens.json` | Example custom brand (LandBank green, Inter, RsStatus lifecycle). |
+   | `requirements-studio` | `requirements-studio.tokens.json` | An example custom brand. |
    | `wcg` | `wcg.tokens.json` | Additional shipped brand. |
 
-   **NEVER author a new `<brand>.tokens.json` during a design, form, or styling run. Not ever, and not "quickly".** A brand token file is ~290 keys including an `$antdTheme` block; writing one costs a large fraction of a run's budget and delivers nothing the default does not already deliver. A telemetry review found a run that spent most of its turns authoring a `skyline` brand that **no user had asked for** — 32 references to `tokens.json`, 5 to `$antdTheme`, and zero user messages requesting a theme.
+   **NEVER author a new `<brand>.tokens.json` during a design, form, or styling run. Not ever, and not "quickly".** A brand token file is ~290 keys including an `$antdTheme` block; writing one costs a large fraction of a run's budget and delivers nothing the default does not already deliver.
 
    Specifically, these are NOT reasons to author a brand file:
    - a blueprint or spec carries a `theme:` field naming a brand that does not exist → **use the default**, note it in one line, move on
@@ -90,4 +90,4 @@ Design conventions every recipe respects: [references/shesha-design-standards.md
 | Build structure, CRUD, gates, push | `shesha-developer:shesha-form-edit` |
 | **Tokens → app theme + v7 style blocks** | **this skill** |
 
-This skill owns mapping tokens → app theme + per-component v7 style blocks (all appearance). For the full ownership split across all four skills, see the canonical table in [`shesha-claude-designer/README.md`](../shesha-claude-designer/README.md) ("Skill | Owns | Must NOT"), collapsed here in Task 4 (2026-07-30) so it is asserted in one place, not five.
+This skill owns mapping tokens → app theme + per-component v7 style blocks (all appearance). For the full ownership split across all four skills, see the canonical table in [`shesha-claude-designer/README.md`](../shesha-claude-designer/README.md) ("Skill | Owns | Must NOT") — asserted there once, not repeated per skill.

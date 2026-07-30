@@ -3,11 +3,9 @@
 `scripts/compile-spec.mjs` is the deterministic replacement for hand-authoring a form's
 markup from a layout blueprint. It exists because the previous path — "copy the matching
 seed and change modelType/propertyName/captions" — was followed correctly and still
-produced broken forms: a real broken `flight-details` form scores **114** Tier 1 + Tier 2
-findings against `validate-form.mjs`; the compiled equivalent, built from a blueprint with
-the same structure and bindings, scores **0**. See
-`.superpowers/sdd/2026-07-29-phase3-compiler-placement-verification/task-5-report.md` for the
-full forensic trace.
+produced broken forms: a form built that way can score **114** Tier 1 + Tier 2
+findings against `validate-form.mjs`, while the compiled equivalent, built from a blueprint with
+the same structure and bindings, scores **0**.
 
 ## The one-command path
 
@@ -94,5 +92,5 @@ Compiled output validates clean: `node scripts/validate-form.mjs <compiled-form>
 card/collapsiblePanel fixture (`tests/e2e-compile.test.mjs`,
 `tests/card-collapsible-fixture.test.mjs`). This is the property that makes "run the
 compiler" a stronger instruction than "copy a seed and change the fields" — the seed-copy
-path had no equivalent guarantee, and the forensic trace on a real broken form
-(`tests/forensic-regression.test.mjs`) is the evidence: 114 findings by hand, 0 compiled.
+path had no equivalent guarantee, and the regression trace (`tests/forensic-regression.test.mjs`)
+is the evidence: 114 findings by hand, 0 compiled.

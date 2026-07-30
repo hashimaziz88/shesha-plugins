@@ -7,12 +7,10 @@ rendered-mock format; this file remains the source of truth for the IR's shape. 
 examples (one per archetype) live in [blueprint-examples.md](blueprint-examples.md).
 
 **This is the single blueprint format.** A second, `schemas/blueprint.schema.json` +
-`.blueprint.md`-twin format previously coexisted pending reconciliation of the two compiler
-toolchains (see `shesha-claude-designer/README.md`); that reconciliation is now settled in
-favour of this pure-JSON IR (`docs/RECONCILIATION.md`). The retired schema and its
-`compile-blueprint.js` consumer are no longer the build path — everything below documents the
-pure-JSON IR that `compile-spec.mjs` consumes and this skill's own test suite
-(`tests/blueprint-schema.test.mjs`, `tests/assertions.test.mjs`) validates against.
+`.blueprint.md`-twin format, consumed by a now-retired `compile-blueprint.js`, is no longer the
+build path — everything below documents the pure-JSON IR that `compile-spec.mjs` consumes and
+this skill's own test suite (`tests/blueprint-schema.test.mjs`, `tests/assertions.test.mjs`)
+validates against.
 
 ## Why a JSON blueprint, not hand-authored Markdown
 
@@ -54,7 +52,7 @@ unreviewable to that pipeline's authors; pure prose is the thing that drifts eit
 `.md` blueprint there carried fenced `layout-tree`/`bindings`/`assertions` blocks a human reviews,
 plus one fenced ` ```blueprint-json ` block conforming to the retired `schemas/blueprint.schema.json`,
 consumed by the retired `compile-blueprint.js`. That format is no longer authored — this pure-JSON
-IR is the single blueprint format going forward.
+IR is the single blueprint format.
 
 ## Document structure
 
@@ -297,5 +295,5 @@ justified against the manifest rather than silently present or silently missing.
       treating it as complete.
 
 (The retired Markdown+twin format had its own equivalent checklist against the now-deleted
-`schemas/blueprint.schema.json` and its 11-value archetype enum — that pipeline is no longer
-authored; this file's checklist above is authoritative for the single blueprint IR.)
+`schemas/blueprint.schema.json` and its 11-value archetype enum. This file's checklist above is
+authoritative for the single blueprint IR.)

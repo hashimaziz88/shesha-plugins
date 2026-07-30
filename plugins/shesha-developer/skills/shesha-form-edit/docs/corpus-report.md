@@ -465,17 +465,13 @@ block the skill's own recommended workflow. This is a real, useful gate today
 codes wired as WARN (visible, non-blocking) until the three items above are
 addressed.
 
-## Task 8 — six checks derived from a forensic analysis of two real failed builds
+## Task 8 — six checks derived from real broken builds
 
-Two live sessions built 9 Shesha forms (`flight-details`, `flight-create`,
-`flight-booking-create`, `flight-booking-details`, `flights`,
-`flight-bookings`, `asset-create`, `asset-detail`, `asset-table`) whose
-create/detail pages came out visibly broken, even though design comprehension,
-blueprints, and entity metadata were all correct — the defects were introduced
-downstream, in hand-written blueprint→markup compiler scripts. The pushed
-markup for all 9 forms was analyzed directly (never committed to this repo)
-to derive six new Tier 2 codes, each proven to fire on the specific broken
-form(s) it was derived from and NOT on the forms confirmed clean. The full
+A set of Shesha forms whose create/detail pages came out visibly broken, even though design
+comprehension, blueprints, and entity metadata were all correct — the defects were introduced
+downstream, in hand-written blueprint→markup compiler scripts. The pushed markup was analyzed
+directly (never committed to this repo) to derive six new Tier 2 codes, each proven to fire on
+the specific broken form(s) it was derived from and NOT on the forms confirmed clean. The full
 935-form corpus + 15 bundled seeds were then re-graded with all six in place.
 
 ### The six codes
@@ -494,15 +490,13 @@ existing Group C entry is 9.1%) — none needed to be placed in Group C
 regardless of how useful they are; that discipline is the point of Group C.
 
 **1. `T2-SPLIT-WIDTH-ON-LEAF`** — a proportional width (`%`, `calc()`) on a
-non-container leaf. Fires on all four flight-* detail/create forms (30, 30,
-34, 30 findings respectively — 62 of 69 real inputs, matching the brief's own
-measurement) and on 0 findings for `asset-create`/`asset-detail` (the
-`wrap_cells.py`-fixed negative fixture). Evidence: `flight-details`'
-`rowService` container holds `flightNumber`/`airline` textFields directly,
-each carrying `calc(50% - 6px)` on itself — Form.Item forces that leaf's
+non-container leaf sizes only the inner control; the cell keeps its default width.
+Evidence: a `rowService` container holding `flightNumber`/`airline` textFields
+directly, each carrying `calc(50% - 6px)` on itself — Form.Item forces that leaf's
 wrapper to `width:100% !important`, so the calc() resolves against an
 already-100%-wide box and the fields render at intrinsic content width
-(257/285/247px measured, not ~446px).
+(257/285/247px measured, not ~446px). Confirmed clear (0 findings) against a
+negative fixture with the split width correctly wrapped on the container instead.
 
 **Supersede vs. scope-apart decision for `T2-SPLIT-WIDTH-ON-LEAF` vs.
 `T2-WIDTH-ON-NONCONTAINER`: scoped apart, not superseded.**
@@ -527,29 +521,27 @@ proportional widths no longer count under this code at all.
 separate `content`/`header`/`customHeader` slot must have that layout style
 (display/flexDirection/gap/justifyContent/alignItems) on the SLOT itself, not
 only on the component's own top-level props (scoped to slots with 2+ children
-— a single-child slot has no adjacency to collapse). Fires on `flight-details`
-and `flight-booking-details` (2 each: `statusPanel` + `metaPanel`), 0
-elsewhere. Evidence: `statusPanel`'s `content = {id, components: [...]}`
-carries no style at all while the card itself declares
+— a single-child slot has no adjacency to collapse). Evidence: a
+`statusPanel`'s `content = {id, components: [...]}` carries no style at all
+while the card itself declares
 `desktop:{display:"flex",flexDirection:"column",gap:16}` — its two children
-(a hideLabel "Status" text + a hideLabel `refListStatus` chip) collapse into
-the literal run-on string `"StatusFlight status"`. Not present anywhere in
+(a hideLabel status text + a hideLabel `refListStatus` chip) collapse into a
+single run-on string with no space between them. Not present anywhere in
 the 935-form historical corpus or the 15 bundled seeds (0% both cohorts) —
-this exact pattern appears to be specific to the newer ad-hoc compiler script
-that produced the flight-*/asset-* forms, not the historically-graded
-production corpus. Placed in Group B anyway: the direct clearing proof against
-the real evidence forms (4/4 instances cleared to 0) plus the inherent low
-noise of the `>=2` children threshold make a 0%-measured rate the safest
-possible Group B candidate, not a reason to withhold it.
+this pattern appears specific to the newer ad-hoc compiler script under
+analysis, not the historically-graded production corpus. Placed in Group B
+anyway: the direct clearing proof against the evidence forms (4/4 instances
+cleared to 0) plus the inherent low noise of the `>=2` children threshold
+make a 0%-measured rate the safest possible Group B candidate, not a reason
+to withhold it.
 
 **3. `T2-ROWLIST-NO-VGAP`** — a container/tab/column whose direct children are
 2+ row-containers (each with its own horizontal gap) must declare its OWN
 vertical gap, or row-to-row spacing falls back to each row's intrinsic
 content height (a `dateField` picker row sits taller than a `textField` row,
 producing visibly uneven gaps even though every row's horizontal gap is
-identical). Fires on `flight-details` (3: `service`/`schedule`/`commercial`
-tabs) and `flight-booking-details` (2), 0 on the other seven forms. 3.7% of
-the corpus (35/935, 52 instances), 6.7% of seeds (`rs-detail-with-header.json`).
+identical). 3.7% of the corpus (35/935, 52 instances), 6.7% of seeds
+(`rs-detail-with-header.json`).
 
 ### Normalizer transforms added (Group B — mechanically fixed)
 
@@ -1187,15 +1179,12 @@ All four suites pass: hooks 33/33, shesha-form-edit 271/271 (265 baseline +
 completion, no-columns/no-split-width, override survival/rejection, CLI
 smoke) is included in that 271 and remains fully green.
 
-## Task 5 (Phase 3) — proving the compiler end to end against the real damage
+## Proving the compiler end to end against the real breakage
 
 The whole point of `compile-spec.mjs` is to replace the hand-written
-blueprint→markup scripts that produced 9 visibly broken real forms
-(`flight-details`, `flight-create`, `flight-booking-create`,
-`flight-booking-details`, `flights`, `flight-bookings`, `asset-create`,
-`asset-detail`, `asset-table` — see Task 8's forensic table above). This task
-adds two new suites that prove that, not just that the compiler produces
-schema-valid output.
+blueprint→markup scripts that produced the visibly broken real forms
+analyzed above. This task adds two new suites that prove that, not just
+that the compiler produces schema-valid output.
 
 ### `tests/e2e-compile.test.mjs` — per-archetype chain (8 tests)
 
@@ -1211,24 +1200,23 @@ drifted from the other. All 8 pass with an empty node-set diff, modulo
 way to know about and are explicitly whitelisted by name pattern, not
 silently ignored.
 
-### `tests/forensic-regression.test.mjs` — the money test (8 tests, 1 failing by design)
+### `tests/forensic-regression.test.mjs` (8 tests, 1 failing by design)
 
-A blueprint built to `flight-details`' real structure and bindings (same
-three field tabs — service/schedule/commercial — same field names/labels/
-types, same header title+subtitle, same detail-rail idea), compiled through
-the real, unmodified compiler, then checked against each of the six
-forensic defects individually:
+A blueprint built to match one of the broken forms' real structure and bindings (same
+field tabs, same field names/labels/types, same header title+subtitle, same detail-rail
+idea), compiled through the real, unmodified compiler, then checked against each of the six
+defects individually:
 
 | # | Defect | Real symptom | Result |
 |---|---|---|---|
 | 1 | Proportional width on an input leaf | cells rendered 257/285/247px vs ~446px | **NOT REPRODUCED** — `leaf.mjs` never reads `bpNode.style` for any leaf type at all; a leaf's compiled output is built purely from its binding/content. There is no code path by which a width, split or otherwise, ever reaches a leaf. The wrapping container correctly carries the split width instead. |
-| 2 | Card's own layout style stranded off its `content`/`header` slot | `"StatusFlight status"`, `"RecordCapturedUpdated"` | **GENUINE COMPILER GAP FOUND** (see below) — worse than a reproduction: `tree.mjs`'s `buildNode()` has no branch for `"card"` (or `"collapsiblePanel"`, tier1.mjs's other `DOUBLE_SLOT_TYPE`) at all. |
+| 2 | Card's own layout style stranded off its `content`/`header` slot | two hidden labels ran together with no space between them | **GENUINE COMPILER GAP FOUND** (see below) — worse than a reproduction: `tree.mjs`'s `buildNode()` has no branch for `"card"` (or `"collapsiblePanel"`, tier1.mjs's other `DOUBLE_SLOT_TYPE`) at all. |
 | 3 | Entity-bound title/subtitle via `_mode:"code"` string concatenation | header showed a literal `"."` and a literal `"() → ()"` | **NOT REPRODUCED** — the blueprint schema's `node.content` is typed as a plain string only; there is no vocabulary for authoring a `_mode:"code"` block at all, and `leaf.mjs`'s text branch copies `bpNode.content` verbatim. The compiler can only ever emit a literal string (mustache included), never an object. |
 | 4 | Horizontal `labelCol` applied to sub-50%-width field rows | `"Assign Employ…"` truncated, `"Asset Name :"` crammed | **NOT REPRODUCED** — `compile-spec.mjs`'s `buildFormSettings` only ever sets `modelType`; no code path sets `formSettings.layout` or `labelCol` at all, regardless of how narrow any field row is. |
 | 5 | Row-list container/tab-pane with no vertical gap | wildly uneven vertical gaps between field rows | **NOT REPRODUCED** — `normalize-form.mjs`'s `normalizeTabRowListGap` (Phase A2, added in Task 8) wraps a tab pane's 2+ row-children in one new child container stamped with the theme's section gap; `normalizeRowListGap` does the same for a real `container` host. Both run unconditionally as part of `compileSpec`'s own final `normalize()` call. |
 | 6 | Standalone text node duplicating a sibling control's own hidden label | rail items unspaced, orphaned unlabelled checkbox | **NOT REPRODUCED** — the blueprint schema has no `hideLabel` field at all, and `leaf.mjs` never stamps one on any leaf it builds. `T2-DUPLICATE-CAPTION` only fires when a sibling carries `hideLabel:true`; the compiler structurally cannot produce that on any control. |
 
-**Defect 2 in detail — the one real finding of this task.** Attempting to
+**Defect 2 in detail — the one genuine compiler gap found.** Attempting to
 compile a minimal blueprint fragment with a `card` node (children referenced
 via `slot`, exactly the real shape) throws before producing any markup:
 
@@ -1247,24 +1235,21 @@ slot and no style, and the card's children (referenced via their own
 `compileSpec`'s own reachability check (correctly) throws before
 `normalize()` ever runs.
 
-The notable part: `normalize-form.mjs`'s `propagateSlotStyle()` (Task 8's
-Phase A2.1) is EXACTLY the correct fix for the original defect — it already
-mirrors a slot-hosting node's own layout style onto its `content`/`header`/
-`customHeader` slot whenever that slot has 2+ children and no style of its
-own. It just never gets the chance to run, because no archetype's flow
-manifest or blueprint fixture uses `"card"`/`"collapsiblePanel"` today, so
-this gap was invisible to every other test in this phase. The
-`forensic-regression.test.mjs` "defect 2" test asserts the CORRECT behaviour
-(compiles, and the layout style lands on `content`) and is deliberately left
-FAILING — a loud, informative failure naming the exact defect and gap is the
-honest outcome the task brief calls for, not a passing suite that tests
-nothing. Recommended follow-up: add a `card`/`collapsiblePanel` builder
-branch to `tree.mjs` (out of this task's file-touch scope).
+The notable part: `normalize-form.mjs`'s `propagateSlotStyle()` is EXACTLY the correct fix
+for the original defect — it already mirrors a slot-hosting node's own layout style onto
+its `content`/`header`/`customHeader` slot whenever that slot has 2+ children and no style
+of its own. It just never gets the chance to run, because no archetype's flow manifest or
+blueprint fixture uses `"card"`/`"collapsiblePanel"` today, so this gap was invisible to
+every other test. The `forensic-regression.test.mjs` "defect 2" test asserts the CORRECT
+behaviour (compiles, and the layout style lands on `content`) and is deliberately left
+FAILING — a loud, informative failure naming the exact defect and gap is the honest outcome,
+not a passing suite that tests nothing. Recommended follow-up: add a `card`/`collapsiblePanel`
+builder branch to `tree.mjs`.
 
-### Deliverable 3 — the compiler beats the real, broken markup
+### The compiler against the real, broken markup
 
 Running the SAME validator (`tier1`/`tier2`, `archetype: "record-detail"`)
-over the real `flight-details.pushed.json` (read only from the scratchpad;
+over one of the real pushed forms' markup (read only from the scratchpad;
 never copied into this repo) and over the compiled equivalent above:
 
 | | Tier 1 | Tier 2 (non-skip) | Total |

@@ -8,9 +8,8 @@ for that curated subset — not for every Tier 1/2 finding.
 
 ## Why not "deny on any Tier 1/2 finding"?
 
-That was the original design (Phase 2 plan, Task 6). Task 5 graded 935 real
-production forms plus this skill's own 15 bundled seeds against the
-validator and found a blanket gate would be unusable in practice:
+That was the original design. Grading 935 real production forms plus this skill's own 15
+bundled seeds against the validator found a blanket gate would be unusable in practice:
 
 - `T1-PROP-UNKNOWN` fires on 93.9% of real forms and **100% of this plugin's
   own bundled seeds**.
@@ -33,8 +32,7 @@ blocks a push — no code change needed.
 
 ### Group A — BLOCK (normalizer cannot fix these)
 
-Render-crash family (32 crash signatures recorded in a 2-day telemetry
-window) plus low-rate structural contract breaks:
+Render-crash family plus low-rate structural contract breaks:
 
 | Code | Corpus rate |
 |---|---|

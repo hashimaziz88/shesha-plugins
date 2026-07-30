@@ -1,8 +1,8 @@
 # Renderer physics — live-verified 0.45 render behaviour
 
-Every fact here was learned from a real form that silently mis-rendered — these
-are the facts trial-and-error repair loops rediscover at 1–3 push cycles each.
-Facts in the registry are cited by id; the registry statement is authoritative.
+These are live-verified render facts, not assumptions — each one otherwise costs
+1–3 push cycles to rediscover by trial and error. Facts in the registry are cited
+by id; the registry statement is authoritative.
 
 ## Styling levers (what actually renders)
 
