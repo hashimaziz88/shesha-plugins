@@ -3,16 +3,108 @@ import * as path from 'path';
 import { getComponentDefinitions } from '@/providers/form/defaults/toolboxComponents';
 import { makeFormBuliderFactory } from '@/form-factory/implementation';
 import { Migrator } from '@/utils/fluentMigrator/migrator';
+import { getSettings as getFormSettingsMarkup } from '@/components/formDesigner/formSettings';
 
-/** Recursively collect every `propertyName` in a settings-form markup tree. */
-function collectPropertyNames(node: any, out: Set<string>): void {
+/**
+ * Maps a settings-form control's OWN type — its `type` field, or for a
+ * `settingsInput` node its `inputType` (verified against
+ * `src/form-factory/implementation.ts`'s `_addProperty(props, type, meta)`:
+ * every `addXxx()` builder stamps a fixed `type` on the node it produces,
+ * and `addSettingsInput` stamps `type: 'settingsInput'` while the CALLER
+ * supplies the real widget as `inputType`, e.g. `inputType: 'switch'`,
+ * `inputType: 'dropdown'` — grep -rho "inputType: '[a-zA-Z0-9_]+'" across
+ * src/designer-components confirms switch/checkbox/numberField/textField/
+ * textArea/codeEditor/colorPicker/dropdown/radio/permissions etc. are the
+ * real vocabulary) — to a coarse runtime-value category. This is the type
+ * information a hand-maintained index used to carry and the registry cutover
+ * dropped; it now comes straight from the same settings-form leaf that
+ * already yields `propertyName`, so no separate index is reintroduced.
+ *
+ * Used only for the runtime-type-mismatch check (clean-form-config's
+ * restored Step 4c) — catching e.g. a boolean-typed prop carrying the
+ * string `"true"`, or a numeric-typed prop carrying the string `"42"`.
+ */
+const BOOLEAN_CONTROL_TYPES = new Set(['switch', 'checkbox']);
+const NUMBER_CONTROL_TYPES = new Set(['numberField', 'slider']);
+const STRING_CONTROL_TYPES = new Set(['textField', 'textArea', 'codeEditor', 'colorPicker', 'Password', 'link', 'text']);
+const ENUM_CONTROL_TYPES = new Set(['dropdown', 'customDropdown', 'radio', 'editModeSelector']);
+const ARRAY_CONTROL_TYPES = new Set(['permissions', 'multiColorPicker', 'editableTagGroup', 'labelValueEditor', 'filtersList', 'columnsList']);
+
+// Settings-form structural/container control types that can carry a
+// `propertyName` purely as their OWN panel/tab/row identifier in the
+// settings-form UI tree, NOT as a real settable leaf of the component being
+// configured — e.g. a `collapsiblePanel` titled "Custom Styles" keyed
+// `customStyle`, an inline `settingsInputRow` keyed `font` that groups
+// `font.size`/`font.weight`/`font.color` underneath it (see checkbox's
+// settingsForm.ts). Recording a scalar type for these would assert a
+// runtime-shape check against a key that isn't actually a scalar model
+// value, so they are deliberately left unclassified (no propTypes entry) —
+// exactly mirroring how classify.mjs's `isScaffoldingProp` already treats
+// most of these same keys as non-props further downstream.
+const CONTROL_STRUCTURAL_TYPES = new Set([
+  'settingsInputRow', 'tabs', 'searchableTabs', 'collapsiblePanel', 'container',
+  'columns', 'column', 'propertyRouter', 'KeyInformationBar',
+]);
+
+/**
+ * Classify one settings-form leaf node into a coarse runtime-value category.
+ * Returns undefined when the control is structural (see
+ * CONTROL_STRUCTURAL_TYPES) or otherwise unclassifiable — callers must treat
+ * "no entry" as "unknown", never as "any scalar goes".
+ */
+function classifyControlType(node: any): { type: string; values?: Array<string | number> } | undefined {
+  const rawType = node.type === 'settingsInput' ? node.inputType : node.type;
+  if (!rawType || typeof rawType !== 'string') return undefined;
+  if (CONTROL_STRUCTURAL_TYPES.has(rawType)) return undefined;
+
+  if (BOOLEAN_CONTROL_TYPES.has(rawType)) return { type: 'boolean' };
+  if (NUMBER_CONTROL_TYPES.has(rawType)) return { type: 'number' };
+  if (STRING_CONTROL_TYPES.has(rawType)) return { type: 'string' };
+
+  if (ENUM_CONTROL_TYPES.has(rawType)) {
+    // Enumerated controls carry their allowed values as `dropdownOptions`
+    // (dropdown/customDropdown) or `buttonGroupOptions` (radio), each an
+    // array of `{ value, label }` — confirmed against
+    // src/designer-components/_settings/utils/font/utils.tsx's
+    // `fontWeightsOptions` and multiple settingsForm.ts call sites. Some
+    // options are computed via an `IPropertySetting` `{_code,_value}`
+    // wrapper (see formSettings.ts's `dataLoaderType`) rather than a plain
+    // array — in that case there is no static value list to record, so the
+    // entry is emitted without `values`, never invented.
+    const optionSource = node.dropdownOptions ?? node.buttonGroupOptions;
+    const values = Array.isArray(optionSource)
+      ? optionSource.map((o: any) => o?.value).filter((v: any) => v !== undefined)
+      : undefined;
+    return values && values.length > 0 ? { type: 'enum', values } : { type: 'enum' };
+  }
+
+  if (ARRAY_CONTROL_TYPES.has(rawType)) return { type: 'array' };
+
+  // A known, non-structural control we don't further classify (autocompletes,
+  // queryBuilder, styleBox, iconPicker, fileUpload, …) — genuinely
+  // object/compound-shaped, not a boolean/number/string/enum/array leaf.
+  return { type: 'object' };
+}
+
+/**
+ * Recursively collect every `propertyName` in a settings-form markup tree,
+ * plus (additively) a parallel `propTypes` map of `propertyName -> classifyControlType(node)`
+ * for every leaf classifyControlType can resolve. `propTypes` is strictly a
+ * bonus map alongside the existing `out` string set — every existing
+ * consumer of the flat prop-name set is unaffected.
+ */
+function collectPropertyNames(node: any, out: Set<string>, propTypes?: Map<string, { type: string; values?: Array<string | number> }>): void {
   if (!node || typeof node !== 'object') return;
   if (Array.isArray(node)) {
-    for (const n of node) collectPropertyNames(n, out);
+    for (const n of node) collectPropertyNames(n, out, propTypes);
     return;
   }
   if (typeof node.propertyName === 'string' && node.propertyName.length > 0) {
     out.add(node.propertyName);
+    if (propTypes && !propTypes.has(node.propertyName)) {
+      const classified = classifyControlType(node);
+      if (classified) propTypes.set(node.propertyName, classified);
+    }
   }
   // Settings forms nest leaves through a variety of structural keys depending
   // on the component (`components`, `columns`, `tabs`, `content`, `header`,
@@ -26,7 +118,7 @@ function collectPropertyNames(node: any, out: Set<string>): void {
   // node genuinely carries a non-empty string `propertyName`.
   for (const key of Object.keys(node)) {
     const value = node[key];
-    if (value && typeof value === 'object') collectPropertyNames(value, out);
+    if (value && typeof value === 'object') collectPropertyNames(value, out, propTypes);
   }
 }
 
@@ -167,12 +259,13 @@ describe('component registry extraction', () => {
 
     for (const [type, def] of defs.entries()) {
       const props = new Set<string>();
+      const propTypes = new Map<string, { type: string; values?: Array<string | number> }>();
       try {
         const markup =
           typeof def.settingsFormMarkup === 'function'
             ? (def.settingsFormMarkup as any)({ fbf })
             : def.settingsFormMarkup;
-        if (markup) collectPropertyNames(markup, props);
+        if (markup) collectPropertyNames(markup, props, propTypes);
         settingsOk++;
       } catch (e) {
         // Record the failure rather than aborting the whole extraction — one
@@ -193,7 +286,10 @@ describe('component registry extraction', () => {
 
       // settingsFormMarkup only sees props a settings-form CONTROL exists
       // for. Also harvest whatever initModel/migrator actually produce at
-      // runtime — see collectModelSourcePaths' header comment.
+      // runtime — see collectModelSourcePaths' header comment. Those extra
+      // paths carry no settings-form control, so they can never be
+      // classified — collectModelSourcePaths deliberately takes no
+      // propTypes map.
       collectModelSourcePaths(def, props);
 
       components[type] = {
@@ -205,13 +301,39 @@ describe('component registry extraction', () => {
         version,
         propsCount: props.size,
         props: [...props],
+        propTypes: Object.fromEntries(propTypes),
         customContainerNames: (def as any).customContainerNames ?? [],
       };
+    }
+
+    // Form-level settings ("formSettings" on a form's markup — layout,
+    // labelCol/wrapperCol, dataLoaderType, permissions, lifecycle scripts,
+    // etc.) are edited through their own settings-form markup exactly like a
+    // component's: `src/components/formDesigner/formSettings.ts` exports the
+    // same `SettingsFormMarkupFactory` shape and is fed straight into
+    // `ConfigurableForm` by `formSettingsEditor.tsx` (`useFormViaFactory(getSettings)`).
+    // So it is extracted the same way as every component above, not invented.
+    let formSettingsResult: { props: string[]; propTypes: Record<string, any> } = { props: [], propTypes: {} };
+    try {
+      const formSettingsMarkup = (getFormSettingsMarkup as any)({ fbf });
+      const formSettingsProps = new Set<string>();
+      const formSettingsPropTypes = new Map<string, { type: string; values?: Array<string | number> }>();
+      if (formSettingsMarkup) collectPropertyNames(formSettingsMarkup, formSettingsProps, formSettingsPropTypes);
+      formSettingsResult = {
+        props: [...formSettingsProps],
+        propTypes: Object.fromEntries(formSettingsPropTypes),
+      };
+    } catch (e) {
+      // Best-effort, same rationale as a single component's settingsFormMarkup
+      // failing above — never let this abort the whole extraction.
+      // eslint-disable-next-line no-console
+      console.warn(`formSettings extraction failed: ${(e as Error).message}`);
     }
 
     const out = {
       summary: { totalTypes: defs.size, settingsOk, settingsFail },
       components,
+      formSettings: formSettingsResult,
     };
 
     const target = process.env.SHESHA_REGISTRY_OUT;

@@ -2,10 +2,15 @@
 
 `assets/registry/registry-0.45.1.json` — generated from Shesha framework source,
 not hand-maintained. It is the authority for which component types exist, which
-props each accepts, and each type's current `version`.
+props each accepts, each type's current `version`, and (per prop, where
+resolvable) a coarse runtime-value type via `propTypes`. It also carries a
+top-level `formSettings` entry for form-level settings (not a toolbox
+component, but extracted the same way from its own settings-form markup).
 
 ## Contents
 - Looking a component up
+- Per-prop types (`propTypes`)
+- `formSettings`
 - What `authorable` means
 - Regenerating
 - Why this replaced the old hand-maintained index
@@ -19,6 +24,43 @@ node -e "const r=require('./assets/registry/registry-0.45.1.json');const c=r.com
 # is this prop valid on this type?
 node -e "const r=require('./assets/registry/registry-0.45.1.json');console.log(r.components['container'].props.includes('desktop.dimensions.width'))"
 ```
+
+## Per-prop types (`propTypes`)
+
+Alongside `props` (a flat list of valid property-path strings — existence
+only), each component carries `propTypes`: an **additive, partial** map of
+`propertyPath -> { type, values? }`, populated only where the settings-form
+control editing that prop declares an unambiguous widget (a `settingsInput`'s
+`inputType`, or a `settingsInputRow` item's own `type`). `type` is one of
+`boolean`, `number`, `string`, `enum` (with `values` when statically known),
+`array`, or `object`. A prop absent from `propTypes` was either not
+classifiable or only ever surfaced via `initModel`/migrator replay with no
+settings-form leaf at all — treat it as unknown, not as "any value goes".
+
+```bash
+# what runtime type does this prop expect?
+node -e "const r=require('./assets/registry/registry-0.45.1.json');console.log(r.components['checkbox'].propTypes['validate.required'])"
+# { type: 'boolean' }
+```
+
+`clean-form-config`'s Step 4c is the primary consumer — see that skill's
+`analysis.md` for the full runtime-type-mismatch procedure.
+
+## `formSettings`
+
+```json
+{
+  "formSettings": {
+    "props": ["layout", "colon", "labelCol.span", "wrapperCol.span", "access", "permissions", "…"],
+    "propTypes": { "colon": { "type": "boolean" }, "labelCol.span": { "type": "number" } }
+  }
+}
+```
+
+Extracted from `src/components/formDesigner/formSettings.ts` — the same
+settings-form markup the framework's own "Form Settings" dialog feeds into
+`ConfigurableForm`. Same `props`/`propTypes` shape as a component entry, no
+component-only fields (`version`, `isInput`, …).
 
 ## What `authorable` means
 

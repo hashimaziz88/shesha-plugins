@@ -1,6 +1,24 @@
 import { isScaffoldingProp, classifyAuthorability } from './classify.mjs';
 
 /**
+ * Filter a raw `propTypes` map down to entries whose key both survived
+ * scaffolding-removal AND is actually present in `keptProps` (the final,
+ * sorted, scaffolding-free prop list for this component/formSettings). This
+ * keeps `propTypes` strictly a subset of `props` — never a source of keys
+ * `props` itself doesn't carry.
+ */
+function filterPropTypes(rawPropTypes, keptProps) {
+  const kept = {};
+  const keptSet = new Set(keptProps);
+  for (const [propPath, info] of Object.entries(rawPropTypes ?? {})) {
+    if (isScaffoldingProp(propPath)) continue;
+    if (!keptSet.has(propPath)) continue;
+    kept[propPath] = info;
+  }
+  return kept;
+}
+
+/**
  * Turn the harness's raw extraction into the committed registry.
  *
  * Pure: no filesystem, no clock, no randomness — so it is unit-testable and
@@ -63,12 +81,32 @@ export function postprocess(raw, { frameworkVersion }) {
       authorable,
       authorableReason: reason,
       props: kept,
+      propTypes: filterPropTypes(src.propTypes, kept),
       customContainerNames: src.customContainerNames ?? [],
     };
   }
 
+  // Form-level settings ("formSettings" on a form's markup) are extracted
+  // from their own settings-form markup exactly like a component (see
+  // extract.test.ts) but are not a toolbox component type, so they get their
+  // own top-level key rather than a synthetic entry under `components`.
+  const rawFormSettings = raw?.formSettings ?? { props: [], propTypes: {} };
+  const formSettingsKept = [];
+  for (const p of rawFormSettings.props ?? []) {
+    if (isScaffoldingProp(p)) stats.droppedScaffoldingProps++;
+    else formSettingsKept.push(p);
+  }
+  formSettingsKept.sort();
+
   return {
-    registry: { frameworkVersion, components },
+    registry: {
+      frameworkVersion,
+      components,
+      formSettings: {
+        props: formSettingsKept,
+        propTypes: filterPropTypes(rawFormSettings.propTypes, formSettingsKept),
+      },
+    },
     stats,
   };
 }

@@ -48,27 +48,57 @@ The registry lives in the sibling `shesha-form-edit` skill, one directory up fro
       "isHidden": false,
       "authorable": true,
       "authorableReason": null,
-      "props": ["background", "background.color", "…", "hidden", "onChangeCustom", "…"]
+      "props": ["background", "background.color", "…", "hidden", "onChangeCustom", "…"],
+      "propTypes": {
+        "hidden": { "type": "boolean" },
+        "labelCol.span": { "type": "number" },
+        "layout": { "type": "enum", "values": ["horizontal", "vertical"] }
+      }
+    }
+  },
+  "formSettings": {
+    "props": ["layout", "colon", "labelCol.span", "wrapperCol.span", "access", "permissions", "…"],
+    "propTypes": {
+      "colon": { "type": "boolean" },
+      "labelCol.span": { "type": "number" },
+      "access": { "type": "enum", "values": [3, 4, 5] }
     }
   }
 }
 ```
 
-`props` is a **flat list of valid property-path strings** — existence only. Unlike the old hand-maintained per-type index, the registry does **not** carry a per-prop `type`, `options`, `JsReturnType`, `async`/`context`/`keyCase`/`valueType` script descriptor, or a `formSettings` entry (form-level settings aren't a component in the framework's toolbox, so the registry — which is extracted from component definitions — has no equivalent object for them).
+`props` is a **flat list of valid property-path strings** — existence only, as before. `propTypes` is an **additive, partial** map alongside it: `propertyPath -> { type, values? }`, populated only for props whose settings-form control declares an unambiguous widget. It comes from the exact same settings-form leaf that already yields `propertyName` — a `settingsInput`'s `inputType` (e.g. `inputType: 'switch'`), or a `settingsInputRow` item's own `type` (e.g. `type: 'numberField'`) — so it is derived from framework source, not hand-maintained. `type` is one of:
+
+| `type` | meaning | source control types |
+|---|---|---|
+| `boolean` | a true/false toggle | `switch`, `checkbox` |
+| `number` | a numeric field | `numberField`, `slider` |
+| `string` | free text / code / colour | `textField`, `textArea`, `codeEditor`, `colorPicker`, `Password`, `link`, `text` |
+| `enum` | one of a fixed set, with `values` when the set is statically known | `dropdown`, `customDropdown`, `radio`, `editModeSelector` |
+| `array` | a list-shaped value | `permissions`, `multiColorPicker`, `editableTagGroup`, `labelValueEditor`, `filtersList`, `columnsList` |
+| `object` | a compound/nested editor, not a scalar leaf | everything else classifiable (autocompletes, `queryBuilder`, `styleBox`, `iconPicker`, `fileUpload`, …) |
+
+A prop with **no** `propTypes` entry means the extractor could not resolve a control type for it (e.g. it only surfaced via `initModel`/migrator replay, with no settings-form leaf at all) — treat it exactly like before: ambiguous, skip type-checking.
+
+There is now also a top-level **`registry.formSettings`** entry — form-level settings (`layout`, `colon`, `labelCol`/`wrapperCol`, `dataLoaderType`, `access`, `permissions`, lifecycle scripts, …) are edited through their own settings-form markup (`src/components/formDesigner/formSettings.ts`, fed into the same `ConfigurableForm` the Form Settings dialog uses), extracted exactly like a component's settings form. It carries the same `props`/`propTypes` shape as a component entry, just without the component-only fields (`version`, `isInput`, …).
 
 For each component being analyzed, build:
 
 ```
 allowedKeys = new Set(registry.components[component.type]?.props ?? [])
+propTypes   = registry.components[component.type]?.propTypes ?? {}
 ```
 
 If `component.type` is not a key in `registry.components` at all, treat it as **`[TYPE UNKNOWN — manual review]`** per Step 4 — do not attempt a base-only fallback check (there is no separate "base" prop set to fall back to; every known type's `props` array is already fully flattened).
 
-**Capability change from the old hand-maintained per-type index** (retired because its data no longer exists anywhere, and duplicating it back into this skill would recreate exactly the problem the registry migration fixed):
+For `formSettings`, build the equivalent from `registry.formSettings.props` / `registry.formSettings.propTypes` — see Step 4 below.
+
+**Capability change from the old hand-maintained per-type index** (retired because its data no longer existed anywhere, and duplicating it back into this skill would have recreated exactly the problem the registry migration fixed — since resolved by extending the registry generator instead, see `shesha-form-edit`'s [component-registry.md](../shesha-form-edit/references/component-registry.md)):
 - **Existence-based dead-property / unknown-type detection for components is fully preserved** — this is the core of Step 4 and is unaffected; it is now checked against the accurate 116-type registry instead of the old 65-type hand index.
-- **Component-level type-mismatch detection (Step 4c) is retired** — the registry has no per-prop expected type, so every property is now the "ambiguous/union type — skip type-checking" case that was already a documented fallback path, applied uniformly.
-- **`formSettings` dead-property/type-mismatch detection is retired** — the registry has no `formSettings` coverage at all, and there is no other authority for it in the plugin. See Step 4 below.
-- **The Step 4g keyCase-driven style-script check now names its three known style-returning props directly** (`customStyle`, `style`, `wrapperStyle`) instead of reading `keyCase` off a prop descriptor — this is a fixed, well-known set, not a per-type index, so hardcoding it does not reintroduce the hand-index problem.
+- **Component-level runtime-type-mismatch detection (Step 4c) is restored** — using `propTypes`, scoped to the `boolean` and `number` categories only (the categories a quoted-string / wrong-primitive mistake is unambiguous for). `string`/`enum`/`array`/`object` props are still not type-checked — too many legitimate shapes (templates, code-bound options, JSON blobs) to check safely without false positives.
+- **`formSettings` dead-property detection is restored** — using `registry.formSettings.props`, walking only `formSettings`'s own top-level keys (mirroring how component-level Step 4 already only checks top-level keys). `formSettings` runtime-type-mismatch detection is restored too, using `registry.formSettings.propTypes`, on the same `boolean`/`number`-only basis as components.
+- **What is still genuinely unavailable, and therefore still not checked**: no `options`/enum-membership validation beyond the static `values` a `dropdown`/`radio` control happens to declare (many enums are computed via a script and carry no static list), no `JsReturnType`/`async`/`context`/`keyCase` script descriptor. These were never recovered because the settings-form leaf carries no equivalent information — inventing them would be exactly the hand-index mistake this skill exists to avoid repeating.
+- **The Step 4g keyCase-driven style-script check still names its three known style-returning props directly** (`customStyle`, `style`, `wrapperStyle`) instead of reading `keyCase` off a prop descriptor — this is a fixed, well-known set, not a per-type index, so hardcoding it does not reintroduce the hand-index problem.
 
 ---
 
@@ -88,7 +118,13 @@ For each component:
    - Tag the whole component as `[TYPE UNKNOWN — manual review]`.
    - Do **not** attempt key-level dead-property detection for it, and do **not** include it in the auto-clean list.
 
-**`formSettings` is not validated.** The registry has no `formSettings` entry (form-level settings aren't a component type), and its previous source — the `base` group file's `_formSettings` entry — was retired along with the rest of the hand-maintained index. There is currently no dead-property or type-mismatch detection for `formSettings`; skip straight to Step 4b.
+**`formSettings` dead-property detection (restored).** The registry carries a top-level `formSettings.props` list (see Step 3), extracted from the real form-level settings-form markup. Build `formSettingsAllowedKeys = new Set(registry.formSettings.props)` and walk **only the top-level keys** of the `formSettings` object (mirroring the component walk above — nested objects are not deep-cleaned here either):
+
+1. Skip keys starting with `_` or `shesha:`.
+2. Skip the structural `version` key (set by the framework's migration machinery, not by the settings form).
+3. If the key is **not in `formSettingsAllowedKeys`** → dead property candidate, tagged `formSettings` rather than a component id/type.
+
+Report and apply exactly like a component's dead properties (Steps 5/7/8), just grouped under the `formSettings` pseudo-row.
 
 ---
 
@@ -111,9 +147,40 @@ Track each removal:
 
 ---
 
-## Step 4c: Type validation for known properties (retired)
+## Step 4c: Runtime-type mismatch detection for known properties (restored)
 
-**This step is retired.** It depended on a per-prop `type`/`options` descriptor that lived in the old hand-maintained per-type index; the registry that replaced that index (Step 3) only records that a property name is valid, not its expected value type, and carries no `formSettings` entry at all. There is no other source for this data in the plugin, and hand-maintaining a replacement type table here would recreate the exact problem the registry migration fixed. Every property is therefore always in the "ambiguous/union type" case — skip type-checking entirely. Do not produce "type mismatches" or "formSettings type mismatches" findings; skip Step 5c and the type-fix portions of Steps 6, 7, and 8 accordingly.
+The registry's `propTypes` map (see Step 3) gives each classifiable prop a coarse category (`boolean`, `number`, `string`, `enum`, `array`, `object`), sourced from the settings-form control that actually edits it. This step uses only the `boolean` and `number` categories — the two a value can be unambiguously wrong for (a quoted `"true"`/`"false"` where a real boolean belongs; a numeric-looking string like `"42"` where a real number belongs). The other categories (`string`, `enum`, `array`, `object`) are **not** checked — too many legitimate shapes (templates, code-bound options, JSON blobs) to check safely without false positives.
+
+`propTypes` keys are **dotted paths**, and most of the boolean/number-classified ones are one or two levels deep (e.g. `hidden` is top-level, but `validate.required`, `labelCol.span`, `shadow.blurRadius` are nested inside an object at that top-level key). Unlike Step 4's dead-property walk — which stays top-level-only because blind existence-checking of arbitrary nested keys against a flat allow-list risks misreading a legitimate container key as a dead leaf — this step does a **targeted** lookup: it already knows the exact dotted path and its expected category from `propTypes`, so it can resolve that one path directly without walking or guessing at anything else.
+
+Run this for both components (against `registry.components[type].propTypes`) and `formSettings` (against `registry.formSettings.propTypes`):
+
+1. For each `path -> { type }` entry in `propTypes` where `type` is `boolean` or `number`:
+   - Resolve `path` against the real component/`formSettings` object by walking its dot segments (`path.split('.')`), stopping (skip this entry) as soon as an intermediate segment is missing, `null`, or not an object — that means the value is simply absent, not a mismatch.
+   - If the resolved value is an `IPropertySetting` wrapper (`{ _mode, _value, _code }`): use `_value` when `_mode === 'value'`; **skip entirely** when `_mode === 'code'` — a script's return type cannot be statically checked.
+   - Skip if the resolved value is `null` or `undefined`.
+2. **`type === 'boolean'`**: flag if the resolved value is not literally `true` or `false` — most commonly a quoted string `"true"`/`"false"`, but any other type also counts.
+   - Classify `[AUTO-FIXABLE]` when the value is exactly the string `"true"` or `"false"` → fix is `value === 'true'`.
+   - Otherwise `[MANUAL REVIEW]`.
+3. **`type === 'number'`**: flag if the resolved value is not literally a JS `number` — most commonly a numeric-looking string like `"42"` or `"3.5"`.
+   - Classify `[AUTO-FIXABLE]` when the value is a string that parses cleanly via `Number(value)` (i.e. `!Number.isNaN(Number(value)) && value.trim().length > 0`) → fix is `Number(value)`.
+   - Otherwise `[MANUAL REVIEW]`.
+4. If `component.type` is not in the registry at all (`[TYPE UNKNOWN]` per Step 4), skip type-checking for it entirely — there is no `propTypes` map to consult.
+
+**Concrete lookup example** (from the sibling registry, Step 3's path):
+
+```bash
+node -e "const r=require('../shesha-form-edit/assets/registry/registry-0.45.1.json'); console.log(r.components.checkbox.propTypes['validate.required'])"
+# { type: 'boolean' }
+node -e "const r=require('../shesha-form-edit/assets/registry/registry-0.45.1.json'); console.log(r.formSettings.propTypes['colon'])"
+# { type: 'boolean' }
+node -e "const r=require('../shesha-form-edit/assets/registry/registry-0.45.1.json'); console.log(r.formSettings.propTypes['labelCol.span'])"
+# { type: 'number' }
+```
+
+So a `checkbox` component with `"validate": { "required": "true" }` (string, not boolean) is an `[AUTO-FIXABLE]` finding at path `validate.required`, and a `formSettings` object with `"colon": "true"` is likewise `[AUTO-FIXABLE]` at path `colon`.
+
+Report under Step 5c; apply under Step 7; summarise under Step 8.
 
 ---
 
@@ -341,9 +408,9 @@ Output format per finding:
 
 ## Step 5: Present the dead property findings
 
-If no dead properties are found, skip this section. (`formSettings` is not validated — see Step 4.)
+If no dead properties are found, skip this section. `formSettings` dead properties (Step 4, restored) are reported in the same table, using the row label `formSettings` in place of a component name/id.
 
-Component dead properties:
+Component (and `formSettings`) dead properties:
 
 ```
 Found N dead properties across M components:
@@ -352,6 +419,7 @@ Component                    | Type         | Dead Properties
 -----------------------------|--------------|-----------------------------
 "First Name" (id: abc…)      | textField    | fontColor, borderRadius
 "Submit" (id: def…)          | button       | backgroundColor
+formSettings                 | —            | legacyOnInitialized
 
 Details:
   • "First Name" (textField)
@@ -360,6 +428,9 @@ Details:
 
   • "Submit" (button)
       - backgroundColor:  "#0070f3"
+
+  • formSettings
+      - legacyOnInitialized:  "..."
 ```
 
 For each dead property value, truncate strings longer than 60 characters with `…`.
@@ -382,9 +453,23 @@ Total: 3 console.log calls removed from 2 components
 
 ---
 
-## Step 5c: Present type mismatch findings (retired)
+## Step 5c: Present type mismatch findings (restored)
 
-Retired along with Step 4c — always skip this section.
+If no runtime-type mismatches were found (Step 4c), skip this section.
+
+Otherwise show auto-fixable items first, then manual-review items:
+
+```
+Runtime-type mismatches (N found):
+  Auto-fixable (value will be converted):
+  • "Accept Terms" (checkbox) [validate.required]: "true" (string) → should be boolean [AUTO-FIXABLE]
+  • formSettings [labelCol.span]: "6" (string) → should be number [AUTO-FIXABLE]
+
+  Manual review required (not changed):
+  • "Discount" (numberField) [defaultValue]: "" (empty string) → should be number [MANUAL REVIEW]
+
+Total: N issues (X auto-fixable, Y manual review)
+```
 
 ---
 
@@ -527,8 +612,9 @@ API calls using .then() chaining (N found — manual review recommended):
 Ask the user a **single** confirm prompt covering all findings:
 
 > Apply N cleanups:
->   - X dead properties removed
+>   - X dead properties removed (including formSettings)
 >   - Y console.log calls removed
+>   - W runtime-type mismatches fixed (Z items need manual review — listed above)
 >   - V values shape fixes (U items need manual review — listed above)
 >   - X layout fixes (Y items need manual review — listed above)
 >   - N script label references (manual review only — listed above)
@@ -539,7 +625,7 @@ Ask the user a **single** confirm prompt covering all findings:
 >
 > Proceed? (yes / no)
 
-Adjust to omit whichever counts are zero. If there is nothing to clean, tell the user and stop. (Type-mismatch fixes are retired — see Step 4c — so there is no `skip-type-fixes` option and no type-fix line item any more.)
+Adjust to omit whichever counts are zero. If there is nothing to clean, tell the user and stop.
 
 - **no** → stop, output nothing.
 - **yes** → apply everything (dead props + console.log + all auto-fixable values/layout/API fixes).
@@ -549,9 +635,9 @@ Adjust to omit whichever counts are zero. If there is nothing to clean, tell the
 ## Step 7: Output the cleaned form
 
 1. Deep-clone the markup object.
-2. Walk the component tree. For each component flagged in Step 4, delete the dead property keys. (`formSettings` is not validated in Step 4, so nothing is deleted from it here.)
+2. Walk the component tree. For each component flagged in Step 4, delete the dead property keys. Also delete any `formSettings` dead property keys flagged in Step 4 (top-level only, per that step).
 3. Apply console.log cleanup: for every string value that contained `console.log`, replace with the regex-stripped, blank-lines-collapsed version.
-4. Type fixes are retired along with Step 4c — there is nothing to apply here.
+4. Apply auto-fixable runtime-type fixes (Step 4c `[AUTO-FIXABLE]` items): for each flagged path, replace the value at that path (walking the same dotted segments used to find it) with the converted value — `value === 'true'` for a boolean target, `Number(value)` for a number target. Do **not** modify `[MANUAL REVIEW]` type-mismatch items.
 5. Apply auto-fixable values shape fixes:
    - For each item flagged with missing `color` → add `"color": ""` to the item.
    - Do **not** modify items flagged `[MANUAL REVIEW]`.
@@ -582,10 +668,18 @@ Cleaned form — N changes applied:
 Dead properties removed:
   • "First Name" (textField): fontColor, borderRadius
   • "Submit" (button): backgroundColor
+  • formSettings: legacyOnInitialized
 
 console.log calls removed:
   • "My Component" (textField) → onChangeCustom: 2 call(s)
   • "Submit" (button) → customVisibility._code: 1 call(s)
+
+Runtime-type mismatches fixed:
+  • "Accept Terms" (checkbox) [validate.required]: "true" → true
+  • formSettings [labelCol.span]: "6" → 6
+
+Runtime-type mismatches needing manual review (not changed):
+  • "Discount" (numberField) [defaultValue]: "" is not a number
 
 Values shape fixes applied:
   • "Category" (dropdown) → item[1]: added color ""

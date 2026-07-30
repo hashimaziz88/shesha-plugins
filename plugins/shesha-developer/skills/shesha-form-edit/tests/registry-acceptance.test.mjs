@@ -105,3 +105,52 @@ test('file is deterministically sorted so regeneration diffs cleanly', () => {
   const keys = Object.keys(C);
   assert.deepEqual(keys, [...keys].sort());
 });
+
+test('propTypes is a strict subset of props for every component', () => {
+  // Restored per-prop type metadata (Phase 5 task: two checks were retired
+  // when the hand-maintained groups index was replaced by this registry;
+  // this is what makes them extractable again). Additive only — never a
+  // source of keys `props` itself doesn't carry.
+  for (const [type, c] of Object.entries(C)) {
+    assert.ok(c.propTypes && typeof c.propTypes === 'object', `${type} has no propTypes object`);
+    const propsSet = new Set(c.props);
+    for (const propPath of Object.keys(c.propTypes)) {
+      assert.ok(propsSet.has(propPath), `${type}.propTypes has "${propPath}" which is not in props`);
+    }
+  }
+});
+
+test('propTypes classifies known boolean/number/enum leaves correctly', () => {
+  // Spot-checks against real settings-form controls read directly from
+  // framework source (checkbox/settingsForm.ts, container/settingsForm.ts).
+  assert.deepEqual(C.checkbox.propTypes['validate.required'], { type: 'boolean' });
+  assert.deepEqual(C.container.propTypes['hidden'], { type: 'boolean' });
+});
+
+test('every propTypes entry uses one of the documented coarse categories', () => {
+  const KNOWN = new Set(['boolean', 'number', 'string', 'enum', 'array', 'object']);
+  for (const [type, c] of Object.entries(C)) {
+    for (const [propPath, info] of Object.entries(c.propTypes)) {
+      assert.ok(KNOWN.has(info.type), `${type}.propTypes["${propPath}"] has unknown type "${info.type}"`);
+      if (info.values !== undefined) assert.ok(Array.isArray(info.values), `${type}.propTypes["${propPath}"].values should be an array`);
+    }
+  }
+});
+
+test('formSettings is extracted from the real form-level settings form, not invented', () => {
+  // src/components/formDesigner/formSettings.ts — the same markup the
+  // framework's own "Form Settings" dialog feeds into ConfigurableForm.
+  assert.ok(Array.isArray(registry.formSettings?.props), 'registry.formSettings.props should be an array');
+  assert.ok(registry.formSettings.props.length > 10, 'formSettings prop coverage looks too thin');
+  for (const p of ['layout', 'colon', 'labelCol.span', 'wrapperCol.span', 'access', 'permissions']) {
+    assert.ok(registry.formSettings.props.includes(p), `formSettings.props should include "${p}"`);
+  }
+  assert.deepEqual(registry.formSettings.propTypes['colon'], { type: 'boolean' });
+  assert.deepEqual(registry.formSettings.propTypes['labelCol.span'], { type: 'number' });
+  assert.equal(registry.formSettings.propTypes['access'].type, 'enum');
+  assert.deepEqual([...registry.formSettings.propTypes['access'].values].sort(), [3, 4, 5]);
+});
+
+test('formSettings has no scaffolding leakage either', () => {
+  for (const p of registry.formSettings.props) assert.equal(isScaffoldingProp(p), false, p);
+});
