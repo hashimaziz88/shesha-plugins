@@ -1,6 +1,6 @@
 {
   "$overlay": "card-with-header-strip",
-  "_note": "Generic card surface = white container + hairline border + radius 8 + a whisper card shadow (Shesha default is border-forward). Header strip = surfaceAlt (#F8F8F9) bg with a bottom hairline only (borderType:'custom' bottom-side — per-side border renders; an 'all' border with a 0 radius would box the rounded card). Body = 16 padding. COLOUR IS OUT OF SCOPE: surfaces/hairlines/shadow are structural neutrals; the heading + count-badge TEXT colour is a $role:sectionHeading placeholder the live app theme resolves. font on a container is a no-op so the heading size/weight/colour live on the text child, not the strip.",
+  "_note": "Generic card surface = $role:cardBg container + $role:hairline border + radius 8 + a whisper card shadow (Shesha default is border-forward). Header strip = $role:cardHeaderBg bg with a bottom $role:divider hairline only (borderType:'custom' bottom-side — per-side border renders; an 'all' border with a 0 radius would box the rounded card). Body = 16 padding. COLOUR IS OUT OF SCOPE: surfaces/hairlines/shadow are $role: token references resolved per active brand; the heading + count-badge TEXT colour is a $role:sectionHeading placeholder the live app theme resolves; the count-badge fill is $palette.surfaces.surfaceInset (no dedicated role exists for it yet). font on a container is a no-op so the heading size/weight/colour live on the text child, not the strip.",
   "targets": {
     "cardWithHeaderStrip": {
       "desktop": {
@@ -11,13 +11,13 @@
         "flexWrap": "nowrap",
         "gap": "0",
         "dimensions": { "width": "100%", "minHeight": "fit-content" },
-        "background": { "type": "color", "color": "#ffffff" },
+        "background": { "type": "color", "color": "$role:cardBg" },
         "border": {
           "hideBorder": false,
           "radiusType": "all",
           "borderType": "all",
           "border": {
-            "all": { "width": "1px", "style": "solid", "color": "#E8EAF0" },
+            "all": { "width": "1px", "style": "solid", "color": "$role:hairline" },
             "top": {}, "bottom": {}, "left": {}, "right": {}
           },
           "radius": { "all": 8 }
@@ -37,7 +37,7 @@
         "flexWrap": "nowrap",
         "gap": "8",
         "dimensions": { "width": "100%", "minHeight": "fit-content" },
-        "background": { "type": "color", "color": "#F8F8F9" },
+        "background": { "type": "color", "color": "$role:cardHeaderBg" },
         "border": {
           "hideBorder": false,
           "radiusType": "all",
@@ -45,7 +45,7 @@
           "border": {
             "all": {},
             "top": {},
-            "bottom": { "width": "1px", "style": "solid", "color": "#F0F2F5" },
+            "bottom": { "width": "1px", "style": "solid", "color": "$role:divider" },
             "left": {}, "right": {}
           },
           "radius": { "all": 0 }
@@ -65,7 +65,7 @@
     "cardCountBadge": {
       "desktop": {
         "font": { "type": "Segoe UI", "size": 12, "weight": "600", "color": "$role:sectionHeading", "align": "center" },
-        "background": { "type": "color", "color": "#f0f2f5" },
+        "background": { "type": "color", "color": "$palette.surfaces.surfaceInset" },
         "border": {
           "hideBorder": false,
           "radiusType": "all",

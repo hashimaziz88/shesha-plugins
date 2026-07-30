@@ -1,6 +1,6 @@
 {
   "$overlay": "rail-label-value-row",
-  "_note": "Structural-neutral only. The row is a fixed 96px label cell + a calc(100% - 106px) value cell (96 + 10px row gap) — the CLEAN fixed-width split idiom (dimensions.width is the lever; per-child customStyle.flex is inert). The bottom hairline #F0F2F5 and the label ink-soft #9BA3B8 are structural neutrals taken verbatim from the live form, so they are literal here. No brand/accent colour belongs in this overlay — the value control takes its own colour from the live theme / reference list. Border uses borderType:'custom' with ONLY the bottom side set (container:border.perSide).",
+  "_note": "Structural-neutral only. The row is a fixed 96px label cell + a calc(100% - 106px) value cell (96 + 10px row gap) — the CLEAN fixed-width split idiom (dimensions.width is the lever; per-child customStyle.flex is inert). The bottom hairline ($role:divider) and the label ink-soft ($role:mutedText) are structural-neutral token references, resolved per the active brand. No brand/accent colour belongs in this overlay — the value control takes its own colour from the live theme / reference list. Border uses borderType:'custom' with ONLY the bottom side set (container:border.perSide).",
   "targets": {
     "rlvRow": {
       "desktop": {
@@ -23,7 +23,7 @@
           "border": {
             "all": {},
             "top": {},
-            "bottom": { "width": "1px", "style": "solid", "color": "#F0F2F5" },
+            "bottom": { "width": "1px", "style": "solid", "color": "$role:divider" },
             "left": {},
             "right": {}
           },
@@ -59,7 +59,7 @@
           "type": "Segoe UI",
           "size": 12.5,
           "weight": "500",
-          "color": "#9BA3B8",
+          "color": "$role:mutedText",
           "align": "left"
         },
         "dimensions": { "width": "100%" },

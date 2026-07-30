@@ -49,7 +49,7 @@ The contract that wires the conductor to the sub-skills is [`references/handoff-
 
 ## The design system is generic, editable, and reusable
 
-Nothing about a brand is hard-coded into the recipes, blocks, or skills. **Brand lives entirely in one token file.**
+Nothing about a brand is hard-coded into the recipes, blocks, or skills. **Brand lives almost entirely in one token file** — as of the Task 3 hex audit, every block style-overlay resolves through `$role:`/`$palette.` references except three literal greys in `page-header-band.style.json` (`#f0f0f0`, `#8c8c8c`, `#262626`) that match no colour in `shesha.tokens.json`; see that overlay's `$note` and `.superpowers/sdd/2026-07-29-phase5-debt-paydown/task-3-report.md`.
 
 ### 1. The brand token file — the single source of brand truth
 `shesha-design-system/assets/themes/<brand>.tokens.json`. **The shipped default is `shesha.tokens.json`** — the framework's own Cobalt/Navy/Athens-Grey brand, used automatically whenever no app-specific brand is named. `requirements-studio.tokens.json` ships alongside it as an **example custom brand** (LandBank green). All brand files live in this one folder. **Resolving which brand to use is a lookup, never an authoring step** — run `shesha-design-system/scripts/resolve-brand.mjs`, which returns the requested brand if its file exists and the default otherwise. Creating a new brand file is a separate, explicitly requested task and must never happen inside a design, form or styling run (see `shesha-design-system` SKILL.md Step 1 for why). Each brand file holds, as data:
@@ -61,13 +61,13 @@ Nothing about a brand is hard-coded into the recipes, blocks, or skills. **Brand
 - `roles` — a **semantic indirection map**: e.g. `"bodyText": "palette.ink.primary"`, `"cardBg": "palette.surfaces.surface"`, `"cardRadius": "radius.lg"`
 - `$antdTheme` *(default brand)* — the pre-resolved Ant Design 6.x `ConfigProvider` `{token, components}` object, applied verbatim at the app level (the "set once" theme layer)
 
-### 2. Recipes & overlays reference **`$role:` tokens, never hexes**
-A block style-overlay says `"color": "$role:bodyText"`, not `"#1f1f1f"`. At stamp time the overlay's `$role:` tokens are resolved through the token file's `roles` map (via [`references/token-to-prop-mapping.md`](../shesha-design-system/references/token-to-prop-mapping.md)). So **the same blocks/overlays render any brand** — you only swap the token file.
+### 2. Recipes & overlays reference **`$role:` tokens, almost never hexes**
+A block style-overlay says `"color": "$role:bodyText"`, not `"#1f1f1f"`. At stamp time the overlay's `$role:` tokens are resolved through the token file's `roles` map (via [`references/token-to-prop-mapping.md`](../shesha-design-system/references/token-to-prop-mapping.md)). So **the same blocks/overlays render any brand** — you only swap the token file, for every colour channel except the three off-token greys named above (a genuine gap, not an oversight left uninvestigated: `assets/block-styles/**` carries a guard test asserting zero literal hexes outside a named, commented allowlist of exactly those three).
 
 ### 3. The capability matrix is empirical and version-stamped
 [`shesha-design-system/assets/capability-matrix.json`](../shesha-design-system/assets/capability-matrix.json) (+ a readable `.md`) records which v7 style channel actually **renders** on which component, measured against a live backend. It is the source of truth for "what works" and gets **re-measured on a Shesha upgrade** (diff = upgrade-impact report). `validate-blocks.js` gates every block against it.
 
-> **To theme a brand-new app you write zero code:** copy the token file, edit the values, point the designer at it. The recipes, blocks, overlays, and capability matrix are all reused as-is.
+> **To theme a brand-new app you write next to zero code:** copy the token file, edit the values, point the designer at it. The recipes, blocks, overlays, and capability matrix are all reused as-is — except `page-header-band`'s three off-token greys, which still need a literal edit (or a new matching token) until the theme defines an equivalent colour.
 
 ---
 

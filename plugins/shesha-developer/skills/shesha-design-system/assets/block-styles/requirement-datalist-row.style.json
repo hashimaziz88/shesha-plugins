@@ -12,23 +12,23 @@
     },
     "rowCard": {
       "desktop": {
-        "background": { "type": "color", "color": "#ffffff" },
-        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "solid", "color": "#E8EAF0" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 8 } },
+        "background": { "type": "color", "color": "$role:cardBg" },
+        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "solid", "color": "$role:hairline" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 8 } },
         "shadow": { "offsetX": 0, "offsetY": 1, "blurRadius": 4, "spreadRadius": 0, "color": "rgba(0,0,0,0.06)" },
         "dimensions": { "width": "auto", "height": "auto", "minHeight": "fit-content", "maxHeight": "auto", "minWidth": "0px", "maxWidth": "100%" },
         "stylingBox": "{\"paddingTop\":\"14\",\"paddingRight\":\"16\",\"paddingBottom\":\"14\",\"paddingLeft\":\"16\"}",
         "enableStyleOnReadonly": false
       },
       "tablet": {
-        "background": { "type": "color", "color": "#ffffff" },
-        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "solid", "color": "#E8EAF0" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 8 } },
+        "background": { "type": "color", "color": "$role:cardBg" },
+        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "solid", "color": "$role:hairline" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 8 } },
         "shadow": { "offsetX": 0, "offsetY": 1, "blurRadius": 4, "spreadRadius": 0, "color": "rgba(0,0,0,0.06)" },
         "dimensions": { "width": "auto", "height": "auto", "minHeight": "fit-content", "maxWidth": "100%" },
         "stylingBox": "{\"paddingTop\":\"14\",\"paddingRight\":\"16\",\"paddingBottom\":\"14\",\"paddingLeft\":\"16\"}"
       },
       "mobile": {
-        "background": { "type": "color", "color": "#ffffff" },
-        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "solid", "color": "#E8EAF0" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 8 } },
+        "background": { "type": "color", "color": "$role:cardBg" },
+        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "solid", "color": "$role:hairline" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 8 } },
         "shadow": { "offsetX": 0, "offsetY": 1, "blurRadius": 4, "spreadRadius": 0, "color": "rgba(0,0,0,0.06)" },
         "dimensions": { "width": "auto", "height": "auto", "minHeight": "fit-content", "maxWidth": "100%" },
         "stylingBox": "{\"paddingTop\":\"14\",\"paddingRight\":\"16\",\"paddingBottom\":\"14\",\"paddingLeft\":\"16\"}"
@@ -45,7 +45,7 @@
       "mobile": { "dimensions": { "width": "fit-content", "maxWidth": "calc(100% - 72px)" } }
     },
     "rowNumberBadge": {
-      "desktop": { "font": { "type": "Segoe UI", "size": 12, "weight": "700", "align": "left", "color": "#9BA3B8" }, "border": {}, "background": {}, "shadow": {}, "stylingBox": "{}" },
+      "desktop": { "font": { "type": "Segoe UI", "size": 12, "weight": "700", "align": "left", "color": "$role:mutedText" }, "border": {}, "background": {}, "shadow": {}, "stylingBox": "{}" },
       "tablet": {}, "mobile": {}
     },
     "rowTypeBadge": {
@@ -73,7 +73,7 @@
     },
     "rowMetaText": {
       "$note": "Apply to each meta text component the form adds inside rowMeta (e.g. 'Release · …'). Muted 12px.",
-      "desktop": { "font": { "type": "Segoe UI", "size": 12, "weight": "400", "align": "left", "color": "#9BA3B8" }, "border": {}, "background": {}, "shadow": {}, "stylingBox": "{}" },
+      "desktop": { "font": { "type": "Segoe UI", "size": 12, "weight": "400", "align": "left", "color": "$role:mutedText" }, "border": {}, "background": {}, "shadow": {}, "stylingBox": "{}" },
       "tablet": {}, "mobile": {}
     }
   }

@@ -1,27 +1,27 @@
 {
   "$overlay": "rail-panel",
-  "$note": "Neutral channels only. card = white surface, hairline border, radius 8, soft card shadow, 16px inner padding. Title text = section heading ($role, brand colour from live theme). Count badge = muted neutral pill (surface #f0f2f5 / muted #9BA3B8). Add link colour = app-theme primary (buttonGroup link, NOT styled here). datalist gap 12. Rail stacking gap (16) is owned by the enclosing detailRail container, not this card.",
+  "$note": "Neutral channels only. card = $role:cardBg surface, $role:hairline border, radius 8, soft card shadow, 16px inner padding. Title text = section heading ($role, brand colour from live theme). Count badge = muted neutral pill (surface $palette.surfaces.surfaceInset — no dedicated role exists for it yet / muted $role:mutedText). Add link colour = app-theme primary (buttonGroup link, NOT styled here). datalist gap 12. Rail stacking gap (16) is owned by the enclosing detailRail container, not this card.",
   "targets": {
     "railCard": {
       "desktop": {
-        "background": { "type": "color", "color": "#ffffff" },
-        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "solid", "color": "#E8EAF0" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 8 } },
+        "background": { "type": "color", "color": "$role:cardBg" },
+        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "solid", "color": "$role:hairline" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 8 } },
         "shadow": { "offsetX": 0, "offsetY": 1, "blurRadius": 4, "spreadRadius": 0, "color": "rgba(0,0,0,0.06)" },
         "dimensions": { "width": "100%", "height": "auto", "minHeight": "0px", "maxHeight": "auto", "minWidth": "0px", "maxWidth": "auto" },
         "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}",
         "enableStyleOnReadonly": false
       },
       "tablet": {
-        "background": { "type": "color", "color": "#ffffff" },
-        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "solid", "color": "#E8EAF0" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 8 } },
+        "background": { "type": "color", "color": "$role:cardBg" },
+        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "solid", "color": "$role:hairline" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 8 } },
         "shadow": { "offsetX": 0, "offsetY": 1, "blurRadius": 4, "spreadRadius": 0, "color": "rgba(0,0,0,0.06)" },
         "dimensions": { "width": "100%", "height": "auto" },
         "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}",
         "enableStyleOnReadonly": false
       },
       "mobile": {
-        "background": { "type": "color", "color": "#ffffff" },
-        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "solid", "color": "#E8EAF0" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 8 } },
+        "background": { "type": "color", "color": "$role:cardBg" },
+        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "solid", "color": "$role:hairline" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 8 } },
         "shadow": { "offsetX": 0, "offsetY": 1, "blurRadius": 4, "spreadRadius": 0, "color": "rgba(0,0,0,0.06)" },
         "dimensions": { "width": "100%", "height": "auto" },
         "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}",
@@ -57,9 +57,9 @@
     },
     "railCount": {
       "desktop": {
-        "font": { "type": "Segoe UI", "size": 12, "weight": "500", "align": "center", "color": "#9BA3B8" },
-        "background": { "type": "color", "color": "#f0f2f5" },
-        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "none", "color": "#E8EAF0" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 10 } },
+        "font": { "type": "Segoe UI", "size": 12, "weight": "500", "align": "center", "color": "$role:mutedText" },
+        "background": { "type": "color", "color": "$palette.surfaces.surfaceInset" },
+        "border": { "hideBorder": false, "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "style": "none", "color": "$role:hairline" }, "top": {}, "bottom": {}, "left": {}, "right": {} }, "radius": { "all": 10 } },
         "dimensions": { "width": "auto", "height": "auto", "minHeight": "20px", "maxHeight": "auto", "minWidth": "20px", "maxWidth": "auto" },
         "stylingBox": "{\"paddingTop\":\"0\",\"paddingRight\":\"8\",\"paddingBottom\":\"0\",\"paddingLeft\":\"8\"}",
         "shadow": {}

@@ -1,10 +1,10 @@
 {
   "$overlay": "page-header-band",
-  "$note": "Neutral structural channels only. Brand/accent colour (orange/green) is NOT here — it comes from the live app theme. Button fill = app-theme primary (set on buttonType, not via overlay). Status pill colours come from the reference list. Heading/breadcrumb greys below are structural-neutral text greys, not brand.",
+  "$note": "Neutral structural channels only. Brand/accent colour (orange/green) is NOT here — it comes from the live app theme. Button fill = app-theme primary (set on buttonType, not via overlay). Status pill colours come from the reference list. Heading/breadcrumb greys below are structural-neutral text greys, not brand. KNOWN UNMATCHED HEXES (Task 3 audit, no shesha.tokens.json colour equals these — do not invent a token to absorb them, see task-3-report.md): pageHeaderBand.border.border.bottom.color #f0f0f0 (nearest existing token is palette.lines.divider #F0F2F5 — a genuinely different value, not a rounding artifact); breadcrumbTrail.font.color #8c8c8c; titleText.font.color #262626 (all three breakpoints).",
   "targets": {
     "pageHeaderBand": {
       "desktop": {
-        "background": { "type": "color", "color": "#ffffff" },
+        "background": { "type": "color", "color": "$role:cardBg" },
         "border": {
           "hideBorder": false,
           "radiusType": "all",
