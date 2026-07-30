@@ -127,7 +127,7 @@ function nodeLabel(node) {
 // (verified against tests/fixtures/t1-clean.json and the brief's own test
 // fixtures), while dimensions/border/background/shadow/stylingBox are
 // nested per-breakpoint under desktop/tablet/mobile (verified against
-// assets/examples/employee-create.json, and the shape roles.styles.json
+// assets/golden/capture--employee-create.json, and the shape roles.styles.json
 // resolves to). Some fully-styled components duplicate the flex props again
 // inside each breakpoint block. This view merges both: the breakpoint block
 // (if any) overrides the top-level fallback, so a check works whichever shape
@@ -640,8 +640,8 @@ function checkLooseButton(node, ctx, out) {
 // Corrected in Task 5: a DOTTED propertyName (e.g. "usedModule.name",
 // "baseProject.status") is a sanctioned Shesha convention for reaching a
 // property on a related/nested entity — it appears throughout this very
-// skill's own bundled canonical seeds (assets/examples/rs-detail-with-
-// header.json, rs-table.json, rs-subtable-tab-fragment.json). The original
+// skill's own bundled canonical seeds (assets/golden/hub--rs-detail-with-
+// header.json, assets/examples/rs-subtable-tab-fragment.json). The original
 // regex had no notion of a path separator, so it flagged every nested
 // binding as a case violation even when each individual segment was
 // correctly camelCase. isCamel() now checks each dot-separated segment

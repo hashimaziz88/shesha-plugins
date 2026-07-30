@@ -25,9 +25,10 @@ zero problems against the registry and role catalogue.
 | `dashboard` | `dashboard.flow.json` | — | Metric tiles + a chart, no single entity binding: page + header band + a row of `metric-tile` nodes (`card-grid`) + at least one `chart-surface` wrapping an authorable chart type (`barChart`/`lineChart`/`pieChart`/`polarAreaChart`). |
 | `wizard` | `wizard.flow.json` | — | Multi-step capture split across steps with its own progression state: the `wizard` component (role `wizard-shell`) holding per-step `wizard-step` containers, plus `validationErrors`. Back/Next/Done navigation is the wizard component's own built-in affordance (`showBackButton`, `showDoneButton`, `backButtonText`, …) — no separate navigation `buttonGroup` is authored. |
 
-Other exemplars available in `assets/examples/` that don't map to a single archetype above but are
-useful as fragments: `inline-editable-table.json` (an inline-edit grid variant of `table-worklist`),
-`rs-subtable-tab-fragment.json` (a subtable-in-tab fragment, used inside `record-detail` bodies).
+Other seeds that don't map to a single archetype above but are useful as fragments:
+`assets/golden/inline-card--inline-editable-table.json` (an inline-edit grid variant of
+`table-worklist`), `assets/examples/rs-subtable-tab-fragment.json` (a subtable-in-tab fragment, used
+inside `record-detail` bodies).
 
 ## How the eight shipped manifests were scoped
 

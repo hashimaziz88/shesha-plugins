@@ -10,7 +10,7 @@
  * tier2.mjs's T2-DANGLING-FORMREF keys off exactly those two field names, and
  * a blueprint's `target` (a bare screen id like "employee-table") has no
  * module to pair it with. A `{ navigationType: "url", url }` shape (the same
- * shape assets/examples/employee-create.json's own "Back" button uses) says
+ * shape assets/golden/capture--employee-create.json's own "Back" button uses) says
  * the same thing without tripping a check that has no way to verify a bare
  * screen id anyway.
  */

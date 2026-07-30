@@ -1,6 +1,6 @@
 /**
  * datatable column-item construction. Shape verified against
- * assets/examples/employee-table.json's real, working "data" columns:
+ * assets/golden/table-worklist--employee-table.json's real, working "data" columns:
  * { id, propertyName, description, allowSorting, caption, columnType: "data",
  *   createComponent: {type:"[not-editable]"}, displayComponent:
  *   {type:"[default]"}, editComponent: {type:"[not-editable]"}, isVisible,
