@@ -7,7 +7,7 @@ bottom) and trust that.
 
 > Every component must carry its integer `version` (a versionless component re-runs the whole
 > legacy migration chain at render and can throw `e.match` / `reading 'migrator'` / `reading 'version'`).
-> `parentId` is mandatory on every node (root-level → `"root"`). `id` must be a real UUID.
+> `parentId` is mandatory on every node (root-level → `"root"`). `id` must be a generated unique id — a UUID or a nanoid, never a short placeholder.
 
 ## Versions (0.45.x)
 
@@ -67,7 +67,7 @@ TOKEN=...; curl -s "$BASE/api/services/Shesha/FormConfiguration/GetAll?MaxResult
 def w(o):\n  import collections\n  pass"  # in practice: walk each form's stringified markup, record max version per type
 ```
 
-Prefer this over reading large seed files. **Do not** read `employee-table.json`,
-`rs-create-dialog.json`, or other multi-thousand-line seeds wholesale — open them only with
+Prefer this over reading large seed files. **Do not** read `table-worklist--employee-table.json`,
+`modal-dialog--rs-create-dialog.json`, or other multi-thousand-line seeds wholesale — open them only with
 `Grep`/offset for one specific fragment. Prefer `assets/exemplars/` first — every form there is
 under ~400 lines and safe to read whole.

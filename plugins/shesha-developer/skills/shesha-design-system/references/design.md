@@ -90,7 +90,7 @@ Translate plan items into component props:
 | Shadow | `desktop.shadow.{offsetX, offsetY, blurRadius, color}` |
 | Section list | Outer container's `components` array order, with sub-containers per section |
 
-Reference existing seeds (`auth-login.json`, `dashboard.json`) for shape — copy the structure, override the style blocks with the plan's values.
+Reference existing seeds (`shesha-form-edit/assets/golden/auth-page--auth-login.json`, `shesha-form-edit/assets/golden/dashboard--dashboard.json`) for shape — copy the structure, override the style blocks with the plan's values.
 
 ---
 

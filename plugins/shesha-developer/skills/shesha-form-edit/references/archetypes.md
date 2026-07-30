@@ -16,11 +16,11 @@ zero problems against the registry and role catalogue.
 
 | Archetype | Flow manifest | Seed / exemplar | When to use |
 |---|---|---|---|
-| `table-worklist` | `table-worklist.flow.json` | `employee-table.json`, `rs-table.json` | Dense admin grid: dataContext + toolbar (Add action, quick search) + datatable + pager. The default for "a list/table of X". |
+| `table-worklist` | `table-worklist.flow.json` | `table-worklist--employee-table.json` | Dense admin grid: dataContext + toolbar (Add action, quick search) + datatable + pager. The default for "a list/table of X". |
 | `record-detail` | `record-detail.flow.json` | `assets/exemplars/record-detail-simple.json`, `assets/exemplars/record-detail-with-children.json` | Per-record page reached by navigating from a table row: header band carrying the Start Edit/Submit/Cancel Edit lifecycle, plus a body split into a main column and a related-panels rail. |
-| `capture-dialog` | `capture-dialog.flow.json` | `rs-create-dialog.json`, `rs-link-add-dialog.json` | Modal create/edit hosted by a parent's Add action (subtable toolbar, table Add button). Submits via the dialog footer — the dialog chrome supplies Save/Cancel, so the form body itself does not author a Submit button. |
-| `standalone-capture` | `standalone-capture.flow.json` | `standalone-create.json`, `employee-create.json` | Full-page create/edit opened as its own screen (not a dialog) — "make a form for X" with no parent context. Always needs a Submit **and** a Back exit; a form you can save but not leave is the single most-forgotten defect in this codebase (see [form-quality.md](form-quality.md)). |
-| `list-card` | `list-card.flow.json` | `entity-datalist.json`, `entity-card.json` | A `datalist` of row-template cards rather than a grid — browsing/gallery views. dataContext + toolbar (Add) + `datalist` + pager; the row template (`entity-card.json`-style) is a separately published form, declared as a `rowTemplate` dependency alongside the create and detail dependencies the Add action and row navigation need. |
+| `capture-dialog` | `capture-dialog.flow.json` | `modal-dialog--rs-create-dialog.json`, `assets/examples/rs-link-add-dialog.json` | Modal create/edit hosted by a parent's Add action (subtable toolbar, table Add button). Submits via the dialog footer — the dialog chrome supplies Save/Cancel, so the form body itself does not author a Submit button. |
+| `standalone-capture` | `standalone-capture.flow.json` | `capture-standalone--standalone-create.json`, `capture--employee-create.json` | Full-page create/edit opened as its own screen (not a dialog) — "make a form for X" with no parent context. Always needs a Submit **and** a Back exit; a form you can save but not leave is the single most-forgotten defect in this codebase (see [form-quality.md](form-quality.md)). |
+| `list-card` | `list-card.flow.json` | `list-card--entity-datalist.json`, `list-card-item--entity-card.json` | A `datalist` of row-template cards rather than a grid — browsing/gallery views. dataContext + toolbar (Add) + `datalist` + pager; the row template (`list-card-item--entity-card.json`-style) is a separately published form, declared as a `rowTemplate` dependency alongside the create and detail dependencies the Add action and row navigation need. |
 | `hub` | `hub.flow.json` | — | Landing page of navigation tiles into other screens: page + header band + a wrapping tile grid (`card-grid`) + repeated `nav-tile` nodes, each a container holding a text label and a navigate action. |
 | `dashboard` | `dashboard.flow.json` | — | Metric tiles + a chart, no single entity binding: page + header band + a row of `metric-tile` nodes (`card-grid`) + at least one `chart-surface` wrapping an authorable chart type (`barChart`/`lineChart`/`pieChart`/`polarAreaChart`). |
 | `wizard` | `wizard.flow.json` | — | Multi-step capture split across steps with its own progression state: the `wizard` component (role `wizard-shell`) holding per-step `wizard-step` containers, plus `validationErrors`. Back/Next/Done navigation is the wizard component's own built-in affordance (`showBackButton`, `showDoneButton`, `backButtonText`, …) — no separate navigation `buttonGroup` is authored. |
@@ -57,7 +57,7 @@ build as complete.
 - **`capture-dialog`** — a root container, `validationErrors`, and an exit `buttonGroup` carrying
   `Close Dialog` / `shesha.common`. No Submit button is required in the node set: this archetype
   relies on the dialog footer submit supplied by the hosting `Show Dialog` action, matching every
-  shipped create-dialog seed (`rs-create-dialog.json`, `rs-link-add-dialog.json`) — none of them
+  shipped create-dialog seed (`modal-dialog--rs-create-dialog.json`, `assets/examples/rs-link-add-dialog.json`) — none of them
   author an in-body Submit button.
 - **`standalone-capture`** — page-root container, header band, `validationErrors`, and an action row
   `buttonGroup` carrying **both** `Submit`/`shesha.form` and `Navigate`/`shesha.common`. This pairing
@@ -70,7 +70,7 @@ build as complete.
   `onListItemClick` row-navigation wiring against a `detailForm` dependency), and a pager row. It
   does **not** require a `datatable`: the whole point of this archetype is a `datalist` of
   row-template cards, not a grid. Three dependencies, not two — the row template
-  (`entity-card.json`-style) is its own separately published form, on top of the create-dialog and
+  (`list-card-item--entity-card.json`-style) is its own separately published form, on top of the create-dialog and
   record-detail dependencies `table-worklist` also needs.
 - **`hub`** — page-root container, header band, a `card-grid` tile grid, and three `nav-tile`
   containers (more than one, to prove the archetype is a grid and not a single tile), each with a
