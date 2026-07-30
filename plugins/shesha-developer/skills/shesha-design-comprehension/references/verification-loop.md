@@ -2,7 +2,7 @@
 
 The mechanism that turns "it renders" into "it's placed where the design put it". This is what actually fixes the container-drift complaint: the blueprint's `assertions` become a measured pass/fail gate on the built Shesha form, and failures become concrete fixes routed back to `shesha-form-edit`.
 
-Runs as **gate 5a.5** in `shesha-claude-designer` — after structural integrity (5a), before styling (5b). It can also be invoked standalone to diagnose an existing form ("why doesn't this match the design?").
+Runs as **gate 5a.5** in `shesha-claude-designer` — after structural integrity (5a), before the visual audit (5b). It measures the form as compiled and pushed, which is already styled (theme is a compile-time input [R-042]); a placement failure routes back to the blueprint for a recompile, never to a style override. It can also be invoked standalone to diagnose an existing form ("why doesn't this match the design?").
 
 ## Procedure
 

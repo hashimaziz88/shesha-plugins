@@ -1,6 +1,6 @@
 ---
 name: shesha-design-system
-description: A SUB-SKILL — EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns how forms LOOK — maps brand design tokens (colour, type, spacing, radius, shadow, status lifecycle) onto Shesha's app-level Ant Design theme and per-component v7 style blocks, through channels the measured capability matrix proves work. Ships three brand themes (shesha default, requirements-studio, wcg) and accepts new token files. Invoked automatically by shesha-form-edit's Style step so no form ships unstyled [R-042]. Invoke directly only for targeted styling of an existing form — "apply our branding", "style this form", "the buttons are the wrong colour", "raise the polish" — or to audit a rendered form against its theme and return prop-level fixes. Brand selection is a lookup via resolve-brand.mjs, never an authoring task. 0.45-only — 0.43 styling lives in the shesha-developer-0-43 plugin. Never authors structure/components, CRUD, or runtime fixes — that is shesha-form-edit's job.
+description: A SUB-SKILL — EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns how forms LOOK — maps brand design tokens (colour, type, spacing, radius, shadow, status lifecycle) onto Shesha's app-level Ant Design theme and per-component v7 style blocks, through channels the measured capability matrix proves work. Ships three brand themes (shesha default, requirements-studio, wcg). Its tokens are a COMPILE-TIME input to shesha-form-edit's compiler, never a second pass over built markup [R-042]. Invoke directly only for targeted styling of an existing form — "apply our branding", "style this form", "the buttons are the wrong colour", "raise the polish" — or to audit a rendered form against its theme and return prop-level fixes. Brand selection is a lookup via resolve-brand.mjs, never an authoring task. 0.45-only — 0.43 styling lives in the shesha-developer-0-43 plugin. Never authors structure/components, CRUD, or runtime fixes — that is shesha-form-edit's job.
 ---
 
 # Shesha Design System (0.45)
@@ -11,6 +11,8 @@ Turn "make it look good / match the design" into **concrete Shesha style values*
 2. **Per-component v7 style blocks (per form):** surfaces, cards, section headers, density, status chips, header bands, rails — what the global theme can't express. Recipes: [references/component-recipes.md](references/component-recipes.md).
 
 A form looks "cheap" when only one layer is done (AntD still default-blue, or no surface treatment). Apply both.
+
+**Where this skill sits in the pipeline.** For a form produced by `shesha-form-edit`'s compiler, layer 2 is a **compile-time input** [R-042] — the compiler reads the resolved token file and bakes those values into every node as it emits, so it never hands back an unstyled form for this skill to paint. What is genuinely this skill's to *apply* is layer 1 (the one-time app theme) plus any form the compiler did not produce: a hand-composed form, a targeted edit to a live screen, or an audit/restyle of an existing form (Step 4). **Restyling or auditing a live form on request is a first-class direct use of this skill** — what it is not is a mandatory second pass over compiled output.
 
 ## When to use / not
 

@@ -74,7 +74,7 @@
   },
   "symptoms": {
     "blank form":              { "files": ["debug.md"], "hint": "short ids / missing parentIds — re-run stampTree; or PascalCase propertyName" },
-    "unstyled / default blue": { "files": ["renderer-physics.md"], "hint": "styling pass skipped or styles authored outside the desktop.* breakpoint blocks [R-030]; run validate-styledness.js" },
+    "unstyled / default blue": { "files": ["renderer-physics.md"], "hint": "compiled with --no-style / an unresolved theme, or styles authored outside the desktop.* breakpoint blocks [R-030]; run validate-styledness.js — the fix is to recompile with the theme, not to paint a second pass over the output [R-042]" },
     "style ignored":           { "files": ["renderer-physics.md"], "hint": "inline style strings win over everything [R-030]; stale version re-runs migration and drops styling with NO error [R-003]" },
     "empty dropdown":          { "files": ["debug.md", "entity-binding.md"], "hint": "reflist identity mismatch or reflist has 0 items" },
     "400 dataContext":         { "files": ["debug.md"], "hint": "entity lacks GQL query API" },

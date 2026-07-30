@@ -42,7 +42,7 @@ Then hand the token set to `shesha-developer:shesha-design-system` to ensure the
 
 Fan out one `shesha-form-edit` dispatch per screen, in parallel. This is a **compile, not an authoring task** — dispatch prompt: *"compile the attached blueprint (`<workdir>/blueprints/<screen>.blueprint.json`) via `scripts/compile-spec.mjs`; return pushed+verified form facts."* Form-edit owns compile → gates → push → oracle [R-046]; agents never return unpushed markup as done.
 
-Styling goes through `shesha-developer:shesha-design-system` ONLY — theme blocks per the plan; form-edit re-pushes the styled result through its one gated path. A styling prompt to a structure agent is a contract violation.
+**Styling is baked in at compile, not applied afterwards** [R-042]. The theme resolved in Step 3 is a *compile input* — form-edit's compiler bakes tokens into every node, so each screen arrives already on-brand and there is no unstyled intermediate to gate or to follow up on. `shesha-developer:shesha-design-system` still owns two things the compiler doesn't: the **one-time app AntD theme**, and **re-styling a form this compiler did not produce** (hand-composed forms, audits of live screens). Anything it returns still goes back through form-edit's single gated push path. Dispatching a *styling* prompt to a structure agent — or asking for a second styling pass over compiled output — is a contract violation.
 
 ## Step 5 — Verify against the design (three gates, in order)
 

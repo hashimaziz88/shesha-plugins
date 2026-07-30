@@ -57,4 +57,4 @@ Cross-link ordering (list → detail → create) governs the **push + verify** s
 
 **Threshold:** 1 screen → inline, no dispatch. 2+ screens → MUST fan out Steps 2 + 4a, one agent per screen; a multi-screen build run serially is a defect.
 
-**Sequencing rules:** theme first, once → comprehend before build → structure before style, per screen → gates in order (5a structural → 5a.5 placement → 5b visual; a form failing placement is routed back, never styled over) → one push path → one agent per screen is the target (more is waste, fewer for 2+ screens is a defect).
+**Sequencing rules:** theme first, once (it is a compile-time *input* [R-042], resolved before any screen compiles — not a pass applied after) → comprehend before build → gates in order, all of them on the compiled+styled form (5a structural → 5a.5 placement → 5b visual audit; a form failing placement is routed back to the blueprint and recompiled, never patched with style overrides) → one push path → one agent per screen is the target (more is waste, fewer for 2+ screens is a defect).

@@ -21,7 +21,10 @@ shapes. Instead:
   not per-form invention. Every form draws from the same system.
 - **Selection over generation** — clone the closest golden archetype
   (`assets/golden/`); you inherit production chrome and only swap content.
-- **Never unstyled** — the design-system Style pass is mandatory [R-042].
+- **Never unstyled** — theme tokens are a **compile-time input**, baked into
+  every node by the compiler [R-042]. A structurally-complete default-grey form
+  is a compiler defect, not a missing follow-up pass; there is no separate
+  styling step to forget.
 
 ## Layer 2 — Objective render gate (`render-instrument.js`, fail-closed)
 

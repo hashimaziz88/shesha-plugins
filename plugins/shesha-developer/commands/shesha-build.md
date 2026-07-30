@@ -17,8 +17,9 @@ Non-negotiable path:
 2. Synthesize the blueprint IR (schema:
    `shesha-design-comprehension/assets/blueprint.schema.json`) from the
    archetype + entity metadata + requirements.
-3. `scripts/compile-spec.mjs` → `scripts/validate-form.mjs` (Tier 1 + Tier 2) →
-   default-theme styling pass → push → ledger → re-fetch diff →
-   `scripts/render-instrument.js`.
+3. `scripts/compile-spec.mjs` (the default `shesha` theme is baked in here, at
+   compile — there is no follow-up styling pass [R-042]) →
+   `scripts/validate-form.mjs` (Tier 1 + Tier 2) → push → ledger →
+   re-fetch diff → `scripts/render-instrument.js`.
 4. Report module + name + id + oracle verdict. A form without a PASS verdict
    is reported UNVERIFIED [R-046].

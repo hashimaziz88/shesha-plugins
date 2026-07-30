@@ -28,6 +28,6 @@ See the canonical ownership table in [`shesha-claude-designer/README.md`](../REA
 1. **Token/app theme first, once** — establish the theme + set app-level primary/font/radius before per-screen styling.
 2. **Comprehend before build** — every screen has a `blueprint.json` (Step 2) before `shesha-form-edit` is invoked.
 3. **Structure before style, per screen.**
-4. **Gate order: 5a structural integrity → 5a.5 PLACEMENT (verify-placement.mjs exit code) → 5b visual audit.** Placement is checked *before* styling; a form that fails placement is routed back to `shesha-form-edit`, never styled over.
+4. **Gate order: 5a structural integrity → 5a.5 PLACEMENT (verify-placement.mjs exit code) → 5b visual audit.** Every gate runs on the **compiled, already-styled** form — styling is a compile-time input [R-042], so there is no unstyled intermediate to gate. Placement is therefore verified *before the visual audit*, not before styling: a form that fails 5a.5 is routed back to the **blueprint** and recompiled, never patched with style overrides to make the geometry look right.
 5. **One push path** — all writes through `shesha-form-edit`.
 6. **Multi-screen** — `shesha-form-edit` may dispatch one form-author per distinct new form; `shesha-design-system` styles centrally to keep the look coherent; comprehension verifies each screen's placement independently.

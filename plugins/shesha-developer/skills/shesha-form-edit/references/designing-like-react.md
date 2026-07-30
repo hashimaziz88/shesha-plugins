@@ -14,7 +14,7 @@ markup; your flex / spacing / hierarchy instincts translate 1:1.
 | `<div style={{display:'flex',flexDirection:'column',gap}}>` / `<Stack>` | `stack` | flex-column container + `gap` |
 | `<div style={{display:'flex',gap}}>` / `<Row>` | `row` | flex-row container + `gap` |
 | CSS grid of N equal columns | `grid` (`columns: N`) | flex-wrap row, each child `dimensions.width: calc(...)` |
-| `<Card>` / a surfaced panel | `card` (`title?`) | container (Style pass adds surface/border/radius) |
+| `<Card>` / a surfaced panel | `card` (`title?`) | container (compiler bakes in surface/border/radius from the theme) |
 | a titled group | `section` (`title`) | stack with an h3 heading prepended |
 | `<h1>`…`<h4>` | `heading` (`level`) | text with structural `font.size`/`weight` |
 | body copy | `text` | text component |
@@ -86,9 +86,11 @@ The same thing as the blueprint `layout` (the `blueprint-json` block):
 `node scripts/compile-blueprint.js --blueprint <it> --out form.json` produces
 gate-clean Shesha markup: the two-column split via `desktop.dimensions.width`,
 reflist identities resolved from live metadata, the validationErrors + Submit/
-Back floor, KB versions stamped. Then the **Style pass** (`shesha-design-system`)
-paints brand colour/type/borders over this structure — you designed the layout;
-it designs the skin.
+Back floor, KB versions stamped — **and the skin already on it**: pass
+`--theme <brand>` and the compiler resolves brand colour/type/borders from
+`shesha-design-system`'s token file and bakes them into every node as it emits
+[R-042]. You designed the layout; the theme supplied the skin at the same
+moment. There is no follow-up paint step over this output.
 
 ## Where design judgment still matters (do this, don't delegate it)
 
