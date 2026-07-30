@@ -6,17 +6,27 @@ Authored layout **blocks** — small, parented, version-stamped component subtre
 map each blueprint node to a block, insert its subtree into a named `$slot`, re-stamp ids,
 fill `$bindings`, then hand off to the design-system overlay.
 
-Blocks live in `assets/blocks/*.block.json`. Every block file carries: `$block`, `$archetype`,
+Blocks live in `assets/blocks/*.block.json`. Every block file carries: `$block`, `$kind`,
 `$styleOverlay` (the paired overlay name in shesha-design-system), `$slots`, `$bindings`,
 `$validatedAgainst` (matrix rows the structure relies on), and a `subtree` (the literal markup).
 Some also carry a `$rowTemplate` (a separately-published Table-type row form).
 
+`$kind` says what the block **is**, structurally — it is not an archetype (see
+[archetypes.md](archetypes.md) for the eight archetype names; a block's `$kind` value is never
+one of them). Three kinds exist:
+- `layout` — a top-level page-skeleton piece that implements a specific archetype's required
+  structure (currently only `record-detail`'s body-split and detail title band).
+- `list` — a block whose job is to host or represent a repeating collection (a rail card wrapping
+  a datalist, or a row template for one).
+- `fragment` — everything else: a self-contained, reusable structural unit with no archetype
+  affinity of its own — usable inside whichever archetype composes it in.
+
 ## Catalogue
 
-| Block | Archetype | Builds | Key `$slots` | Key `$bindings` |
+| Block | Kind | Builds | Key `$slots` | Key `$bindings` |
 |---|---|---|---|---|
-| `flex-split-main-rail` | record-detail | The body split: one flex `container` (row, gap 16) with a fill `main` column + a fixed 332px `rail` column. The clean fixed/`calc` idiom — never `columns`. | `main`, `rail` | none (pure structure) |
-| `page-header-band` | record-detail | In-page detail title band: breadcrumb + title row (title text + status chip on the left, Edit/Save/Cancel buttonGroup on the right). NOT the global header form. | `titleText`, `statusChip`, `actionItems`, `breadcrumbContent` | title content, status `propertyName` + reflist id, actions width `calc` |
+| `flex-split-main-rail` | layout (record-detail) | The body split: one flex `container` (row, gap 16) with a fill `main` column + a fixed 332px `rail` column. The clean fixed/`calc` idiom — never `columns`. | `main`, `rail` | none (pure structure) |
+| `page-header-band` | layout (record-detail) | In-page detail title band: breadcrumb + title row (title text + status chip on the left, Edit/Save/Cancel buttonGroup on the right). NOT the global header form. | `titleText`, `statusChip`, `actionItems`, `breadcrumbContent` | title content, status `propertyName` + reflist id, actions width `calc` |
 | `meta-strip` | fragment | A horizontal strip of label/value meta cells (MODULE / RELEASE / VIEW TYPE …) under a header. | `cells`, `cell.label.text`, `cell.value.text` | each cell value `propertyName`/content |
 | `card-with-header-strip` | fragment | A white card (radius 12, hairline, soft shadow) with a tinted header strip (title + optional count badge) over a padded body. | `header`, `body` | header text, count badge expression |
 | `rail-panel` | list | A count-badged rail card for a linked collection: title + count + inline `+` add link over a datalist bound to its own `dataContext`. | `title.text`, `count.badge.text`, `add.button.label`, `datalist` | dataContext entityType/endpoint, datalist `formId`, add `formId`, onSuccess owner |
@@ -36,7 +46,8 @@ Some also carry a `$rowTemplate` (a separately-published Table-type row form).
 
 Compose from blocks — **never** copy a 25K-line seed and edit it down.
 
-1. **Map** each blueprint `layout-tree` node to a block (use `$archetype` + the catalogue above).
+1. **Map** each blueprint `layout-tree` node to a block (use the blueprint's own archetype, per
+   [archetypes.md](archetypes.md), plus each block's purpose and `$kind` in the catalogue above).
    Body split → `flex-split-main-rail`; title band → `page-header-band`; each rail collection →
    `rail-panel` (+ `dashed-add-button`); attribute rows → `rail-label-value-row`; the wide list →
    `requirement-datalist-row` (host + row template).

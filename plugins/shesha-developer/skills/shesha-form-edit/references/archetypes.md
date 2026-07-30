@@ -4,10 +4,11 @@ This file is the **single archetype vocabulary** for this skill. It supersedes:
 
 - the partial archetype list in [blueprint-consumption.md](blueprint-consumption.md) (which mapped
   only 4 of the 8 to seeds);
-- the `$archetype` values found in `assets/blocks/*.block.json` (`fragment`, `list`,
-  `record-detail`, …) — some of those are block-level tags, not this table's archetype names, and
-  do not yet match this vocabulary 1:1. Phase 5 reconciles the block tags against this list; until
-  then, this file wins on any conflict.
+- the block-level `$kind` tags found in `assets/blocks/*.block.json` (`fragment`, `list`,
+  `layout`) — Phase 5 reconciled the vocabularies: those are block *kinds* (what a block
+  structurally is), not archetype names, so the field was renamed to `$kind` and no block file
+  carries an `$archetype` value anymore. See [block-library.md](block-library.md) for the `$kind`
+  taxonomy; this file remains the only place archetype names are defined.
 
 There are exactly **eight** archetypes, and all eight now have a flow manifest under
 `assets/archetypes/*.flow.json` — every one loads with `loadFlow` and passes `validateFlow` with

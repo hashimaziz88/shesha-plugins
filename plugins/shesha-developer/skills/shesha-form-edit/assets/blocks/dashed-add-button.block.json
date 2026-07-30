@@ -1,6 +1,6 @@
 {
   "$block": "dashed-add-button",
-  "$archetype": "fragment",
+  "$kind": "fragment",
   "$styleOverlay": "dashed-add-button",
   "_note": "The '+ Add X' dashed button that sits at the bottom of a rail-card list. A full-width wrapper container carries the dashed per-side hairline (borderType:'custom', all four sides 1.5px dashed) + centred content; the inner buttonGroup holds a single 'link' button (PlusOutlined + Show Dialog opening the create dialog at modalWidth 60%, formMode edit). The dashed box is structural-neutral and lives on the wrapper; the button text is brand (a $role placeholder) — link buttons take colour from the app theme, so never hardcode a hex. Pattern generalised from the live VDD 'Add Endpoint'/'Add Role' rail buttons.",
   "$slots": {

@@ -1,6 +1,6 @@
 {
   "$block": "rail-label-value-row",
-  "$archetype": "fragment",
+  "$kind": "fragment",
   "$styleOverlay": "rail-label-value-row",
   "_note": "A single Details-card attribute row inside a rail card. Horizontal 2-cell flex row: a fixed 96px label cell + a value/control cell sized calc(100% - 106px) (96 + 10 gap). Row carries a bottom hairline and 6/0 vertical padding. Repeat this block once per attribute. Generalised from the live vdd-claude `drow` (label cell + control cell) but using the CLEAN fixed-width idiom (96px / calc) instead of the live 40%/60%, and a real bottom hairline instead of the live style:'none' borders.",
   "$slots": {

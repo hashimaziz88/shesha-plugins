@@ -1,6 +1,6 @@
 {
   "$block": "rail-panel",
-  "$archetype": "list",
+  "$kind": "list",
   "$styleOverlay": "rail-panel",
   "$description": "A count-badged rail card for a linked-item collection (e.g. Required End-points / Roles). card v3 (header-strip styling) with hideHeading:true so the title lives in a styled strip row INSIDE content: left = title text + count badge; right = inline '+' add link (buttonGroup link button -> Show Dialog -> Refresh table). Body = a datalist (row form per item) bound to its own dataContext, OR the datalist's built-in empty-state. Stacks in the rail with gap 16 (set by the enclosing detailRail container, not this block).",
   "$slots": {
