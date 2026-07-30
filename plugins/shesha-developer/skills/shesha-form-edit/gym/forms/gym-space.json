@@ -1,0 +1,350 @@
+{
+  "components": [
+    {
+      "id": "0aa902ec-f810-56cb-b9c9-18f80818e83a",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-space-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "8af80f1c-3619-5f2c-a5db-46b29a17eb2c",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-space-validation-errors",
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "7433da67-edd8-5e61-a58a-5c27c713c05a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-space-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "aad2a7e8-bdeb-568f-b38d-ce587fab1ed0",
+              "type": "space",
+              "version": 1,
+              "label": "gym space",
+              "hidden": false,
+              "direction": "horizontal",
+              "size": "small",
+              "wrap": false,
+              "componentName": "gym-space-inst-baseline",
+              "parentId": "7433da67-edd8-5e61-a58a-5c27c713c05a"
+            }
+          ],
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "665963c6-cba5-57f4-98db-bccad4f36059",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-space-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "8f132380-61b1-5977-8d63-156fdce16dd4",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-space-v-ca52e19b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "8e013a02-f435-5dcd-b841-929bfd2bdf69",
+              "type": "space",
+              "version": 1,
+              "label": "gym space",
+              "hidden": false,
+              "direction": "horizontal",
+              "size": "middle",
+              "wrap": false,
+              "componentName": "gym-space-inst-size=middle",
+              "parentId": "8f132380-61b1-5977-8d63-156fdce16dd4"
+            }
+          ],
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "eb5092cc-8bdd-5f05-868e-57c7ad1b0858",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-space-v-15638072",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ce1ccd30-6491-5c57-adac-f53d51d9a436",
+              "type": "space",
+              "version": 1,
+              "label": "gym space",
+              "hidden": false,
+              "direction": "horizontal",
+              "size": "large",
+              "wrap": false,
+              "componentName": "gym-space-inst-size=large",
+              "parentId": "eb5092cc-8bdd-5f05-868e-57c7ad1b0858"
+            }
+          ],
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "9d159388-bc03-51c5-96d2-d126ce51335c",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-space-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "56d2e451-9e56-577c-8031-e537046e3bf3",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-space-v-8d01cba7",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "757e809e-f234-5901-93ab-e8fd03f7f61e",
+              "type": "space",
+              "version": 1,
+              "label": "gym space",
+              "hidden": false,
+              "direction": "horizontal",
+              "size": "small",
+              "wrap": false,
+              "componentName": "gym-space-inst-align=start",
+              "align": "start",
+              "parentId": "56d2e451-9e56-577c-8031-e537046e3bf3"
+            }
+          ],
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "feaa0fb5-a4c2-597f-93e8-0fd29ea53f31",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-space-v-640a697e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d48ceb14-e6e3-5cbc-b861-8b5621779f8f",
+              "type": "space",
+              "version": 1,
+              "label": "gym space",
+              "hidden": false,
+              "direction": "horizontal",
+              "size": "small",
+              "wrap": false,
+              "componentName": "gym-space-inst-align=end",
+              "align": "end",
+              "parentId": "feaa0fb5-a4c2-597f-93e8-0fd29ea53f31"
+            }
+          ],
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "99e3ce4e-66c7-5d0d-9b79-b9ca762bbc0a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-space-v-643adc49",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "96c74a5b-e2e0-565e-924c-376578a8ff7a",
+              "type": "space",
+              "version": 1,
+              "label": "gym space",
+              "hidden": false,
+              "direction": "horizontal",
+              "size": "small",
+              "wrap": false,
+              "componentName": "gym-space-inst-align=center",
+              "align": "center",
+              "parentId": "99e3ce4e-66c7-5d0d-9b79-b9ca762bbc0a"
+            }
+          ],
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "f6e6d692-5b96-56cc-b47e-0d02da10b511",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-space-v-3768f7d3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f98bbef7-417f-55f9-a6d8-5d62cf9b1a48",
+              "type": "space",
+              "version": 1,
+              "label": "gym space",
+              "hidden": false,
+              "direction": "horizontal",
+              "size": "small",
+              "wrap": false,
+              "componentName": "gym-space-inst-align=baseline",
+              "align": "baseline",
+              "parentId": "f6e6d692-5b96-56cc-b47e-0d02da10b511"
+            }
+          ],
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "984c680f-87b0-5deb-b2ca-ed8c3f7f4707",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-space-v-a4a0ddc6",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "05b92896-0d51-5b43-a92d-52ce320f65ae",
+              "type": "space",
+              "version": 1,
+              "label": "gym space",
+              "hidden": false,
+              "direction": "horizontal",
+              "size": "small",
+              "wrap": false,
+              "componentName": "gym-space-inst-sizeNumber=17",
+              "sizeNumber": 17,
+              "parentId": "984c680f-87b0-5deb-b2ca-ed8c3f7f4707"
+            }
+          ],
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "3a88e96f-2d8d-5091-bcb8-411faf33ea69",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-space-v-71076ce9",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0fccb039-ff0b-5700-8459-cdcd57484c89",
+              "type": "space",
+              "version": 1,
+              "label": "gym space",
+              "hidden": false,
+              "direction": "horizontal",
+              "size": "small",
+              "wrap": false,
+              "componentName": "gym-space-inst-marginLeft=17",
+              "marginLeft": 17,
+              "parentId": "3a88e96f-2d8d-5091-bcb8-411faf33ea69"
+            }
+          ],
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "1bd4c80a-58fb-5b10-8708-9cce40deeec6",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-space-v-1ac4653e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a2052fb8-2ee3-5c8d-9da2-fcb39e3b1bad",
+              "type": "space",
+              "version": 1,
+              "label": "gym space",
+              "hidden": false,
+              "direction": "horizontal",
+              "size": "small",
+              "wrap": false,
+              "componentName": "gym-space-inst-marginRight=17",
+              "marginRight": 17,
+              "parentId": "1bd4c80a-58fb-5b10-8708-9cce40deeec6"
+            }
+          ],
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "2512d258-7ec5-53a6-9bea-f6abc7ed99a7",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-space-v-86babe7f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "640df689-2d15-56a1-aa2a-14d3546266fa",
+              "type": "space",
+              "version": 1,
+              "label": "gym space",
+              "hidden": false,
+              "direction": "vertical",
+              "size": "small",
+              "wrap": false,
+              "componentName": "gym-space-inst-direction=vertical",
+              "parentId": "2512d258-7ec5-53a6-9bea-f6abc7ed99a7"
+            }
+          ],
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        },
+        {
+          "id": "28e784de-e66e-5b1c-812f-c2629bdef77b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-space-v-f7784fde",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f3b772b7-e8cb-5aca-bdd9-4bb5e2a6761d",
+              "type": "space",
+              "version": 1,
+              "label": "gym space",
+              "hidden": false,
+              "direction": "horizontal",
+              "size": "small",
+              "wrap": true,
+              "componentName": "gym-space-inst-wrap=true",
+              "parentId": "28e784de-e66e-5b1c-812f-c2629bdef77b"
+            }
+          ],
+          "parentId": "0aa902ec-f810-56cb-b9c9-18f80818e83a"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

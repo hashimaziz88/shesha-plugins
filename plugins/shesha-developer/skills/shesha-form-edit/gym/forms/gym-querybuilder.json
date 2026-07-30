@@ -1,0 +1,208 @@
+{
+  "components": [
+    {
+      "id": "2bbda517-5c89-58b6-acf4-77170cd4ca45",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-queryBuilder-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "e24ffa0a-9192-5e0a-8e91-7613aa72aca4",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-queryBuilder-validation-errors",
+          "parentId": "2bbda517-5c89-58b6-acf4-77170cd4ca45"
+        },
+        {
+          "id": "72b59569-2218-52b1-9c6b-d8a850ec05c5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-queryBuilder-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b1142725-4620-51b4-93f2-47e2d4d22cd0",
+              "type": "queryBuilder",
+              "version": 2,
+              "label": "gym queryBuilder",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "72b59569-2218-52b1-9c6b-d8a850ec05c5"
+            }
+          ],
+          "parentId": "2bbda517-5c89-58b6-acf4-77170cd4ca45"
+        },
+        {
+          "id": "9e9eabbe-6e08-51af-90ff-f3e0ccae56f6",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-queryBuilder-h-validation",
+          "content": "— validation —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "2bbda517-5c89-58b6-acf4-77170cd4ca45"
+        },
+        {
+          "id": "27593d5b-1b99-5b65-95a1-18c2e63ce922",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-queryBuilder-v-9d11999c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b03e9901-0205-5b78-9ae2-ffa17dd934b6",
+              "type": "queryBuilder",
+              "version": 2,
+              "label": "gym queryBuilder",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "validate": {
+                "required": true
+              },
+              "parentId": "27593d5b-1b99-5b65-95a1-18c2e63ce922"
+            }
+          ],
+          "parentId": "2bbda517-5c89-58b6-acf4-77170cd4ca45"
+        },
+        {
+          "id": "f15a80f0-f34d-570f-a7a9-413eb350277d",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-queryBuilder-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "2bbda517-5c89-58b6-acf4-77170cd4ca45"
+        },
+        {
+          "id": "58ce19d6-c9d3-55dc-b70b-dde0898b9454",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-queryBuilder-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ab169bee-6121-55e7-a285-0862067df0fb",
+              "type": "queryBuilder",
+              "version": 2,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "58ce19d6-c9d3-55dc-b70b-dde0898b9454"
+            }
+          ],
+          "parentId": "2bbda517-5c89-58b6-acf4-77170cd4ca45"
+        },
+        {
+          "id": "a1be5d90-9b31-5f4d-9846-b6f1b5bfa3f5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-queryBuilder-v-72f95ef5",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6e81a97b-dc23-5f04-aeed-b1b88340ad62",
+              "type": "queryBuilder",
+              "version": 2,
+              "label": "gym queryBuilder",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "fieldsUnavailableHint": "GYM-TXT-fieldsUnavailableHint",
+              "parentId": "a1be5d90-9b31-5f4d-9846-b6f1b5bfa3f5"
+            }
+          ],
+          "parentId": "2bbda517-5c89-58b6-acf4-77170cd4ca45"
+        },
+        {
+          "id": "68aba2d2-5ed4-53b2-83cf-2b47351ce912",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-queryBuilder-v-a5d996f3",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "94df7199-37c9-55d3-8e7a-4cfcbc8db7f9",
+              "type": "queryBuilder",
+              "version": 2,
+              "label": "gym queryBuilder",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "jsonExpanded": true,
+              "parentId": "68aba2d2-5ed4-53b2-83cf-2b47351ce912"
+            }
+          ],
+          "parentId": "2bbda517-5c89-58b6-acf4-77170cd4ca45"
+        },
+        {
+          "id": "17495a6c-2746-5627-a1fa-2e30684988ee",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-queryBuilder-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "539174f4-826e-5b3e-ac10-4603617042eb",
+              "type": "queryBuilder",
+              "version": 2,
+              "label": "gym queryBuilder",
+              "hidden": true,
+              "propertyName": "gymValue",
+              "parentId": "17495a6c-2746-5627-a1fa-2e30684988ee"
+            }
+          ],
+          "parentId": "2bbda517-5c89-58b6-acf4-77170cd4ca45"
+        },
+        {
+          "id": "14658ab4-1eec-5d26-99e8-447fca9895f5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-queryBuilder-v-cb7e2795",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4ce1f9fe-998a-5f20-a462-1eff1e986d50",
+              "type": "queryBuilder",
+              "version": 2,
+              "label": "gym queryBuilder",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "editMode": "readOnly",
+              "parentId": "14658ab4-1eec-5d26-99e8-447fca9895f5"
+            }
+          ],
+          "parentId": "2bbda517-5c89-58b6-acf4-77170cd4ca45"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

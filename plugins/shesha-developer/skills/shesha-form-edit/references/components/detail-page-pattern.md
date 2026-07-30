@@ -1,6 +1,6 @@
 # Detail page anatomy: header band, KIB, labels
 
-The canonical `<entity>-details` page layout. Read before building or normalizing any detail form. Subtable tabs are covered in [junction-subtables.md](junction-subtables.md); add dialogs in [add-dialogs.md](add-dialogs.md); the four style channels in `style-channels.md` (in `shesha-design-system`).
+The canonical `<entity>-details` page layout. Read before building or normalizing any detail form. Subtable tabs are covered in [junction-subtables.md](junction-subtables.md); add dialogs in [add-dialogs.md](add-dialogs.md); the four style channels in `styling-mechanics.md` (in `shesha-design-system`).
 
 "KIB" below = the key-info-bar **built from plain `container`s** (a `flexDirection:"row"` container of stat columns). Do NOT use the `KeyInformationBar` component — deprecated in this pattern (see [containers.md](containers.md)).
 
@@ -67,9 +67,9 @@ Three independent causes of header dead space — **all hide on breakpoint objec
 
 Also uncap `maxHeight` (`"150px"` → `"auto"`) on banner + KIB so compacted content isn't clipped.
 
-**Title-row scrollbars** (titles "become scrollable"): every v7 container inner renders `overflow:auto` HARD-CODED — the markup `overflow` prop is a no-op in view mode. A stretched band squeezes banner flex children (flex-shrink defaults to 1). Fix: `dimensions.minHeight:"fit-content"` (+ `height`/`maxHeight` `"auto"`) on title wrap, title row, AND subtitle wrap, all breakpoints — `dimensions` is the only channel reaching the container's outer div. See `style-channels.md` (in `shesha-design-system`).
+**Title-row scrollbars** (titles "become scrollable"): every v7 container inner renders `overflow:auto` HARD-CODED — the markup `overflow` prop is a no-op in view mode. A stretched band squeezes banner flex children (flex-shrink defaults to 1). Fix: `dimensions.minHeight:"fit-content"` (+ `height`/`maxHeight` `"auto"`) on title wrap, title row, AND subtitle wrap, all breakpoints — `dimensions` is the only channel reaching the container's outer div. See `styling-mechanics.md` (in `shesha-design-system`).
 
-**When a stamped prop doesn't render at all**, or padding appears that no stylingBox explains: grep the component and every ancestor for a truthy legacy `style` / `desktop.style` JS-string FIRST — it renders as inline styles that override everything (`style-channels.md` (in `shesha-design-system`)).
+**When a stamped prop doesn't render at all**, or padding appears that no stylingBox explains: grep the component and every ancestor for a truthy legacy `style` / `desktop.style` JS-string FIRST — it renders as inline styles that override everything (`styling-mechanics.md` (in `shesha-design-system`)).
 
 ---
 

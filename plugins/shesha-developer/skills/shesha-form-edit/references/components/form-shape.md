@@ -102,3 +102,34 @@ The `Create` endpoint may not honour `access` on initial create. After `POST /Cr
 
 - The authoritative valid-keys-per-type list is in `assets/registry/registry-0.45.1.json` (bundled in this skill's assets — see [component-registry.md](../component-registry.md)). Look up the component type, then check `registry.components[type].props.includes(key)`. If a key isn't listed there, you're probably wrong.
 - For component types not covered in any reference file (kanban, charts, queryBuilder, themeEditor, mainMenuEditor, processMonitor, kpi-style cards), inspect an existing form that uses them — the designer's output is canonical.
+
+---
+
+## Component plan + tree stamping (mandatory before writing any component JSON)
+
+For every new or edited form, before writing a single component object:
+
+1. **List every component `type` you plan to use** (e.g. table form: `container`, `text`, `buttonGroup`, `dataContext`, `datatable`).
+2. **Confirm each type + version + valid props against `assets/components-kb/`** ([components-kb.md](../components-kb.md)) — it is the authoritative source for exact `type` strings and per-component `settingsFields`; author only fields that exist there (`assets/components-kb/_index.json` is the cross-check).
+3. **Scan for better-fit alternatives** while there (e.g. `refListStatus` instead of `dropdown` for read-only status). Splits are flex `container` rows, never `columns` ([containers.md](containers.md)).
+4. **Update the plan**, then write the JSON.
+
+Tree-editing principles: preserve every existing component's `id` and `parentId` (fresh GUIDs only on clones/new nodes); when re-parenting, update only the moved node and add it to the new parent's `components`; don't touch `formSettings` unless asked.
+
+**`parentId` is mandatory on every component** — the renderer builds the tree from it and crashes when absent. Root-level components get `parentId: "root"`; components inside a `columns` slot get the `columns` component's `id`. Run this stamping pass before every push:
+
+```js
+function stampTree(nodes, parentId) {
+  return nodes.map(node => {
+    if (!node?.type) return { ...node, components: stampTree(node.components||[], parentId) }; // col slot
+    const n = { ...node, parentId };
+    if (n.components) n.components = stampTree(n.components, node.id);
+    if (n.columns)    n.columns    = stampTree(n.columns,    node.id);
+    if (n.tabs)       n.tabs       = n.tabs.map(t => ({ ...t, components: stampTree(t.components||[], node.id) }));
+    if (n.content?.components) n.content = { ...n.content, components: stampTree(n.content.components, node.id) }; // card / collapsiblePanel slot
+    if (n.header?.components)  n.header  = { ...n.header,  components: stampTree(n.header.components,  node.id) };
+    return n;
+  });
+}
+// Usage: markup.components = stampTree(markup.components, 'root');
+```

@@ -1,6 +1,6 @@
 # Style channels and override precedence
 
-Why a stamped style prop doesn't render, where each channel lands in the DOM, and the ordered debug procedure. Block shapes (border/background/dimensions/font/shadow) are in [styling-v7-mechanics.md](styling-v7-mechanics.md). Layout idioms / structure (`containers.md`, `layout.md`, `detail-page-pattern.md`) live in the `shesha-form-edit` skill — this skill (`shesha-design-system`) owns appearance only. Capability verdicts (which channel actually renders per component) are in [capability-matrix.md](capability-matrix.md).
+Why a stamped style prop doesn't render, where each channel lands in the DOM, and the ordered debug procedure. Block shapes (border/background/dimensions/font/shadow) are in [styling-mechanics.md](styling-mechanics.md). Layout idioms / structure (`containers.md`, `layout.md`, `detail-page-pattern.md`) live in the `shesha-form-edit` skill — this skill (`shesha-design-system`) owns appearance only. Capability verdicts (which channel actually renders per component) are in [capability-matrix.md](capability-matrix.md).
 
 ---
 

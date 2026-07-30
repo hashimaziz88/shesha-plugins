@@ -1,0 +1,182 @@
+{
+  "type": "alert",
+  "name": "Alert",
+  "isInput": false,
+  "isOutput": null,
+  "canBeJsSetting": null,
+  "icon": "ExclamationCircleOutlined",
+  "version": 2,
+  "initModel": {
+    "defaults": {
+      "alertType": "info"
+    },
+    "raw": "(model) => ({\r\n    alertType: 'info',\r\n    ...model,\r\n  })"
+  },
+  "settingsProps": {
+    "interfaceName": "IAlertComponentProps",
+    "interfaceFile": "designer-components/alert/interfaces.ts",
+    "ownProps": [
+      "text",
+      "description",
+      "showIcon",
+      "alertType",
+      "closable",
+      "icon",
+      "banner",
+      "marquee"
+    ],
+    "extends": [
+      "IConfigurableFormComponent"
+    ],
+    "resolvedProps": [
+      "_formFields",
+      "alertType",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "banner",
+      "border",
+      "closable",
+      "componentName",
+      "context",
+      "customEnabled",
+      "customVisibility",
+      "description",
+      "desktop",
+      "dimensions",
+      "editMode",
+      "enableStyleOnReadonly",
+      "font",
+      "hidden",
+      "hideLabel",
+      "hideScrollBar",
+      "icon",
+      "id",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "inputStyles",
+      "isDynamic",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "layout",
+      "listType",
+      "marquee",
+      "menuItemShadow",
+      "mobile",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChangeCustom",
+      "onClickCustom",
+      "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
+      "parentId",
+      "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
+      "propertyName",
+      "queryParams",
+      "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
+      "settingsValidationErrors",
+      "shadow",
+      "showIcon",
+      "size",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "tablet",
+      "text",
+      "type",
+      "validate",
+      "wrapperStyle"
+    ],
+    "unresolvedExtends": [
+      "IHasVersion"
+    ]
+  },
+  "settingsForm": {
+    "source": "alert/settingsForm.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [
+    "style"
+  ],
+  "settingsFields": [
+    {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "The message to display in the alert. You can use variables and expressions."
+    },
+    {
+      "path": "componentName",
+      "label": "Component Name",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "alertType",
+      "label": "Type",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "text",
+      "label": "Message",
+      "editorType": "settingsInputRow",
+      "description": "The message to display in the alert. You can use variables and expressions."
+    },
+    {
+      "path": "description",
+      "label": "Description",
+      "editorType": "settingsInputRow",
+      "description": "Additional information about the alert."
+    },
+    {
+      "path": "showIcon",
+      "label": "Show Icon",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "marquee",
+      "label": "Marquee",
+      "editorType": "settingsInputRow",
+      "description": "If enabled, the content will scroll horizontally."
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
+      "shared": true
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "settingsInput"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "alert/index.tsx",
+    "alert/interfaces.ts"
+  ]
+}

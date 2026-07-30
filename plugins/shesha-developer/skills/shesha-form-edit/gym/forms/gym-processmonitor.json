@@ -1,0 +1,156 @@
+{
+  "components": [
+    {
+      "id": "2061a968-1013-505b-acb1-28b1d77b74ac",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-processMonitor-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "b8be8900-193e-501d-a718-491ba80b391e",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-processMonitor-validation-errors",
+          "parentId": "2061a968-1013-505b-acb1-28b1d77b74ac"
+        },
+        {
+          "id": "31bf391f-8f3b-52c4-9c87-f0aba2bea1b5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-processMonitor-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a21c49fe-60ca-5a51-a841-c0a8fcb811a2",
+              "type": "processMonitor",
+              "version": 1,
+              "label": "Process Monitor",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-processMonitor-inst-baseline",
+              "parentId": "31bf391f-8f3b-52c4-9c87-f0aba2bea1b5"
+            }
+          ],
+          "parentId": "2061a968-1013-505b-acb1-28b1d77b74ac"
+        },
+        {
+          "id": "2fe0a653-f09b-5da8-be5e-bacf1af627ac",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-processMonitor-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "2061a968-1013-505b-acb1-28b1d77b74ac"
+        },
+        {
+          "id": "6bac7f83-ed3d-5e72-ac84-f86e70670f53",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-processMonitor-v-1b640f90",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "0366b22a-e6ff-550d-aa5a-3d3321fd58a2",
+              "type": "processMonitor",
+              "version": 1,
+              "label": "GYM-TXT-label",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-processMonitor-inst-label=txt",
+              "parentId": "6bac7f83-ed3d-5e72-ac84-f86e70670f53"
+            }
+          ],
+          "parentId": "2061a968-1013-505b-acb1-28b1d77b74ac"
+        },
+        {
+          "id": "12120d91-f005-58e7-9702-198c7761e07b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-processMonitor-v-1232507c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b80330e9-16a2-56af-999f-4f279401aa2a",
+              "type": "processMonitor",
+              "version": 1,
+              "label": "Process Monitor",
+              "hidden": false,
+              "hideLabel": false,
+              "componentName": "gym-processMonitor-inst-hideLabel=false",
+              "parentId": "12120d91-f005-58e7-9702-198c7761e07b"
+            }
+          ],
+          "parentId": "2061a968-1013-505b-acb1-28b1d77b74ac"
+        },
+        {
+          "id": "40fb30c2-f756-5bac-87f1-498eccaac4b0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-processMonitor-v-f14b5401",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9a9bfadd-49fa-566b-a616-d87aba6c5249",
+              "type": "processMonitor",
+              "version": 1,
+              "label": "Process Monitor",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-processMonitor-inst-processType=txt",
+              "processType": "GYM-TXT-processType",
+              "parentId": "40fb30c2-f756-5bac-87f1-498eccaac4b0"
+            }
+          ],
+          "parentId": "2061a968-1013-505b-acb1-28b1d77b74ac"
+        },
+        {
+          "id": "66f23f8a-e363-5efc-9cd5-f37fd51b0357",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-processMonitor-v-a91bd873",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "9201cace-d8e3-518b-92a1-c630f98be247",
+              "type": "processMonitor",
+              "version": 1,
+              "label": "Process Monitor",
+              "hidden": false,
+              "hideLabel": true,
+              "componentName": "gym-processMonitor-inst-processId=txt",
+              "processId": "GYM-TXT-processId",
+              "parentId": "66f23f8a-e363-5efc-9cd5-f37fd51b0357"
+            }
+          ],
+          "parentId": "2061a968-1013-505b-acb1-28b1d77b74ac"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "components": [
+    {
+      "id": "af4a562b-5d13-5c0e-a75b-1c54d4f038c9",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-slider-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "d2c244c6-aa7e-519b-95cf-5a620da3b6fc",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-slider-validation-errors",
+          "parentId": "af4a562b-5d13-5c0e-a75b-1c54d4f038c9"
+        },
+        {
+          "id": "3e13334c-149b-5355-92b0-bdb323fb42f4",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-slider-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3806a193-b609-588a-8d71-5152230bb97d",
+              "type": "slider",
+              "version": 1,
+              "label": "Slider",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "parentId": "3e13334c-149b-5355-92b0-bdb323fb42f4"
+            }
+          ],
+          "parentId": "af4a562b-5d13-5c0e-a75b-1c54d4f038c9"
+        },
+        {
+          "id": "ae145bd5-3acb-5b8c-ae93-0ee81749956a",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-slider-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "af4a562b-5d13-5c0e-a75b-1c54d4f038c9"
+        },
+        {
+          "id": "7cbed9eb-cfe3-5abe-9e2c-21c7a5c44ee5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-slider-v-396a3c9c",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "11485268-ec5f-5bfb-a5c0-52f580771475",
+              "type": "slider",
+              "version": 1,
+              "label": "Slider",
+              "hidden": false,
+              "propertyName": "gymValue",
+              "enableStyleOnReadonly": true,
+              "parentId": "7cbed9eb-cfe3-5abe-9e2c-21c7a5c44ee5"
+            }
+          ],
+          "parentId": "af4a562b-5d13-5c0e-a75b-1c54d4f038c9"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

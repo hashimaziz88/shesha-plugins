@@ -1,0 +1,211 @@
+{
+  "type": "sectionSeparator",
+  "name": "Section Separator",
+  "isInput": false,
+  "isOutput": null,
+  "canBeJsSetting": null,
+  "icon": "LineOutlined",
+  "version": 5,
+  "initModel": {
+    "defaults": {
+      "label": "Section",
+      "lineThickness": 2,
+      "labelAlign": "left",
+      "orientation": "horizontal"
+    },
+    "raw": "(model) => {\r\n    return {\r\n      ...model,\r\n      label: 'Section',\r\n      lineThickness: 2,\r\n      labelAlign: 'left',\r\n      orientation: 'horizontal',\r\n    };\r\n  }"
+  },
+  "settingsProps": {
+    "interfaceName": "ISectionSeparatorComponentProps",
+    "interfaceFile": "designer-components/sectionSeprator/interfaces.ts",
+    "ownProps": [
+      "containerStyle",
+      "titleStyle",
+      "lineFont",
+      "font",
+      "titleStylingBox",
+      "containerStylingBox",
+      "dashed",
+      "lineWidth",
+      "lineHeight"
+    ],
+    "extends": [
+      "IConfigurableFormComponent"
+    ],
+    "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
+      "componentName",
+      "containerStyle",
+      "containerStylingBox",
+      "context",
+      "customEnabled",
+      "customVisibility",
+      "dashed",
+      "description",
+      "desktop",
+      "dimensions",
+      "editMode",
+      "enableStyleOnReadonly",
+      "font",
+      "hidden",
+      "hideLabel",
+      "hideScrollBar",
+      "id",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "inputStyles",
+      "isDynamic",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "layout",
+      "lineFont",
+      "lineHeight",
+      "lineWidth",
+      "listType",
+      "menuItemShadow",
+      "mobile",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChangeCustom",
+      "onClickCustom",
+      "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
+      "parentId",
+      "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
+      "propertyName",
+      "queryParams",
+      "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
+      "settingsValidationErrors",
+      "shadow",
+      "size",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "tablet",
+      "titleStyle",
+      "titleStylingBox",
+      "type",
+      "validate",
+      "wrapperStyle"
+    ],
+    "unresolvedExtends": [
+      "IHasVersion"
+    ]
+  },
+  "settingsForm": {
+    "source": "sectionSeprator/settingsForm.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [],
+  "settingsFields": [
+    {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit"
+    },
+    {
+      "path": "componentName",
+      "label": "Component Name",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "hideLabel",
+      "label": "Label",
+      "editorType": "labelConfigurator"
+    },
+    {
+      "path": "description",
+      "label": "Tooltip",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "orientation",
+      "label": "Orientation",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "lineFont",
+      "label": "Thickness",
+      "editorType": "settingsInputRow",
+      "group": "Line Style"
+    },
+    {
+      "path": "lineWidth",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "lineHeight",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
+    },
+    {
+      "path": "titleStyle",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles"
+    },
+    {
+      "path": "containerStylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding"
+    },
+    {
+      "path": "containerStyle",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles"
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "settingsInput"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "sectionSeprator/index.tsx",
+    "sectionSeprator/interfaces.ts"
+  ]
+}

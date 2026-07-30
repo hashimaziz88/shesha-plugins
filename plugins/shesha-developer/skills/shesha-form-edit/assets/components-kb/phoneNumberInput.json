@@ -1,0 +1,371 @@
+{
+  "type": "phoneNumberInput",
+  "name": "Phone Number",
+  "isInput": true,
+  "isOutput": true,
+  "canBeJsSetting": true,
+  "icon": "PhoneOutlined",
+  "version": 0,
+  "initModel": {
+    "defaults": null,
+    "raw": "(model) => ({\r\n        ...model,\r\n        valueFormat: model.valueFormat || 'string',\r\n        stripCountryCode: model.stripCountryCode !== undefined ? model.stripCountryCode : false,\r\n        defaultCountry: model.defaultCountry || 'za',\r\n        enableArrow: model.enableArrow !== undefined ? model.enableArrow : true,\r\n        enableSearch: model.enableSearch !== undefined ? model.enableSearch : true,\r\n        labelAlign: model.labelAlign || 'left',\r\n    })"
+  },
+  "settingsProps": {
+    "interfaceName": "IPhoneNumberInputComponentProps",
+    "interfaceFile": "designer-components/phoneNumber/interface.ts",
+    "ownProps": [
+      "placeholder",
+      "initialValue",
+      "valueFormat",
+      "stripCountryCode",
+      "country",
+      "defaultCountry",
+      "allowClear",
+      "enableArrow",
+      "enableSearch",
+      "distinct",
+      "disableParentheses",
+      "disableDropdown",
+      "onlyCountries",
+      "excludeCountries",
+      "preferredCountries",
+      "searchNotFound",
+      "searchPlaceholder",
+      "size",
+      "wrapperStyle",
+      "inputGroupWrapperStyle",
+      "inputWrapperStyle",
+      "inputGroupStyle",
+      "inputStyle",
+      "onChangeCustom",
+      "onBlurCustom",
+      "onFocusCustom"
+    ],
+    "extends": [
+      "IConfigurableFormComponent"
+    ],
+    "resolvedProps": [
+      "allowClear",
+      "componentName",
+      "context",
+      "country",
+      "customEnabled",
+      "customVisibility",
+      "defaultCountry",
+      "defaultValue",
+      "description",
+      "disableDropdown",
+      "disableParentheses",
+      "distinct",
+      "editMode",
+      "enableArrow",
+      "enableSearch",
+      "excludeCountries",
+      "hidden",
+      "hideLabel",
+      "id",
+      "initialContext",
+      "initialValue",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "inputGroupStyle",
+      "inputGroupWrapperStyle",
+      "inputStyle",
+      "inputWrapperStyle",
+      "isDynamic",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChangeCustom",
+      "onFocusCustom",
+      "onlyCountries",
+      "parentId",
+      "permissions",
+      "placeholder",
+      "preferredCountries",
+      "propertyName",
+      "readOnly",
+      "searchNotFound",
+      "searchPlaceholder",
+      "settingsValidationErrors",
+      "size",
+      "stripCountryCode",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "type",
+      "validate",
+      "valueFormat",
+      "wrapperStyle"
+    ],
+    "unresolvedExtends": [
+      "IHasVersion"
+    ]
+  },
+  "settingsForm": {
+    "source": "phoneNumber/settingsForm.json",
+    "mechanism": "json-markup",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [
+    "style",
+    "size"
+  ],
+  "settingsFields": [
+    {
+      "path": "propertyName",
+      "label": "Property name",
+      "editorType": "contextPropertyAutocomplete",
+      "group": "Display"
+    },
+    {
+      "path": "label",
+      "label": "Label",
+      "editorType": "textField",
+      "group": "Display"
+    },
+    {
+      "path": "labelAlign",
+      "label": "Label align",
+      "editorType": "dropdown",
+      "group": "Display"
+    },
+    {
+      "path": "placeholder",
+      "label": "Placeholder",
+      "editorType": "textField",
+      "group": "Display"
+    },
+    {
+      "path": "description",
+      "label": "Description",
+      "editorType": "textArea",
+      "group": "Display"
+    },
+    {
+      "path": "valueFormat",
+      "label": "Value Format",
+      "editorType": "dropdown",
+      "defaultValue": "string",
+      "group": "Display",
+      "description": "Format for the returned phone number value"
+    },
+    {
+      "path": "stripCountryCode",
+      "label": "Strip Country Code",
+      "editorType": "checkbox",
+      "group": "Display",
+      "description": "When using International format, return the national format instead (e.g., +27123456789 becomes 0123456789 for ZA). The national format varies by country."
+    },
+    {
+      "path": "hidden",
+      "label": "Hidden",
+      "editorType": "checkbox",
+      "group": "Display"
+    },
+    {
+      "path": "hideLabel",
+      "label": "Hide Label",
+      "editorType": "checkbox",
+      "group": "Display"
+    },
+    {
+      "path": "defaultCountry",
+      "label": "Default Country",
+      "editorType": "textField",
+      "defaultValue": "za",
+      "group": "Country Settings",
+      "description": "ISO country code (e.g., za, us, gb)"
+    },
+    {
+      "path": "preferredCountries",
+      "label": "Preferred Countries",
+      "editorType": "textField",
+      "group": "Country Settings",
+      "description": "Comma-separated country codes to show at top (e.g., za,us,gb)"
+    },
+    {
+      "path": "onlyCountries",
+      "label": "Only Countries",
+      "editorType": "textField",
+      "group": "Country Settings",
+      "description": "Comma-separated country codes to include (e.g., za,us,gb). If set, only these will be shown"
+    },
+    {
+      "path": "excludeCountries",
+      "label": "Exclude Countries",
+      "editorType": "textField",
+      "group": "Country Settings",
+      "description": "Comma-separated country codes to exclude from list (e.g., us,ca)"
+    },
+    {
+      "path": "editMode",
+      "label": "Edit mode",
+      "editorType": "editModeSelector",
+      "group": "Behavior"
+    },
+    {
+      "path": "allowClear",
+      "label": "Allow Clear",
+      "editorType": "checkbox",
+      "group": "Behavior"
+    },
+    {
+      "path": "enableArrow",
+      "label": "Enable Arrow",
+      "editorType": "checkbox",
+      "defaultValue": true,
+      "group": "Behavior"
+    },
+    {
+      "path": "enableSearch",
+      "label": "Enable Search",
+      "editorType": "checkbox",
+      "defaultValue": true,
+      "group": "Behavior",
+      "description": "Allow searching for countries in the dropdown"
+    },
+    {
+      "path": "distinct",
+      "label": "Show Distinct Country Codes",
+      "editorType": "checkbox",
+      "group": "Behavior",
+      "description": "Display only distinct country codes in the dropdown"
+    },
+    {
+      "path": "disableDropdown",
+      "label": "Disable Dropdown",
+      "editorType": "checkbox",
+      "group": "Behavior",
+      "description": "Prevent users from changing the country via dropdown"
+    },
+    {
+      "path": "disableParentheses",
+      "label": "Disable Parentheses",
+      "editorType": "checkbox",
+      "group": "Behavior",
+      "description": "Remove parentheses from phone number input mask"
+    },
+    {
+      "path": "searchPlaceholder",
+      "label": "Search Placeholder",
+      "editorType": "textField",
+      "defaultValue": "Search country",
+      "group": "Behavior",
+      "description": "Placeholder text for country search input"
+    },
+    {
+      "path": "searchNotFound",
+      "label": "Search Not Found Text",
+      "editorType": "textField",
+      "defaultValue": "No country found",
+      "group": "Behavior",
+      "description": "Text to display when no country matches the search"
+    },
+    {
+      "path": "initialValue",
+      "label": "Default Value",
+      "editorType": "textField",
+      "group": "Data",
+      "description": "Enter default value of component. (formData, formMode, globalState) are exposed"
+    },
+    {
+      "path": "onChangeCustom",
+      "label": "On Change",
+      "editorType": "codeEditor",
+      "group": "Events",
+      "description": "Enter custom event handler on changing of value. The callback triggered when the phone number is changed. Available variables: value (phone number), phoneValue (raw input object)"
+    },
+    {
+      "path": "onBlurCustom",
+      "label": "On Blur",
+      "editorType": "codeEditor",
+      "group": "Events",
+      "description": "Custom event handler triggered when the phone input loses focus"
+    },
+    {
+      "path": "onFocusCustom",
+      "label": "On Focus",
+      "editorType": "codeEditor",
+      "group": "Events",
+      "description": "Custom event handler triggered when the phone input receives focus"
+    },
+    {
+      "path": "validate.required",
+      "label": "Required",
+      "editorType": "checkbox",
+      "group": "Validation"
+    },
+    {
+      "path": "style",
+      "label": "Style (All Elements)",
+      "editorType": "codeEditor",
+      "group": "Style",
+      "description": "A script that returns the style applied to all phone input elements. This should conform to CSSProperties",
+      "shared": true
+    },
+    {
+      "path": "wrapperStyle",
+      "label": "Wrapper Style",
+      "editorType": "codeEditor",
+      "group": "Style",
+      "description": "Style for .ant-phone-input-wrapper (outer wrapper)"
+    },
+    {
+      "path": "inputGroupWrapperStyle",
+      "label": "Input Group Wrapper Style",
+      "editorType": "codeEditor",
+      "group": "Style",
+      "description": "Style for .ant-input-group-wrapper"
+    },
+    {
+      "path": "inputWrapperStyle",
+      "label": "Input Wrapper Style",
+      "editorType": "codeEditor",
+      "group": "Style",
+      "description": "Style for .ant-input-wrapper"
+    },
+    {
+      "path": "inputGroupStyle",
+      "label": "Input Group Style",
+      "editorType": "codeEditor",
+      "group": "Style",
+      "description": "Style for .ant-input-group (contains flag and input)"
+    },
+    {
+      "path": "inputStyle",
+      "label": "Input Style",
+      "editorType": "codeEditor",
+      "group": "Style",
+      "description": "Style for .ant-input (the actual input field)"
+    },
+    {
+      "path": "size",
+      "label": "Size",
+      "editorType": "dropdown",
+      "group": "Style",
+      "shared": true
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "permissionAutocomplete",
+      "group": "Security"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "phoneNumber/phoneNumber.tsx",
+    "phoneNumber/interface.ts"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "corpus": "0.45 golden archetypes — RequirementsStudio + employee starter seeds (0.45-shaped, v7 style blocks)",
+  "extracted": "2026-07-22",
+  "note": "Archetype keys match the blueprint IR vocabulary (shesha-design-comprehension/schemas/blueprint.schema.json). These files are COMPILER INPUT and grep targets — never read one whole [R-050]. compile-blueprint.js clones the closest archetype; agents pick via this index only.",
+  "forms": [
+    {
+      "file": "table-worklist--employee-table.json",
+      "archetype": "table-worklist",
+      "description": "Entity worklist: dataContext(v8) + datatable, toolbar with Add (Show Dialog modal), quick search, pager, row navigate action column.",
+      "componentTypes": ["dataContext", "datatable", "buttonGroup", "container", "text"]
+    },
+    {
+      "file": "record-detail--employee-detail.json",
+      "archetype": "record-detail",
+      "description": "Single-record detail: header band, Start Edit/Submit/Cancel lifecycle buttonGroup, labelled field sections.",
+      "componentTypes": ["container", "textField", "dropdown", "dateField", "buttonGroup", "validationErrors"]
+    },
+    {
+      "file": "hub--rs-detail-with-header.json",
+      "archetype": "hub",
+      "description": "Main+rail hub (962/332 split): flex containers sized via desktop.dimensions.width, KIB-style meta strip, tabs, related panels. Largest fixture — grep only.",
+      "componentTypes": ["container", "tabs", "datalist", "dataContext", "text", "buttonGroup"]
+    },
+    {
+      "file": "capture--employee-create.json",
+      "archetype": "capture",
+      "description": "Create/edit page: input fields, validationErrors, Save(Submit/shesha.form primary) + Back buttonGroup.",
+      "componentTypes": ["textField", "dropdown", "dateField", "validationErrors", "buttonGroup"]
+    },
+    {
+      "file": "capture-standalone--standalone-create.json",
+      "archetype": "capture",
+      "description": "Minimal standalone create form (smallest capture exemplar — the floor shape: fields + validationErrors + Save/Back).",
+      "componentTypes": ["textField", "validationErrors", "buttonGroup"]
+    },
+    {
+      "file": "modal-dialog--rs-create-dialog.json",
+      "archetype": "modal-dialog",
+      "description": "Create dialog opened via Show Dialog: editable fields, preset-FK pattern (component + onPrepareSubmitData), dialog-close wiring.",
+      "componentTypes": ["textField", "dropdown", "autocomplete", "validationErrors", "buttonGroup"]
+    },
+    {
+      "file": "list-card--entity-datalist.json",
+      "archetype": "list-card",
+      "description": "Card list: dataContext + datalist (formSelectionMode name) pointing at the item card form.",
+      "componentTypes": ["dataContext", "datalist"]
+    },
+    {
+      "file": "list-card-item--entity-card.json",
+      "archetype": "list-card",
+      "description": "The datalist row-template card (bound text, fit-content dimensions, ellipsis, status chip row) [R-048].",
+      "componentTypes": ["container", "text", "refListStatus"]
+    },
+    {
+      "file": "inline-card--inline-editable-table.json",
+      "archetype": "inline-card",
+      "description": "Inline-editable datatable: crud-operations column, editComponent {type,settings} shapes, canEditInline flags [R-010].",
+      "componentTypes": ["dataContext", "datatable", "buttonGroup"]
+    },
+    {
+      "file": "dashboard--dashboard.json",
+      "archetype": "dashboard",
+      "description": "Entity-bound landing/dashboard: stat containers + chart placeholders + shortcut links.",
+      "componentTypes": ["container", "text", "link"]
+    },
+    {
+      "file": "auth-page--auth-login.json",
+      "archetype": "auth-page",
+      "description": "Anonymous full-page form (access:5): login/register/OTP shell — branded page chrome, input fields, Submit wired to an app-service endpoint [R-041], no entity CRUD. Manual-clone archetype (the compiler does not wire anonymous auth).",
+      "componentTypes": ["container", "textField", "buttonGroup", "validationErrors"]
+    }
+  ]
+}

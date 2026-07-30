@@ -1,0 +1,88 @@
+{
+  "components": [
+    {
+      "id": "0e0dd8fb-b79b-5aed-8cbd-24df38117ae7",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-markdown-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "a8c9d381-83a0-50b1-a629-e081987b44a0",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-markdown-validation-errors",
+          "parentId": "0e0dd8fb-b79b-5aed-8cbd-24df38117ae7"
+        },
+        {
+          "id": "70a9233c-78e1-58a0-8db6-d5ecc9a8f7f5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-markdown-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "13b88b3f-4a77-5450-a073-f174d9e45cbc",
+              "type": "markdown",
+              "version": 3,
+              "label": "gym markdown",
+              "hidden": false,
+              "content": "## GYM markdown\n\nSome **bold** text.",
+              "componentName": "gym-markdown-inst-baseline",
+              "parentId": "70a9233c-78e1-58a0-8db6-d5ecc9a8f7f5"
+            }
+          ],
+          "parentId": "0e0dd8fb-b79b-5aed-8cbd-24df38117ae7"
+        },
+        {
+          "id": "b138d1a4-3a35-5506-bd77-9c5492d4f1e9",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-markdown-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "0e0dd8fb-b79b-5aed-8cbd-24df38117ae7"
+        },
+        {
+          "id": "ee9ec91a-b31c-5494-a7e7-975a5b714258",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-markdown-v-a058f647",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "c3ccb2e2-2da4-5ab0-89f6-2314f1c9fe74",
+              "type": "markdown",
+              "version": 3,
+              "label": "gym markdown",
+              "hidden": true,
+              "content": "## GYM markdown\n\nSome **bold** text.",
+              "componentName": "gym-markdown-inst-hidden=true",
+              "parentId": "ee9ec91a-b31c-5494-a7e7-975a5b714258"
+            }
+          ],
+          "parentId": "0e0dd8fb-b79b-5aed-8cbd-24df38117ae7"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

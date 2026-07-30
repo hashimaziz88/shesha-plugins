@@ -2,10 +2,19 @@
 
 The intermediate representation that carries a screen's placement from design to build. One file
 per screen: `<workdir>/blueprints/<screen>.blueprint.json`, conforming to
-`assets/blueprint.schema.json`. This supersedes the retired `<screen>.blueprint.md` prose format
-with its `layout-tree` grammar — `SKILL.md` and `capture-pipeline.md` now describe this JSON +
-rendered-mock format too; this file remains the source of truth for the IR's shape. Eight worked
+`assets/blueprint.schema.json`. `SKILL.md` and `capture-pipeline.md` describe this JSON +
+rendered-mock format; this file remains the source of truth for the IR's shape. Eight worked
 examples (one per archetype) live in [blueprint-examples.md](blueprint-examples.md).
+
+**A second format also exists, pending reconciliation of the two coexisting compiler
+toolchains** (see `shesha-claude-designer/README.md`): a human-reviewable
+`<screen>.blueprint.md` with fenced `layout-tree`/`bindings`/`assertions` blocks plus a
+fenced ` ```blueprint-json ` machine twin conforming to
+[`../schemas/blueprint.schema.json`](../schemas/blueprint.schema.json), consumed by the
+field-validated `compile-blueprint.js`. Everything below documents the pure-JSON IR that
+`compile-spec.mjs` consumes and this skill's own test suite (`tests/blueprint-schema.test.mjs`,
+`tests/assertions.test.mjs`) validates against — check which compiler owns the target build
+before assuming only one format applies.
 
 ## Why a JSON blueprint, not hand-authored Markdown
 
@@ -41,6 +50,16 @@ object**, so none of them can disagree with what the compiler consumes:
 
 Pure prose was the thing that drifted. A blueprint that IS the compiler's input, rendered rather
 than transcribed, cannot.
+
+**The parallel Markdown+twin format takes a different tradeoff** (pure JSON alone would be
+unreviewable to that pipeline's authors; pure prose is the thing that drifts either way): every
+`.md` blueprint there carries fenced `layout-tree`/`bindings`/`assertions` blocks a human reviews,
+PLUS one fenced ` ```blueprint-json ` block conforming to
+[`../schemas/blueprint.schema.json`](../schemas/blueprint.schema.json) that
+`compile-blueprint.js` actually consumes ("no spec, no build" — a blueprint without a valid
+blueprint-json block cannot be built there). The Markdown and JSON twin MUST agree — same
+regions/nesting/widths/bindings/assertion ids; when they diverge, the JSON twin is what gets
+built, so fix the divergence, never ship it.
 
 ## Document structure
 
@@ -281,3 +300,10 @@ justified against the manifest rather than silently present or silently missing.
 - [ ] Validate the blueprint against `assets/blueprint.schema.json` (see
       `scripts/lib/validate-blueprint.mjs`, exercised in `tests/blueprint-schema.test.mjs`) before
       treating it as complete.
+
+(The parallel Markdown+twin format has its own equivalent checklist — same physics, same
+predicate grammar, different container: `Archetype` from the OTHER enum in
+`schemas/blueprint.schema.json`; native cell widths in `row=[…]` lines; fidelity tier +
+confidence + viewport stamped at the top; a fenced ` ```blueprint-json ` block present, schema-
+valid, and agreeing with the Markdown blocks. See that pipeline's own docs for the full checklist
+— this file's checklist above is authoritative for the pure-JSON IR only.)

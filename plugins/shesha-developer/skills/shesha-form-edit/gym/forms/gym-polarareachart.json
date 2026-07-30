@@ -1,0 +1,803 @@
+{
+  "components": [
+    {
+      "id": "f20b594b-4217-54de-b4ee-4b7300ea5840",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-polarAreaChart-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "112ac69d-ba24-5750-b9cb-904132c9da29",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-polarAreaChart-validation-errors",
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "48352481-f88c-5aa3-80bc-86371fd918ae",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "a66a00dd-b385-5e2b-a31e-7a6477562c50",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-baseline",
+              "parentId": "48352481-f88c-5aa3-80bc-86371fd918ae"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "2d836dcc-9fe1-5bd3-a24f-ebf614f56785",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-polarAreaChart-h-appearance",
+          "content": "— appearance —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "6d05d90c-ccff-5599-8506-7c6cb9f0566a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-0baf713f",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "4edeee7c-81bf-57ea-8418-6885a9285043",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-desktop.dimensions.width=317px",
+              "desktop": {
+                "dimensions": {
+                  "width": "317px"
+                }
+              },
+              "parentId": "6d05d90c-ccff-5599-8506-7c6cb9f0566a"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "a8b75c4f-c28c-56ba-9f53-6337cb46a5c5",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-529ccf25",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2b698e2d-d5c0-58e7-9cd1-3017af41896c",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-desktop.dimensions.height=117px",
+              "desktop": {
+                "dimensions": {
+                  "height": "117px"
+                }
+              },
+              "parentId": "a8b75c4f-c28c-56ba-9f53-6337cb46a5c5"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "d3e6d5c6-6f04-50cb-b639-e6e494aff5e0",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-f1866be0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "6712bf36-d335-5f87-9f4f-6e4a236f27b7",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-desktop.background=color#ff00aa",
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ff00aa"
+                }
+              },
+              "parentId": "d3e6d5c6-6f04-50cb-b639-e6e494aff5e0"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "97d71115-6164-5beb-a72f-fa281bc96860",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-8db175ab",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "877a4e2a-769e-57c8-a058-99ec2c1b7799",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-desktop.background=gradient",
+              "desktop": {
+                "background": {
+                  "type": "gradient",
+                  "gradient": {
+                    "direction": "to right",
+                    "colors": {
+                      "0": "#ff00aa",
+                      "1": "#00ff00"
+                    }
+                  }
+                }
+              },
+              "parentId": "97d71115-6164-5beb-a72f-fa281bc96860"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "50ea67cc-c71f-5818-8d1f-18f6a737728b",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-ce6b48b0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "1a52ec48-0c78-5c2c-969c-b1b4da9d55b8",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-desktop.shadow=shadow17",
+              "desktop": {
+                "shadow": {
+                  "offsetX": 17,
+                  "offsetY": 17,
+                  "blurRadius": 17,
+                  "spreadRadius": 0,
+                  "color": "#000000"
+                }
+              },
+              "parentId": "50ea67cc-c71f-5818-8d1f-18f6a737728b"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "66181c5d-b32a-5c77-94bb-f344b7b8e158",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-5f60c225",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "5a57d90f-48a0-531f-aa32-5123fa569ce9",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-stylingBox=stylingBox17",
+              "stylingBox": "{\"marginTop\":\"17\",\"paddingLeft\":\"17\"}",
+              "parentId": "66181c5d-b32a-5c77-94bb-f344b7b8e158"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "12175ea1-2bd6-53a8-bc4a-28782876b19b",
+          "type": "text",
+          "version": 5,
+          "componentName": "gym-polarAreaChart-h-display",
+          "content": "— display —",
+          "textType": "span",
+          "contentDisplay": "content",
+          "hideLabel": true,
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "cb08d85a-c5e4-534d-87d1-d1e3fe1a3516",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-21736af6",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "fa5c1c5b-3cc9-54be-a21e-3033c382fc49",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "url",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-dataMode=url",
+              "parentId": "cb08d85a-c5e4-534d-87d1-d1e3fe1a3516"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "8864a4df-93a7-52c3-aac3-15327da17a4a",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-2486b146",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "d1718805-6a96-52fe-bfbc-3eb74b0de218",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-dataMode=entityType",
+              "parentId": "8864a4df-93a7-52c3-aac3-15327da17a4a"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "b1d9b3c0-37ce-5ef4-ae19-32788b1f8a3f",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-e50de9ed",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "020b5e00-8bf4-57f5-b956-9442e3d7824f",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-isAxisTimeSeries=true",
+              "isAxisTimeSeries": true,
+              "parentId": "b1d9b3c0-37ce-5ef4-ae19-32788b1f8a3f"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "698e7d0e-bd14-550b-b33b-8da3c897b0db",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-c5541b5b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "44d62327-8259-523c-84d3-b0c1d963126d",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-isGroupingTimeSeries=true",
+              "isGroupingTimeSeries": true,
+              "parentId": "698e7d0e-bd14-550b-b33b-8da3c897b0db"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "a2cf287e-e351-5183-ba84-be9d9248c549",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-4c7a1e03",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "211d9c78-9ac1-58a7-801d-73e7556d12d9",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": true,
+              "componentName": "gym-polarAreaChart-inst-showTitle=true",
+              "parentId": "a2cf287e-e351-5183-ba84-be9d9248c549"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "285ac7bd-9aa0-5796-9807-040577ed31ed",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-9c0e4c06",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "2de71fe1-2f68-564b-a9ab-a674cd05172b",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-showLegend=true",
+              "showLegend": true,
+              "parentId": "285ac7bd-9aa0-5796-9807-040577ed31ed"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "99638289-840a-5601-af9b-46c3c29f9502",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-bb9aa449",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "812af626-890f-50de-8272-8ae391666a4d",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-showXAxisScale=true",
+              "showXAxisScale": true,
+              "parentId": "99638289-840a-5601-af9b-46c3c29f9502"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "22a3cae9-6846-58ff-a88b-5378cff611f9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-60125ae0",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "19a0ad76-730a-54cb-a4f1-4f26c79e86ef",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-axisPropertyLabel=txt",
+              "axisPropertyLabel": "GYM-TXT-axisPropertyLabel",
+              "parentId": "22a3cae9-6846-58ff-a88b-5378cff611f9"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "222d266d-e3c2-5768-ad1e-b8f522211c8c",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-6e79609b",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "fb9bb458-a1ee-5626-a354-e772d3eaf37a",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-showYAxisScale=true",
+              "showYAxisScale": true,
+              "parentId": "222d266d-e3c2-5768-ad1e-b8f522211c8c"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "48810b17-a061-59bd-a790-7e2a218b60c9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-d7b2e44e",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7b10e1be-b85a-5bd7-a46f-3c55553d6c40",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-valuePropertyLabel=txt",
+              "valuePropertyLabel": "GYM-TXT-valuePropertyLabel",
+              "parentId": "48810b17-a061-59bd-a790-7e2a218b60c9"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "7d87a3d6-df4c-5ca5-85cb-ecacd22d1805",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-99b67563",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "85476d8a-136b-5373-8744-e2055479a074",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-orderDirection=asc",
+              "orderDirection": "asc",
+              "parentId": "7d87a3d6-df4c-5ca5-85cb-ecacd22d1805"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "a9d45e4f-97e7-521b-8fb5-0aa23207f1b9",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-6d8df4af",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "75462075-701e-5b71-914f-c94ff86ac5fa",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-orderDirection=desc",
+              "orderDirection": "desc",
+              "parentId": "a9d45e4f-97e7-521b-8fb5-0aa23207f1b9"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "e3065272-bfa4-5ba3-b033-28b071aa4a1d",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-fa784aa6",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "3f894af2-596e-5537-a4b8-1fe4beb543d9",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "sum",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-aggregationMethod=sum",
+              "parentId": "e3065272-bfa4-5ba3-b033-28b071aa4a1d"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "8b75981b-6428-5617-b3a5-acdb06f84423",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-c8932a39",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ab4dfbf0-87ea-5494-97a3-a477454a5d29",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-aggregationMethod=count",
+              "parentId": "8b75981b-6428-5617-b3a5-acdb06f84423"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "17c26f81-671a-56c8-a85f-8af41faf57be",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-1099468a",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b0a1d8e1-db4e-5379-9466-e4fecc0a5bc4",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "average",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-aggregationMethod=average",
+              "parentId": "17c26f81-671a-56c8-a85f-8af41faf57be"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "2ba969cc-d29f-5584-ae0d-7ec4687038c6",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-d607f82d",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "dac6c5a2-1f09-5364-b87a-ed335a4cf92b",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "min",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-aggregationMethod=min",
+              "parentId": "2ba969cc-d29f-5584-ae0d-7ec4687038c6"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "f898a1b2-3aad-5b0d-9e34-87d6b8414625",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-f1e71d42",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "7d12f58d-5137-5e1e-b31d-4c4f62b33112",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "max",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-aggregationMethod=max",
+              "parentId": "f898a1b2-3aad-5b0d-9e34-87d6b8414625"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        },
+        {
+          "id": "46963584-3c6f-55a7-8dd3-5d7fdb072579",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-polarAreaChart-v-de56d955",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "ea6d7356-b94a-59f3-a335-f38869198312",
+              "type": "polarAreaChart",
+              "version": 9,
+              "label": "gym polarAreaChart",
+              "hidden": false,
+              "dataMode": "entityType",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "axisProperty": "category",
+              "valueProperty": "id",
+              "aggregationMethod": "count",
+              "simulatedData": false,
+              "showTitle": false,
+              "componentName": "gym-polarAreaChart-inst-strokeWidth=17",
+              "strokeWidth": 17,
+              "parentId": "46963584-3c6f-55a7-8dd3-5d7fdb072579"
+            }
+          ],
+          "parentId": "f20b594b-4217-54de-b4ee-4b7300ea5840"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

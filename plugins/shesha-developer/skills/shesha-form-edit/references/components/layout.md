@@ -1,6 +1,6 @@
 # Layout pattern: container → card → inner container → sections
 
-The project's house pattern for full-page forms (auth pages, registration, single-record edit screens). Mirror it for any new page-style form so it looks consistent with the rest. The reference implementation is `auth-login` in module `PBF.MembershipManagement` (also bundled at `assets/patterns/auth-login.json`) — copy its JSON when starting a new page.
+The project's house pattern for full-page forms (auth pages, registration, single-record edit screens). Mirror it for any new page-style form so it looks consistent with the rest. The reference implementation is the `auth-page` golden archetype (`assets/golden/auth-page--auth-login.json`) — copy its JSON when starting a new page.
 
 ```
 [root]
@@ -92,4 +92,4 @@ For a fully-worked builder example, see `.claude/cache/shesha-form-edit/_archive
 
 ## When NOT to use this pattern
 
-Single-component forms (a sub-form embedded somewhere else, a row template for a `datalist`), data-list/data-table host pages, dashboards with multiple top-level cards. For dashboards, see `assets/patterns/dashboard.json` for the canonical entity-bound dashboard layout.
+Single-component forms (a sub-form embedded somewhere else, a row template for a `datalist`), data-list/data-table host pages, dashboards with multiple top-level cards. For dashboards, see `assets/golden/dashboard--dashboard.json` for the canonical entity-bound dashboard layout.

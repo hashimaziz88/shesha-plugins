@@ -76,11 +76,11 @@ getComputedStyle(document.querySelector('.sha-page-content')).padding === '0px';
 ```
 
 Example assertions that have caught real regressions:
-- KIB column height `===` band height (stretch + border-left divider pattern — see [detail-page-pattern.md](detail-page-pattern.md)).
+- KIB column height `===` band height (stretch + border-left divider pattern — see [detail-page-pattern.md](components/detail-page-pattern.md)).
 - `border-left: 1px solid rgb(217,217,217)` on KIB columns 2+.
 - `.sha-page-content` padding `12px → 0px` after appending the `no-padding` class.
 - Toolbar↔table left alignment via the `sha-index-table-control` class: measure the quick-search box's x-offset relative to the datatable edge (a −8px overhang means the class is missing).
-- Squeezed/scrolling header containers: fix is `dimensions.minHeight: 'fit-content'` (runtime-verified; not in the groups index — clean-form-config may flag it; do NOT strip) — `dimensions` is the only channel reaching the container's outer div; see `style-channels.md` (in `shesha-design-system`).
+- Squeezed/scrolling header containers: fix is `dimensions.minHeight: 'fit-content'` (runtime-verified; not in the groups index — clean-form-config may flag it; do NOT strip) — `dimensions` is the only channel reaching the container's outer div; see `styling-mechanics.md` (in `shesha-design-system`).
 
 For pixel-parity work ("match the reference form"), compare **computed** styles in-browser AND do a bidirectional full-key JSON diff — identical-looking designer props can render differently because of one extra key (e.g. a stray `font.color`).
 
@@ -98,7 +98,7 @@ In embedded scripts, prefer `formArguments?.id` over parsing `window.location.se
 
 ---
 
-## 6. Smoke-failure loop
+## 6. Smoke-failure loop — HARD CAP: 2 cycles
 
 When a browser smoke test fails, run this exact cycle — no shortcuts:
 
@@ -112,13 +112,14 @@ When a browser smoke test fails, run this exact cycle — no shortcuts:
 
 Never silently retry the same push. Never report success without steps 5–7 passing.
 
+**Iteration cap (mandatory): maximum 2 full cycles.** If the smoke still fails after the second re-push, STOP fixing. Emit a failure report instead: the exact assertion/error still failing, the two fixes attempted, and the diagnosed remaining cause — then finish the run honestly ("pushed, smoke NOT passing: <reason>"). A third blind cycle is where runs blow past 30 minutes; two failed targeted fixes means the diagnosis is wrong, and more pushes won't fix a wrong diagnosis. (Measured: uncapped smoke loops are a top-2 cause of 40–90 min harness runs.)
+
+**Browser wait budget (mandatory):** no scripted wait may exceed **20 s**, and every wait loop needs an explicit deadline + timeout branch that captures evidence (screenshot + console) and moves on. One retry of a failed navigation/wait is allowed, then report. Never wrap an unbounded `while` in `evaluate` — a hung evaluate stalled a live run 11 minutes on a wait scripted "for 15 s". If the frontend is recompiling (dev-server), detect it (page shows the compile overlay / navigation hangs) and report "frontend compiling — verification deferred" rather than waiting it out.
+
 ---
 
-### Worked example (project-specific)
+### Worked examples (compressed)
 
-From the RequirementsStudio fleet work (2026-06):
-
-- **§3 navigation artifact:** `service-definition-project-add`'s "Add Project" submit 500'd on `ServiceDefinitionProject/Crud/Create` under direct `?id=` load — the same link worked when reached via table→details in MS Edge. The form was never broken.
-- **§4 measured proof:** after the `module-definition-details` KIB rebuild, computed column height `===` KIB band height (84px) and `border-left: 1px solid rgb(217,217,217)` on columns 2+ proved the flush-divider pattern; `getComputedStyle('.sha-page-content').padding` went `12px → 0px` across all 16 non-MDD forms after the `no-padding` class.
-- **§4 false alarm:** during the all-17-forms KIB rollout, scaled screenshots suggested 10–15px label/value misalignment; `getBoundingClientRect` showed 0px offsets — no fix needed.
-- **§2 ghost-chasing:** post-push verification repeatedly stalled on stale renders until the `form`/`form_lookup` IndexedDB databases were cleared from `/favicon.ico`; in-app `deleteDatabase` calls blocked silently.
+- **§3 navigation artifact:** a dialog submit 500'd under direct `?id=` load; the same link worked via table→details — the form was never broken.
+- **§4 measured proof / false alarm:** computed column height == band height + `border-left` proved a flush-divider rollout; scaled screenshots on the same rollout faked 10–15px offsets that `getBoundingClientRect` showed were 0.
+- **§2 ghost-chasing:** post-push verification stalled on stale renders until the IndexedDB stores were cleared from `/favicon.ico`; in-app `deleteDatabase` blocked silently.

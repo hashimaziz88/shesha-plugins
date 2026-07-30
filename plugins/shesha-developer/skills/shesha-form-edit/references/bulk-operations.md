@@ -1,6 +1,6 @@
 # Bulk/fleet form transforms (pilot-first)
 
-Mechanics for changing many forms at once without losing fields or regressing working wiring. Routing thresholds (when to go fleet-mode at all) live in [levels.md](levels.md) and SKILL.md; agent dispatch lives in [orchestration.md](orchestration.md). This file is the HOW.
+Mechanics for changing many forms at once without losing fields or regressing working wiring. Routing thresholds (when to go fleet-mode at all) live in SKILL.md Step R (fleet mode past ~3 forms or a multi-page brief); agent dispatch lives in [orchestration.md](orchestration.md). This file is the HOW.
 
 ---
 
@@ -110,11 +110,11 @@ Find target components by subtree **CONTENT/shape**, never by `componentName` co
 
 Clone the template's FULL style objects onto each target's analogous component — never hand-author "equivalent" CSS.
 
-- **Overwrite ONLY style keys**: `direction` / `flex*` / `display` / `justifyContent` / `alignItems` / `gap` / `dimensions` / `border` / `background` / `font` / `shadow` / `stylingBox` / `desktop` / `tablet` / `mobile` / `className` / `style` (the legacy JS-string channel — diff it too, it renders inline and overrides everything; see `style-channels.md` in `shesha-design-system`).
+- **Overwrite ONLY style keys**: `direction` / `flex*` / `display` / `justifyContent` / `alignItems` / `gap` / `dimensions` / `border` / `background` / `font` / `shadow` / `stylingBox` / `desktop` / `tablet` / `mobile` / `className` / `style` (the legacy JS-string channel — diff it too, it renders inline and overrides everything; see `styling-mechanics.md` in `shesha-design-system`).
 - **Preserve identity + data keys**: `id`, `parentId`, `componentName`, `propertyName`, `version`, plus data bindings (`referenceListId`, `entityType`, bound `content`).
 - `clean-form-config` flags some template-origin props as issues — **FALSE POSITIVES, do NOT strip**: gap-as-string, `text` `level` as number, sectionSeparator `lineThickness`, and composite object values (style-config / border-config / dimensions shapes — one audit produced 338 bogus "type mismatches"). Stripping them breaks template parity. See [form-quality.md](form-quality.md).
 - When parity must be **pixel-identical**: do a **bidirectional full-key JSON diff** (a 167-key designer-bloat component vs the template's clean ~32 keys — one extra `font.color` renders pure black) AND compare computed styles in-browser ([verification.md](verification.md)). Often a full component **transplant** (keep target `id`/`parentId`/`componentName`/`propertyName`) beats property tweaks.
-- Squeeze/scrollbar fixes go through `dimensions.minHeight: 'fit-content'` (runtime-verified; not in the groups index — clean-form-config may flag it; do NOT strip) — `dimensions` is the only channel reaching a container's outer div. Canonical target layout: [detail-page-pattern.md](detail-page-pattern.md); subtable shape: [junction-subtables.md](junction-subtables.md); dialogs: [add-dialogs.md](add-dialogs.md).
+- Squeeze/scrollbar fixes go through `dimensions.minHeight: 'fit-content'` (runtime-verified; not in the groups index — clean-form-config may flag it; do NOT strip) — `dimensions` is the only channel reaching a container's outer div. Canonical target layout: [detail-page-pattern.md](components/detail-page-pattern.md); subtable shape: [junction-subtables.md](components/junction-subtables.md); dialogs: [add-dialogs.md](components/add-dialogs.md).
 
 ---
 

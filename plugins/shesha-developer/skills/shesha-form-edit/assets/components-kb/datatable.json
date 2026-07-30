@@ -1,0 +1,527 @@
+{
+  "type": "datatable",
+  "name": "Data Table",
+  "isInput": true,
+  "isOutput": true,
+  "canBeJsSetting": null,
+  "icon": "TableOutlined",
+  "version": 29,
+  "initModel": {
+    "defaults": null,
+    "raw": "(model: ITableComponentProps) => {\r\n    const defaults = defaultStyles();\r\n    const tableDefaults = getTableDefaults();\r\n    const tableSettingsDefaults = getTableSettingsDefaults();\r\n\r\n    const defaultRowDimensions = {\r\n      height: 'auto',\r\n      minHeight: 'auto',\r\n      maxHeight: 'auto',\r\n    };\r\n\r\n    return {\r\n      items: [],\r\n      rowDimensions: defaultRowDimensions,\r\n      ...defaults,\r\n      ...tableDefaults,\r\n      ...tableSettingsDefaults,\r\n      ...model,\r\n      // Ensure device-specific rowDimensions are also defaulted to auto\r\n      mobile: {\r\n        ...model.mobile,\r\n        rowDimensions: model.mobile?.rowDimensions ?? defaultRowDimensions,\r\n      },\r\n      tablet: {\r\n        ...model.tablet,\r\n        rowDimensions: model.tablet?.rowDimensions ?? defaultRowDimensions,\r\n      },\r\n      desktop: {\r\n        ...model.desktop,\r\n        rowDimensions: model.desktop?.rowDimensions ?? defaultRowDimensions,\r\n      },\r\n    };\r\n  }"
+  },
+  "settingsProps": {
+    "interfaceName": "ITableComponentProps",
+    "interfaceFile": "designer-components/dataTable/table/models.ts",
+    "ownProps": [],
+    "extends": [
+      "ITableComponentBaseProps",
+      "IConfigurableFormComponent"
+    ],
+    "resolvedProps": [
+      "_formFields",
+      "actionIconColor",
+      "actionIconSize",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "backgroundColor",
+      "border",
+      "borderRadius",
+      "boxShadow",
+      "canAddInline",
+      "canAddInlineExpression",
+      "canDeleteInline",
+      "canDeleteInlineExpression",
+      "canEditInline",
+      "canEditInlineExpression",
+      "cellBackgroundColor",
+      "cellBorder",
+      "cellBorderColor",
+      "cellBorders",
+      "cellPadding",
+      "cellTextColor",
+      "componentName",
+      "containerStyle",
+      "context",
+      "customCreateUrl",
+      "customDeleteUrl",
+      "customEnabled",
+      "customUpdateUrl",
+      "customVisibility",
+      "dblClickActionConfiguration",
+      "description",
+      "desktop",
+      "dimensions",
+      "editMode",
+      "enableStyleOnReadonly",
+      "font",
+      "footerBackgroundColor",
+      "footerBorder",
+      "footerTextColor",
+      "freezeHeaders",
+      "headerBackgroundColor",
+      "headerBorder",
+      "headerFont",
+      "headerFontFamily",
+      "headerFontSize",
+      "headerFontWeight",
+      "headerShadow",
+      "headerTextColor",
+      "hidden",
+      "hideLabel",
+      "hideScrollBar",
+      "hoverHighlight",
+      "id",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "inlineEditMode",
+      "inlineSaveMode",
+      "inputStyles",
+      "isDynamic",
+      "items",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "layout",
+      "listType",
+      "maxHeight",
+      "menuItemShadow",
+      "minHeight",
+      "mobile",
+      "newRowCapturePosition",
+      "newRowInsertPosition",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChangeCustom",
+      "onClickCustom",
+      "onDblClick",
+      "onFocusCustom",
+      "onNewRowInitialize",
+      "onRowClick",
+      "onRowDeleteSuccessAction",
+      "onRowDoubleClick",
+      "onRowHover",
+      "onRowSave",
+      "onRowSaveSuccessAction",
+      "onRowSelect",
+      "onSelectCustom",
+      "onSelectionChange",
+      "overflow",
+      "parentId",
+      "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
+      "propertyName",
+      "queryParams",
+      "readOnly",
+      "responsiveMode",
+      "rowAlternateBackgroundColor",
+      "rowBackgroundColor",
+      "rowBorder",
+      "rowBorderStyle",
+      "rowDimensions",
+      "rowDividers",
+      "rowHeight",
+      "rowHoverBackgroundColor",
+      "rowPadding",
+      "rowPaddingBottom",
+      "rowPaddingLeft",
+      "rowPaddingRight",
+      "rowPaddingTop",
+      "rowSelectedBackgroundColor",
+      "rowShadow",
+      "rowStylingBox",
+      "secondaryBgColor",
+      "secondaryTextColor",
+      "selectionMode",
+      "settingsValidationErrors",
+      "shadow",
+      "showExpandedView",
+      "size",
+      "sortableIndicatorColor",
+      "striped",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "tableSettings",
+      "tableStyle",
+      "tablet",
+      "type",
+      "useMultiselect",
+      "validate",
+      "wrapperStyle"
+    ],
+    "unresolvedExtends": [
+      "'style'>",
+      "IHasVersion",
+      "Omit<ICommonContainerProps"
+    ]
+  },
+  "settingsForm": {
+    "source": "dataTable/table/tableSettings.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [
+    "stylingBox"
+  ],
+  "settingsFields": [
+    {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Limited to default display components"
+    },
+    {
+      "path": "componentName",
+      "label": "Component Name",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "editMode",
+      "label": "Edit Mode",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "items",
+      "label": "Customize Columns",
+      "editorType": "settingsInputRow",
+      "description": "Limited to default display components"
+    },
+    {
+      "path": "freezeHeaders",
+      "label": "Freeze Headers",
+      "editorType": "settingsInputRow",
+      "description": "Controls how rows can be selected in the table"
+    },
+    {
+      "path": "canEditInline",
+      "label": "Can Edit Inline",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "canEditInlineExpression",
+      "label": "Can Edit Inline Expression",
+      "editorType": "settingsInputRow",
+      "description": "Return true to enable inline editing and false to disable."
+    },
+    {
+      "path": "inlineEditMode",
+      "label": "Row Edit Mode",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "inlineSaveMode",
+      "label": "Save Mode",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "customUpdateUrl",
+      "label": "Custom Update URL",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "canAddInline",
+      "label": "Can Add Inline",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "canAddInlineExpression",
+      "label": "Can Add Inline Expression",
+      "editorType": "settingsInputRow",
+      "description": "Return true to enable inline creation of new rows and false to disable."
+    },
+    {
+      "path": "newRowCapturePosition",
+      "label": "New Row Capture Position",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "newRowInsertPosition",
+      "label": "New Row Insert Position",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "customCreateUrl",
+      "label": "Custom Create URL",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "onNewRowInitialize",
+      "label": "New Row Init",
+      "editorType": "settingsInputRow",
+      "description": "Allows configurators to specify logic to initialise the object bound to a new row."
+    },
+    {
+      "path": "onRowSave",
+      "label": "On Row Save",
+      "editorType": "settingsInputRow",
+      "description": "Custom business logic to be executed on saving of new/updated row (e.g. custom validation / calculations). This handler should return an object or a Promise<object>."
+    },
+    {
+      "path": "canDeleteInline",
+      "label": "Can Delete Inline",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "canDeleteInlineExpression",
+      "label": "Can Delete Inline Expression",
+      "editorType": "settingsInputRow",
+      "description": "Return true to enable inline deletion and false to disable."
+    },
+    {
+      "path": "customDeleteUrl",
+      "label": "Custom Delete URL",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "onRowClick",
+      "label": "On Row Click",
+      "editorType": "configurableActionConfigurator",
+      "description": "Action to execute when a row is clicked"
+    },
+    {
+      "path": "onRowDoubleClick",
+      "label": "On Row Double-Click",
+      "editorType": "configurableActionConfigurator",
+      "description": "Action to execute when a row is double-clicked"
+    },
+    {
+      "path": "onRowHover",
+      "label": "On Row Hover",
+      "editorType": "configurableActionConfigurator",
+      "description": "Action to execute when hovering over a row"
+    },
+    {
+      "path": "onRowSelect",
+      "label": "On Row Select",
+      "editorType": "configurableActionConfigurator",
+      "description": "Action to execute when a row is selected"
+    },
+    {
+      "path": "onSelectionChange",
+      "label": "On Selection Change",
+      "editorType": "configurableActionConfigurator",
+      "description": "Action to execute when the selection changes"
+    },
+    {
+      "path": "onRowSaveSuccessAction",
+      "label": "On Row Save Success",
+      "editorType": "configurableActionConfigurator",
+      "description": "Custom business logic to be executed after successfull saving of new/updated row."
+    },
+    {
+      "path": "onRowDeleteSuccessAction",
+      "label": "On Row Delete Success",
+      "editorType": "configurableActionConfigurator",
+      "description": "Custom business logic to be executed after successfull deletion of a row."
+    },
+    {
+      "path": "headerFont",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Font size in pixels. Default: 14px",
+      "group": "Header Styles"
+    },
+    {
+      "path": "headerBackgroundColor",
+      "label": "Background Color",
+      "editorType": "settingsInputRow",
+      "description": "Background color for table headers. Default: #fafafa",
+      "group": "Header Styles"
+    },
+    {
+      "path": "rowPaddingTop",
+      "label": "Top",
+      "editorType": "settingsInputRow",
+      "description": "Top padding for table rows (e.g., 8px, 1rem, 0.5em)",
+      "group": "Cell Padding"
+    },
+    {
+      "path": "rowPaddingBottom",
+      "label": "Bottom",
+      "editorType": "settingsInputRow",
+      "description": "Bottom padding for table rows (e.g., 8px, 1rem, 0.5em)",
+      "group": "Cell Padding"
+    },
+    {
+      "path": "actionIconSize",
+      "label": "Icon Size",
+      "editorType": "settingsInputRow",
+      "description": "Size of action column icons (e.g., 16px, 1.2em). Inherits from table font size if not specified.",
+      "group": "Action Column Icons"
+    },
+    {
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Font size in pixels. Default: 14px",
+      "group": "Font"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). Default: 100%",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). Default: auto",
+      "group": "Dimensions"
+    },
+    {
+      "path": "rowDimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "Row height. You can use any unit (%, px, em, etc). px by default if without unit. Default: auto",
+      "group": "Row Dimensions"
+    },
+    {
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "description": "Background color. Default: white (#fff)",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "description": "Horizontal shadow offset. Default: 0px",
+      "group": "Shadow"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
+      "shared": true
+    },
+    {
+      "path": "striped",
+      "label": "Striped Rows",
+      "editorType": "settingsInputRow",
+      "description": "Enable alternating row colors. Default: enabled",
+      "group": "Table Specific"
+    },
+    {
+      "path": "rowBackgroundColor",
+      "label": "Row Background",
+      "editorType": "settingsInputRow",
+      "description": "Default background color for table rows",
+      "group": "Table Specific"
+    },
+    {
+      "path": "rowHoverBackgroundColor",
+      "label": "Hover Background",
+      "editorType": "settingsInputRow",
+      "description": "Background color when hovering over rows",
+      "group": "Table Specific"
+    },
+    {
+      "path": "sortableIndicatorColor",
+      "label": "Sort Indicator Color",
+      "editorType": "settingsInputRow",
+      "description": "Color for sortable column indicators",
+      "group": "Table Specific"
+    },
+    {
+      "path": "cellBorderColor",
+      "label": "Cell Border Color",
+      "editorType": "settingsInputRow",
+      "description": "Border color for table cells",
+      "group": "Cell Styling"
+    },
+    {
+      "path": "rowDividers",
+      "label": "Row Dividers",
+      "editorType": "settingsInput",
+      "description": "Show horizontal dividing lines between rows",
+      "group": "Cell Styling"
+    },
+    {
+      "path": "containerStyle",
+      "label": "Container Style",
+      "editorType": "settingsInputRow",
+      "description": "Custom CSS styles for the table container/wrapper",
+      "group": "Custom Styles"
+    },
+    {
+      "path": "tableStyle",
+      "label": "Table Style",
+      "editorType": "settingsInputRow",
+      "description": "Custom CSS styles for the table element",
+      "group": "Custom Styles"
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "settingsInput",
+      "description": "Enter a list of permissions that should be associated with this component"
+    }
+  ],
+  "slots": {
+    "hostsChildren": true,
+    "customContainerNames": null,
+    "detectedSlotKeys": [
+      "components"
+    ],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "dataTable/table/tableComponent.tsx",
+    "dataTable/table/models.ts"
+  ]
+}

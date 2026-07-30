@@ -1,22 +1,20 @@
 ---
 name: shesha-design-system
-description: Owns Shesha appearance — the style-role catalogue, the brand token files, the app-level Ant Design theme, and per-component v7 style blocks. A SUB-SKILL for design runs: normally sequenced by shesha-claude-designer or consumed via the role catalogue that the form compiler resolves. Use it DIRECTLY when restyling an already-working form — "apply our branding", "style this form", "the buttons are the wrong colour", "raise the polish" — or to audit a rendered form against its theme and return prop-level fixes. Brand selection is a lookup via resolve-brand.mjs, never an authoring task. Do NOT use it to author structure or components, wire CRUD, or fix runtime errors — that is shesha-form-edit's job.
+description: A SUB-SKILL — EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns how forms LOOK — maps brand design tokens (colour, type, spacing, radius, shadow, status lifecycle) onto Shesha's app-level Ant Design theme and per-component v7 style blocks, through channels the measured capability matrix proves work. Ships three brand themes (shesha default, requirements-studio, wcg) and accepts new token files. Invoked automatically by shesha-form-edit's Style step so no form ships unstyled [R-042]. Invoke directly only for targeted styling of an existing form — "apply our branding", "style this form", "the buttons are the wrong colour", "raise the polish" — or to audit a rendered form against its theme and return prop-level fixes. Brand selection is a lookup via resolve-brand.mjs, never an authoring task. 0.45-only — 0.43 styling lives in the shesha-developer-0-43 plugin. Never authors structure/components, CRUD, or runtime fixes — that is shesha-form-edit's job.
 ---
 
-# Shesha Design System
+# Shesha Design System (0.45)
 
-## Overview
+Turn "make it look good / match the design" into **concrete Shesha style values**. This skill owns *how forms look*, never *what they contain*. It reads a brand **theme token file** and emits the exact props 0.45 components expect, in **two layers that must BOTH be applied**:
 
-Turn an abstract "make it look good / match the design" into **concrete Shesha style values**. This skill owns *how forms look*, never *what they contain*. It reads a brand **theme token file** and emits the exact props Shesha components expect, in two layers that must BOTH be applied:
-
-1. **App-level Ant Design theme (set once):** brand primary, base font family, base radius, semantic colours, neutrals — so the whole portal inherits them. Mechanism: [references/app-theme.md](references/app-theme.md). Don't repaint every button per form.
-2. **Per-component v7 style blocks (per form):** surfaces, cards, section headers, density, status chips, header bands, rails — the structural/visual treatment the global theme can't express. Recipes: [references/component-recipes.md](references/component-recipes.md).
+1. **App-level Ant Design theme (set once):** brand primary, base font, base radius, semantic colours — the whole portal inherits them. Mechanism: [references/app-theme.md](references/app-theme.md). Don't repaint every button per form.
+2. **Per-component v7 style blocks (per form):** surfaces, cards, section headers, density, status chips, header bands, rails — what the global theme can't express. Recipes: [references/component-recipes.md](references/component-recipes.md).
 
 A form looks "cheap" when only one layer is done (AntD still default-blue, or no surface treatment). Apply both.
 
 ## When to use / not
 
-- **Use** for visual goals: match a design, apply branding, raise polish, fix "doesn't look good", restyle a working form.
+- **Use** for visual goals: match a design, apply branding, raise polish, restyle a working form.
 - **Don't use** to add fields, wire buttons/CRUD, resolve modelType, or debug runtime errors (→ `shesha-form-edit`); or to choose the layout (→ `shesha-design-comprehension`).
 
 ## Steps
@@ -31,6 +29,14 @@ A form looks "cheap" when only one layer is done (AntD still default-blue, or no
    - The requested brand file exists in `assets/themes/` → it is used.
    - It does not exist, or none was requested → **the shipped default `shesha` is used**, and the script says so.
 
+   Token files live in `assets/themes/<brand>.tokens.json`. Three ship:
+
+   | Brand | File | What it is |
+   |---|---|---|
+   | `shesha` | `shesha.tokens.json` | **The default** — Cobalt `#003BB2` interactive anchor, Navy chrome, Nero ink, white cards on Athens Grey canvas, borders-not-shadows, ready `$antdTheme` block. Used whenever no brand is named — including form-edit's mandatory no-design pass [R-042] via the cost-capped [default-theme-quickpass.md](references/default-theme-quickpass.md) (for that pass, follow that file only). |
+   | `requirements-studio` | `requirements-studio.tokens.json` | Example custom brand (LandBank green, Inter, RsStatus lifecycle). |
+   | `wcg` | `wcg.tokens.json` | Additional shipped brand. |
+
    **NEVER author a new `<brand>.tokens.json` during a design, form, or styling run. Not ever, and not "quickly".** A brand token file is ~290 keys including an `$antdTheme` block; writing one costs a large fraction of a run's budget and delivers nothing the default does not already deliver. A telemetry review found a run that spent most of its turns authoring a `skyline` brand that **no user had asked for** — 32 references to `tokens.json`, 5 to `$antdTheme`, and zero user messages requesting a theme.
 
    Specifically, these are NOT reasons to author a brand file:
@@ -38,33 +44,51 @@ A form looks "cheap" when only one layer is done (AntD still default-blue, or no
    - the design's palette looks distinct from the default → **irrelevant**; per-component style comes from roles + recipes, and brand colour is one app-level primary
    - it "seems tidier" to have a matching brand name → no
 
-   The only path to a new brand file is the user **explicitly asking for one as the task**, or handing over a token file. Then it is its own task, gated and costed up front — never smuggled into a form run.
+   The only path to a new brand file is the user **explicitly asking for one as the task**, or handing over a token file. Then it is its own task, gated and costed up front — never smuggled into a form run: copy `shesha.tokens.json` → `<brand>.tokens.json`, swap the values, **keep every key name identical** so recipes, block-overlays and `roles.*` resolve unchanged.
 
    Then load the resolved file with Read and resolve `roles.*` (role → token path) before authoring.
 2. **Apply the app-level theme (once per project).** Set brand primary, font, base radius so the portal inherits them. [app-theme.md](references/app-theme.md). Skip only for a one-off tweak where the app theme is already correct; never skip when the complaint is "buttons/links are the wrong colour".
 3. **Apply per-component v7 blocks.** For each component the design touches, copy the matching recipe from [component-recipes.md](references/component-recipes.md) and fill it with the theme's resolved values; map token→exact prop via [token-to-prop-mapping.md](references/token-to-prop-mapping.md). Mirror the block across desktop/tablet/mobile unless the design is genuinely responsive.
 4. **Audit (optional).** Given a screenshot + the theme, return **prop-level fixes** (component, prop path, current vs target, one-line reason), ordered by impact. Suggestions, not blockers. Grading rubric: [references/appearance-quality.md](references/appearance-quality.md) (the appearance companion to `shesha-form-edit`'s construction `form-quality.md` — never override a construction guardrail).
+2. **Apply the app-level theme (once per project)** — [app-theme.md](references/app-theme.md). Never skip when the complaint is "buttons/links are the wrong colour".
+3. **Apply per-component v7 blocks.** Copy the matching recipe from [component-recipes.md](references/component-recipes.md), fill it with resolved token values via [token-to-prop-mapping.md](references/token-to-prop-mapping.md). Mirror blocks across desktop/tablet/mobile unless the design is genuinely responsive.
+4. **Audit (optional).** Given a screenshot + the theme, return prop-level fixes (component, prop path, current vs target, one-line reason), ordered by impact. Rubric: [references/appearance-quality.md](references/appearance-quality.md) — never override a construction guardrail.
 
-General Shesha conventions every recipe respects (light-mode; scale-by-surface type with a 14px dense default; weight-by-role 400/500/600; surface elevation = hairline **+ subtle card shadow**; splits are flex rows sized via `dimensions.width`, never `columns`; sentence-case labels; semantic-colour-for-status-only): [references/shesha-design-standards.md](references/shesha-design-standards.md).
+Design conventions every recipe respects: [references/shesha-design-standards.md](references/shesha-design-standards.md). The canonical brand-independent layout/component anatomy (page anatomy, tables, cards, chips, modals): [references/default-layout-patterns.md](references/default-layout-patterns.md) — every styling pass builds to these shapes; brand tokens only recolour them.
 
-## Shesha-specific gotchas
+## Capability authority
 
-- `stylingBox` is a JSON **string** (padding/margin keys only). Text components take `fontSize` (Tailwind class) + `fontWeight` as direct props. Per-side borders need `borderType: "custom"`. A card surface is a white container with a white background. Brand primary on buttons comes from the **app theme** — don't override per-button. Code-carrying props are objects `{ "_mode": "code", "_code": "…" }`.
+"Does style channel X actually render on component Y?" is answered by **`shesha-form-edit/assets/measured-capability-matrix.json`** — the gym-measured 0.45 authority, regenerated per release. The local `assets/capability-matrix.json` is **annotation only**: technique key paths, cross-cutting rules, and fixes, overlaid with measured evidence by `merge-capability.js`. How to read the pair: [references/capability-matrix.md](references/capability-matrix.md). Never author a style on a channel measured as a no-op.
 
-## Mechanics & capability (this skill owns the v7 style system)
+## Mechanics & firm rules
 
-- **v7 style-block shapes** (border / background / font / dimensions / shadow / stylingBox, per `desktop`/`tablet`/`mobile`), the **5-channel precedence** (including the legacy `style` JS-string footgun that overrides everything), and where each channel lands in the DOM: [styling-v7-mechanics.md](references/styling-v7-mechanics.md) + [style-channels.md](references/style-channels.md). (These moved here from `shesha-form-edit` — appearance is this skill's job.)
-- **Capability matrix** — which channel actually RENDERS per component, measured live and version-stamped: [capability-matrix.md](references/capability-matrix.md). **Never author a style on a channel the matrix marks `no-op`.**
-- **Sizing flex-split children: use `desktop.dimensions.width`** (calc / % / px) — it reaches the container's OUTER div. Per-child `customStyle:{flex:…}` is **inert** for outer sizing (it lands on the inner div). A flex container MUST set `display:"flex"` or `flexDirection` is ignored. Splits are flex `container` rows, **never** the `columns` component (firm project rule).
+- v7 block shapes, the 5-channel precedence (the legacy `style` JS-string wins over everything [R-030]), and where each channel lands in the DOM (outer vs inner div [R-032]): [references/styling-mechanics.md](references/styling-mechanics.md).
+- Splits are flex container rows sized via `desktop.dimensions.width` — never the `columns` component [R-028]; a flex container must set `display:"flex"` [R-029].
+- `refListStatus` colour comes from the reflist item itself [R-036]; datalist row-template card fixes live in the block subtree [R-048].
+- `stylingBox` is a JSON **string** (padding/margin keys only). Text components take `fontSize`/`fontWeight` as direct props. Per-side borders need `borderType: "custom"`. Brand primary on buttons comes from the app theme — never per-button.
+- No custom CSS/React/HTML — everything is component props on Shesha JSON. Tokens live in theme files, never inline hexes.
+- **Style, don't restructure** — wrong structure routes back to `shesha-form-edit`; layout is owned by `shesha-design-comprehension`.
+- This skill produces styled JSON/edits; it does **not** own auth/push/publish — `shesha-form-edit` does [R-046], and handing back styled markup is a handback, not completion.
 
-## Non-negotiables
+## Reference map
 
-- No custom CSS/React/HTML — everything is component props on Shesha JSON.
-- Tokens live in theme files, never inline hexes.
-- **Style, don't restructure** — if the structure is wrong, route back to `shesha-form-edit` (and the layout is owned by `shesha-design-comprehension`); never move containers here.
-- Mirror style blocks across breakpoints; verify against the running app (mechanics are version-dependent).
-- This skill produces styled JSON/edits; it does **not** own auth/push/publish — `shesha-form-edit` does.
+| Topic | File |
+|---|---|
+| App-level Ant theme | [references/app-theme.md](references/app-theme.md) |
+| Per-component recipes | [references/component-recipes.md](references/component-recipes.md) |
+| Token → prop resolution | [references/token-to-prop-mapping.md](references/token-to-prop-mapping.md) |
+| v7 blocks + channels + debug | [references/styling-mechanics.md](references/styling-mechanics.md) |
+| Capability (measured + annotations) | [references/capability-matrix.md](references/capability-matrix.md) |
+| Canonical layout anatomy | [references/default-layout-patterns.md](references/default-layout-patterns.md) |
+| Default no-design quick pass | [references/default-theme-quickpass.md](references/default-theme-quickpass.md) |
+| Design conventions | [references/shesha-design-standards.md](references/shesha-design-standards.md) |
+| Appearance grading | [references/appearance-quality.md](references/appearance-quality.md) |
 
-## Relationship to the other skills
+| Concern | Skill |
+|---|---|
+| Ingest design, plan, orchestrate, verify | `shesha-developer:shesha-claude-designer` |
+| Design → measured blueprint + placement verify | `shesha-developer:shesha-design-comprehension` |
+| Build structure, CRUD, gates, push | `shesha-developer:shesha-form-edit` |
+| **Tokens → app theme + v7 style blocks** | **this skill** |
 
 This skill owns mapping tokens → app theme + per-component v7 style blocks (all appearance). For the full ownership split across all four skills, see the canonical table in [`shesha-claude-designer/README.md`](../shesha-claude-designer/README.md) ("Skill | Owns | Must NOT"), collapsed here in Task 4 (2026-07-30) so it is asserted in one place, not five.

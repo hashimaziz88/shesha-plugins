@@ -1,6 +1,11 @@
 {
   "$schema": "shesha-style-capability-matrix/v2",
-  "measuredAt": { "sheshaReactVersion": "0.45.x", "backend": "RequirementsStudio :21021", "viewport": "1440x900", "date": "2026-06-30" },
+  "measuredAt": {
+    "sheshaReactVersion": "0.45.x",
+    "backend": "RequirementsStudio :21021",
+    "viewport": "1440x900",
+    "date": "2026-06-30"
+  },
   "method": "per-cell control twin (channel omitted); no-op = rendered==control != intended. Probe forms: style-lab-{flex-split,surface,inputs,controls}-claude.",
   "crossCuttingRules": [
     "Component VERSION must match the live framework or the whole desktop style block silently no-ops (numberField v3=no-op vs v5=works). Always copy versions from the running app.",
@@ -10,42 +15,385 @@
     "MEASUREMENT: in LIVE mode, text/refListStatus components do NOT carry the data-sha-c-name attribute (only containers do). Query by component name only finds containers — read a CONTAINER's innerText to verify the text inside it. (Edit mode does stamp the attr on text, which is misleading.)",
     "MEASUREMENT: a dispatched DOM MouseEvent does NOT fire a React/antd component's onChange (e.g. ant-select selection). Use a REAL click (Playwright browser_click) to trigger onChange handlers, or your interaction silently no-ops."
   ],
-  "versions": { "container": 7, "text": 5, "textField": 6, "numberField": 5, "dateField": 7, "dropdown": 11, "autocomplete": 8, "checkbox": 5, "card": 3, "datalist": 11, "dataContext": 7, "refListStatus": 6, "progress": 3, "buttonGroup": 15, "alert": 2, "validationErrors": 1 },
+  "versions": {
+    "container": 7,
+    "text": 5,
+    "textField": 6,
+    "numberField": 5,
+    "dateField": 7,
+    "dropdown": 11,
+    "autocomplete": 8,
+    "checkbox": 5,
+    "card": 3,
+    "datalist": 11,
+    "dataContext": 7,
+    "refListStatus": 6,
+    "progress": 3,
+    "buttonGroup": 15,
+    "alert": 2,
+    "validationErrors": 1
+  },
   "rows": [
-    { "component": "container", "channel": "background.color", "verdict": "renders", "key": "desktop.background{type:'color',color}" },
-    { "component": "container", "channel": "background.gradient", "verdict": "renders", "key": "desktop.background{type:'gradient',gradient:{direction,colors:{0,1}}}" },
-    { "component": "container", "channel": "shadow", "verdict": "renders", "key": "desktop.shadow{offsetX,offsetY,blurRadius,spreadRadius,color}" },
-    { "component": "container", "channel": "border.all", "verdict": "renders", "key": "desktop.border.borderType:'all'" },
-    { "component": "container", "channel": "border.perSide", "verdict": "renders", "key": "desktop.border.borderType:'custom' + only wanted side" },
-    { "component": "container", "channel": "border.radius", "verdict": "renders", "key": "desktop.border.radius.all" },
-    { "component": "container", "channel": "dimensions.width", "verdict": "renders", "key": "desktop.dimensions.width (% and calc) — the flex-split lever" },
-    { "component": "container", "channel": "dimensions.minHeight", "verdict": "gotcha", "key": "desktop.dimensions.minHeight:'fit-content' — only DIMENSIONS channel reaching the outer div. NOTE: the `overflow` BOOLEAN prop is a no-op, but the legacy `style` overflow IS NOT (see 'container:style overflow') — that reaches the inner div." },
-    { "component": "container", "channel": "stylingBox", "verdict": "renders", "key": "JSON string of padding*/margin*" },
-    { "component": "container", "channel": "font", "verdict": "no-op", "fix": "put font on the text child, not the container" },
-    { "component": "container", "channel": "customStyle.flex", "verdict": "no-op", "fix": "use desktop.dimensions.width" },
-    { "component": "textField", "channel": "bg/border/radius/width/font", "verdict": "renders", "key": ".ant-input-affix-wrapper (at version 6)" },
-    { "component": "dateField", "channel": "bg/border/radius/width/font", "verdict": "renders", "key": ".ant-picker (v7)" },
-    { "component": "dropdown", "channel": "bg/border/radius/width/font", "verdict": "renders", "key": ".ant-select wrapper goes borderless + carries style (v11)" },
-    { "component": "autocomplete", "channel": "bg/border/radius/width/font", "verdict": "renders", "key": ".ant-select wrapper (v8)" },
-    { "component": "numberField", "channel": "dimensions.width", "verdict": "partial", "key": "applies at version 5 (no-op at v3 — version artifact)", "fix": "use version 5; wrap in styled container for full bg/border control" },
-    { "component": "text", "channel": "fontSize/fontWeight/color/align", "verdict": "renders", "key": "fontSize (Tailwind class) + fontWeight DIRECT props; desktop.font for exact; {{{triple-brace}}} raw" },
-    { "component": "text", "channel": "customStyle code-mode (letterSpacing/textTransform)", "verdict": "renders", "key": "text customStyle {_mode:'code',_code:'return {letterSpacing,textTransform,lineHeight,...}'} — proven on the live statusChip + KIB micro-labels (use for letter-spacing/uppercase the font channel can't express)" },
-    { "component": "progress", "channel": "strokeColor + bar", "verdict": "renders", "key": "percent + strokeColor (v3)" },
-    { "component": "refListStatus", "channel": "pill colours", "verdict": "renders", "key": "per-item bg/fg/border from reflist + customStyle pill (v6, proven live)" },
-    { "component": "buttonGroup", "channel": "buttonType colour", "verdict": "renders-via-app-theme", "key": "primary=app-theme primary fill; colour is app-theme, NOT per-button (v15)" },
-    { "component": "alert", "channel": "custom desktop bg/border", "verdict": "no-op", "fix": "colour is alertType-driven; use the right alertType or a styled container for a custom callout (v2)" },
-    { "component": "checkbox", "channel": "render", "verdict": "renders", "key": "v5 (app-theme styled)" },
-    { "component": "sectionSeparator", "channel": "render", "verdict": "renders", "key": "v1" },
-    { "component": "card", "channel": "bg/border/shadow/radius", "verdict": "renders", "key": "desktop block on the card; proven in the live form's rail panels (v3)" },
-    { "component": "datatable/datalist", "channel": "header/row/card styling", "verdict": "renders", "key": "via dataContext + list style channels; proven in live form (v11/7)" },
-    { "component": "datalist-row-template", "channel": "conditional visibility", "verdict": "gotcha", "key": "use `hidden` code-mode {_mode:'code',_code:'return <hide?>'} — NOT customStyle visibility", "fix": "customVisibility is a NO-OP on row-template components (proven: empty chips/badges stayed visible); `hidden` hides correctly. Hide-when-empty: hidden returns true when the bound array/value is empty." },
-    { "component": "container", "channel": "style overflow", "verdict": "gotcha", "key": "the LEGACY `style` JS-string ('return {overflow:\\'visible\\'}') renders INLINE and reaches the .sha-components-container-inner div — the ONLY channel that overrides the framework's hard-coded inner overflow:auto. VERIFIED 2026-06-30 live: setting it makes the inner's computed overflow match the value (no ▲▼ scroll arrows). Use overflow:'visible' on inner card rows, overflow:'hidden' on the card root.", "fix": "THIS is the datalist-card scroll-arrow fix — NOT a global CSS override, NOT htmlRender. The `overflow` boolean prop and `customStyle` do NOT do this; the `style` channel does." },
-    { "component": "text", "channel": "style whiteSpace/wordBreak/overflow", "verdict": "gotcha", "key": "multi-line body text in a datalist row card: style 'return {whiteSpace:\\'normal\\',wordBreak:\\'break-word\\',overflow:\\'hidden\\',display:\\'block\\',maxWidth:\\'100%\\'}' + dimensions.minHeight '24px' (reserve) → text wraps to full height, no form-item collapse, no overlap with the meta row below.", "fix": "the form-item wrappers still report a short height, but with overflow:visible on the parent rows + the minHeight reserve that is harmless — content paints fully and siblings don't overlap." },
-    { "component": "refListStatus", "channel": "style inline-flex pill", "verdict": "gotcha", "key": "in a row card: style 'return {display:\\'inline-flex\\',alignItems:\\'center\\',height:\\'26px\\',overflow:\\'visible\\',whiteSpace:\\'nowrap\\'}' + solidBackground:true → uniform, vertically-centred pill that doesn't collapse." },
-    { "component": "datalist-row-template", "channel": "multi-element card overflow/collapse", "verdict": "gotcha", "key": "RESOLVED 2026-06-30 (was wrongly recorded as a hard limit needing global CSS). Root cause: the framework forces min-height:0 on each form-item-control-input (atomic class), so multi-line content paints via overflow:visible out of a collapsed wrapper → overlap + the container inner overflow:auto shows scroll arrows. FIX is markup-only: (1) `style` overflow on every container (visible on rows, hidden on card root); (2) dimensions.minHeight '24px' + style whiteSpace:normal/wordBreak on the body text; (3) dimensions.minHeight:'fit-content' on containers; (4) refListStatus pills styled inline-flex height 26px; (5) header flex row justifyContent:'space-between' for badges-left/actions-right.", "fix": "canonical live examples: view-requirement-card, view-endpoint-row, view-role-row (rows of view-definition-details-claude). See component-recipes.md → 'Datalist row-template card' and the requirement-datalist-row block + overlay." },
-    { "component": "datatable/datalist", "channel": "permanentFilter by parent data.id", "verdict": "renders", "key": "dataContext.permanentFilter = {and:[{'==':[{var:'<fk>.id'},{evaluate:[{expression:'{{data.id}}',required:false,type:'mustache'}]}]}]}. `required:false` DROPS the clause when the value is empty (show-all-if-none). Mustache path for the form record is {{data.id}}; field path is the camelCase FK + '.id' (backend-verify it). Proven 2026-06-30." },
-    { "component": "datatable/datalist", "channel": "filter by a GLOBAL appContext/globalState value", "verdict": "no-op", "fix": "CONFIG-ONLY DOES NOT WORK (proven 2026-06-30, BOTH appContext and globalState). Two walls: (1) an autocomplete's onChangeCustom in the global `header` form does NOT fire on selection — the global value is never written; (2) even when present, the datatable permanentFilter evaluates {{contexts.appContext.X}} / {{globalState.X}} as EMPTY at query time and tables do NOT refetch on a global change. A global cross-screen filter needs FRONTEND-SOURCE app wiring (app-provider seed from storage before render + a dispatching selector + reactive refetch). NOTE: filtering by the form's OWN record (data.id) works fine (row above) — only GLOBAL/session values fail. See memory reference-appcontext-project-filter." },
-    { "component": "text/refListStatus", "channel": "collection count (badge/title)", "verdict": "renders", "key": "Compute counts in formSettings.onAfterDataLoad: `var r = await http.get('/api/dynamic/<Mod>/<Entity>/Crud/GetAll?filter='+<parentFk filter>+'&properties=id&maxResultCount=1000'); form.setFieldsValue({xCount: (r.data.result.items||[]).length});` then bind a text/badge content to `data.xCount`. Use items.length, NOT result.totalCount (unreliable at small maxResultCount). The reliable way to show a live collection count in a header/badge (the live appContext/context read in a text is NOT — see the global-filter row). Proven on the rail count badges + the View Requirements count." }
+    {
+      "component": "container",
+      "channel": "background.color",
+      "verdict": "renders",
+      "key": "desktop.background{type:'color',color}",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "container:desktop.background=color#ff00aa": "changes-style",
+          "container:desktop.background=gradient": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "container",
+      "channel": "background.gradient",
+      "verdict": "renders",
+      "key": "desktop.background{type:'gradient',gradient:{direction,colors:{0,1}}}",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "container:desktop.background=color#ff00aa": "changes-style",
+          "container:desktop.background=gradient": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "container",
+      "channel": "shadow",
+      "verdict": "renders",
+      "key": "desktop.shadow{offsetX,offsetY,blurRadius,spreadRadius,color}",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "container:desktop.shadow=shadow17": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "container",
+      "channel": "border.all",
+      "verdict": "renders",
+      "key": "desktop.border.borderType:'all'"
+    },
+    {
+      "component": "container",
+      "channel": "border.perSide",
+      "verdict": "renders",
+      "key": "desktop.border.borderType:'custom' + only wanted side"
+    },
+    {
+      "component": "container",
+      "channel": "border.radius",
+      "verdict": "renders",
+      "key": "desktop.border.radius.all"
+    },
+    {
+      "component": "container",
+      "channel": "dimensions.width",
+      "verdict": "renders",
+      "key": "desktop.dimensions.width (% and calc) — the flex-split lever",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "container:desktop.dimensions.width=317px": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "container",
+      "channel": "dimensions.minHeight",
+      "verdict": "gotcha",
+      "key": "desktop.dimensions.minHeight:'fit-content' — only DIMENSIONS channel reaching the outer div. NOTE: the `overflow` BOOLEAN prop is a no-op, but the legacy `style` overflow IS NOT (see 'container:style overflow') — that reaches the inner div."
+    },
+    {
+      "component": "container",
+      "channel": "stylingBox",
+      "verdict": "renders",
+      "key": "JSON string of padding*/margin*",
+      "measured": {
+        "summary": "no-op",
+        "effects": {
+          "container:stylingBox=stylingBox17": "no-op"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "container",
+      "channel": "font",
+      "verdict": "no-op",
+      "fix": "put font on the text child, not the container"
+    },
+    {
+      "component": "container",
+      "channel": "customStyle.flex",
+      "verdict": "no-op",
+      "fix": "use desktop.dimensions.width"
+    },
+    {
+      "component": "textField",
+      "channel": "bg/border/radius/width/font",
+      "verdict": "renders",
+      "key": ".ant-input-affix-wrapper (at version 6)",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "textField:desktop.font.size=size17": "changes-geometry",
+          "textField:desktop.font.color=color": "changes-style",
+          "textField:desktop.font.weight=weight700": "changes-style",
+          "textField:desktop.dimensions.width=317px": "changes-style",
+          "textField:desktop.background=color#ff00aa": "changes-style",
+          "textField:desktop.background=gradient": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "dateField",
+      "channel": "bg/border/radius/width/font",
+      "verdict": "renders",
+      "key": ".ant-picker (v7)",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "dateField:desktop.font.size=size17": "changes-style",
+          "dateField:desktop.font.color=color": "changes-style",
+          "dateField:desktop.font.weight=weight700": "changes-style",
+          "dateField:desktop.dimensions.width=317px": "changes-style",
+          "dateField:desktop.background=color#ff00aa": "changes-style",
+          "dateField:desktop.background=gradient": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "dropdown",
+      "channel": "bg/border/radius/width/font",
+      "verdict": "renders",
+      "key": ".ant-select wrapper goes borderless + carries style (v11)",
+      "measured": {
+        "summary": "mixed",
+        "effects": {
+          "dropdown:desktop.font.size=size17": "changes-style",
+          "dropdown:desktop.font.color=color": "changes-style",
+          "dropdown:desktop.font.weight=weight700": "no-op",
+          "dropdown:desktop.dimensions.width=317px": "changes-style",
+          "dropdown:desktop.background=color#ff00aa": "changes-style",
+          "dropdown:desktop.background=gradient": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "autocomplete",
+      "channel": "bg/border/radius/width/font",
+      "verdict": "renders",
+      "key": ".ant-select wrapper (v8)",
+      "measured": {
+        "summary": "mixed",
+        "effects": {
+          "autocomplete:desktop.font.size=size17": "changes-style",
+          "autocomplete:desktop.font.color=color": "changes-style",
+          "autocomplete:desktop.font.weight=weight700": "no-op",
+          "autocomplete:desktop.dimensions.width=317px": "changes-style",
+          "autocomplete:desktop.background=color#ff00aa": "changes-style",
+          "autocomplete:desktop.background=gradient": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "numberField",
+      "channel": "dimensions.width",
+      "verdict": "partial",
+      "key": "applies at version 5 (no-op at v3 — version artifact)",
+      "fix": "use version 5; wrap in styled container for full bg/border control",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "numberField:desktop.dimensions.width=317px": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "text",
+      "channel": "fontSize/fontWeight/color/align",
+      "verdict": "renders",
+      "key": "fontSize (Tailwind class) + fontWeight DIRECT props; desktop.font for exact; {{{triple-brace}}} raw",
+      "measured": {
+        "summary": "mixed",
+        "effects": {
+          "text:desktop.font.size=size17": "changes-geometry",
+          "text:desktop.font.color=color": "no-op",
+          "text:desktop.font.weight=weight700": "changes-style",
+          "text:desktop.font.color=#ff00aa": "no-op"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "text",
+      "channel": "customStyle code-mode (letterSpacing/textTransform)",
+      "verdict": "renders",
+      "key": "text customStyle {_mode:'code',_code:'return {letterSpacing,textTransform,lineHeight,...}'} — proven on the live statusChip + KIB micro-labels (use for letter-spacing/uppercase the font channel can't express)"
+    },
+    {
+      "component": "progress",
+      "channel": "strokeColor + bar",
+      "verdict": "renders",
+      "key": "percent + strokeColor (v3)",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "progress:strokeColor=#ff00aa": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "refListStatus",
+      "channel": "pill colours",
+      "verdict": "renders",
+      "key": "per-item bg/fg/border from reflist + customStyle pill (v6, proven live)"
+    },
+    {
+      "component": "buttonGroup",
+      "channel": "buttonType colour",
+      "verdict": "renders-via-app-theme",
+      "key": "primary=app-theme primary fill; colour is app-theme, NOT per-button (v15)"
+    },
+    {
+      "component": "alert",
+      "channel": "custom desktop bg/border",
+      "verdict": "no-op",
+      "fix": "colour is alertType-driven; use the right alertType or a styled container for a custom callout (v2)"
+    },
+    {
+      "component": "checkbox",
+      "channel": "render",
+      "verdict": "renders",
+      "key": "v5 (app-theme styled)",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "__renderStatus": "renders"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "sectionSeparator",
+      "channel": "render",
+      "verdict": "renders",
+      "key": "v1",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "__renderStatus": "renders"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "card",
+      "channel": "bg/border/shadow/radius",
+      "verdict": "renders",
+      "key": "desktop block on the card; proven in the live form's rail panels (v3)",
+      "measured": {
+        "summary": "works",
+        "effects": {
+          "card:desktop.background=color#ff00aa": "changes-style",
+          "card:desktop.background=gradient": "changes-style",
+          "card:desktop.shadow=shadow17": "changes-style"
+        },
+        "generation": "0.45",
+        "measuredAt": "2026-07-22T11:47:26.678Z"
+      }
+    },
+    {
+      "component": "datatable/datalist",
+      "channel": "header/row/card styling",
+      "verdict": "renders",
+      "key": "via dataContext + list style channels; proven in live form (v11/7)"
+    },
+    {
+      "component": "datalist-row-template",
+      "channel": "conditional visibility",
+      "verdict": "gotcha",
+      "key": "use `hidden` code-mode {_mode:'code',_code:'return <hide?>'} — NOT customStyle visibility",
+      "fix": "customVisibility is a NO-OP on row-template components (proven: empty chips/badges stayed visible); `hidden` hides correctly. Hide-when-empty: hidden returns true when the bound array/value is empty."
+    },
+    {
+      "component": "container",
+      "channel": "style overflow",
+      "verdict": "gotcha",
+      "key": "the LEGACY `style` JS-string ('return {overflow:\\'visible\\'}') renders INLINE and reaches the .sha-components-container-inner div — the ONLY channel that overrides the framework's hard-coded inner overflow:auto. VERIFIED 2026-06-30 live: setting it makes the inner's computed overflow match the value (no ▲▼ scroll arrows). Use overflow:'visible' on inner card rows, overflow:'hidden' on the card root.",
+      "fix": "THIS is the datalist-card scroll-arrow fix — NOT a global CSS override, NOT htmlRender. The `overflow` boolean prop and `customStyle` do NOT do this; the `style` channel does."
+    },
+    {
+      "component": "text",
+      "channel": "style whiteSpace/wordBreak/overflow",
+      "verdict": "gotcha",
+      "key": "multi-line body text in a datalist row card: style 'return {whiteSpace:\\'normal\\',wordBreak:\\'break-word\\',overflow:\\'hidden\\',display:\\'block\\',maxWidth:\\'100%\\'}' + dimensions.minHeight '24px' (reserve) → text wraps to full height, no form-item collapse, no overlap with the meta row below.",
+      "fix": "the form-item wrappers still report a short height, but with overflow:visible on the parent rows + the minHeight reserve that is harmless — content paints fully and siblings don't overlap."
+    },
+    {
+      "component": "refListStatus",
+      "channel": "style inline-flex pill",
+      "verdict": "gotcha",
+      "key": "in a row card: style 'return {display:\\'inline-flex\\',alignItems:\\'center\\',height:\\'26px\\',overflow:\\'visible\\',whiteSpace:\\'nowrap\\'}' + solidBackground:true → uniform, vertically-centred pill that doesn't collapse."
+    },
+    {
+      "component": "datalist-row-template",
+      "channel": "multi-element card overflow/collapse",
+      "verdict": "gotcha",
+      "key": "RESOLVED 2026-06-30 (was wrongly recorded as a hard limit needing global CSS). Root cause: the framework forces min-height:0 on each form-item-control-input (atomic class), so multi-line content paints via overflow:visible out of a collapsed wrapper → overlap + the container inner overflow:auto shows scroll arrows. FIX is markup-only: (1) `style` overflow on every container (visible on rows, hidden on card root); (2) dimensions.minHeight '24px' + style whiteSpace:normal/wordBreak on the body text; (3) dimensions.minHeight:'fit-content' on containers; (4) refListStatus pills styled inline-flex height 26px; (5) header flex row justifyContent:'space-between' for badges-left/actions-right.",
+      "fix": "canonical live examples: view-requirement-card, view-endpoint-row, view-role-row (rows of view-definition-details-claude). See component-recipes.md → 'Datalist row-template card' and the requirement-datalist-row block + overlay."
+    },
+    {
+      "component": "datatable/datalist",
+      "channel": "permanentFilter by parent data.id",
+      "verdict": "renders",
+      "key": "dataContext.permanentFilter = {and:[{'==':[{var:'<fk>.id'},{evaluate:[{expression:'{{data.id}}',required:false,type:'mustache'}]}]}]}. `required:false` DROPS the clause when the value is empty (show-all-if-none). Mustache path for the form record is {{data.id}}; field path is the camelCase FK + '.id' (backend-verify it). Proven 2026-06-30."
+    },
+    {
+      "component": "datatable/datalist",
+      "channel": "filter by a GLOBAL appContext/globalState value",
+      "verdict": "no-op",
+      "fix": "CONFIG-ONLY DOES NOT WORK (proven 2026-06-30, BOTH appContext and globalState). Two walls: (1) an autocomplete's onChangeCustom in the global `header` form does NOT fire on selection — the global value is never written; (2) even when present, the datatable permanentFilter evaluates {{contexts.appContext.X}} / {{globalState.X}} as EMPTY at query time and tables do NOT refetch on a global change. A global cross-screen filter needs FRONTEND-SOURCE app wiring (app-provider seed from storage before render + a dispatching selector + reactive refetch). NOTE: filtering by the form's OWN record (data.id) works fine (row above) — only GLOBAL/session values fail. See memory reference-appcontext-project-filter."
+    },
+    {
+      "component": "text/refListStatus",
+      "channel": "collection count (badge/title)",
+      "verdict": "renders",
+      "key": "Compute counts in formSettings.onAfterDataLoad: `var r = await http.get('/api/dynamic/<Mod>/<Entity>/Crud/GetAll?filter='+<parentFk filter>+'&properties=id&maxResultCount=1000'); form.setFieldsValue({xCount: (r.data.result.items||[]).length});` then bind a text/badge content to `data.xCount`. Use items.length, NOT result.totalCount (unreliable at small maxResultCount). The reliable way to show a live collection count in a header/badge (the live appContext/context read in a text is NOT — see the global-filter row). Proven on the rail count badges + the View Requirements count."
+    }
   ],
-  "todo": ["input styling in readonly + enableStyleOnReadonly (needs bound value)", "equal N-cell distribution (dimensions.width calc vs content-width)", "tabs active-ink, collapsiblePanel accent"]
+  "todo": [
+    "input styling in readonly + enableStyleOnReadonly (needs bound value)",
+    "equal N-cell distribution (dimensions.width calc vs content-width)",
+    "tabs active-ink, collapsiblePanel accent"
+  ]
 }

@@ -1,0 +1,380 @@
+{
+  "type": "chart",
+  "name": "Chart",
+  "isInput": false,
+  "isOutput": true,
+  "canBeJsSetting": null,
+  "icon": "BarChartOutlined",
+  "version": 2,
+  "initModel": {
+    "defaults": {
+      "chartType": "line",
+      "showTitle": false,
+      "showLegend": true,
+      "legendPosition": "top"
+    },
+    "raw": "(model) => ({\r\n    chartType: 'line', showTitle: false, showLegend: true, legendPosition: 'top', ...model\r\n  })"
+  },
+  "settingsProps": {
+    "interfaceName": "IChartProps",
+    "interfaceFile": "designer-components/charts/model.ts",
+    "ownProps": [],
+    "extends": [
+      "IConfigurableFormComponent",
+      "IChartsProps"
+    ],
+    "resolvedProps": [
+      "aggregationMethod",
+      "allowFilter",
+      "axisProperty",
+      "borderWidth",
+      "chartType",
+      "componentName",
+      "context",
+      "customEnabled",
+      "customVisibility",
+      "dataMode",
+      "defaultValue",
+      "description",
+      "editMode",
+      "entityType",
+      "filterProperties",
+      "filters",
+      "height",
+      "hidden",
+      "hideLabel",
+      "id",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "isAxisTimeSeries",
+      "isDoughnut",
+      "isDynamic",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "legendPosition",
+      "legendProperty",
+      "name",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChangeCustom",
+      "onFocusCustom",
+      "orderBy",
+      "orderDirection",
+      "parentId",
+      "permissions",
+      "propertyName",
+      "readOnly",
+      "settingsValidationErrors",
+      "showBorder",
+      "showDescription",
+      "showLegend",
+      "showName",
+      "showTitle",
+      "showXAxisScale",
+      "showXAxisTitle",
+      "showYAxisScale",
+      "showYAxisTitle",
+      "simpleOrPivot",
+      "size",
+      "stacked",
+      "strokeColor",
+      "strokeWidth",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "tension",
+      "timeSeriesFormat",
+      "title",
+      "type",
+      "url",
+      "validate",
+      "valueProperty",
+      "width",
+      "xProperty",
+      "yProperty"
+    ],
+    "unresolvedExtends": [
+      "IHasVersion"
+    ]
+  },
+  "settingsForm": {
+    "source": "charts/settings.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [
+    "height",
+    "width"
+  ],
+  "settingsFields": [
+    {
+      "path": "propertyName",
+      "label": "Property Name",
+      "editorType": "textField",
+      "group": "General"
+    },
+    {
+      "path": "label",
+      "label": "Label",
+      "editorType": "textField",
+      "group": "General"
+    },
+    {
+      "path": "hideLabel",
+      "label": "Hide Label",
+      "editorType": "checkbox",
+      "defaultValue": true,
+      "group": "General"
+    },
+    {
+      "path": "hidden",
+      "label": "Hidden",
+      "editorType": "checkbox",
+      "group": "General"
+    },
+    {
+      "path": "dataMode",
+      "label": "Data Source Type",
+      "editorType": "dropdown",
+      "defaultValue": "entityType",
+      "description": "The type of data source you want to use for the chart. If you select `URL`, you will have to provide a URL endpoint to the data. If you select `Entity Type`, you will have to select an entity type from the list.",
+      "group": "General"
+    },
+    {
+      "path": "height",
+      "label": "Height",
+      "editorType": "numberField",
+      "description": "The height (px) of the chart. If not provided, the default height will be used. Minimum height is 201px. For responsiveness, setting the height will automatically set the width to proportionate value.",
+      "group": "General",
+      "shared": true
+    },
+    {
+      "path": "width",
+      "label": "Width",
+      "editorType": "numberField",
+      "description": "The width (px) of the chart. If not provided, the default width will be used. Minimum width is 301px. For responsiveness, setting the width will automatically set the height to proportionate value.",
+      "group": "General",
+      "shared": true
+    },
+    {
+      "path": "showBorder",
+      "label": "Show Border",
+      "editorType": "checkbox",
+      "defaultValue": true,
+      "group": "General"
+    },
+    {
+      "path": "chartType",
+      "label": "Chart Type",
+      "editorType": "dropdown",
+      "defaultValue": "line",
+      "group": "Chart Settings"
+    },
+    {
+      "path": "isDoughnut",
+      "label": "Is Doughnut",
+      "editorType": "checkbox",
+      "defaultValue": false,
+      "group": "Chart Settings"
+    },
+    {
+      "path": "simpleOrPivot",
+      "label": "Simple / Pivot",
+      "editorType": "dropdown",
+      "defaultValue": "simple",
+      "group": "Chart Settings"
+    },
+    {
+      "path": "stacked",
+      "label": "Stacked",
+      "editorType": "checkbox",
+      "defaultValue": true,
+      "group": "Chart Settings"
+    },
+    {
+      "path": "title",
+      "label": "Title",
+      "editorType": "textField",
+      "description": "The title of the chart (if any)",
+      "group": "Chart Settings"
+    },
+    {
+      "path": "showTitle",
+      "label": "Show Title",
+      "editorType": "checkbox",
+      "description": "Show the title of the chart",
+      "group": "Chart Settings"
+    },
+    {
+      "path": "showLegend",
+      "label": "Show Legend",
+      "editorType": "checkbox",
+      "defaultValue": true,
+      "description": "Show the legend of the chart. Legend is the area that shows the color and what it represents.",
+      "group": "Chart Settings"
+    },
+    {
+      "path": "legendPosition",
+      "label": "Legend Position",
+      "editorType": "dropdown",
+      "defaultValue": "top",
+      "group": "Chart Settings"
+    },
+    {
+      "path": "showXAxisScale",
+      "label": "Show X Axis",
+      "editorType": "checkbox",
+      "defaultValue": true,
+      "group": "Chart Settings"
+    },
+    {
+      "path": "showXAxisTitle",
+      "label": "Show X Axis Title",
+      "editorType": "checkbox",
+      "defaultValue": true,
+      "group": "Chart Settings"
+    },
+    {
+      "path": "showYAxisScale",
+      "label": "Show Y Axis",
+      "editorType": "checkbox",
+      "defaultValue": true,
+      "group": "Chart Settings"
+    },
+    {
+      "path": "showYAxisTitle",
+      "label": "Show Y Axis Title",
+      "editorType": "checkbox",
+      "defaultValue": true,
+      "group": "Chart Settings"
+    },
+    {
+      "path": "tension",
+      "label": "Tension",
+      "editorType": "numberField",
+      "defaultValue": 0,
+      "group": "Chart Settings"
+    },
+    {
+      "path": "strokeWidth",
+      "label": "Stroke width",
+      "editorType": "numberField",
+      "defaultValue": 0,
+      "description": "The width of the stroke for the elements (bars, lines, etc.) in the c in the chart. Default is 0.0",
+      "group": "Chart Settings"
+    },
+    {
+      "path": "strokeColor",
+      "label": "Stroke Color",
+      "editorType": "colorPicker",
+      "group": "Chart Settings"
+    },
+    {
+      "path": "url",
+      "label": "URL",
+      "editorType": "textField",
+      "description": "The URL you want to use for the chart",
+      "group": "Data Settings (URL)"
+    },
+    {
+      "path": "axisProperty",
+      "label": "Axis label",
+      "editorType": "textField",
+      "description": "Label for the axis property",
+      "group": "Data Settings (URL)"
+    },
+    {
+      "path": "valueProperty",
+      "label": "Value axis label",
+      "editorType": "textField",
+      "description": "Label for the value property",
+      "group": "Data Settings (URL)"
+    },
+    {
+      "path": "entityType",
+      "label": "Entity Type",
+      "editorType": "autocomplete",
+      "description": "The entity type you want to use for the chart.",
+      "group": "Data Settings"
+    },
+    {
+      "path": "isAxisTimeSeries",
+      "label": "Is Axis Property Time Series?",
+      "editorType": "checkbox",
+      "defaultValue": false,
+      "description": "If the x-axis is a time series, check this box.",
+      "group": "Data Settings"
+    },
+    {
+      "path": "timeSeriesFormat",
+      "label": "Time Series Format",
+      "editorType": "dropdown",
+      "defaultValue": "day-month-year",
+      "group": "Data Settings"
+    },
+    {
+      "path": "legendProperty",
+      "label": "Legend Property",
+      "editorType": "propertyAutocomplete",
+      "description": "The properties you want to use on the Legend. This is the property that will be used to group the data for Pivot Charts.",
+      "group": "Data Settings"
+    },
+    {
+      "path": "orderBy",
+      "label": "Order By",
+      "editorType": "propertyAutocomplete",
+      "description": "The properties you want to order the data by. Use the propeties that you have selected for axis, value (and legend).",
+      "group": "Data Settings"
+    },
+    {
+      "path": "orderDirection",
+      "label": "Order Direction",
+      "editorType": "dropdown",
+      "defaultValue": "asc",
+      "group": "Data Settings"
+    },
+    {
+      "path": "allowFilter",
+      "label": "Allow Chart Filter",
+      "editorType": "checkbox",
+      "defaultValue": false,
+      "description": "Allow users to filter the chart data directly from the chart.",
+      "group": "Data Settings"
+    },
+    {
+      "path": "filterProperties",
+      "label": "Filter Property list",
+      "editorType": "propertyAutocomplete",
+      "description": "The properties you want users to filter by. Use the propeties that you have selected for axis, value (and legend).",
+      "group": "Data Settings"
+    },
+    {
+      "path": "aggregationMethod",
+      "label": "Aggregation Method",
+      "editorType": "dropdown",
+      "defaultValue": "count",
+      "group": "Data Settings"
+    },
+    {
+      "path": "filters",
+      "label": "Entity filter",
+      "editorType": "queryBuilder",
+      "group": "Data Settings"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "charts/index.tsx",
+    "charts/model.ts"
+  ]
+}

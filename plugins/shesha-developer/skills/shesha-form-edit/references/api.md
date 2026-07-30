@@ -1,6 +1,11 @@
 # Shesha Form API — Recipes
 
-All curl recipes assume `$BASE_URL` and `$ACCESS_TOKEN` are set. On Windows, substitute `%BASE_URL%`/`%ACCESS_TOKEN%` for cmd or `$env:BASE_URL`/`$env:ACCESS_TOKEN` for PowerShell.
+## Conventions (read once, apply to every recipe below)
+
+- **Pin one shell/tool for the whole session and dispatch every command to it.** This is a **tool-selection** rule, not just a syntax rule: on Windows run **every** command through the **PowerShell tool** (never the Bash tool); on Linux/macOS/WSL use bash. Shell state does not persist between calls, so re-affirm the pinned tool on each command. A PowerShell one-liner sent to the Bash tool fails with `=: command not found` / `New-Item: command not found` (exit 127) — the exact recurring failure this rule prevents. **On Windows, prefer the PowerShell forms below** (a PowerShell block is given for auth §2); the bash `$VAR` forms are the Linux fallback. Do not transpile a bash recipe into the Bash tool on Windows.
+- **No `jq`.** It is absent on a default Windows box (exit 127). Parse JSON with `node -e` (shown below) or PowerShell's `ConvertFrom-Json`.
+- **One session scratch dir.** Set `$WORKDIR` once — `$env:TEMP/shesha-form-edit` (PowerShell) or `${TMPDIR:-/tmp}/shesha-form-edit` (bash) — and create it. All temp request/response files below live under `$WORKDIR`. **Never hardcode `/tmp`** — it doesn't exist on Windows. When invoked by the `shesha-claude-designer` orchestrator, use the `<workdir>` it supplies so the token/metadata caches are shared across screens.
+- **`$BASE_URL` and the access token** are resolved once (Steps 1–2 of the skill). Read the token from its cache file on each call (see §2) — never paste the raw JWT literally.
 
 ---
 
@@ -16,12 +21,38 @@ Strip trailing slash.
 
 ---
 
-## 2. Authenticate
+## 2. Authenticate (once per session, then cache)
+
+**Authenticate a single time and cache the token to `$WORKDIR/access-token`; reuse it on every subsequent call.** Re-authenticate only on a `401` or after the 24 h TTL. Never re-POST `Authenticate` per API call, and never inline the raw ~600-char JWT into a command — it echoes back into context on every result.
+
+**PowerShell (Windows — preferred). Writes the token BOM-free; a BOM breaks downstream `Bearer` auth.**
+
+```powershell
+$tokenFile = "$WORKDIR/access-token"
+if (-not (Test-Path $tokenFile) -or -not (Get-Item $tokenFile).Length) {
+  $auth  = Invoke-RestMethod -Method Post -Uri "$BASE_URL/api/TokenAuth/Authenticate" `
+             -ContentType "application/json" `
+             -Body '{"userNameOrEmailAddress":"admin","password":"123qwe"}'
+  $token = if ($auth.result.accessToken) { $auth.result.accessToken } else { $auth.accessToken }
+  if (-not $token) { $auth | ConvertTo-Json -Depth 6; throw "auth failed" }
+  # A JWT is pure ASCII — write WITHOUT a BOM and without a trailing newline.
+  # ('Set-Content -Encoding utf8' / 'Out-File' add a BOM → 'Authorization: Bearer ﻿eyJ…' → "Current user did not login".)
+  [System.IO.File]::WriteAllText($tokenFile, $token, (New-Object System.Text.UTF8Encoding $false))
+}
+```
+
+**bash (Linux/macOS/WSL fallback).** Node's `fs.writeFileSync` is BOM-free on any shell:
 
 ```bash
-curl -s -X POST "$BASE_URL/api/TokenAuth/Authenticate" \
-  -H "Content-Type: application/json" \
-  -d '{"userNameOrEmailAddress":"admin","password":"123qwe"}'
+# Cache-first: only authenticate if we don't already have a token this session.
+if [ ! -s "$WORKDIR/access-token" ]; then
+  curl -s -X POST "$BASE_URL/api/TokenAuth/Authenticate" \
+    -H "Content-Type: application/json" \
+    -d '{"userNameOrEmailAddress":"admin","password":"123qwe"}' \
+    -o "$WORKDIR/auth.json"
+  # Extract the token with node (no jq); handles both envelope and root shapes.
+  node -e "const r=require('$WORKDIR/auth.json');const t=(r.result&&r.result.accessToken)||r.accessToken;if(!t){console.error(JSON.stringify(r));process.exit(1)}require('fs').writeFileSync('$WORKDIR/access-token',t)"
+fi
 ```
 
 ABP wraps responses; expect:
@@ -45,13 +76,15 @@ ABP wraps responses; expect:
 }
 ```
 
-Some Shesha builds return the token at the **root** instead. Try both:
+The `node` extractor above already handles both the ABP envelope (`result.accessToken`) and the older root shape (`accessToken`). If it prints the raw response and exits non-zero, both were null — the credentials are wrong (or the user is locked); surface that response and stop.
+
+**Every recipe below** starts by loading the cached token into `$ACCESS_TOKEN` (shell state doesn't persist between calls, so re-load it per command) — this references the file, never the literal JWT:
 
 ```bash
-TOKEN=$(curl ... | jq -r '.result.accessToken // .accessToken')
+# PowerShell: $ACCESS_TOKEN = (Get-Content "$WORKDIR/access-token" -Raw).Trim()
+# bash — strip any stray BOM + newline so it can never poison the header:
+ACCESS_TOKEN=$(cat "$WORKDIR/access-token" | sed 's/^\xEF\xBB\xBF//' | tr -d '\r\n')
 ```
-
-If both are null, the credentials are wrong (or the user is locked) — surface the raw response.
 
 ---
 
@@ -94,7 +127,7 @@ If `result` is null, the form doesn't exist under that module/name. Stop and tel
 curl -s -G "$BASE_URL/api/services/Shesha/FormConfiguration/GetJson" \
   --data-urlencode "id=$FORM_ID" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -o /tmp/form-current.json
+  -o "$WORKDIR/form-current.json"
 ```
 
 This endpoint returns the **raw markup as a file download** (`application/json` with `Content-Disposition: attachment`). The file content **is** the form JSON (already parsed as an object — no string wrapping). Read it with `JSON.parse`.
@@ -123,18 +156,19 @@ Build the body via Node so the markup string is properly JSON-escaped. Don't try
 ```bash
 node -e "
 const fs = require('fs');
-const tree = JSON.parse(fs.readFileSync('/tmp/form-edited.json', 'utf8'));
+const dir = process.env.WORKDIR;
+const tree = JSON.parse(fs.readFileSync(dir + '/form-edited.json', 'utf8'));
 const body = JSON.stringify({
   id: process.env.FORM_ID,
   markup: JSON.stringify(tree)
 });
-fs.writeFileSync('/tmp/update-markup-body.json', body);
+fs.writeFileSync(dir + '/update-markup-body.json', body);
 " 
 
 curl -s -X PUT "$BASE_URL/api/services/Shesha/FormConfiguration/UpdateMarkup" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
-  -d @/tmp/update-markup-body.json
+  -d @"$WORKDIR/update-markup-body.json"
 ```
 
 Successful response: HTTP 200 with `{ "result": null, "success": true, ... }`. The endpoint returns `void`.
@@ -168,14 +202,14 @@ DTO (`ImportFormJsonInput`):
 ```
 
 ```bash
-# /tmp/form-edited.json contains the stringified-or-tree form JSON.
+# $WORKDIR/form-edited.json contains the stringified-or-tree form JSON.
 # If your edits are an object (parsed tree), stringify first; the API expects the file content
 # to be a JSON document representing the form markup.
 
 curl -s -X POST "$BASE_URL/api/services/Shesha/FormConfiguration/ImportJson" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -F "ItemId=$FORM_ID" \
-  -F "file=@/tmp/form-edited.json;type=application/json"
+  -F "file=@$WORKDIR/form-edited.json;type=application/json"
 ```
 
 Successful response: HTTP 200 with `{ "result": { ...FormConfigurationDto... }, "success": true }`. The DTO contains the updated form record.
@@ -248,23 +282,23 @@ Returns `result.items[]` with `{ id, name, label, module: {...} }`.
 
 ---
 
-## 10. Fetch entity metadata (`/Metadata/Get`)
+## 10. Fetch entity metadata (scoped — `GetProperties`)
 
-Used by Step 1.5 of the skill to validate `propertyName` references against the actual entity. Try the `app` namespace first; fall back to `Shesha` if it 404s:
+Used by Step 4.5 of the skill to validate `propertyName` references against the actual entity. **Prefer the scoped `GetProperties` endpoint** (returns a direct array of the entity's properties, no envelope) over any full-metadata / `GetAll` dump — fetch exactly the container you need, once per entity, and reuse the cached summary.
+
+**Never read the raw metadata response inline** — a full entity's properties can exceed the 25k-token `Read` limit and force a retry with offsets. Always pipe it straight to a file (`-o`), distill, and read only the `.summary.md`.
 
 ```bash
-# Primary
-curl -s -G "$BASE_URL/api/services/app/Metadata/Get" \
+# Scoped, primary — direct array of properties. Pipe to file; do not read inline.
+curl -s -G "$BASE_URL/api/services/app/Metadata/GetProperties" \
   --data-urlencode "container=PBF.MembershipManagement.Domain.Domain.Member" \
-  -H "Authorization: Bearer $ACCESS_TOKEN"
-
-# Fallback (older / different routing)
-curl -s -G "$BASE_URL/api/services/Shesha/Metadata/Get" \
-  --data-urlencode "container=PBF.MembershipManagement.Domain.Domain.Member" \
-  -H "Authorization: Bearer $ACCESS_TOKEN"
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -o ".claude/cache/shesha-form-edit/metadata/Member.raw.json"
 ```
 
-Expected response (ABP envelope; relevant fields):
+If `GetProperties` 404s on an older build, fall back to the fuller container fetch `GET /api/services/app/Metadata/Get` (ABP envelope, `result.properties[]`), then `Shesha/Metadata/Get` — same `-o`-to-file discipline; distill before reading.
+
+Property shape (relevant fields). `GetProperties` returns this as a **direct array**; the `Metadata/Get` fallback wraps it in the ABP envelope shown here (`result.properties[]`):
 
 ```json
 {
@@ -303,6 +337,44 @@ Validation pass: for every input component in the edit, confirm `propertyName` m
 
 ---
 
+## 10.5 Verify a reference list exists + has items
+
+For every reflist-bound component, confirm the list is real and populated **before** push — a dropdown bound to a missing or empty reflist renders blank at runtime and passes every structural check [R-015]. Reflists are fetched as configuration items (this is the route `scripts/resolve-bindings.js` uses; there is **no** `ReferenceList/GetByName` or `ReferenceList/GetItems` service on this backend generation). Use the property's metadata `referenceListName` (full dotted) + `referenceListModule`:
+
+```bash
+curl -s -G "$BASE_URL/api/services/app/ConfigurationItem/GetCurrent" \
+  --data-urlencode "itemType=reference-list" \
+  --data-urlencode "name=<referenceListName>" \
+  --data-urlencode "module=<referenceListModule>" \
+  -H "Authorization: Bearer $ACCESS_TOKEN"
+```
+
+- `404` / null `result` → the reflist does **not exist** (the `[ReferenceList]` attribute is missing, or the name was guessed). Do NOT ship the component — hand off to `shesha-developer:domain-model`.
+- `result.items` empty → the list exists but has **no items**; the dropdown will be empty. Same handoff.
+- The route is under `app`, not `Shesha` [R-026].
+
+---
+
+## 10.6 Combined one-shot backend probe
+
+A form build otherwise fires ~10 tiny round-trips — the module-id lookup (§7), the per-entity `EntityConfig` resolve (§10 / Step 4.5), each metadata route (§10, often with 404 retries), and one reflist existence check per reflist-bound prop (§10.5). `scripts/backend-probe.mjs` **replaces all of them with a single run** (module id + entity resolve + metadata + reflist existence, per entity), so prefer it over issuing those calls separately.
+
+```bash
+# spec.json: { "module": "<Mod>", "entities": [ { "name": "ShortlistResult", "reflistProps": ["outcome","status"] } ] }
+node scripts/backend-probe.mjs "$BASE_URL" "$WORKDIR/access-token" "$WORKDIR/probe-spec.json"
+```
+
+It reuses the **cached** token file (§2) — strips a leading BOM + trims it, so the same BOM that would break `Bearer` auth can't leak in. One run does, per spec entity:
+
+- `GET app/Module/GetAll?MaxResultCount=200` → resolves `spec.module` → id.
+- `GET app/EntityConfig/GetMainDataList?maxResultCount=1000` **once** → each entity's `{ name, module, fullClassName }`.
+- Metadata routes tried **in order until a 200 property array**: `app/Metadata/GetProperties` → `app/Metadata/Get` (`result.properties[]`) → `Shesha/Metadata/Get`; records which route worked. A 404 on all three while EntityConfig *has* the class is wrong-route/namespace → reported as `metadataUnavailable`, **not** `entityMissing` (never triggers a bogus `domain-model` "create").
+- Each named `reflistProp` → reads its `referenceListName`/`referenceListModule` from the metadata, then the §10.5 reflist existence check → `{ exists, itemCount }`.
+
+Emits ONE compact JSON summary to stdout (per entity: `modelType`, `fullClassName`, metadata route or `metadataUnavailable`, a distilled `properties[]` of `{ path, dataType, referenceListName }`, and per-reflistProp `{ name, module, exists, itemCount }`) and writes each entity's slice to `<tokenFile dir>/<Entity>.probe.json` for reuse. A single 404 (or any non-2xx / network error) never throws — the status is recorded and the run continues.
+
+---
+
 ## 11. Round-trip verify (post-push)
 
 Step 8 of the skill. Re-fetch the form just pushed and diff against the markup we sent:
@@ -311,14 +383,14 @@ Step 8 of the skill. Re-fetch the form just pushed and diff against the markup w
 curl -s -G "$BASE_URL/api/services/Shesha/FormConfiguration/GetJson" \
   --data-urlencode "id=$FORM_ID" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
-  > /tmp/form-after.json
+  > "$WORKDIR/form-after.json"
 ```
 
 Then in Node:
 
 ```js
-const sent = JSON.parse(fs.readFileSync('/tmp/form-sent.json', 'utf8'));
-const after = JSON.parse(JSON.parse(fs.readFileSync('/tmp/form-after.json', 'utf8')).result.markup);
+const sent = JSON.parse(fs.readFileSync(process.env.WORKDIR + '/form-sent.json', 'utf8'));
+const after = JSON.parse(JSON.parse(fs.readFileSync(process.env.WORKDIR + '/form-after.json', 'utf8')).result.markup);
 // Walk both trees in component-id order; surface any property whose value differs.
 ```
 
@@ -339,19 +411,19 @@ Skill(skill="playwright", args="<directive>")
 ### Directive template
 
 > Open `<FRONTEND_URL>/<no-auth|dynamic>/<MODULE>/<FORM_NAME>` in a fresh browser context.
-> If path is `/dynamic/...`: first POST `/api/TokenAuth/Authenticate` with `admin`/`123qwe` and set the resulting token in `localStorage.accessToken` before navigating.
+> If path is `/dynamic/...`: set the **cached** session token (contents of `$WORKDIR/access-token`) into `localStorage.accessToken` before navigating. Only POST `/api/TokenAuth/Authenticate` with `admin`/`123qwe` if no cached token exists.
 > Wait for the form to render (selector `.sha-form` or 5s timeout, whichever comes first).
 > Capture: full-page screenshot, all console messages with level `error` or `warning`, all network responses with `status >= 400`.
 > Then click the primary action button (if any) and capture again.
 > Report: a one-paragraph summary, the screenshot path, and any captured errors / 4xx-5xx network responses verbatim.
 
-### Frontend URL detection
+### Frontend URL detection — focus on the `adminportal`
 
-The PBF project has two front-end apps:
-- `adminportal/` — typical dev port `http://localhost:3000`
-- `publicportal/` — typical dev port `http://localhost:3001`
+**Render and verify against the `adminportal` — that is the app UI this skill targets.** It's the front-end app under `adminportal/` (typical dev port `http://localhost:3000`); read the actual port from `adminportal/.env*` (e.g. `PORT=3000`) or `adminportal/package.json` `scripts.dev`. Use it as `<FRONTEND_URL>` for every authenticated (`/dynamic/...`) form.
 
-Read the actual port from `<app>/.env*` (e.g. `PORT=3001`) or `<app>/package.json` `scripts.dev`. Anonymous forms (`access: 5`) usually live in `publicportal`; authenticated forms in `adminportal`. If neither is running, skip the smoke step and warn the user.
+`publicportal/` (typical `http://localhost:3001`) is the **exception, not the default** — use it ONLY for a genuinely anonymous/public form (`access: 5`, e.g. login/register/OTP). Don't reach for it for ordinary CRUD forms.
+
+If the adminportal isn't running, do NOT silently pass: report that the form **could not be visually verified (adminportal not running)** and offer `--no-browser`.
 
 ### Failure handling
 

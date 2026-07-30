@@ -1,0 +1,41 @@
+{
+  "screen": "Asset registration (React grammar)",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-react-grammar", "label": "Register Asset" },
+  "archetype": "capture",
+  "theme": "shesha",
+  "layout": {
+    "kind": "stack", "gap": "lg", "padding": "lg",
+    "children": [
+      { "kind": "heading", "level": 1, "content": "Register Asset" },
+      { "kind": "row", "gap": "lg", "align": "start", "children": [
+        { "kind": "card", "title": "Details", "width": "66%", "padding": "md", "gap": "md", "children": [
+          { "kind": "field", "property": "name" },
+          { "kind": "field", "property": "serialNumber" },
+          { "kind": "grid", "columns": 2, "gap": "md", "children": [
+            { "kind": "field", "property": "category" },
+            { "kind": "field", "property": "purchaseDate" }
+          ] }
+        ] },
+        { "kind": "card", "title": "Status", "width": "33%", "padding": "md", "gap": "sm", "children": [
+          { "kind": "field", "property": "status" },
+          { "kind": "field", "property": "location" },
+          { "kind": "field", "property": "assignedEmployee" }
+        ] }
+      ] },
+      { "kind": "actions" }
+    ]
+  },
+  "bindings": [
+    { "property": "name" }, { "property": "serialNumber" }, { "property": "category" },
+    { "property": "purchaseDate" }, { "property": "status" }, { "property": "location" },
+    { "property": "assignedEmployee" }
+  ],
+  "assertions": [
+    { "id": "A1", "statement": "top row has two children; Details card left (66%), Status section right (33%)" },
+    { "id": "A2", "statement": "category and purchaseDate sit side by side in a 2-col grid inside the Details card" }
+  ]
+}

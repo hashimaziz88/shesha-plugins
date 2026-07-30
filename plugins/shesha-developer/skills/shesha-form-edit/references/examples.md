@@ -1,20 +1,31 @@
-# Seeds — exemplars first, then blocks, then examples
+# Seeds — exemplars first, golden archetypes second, fragments third
 
-**One priority order for picking a starting point, stated in [SKILL.md](../SKILL.md) — this file is
-the detail/index for the last two tiers of it:**
+**One priority order for picking a starting point, stated in [SKILL.md](../SKILL.md):**
 
 1. **`assets/exemplars/`** — small, validator-clean, one form per archetype. Check here first.
-2. **`assets/blocks/`** — compose small vetted blocks when no exemplar covers the shape (see
+2. **`assets/golden/`** — the 0.45 golden corpus `compile-blueprint.js` clones from (`_index.json`:
+   **table-worklist · record-detail · hub · capture · capture-standalone · modal-dialog · list-card ·
+   list-card-item · inline-card · dashboard**; archetype keys match the blueprint IR vocabulary,
+   `shesha-design-comprehension/schemas/blueprint.schema.json`). Full-screen shapes (worklist table,
+   card list, inline-CRUD table, standalone create, detail page) live here now — grep the fragment
+   you need, never read one whole [R-050].
+3. **`assets/blocks/`** — compose small vetted blocks when neither of the above covers the shape (see
    [block-library.md](block-library.md)).
-3. **`assets/examples/`** (this file's index, below) — the fuller CRUD-loop seeds, real Shesha-standard
-   forms captured verbatim from a working A.Test backend. Fallback when neither of the above has
-   the shape. `assets/patterns/` (other vendor seeds — see [patterns.md](patterns.md)) is the tier
-   below that.
+4. **`assets/examples/`** (this file's fragment index, below) — the two sub-screen **fragments** no
+   single archetype covers, for grafting into a hub/detail build. `assets/patterns/` (other vendor
+   seeds — see [patterns.md](patterns.md)) is the tier below that.
 
 Whichever tier you copy from: change only `modelType`, `entityType`, `propertyName`s, captions, and
-`formId` references. Do not invent structure the seed doesn't have.
+`formId` references. Do not invent structure the seed doesn't have. Project-tied seeds live in
+`.claude/cache/shesha-form-edit/seeds/`, scratch in `.claude/cache/shesha-form-edit/_archive/` —
+never in the shipped asset pools.
 
-These contain template tokens `{{GEN_KEY}}` / `{{NEW_KEY}}` for some ids — replace each with a fresh `crypto.randomUUID()` (the same token must map to the same UUID within one form so parent/child links stay intact).
+The normal build path is the compiler — `scripts/compile-spec.mjs` (registry-backed, builds
+programmatically from blocks/rules) or `scripts/compile-blueprint.js` (field-validated, clones the
+closest `assets/golden/` archetype from the blueprint's `Archetype:` header and re-types it: ids,
+versions [R-003], bindings, dataContext wrappers [R-005]). Manual cloning below is the fallback for
+hand-composition — pick via `_index.json` only, grep the fragment you need, and re-stamp every id +
+`parentId` [R-001/R-002/R-025].
 
 ## `assets/exemplars/` — check here first
 
@@ -26,39 +37,34 @@ These contain template tokens `{{GEN_KEY}}` / `{{NEW_KEY}}` for some ids — rep
 Both are under ~400 lines, PASS the push-hook gate with zero Tier 1/2 findings, and are safe to read
 in full (never need `Grep`/offset).
 
-## `assets/examples/` — index (10 files)
+## `assets/golden/` — full-screen shapes (see `_index.json` for the authoritative list)
 
-### When you copy a seed, swap ALL of these (easy to miss):
-
-1. `formSettings.modelType` → the target entity as the object `{ name: "<ShortClass>", module: "<Module>" }` (favoured shape; a legacy seed may carry a full-class-name string — convert it). Resolve `name`+`module` from `EntityConfig/GetMainDataList`.
-2. Every `entityType` (string on `dataContext`; object `{name,module}` on `autocomplete`) → target entity.
-3. Each field's `propertyName`, `componentName`, `name`, `label` → the real entity property.
-4. The datatable `items` (columns) → the columns you want, with real `propertyName`s. **For the `entity-datalist.json` + `entity-card.json` pair: edit the row-template card form's fields to the card content you want (real `propertyName`s), point the datalist's `formId` at your card form, and set `selectionMode: "multiple"` if the prompt asked to select multiple.**
-5. The Add button's `actionArguments.formId` → `{ name: "<your-create-form>", module: "<module>" }`.
-6. **The title text** — the component with `componentName: "//*TITLE*//"`; set its `content` to your form's title (e.g. "Pay Grade Details"). Easy to leave as "Employee Details".
-7. **The `modelType` debug text** — the text component `componentName: "modelType"` literally prints the class name on the page. Delete it for a clean form, or repurpose it.
-8. `uniqueStateId` / `componentName` on the `dataContext` — give each table a unique id (don't leave `TABLE_VIEW_TEMPLATE_ID`) so multiple tables on a page don't share state.
-9. Re-run `stampTree` so every `parentId` is correct after edits (descend into `components`, `columns[].components`, `tabs[].components`, **and `content.components`** for collapsible panels).
-
-> **"table" vs "list" — pick the seed from the user's noun.** A **table**/grid request → the `datatable` seeds below (`employee-table.json`). A **list**/cards request ("list of X", feed, tiles, gallery) → the `datalist` seed `entity-datalist.json`. They are different components, not synonyms — see [components/data-tables.md](components/data-tables.md#table-vs-list--pick-the-component-from-the-users-wording-decide-this-first). When the prompt names neither, ask which the user wants.
-
-| Need | Example file | Use when |
+| Need | Golden file | Use when |
 |---|---|---|
-| **Table** / index / grid page | `assets/examples/employee-table.json`, `assets/examples/rs-table.json` | "table", "grid", "manage X", "spreadsheet of X" — tabular data with sortable columns |
-| **Card list** (datalist) | `assets/examples/entity-datalist.json` **+** `assets/examples/entity-card.json` | "**list** of X", "cards", "feed", "tiles", "gallery", "directory" — repeating card view; multi-select via `selectionMode: "multiple"`. Copy **BOTH**: the list (`dataContext` → `datalist`) and its **row-template card form**, then point the datalist's `formId` at your card form. (Live-verified row-template mode — see [data-tables.md](components/data-tables.md). Do NOT use inline `items`; it renders blank on 0.45.x.) |
-| Inline-editable table (edit/add/delete in-row) | `assets/examples/inline-editable-table.json` | "edit details / add / remove **directly inside the rows**", inline-CRUD grid — has `crud-operations` column + concrete `{type, settings}` editors. See [components/inline-editable-tables.md](components/inline-editable-tables.md) |
-| Create / edit in modal | `assets/examples/employee-create.json`, `assets/examples/rs-create-dialog.json` | the form the table's **Add** button opens; submit comes from the modal footer (no in-form button row) |
-| Standalone create / edit **page** (own Save + Back) | `assets/examples/standalone-create.json` | a full-page create/edit form the user opens directly (not in a modal), e.g. "create a person form" or "a form with a required first-name field" — the Save + Back row is mandatory even when the prompt never mentions buttons; see note below |
-| Detail page, no children | `assets/exemplars/record-detail-simple.json` (an exemplar, not in this folder — see above) | a standalone record view with the **Start Edit / Save / Cancel Edit toggle** lifecycle |
-| Detail page with child tables | `assets/exemplars/record-detail-with-children.json` (an exemplar, not in this folder — see above) | record view that also lists related child entities |
-| Add/link dialog opened from a subtable toolbar | `assets/examples/rs-link-add-dialog.json` | a modal that links an existing record rather than creating a new one |
-| Subtable fragment inside a `tabs` pane | `assets/examples/rs-subtable-tab-fragment.json` | the tab-pane-level `dataContext` + `datatable` shape referenced from a detail form's body |
+| **Table** / index / grid page | `table-worklist--employee-table.json` | "table", "grid", "manage X", "spreadsheet of X" — tabular data with sortable columns |
+| **Card list** (datalist) | `list-card--entity-datalist.json` **+** `list-card-item--entity-card.json` | "**list** of X", "cards", "feed", "tiles", "gallery", "directory" — repeating card view; multi-select via `selectionMode: "multiple"`. Copy **BOTH**: the list (`dataContext` → `datalist`) and its **row-template card form**, then point the datalist's `formId` at your card form. (Live-verified row-template mode — see [data-tables.md](components/data-tables.md). Do NOT use inline `items`; it renders blank on 0.45.x.) |
+| Inline-editable table (edit/add/delete in-row) | `inline-card--inline-editable-table.json` | "edit details / add / remove **directly inside the rows**", inline-CRUD grid — has `crud-operations` column + concrete `{type, settings}` editors. See [components/inline-editable-tables.md](components/inline-editable-tables.md) |
+| Create / edit in modal | `capture--employee-create.json`, `modal-dialog--rs-create-dialog.json` | the form the table's **Add** button opens; submit comes from the modal footer (no in-form button row) |
+| Standalone create / edit **page** (own Save + Back) | `capture-standalone--standalone-create.json` | a full-page create/edit form the user opens directly (not in a modal), e.g. "create a person form" or "a form with a required first-name field" — the Save + Back row is mandatory even when the prompt never mentions buttons; see note below |
+| Detail page, no children | `assets/exemplars/record-detail-simple.json` (an exemplar, not golden — see above) | a standalone record view with the **Start Edit / Save / Cancel Edit toggle** lifecycle |
+| Detail page with child tables | `record-detail--employee-detail.json`, or the exemplar `assets/exemplars/record-detail-with-children.json` | record view that also lists related child entities |
+| Main+rail hub (largest fixture) | `hub--rs-detail-with-header.json` | 962/332 split, KIB-style meta strip, tabs, related panels — grep only |
 
-Every file present in `assets/examples/` is listed above; none are undocumented. (Three seeds that used to live here — `rs-detail-with-header.json`, `employee-detail-with-child-tables.json`, `employee-detail-without-child-tables.json` — were retired: at 25,010 / ~14,300 / ~8,800 lines they were unreadable by construction, contradicting the "never read a large seed wholesale" rule below. The two `assets/exemplars/` forms above replace their teaching value at a fraction of the size.)
+Three seeds that used to live in `assets/examples/` — `rs-detail-with-header.json`,
+`employee-detail-with-child-tables.json`, `employee-detail-without-child-tables.json` — were retired
+by both branches independently: at 25,010 / ~14,300 / ~8,800 lines they were unreadable by
+construction, contradicting the "never read a large seed wholesale" rule below. The
+`assets/exemplars/` forms and the `assets/golden/` corpus above replace their teaching value at a
+fraction of the size.
 
-### Standalone create / edit page (own Save + Back) — copy the seed
+## `assets/examples/` — fragment index (2 files; every other seed moved to `assets/golden/`)
 
-`assets/examples/standalone-create.json` is the canonical full-page create/edit form: a
+| File | Use for |
+|---|---|
+| `rs-link-add-dialog.json` | link-existing dialog (M:M junction add) — [components/junction-subtables.md](components/junction-subtables.md) |
+| `rs-subtable-tab-fragment.json` | child-table tab fragment (`dataContext` + filtered `datatable` in a tab) — [components/child-tables.md](components/child-tables.md) |
+
+`assets/golden/capture-standalone--standalone-create.json` is the canonical full-page create/edit form: a
 `validationErrors`, a 2-column flex split (two `container`s at `desktop.dimensions.width: "50%"`
 each, never the `columns` component), and one `buttonGroup` with **Save** (primary,
 `Submit`/`shesha.form`) + **Back** (default, `Navigate`/`shesha.common`). It's a Person create
@@ -66,13 +72,27 @@ page — swap `modelType`, the field `propertyName`s/labels, the title `content`
 button's `actionArguments.url` to the target entity's list form. This is the seed to reach for
 on any "create a form for X" / "make me a person form" request, including terse ones.
 
-**The Save + Back row is mandatory even when the prompt says nothing about buttons.** Requests
-like *"a person form with one required first-name field"* describe only the fields, but a
-create form with no way out is incomplete — a user who can save must be able to leave without
-saving. The exit button is implied by create/edit intent — don't wait for the user to ask for
-it. (This was a real miss: a one-field form shipped with Save but no Back.)
+## When you clone anything, swap ALL of these (easy to miss)
 
-Key points the seed already encodes — preserve them:
+1. `formSettings.modelType` → `{ name, module }` object resolved from live
+   EntityConfig [R-016]; every `entityType` (fullClassName string on
+   `dataContext`; `{name,module}` on `autocomplete`).
+2. Each field's `propertyName`/`componentName`/`label` → real camelCase entity
+   properties [R-004]; datatable column `items` → your columns.
+3. The Add button's `actionArguments.formId` → your create form.
+4. Title text content; delete any debug text components.
+5. `uniqueStateId`/`componentName` on each `dataContext` — unique per table.
+6. Re-stamp ids on clones and `parentId` everywhere (descend into `components`,
+   `columns[].components`, `tabs[].components`, `content.components`) [R-001].
+7. Strip every node the request doesn't need — but never the validationErrors
+   or the Submit/exit pair [R-020].
+
+Scope notes: FK child tables filter an Entity-sourced `dataContext` with a
+`permanentFilter` on the parent FK ([components/child-tables.md](components/child-tables.md));
+M:M junction subtables use the Url-sourced `dataContext` canon
+([components/junction-subtables.md](components/junction-subtables.md)); create
+dialogs presetting a parent FK need `formArguments` AND `onPrepareSubmitData`
+[R-045] ([components/add-dialogs.md](components/add-dialogs.md)).
 
 - `editMode: "editable"` on the inputs (a standalone create/edit page is always in edit mode —
   `inherited` renders dead inputs here; that mode is only for the toggle-lifecycle detail view).

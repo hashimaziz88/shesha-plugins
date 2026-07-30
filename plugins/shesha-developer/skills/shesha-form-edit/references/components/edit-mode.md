@@ -38,6 +38,19 @@ Use `hidden` (with code-mode wrapper) over `customVisibility` for new code — s
 
 Interaction rules: `editMode === 'readOnly'` always wins. `editMode === 'editable'` lets `customEnabled` decide. `editMode === 'inherited'` resolves against the form's effective mode and is risky on forms with no data loader (see the editMode rule above).
 
+### Conditional visibility (modern / versioned renderer)
+
+On a 0.45-class (versioned) renderer, legacy `customVisibility` ("return true to show") is **IGNORED** — you MUST use code-mode `hidden`, which returns **TRUE to hide**. Use `data?.field` optional chaining, because create forms have no `data` context initially and a throw fails-open (the field stays visible), masking the bug:
+
+```json
+"hidden": {
+  "_mode": "code",
+  "_code": "return !(data?.attendingDinner)"
+}
+```
+
+The compiled `reactjs` bundle maps `customVisibility` → `hidden` through this same mechanism; authoring `hidden` directly is the reliable path [R-031]. Full context: [renderer-physics.md](../renderer-physics.md).
+
 ---
 
 ## Conditional containers

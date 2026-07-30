@@ -1,6 +1,6 @@
 # Multi-agent orchestration for form fleets
 
-When work spans many forms (or many full-stack pages), single-context editing degrades — context fills with markup, later forms get sloppier, and verification gets skipped. This file is the dispatch playbook. Mechanics of the transforms themselves: [bulk-operations.md](bulk-operations.md). Routing thresholds: [levels.md](levels.md).
+When work spans many forms (or many full-stack pages), single-context editing degrades — context fills with markup, later forms get sloppier, and verification gets skipped. This file is the dispatch playbook. Mechanics of the transforms themselves: [bulk-operations.md](bulk-operations.md). Routing thresholds: SKILL.md Step R (fleet mode past ~3 forms changed or a multi-page/app brief; below that stay inline).
 
 ---
 
@@ -15,7 +15,9 @@ audit-all (auditor fan-out, 1 agent/form)
    → synthesize report
 ```
 
-Exit criteria per stage: audit = every target has a verdict; pilot = assertions pass AND browser checks pass (computed styles, not screenshots); rollout = every push re-fetched and asserted; re-audit = zero `fail` verdicts.
+Exit criteria per stage: audit = every target has a verdict; pilot = assertions pass AND browser checks pass (computed styles, not screenshots); rollout = every push re-fetched and asserted; re-audit = zero `fail` verdicts **including the `appearance` family**.
+
+**Audit and re-audit specs MUST include the `appearance` check family** (the appearance floor in `form-quality.md` / the auditor's `appearance` checks). A built-but-unstyled form is a `fail`, not a cosmetic nit — styling silently dropping on later forms is the single most common fleet defect.
 
 ---
 
@@ -33,6 +35,21 @@ Exit criteria per stage: audit = every target has a verdict; pilot = assertions 
 ## Shared state between agents
 
 Authenticate ONCE; write the bearer token to a workspace file (e.g. `<workspace>/.token`) and pass the path in every dispatch prompt — agents `cat` it instead of re-authenticating. Put the audit spec / transform spec in a JSON file and pass its path too. Every dispatch prompt must include: the skill root path, backend URL, token-file path, module, the form(s), and the expected output contract.
+
+## Per-form manifest (mandatory for any multi-form run)
+
+Maintain `<workspace>/form-manifest.json` — one entry per target form, updated after **every** stage:
+
+```json
+[
+  { "module": "MyModule", "name": "person-create", "id": "<guid|null>",
+    "built": true, "styled": true, "audited": true, "pushed": true, "verified": false }
+]
+```
+
+- Create the manifest when the plan is made (every planned form gets an all-`false` entry) — forms are forgotten at planning time, not build time.
+- **No run is complete while any form has `styled: false` or `verified: false`.** "Built but unstyled" and "pushed but never re-fetched" are the two states that silently ship broken.
+- The final summary is generated **from the manifest**, never from memory — list every form with its flags. A form missing from the summary is a form missing from the manifest, which is the defect.
 
 ## Dispatch prompt template — auditor fan-out
 
@@ -70,4 +87,4 @@ Plugin agents do not inherit a `permissionMode`. The fleet-transformer's `curl` 
 
 ### Worked example (project-specific)
 
-The RequirementsStudio 2026-06 rollouts that shaped this playbook: a 16-form auditor fan-out (sonnet) verified subtable canon with a strict verdict schema (`{form, pass, formLoads, checkResults[], summary}` — per-tab fields like `addForm/labelOk/iconOk/actionOk/formArgsParentFkOk`); the KIB divider redesign ran as ONE transform script (`transform-kib-all.js`) piloted on `module-definition-details` then rolled to 16 forms with component-count-delta guards; the create-forms cleanup fixed 33 forms in one scripted pass with field-set assertions, audited to 0 issues pre- and post-push.
+Provenance: shaped by live 2026-06 fleet rollouts — a 16-form auditor fan-out with a strict verdict schema, a one-script KIB transform piloted then rolled to 16 forms with component-count-delta guards, and a 33-form scripted cleanup audited to 0 issues pre- and post-push.

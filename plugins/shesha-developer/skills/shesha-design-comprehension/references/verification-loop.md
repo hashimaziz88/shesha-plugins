@@ -11,7 +11,7 @@ Runs as **gate 5a.5** in `shesha-claude-designer` — after structural integrity
 3. **Navigate the real path.** Open the form via **table-row → details**, never a pasted `?id=` (a direct id load 500s the subtable Crud/Create). Pin the **same viewport** used for capture (1440×900). **If the blueprint has any `tab(...)` assertions, click through every tab at least once first** — rc-tabs only mounts a pane's contents into the DOM on its first visit, so an untouched tab is invisible to any single-pass probe. Return to whichever tab you want active for the capture (doesn't matter which — inactive-but-mounted panes are still captured, see below).
 4. **Re-probe.** Run the *same* `scripts/layout-probe.js` against the rendered Shesha form → actual `layout.json`. Same instrument as capture = comparable numbers.
 5. **Diff actual vs the blueprint `assertions`** — structurally, not by pixels (next section).
-6. **Route mismatches back to `shesha-form-edit`** as concrete fixes; rebuild → re-publish → clear cache → re-probe → re-diff until every assertion passes.
+6. **Route mismatches back to `shesha-form-edit`** as concrete fixes; rebuild → re-publish → clear cache → re-probe → re-diff. **HARD CAP: 2 routed-fix iterations.** If assertions still fail after the second re-probe, STOP the loop and emit a placement report instead: each still-failing assertion id, its measured vs asserted values, and the suspected structural cause. Two failed targeted fixes means the fix vocabulary doesn't reach the problem (usually a version/renderer constraint, not placement) — a third iteration burns 5–10 minutes without converging. An honest "placement partial: A2, A4 unmet — <measured facts>" beats a 40-minute loop every time.
 
 ## What to diff (and why it survives the pixel↔width-expression gap)
 
@@ -39,18 +39,9 @@ A failing assertion becomes an instruction phrased in the builder's terms, e.g.:
 
 Keep each fix to: the failing assertion id, the measured fact (with numbers), the asserted fact, and the structural change in `shesha-form-edit` terms.
 
-## RED → GREEN (how this skill is validated)
-
-Per `superpowers:writing-skills`, the skill is proven by watching the failure first:
-
-- **RED:** build the pilot from a *prose* brief only (no blueprint) → probe → record ≥1 failing assertion with numbers (e.g. panels collapse into one column; KIB flattens). This reproduces the drift, measured.
-- **GREEN:** build the same screen from the blueprint → probe → iterate routed fixes until the *same* assertions all pass.
-
-The RED→GREEN delta on identical assertions is the proof the layer fixes drift rather than re-describing it.
-
 ## Failure modes
 
-- **Stale IndexedDB cache** → you measure the previous build. Always clear from `/favicon.ico` after a push.
-- **Direct `?id=` load** → 500s on subtables, or renders a partial form. Always navigate table→details.
+- **Stale IndexedDB cache** → you measure the previous build. Clear after every push — procedure in `shesha-form-edit/references/verification.md §2`.
+- **Direct `?id=` load** → 500s on subtables, or renders a partial form. Always navigate table→details (`verification.md §3`).
 - **Different viewport** between capture and verification → incomparable numbers. Pin one.
 - **Responsive collapse** at the test viewport → if the design is genuinely responsive, capture+verify at the breakpoint the design targets, and say so in the blueprint.

@@ -1,0 +1,296 @@
+{
+  "type": "timePicker",
+  "name": "Time Picker",
+  "isInput": true,
+  "isOutput": true,
+  "canBeJsSetting": true,
+  "icon": "ClockCircleOutlined",
+  "version": 5,
+  "initModel": {
+    "defaults": null,
+    "raw": "(model) => {\r\n    const customModel: ITimePickerComponentProps = {\r\n      ...model,\r\n      format: DATE_TIME_FORMAT,\r\n      showNow: true,\r\n      allowClear: true,\r\n    };\r\n    return customModel;\r\n  }"
+  },
+  "settingsProps": {
+    "interfaceName": "ITimePickerComponentProps",
+    "interfaceFile": "designer-components/timeField/models.ts",
+    "ownProps": [],
+    "extends": [
+      "Omit<ITimePickerProps",
+      "'defaultValue' | 'style'>",
+      "IConfigurableFormComponent"
+    ],
+    "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
+      "componentName",
+      "context",
+      "customEnabled",
+      "customVisibility",
+      "description",
+      "desktop",
+      "dimensions",
+      "editMode",
+      "enableStyleOnReadonly",
+      "font",
+      "hidden",
+      "hideLabel",
+      "hideScrollBar",
+      "id",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "inputStyles",
+      "isDynamic",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChangeCustom",
+      "onClickCustom",
+      "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
+      "parentId",
+      "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
+      "propertyName",
+      "queryParams",
+      "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
+      "settingsValidationErrors",
+      "shadow",
+      "size",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "tablet",
+      "type",
+      "validate",
+      "wrapperStyle"
+    ],
+    "unresolvedExtends": [
+      "'defaultValue' | 'style'>",
+      "IHasVersion",
+      "Omit<ITimePickerProps"
+    ]
+  },
+  "settingsForm": {
+    "source": "timeField/settings.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [
+    "stylingBox",
+    "style"
+  ],
+  "settingsFields": [
+    {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Set the readonly attribute of the input tag (avoids virtual keyboard on touch devices)"
+    },
+    {
+      "path": "propertyName",
+      "label": "Property Name",
+      "editorType": "contextPropertyAutocomplete"
+    },
+    {
+      "path": "hideLabel",
+      "label": "Label",
+      "editorType": "labelConfigurator"
+    },
+    {
+      "path": "placeholder",
+      "label": "Placeholder",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "editMode",
+      "label": "Edit Mode",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "hourStep",
+      "label": "Hour Step",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "secondStep",
+      "label": "Second Step",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "inputReadOnly",
+      "label": "Input Read-Only",
+      "editorType": "settingsInputRow",
+      "description": "Set the readonly attribute of the input tag (avoids virtual keyboard on touch devices)"
+    },
+    {
+      "path": "allowClear",
+      "label": "Allow Clear",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "autoFocus",
+      "label": "Auto Focus",
+      "editorType": "settingsInputRow",
+      "description": "Whether to hide the options that cannot be selected"
+    },
+    {
+      "path": "range",
+      "label": "Range",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "validate.required",
+      "label": "Required",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "onChangeCustom",
+      "label": "On Change",
+      "editorType": "settingsInput",
+      "description": "Enter custom event handler on changing of event. Multiple variables are exposed"
+    },
+    {
+      "path": "onFocusCustom",
+      "label": "On Focus",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on focus of event."
+    },
+    {
+      "path": "onBlurCustom",
+      "label": "On Blur",
+      "editorType": "settingsInput",
+      "description": "Enter custom eventhandler on blur of event."
+    },
+    {
+      "path": "enableStyleOnReadonly",
+      "label": "Enable Style On Readonly",
+      "editorType": "settingsInput",
+      "description": "Removes all visual styling except typography when the component becomes read-only"
+    },
+    {
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "description": "Offset X",
+      "group": "Shadow"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
+      "shared": true
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
+      "shared": true
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "settingsInput"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "timeField/index.tsx",
+    "timeField/models.ts"
+  ]
+}

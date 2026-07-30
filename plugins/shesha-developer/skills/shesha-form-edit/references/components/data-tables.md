@@ -1,6 +1,6 @@
 # dataContext, datatable, datalist
 
-> Versions + minimal shapes: [../component-cheatsheet.md](../component-cheatsheet.md). Read that before opening a large table seed.
+> Versions + minimal shapes: [../components-kb.md](../components-kb.md). Read that before opening a large table seed.
 
 ---
 
@@ -10,8 +10,8 @@
 
 | User's wording | Build | Inner component | Seed |
 |---|---|---|---|
-| **table**, grid, spreadsheet, "columns", tabular, "rows of", manage / admin index | a **table** | `datatable` (column grid) | `assets/examples/employee-table.json` |
-| **list**, "list of X", card(s), feed, tiles, gallery, directory, board | a **list** | `datalist` (repeating card view) | `assets/examples/entity-datalist.json` |
+| **table**, grid, spreadsheet, "columns", tabular, "rows of", manage / admin index | a **table** | `datatable` (column grid) | `assets/golden/table-worklist--employee-table.json` |
+| **list**, "list of X", card(s), feed, tiles, gallery, directory, board | a **list** | `datalist` (repeating card view) | `assets/golden/list-card--entity-datalist.json` |
 
 Rules:
 
@@ -52,7 +52,7 @@ Common symptoms of a missing wrapper: "datalist isn't refreshing after I change 
 
 ## Canonical entity-bound list (datalist — row-template mode)
 
-This is the **verified** datalist shape (matches `assets/patterns/dashboard.json`): each row is rendered by a **separate named form** via `formSelectionMode: "name"` + `formId`.
+This is the **verified** datalist shape (matches `assets/golden/list-card--entity-datalist.json`): each row is rendered by a **separate named form** via `formSelectionMode: "name"` + `formId`.
 
 ```json
 {
@@ -94,7 +94,7 @@ The `datalist` here has **no** `entityType`, **no** `sourceType`, **no** `perman
 
 A `datalist` (v11) renders the wrapper's rows as repeating cards. Two ways to define what each card looks like:
 
-- **(b) Row-template form (`formSelectionMode: "name"` + `formId`) — THE DEFAULT. Verified rendering.** Each row is rendered by a separate named **card form**; the row entity is exposed to that card form via `propertyName` bindings / `{{mustache}}` (its `data`). This is the proven pattern — it matches `assets/patterns/dashboard.json`, the canonical block above, and is the shape shipped by the seed pair `assets/examples/entity-datalist.json` + `assets/examples/entity-card.json` (live-verified against `@shesha-io/reactjs 0.45.x`). Shape:
+- **(b) Row-template form (`formSelectionMode: "name"` + `formId`) — THE DEFAULT. Verified rendering.** Each row is rendered by a separate named **card form**; the row entity is exposed to that card form via `propertyName` bindings / `{{mustache}}` (its `data`). This is the proven pattern — it matches the canonical block above, and is the shape shipped by the golden pair `assets/golden/list-card--entity-datalist.json` + `assets/golden/list-card-item--entity-card.json` (live-verified against `@shesha-io/reactjs 0.45.x`). Shape:
   ```json
   {
     "type": "datalist", "version": 11,
@@ -111,7 +111,7 @@ A `datalist` (v11) renders the wrapper's rows as repeating cards. Two ways to de
 
 **Multi-select list** — set `selectionMode: "multiple"` on the datalist for "select several at once" (gives per-card + header selection). `"single"` for one, `"none"` (default) for a read-only list. This is the list-shaped answer to "operator can select multiple items" — do NOT reach for a datatable just because the ask mentions multi-select.
 
-**Card styling (rounded corners, soft shadow, etc.)** lives on the datalist's card container style channels (`showBorder`, `gap`, `cardHeight`/`cardMinWidth`/`cardMaxWidth`, and the container style panels) — see `styling-v7-mechanics.md` (in `shesha-design-system`). A "polished cards" ask is styling on the `datalist`, not a reason to hand-build static containers. For the per-field rules that make card text actually render (name-mode binding, `dimensions: fit-content`, single-line `ellipsis`, chip-on-its-own-row, and style-based padding/overflow), see **Building the row-template card form** below.
+**Card styling (rounded corners, soft shadow, etc.)** lives on the datalist's card container style channels (`showBorder`, `gap`, `cardHeight`/`cardMinWidth`/`cardMaxWidth`, and the container style panels) — see `styling-mechanics.md` (in `shesha-design-system`). A "polished cards" ask is styling on the `datalist`, not a reason to hand-build static containers. For the per-field rules that make card text actually render (name-mode binding, `dimensions: fit-content`, single-line `ellipsis`, chip-on-its-own-row, and style-based padding/overflow), see **Building the row-template card form** below.
 
 **No entity yet? A datalist still needs a data source.** A `datalist` is bound through its `dataContext`, so it cannot display a card list for an entity that doesn't exist. If the target entity is missing (Step 4.5 metadata 404), **create it first** via `shesha-developer:domain-model` (then rebuild/restart per [backend-restart.md](../backend-restart.md) and bind). Only for a genuine static/demo list use hardcoded rows — but the component is still a `datalist`, **never** stacked static `container` cards.
 
@@ -126,7 +126,7 @@ The datalist renders each row's card form inside a cell that **collapses `ant-fo
 - **Inner padding + no-scroll go on the card container via the legacy `style` prop, NOT `stylingBox`** (which does not apply on the card container in this context): `"style": "return { whiteSpace: 'normal', wordBreak: 'break-word', overflow: 'hidden', padding: '20px 22px', boxSizing: 'border-box' }"`. `overflow: hidden` clips the nowrap quote so the cell shows **no scrollbar**; `padding` keeps text off the border. Set the card container `dimensions.height: "auto"` — **never `"100%"`** (that triggers the inner scroll + overlap).
 - Card chrome (border radius, white background, soft shadow) on the card container's v7 channels (`border` / `background` / `shadow`) renders fine — only `stylingBox` padding is the channel that doesn't take here.
 
-Copy `assets/examples/entity-card.json` (the verified card) and swap the entity + field `propertyName`s. Symptom→fix table: [debug.md](../debug.md).
+Copy `assets/golden/list-card-item--entity-card.json` (the verified card) and swap the entity + field `propertyName`s. Symptom→fix table: [debug.md](../debug.md).
 
 ---
 
@@ -146,6 +146,8 @@ Copy `assets/examples/entity-card.json` (the verified card) and swap the entity 
 ---
 
 ## Inner components quick reference
+
+> **A `datatable`'s columns live in its `items[]` array — there is NO `columns` property.** An empty or missing `columns` is expected, not a defect; look in `items[]`. (Don't waste probes concluding a table is "broken" because `.columns` is empty.) Compact column-item shapes (`data` / `crud-operations`) are in [../components-kb.md](../components-kb.md).
 
 | Type | Purpose |
 |---|---|

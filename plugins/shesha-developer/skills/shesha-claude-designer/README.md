@@ -1,49 +1,65 @@
-# Shesha Claude Designer — design → Shesha pipeline
+# Shesha Claude Designer — the design → Shesha pipeline (v2, 0.45)
 
-Four skills that turn a **design** (a runnable prototype, a screenshot set, a Figma-style kit, or an HTML/JSX mock) into **on-brand, correctly-built Shesha forms** — and prove the result matches the design *by measurement*, not by eyeballing. The pipeline is **brand-generic**: theming is a token file you edit, not code you change.
+Four skills that turn a **design** (a runnable prototype, a screenshot set, a Figma-style kit, or an HTML/JSX mock) into **on-brand, correctly-built Shesha forms** — and prove the result by machine gates and measurement, not eyeballing. The v2 pipeline is a **compiler pipeline over artifacts**: every hop hands the next skill a typed artifact, not prose.
 
 ```
-design source ──▶ 1 ingest+tier ──▶ 2 comprehend (measured blueprint)
-                                              │
-                                              ▼
-                                    3 plan {archetype, blocks[], recipes[]}
-                                              │
-                        ┌─────────────────────┴─────────────────────┐
-                        ▼                                            ▼
-            4a STRUCTURE (shesha-form-edit)            4b APPEARANCE (shesha-design-system)
-            compose blocks, wire CRUD, push            resolve token overlays onto the built form
-                        └─────────────────────┬─────────────────────┘
-                                              ▼
-                          5 verify: structural · PLACEMENT diff · visual
-                                              │  (mismatch → route back)
-                                              ▼
-                                        on-brand screen
+design source
+   │ 1 ingest (conductor)
+   ▼
+theme tokens + screen inventory
+   │ 2 comprehend (per screen, ∥)
+   ▼
+blueprint.md  ──  human view (layout-tree / bindings / assertions)
+              └─  machine twin: fenced ```blueprint-json  (schema-validated)
+   │ 3 theme once + plan {archetype, blocks}
+   │ 4 build: shesha-form-edit COMPILES the blueprint
+   ▼
+compile-blueprint.js → GATES (validate-schema → validate-guardrails →
+resolve-bindings → validate-styledness) → STYLE (design-system) →
+PUSH → ORACLE (re-fetch diff + render-instrument.js + design-critic verdict*)
+   │ 5 verify: structural (oracle) · placement diff (≤2 iter) · visual audit (≤2 cycles)
+   ▼
+report envelope (form ids, gate results, verdicts, probe paths)
 ```
+\* render-instrument.js and the design-critic agent are being built; until present, the visual gate is the screenshot + design-system audit.
 
----
-
-## The four skills and their responsibilities
-
-The whole point of the rework is a **clean responsibility split** — each skill owns one thing and is forbidden from the others' jobs. That is what keeps the build correct *and* cheap (you never read appearance docs to build structure, or read a 25K-line seed to add a field).
+## The four skills
 
 | Skill | Owns | Must NOT |
 |---|---|---|
-| **`shesha-claude-designer`** (conductor — start here) | Ingest the design, detect fidelity tier, sequence the screens, plan each as `{archetype, blocks[], recipes[]}`, orchestrate the other three, gate on verification | Author form JSON · pick colours · push to the backend |
-| **`shesha-design-comprehension`** | Turn each screen into a **measured layout blueprint** (grid columns/spans, nesting, tab assignment, bindings, a placement `assertions` block); re-measure the built form and **diff** it against the blueprint (the placement gate) | Author JSON · push |
-| **`shesha-form-edit`** | **Structure only**: build native components, wire CRUD, validate, and the **single push path**; **compose the block library** (small correct fragments) instead of mutating giant seeds | Apply v7 appearance blocks · author the `columns` component · read styling docs during a structural build |
-| **`shesha-design-system`** | **All appearance**: the app-level Ant theme, the **brand token file**, per-component v7 style recipes, block **style-overlays**, and the empirical **capability matrix** | Author structure · wire CRUD · push |
+| **`shesha-claude-designer`** (conductor — start here) | Route by weight, ingest, sequence screens, move the artifacts, gate on verification | Author form JSON · pick colours · push |
+| **`shesha-design-comprehension`** | Measure each screen into a blueprint (`.md` + `blueprint-json` twin); re-measure the built form and diff against the `assertions` (placement gate) | Author JSON · push |
+| **`shesha-form-edit`** | The compiler: blueprint → markup via golden archetypes; the four gates; the one push path; the oracle | Pick tokens/hexes · ship unstyled or unverified |
+| **`shesha-design-system`** | All appearance: app-level Ant theme + brand token files + per-component v7 blocks + the capability annotations | Author structure · wire CRUD · push |
 
----
+## Where the shared machinery lives
 
-## How they tie together (the flow)
+- **Rule registry (single source of every mechanical fact):** `shesha-form-edit/references/_rules.json` — validators and docs cite `[R-xxx]`; prose never restates more than a sentence.
+- **Blueprint schema (the build input):** `shesha-design-comprehension/schemas/blueprint.schema.json` — form-edit's `compile-blueprint.js` accepts only this ("no spec, no build").
+- **Measured capability matrix (style authority):** `shesha-form-edit/assets/measured-capability-matrix.json` — gym-generated per release; effects per `component × setting-path`. The hand matrix `shesha-design-system/assets/capability-matrix.json` is annotation only (technique keys, crossCuttingRules, fixes), overlaid by `merge-capability.js`.
+- **Brand token files:** `shesha-design-system/assets/themes/*.tokens.json` — `shesha` (default), `requirements-studio`, `wcg`. A new brand = copy the default, swap values, keep key names.
+- **Golden archetypes (compiler fixtures):** `shesha-form-edit/assets/golden/` (indexed by `_index.json`).
 
 1. **Ingest** (`shesha-claude-designer`) — read the design source; extract the token set + screen list. *Run* a compiled prototype and probe it; never parse a minified bundle.
 2. **Comprehend** (`shesha-design-comprehension`) — each screen → `blueprints/<screen>.blueprint.json`, a measured layout node tree with a typed placement `assertions` block. This is what stops container placement from drifting.
 3. **Plan** (`shesha-claude-designer`) — establish the theme **once**, then map each blueprint region to a **block** (`shesha-form-edit/assets/blocks`) + its paired **style overlay/recipe** (`shesha-design-system`). The per-screen plan is `{archetype, blocks[], recipes[]}`.
-4. **Build** — for each screen: **(a)** `shesha-form-edit` **compiles** the blueprint (`scripts/compile-spec.mjs` → `scripts/validate-form.mjs`, see `shesha-form-edit/references/compiling.md`) into native structure with CRUD already wired, then pushes; **(b)** `shesha-design-system` resolves the token overlays and returns styled JSON — which `shesha-form-edit` pushes through its single push path.
+4. **Build** — for each screen: **(a)** `shesha-form-edit` **compiles** the blueprint into native structure with CRUD already wired, then pushes; **(b)** `shesha-design-system` resolves the token overlays and returns styled JSON — which `shesha-form-edit` pushes through its single push path. Two compiler/validator toolchains currently coexist pending reconciliation (see "Two toolchains" below) — `compile-blueprint.js` → `validate-schema.js`/`validate-guardrails.js`/`validate-styledness.js` is the field-validated path the team runs today; `scripts/compile-spec.mjs` → `scripts/validate-form.mjs` (see `shesha-form-edit/references/compiling.md`) is the registry-backed path proven by 474 tests + `evals/`. Either produces gated, structurally-valid markup; do not assume only one exists.
 5. **Verify** — three gates in order: **structural** (native components, fully flexed, fields bound) → **placement** (`shesha-design-comprehension` re-measures the live form and `scripts/verify-placement.mjs`'s exit code is the gate against the blueprint assertions) → **visual** (screenshot vs theme). Mismatches route back to the owning skill.
 
 The contract that wires the conductor to the sub-skills is [`references/handoff-contract.md`](references/handoff-contract.md).
+
+### Two toolchains, one contract, pending reconciliation
+
+The compile/validate layer was built twice, independently, from the same blueprint contract:
+
+| | Field-validated (primary today) | Registry-backed (474 tests + evals) |
+|---|---|---|
+| Ground truth | `assets/components-kb/` + `gym/forms/` (live-probed) | `assets/registry/registry-0.45.1.json` (generated from settings-form source) |
+| Compile | `scripts/compile-blueprint.js` | `scripts/compile-spec.mjs` |
+| Validate | `validate-schema.js`, `validate-guardrails.js`, `validate-styledness.js` | `validate-form.mjs` (3 tiers, exit codes, `hooks/gate-policy.json`) |
+| Golden corpus | `assets/golden/` | `assets/exemplars/` |
+
+Both are real, both are gated, both remain reachable until a follow-up reconciles them into one. Do not delete either side's scripts, assets, or docs on the assumption the other one "is" the pipeline.
 
 ---
 
@@ -83,6 +99,9 @@ A block style-overlay says `"color": "$role:bodyText"`, not `"#1f1f1f"`. At stam
 | **Record a new empirical finding / re-measure after a Shesha upgrade** | `assets/capability-matrix.json` (+ `references/capability-matrix.md`) | re-run `validate-blocks.js`; a block referencing a `no-op` channel must fail |
 | **Relax or tighten a design rule** | recipes in `references/shesha-design-standards.md`; **functional guardrails stay in** `shesha-form-edit/references/form-quality.md` | guardrails and relaxable recipes are deliberately kept in separate blocks |
 | **Change blueprint/placement vocabulary** | `shesha-design-comprehension/references/blueprint-ir.md` + `verification-loop.md` | must move in lockstep with the flex-split idiom |
+| **Change a mechanical rule** | `shesha-form-edit/references/_rules.json` | validators + docs cite it by `[R-xxx]` id; single source, don't restate the fact elsewhere |
+| **Change what the field-validated compiler emits** | `shesha-form-edit/scripts/compile-blueprint.js` + the golden archetypes (`assets/golden/`) | the parallel registry-backed compiler is `scripts/compile-spec.mjs` + `assets/exemplars/` — see "Two toolchains" above |
+| **Record new style capability / re-measure after a Shesha upgrade (gym)** | re-run the gym (`shesha-form-edit/references/gym.md`) → regenerates the measured matrix; annotate techniques in the hand matrix | distinct from the `capability-matrix.json` row above — this is the KB/gym side |
 
 ---
 
@@ -118,7 +137,7 @@ shesha-design-system/              ── APPEARANCE ──
   references/component-recipes.md  per-archetype v7 style recipes
   references/token-to-prop-mapping.md  resolves $role: tokens → component props
   references/shesha-design-standards.md  appearance rules (relaxable recipes)
-  references/styling-v7-mechanics.md + style-channels.md  the v7 style channel mechanics
+  references/styling-mechanics.md + style-channels.md  the v7 style channel mechanics
 ```
 
 **The two pairings that hold it together:**
@@ -129,10 +148,10 @@ shesha-design-system/              ── APPEARANCE ──
 
 ## Firm rules (invariants the whole pipeline obeys)
 
-- **Splits are flex `container` rows, never the `columns` component.** Size children via `desktop.dimensions.width` (calc/%/px) — `customStyle:{flex}` is inert on the outer div.
+- **Splits are flex `container` rows, never the `columns` component** [R-028]. Size children via `desktop.dimensions.width` (calc/%/px) — `customStyle:{flex}` is inert on the outer div; a flex container must set `display:"flex"` [R-029].
 - **Structure (form-edit) and appearance (design-system) never mix.** A hex in a block subtree is a bug — it belongs in the overlay/token file.
-- **Comprehend before building; verify placement by measurement.** No screen is "done" until its placement assertions pass.
-- **One push path** (form-edit). Theme is set **once**, via Configuration Studio / the token file — not per-form, and not by editing frontend source.
+- **Comprehend before building; verify placement by measurement.** No screen is "done" until its placement assertions pass; placement is capped at 2 routed-fix iterations.
+- **One gated push path** (form-edit). A form is delivered only when pushed AND oracle-verified [R-046]; no form ships unstyled [R-042]. Theme is set **once**, via Configuration Studio / the token file — not per-form, and not by editing frontend source.
 - **Status is never colour-alone**; destructive actions are never primary; `validationErrors` is present when required inputs exist.
 - **Datalist row-template cards** need the markup-only collapse/scroll fix (the `style`-overflow + reserved-`minHeight` recipe) — see the capability matrix entry "datalist-row-template card" and `component-recipes.md → Datalist row-template card`.
 
@@ -140,6 +159,6 @@ shesha-design-system/              ── APPEARANCE ──
 
 ## When to use which skill directly
 
-- A **design exists** and you want it realised in Shesha across one or more screens → start at **`shesha-claude-designer`**.
-- A **single isolated form, no design source** → go straight to **`shesha-form-edit`**.
-- **Style an already-working form** → go straight to **`shesha-design-system`**.
+- A **design exists** → start at **`shesha-claude-designer`** (it routes lightweight cases away itself).
+- A **single form, no design source** → **`shesha-form-edit`** (mandatory default-theme pass keeps it styled).
+- **Style an already-working form** → **`shesha-design-system`**.

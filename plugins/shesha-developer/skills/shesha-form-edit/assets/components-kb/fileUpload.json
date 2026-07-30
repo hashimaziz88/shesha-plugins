@@ -1,0 +1,297 @@
+{
+  "type": "fileUpload",
+  "name": "File",
+  "isInput": true,
+  "isOutput": true,
+  "canBeJsSetting": null,
+  "icon": "FileAddOutlined",
+  "version": 6,
+  "initModel": {
+    "defaults": null,
+    "raw": "(model) => {\r\n    const customModel: IFileUploadProps = {\r\n      ...model,\r\n      allowReplace: true,\r\n      allowDelete: true,\r\n      allowUpload: true,\r\n      hideFileName: true,\r\n      ownerId: '',\r\n      ownerType: '',\r\n      isDragger: false,\r\n      editMode: 'inherited',\r\n    };\r\n    return customModel;\r\n  }"
+  },
+  "settingsProps": {
+    "interfaceName": "IFileUploadProps",
+    "interfaceFile": "designer-components/fileUpload/interfaces.ts",
+    "ownProps": [
+      "ownerId",
+      "ownerType",
+      "allowUpload",
+      "allowReplace",
+      "allowDelete",
+      "useSync",
+      "allowedFileTypes",
+      "isDragger",
+      "listType",
+      "thumbnailWidth",
+      "thumbnailHeight",
+      "borderRadius",
+      "hideFileName"
+    ],
+    "extends": [
+      "IConfigurableFormComponent",
+      "Omit<IFormItem",
+      "'name'>",
+      "IStyleType"
+    ],
+    "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "allowDelete",
+      "allowReplace",
+      "allowUpload",
+      "allowedFileTypes",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
+      "borderRadius",
+      "componentName",
+      "context",
+      "customEnabled",
+      "customVisibility",
+      "description",
+      "desktop",
+      "dimensions",
+      "editMode",
+      "enableStyleOnReadonly",
+      "font",
+      "hidden",
+      "hideFileName",
+      "hideLabel",
+      "hideScrollBar",
+      "id",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "inputStyles",
+      "isDragger",
+      "isDynamic",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChangeCustom",
+      "onClickCustom",
+      "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
+      "ownerId",
+      "ownerType",
+      "parentId",
+      "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
+      "propertyName",
+      "queryParams",
+      "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
+      "settingsValidationErrors",
+      "shadow",
+      "size",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "tablet",
+      "thumbnailHeight",
+      "thumbnailWidth",
+      "type",
+      "useSync",
+      "validate",
+      "wrapperStyle"
+    ],
+    "unresolvedExtends": [
+      "'name'>",
+      "IHasVersion",
+      "Omit<IFormItem"
+    ]
+  },
+  "settingsForm": {
+    "source": "fileUpload/settingsForm.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [
+    "style"
+  ],
+  "settingsFields": [
+    {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Where the uploader should show a dragger instead of a button"
+    },
+    {
+      "path": "propertyName",
+      "label": "Property name",
+      "editorType": "contextPropertyAutocomplete"
+    },
+    {
+      "path": "hideLabel",
+      "label": "Label",
+      "editorType": "labelConfigurator"
+    },
+    {
+      "path": "description",
+      "label": "Tooltip",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "listType",
+      "label": "List Type",
+      "editorType": "settingsInputRow",
+      "description": "Where the uploader should show a dragger instead of a button"
+    },
+    {
+      "path": "editMode",
+      "label": "Edit Mode",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "allowReplace",
+      "label": "Allow Replace",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "ownerId",
+      "label": "Owner ID",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "useSync",
+      "label": "Synchronous Upload",
+      "editorType": "settingsInputRow",
+      "description": "File types that can be accepted."
+    },
+    {
+      "path": "validate.required",
+      "label": "Required",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "enableStyleOnReadonly",
+      "label": "Enable Style On Readonly",
+      "editorType": "settingsInput",
+      "description": "Removes all visual styling except typography when the component becomes read-only"
+    },
+    {
+      "path": "font",
+      "label": "Family",
+      "editorType": "settingsInputRow",
+      "description": "Controls text thickness (light, normal, bold, etc.)",
+      "group": "Font"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "border.hideBorder",
+      "label": "Border",
+      "editorType": "settingsInputRow",
+      "group": "Border"
+    },
+    {
+      "path": "background.type",
+      "label": "Type",
+      "editorType": "settingsInput",
+      "description": "Select a type of background",
+      "group": "Background"
+    },
+    {
+      "path": "background.color",
+      "label": "Color",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.gradient.colors",
+      "label": "Colors",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.url",
+      "label": "URL",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.uploadFile",
+      "label": "Image",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.storedFile.id",
+      "label": "File ID",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.size",
+      "label": "Size",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "background.repeat",
+      "label": "Repeat",
+      "editorType": "settingsInputRow",
+      "group": "Background"
+    },
+    {
+      "path": "shadow.offsetX",
+      "label": "Offset X",
+      "editorType": "settingsInputRow",
+      "group": "Shadow"
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
+      "shared": true
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "settingsInput"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "fileUpload/index.tsx",
+    "fileUpload/interfaces.ts"
+  ]
+}

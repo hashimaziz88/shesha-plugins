@@ -1,6 +1,6 @@
 # Add/create dialogs and submission mechanics
 
-Read when wiring an "Add"/"Create" button on a details-form subtable, or authoring the dialog form it opens. Subtable structure and Add-button *placement* live in [../junction-subtables.md](../junction-subtables.md); this file covers the dialog form itself and how its data actually reaches the server.
+Read when wiring an "Add"/"Create" button on a details-form subtable, or authoring the dialog form it opens. Subtable structure and Add-button *placement* live in [../junction-subtables.md](junction-subtables.md); this file covers the dialog form itself and how its data actually reaches the server.
 
 ---
 
@@ -14,7 +14,7 @@ Read when wiring an "Add"/"Create" button on a details-form subtable, or authori
 | Parent FK | from context — read-only component + submit injection (below) | hidden/read-only parent-FK component + submit injection |
 | Button label | `"Add <X>"` | `"Create <X>"` |
 
-- Decide by relationship type, not habit: linking existing records → LINK form; creating new ones → CREATE form. Relationship classification (owned M:M → Add; "Used By…" reverse → NO Add button; owned child → Create) is in [../junction-subtables.md](../junction-subtables.md).
+- Decide by relationship type, not habit: linking existing records → LINK form; creating new ones → CREATE form. Relationship classification (owned M:M → Add; "Used By…" reverse → NO Add button; owned child → Create) is in [../junction-subtables.md](junction-subtables.md).
 - **Never render a visible parent picker the user can change** — the parent is already known from the opening context; forcing a re-selection invites wrong links.
 - Label rule: "Add X" when linking existing, "Create X" when instantiating. Mixed wording across similar forms confuses users about whether they are creating or linking.
 
@@ -95,7 +95,7 @@ Rules:
 
 ## Add-button wiring
 
-The Add button is a `buttonGroup` item in the subtable toolbar (placement/toolbar layout: [../junction-subtables.md](../junction-subtables.md)):
+The Add button is a `buttonGroup` item in the subtable toolbar (placement/toolbar layout: [../junction-subtables.md](junction-subtables.md)):
 
 - `label: "Add <Singular>"`, `buttonType: "link"`, `icon: "PlusOutlined"`, `buttonAction: "dialogue"` *(runtime-verified; not in the groups index — clean-form-config may flag it; do NOT strip)*
 - `actionConfiguration`: `actionName: "Show Dialog"`, `actionOwner: "shesha.common"`

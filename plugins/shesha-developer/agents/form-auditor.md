@@ -25,14 +25,29 @@ You audit ONE Shesha form. **Assume something is wrong and try to prove it** —
 
 Recurse ALL of: `components[]`, `content.components[]`, `header.components[]`, `columns[i].components[]`, `tabs[i].components[]`, and buttonGroup **`items[]`** (buttons live in items, not components). Datatable columns live under `items[]` too.
 
+## Mechanical families — run the real gates first
+
+The registry `SKILL_ROOT/references/_rules.json` is the single source; the
+gate scripts already walk the tree and cite rule ids. Run them and fold their
+findings into your verdict before hand-checking anything:
+
+```
+node SKILL_ROOT/scripts/validate-schema.js <markup.json>
+node SKILL_ROOT/scripts/validate-guardrails.js <markup.json> [metadata.json]
+```
+
+(With a backend URL + token also `node SKILL_ROOT/scripts/resolve-bindings.js <markup.json>`.)
+Your added value is the JUDGMENT families below, not re-implementing walkers.
+
 ## Check families (run the ones the spec names)
 
-- **structure** — unique UUID ids; every component's `parentId` equals its actual parent's id (root children = `"root"`); top-level `components` is an array.
-- **types-and-props** — every `type` exists in `SKILL_ROOT/assets/registry/registry-0.45.1.json` (`registry.components[type]`); flag any `type` absent from the registry as invalid (e.g. a mis-cased or non-canonical component name); props validated against `registry.components[type].props` (template-origin props the registry lacks are documented false positives — flag as `info`, not `fail`).
+- **structure** — generated unique ids (uuid or nanoid — short placeholder ids fail [R-002]); every component's `parentId` equals its actual parent's id (root children = `"root"`) [R-001]; versions match the KB [R-003]; top-level `components` is an array. (Covered by the gates — verify their findings, spot-check their blind spots.)
+- **types-and-props** — every `type` must resolve against BOTH live component-type sources (they are two separate toolchains pending reconciliation — a type absent from either is worth flagging): `SKILL_ROOT/assets/registry/registry-0.45.1.json` (`registry.components[type]`, generated from settings-form source) and `SKILL_ROOT/assets/components-kb/_index.json` (the live-probed KB the schema gate's enum enforces). Flag any `type` absent from both as invalid (e.g. a mis-cased or non-canonical component name); props validated against whichever source has an entry for the type (template-origin props neither source lacks are documented false positives — flag as `info`, not `fail`).
 - **crud-wiring** — Add button = Show Dialog with resolvable formId + onSuccess Refresh table (actionOwner = dataContext id); detail lifecycle = Start Edit / Submit / Cancel Edit; action identifiers use spaced names + lowercase owners.
 - **subtable-canon** — per `SKILL_ROOT/references/components/junction-subtables.md`: dataContext sourceType/entityType/code-object endpoint, toolbar classes, drill-down column targeting, delete recipe (never `Delete row`/`table`).
 - **submit-mechanics** — any dialog presetting a required FK has BOTH a bound component AND `formSettings.onPrepareSubmitData` (per `references/components/add-dialogs.md`).
-- **quality** — the checklist in `SKILL_ROOT/references/form-quality.md` (validationErrors, labels, dropdown sources, primary action, editMode per form type).
+- **quality** — `SKILL_ROOT/references/form-quality.md` (Part 1 = the compact floor to grade against; Part 2 = the grading notes with the edge-case detail needed to resolve ambiguous checks — validationErrors, labels, dropdown sources, primary action, editMode per form type).
+- **appearance** — the appearance floor for forms not styled by a brand/blueprint pipeline: page-root container carries the canvas `background.color` (`#F8F8F9` for the default `shesha` theme), section/card containers carry a white background + hairline border + radius, titled header `text` components carry explicit `fontSize`+`fontWeight`, and each action `buttonGroup` has exactly one `buttonType:"primary"`. An all-default unstyled tree (no background, no borders, unsized titles) = `fail`. Expected values: `shesha-design-system/references/default-theme-quickpass.md` (sibling skill of SKILL_ROOT). If the dispatch prompt states the form was styled against a named brand/blueprint, check for THAT brand's markers instead of the default's.
 - **scripts** — mustache uses `{{double braces}}`; embedded scripts JSON-safe, async/try-catch on API calls; code-carrying props are `{_mode:'code'}` objects.
 
 ## Verdict contract (your final message — JSON only)

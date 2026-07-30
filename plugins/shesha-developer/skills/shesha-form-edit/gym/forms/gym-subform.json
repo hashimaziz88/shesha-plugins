@@ -1,0 +1,60 @@
+{
+  "components": [
+    {
+      "id": "3fefe334-3932-5278-9007-afba2d68ea1b",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-subForm-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "e1e80aa2-7e70-5f74-b87b-bd48a502e643",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-subForm-validation-errors",
+          "parentId": "3fefe334-3932-5278-9007-afba2d68ea1b"
+        },
+        {
+          "id": "499567f5-7c3b-5e28-ac79-64c4ab44d1cc",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-subForm-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "f8fa8110-f919-58cd-9ae3-4f5f1afbb940",
+              "type": "subForm",
+              "version": 4,
+              "label": "gym subForm",
+              "hidden": false,
+              "formSelectionMode": "name",
+              "formId": {
+                "name": "gym-item-card",
+                "module": "boxfusion.test"
+              },
+              "dataSource": "form",
+              "propertyName": "gymSubForm",
+              "parentId": "499567f5-7c3b-5e28-ac79-64c4ab44d1cc"
+            }
+          ],
+          "parentId": "3fefe334-3932-5278-9007-afba2d68ea1b"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

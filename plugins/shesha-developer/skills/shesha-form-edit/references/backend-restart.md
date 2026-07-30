@@ -6,9 +6,14 @@ after the .NET backend is **rebuilt and restarted** — Shesha applies migration
 burned **$12.50 / 27 min** on 14 restart attempts and corrupted an existing form). Follow this
 runbook instead of improvising.
 
-> **Order of operations:** do ALL domain changes + the restart **first**, then build forms **last**.
-> A form built before the entity is ready won't render; and a form pushed *before* a later restart
-> can be orphaned by that restart (see "re-verify forms" below).
+> **Order of operations — scan ALL prereqs first, build ONCE, forms last.** BEFORE writing any code,
+> run the single combined prereq scan (`scripts/backend-probe.mjs` + the
+> `shesha-developer:fullstack-prereq-checker` agent) to surface EVERY gap at once — missing entity,
+> reflist, endpoint, permissions. Enumerate all the domain + app-layer changes from that one scan, apply
+> them together, then do **one** rebuild + the (double-)boot. **Never discover→build→discover→build** —
+> that serial loop (one run did 5+ rebuild/boot cycles) is what turns a 10-minute change into an hour.
+> A form built before the entity is ready won't render; a form pushed *before* a later restart can be
+> orphaned by that restart (see "re-verify forms" below).
 
 ---
 
@@ -64,8 +69,12 @@ BASE="http://localhost:21021"
 powershell -NoProfile -Command "Get-Process iisexpress,iisexpresstray -ErrorAction SilentlyContinue | Stop-Process -Force"
 # (fallback: kill the PID returned by `Get-NetTCPConnection -LocalPort 21021 -State Listen`)
 
-# 2. Build (Web.Host build compiles the Domain project + migration too)
-dotnet build "$WH/<App>.Web.Host.csproj" -c Debug --nologo -v m
+# 2. Build — the Web.Host build compiles Domain + the migration too, so DON'T run a separate
+#    Domain build/compile-check (it doubles compile time). Restore ONCE per session, then build with
+#    --no-restore and keep it incremental (never clean/`-t:Rebuild`) — a warm incremental build is far
+#    faster than a cold one.
+dotnet restore "$WH/<App>.Web.Host.csproj"                              # once per session only
+dotnet build "$WH/<App>.Web.Host.csproj" -c Debug --nologo -v m --no-restore
 
 # 3. Launch Kestrel in the BACKGROUND on :21021 (NOT `dotnet run` — run the built DLL; it's faster and
 #    avoids a rebuild). ASPNETCORE_ENVIRONMENT=Development is required (Production 500s here).

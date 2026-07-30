@@ -1,5 +1,28 @@
 {
+  "description": "Mechanical gates for Shesha form authoring, merged from two independently-built defences. Primary defence: validate-on-write (guardrails + styled-ness on any form markup written to disk via Write|Edit) and a Stop-time persistence gate (a session that authored forms may not end while the push ledger shows unpushed/unverified work), plus permanent session-activity logging to <cwd>/.claude-designer-logs/logs/<sessionId>/log.DDMMYYYY.txt. Defence in depth: a PreToolUse gate on Bash|PowerShell running validate-push.mjs (normalize + Tier 1/2 gate) for direct curl/API pushes that never go through Write|Edit, plus its own Stop-time check for unvalidated pushes this session.",
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-logger.cjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-logger.cjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash|PowerShell",
@@ -13,6 +36,28 @@
         ]
       }
     ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-logger.cjs\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/hook-validate-markup.cjs\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
@@ -21,6 +66,24 @@
             "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/validate-push.mjs\"",
             "timeout": 30,
             "statusMessage": "Checking for unvalidated form pushes this session..."
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-logger.cjs\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/hook-verify-push.cjs\"",
+            "timeout": 30
           }
         ]
       }

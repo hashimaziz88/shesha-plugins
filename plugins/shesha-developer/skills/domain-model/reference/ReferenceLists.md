@@ -8,6 +8,7 @@
 - [Data Migration Methods](#data-migration-methods)
 - [Multi-Value Reference Lists](#multi-value-reference-lists)
 - [Creating Data-Based Reference Lists via API](#creating-data-based-reference-lists-via-api) **(recommended)**
+- [ConfigurationItem-generation backends (0.45-class): auto-creation + seeding](#configurationitem-generation-backends-045-class-auto-creation--seeding)
 - [Useful functions for working with Multi-value reference lists](#useful-functions-for-working-with-multi-value-reference-lists)
 
 A Reference List (sometimes referred to as Lookup values, or List of Values) refers to a standard list of values usually displayed to end-users as dropdown lists (e.g. **Titles**: Mr, Mrs, Miss, etc...; **Gender**: Male, Female; **Colour**: Red,Blue, etc...).
@@ -334,6 +335,33 @@ public virtual long? Category { get; set; }
 [MultiValueReferenceList("MyRefListName")]
 public virtual long? SelectedOptions { get; set; }
 ```
+
+## ConfigurationItem-generation backends (0.45-class): auto-creation + seeding
+
+On newer, **ConfigurationItem-generation** backends (0.45-class), reference lists are stored as **ConfigurationItems**, not in the legacy `Frwk_ReferenceLists` table. This changes how they are created and seeded. Confirm which model your backend uses before choosing a path (the symptoms below are the tell).
+
+### `[ReferenceList]` attributes AUTO-CREATE the list on boot — seed ITEMS, do NOT create a new list
+
+Declaring `[ReferenceList("A.Test.TicketType")]` on a property (or enum) makes the framework **auto-create an EMPTY reference-list ConfigurationItem** named `A.Test.TicketType` (full-dotted, in that module) on boot. So after adding the entity and booting, the list already EXISTS — empty. You only need to **SEED ITEMS** into it; do not create the list.
+
+- Do NOT create a second, short-named list (e.g. `TicketType`): it collides on the unique index `uq_frwk_configuration_items_module_name`, and/or the entity keeps resolving to the empty auto-created one.
+- The dropdown / `referenceListId.name` MUST use the **FULL-DOTTED** name (`A.Test.TicketType`), matching the metadata `referenceListName` and the framework convention (e.g. `Shesha.Core.Gender`).
+
+### The legacy `ReferenceListCreate` migration helper BREAKS STARTUP on this gen — do NOT use it
+
+On ConfigurationItem-gen backends reference lists live across `frwk.configuration_items` + `frwk.configuration_item_revisions` + `frwk.reference_lists` + `frwk.reference_list_items` (snake_case, `frwk` schema). The old `Frwk_ReferenceLists` table does not exist, so `this.Shesha().ReferenceListCreate(...)` throws `Invalid object name 'Frwk_ReferenceLists'`, and the failed migration **blocks every boot** (swagger 500) until it is reverted. Seed via the API (below) instead.
+
+### Seeding items — API first, direct SQL as fallback
+
+**Preferred:** seed via the ConfigurationStudio / reference-list API (see § Creating Data-Based Reference Lists via API — Step 4 onward). Look up the auto-created list by its full-dotted name, then add items. Try this before any direct SQL.
+
+**Direct-SQL fallback (only when no API path exists):** items link by a single shared GUID — `configuration_items.id == configuration_item_revisions.id == reference_lists.id`. To seed items into the auto-created list:
+1. Insert into `frwk.reference_list_items` with `reference_list_id = <that ci.id>`, `item`, `item_value`, `order_index`, `is_deleted = 0`. The runtime view `frwk.vw_reflist_live_items` reads this table.
+2. Also update that revision's `configuration_json` `Items` array if the runtime reads items from there.
+
+If you ever clone a whole config-item via SQL:
+- `is_updated` and `is_exposed` are **COMPUTED columns** — never insert them.
+- There is a circular FK `fk_configuration_items_latest_imported_revision_id`: insert the config-item with NULL revision refs first, insert the revision, then UPDATE the refs.
 
 ## Useful functions for working with Multi-value reference lists
 If you include the `Shesha.Extensions` namespace you will have access to a couple of useful extension functions useful for working with multi-value reference lists.

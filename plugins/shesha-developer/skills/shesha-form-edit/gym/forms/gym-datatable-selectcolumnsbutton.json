@@ -1,0 +1,73 @@
+{
+  "components": [
+    {
+      "id": "9bcd57e5-5f3f-5b07-8e65-c69a652d8659",
+      "type": "container",
+      "version": 7,
+      "componentName": "gym-datatable.selectColumnsButton-root",
+      "direction": "vertical",
+      "label": "",
+      "hideLabel": true,
+      "components": [
+        {
+          "id": "2cb8f388-1ba6-58d6-b402-9422298b07af",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "gym-datatable.selectColumnsButton-validation-errors",
+          "parentId": "9bcd57e5-5f3f-5b07-8e65-c69a652d8659"
+        },
+        {
+          "id": "4fb040b4-ea84-54e2-8304-39a05eaeb097",
+          "type": "container",
+          "version": 7,
+          "componentName": "gym-datatable.selectColumnsButton-baseline",
+          "label": "",
+          "hideLabel": true,
+          "direction": "vertical",
+          "components": [
+            {
+              "id": "b7f97587-3247-5386-bc37-2720e73719f9",
+              "type": "datatableContext",
+              "version": 7,
+              "label": "",
+              "hideLabel": true,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 3,
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "hidden": false,
+              "components": [
+                {
+                  "id": "d5080367-e55b-5c8c-8d36-f04d912104b9",
+                  "type": "datatable.selectColumnsButton",
+                  "version": 2,
+                  "label": "gym datatable.selectColumnsButton",
+                  "hidden": false,
+                  "componentName": "gym-datatable.selectColumnsButton-inst-baseline",
+                  "parentId": "b7f97587-3247-5386-bc37-2720e73719f9"
+                }
+              ],
+              "componentName": "gymCtxb7f97587",
+              "propertyName": "gymCtxb7f97587",
+              "parentId": "4fb040b4-ea84-54e2-8304-39a05eaeb097"
+            }
+          ],
+          "parentId": "9bcd57e5-5f3f-5b07-8e65-c69a652d8659"
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "horizontal",
+    "colon": true,
+    "labelCol": {
+      "span": 6
+    },
+    "wrapperCol": {
+      "span": 18
+    },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

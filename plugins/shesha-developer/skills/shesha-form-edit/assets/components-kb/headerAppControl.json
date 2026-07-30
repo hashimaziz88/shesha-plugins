@@ -1,0 +1,47 @@
+{
+  "type": "headerAppControl",
+  "name": "Header App Control",
+  "isInput": false,
+  "isOutput": null,
+  "canBeJsSetting": false,
+  "icon": "SwapOutlined",
+  "version": null,
+  "initModel": null,
+  "settingsProps": null,
+  "settingsForm": {
+    "source": "editModeToggler/settingsForm.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [],
+  "settingsFields": [
+    {
+      "path": "propertyName",
+      "label": "Property name",
+      "editorType": "contextPropertyAutocomplete",
+      "group": "Display"
+    },
+    {
+      "path": "hidden",
+      "label": "Hidden",
+      "editorType": "checkbox",
+      "group": "Display"
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "permissionAutocomplete",
+      "group": "Security"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "editModeToggler/index.tsx"
+  ]
+}

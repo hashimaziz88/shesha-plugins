@@ -1,0 +1,225 @@
+{
+  "type": "link",
+  "name": "link",
+  "isInput": false,
+  "isOutput": null,
+  "canBeJsSetting": null,
+  "icon": "LinkOutlined",
+  "version": 5,
+  "initModel": {
+    "defaults": null,
+    "raw": "(model: ILinkProps) => {\r\n    const customProps: ILinkProps = {\r\n      ...model,\r\n      direction: 'vertical',\r\n      target: '_self',\r\n      justifyContent: 'left',\r\n      hideLabel: true,\r\n    };\r\n\r\n    return customProps;\r\n  }"
+  },
+  "settingsProps": {
+    "interfaceName": "ILinkProps",
+    "interfaceFile": "designer-components/link/interfaces.ts",
+    "ownProps": [
+      "href",
+      "content",
+      "propertyName",
+      "target",
+      "download",
+      "direction",
+      "hasChildren",
+      "justifyContent",
+      "alignItems",
+      "justifyItems",
+      "className",
+      "icon",
+      "font",
+      "components"
+    ],
+    "extends": [
+      "IConfigurableFormComponent"
+    ],
+    "resolvedProps": [
+      "_formFields",
+      "alignItems",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
+      "className",
+      "componentName",
+      "components",
+      "content",
+      "context",
+      "customEnabled",
+      "customVisibility",
+      "description",
+      "desktop",
+      "dimensions",
+      "direction",
+      "download",
+      "editMode",
+      "enableStyleOnReadonly",
+      "font",
+      "hasChildren",
+      "hidden",
+      "hideLabel",
+      "hideScrollBar",
+      "href",
+      "icon",
+      "id",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "inputStyles",
+      "isDynamic",
+      "jsSetting",
+      "justifyContent",
+      "justifyItems",
+      "label",
+      "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChangeCustom",
+      "onClickCustom",
+      "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
+      "parentId",
+      "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
+      "propertyName",
+      "queryParams",
+      "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
+      "settingsValidationErrors",
+      "shadow",
+      "size",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "tablet",
+      "target",
+      "type",
+      "validate",
+      "wrapperStyle"
+    ],
+    "unresolvedExtends": [
+      "IHasVersion"
+    ]
+  },
+  "settingsForm": {
+    "source": "link/settingsForm.json",
+    "mechanism": "json-markup",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [
+    "style"
+  ],
+  "settingsFields": [
+    {
+      "path": "propertyName",
+      "label": "Property name",
+      "editorType": "contextPropertyAutocomplete",
+      "group": "Display"
+    },
+    {
+      "path": "label",
+      "label": "Label",
+      "editorType": "textField",
+      "group": "Display"
+    },
+    {
+      "path": "content",
+      "label": "Content",
+      "editorType": "textField",
+      "group": "Display"
+    },
+    {
+      "path": "href",
+      "label": "Href",
+      "editorType": "textField",
+      "group": "Display"
+    },
+    {
+      "path": "target",
+      "label": "Target",
+      "editorType": "dropdown",
+      "defaultValue": "_self",
+      "group": "Display"
+    },
+    {
+      "path": "hidden",
+      "label": "Hidden",
+      "editorType": "checkbox",
+      "group": "Display"
+    },
+    {
+      "path": "hasChildren",
+      "label": "Has Children",
+      "editorType": "checkbox",
+      "group": "Display"
+    },
+    {
+      "path": "direction",
+      "label": "Direction",
+      "editorType": "dropdown",
+      "group": "Content"
+    },
+    {
+      "path": "justifyContent",
+      "label": "Justify Content",
+      "editorType": "dropdown",
+      "group": "Content"
+    },
+    {
+      "path": "alignItems",
+      "label": "Align Items",
+      "editorType": "dropdown",
+      "group": "Content"
+    },
+    {
+      "path": "justifyItems",
+      "label": "Justify Items",
+      "editorType": "dropdown",
+      "group": "Content"
+    },
+    {
+      "path": "className",
+      "label": "Custom CSS Class",
+      "editorType": "textField",
+      "group": "Content",
+      "description": "Custom CSS Class to add to this component"
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "codeEditor",
+      "group": "Style",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "shared": true
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "permissionAutocomplete",
+      "group": "Security"
+    }
+  ],
+  "slots": {
+    "hostsChildren": true,
+    "customContainerNames": null,
+    "detectedSlotKeys": [
+      "components",
+      "content"
+    ],
+    "usesComponentsContainer": true
+  },
+  "sourceFiles": [
+    "link/index.tsx",
+    "link/interfaces.ts"
+  ]
+}

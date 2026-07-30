@@ -1,0 +1,1599 @@
+{
+  "KeyInformationBar": {
+    "alignItems": {
+      "values": [
+        "flex-start",
+        "flex-end",
+        "center"
+      ],
+      "source": "source-parsed"
+    },
+    "orientation": {
+      "values": [
+        "horizontal",
+        "vertical"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "alert": {
+    "alertType": {
+      "values": [
+        "success",
+        "info",
+        "warning",
+        "error"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "attachmentsEditor": {
+    "extraFormSelectionMode": {
+      "values": [
+        "name",
+        "dynamic"
+      ],
+      "source": "source-parsed"
+    },
+    "filesLayout": {
+      "values": [
+        "vertical",
+        "horizontal",
+        "grid"
+      ],
+      "source": "source-parsed"
+    },
+    "listType": {
+      "values": [
+        "text",
+        "thumbnail"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "autocomplete": {
+    "dataSourceType": {
+      "values": [
+        "entitiesList",
+        "url"
+      ],
+      "source": "source-parsed"
+    },
+    "mode": {
+      "values": [
+        "single",
+        "multiple"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "barChart": {
+    "aggregationMethod": {
+      "values": [
+        "sum",
+        "count",
+        "average",
+        "min",
+        "max"
+      ],
+      "source": "source-parsed"
+    },
+    "dataMode": {
+      "values": [
+        "url",
+        "entityType"
+      ],
+      "source": "source-parsed"
+    },
+    "groupingTimeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
+      ],
+      "source": "source-parsed"
+    },
+    "legendPosition": {
+      "values": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "orderDirection": {
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "source": "source-parsed"
+    },
+    "simpleOrPivot": {
+      "values": [
+        "simple",
+        "pivot"
+      ],
+      "source": "source-parsed"
+    },
+    "timeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "buttonGroup": {
+    "gap": {
+      "values": [
+        "small",
+        "middle",
+        "large"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "calendar": {
+    "displayPeriod": {
+      "values": [
+        "month",
+        "week",
+        "work_week",
+        "day",
+        "agenda"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "checkboxGroup": {
+    "dataSourceType": {
+      "values": [
+        "values",
+        "referenceList",
+        "url"
+      ],
+      "source": "source-parsed"
+    },
+    "direction": {
+      "values": [
+        "vertical",
+        "horizontal"
+      ],
+      "source": "source-parsed"
+    },
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "mode": {
+      "values": [
+        "single",
+        "multiple"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "chevron": {
+    "colorSource": {
+      "values": [
+        "primary",
+        "custom",
+        "reflist"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "codeEditor": {
+    "environment": {
+      "values": [
+        "none",
+        "front-end",
+        "back-end"
+      ],
+      "source": "source-parsed"
+    },
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "language": {
+      "values": [
+        "json",
+        "markdown",
+        "typescript"
+      ],
+      "source": "source-parsed"
+    },
+    "mode": {
+      "values": [
+        "dialog",
+        "inline"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "collapsiblePanel": {
+    "background.position": {
+      "values": [
+        "center",
+        "top",
+        "left",
+        "right",
+        "bottom",
+        "top left",
+        "top right",
+        "bottom left",
+        "bottom right"
+      ],
+      "source": "source-parsed"
+    },
+    "background.size": {
+      "values": [
+        "cover",
+        "contain",
+        "auto"
+      ],
+      "source": "source-parsed"
+    },
+    "collapsible": {
+      "values": [
+        "header",
+        "icon",
+        "disabled"
+      ],
+      "source": "source-parsed"
+    },
+    "expandIconPosition": {
+      "values": [
+        "hide",
+        "start",
+        "end"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "colorPicker": {
+    "size": {
+      "values": [
+        "small",
+        "middle",
+        "large"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "component-selector": {
+    "componentType": {
+      "values": [
+        "input",
+        "output"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "configurableItemAutocomplete": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "mode": {
+      "values": [
+        "single",
+        "multiple"
+      ],
+      "source": "source-parsed"
+    },
+    "size": {
+      "values": [
+        "small",
+        "middle",
+        "large"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "container": {
+    "position.value": {
+      "values": [
+        "relative",
+        "absolute"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "contextPropertyAutocomplete": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "size": {
+      "values": [
+        "small",
+        "middle",
+        "large"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "dataContext": {
+    "allowReordering": {
+      "values": [
+        "yes",
+        "no",
+        "inherit"
+      ],
+      "source": "source-parsed"
+    },
+    "dataFetchingMode": {
+      "values": [
+        "paging",
+        "fetchAll"
+      ],
+      "source": "source-parsed"
+    },
+    "defaultPageSize": {
+      "values": [
+        "5",
+        "10",
+        "20",
+        "30",
+        "50",
+        "100",
+        "200"
+      ],
+      "source": "source-parsed"
+    },
+    "sortMode": {
+      "values": [
+        "standard",
+        "strict"
+      ],
+      "source": "source-parsed"
+    },
+    "sourceType": {
+      "values": [
+        "Form",
+        "Entity",
+        "Url"
+      ],
+      "source": "source-parsed"
+    },
+    "strictSortOrder": {
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "dataSortingEditor": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "datalist": {
+    "canAddInline": {
+      "values": [
+        "yes",
+        "no",
+        "inherit"
+      ],
+      "source": "source-parsed"
+    },
+    "canDeleteInline": {
+      "values": [
+        "yes",
+        "no",
+        "inherit"
+      ],
+      "source": "source-parsed"
+    },
+    "canEditInline": {
+      "values": [
+        "yes",
+        "no",
+        "inherit"
+      ],
+      "source": "source-parsed"
+    },
+    "formSelectionMode": {
+      "values": [
+        "name",
+        "view",
+        "expression"
+      ],
+      "source": "source-parsed"
+    },
+    "inlineEditMode": {
+      "values": [
+        "all-at-once",
+        "one-by-one"
+      ],
+      "source": "source-parsed"
+    },
+    "inlineSaveMode": {
+      "values": [
+        "auto",
+        "manual"
+      ],
+      "source": "source-parsed"
+    },
+    "listItemWidth": {
+      "values": [
+        "1",
+        "0.5",
+        "0.33",
+        "0.25",
+        "custom"
+      ],
+      "source": "source-parsed"
+    },
+    "modalWidth": {
+      "values": [
+        "40%",
+        "60%",
+        "80%"
+      ],
+      "source": "source-parsed"
+    },
+    "orientation": {
+      "values": [
+        "vertical",
+        "horizontal",
+        "wrap"
+      ],
+      "source": "source-parsed"
+    },
+    "selectionMode": {
+      "values": [
+        "none",
+        "single",
+        "multiple"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "datatable": {
+    "canAddInline": {
+      "values": [
+        "yes",
+        "no",
+        "inherit",
+        "js"
+      ],
+      "source": "source-parsed"
+    },
+    "canDeleteInline": {
+      "values": [
+        "yes",
+        "no",
+        "inherit",
+        "js"
+      ],
+      "source": "source-parsed"
+    },
+    "canEditInline": {
+      "values": [
+        "yes",
+        "no",
+        "inherit",
+        "js"
+      ],
+      "source": "source-parsed"
+    },
+    "inlineEditMode": {
+      "values": [
+        "one-by-one",
+        "all-at-once"
+      ],
+      "source": "source-parsed"
+    },
+    "inlineSaveMode": {
+      "values": [
+        "auto",
+        "manual"
+      ],
+      "source": "source-parsed"
+    },
+    "newRowCapturePosition": {
+      "values": [
+        "top",
+        "bottom"
+      ],
+      "source": "source-parsed"
+    },
+    "newRowInsertPosition": {
+      "values": [
+        "top",
+        "bottom"
+      ],
+      "source": "source-parsed"
+    },
+    "selectionMode": {
+      "values": [
+        "none",
+        "single",
+        "multiple"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "dateField": {
+    "disabledDateMode": {
+      "values": [
+        "none",
+        "functionTemplate",
+        "customFunction"
+      ],
+      "source": "source-parsed"
+    },
+    "disabledDateTemplate": {
+      "values": [
+        "return current && current < moment().startOf(",
+        "return current && current > moment().endOf("
+      ],
+      "source": "source-parsed"
+    },
+    "disabledTimeMode": {
+      "values": [
+        "none",
+        "timeFunctionTemplate",
+        "customTimeFunction"
+      ],
+      "source": "source-parsed"
+    },
+    "disabledTimeTemplate": {
+      "values": [
+        "disabledPastTime",
+        "disabledFutureTime"
+      ],
+      "source": "source-parsed"
+    },
+    "picker": {
+      "values": [
+        "date",
+        "week",
+        "month",
+        "quarter",
+        "year"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "divider": {
+    "dividerType": {
+      "values": [
+        "horizontal",
+        "vertical"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "drawer": {
+    "placement": {
+      "values": [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "dropdown": {
+    "dataSourceType": {
+      "values": [
+        "values",
+        "referenceList"
+      ],
+      "source": "source-parsed"
+    },
+    "displayStyle": {
+      "values": [
+        "text",
+        "tags"
+      ],
+      "source": "source-parsed"
+    },
+    "mode": {
+      "values": [
+        "single",
+        "multiple"
+      ],
+      "source": "source-parsed"
+    },
+    "valueFormat": {
+      "values": [
+        "simple",
+        "listItem",
+        "custom"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "editModeSelector": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "endpointsAutocomplete": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "size": {
+      "values": [
+        "small",
+        "middle",
+        "large"
+      ],
+      "source": "source-parsed"
+    },
+    "textType": {
+      "values": [
+        "text",
+        "password"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "entityPicker": {
+    "footerButtons": {
+      "values": [
+        "default",
+        "custom",
+        "none"
+      ],
+      "source": "source-parsed"
+    },
+    "modalWidth": {
+      "values": [
+        "40%",
+        "60%",
+        "80%"
+      ],
+      "source": "source-parsed"
+    },
+    "mode": {
+      "values": [
+        "single",
+        "multiple"
+      ],
+      "source": "source-parsed"
+    },
+    "submitHttpVerb": {
+      "values": [
+        "POST",
+        "PUT"
+      ],
+      "source": "source-parsed"
+    },
+    "valueFormat": {
+      "values": [
+        "simple",
+        "entityReference",
+        "custom"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "entityReference": {
+    "displayType": {
+      "values": [
+        "displayProperty",
+        "icon",
+        "textTitle"
+      ],
+      "source": "source-parsed"
+    },
+    "entityReferenceType": {
+      "values": [
+        "Quickview",
+        "NavigateLink",
+        "Dialog"
+      ],
+      "source": "source-parsed"
+    },
+    "footerButtons": {
+      "values": [
+        "default",
+        "custom",
+        "none"
+      ],
+      "source": "source-parsed"
+    },
+    "formSelectionMode": {
+      "values": [
+        "name",
+        "dynamic"
+      ],
+      "source": "source-parsed"
+    },
+    "modalWidth": {
+      "values": [
+        "40%",
+        "60%",
+        "80%"
+      ],
+      "source": "source-parsed"
+    },
+    "submitHttpVerb": {
+      "values": [
+        "POST",
+        "PUT"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "entityTypeAutocomplete": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "mode": {
+      "values": [
+        "single",
+        "multiple"
+      ],
+      "source": "source-parsed"
+    },
+    "size": {
+      "values": [
+        "small",
+        "middle",
+        "large"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "fileUpload": {
+    "listType": {
+      "values": [
+        "text",
+        "thumbnail"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "image": {
+    "borderType": {
+      "values": [
+        "solid",
+        "dashed",
+        "dotted"
+      ],
+      "source": "source-parsed"
+    },
+    "dataSource": {
+      "values": [
+        "storedFile",
+        "url",
+        "base64"
+      ],
+      "source": "source-parsed"
+    },
+    "filter": {
+      "values": [
+        "invert(100%)",
+        "grayscale(100%)",
+        "sepia(100%)",
+        "blur(5px)"
+      ],
+      "source": "source-parsed"
+    },
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "objectFit": {
+      "values": [
+        "fill",
+        "contain",
+        "cover",
+        "none"
+      ],
+      "source": "source-parsed"
+    },
+    "objectPosition": {
+      "values": [
+        "top",
+        "bottom",
+        "left",
+        "right",
+        "center",
+        "top left",
+        "top right",
+        "bottom left",
+        "bottom right"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "imagePicker": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "labelValueEditor": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "mode": {
+      "values": [
+        "dialog",
+        "inline"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "lineChart": {
+    "aggregationMethod": {
+      "values": [
+        "sum",
+        "count",
+        "average",
+        "min",
+        "max"
+      ],
+      "source": "source-parsed"
+    },
+    "dataMode": {
+      "values": [
+        "url",
+        "entityType"
+      ],
+      "source": "source-parsed"
+    },
+    "groupingTimeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
+      ],
+      "source": "source-parsed"
+    },
+    "legendPosition": {
+      "values": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "orderDirection": {
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "source": "source-parsed"
+    },
+    "simpleOrPivot": {
+      "values": [
+        "simple",
+        "pivot"
+      ],
+      "source": "source-parsed"
+    },
+    "timeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "link": {
+    "alignItems": {
+      "values": [
+        "baseline",
+        "center",
+        "end",
+        "flex-end",
+        "flex-start",
+        "inherit",
+        "initial",
+        "normal",
+        "revert",
+        "self-end",
+        "self-start",
+        "start",
+        "stretch",
+        "unset"
+      ],
+      "source": "source-parsed"
+    },
+    "direction": {
+      "values": [
+        "horizontal",
+        "vertical"
+      ],
+      "source": "source-parsed"
+    },
+    "justifyContent": {
+      "values": [
+        "center",
+        "flex-start",
+        "flex-end",
+        "left",
+        "right",
+        "space-between",
+        "space-around",
+        "space-evenly",
+        "stretch"
+      ],
+      "source": "source-parsed"
+    },
+    "justifyItems": {
+      "values": [
+        "baseline",
+        "center",
+        "end",
+        "flex-end",
+        "flex-start",
+        "inherit",
+        "initial",
+        "left",
+        "legacy",
+        "normal",
+        "revert",
+        "right",
+        "self-end",
+        "self-start",
+        "start",
+        "stretch",
+        "unset"
+      ],
+      "source": "source-parsed"
+    },
+    "target": {
+      "values": [
+        "_blank",
+        "_parent",
+        "_self",
+        "_top"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "mainMenuEditor": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "menuList": {
+    "menuOverflow": {
+      "values": [
+        "dropdown",
+        "menu",
+        "scroll"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "metadataEditor": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "notes": {
+    "savePlacement": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "permissionAutocomplete": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "size": {
+      "values": [
+        "small",
+        "middle",
+        "large"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "permissionsTree": {
+    "mode": {
+      "values": [
+        "Edit",
+        "Select",
+        "View"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "pieChart": {
+    "aggregationMethod": {
+      "values": [
+        "sum",
+        "count",
+        "average",
+        "min",
+        "max"
+      ],
+      "source": "source-parsed"
+    },
+    "dataMode": {
+      "values": [
+        "url",
+        "entityType"
+      ],
+      "source": "source-parsed"
+    },
+    "groupingTimeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
+      ],
+      "source": "source-parsed"
+    },
+    "legendPosition": {
+      "values": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "orderDirection": {
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "source": "source-parsed"
+    },
+    "simpleOrPivot": {
+      "values": [
+        "simple",
+        "pivot"
+      ],
+      "source": "source-parsed"
+    },
+    "timeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "polarAreaChart": {
+    "aggregationMethod": {
+      "values": [
+        "sum",
+        "count",
+        "average",
+        "min",
+        "max"
+      ],
+      "source": "source-parsed"
+    },
+    "dataMode": {
+      "values": [
+        "url",
+        "entityType"
+      ],
+      "source": "source-parsed"
+    },
+    "groupingTimeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
+      ],
+      "source": "source-parsed"
+    },
+    "legendPosition": {
+      "values": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "orderDirection": {
+      "values": [
+        "asc",
+        "desc"
+      ],
+      "source": "source-parsed"
+    },
+    "simpleOrPivot": {
+      "values": [
+        "simple",
+        "pivot"
+      ],
+      "source": "source-parsed"
+    },
+    "timeSeriesFormat": {
+      "values": [
+        "day",
+        "month",
+        "year",
+        "day-month",
+        "day-month-year",
+        "month-year"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "progress": {
+    "gapPosition": {
+      "values": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "progressType": {
+      "values": [
+        "line",
+        "circle",
+        "dashboard"
+      ],
+      "source": "source-parsed"
+    },
+    "status": {
+      "values": [
+        "success",
+        "exception",
+        "normal",
+        "active"
+      ],
+      "source": "source-parsed"
+    },
+    "strokeLinecap": {
+      "values": [
+        "round",
+        "butt",
+        "square"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "propertyAutocomplete": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "mode": {
+      "values": [
+        "single",
+        "multiple"
+      ],
+      "source": "source-parsed"
+    },
+    "size": {
+      "values": [
+        "small",
+        "middle",
+        "large"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "radio": {
+    "dataSourceType": {
+      "values": [
+        "values",
+        "referenceList",
+        "url"
+      ],
+      "source": "source-parsed"
+    },
+    "direction": {
+      "values": [
+        "horizontal",
+        "vertical"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "richTextEditor": {
+    "direction": {
+      "values": [
+        "rtl",
+        "ltr"
+      ],
+      "source": "source-parsed"
+    },
+    "disablePlugins": {
+      "values": [
+        "add-new-line",
+        "about",
+        "focus",
+        "class-span",
+        "backspace",
+        "bold",
+        "wrap-nodes",
+        "clean-html",
+        "copy-format",
+        "clipboard",
+        "paste",
+        "paste-storage",
+        "drag-and-drop",
+        "drag-and-drop-element",
+        "paste-from-word",
+        "color",
+        "enter",
+        "key-arrow-outside",
+        "error-messages",
+        "font",
+        "format-block",
+        "fullsize",
+        "hotkeys",
+        "iframe",
+        "indent",
+        "hr",
+        "inline-popup",
+        "justify",
+        "line-height",
+        "limit",
+        "link",
+        "mobile",
+        "ordered-list",
+        "powered-by-jodit",
+        "placeholder",
+        "redo-undo",
+        "resizer",
+        "search",
+        "select",
+        "size",
+        "resize-handler",
+        "source",
+        "stat",
+        "sticky",
+        "spellcheck",
+        "symbols",
+        "tooltip",
+        "tab",
+        "xpath",
+        "image-properties",
+        "image-processor",
+        "image",
+        "media",
+        "video",
+        "file",
+        "resize-cells",
+        "select-cells",
+        "table-keyboard-navigation",
+        "table",
+        "preview",
+        "print"
+      ],
+      "source": "source-parsed"
+    },
+    "enter": {
+      "values": [
+        "BR",
+        "P",
+        "DIV"
+      ],
+      "source": "source-parsed"
+    },
+    "preset": {
+      "values": [
+        "null",
+        "inline"
+      ],
+      "source": "source-parsed"
+    },
+    "theme": {
+      "values": [
+        "default",
+        "dark"
+      ],
+      "source": "source-parsed"
+    },
+    "toolbarButtonSize": {
+      "values": [
+        "tiny",
+        "xsmall",
+        "middle",
+        "large"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "sectionSeparator": {
+    "lineType": {
+      "values": [
+        "solid",
+        "dashed",
+        "dotted"
+      ],
+      "source": "source-parsed"
+    },
+    "orientation": {
+      "values": [
+        "horizontal",
+        "vertical"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "space": {
+    "align": {
+      "values": [
+        "start",
+        "end",
+        "center",
+        "baseline"
+      ],
+      "source": "source-parsed"
+    },
+    "direction": {
+      "values": [
+        "vertical",
+        "horizontal"
+      ],
+      "source": "source-parsed"
+    },
+    "size": {
+      "values": [
+        "small",
+        "middle",
+        "large"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "statusTag": {
+    "valueSource": {
+      "values": [
+        "form",
+        "manual"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "switch": {
+    "size": {
+      "values": [
+        "small",
+        "default"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "tabs": {
+    "tabPosition": {
+      "values": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    },
+    "tabType": {
+      "values": [
+        "line",
+        "card"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "text": {
+    "contentDisplay": {
+      "values": [
+        "content",
+        "name"
+      ],
+      "source": "source-parsed"
+    },
+    "contentType": {
+      "values": [
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "info",
+        "danger",
+        "custom"
+      ],
+      "source": "source-parsed"
+    },
+    "dataType": {
+      "values": [
+        "string",
+        "date-time",
+        "number",
+        "boolean"
+      ],
+      "source": "source-parsed"
+    },
+    "level": {
+      "values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "source": "source-parsed"
+    },
+    "numberFormat": {
+      "values": [
+        "currency",
+        "double",
+        "round",
+        "thousandSeparator"
+      ],
+      "source": "source-parsed"
+    },
+    "textType": {
+      "values": [
+        "span",
+        "paragraph",
+        "title"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "textArea": {
+    "size": {
+      "values": [
+        "small",
+        "medium",
+        "large"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "textField": {
+    "textType": {
+      "values": [
+        "text",
+        "password"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "themeEditor": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "threeStateSwitch": {
+    "labelAlign": {
+      "values": [
+        "left",
+        "right"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "wizard": {
+    "buttonsLayout": {
+      "values": [
+        "left",
+        "right",
+        "spaceBetween"
+      ],
+      "source": "source-parsed"
+    },
+    "direction": {
+      "values": [
+        "vertical",
+        "horizontal"
+      ],
+      "source": "source-parsed"
+    },
+    "labelPlacement": {
+      "values": [
+        "vertical",
+        "horizontal"
+      ],
+      "source": "source-parsed"
+    },
+    "wizardType": {
+      "values": [
+        "default",
+        "navigation"
+      ],
+      "source": "source-parsed"
+    }
+  },
+  "_meta": {
+    "generatedAt": "2026-07-22T10:48:24.784Z",
+    "sourceDir": "C:/Users/Hashim/Documents/Git Repos/shesha-framework/shesha-reactjs/src/designer-components",
+    "resolvedFields": 60,
+    "unresolvedFields": 1,
+    "unresolved": [
+      "searchableTabs.size"
+    ]
+  }
+}

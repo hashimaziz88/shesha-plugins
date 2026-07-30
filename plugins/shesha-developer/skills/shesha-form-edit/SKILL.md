@@ -1,6 +1,6 @@
 ---
 name: shesha-form-edit
-description: Create and edit Shesha form configurations directly via the API. Authenticates as admin, fetches existing markup with Get/GetByName/GetJson, applies the user's requirements (adding, removing, modifying, or restructuring components — or building a brand-new form from scratch), validates against the bundled component-properties index and embedded-script rules, and pushes via Create / UpdateMarkup / ImportJson. Use when the user provides a form id (or module + name) and a set of requirements like "add a sector dropdown above the email field", "make the address tab conditional on AccountType=PBF", "wire the Save button to call /api/.../Submit", or "create a new branded login page using the auth-login pattern". Always prefer this skill over the Shesha MCP `create_form_configuration` tool — the MCP regularly fails with `'dict' object has no attribute 'lower'` and JSON-RPC `-32602` errors, and the direct-API path is more reliable.
+description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). The build executor of the v2 compiler pipeline — compiles a blueprint IR (or a spec synthesized from prose requirements) into markup through golden archetypes and the measured capability matrix, gates it mechanically (schema → guardrails → bindings → styled-ness), pushes via Create/UpdateMarkup, and verifies the deliverable (re-fetch diff + render instrument). Invoke directly for targeted work when dispatched by the main skill or when the user names a specific form and edit ("add a sector dropdown above the email field", "wire the Save button"). 0.45-only — versioned 0.43-class backends belong to the shesha-developer-0-43 plugin. Ends every new no-design form with the mandatory default `shesha` theme pass via shesha-design-system — no form ships unstyled.
 allowed-tools:
   - Bash
   - PowerShell
@@ -15,98 +15,167 @@ allowed-tools:
   - Task
 ---
 
-# Shesha Form Edit
+# Shesha Form Edit (v2 — 0.45 only)
 
-Round-trip: **GET form JSON → edit → PUT/POST it back**. Also creates new forms (`Create` then `UpdateMarkup`).
+The model does two things: **understand the requirement** and **make design
+judgments**. Everything else is a script with a machine-checkable contract.
+Mechanical facts live ONCE in [references/_rules.json](references/_rules.json)
+— docs and validators cite `[R-xxx]`; when prose and the registry disagree, the
+registry wins.
+
+```
+SPEC (blueprint IR) → COMPILE → GATES (hooks) → STYLE → PUSH → ORACLE → REPORT
+```
+
+Args: `$ARGUMENTS`. Flags: `--no-browser` (skip the render instrument),
+`--no-style` (skip the default-theme pass — the only thing that skips it).
 
 > **For any new table / list / create / detail form, start from a seed — never hand-author structure a seed already provides.** ONE priority order, always: **`assets/exemplars/` first** (small, validator-clean, one per archetype) → **`assets/blocks/`** (compose small vetted blocks when no exemplar fits) → **`assets/examples/`** (the fuller CRUD-loop seeds, fallback when neither above has the shape). Full index + the swap-these-fields checklist: [references/examples.md](references/examples.md). A "**table**"/grid request builds a `datatable`; a "**list**"/cards request builds a `datalist` — different components, pick from the user's wording ([data-tables.md](references/components/data-tables.md)). These seeds are real Shesha-standard forms (verified rendering against a live backend, or curated from graded production markup) and encode the CRUD wiring most models get wrong: the **Add button opens the create form in a modal** (`Show Dialog`), detail views toggle edit in place (`Start Edit`/`Submit`), child tables use `tabs` + a `permanentFilter` on `{{data.id}}`, and inputs are chosen by the property's data type ([by-datatype.md](references/components/by-datatype.md)). Copy the matching seed, swap entity/properties/captions/`formId`s, re-stamp `parentId`s, push.
 
-> **Building a form to match a design?** If the requirements arrive as a **layout blueprint** (`<screen>.blueprint.json` from `shesha-developer:shesha-design-comprehension`, usually via the `shesha-claude-designer` orchestrator), this is a **compile, not an authoring task** — run `node scripts/compile-spec.mjs <screen>.blueprint.json --out <form>.json` then `node scripts/validate-form.mjs <form>.json`. No hand-translation of `layout-tree`/`bindings` into components: the compiler resolves the archetype's seed shape, the flex-container splits, the `parentId`s, and the `propertyName`s from the blueprint directly. Full contract (what it owns, what it doesn't, the acceptance property): [references/compiling.md](references/compiling.md). Then expect a placement re-measure — the orchestrator's gate 5a.5, now `verify-placement.mjs`'s exit code — against the blueprint's `assertions`. Field-mapping reference / troubleshooting a compile failure: [references/blueprint-consumption.md](references/blueprint-consumption.md).
+> **Building a form to match a design?** If the requirements arrive as a **layout blueprint** (`<screen>.blueprint.json` from `shesha-developer:shesha-design-comprehension`, usually via the `shesha-claude-designer` orchestrator), this is a **compile, not an authoring task** — run `node scripts/compile-spec.mjs <screen>.blueprint.json --out <form>.json` then `node scripts/validate-form.mjs <form>.json`. No hand-translation of `layout-tree`/`bindings` into components: the compiler resolves the archetype's seed shape, the flex-container splits, the `parentId`s, and the `propertyName`s from the blueprint directly. Full contract (what it owns, what it doesn't, the acceptance property): [references/compiling.md](references/compiling.md). Then expect a placement re-measure — the orchestrator's gate 5a.5, now `verify-placement.mjs`'s exit code — against the blueprint's `assertions`. Field-mapping reference / troubleshooting a compile failure: [references/blueprint-consumption.md](references/blueprint-consumption.md). (The parallel field-validated toolchain — `compile-blueprint.js`, the Markdown+twin blueprint format — is documented in `../shesha-claude-designer/README.md`'s "Two toolchains" section; both compilers are real, pending reconciliation.)
 
-Args received: `$ARGUMENTS`. Flags: `--refresh-cache` (ignore TTL, re-distill metadata/seeds), `--no-browser` (skip Step 9 browser smoke), `--no-design` (skip Step 0 / 9.5 design passes).
+## Headless runs
 
-## Non-interactive (headless) runs — read this first
+When invoked non-interactively or with a supplied context block (Backend URL /
+credentials / Module / Working dir): never call `AskUserQuestion`; the context
+block overrides discovery. Missing form identity → resolve from the module's
+form list, else create `{entity-kebab}-{type}` in the context module. Always
+end with a summary naming every form created or modified (module + name + id)
+— and a form is only "created" once the ORACLE step passes [R-046].
 
-When invoked non-interactively (`claude -p`, a test harness, CI) or when the task supplies a context block (Backend URL / Username / Password / Module / Working directory): **never call `AskUserQuestion` — it dead-ends the run.** Use the supplied context verbatim — it **overrides** Step 1 URL discovery, Step 2 default credentials, and the target module. Defaults for every ask-gate: Step 0 design ask → skip, author from seeds; Step 3 missing form identity → resolve from the task wording against the module's form list (`GetAll`), else create a new form named `{entity-kebab}-{type}` in the context module; push-failure menu → re-fetch & re-apply once, then stop and report; Step 9.5 → skip. **Always end with a summary naming every form created or modified (module + name + id)** — downstream evaluation identifies your work from that output.
+## 0 · Route
 
-## Step R — Scale the effort to the request (always first)
+- **0.43-class backend detected** (`versionStatus` on GetByName, flat-prop
+  markup)? Stop — that's the `shesha-developer-0-43` plugin. See
+  [references/versioning.md](references/versioning.md).
+- **Pure styling request** → `shesha-developer:shesha-design-system`.
+- **Small edit to an existing form** (add/move/rewire a few components): skip
+  the compiler; fetch → edit in place (preserve ids [R-025]) → GATES onward.
+- **New form(s) or a structural rebuild**: full pipeline below.
+- **2+ forms** → [references/orchestration.md](references/orchestration.md)
+  (fan out `form-author` agents; ONE `fleet-transformer` for bulk mutations).
+- **Backend prerequisites in doubt** (new entity, missing reflist/endpoint) →
+  dispatch `fullstack-prereq-checker` first; plan backend changes in one
+  build + double-boot [R-040].
 
-Match your process weight to the task, and **default down** when unsure:
+## 1 · Pre-flight (once per session)
+
+[references/contracts.md](references/contracts.md) has the exact recipes:
+pin one shell, one `<workdir>`, resolve the backend URL, authenticate once
+(cache the token BOM-free [R-027]), resolve the module id. API routes are per
+service — never guessed [R-026]: [references/api.md](references/api.md).
+
+Backend URL resolution order: **task-supplied context block (always wins)** → **`SHESHA_BACKEND_URL` environment variable** (sandboxed/ephemeral environments where the backend runs in a separate process or pod, not at `localhost`) → `src/*.Web.Host/Properties/launchSettings.json` (`profiles.Project.applicationUrl`) → `src/*.Web.Host/appsettings.json` (`Kestrel:Endpoints:Http:Url`) → fallback `http://localhost:21021`. Strip trailing slash. Store as `$BASE_URL`. Ping `$BASE_URL/swagger/index.html` to confirm reachability; if it fails, stop and tell the user to start the backend.
 
 - **A small edit** (one component / property / script / action on an existing form) → stay inline, do Steps 1–8 only, skip the design pass, and only do a browser check (Step 9) if the change is visual/behavioral. Keep it cheap — don't run the full pipeline for a one-line tweak.
 - **One whole form** (table / list / create / details / dialog / subform) → inline, full Steps 0–10, seed-first (exemplars → blocks → examples, see line above). ("table"/grid → `datatable`; "list"/cards → `datalist`.)
 - **Backend prerequisites may be missing** (entity / property / reflist / API / menu item) → gate on Step 4.5 (or the `fullstack-prereq-checker` agent) and fix gaps via the owning sibling skill BEFORE writing form JSON.
 - **Multiple linked pages, or a whole app from a brief** → don't build it all in one context: plan first, then build in waves (create → details → table, then cross-link), orchestrating with `superpowers:dispatching-parallel-agents`. State the rough cost up front. See [orchestration.md](references/orchestration.md).
 
-Also **route OUT non-form work** — a pure backend ask (reference list, role, notification, background job, API) goes straight to the sibling skill, not wrapped in form workflow.
+For entity-bound work run `scripts/backend-probe.mjs` — one probe returns
+entity resolution, metadata, and reflist existence
+([references/entity-binding.md](references/entity-binding.md)).
 
-**Styling is not this skill's job.** This skill builds correct **structure + CRUD wiring**; *appearance* (surfaces, backgrounds, shadows, layering, radii, v7 style blocks, theme) belongs to `shesha-developer:shesha-design-system`. A structural build/edit never reads styling docs and never authors v7 appearance blocks. When the request is "make it look like X / match the design / style it / it looks bad / apply our brand", build/confirm the structure, then hand off: `Skill(shesha-developer:shesha-design-system)`. The ONE layout concern that stays here is **structural splits**, which are flex `container` rows (`display:"flex"` + `flexDirection:"row"`, children sized via `desktop.dimensions.width`) — **never the `columns` component** (firm project rule).
+## 2 · Spec — no spec, no build
 
-## Step 0 — Design consultation (ask first)
+Every build has a spec: a **blueprint IR** JSON
+(`shesha-design-comprehension/schemas/blueprint.schema.json`).
 
-For brand-new forms or major restructures, **ask the user via `AskUserQuestion`** whether to invoke the `frontend-design` skill for a design plan (typography, palette, spatial system, section list):
+- Design-driven work arrives with one (from `shesha-claude-designer` /
+  `shesha-design-comprehension`) — consume it as-is.
+- Prose requirements: synthesize the blueprint yourself — screen, entity
+  (fullClassName + `{name,module}` modelType resolved live [R-016]), form
+  identity, archetype, layout tree, bindings. "list"/cards → `datalist`;
+  "table"/grid → `datatable` [R-019]. This is the judgment step: get the
+  archetype and the layout tree right here, not in JSON surgery later.
 
-> Want a design consultation from the `frontend-design` skill for this form? It returns aesthetic direction (~30s extra) before authoring.
-> - **Yes — get a design plan** (recommended for new pages / major restructures)
-> - **No — author from seeds only** (good for adding fields, small tweaks, internal forms)
+Archetypes: `assets/golden/_index.json` (table-worklist · record-detail · hub
+· capture · modal-dialog · list-card · inline-card · dashboard). Golden files
+are compiler fixtures — grep fragments, never read one whole [R-050].
 
-On Yes: invoke `Skill(skill="frontend-design", ...)` per [../shesha-design-system/references/design.md](../shesha-design-system/references/design.md) (owned by shesha-design-system — an aesthetic-critique workflow, not this skill's structure); cache the plan at `.claude/cache/shesha-form-edit/design-plans/<form-name>.md` for Step 9.5.
+## 3 · Compile
 
-**Don't ask** (skip silently) for: trivial edits (add a field, fix a script, change a propertyName), bug fixes, row-template / sub-form / utility forms, or when `--no-design` is in `$ARGUMENTS`. If `frontend-design` isn't installed, warn the user once and continue without it.
+```
+node scripts/compile-blueprint.js --blueprint <bp.json> --out <workdir>/<form>.json
+```
 
-## Step 1 — Resolve backend URL
+The compiler types the JSON: flex containers with `desktop.dimensions.width`
+[R-028/R-029], by-datatype components, live reflist identities [R-015],
+`dataContext` v8 wrappers [R-005], the validationErrors + Submit/exit floor
+[R-006/R-007/R-020], KB versions [R-003], deterministic ids.
 
-Order: **task-supplied context block (always wins)** → **`SHESHA_BACKEND_URL` environment variable** (sandboxed/ephemeral environments where the backend runs in a separate process or pod, not at `localhost`) → `src/*.Web.Host/Properties/launchSettings.json` (`profiles.Project.applicationUrl`) → `src/*.Web.Host/appsettings.json` (`Kestrel:Endpoints:Http:Url`) → fallback `http://localhost:21021`. Strip trailing slash. Store as `$BASE_URL`. Ping `$BASE_URL/swagger/index.html` to confirm reachability; if it fails, stop and tell the user to start the backend.
+Hand-composition is the exception (no archetype fits, exotic component mix) —
+note WHY in the push ledger, compose from `assets/blocks/` +
+`assets/components-kb/` quick shapes, and expect the same gates. Component
+shapes and per-type recipes: [references/components/](references/components/)
+(routed by `scripts/lookup.js` — run it for every component type you author;
+a no-hit is a gate violation).
 
-## Step 2 — Authenticate as admin
+## 4 · Gates (hooks — not optional)
 
-Task-supplied credentials win; local-dev defaults otherwise: **`admin` / `123qwe`** — don't ask. POST `$BASE_URL/api/TokenAuth/Authenticate` with `{ userNameOrEmailAddress, password }`; extract `result.accessToken` (or `accessToken` on older builds). See [references/api.md §2](references/api.md). If no token, surface raw response and stop.
+Every markup write triggers the validate-on-write hook; run them yourself
+before push in any case, cheapest first:
 
-**Module ID lookup** (needed for `Create`): `GET $BASE_URL/api/services/app/Module/GetAll` (note: `app` namespace — `Shesha/Module/GetAll` returns 404). Find the entry where `name === "<module>"` and take its `id`. Cache it for the session. If a subsequent `Create` call returns `"There is no entity Module with id = …"`, the backend was restarted and the ID changed — re-fetch via this endpoint.
+```
+node scripts/validate-schema.js <form.json>       # known types, id/version shapes
+node scripts/validate-guardrails.js <form.json> [metadata.json]   # render-killers, cites [R-xxx]
+node scripts/resolve-bindings.js <form.json>      # live: properties, dotted paths, reflists, endpoints
+node scripts/validate-styledness.js <form.json>   # structure-only forms are defects [R-042]
+```
 
-## Step 3 — Identify the form
+Entity-bound forms MUST pass `resolve-bindings.js` (live backend) before push.
+Fix findings by rule id; never bypass a gate. JSON-safety for embedded scripts:
+[R-013] + [references/components/scripts.md](references/components/scripts.md).
 
-Required: form id **OR** (module + name). Ask the user only what's missing:
+## 5 · Style — compiled in, not a second pass
 
-> Which form? Either give me the **id** (Guid), or **module + name** (e.g. `PBF.MembershipManagement` + `member-create`).
+Design is a **compile-time input**: `compile-blueprint.js --theme <brand>`
+(default `shesha`) resolves brand colour, type scale, radius, spacing and
+borders from `shesha-design-system/assets/themes/<brand>.tokens.json` and bakes
+them into every node, so the first output is already on-brand [R-042]. No
+separate styling pass is needed for a compiled form.
 
-If module + name only, resolve via `GetByName` ([api.md §3](references/api.md)). Store as `$FORM_ID`.
+Two things still route to `Skill(shesha-developer:shesha-design-system)`:
+- **the one-time app AntD theme** (`$antdTheme` — input/table/button chrome), set
+  once per app, not per form ([references/app-theme via design-system]);
+- **re-styling a form you did NOT compile** (a hand-composed form, a small edit,
+  or matching a brand that has no token file yet).
 
-## Step 4 — Fetch the current markup
+Either way **you still own push + verification**. `--no-style` / an unknown
+theme falls back to neutral tokens.
 
-`GET /api/services/Shesha/FormConfiguration/GetJson?id=$FORM_ID` ([api.md §4](references/api.md)). Save to `$env:TEMP\form-current.json`. The response body is a stringified form JSON; parse it. Resulting object has top-level `components` (nested tree) and `formSettings`.
+## 6 · Push + Oracle
 
-## Step 4.5 — Entity introspection (mandatory for entity-bound forms)
+Push: `POST FormConfiguration/Create` (new) / `PUT UpdateMarkup` (existing) —
+[references/api.md](references/api.md). Record every form in the push ledger
+(`.claude/cache/shesha-form-edit/push-ledger.json`); the Stop hook blocks
+session end while any entry is unverified [R-046].
 
-Skip if `formSettings.dataLoaderType === "none"`. Otherwise fetch the entity's metadata and validate every `propertyName` in the edit.
+The oracle judges the deliverable through four fail-closed layers — a green
+render alone never means done. Full model: [references/quality-gates.md](references/quality-gates.md).
+1. **Re-fetch + diff** — the pushed markup equals what you sent; a 200 alone
+   proves nothing [R-047] ([references/verification.md](references/verification.md)).
+2. **Render instrument** (objective, unless `--no-browser`):
+   `node scripts/render-instrument.js --form <module>/<name>` — navigate, probe,
+   screenshot, console/network dump, binding smoke, and layout-quality checks
+   (stacked splits, collapsed inputs/buttons, overflow). Exit ≠ 0 → fix and
+   re-run; diagnose via [references/debug.md](references/debug.md).
+3. **Placement diff** (intent) — blueprint builds re-probe against the
+   blueprint's `assertions`; this is what catches "the layout I intended didn't
+   happen" (comprehension owns it).
+4. **Design-critic** (visual quality, MANDATORY) — dispatch the
+   `design-critic` agent with the screenshot + assertions + theme tokens; it
+   returns a strict verdict (per-assertion, styled-ness, top-3 fixes). The
+   build is NOT done until the critic PASSes (styled ≥ acceptable). A green
+   render-instrument does not substitute for it.
 
-**Get the exact entity type first (critical — wrong type causes 500 errors at runtime):**
+## 7 · Report
 
-`formSettings.modelType` must identify the **exact registered entity for THIS backend** — resolve it dynamically every time; never assume or copy a namespace from this doc. The same logical entity is registered under different namespaces across Shesha/BoxStack versions: framework entities like `Person` are `Shesha.Domain.Person` on current versions but `Shesha.Core.Person` on older ones, and a backend may even carry both. **The only authority is the live `EntityConfig` for the running backend** — its record gives you the `name`, `module`, and `fullClassName` you need below. Getting this wrong causes 500/404 errors in the browser when the loader or `dataContext` queries the entity — any mismatch with the registered entity is a runtime failure.
+One summary: every form (module + name + id), archetype used, gate results,
+oracle verdict, ledger state. Anything unverified is reported as UNVERIFIED,
+never as done.
 
-**Favour the object shape for `formSettings.modelType`:** `{ "name": "<ShortClass>", "module": "<Module>" }` (e.g. `{ "name": "Person", "module": "Shesha" }`) — the shape current Shesha builds emit. A full-class-name **string** still renders on legacy forms, but write new/edited forms with the object. **Independently, you always also need the resolved `fullClassName` string** — the metadata fetch below passes it as `?container=`, and component-level `entityType`s use either the short class+module or the full class string per their own rules (unchanged).
-
-Resolve it (in priority order) — and use the result verbatim:
-1. **From entity config (authoritative)**: `GET $BASE_URL/api/services/app/EntityConfig/GetMainDataList?maxResultCount=200` — find the entity by `name`, then take its **`name` + `module`** for the `modelType` object **and** its **`fullClassName`** (fall back to `className`) for the metadata `container` param. These are authoritative — use them verbatim.
-2. **Cross-check against an existing form**: `GET $BASE_URL/api/services/Shesha/FormConfiguration/GetAll?maxResultCount=50` — a form bound to the same entity shows the in-use `modelType`. If existing forms disagree with each other (legacy `Shesha.Core.*` vs current `Shesha.Domain.*`), the EntityConfig `fullClassName` wins.
-
-**Entity existence check**: before building any form, verify the entity exists: `GET $BASE_URL/api/services/app/Metadata/GetProperties?container=<exactModelType>`. If the response returns an empty array or error, the entity does not exist — stop and invoke `Skill(skill="shesha-developer:domain-model")`. Never build forms for entities that don't exist; they silently fail at runtime.
-
-**If you (or `domain-model`) create or change an entity/property/reflist, the backend MUST be rebuilt and restarted before the entity is usable — follow [references/backend-restart.md](references/backend-restart.md).** Do this BEFORE building the form, and in this order: domain change → rebuild + restart (+ the 2-boot lag for new entities) → poll the entity's `…/api/dynamic/<module>/<Entity>/Crud/GetAll` until 200 → only then author/push the form. Never relaunch IIS Express outside Visual Studio (it 500s); headless runs take over :21021 with `dotnet`, attended runs hand the restart back to VS. This restart sequence is the biggest cost/failure sink when improvised — use the runbook.
-
-1. Take the resolved `fullClassName` (the class-name string from the resolution above; `formSettings.modelType` itself is the `{ name, module }` object).
-2. Fetch `GET $BASE_URL/api/services/app/Metadata/GetProperties?container=<fullClassName>` — `container` is the class-name **string**, never the object. Returns `result` as a direct array of properties (not wrapped). Cache to `.claude/cache/shesha-form-edit/metadata/<entity>.raw.json`.
-3. **Validate `propertyName` against the property list** for every input component you're adding/editing. Surface mismatches before push.
-
-Metadata semantics (`referenceListName` is the full dotted name used **without** any `RefList` prefix; `entityType` is the SHORT class name with `entityModule` separate; FK property names can differ from class names): [api.md §10](references/api.md). Array properties with `listConfiguration.mappingType: "many-to-many"` mean **junction subtables** — read [junction-subtables.md](references/components/junction-subtables.md) before touching those tabs.
-
-TTL 24h; `--refresh-cache` forces re-fetch. If the metadata fetch returns nothing or surfaces a malformed entity, optionally invoke `Skill(skill="shesha-developer:test-entity-crud-api", args="--no-fix")` and fix entity bugs before continuing — a form bound to a broken entity will look fine in markup but fail at runtime.
-
-**For a NEW entity-bound form, or any entity/junction not already verified this session: dispatch the `shesha-developer:fullstack-prereq-checker` agent** (Task tool; pass backend URL, token-file path, and the entity list) and block until its verdict is `ready` — its failures name the fixing skill per gap. Inline checks remain fine for small edits to an already-rendering form. Catalog of backend-rooted symptoms: [full-stack-prereqs.md](references/full-stack-prereqs.md).
-
-## Step 5 — Apply the user's requirements
-
-Read **only** the topic files relevant to the edit. Most edits need 1–3 files:
+## Reference map
 
 | Topic | File |
 |---|---|
@@ -139,6 +208,7 @@ Read **only** the topic files relevant to the edit. Most edits need 1–3 files:
 | Browser testing, IndexedDB cache, layout measurement | [references/verification.md](references/verification.md) |
 | Symptoms whose fix is backend (reflists, junction DTOs, GQL) | [references/full-stack-prereqs.md](references/full-stack-prereqs.md) |
 | Rebuild + restart the backend after a domain change (entity/migration) | [references/backend-restart.md](references/backend-restart.md) |
+| Ground-truth rerun (regenerate the KB/schema/measured-capability-matrix for the field-validated toolchain) | [references/gym.md](references/gym.md) |
 
 **Touching more than ~3 forms?** Read [references/bulk-operations.md](references/bulk-operations.md) first — pilot-first is mandatory. Mutations go through **one `shesha-developer:fleet-transformer` agent** (never per-form authoring agents); audits fan out **one `shesha-developer:form-auditor` per form**. Dispatch templates + cost table: [references/orchestration.md](references/orchestration.md).
 
@@ -250,7 +320,7 @@ Test `*-details` forms via the **table row's view link**, never a pasted `?id=` 
 **Verification cost discipline (this is where runs blow up — keep it tight):**
 - Assert with the **a11y snapshot** + `getBoundingClientRect`/`getComputedStyle`, **not screenshots**. Reading a full-page screenshot is ~60 KB of tokens each — take **at most ONE screenshot, at the very end** for a final visual confirmation, never one per iteration.
 - **Batch all DOM measurements into a single `evaluate` call** rather than climbing the tree across many calls.
-- Before reaching for the browser, check whether the layout question is already answered by a recipe — e.g. full-width = `display:"flex"` + `flexDirection:"column"` + `alignItems:"stretch"`; a flex container needs an explicit `display:"flex"` or `flexDirection` is inert; date renders `&#x2F;` = use `{{{triple-brace}}}`. (v7 styling mechanics now live in `shesha-design-system/references/styling-v7-mechanics.md`.) Don't rediscover documented gotchas with a long browser loop.
+- Before reaching for the browser, check whether the layout question is already answered by a recipe — e.g. full-width = `display:"flex"` + `flexDirection:"column"` + `alignItems:"stretch"`; a flex container needs an explicit `display:"flex"` or `flexDirection` is inert; date renders `&#x2F;` = use `{{{triple-brace}}}`. (v7 styling mechanics now live in `shesha-design-system/references/styling-mechanics.md`.) Don't rediscover documented gotchas with a long browser loop.
 
 Full recipes: [references/verification.md](references/verification.md).
 

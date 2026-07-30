@@ -1,0 +1,111 @@
+{
+  "type": "permissionTagGroup",
+  "name": "Permission Tag Group",
+  "isInput": null,
+  "isOutput": null,
+  "canBeJsSetting": null,
+  "icon": null,
+  "version": null,
+  "initModel": {
+    "defaults": null,
+    "raw": "(model) => {\r\n    const customProps: IAutocompleteTagsOutlinedComponentProps = {\r\n      ...model,\r\n      autocompleteUrl: \"/api/services/app/permission/autocomplete\",\r\n    };\r\n    return customProps;\r\n  }"
+  },
+  "settingsProps": {
+    "interfaceName": "IAutocompleteTagsOutlinedComponentProps",
+    "interfaceFile": "designer-components/autocompleteTagGroup/index.tsx",
+    "ownProps": [
+      "value",
+      "autocompleteUrl",
+      "onChange"
+    ],
+    "extends": [
+      "IConfigurableFormComponent"
+    ],
+    "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "autocompleteUrl",
+      "background",
+      "border",
+      "componentName",
+      "context",
+      "customEnabled",
+      "customVisibility",
+      "description",
+      "desktop",
+      "dimensions",
+      "editMode",
+      "enableStyleOnReadonly",
+      "font",
+      "hidden",
+      "hideLabel",
+      "hideScrollBar",
+      "id",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "inputStyles",
+      "isDynamic",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "layout",
+      "listType",
+      "menuItemShadow",
+      "mobile",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChange",
+      "onChangeCustom",
+      "onClickCustom",
+      "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
+      "parentId",
+      "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
+      "propertyName",
+      "queryParams",
+      "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
+      "settingsValidationErrors",
+      "shadow",
+      "size",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "tablet",
+      "type",
+      "validate",
+      "value",
+      "wrapperStyle"
+    ],
+    "unresolvedExtends": [
+      "IHasVersion"
+    ]
+  },
+  "settingsForm": {
+    "source": null,
+    "mechanism": "none",
+    "parseQuality": "none"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [],
+  "settingsFields": [],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "permissions/permissionTagGroup/index.tsx",
+    "autocompleteTagGroup/index.tsx"
+  ]
+}

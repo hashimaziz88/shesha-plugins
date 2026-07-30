@@ -62,6 +62,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { measuredForRow, isChannelMismatch } from './gym-lib/channel-map.js';
 
 // ---- arg / path resolution -------------------------------------------------
 
@@ -294,6 +295,28 @@ function main() {
   if (!Array.isArray(matrix.rows)) {
     console.error(`FATAL: matrix has no "rows" array (${MATRIX_PATH})`);
     process.exit(2);
+  }
+
+  // Overlay gym measurements when present: the measured matrix is the authority.
+  // A hand row whose mapped settings all measured no-op is downgraded to no-op.
+  const measuredPath = path.join(SCRIPT_DIR, '..', 'assets', 'measured-capability-matrix.json');
+  if (fs.existsSync(measuredPath)) {
+    try {
+      const measured = readJson(measuredPath);
+      let overlays = 0;
+      for (const row of matrix.rows) {
+        const m = measuredForRow(measured, row.component, row.channel);
+        // A flat-channel no-op doesn't refute a desktop.* technique verdict.
+        if (m.summary === 'no-op' && m.strong && row.verdict !== 'no-op' && !isChannelMismatch(row)) {
+          row.handVerdict = row.verdict;
+          row.verdict = 'no-op';
+          overlays++;
+        }
+      }
+      console.log(`matrix: hand+measured (${overlays} verdict overlays from ${path.basename(measuredPath)}, generation ${measured.generation})`);
+    } catch (e) {
+      console.error(`WARN: measured matrix unreadable (${e.message}) — hand matrix only`);
+    }
   }
 
   let files;
