@@ -183,11 +183,13 @@ level and stay consistent. Field-level `labelCol` is silently IGNORED by the ren
 align a lone full-width field with a 2-column grid, place it in a 50% column instead (see
 [detail-page-pattern.md](detail-page-pattern.md)).
 
-**A title/header `text` carries explicit `fontSize` + `fontWeight`, sized to its role** — page
-title `text-2xl`/24/`600` (`700` if the design's title is bold), card header `text-base`/16/`600`,
-section header `text-sm`/13–14/`600`. Unstyled headers render at body size and the page loses its
-hierarchy. (The header's *surface* treatment — band background, bottom hairline — is the
-`page-title-band` recipe in `shesha-design-system`.)
+**A title/header `text` carries explicit `fontSize` + `fontWeight` — never left at defaults.**
+Unstyled headers render at body size and the page loses its hierarchy; this is a construction
+completeness check, not an appearance decision. The exact scale/weight per role (page title vs.
+card header vs. section header) — and the header's *surface* treatment (band background, bottom
+hairline, the `page-title-band` recipe) — is owned by `shesha-design-system`: see
+[shesha-design-standards.md](../../shesha-design-system/references/shesha-design-standards.md)
+("Type — scale by surface, weight by role").
 
 **Nothing clips or overflows at render.** Container inner divs are hard-coded
 `overflow:auto` — flex-shrink squeeze turns squeezed headers into scrollbars. Fix the
@@ -235,8 +237,9 @@ RequirementsStudio (`Shesha.RequirementsStudio`) instances of the rules above:
 - Required-FK preset in add dialogs: `baseProject` must be injected via
   `formSettings.onPrepareSubmitData` — `setFieldsValue` alone never survives submit
   ([components/add-dialogs.md](components/add-dialogs.md)).
-- Status chip: border `1px` `#d9d9d9`, radius 4; chip FILL color is data-driven per
-  reflist value — never force a uniform color.
+- Status chip: `1px` border, radius 4 (colour convention documented in `shesha-design-system`'s
+  `component-recipes.md` → status-chip); chip FILL color is data-driven per reflist value —
+  never force a uniform color.
 - Subtable drill-down action column: `EyeOutlined`, `minWidth`/`maxWidth` 35, anchored
   left; toolbar alignment via the `sha-index-table-control` framework class
   ([junction-subtables.md](junction-subtables.md)).

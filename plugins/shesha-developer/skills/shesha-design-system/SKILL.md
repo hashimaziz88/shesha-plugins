@@ -67,9 +67,4 @@ General Shesha conventions every recipe respects (light-mode; scale-by-surface t
 
 ## Relationship to the other skills
 
-| Concern | Skill |
-|---|---|
-| Ingest design, plan, orchestrate, verify | `shesha-developer:shesha-claude-designer` |
-| Comprehend design → measured layout blueprint + placement verification | `shesha-developer:shesha-design-comprehension` |
-| Build structure, CRUD, validate, push | `shesha-developer:shesha-form-edit` |
-| **Map tokens → app theme + per-component v7 style blocks** | **this skill** |
+This skill owns mapping tokens → app theme + per-component v7 style blocks (all appearance). For the full ownership split across all four skills, see the canonical table in [`shesha-claude-designer/README.md`](../shesha-claude-designer/README.md) ("Skill | Owns | Must NOT"), collapsed here in Task 4 (2026-07-30) so it is asserted in one place, not five.

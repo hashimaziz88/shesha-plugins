@@ -144,7 +144,7 @@ Expandable/collapsible section card with a header strip and content slot.
 ```
 
 **Key props:**
-- `accent: true` — renders a 4px orange (`#fa8c16`) left-border strip on the panel header. Best visual signal for a branded section break on details pages.
+- `accent: true` — renders a branded 4px left-border strip on the panel header (colour convention: `shesha-design-system` → `component-recipes.md` → `accent-left-border`). Best visual signal for a branded section break on details pages.
 - `collapsible: "icon"` — shows a chevron icon that collapses the panel. Set to `false` (boolean) to make always-open (cleaner on entity-details forms where users don't need to hide sections).
 - `borderRadius: 12` — rounds the outer card corners; match the root card's radius token.
 - `isDefaultExpanded: true` — ensures panel renders open on load (default; set `false` to start collapsed).
@@ -174,56 +174,30 @@ Stat-row component for 2–4 key facts across the top of a record page.
           "componentName": "containerLabelXXX",
           "components": [
             { "type": "text", "content": "Name", "fontSize": "text-xs", "fontWeight": "500",
-              "desktop": { "font": { "color": "#6b7280", "type": "Segoe UI", "size": 11, "weight": "500" } } }
+              "desktop": { "font": { "color": "$role:mutedText", "type": "Segoe UI", "size": 11, "weight": "500" } } }
           ]
         },
         { "type": "textField", "propertyName": "name", "label": "Name",
-          "desktop": { "font": { "color": "#111827", "type": "Segoe UI", "size": 15, "weight": "600" } } }
+          "desktop": { "font": { "color": "$role:bodyText", "type": "Segoe UI", "size": 15, "weight": "600" } } }
       ]
     }
   ]
 }
 ```
 
-**Structure**: each `column` has exactly two children — a `container` holding the **label text**, and a **value field** (`textField` or `switch`). Not the typical Shesha container pattern.
+**Structure**: each `column` has exactly two children — a `container` holding the **label text**, and a **value field** (`textField` or `switch`). Not the typical Shesha container pattern. (Colours above are illustrative role placeholders, not literals — see the next three bullets.)
 
-**Styling labels**: set `fontSize: "text-xs"`, `fontWeight: "500"` as direct props, plus `desktop.font.color: "#6b7280"` for muted gray.
+**Styling labels**: set `fontSize: "text-xs"`, `fontWeight: "500"` as direct props, plus a muted `desktop.font.color`.
 
-**Styling values**: add `desktop.font` with `size: 15`, `weight: "600"`, `color: "#111827"` on the `textField` — makes the actual data pop.
+**Styling values**: add `desktop.font` with `size: 15`, `weight: "600"`, a body-ink `color` on the `textField` — makes the actual data pop.
 
-**Card wrapper**: give the KIB component itself a `desktop` block with `border`, `background.color: "#ffffff"`, `shadow`, and `stylingBox` padding to turn it into a white stat-card (styling lives in `shesha-design-system` → `styling-v7-mechanics.md`).
+**Card wrapper**: give the KIB component itself a `desktop` block with `border`, `background`, `shadow`, and `stylingBox` padding to turn it into a white stat-card. Concrete role/token values for all three bullets above: `shesha-design-system` → `component-recipes.md` → `kib-strip / meta-strip` (+ `styling-v7-mechanics.md` for the block shape).
 
 ---
 
 ## Section divider pattern
 
-For a "Related Records" or section-heading strip above a tab group — style an existing `text` component with a v7 `desktop` block rather than wrapping it in a new container:
-
-```json
-{
-  "type": "text",
-  "content": "Related Records",
-  "fontSize": "text-sm",
-  "fontWeight": "700",
-  "desktop": {
-    "border": {
-      "hideBorder": false,
-      "borderType": "custom",
-      "border": {
-        "all": { "width": 1, "color": "#e5e7eb", "style": "none" },
-        "top": {}, "bottom": { "width": 1, "color": "#e5e7eb", "style": "solid" },
-        "left": { "width": 4, "color": "#fa8c16", "style": "solid" }, "right": {}
-      },
-      "radius": { "all": 0 }
-    },
-    "background": { "type": "color", "color": "#f9fafb" },
-    "font": { "color": "#374151", "type": "Segoe UI", "size": 13, "weight": "700" },
-    "stylingBox": "{\"paddingTop\":\"10\",\"paddingBottom\":\"10\",\"paddingLeft\":\"16\",\"paddingRight\":\"16\",\"marginTop\":\"28\",\"marginBottom\":\"0\"}"
-  }
-}
-```
-
-Copy `desktop` to `tablet` and `mobile` as well. This creates a branded section-header strip that reads immediately as a visual separator — orange left accent + subtle gray band + bottom rule.
+For a "Related Records" or section-heading strip above a tab group — style an **existing** `text` component with a v7 `desktop` block rather than wrapping it in a new container (border `all`=none/`bottom`=hairline/`left`=4px accent, a tinted `background`, a dark `font.color`, `stylingBox` padding, `marginTop` to separate from the content above). Copy `desktop` to `tablet`/`mobile`. The resolved recipe (which role/token goes where) is `shesha-design-system` → `component-recipes.md` → `section-divider-strip`.
 
 ---
 
@@ -241,4 +215,4 @@ content container: pt=16, pb=0, pl=32, pr=32   ← owns content zone
 
 **Anti-pattern (avoid):** Negative-margin hack (root has padding, header uses `marginTop:-24, marginLeft:-32, marginRight:-32`). This works but is fragile — if the root padding changes, all offsets must be recalculated manually.
 
-For the header left accent on the **title container** inside the header (title + status badge), use a custom v7 border block with `borderType: "custom"` and `left: { width: 4, color: "#fa8c16", style: "solid" }` — this creates the branded left-border signal without touching the full header background.
+For the header left accent on the **title container** inside the header (title + status badge), use a custom v7 border block with `borderType: "custom"` and a 4px solid `left` border — this creates the branded left-border signal without touching the full header background. Colour convention: `shesha-design-system` → `component-recipes.md` → `accent-left-border`.

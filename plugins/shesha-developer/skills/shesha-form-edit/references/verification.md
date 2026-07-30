@@ -71,7 +71,7 @@ Assert layout with `getBoundingClientRect` / `getComputedStyle` against **exact 
 const band = document.querySelector('<band-selector>');
 const col  = document.querySelector('<kib-column-selector>');
 col.getBoundingClientRect().height === band.getBoundingClientRect().height; // flush divider proof
-getComputedStyle(col).borderLeft   === '1px solid rgb(217, 217, 217)';      // #d9d9d9
+getComputedStyle(col).borderLeft   === '1px solid rgb(217, 217, 217)';      // divider colour — shesha-design-system component-recipes.md
 getComputedStyle(document.querySelector('.sha-page-content')).padding === '0px'; // no-padding applied
 ```
 

@@ -50,7 +50,7 @@ For brand-new forms or major restructures, **ask the user via `AskUserQuestion`*
 > - **Yes — get a design plan** (recommended for new pages / major restructures)
 > - **No — author from seeds only** (good for adding fields, small tweaks, internal forms)
 
-On Yes: invoke `Skill(skill="frontend-design", ...)` per [references/design.md](references/design.md); cache the plan at `.claude/cache/shesha-form-edit/design-plans/<form-name>.md` for Step 9.5.
+On Yes: invoke `Skill(skill="frontend-design", ...)` per [../shesha-design-system/references/design.md](../shesha-design-system/references/design.md) (owned by shesha-design-system — an aesthetic-critique workflow, not this skill's structure); cache the plan at `.claude/cache/shesha-form-edit/design-plans/<form-name>.md` for Step 9.5.
 
 **Don't ask** (skip silently) for: trivial edits (add a field, fix a script, change a propertyName), bug fixes, row-template / sub-form / utility forms, or when `--no-design` is in `$ARGUMENTS`. If `frontend-design` isn't installed, warn the user once and continue without it.
 
@@ -129,6 +129,7 @@ Read **only** the topic files relevant to the edit. Most edits need 1–3 files:
 | Layout pattern (full-page forms, auth) | [references/components/layout.md](references/components/layout.md) |
 | Detail page **structure/nav** anatomy (sections, label grid, table→row nav) — *appearance of it (header band, KIB styling) → `shesha-design-system`* | [references/components/detail-page-pattern.md](references/components/detail-page-pattern.md) |
 | M:M junction subtables — link, drill-down, delete/unlink | [references/components/junction-subtables.md](references/components/junction-subtables.md) |
+| Related-panel rail structure (header re-parenting, live count wiring, segmented-toolbar construction) | [references/components/related-panels.md](references/components/related-panels.md) |
 | Add/create dialogs, formArguments, onPrepareSubmitData | [references/components/add-dialogs.md](references/components/add-dialogs.md) |
 | Inline-editable datatables (editComponent shape, crud-operations column) | [references/components/inline-editable-tables.md](references/components/inline-editable-tables.md) |
 | Form quality contract (always-on construction rules) | [references/form-quality.md](references/form-quality.md) |
@@ -263,7 +264,7 @@ If a design plan exists for this form, **ask the user via `AskUserQuestion`** wh
 > - **Yes — review and suggest tweaks**
 > - **No — confirm and finish**
 
-On Yes: pass screenshot + plan + original requirements to `frontend-design`. Surface findings as **suggestions, not blockers** — accept/reject per item; on accept, loop back to Step 5 → 8 → 9. Recipe: [references/design.md](references/design.md).
+On Yes: pass screenshot + plan + original requirements to `frontend-design`. Surface findings as **suggestions, not blockers** — accept/reject per item; on accept, loop back to Step 5 → 8 → 9. Recipe: [../shesha-design-system/references/design.md](../shesha-design-system/references/design.md) (owned by shesha-design-system).
 
 ## Step 10 — Confirm
 

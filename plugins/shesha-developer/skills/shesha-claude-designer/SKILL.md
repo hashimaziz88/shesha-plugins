@@ -62,9 +62,4 @@ Summarise per screen (form id, blueprint pass/fail, theme applied); cross-link s
 
 ## Relationship to the other skills
 
-| Concern | Skill |
-|---|---|
-| **Ingest design, plan screens, orchestrate, verify end-to-end** | **this skill** |
-| Comprehend a design → measured layout blueprint + placement verification | `shesha-developer:shesha-design-comprehension` |
-| Build correct structure, CRUD, validate, push | `shesha-developer:shesha-form-edit` |
-| Map tokens → app theme + per-component v7 style blocks | `shesha-developer:shesha-design-system` |
+This skill is the conductor (see Overview above). For the full ownership split — who owns what, and what each skill must NOT do — see the canonical table in [`README.md`](README.md) ("Skill | Owns | Must NOT"), collapsed here in Task 4 (2026-07-30) so it is asserted in one place, not five.

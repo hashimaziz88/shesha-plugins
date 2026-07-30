@@ -28,9 +28,15 @@
  *
  * Exit code is non-zero if a block has a hard failure: bad skeleton JSON, a
  * $validatedAgainst entry pointing at a missing/no-op matrix row, or a "columns"
- * component. The hex-colour check stays a WARN — completeness-bar and
- * card-with-header-strip already carry literal hexes in their subtrees, so
- * promoting it would fail the suite today rather than catch a regression.
+ * component. The hex-colour check stays a WARN — Task 4 (2026-07-30) tokenised
+ * the 2 of 6 remaining literal hexes across completeness-bar and
+ * card-with-header-strip that matched a shesha.tokens.json value exactly; the
+ * other 4 (card-with-header-strip's border.all/cardHeaderStrip background+
+ * bottom-border, completeness-bar's trailColor) match NO token in the shipped
+ * default brand — 3 of them match requirements-studio.tokens.json exactly
+ * instead, i.e. they are RS-prototype-era literals, not invented fixes — so
+ * promoting this check to a hard failure would still fail the suite today
+ * rather than catch a regression. See task-4-report.md.
  *
  * Usage:
  *   node validate-blocks.js

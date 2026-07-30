@@ -14,8 +14,8 @@ The canonical `<entity>-details` page layout. Read before building or normalizin
 │  ├─ banner              container: legacy style string carries flex:'1 1 auto' (leave it — identical across forms)
 │  │  ├─ title row        container: dimensions.minHeight:"fit-content"
 │  │  │  ├─ title         text: contentDisplay:"name", propertyName:"<titleProp>", textType:"paragraph", fontSize:"text-xl"
-│  │  │  └─ status chip   refListStatus bound to <statusProp> (style: h24/auto, 1px #d9d9d9 border, radius 4; FILL is data-driven per reflist item — never force it)
-│  │  └─ subtitle wrap    container → text: contentType:"custom", font.color:"#c7c7c7", size 12.5
+│  │  │  └─ status chip   refListStatus bound to <statusProp> (style: h24/auto, bordered pill, radius 4; FILL is data-driven per reflist item — never force it; border colour convention: shesha-design-system → component-recipes.md → status-chip)
+│  │  └─ subtitle wrap    container → text: contentType:"custom", font.color:muted-text convention (shesha-design-system → component-recipes.md → subtitle-text), size 12.5
 │  └─ KIB                 container: flexDirection:"row", alignItems/alignSelf:"stretch", gap:0, flexWrap:"nowrap"
 │     └─ column ×N        container per stat: label text + value component (see next section)
 ├─ sectionSeparator       (orange via theme accent)
@@ -48,7 +48,7 @@ The canonical `<entity>-details` page layout. Read before building or normalizin
 |---|---|
 | Band + KIB container | `alignItems:"stretch"`; KIB also `alignSelf:"stretch"`, `gap:0`, `flexWrap:"nowrap"`, all height caps (`minHeight`/`maxHeight`) → `"auto"` |
 | Every column | `alignSelf:"stretch"`, `justifyContent:"flex-start"`, `alignItems:"flex-start"`, `flexDirection:"column"`, padding `16/16/2/8` (top/right/bottom/left via stylingBox) |
-| Columns 2+ | `border.borderType:"custom"` + `border.border.left = {"width":"1px","style":"solid","color":"#d9d9d9"}` |
+| Columns 2+ | `border.borderType:"custom"` + a 1px solid `border.border.left` (divider colour convention: `shesha-design-system` → `component-recipes.md` → status-chip note, and `style-channels.md` → "Stamping rule") |
 
 - The last column's 16px right padding IS the edge spacing — don't add margin.
 - Border sub-shape is a composite object — `clean-form-config` may flag it as a false positive; do NOT strip.
@@ -79,9 +79,9 @@ Also uncap `maxHeight` (`"150px"` → `"auto"`) on banner + KIB so compacted con
 |---|---|---|
 | Title bound to entity prop | `contentDisplay:"name"` + `propertyName:"<titleProp>"` (+ `content:"{{data.<titleProp>}}"`, `textType:"paragraph"`, `fontSize:"text-xl"`, `strong:true` (runtime-verified; not in the groups index — clean-form-config may flag it; do NOT strip), base `font.size` 15.5 + breakpoint `font.size` 17.5) | A plain mustache string in `content` with `contentDisplay:"content"` renders **EMPTY** |
 | Transform a bound value (e.g. truncate to 100 chars) | `contentDisplay:"content"` + code-mode content: `"content": {"_mode":"code","_code":"...return ...;"}` — `content` is `jsSetting:true`, evaluated with `data` in scope | Truncate the **STRING**, not CSS `ellipsis` — a non-wrapping long text sets the flex item's min-width floor to full text width and pushes the KIB out |
-| Gray subtitle | `contentType:"custom"` + `font.color:"#c7c7c7"` | Without `contentType:"custom"`, `font.color` is **IGNORED** (renders antd default `rgba(0,0,0,0.88)`); `font.size` works regardless |
+| Gray subtitle | `contentType:"custom"` + a muted `font.color` (convention: `shesha-design-system` → `component-recipes.md` → `subtitle-text`) | Without `contentType:"custom"`, `font.color` is **IGNORED** (renders antd default `rgba(0,0,0,0.88)`); `font.size` works regardless |
 
-**Pixel parity = COMPONENT TRANSPLANT, not property tweaks.** Designer-output components carry bloat (~167 keys vs a clean ~35-key template) with hidden extras like `font.color:"#000000"` that render visibly different despite identical-looking font size/weight. A one-directional diff misses extra keys — do a **bidirectional full-key diff** and compare **COMPUTED styles in-browser**. Transplant the template's whole text component, preserving target `id`/`parentId`/`componentName`/`propertyName` (for subtitles also keep `content`).
+**Pixel parity = COMPONENT TRANSPLANT, not property tweaks.** Designer-output components carry bloat (~167 keys vs a clean ~35-key template) with hidden extras like a stray literal `font.color` (e.g. pure black — the anti-pattern `shesha-design-system`'s `shesha-design-standards.md` names explicitly) that render visibly different despite identical-looking font size/weight. A one-directional diff misses extra keys — do a **bidirectional full-key diff** and compare **COMPUTED styles in-browser**. Transplant the template's whole text component, preserving target `id`/`parentId`/`componentName`/`propertyName` (for subtitles also keep `content`).
 
 ---
 
@@ -105,7 +105,7 @@ Container names vary across forms (`container60` vs `hdrBand`, `pageContent` vs 
 | Banner | First `container` child of the band |
 | Status chip | The `refListStatus` component |
 | Title | The `text` with `contentDisplay:"name"` |
-| Subtitle | The gray `#c7c7c7` text |
+| Subtitle | The muted-gray text under the title (colour convention: `shesha-design-system` → `component-recipes.md` → `subtitle-text`) |
 | KIB | The `flexDirection:"row"` container (may be nested one wrapper deeper — walk through single-child containers) |
 | KIB divider (legacy, to delete) | KIB child whose subtree has NO content leaf (only containers/sectionSeparators); columns = the rest |
 | Content wrapper | The container whose `className` contains `sha-page-content` |
@@ -122,7 +122,7 @@ Verify with `getBoundingClientRect`/`getComputedStyle`, never screenshots (scali
 `module-definition-details` (module `Shesha.RequirementsStudio`) is the live reference — all 17 RS detail forms were normalized to it:
 
 - Band `container60` > [banner `container61`, KIB `mddKibCtr`]; 13 other forms use `hdrBand`/`hdrLeft` naming — same shape.
-- Title binds `name`; status chip = `refListStatus` on `RsStatus`; subtitle gray `#c7c7c7`.
-- KIB: Licensing Model dropdown + Front End / Back End switches; columns 2+ carry the `#d9d9d9` border-left; verified computed column height == KIB height (84px), `border-left 1px solid rgb(217,217,217)`.
+- Title binds `name`; status chip = `refListStatus` on `RsStatus`; subtitle muted gray (see `subtitle-text` convention).
+- KIB: Licensing Model dropdown + Front End / Back End switches; columns 2+ carry the divider border-left (see the `status-chip` note's divider convention); verified computed column height == KIB height (84px), `border-left 1px solid rgb(217,217,217)`.
 - Toolbar `mddPageHeading` `justifyContent:"left"` (Edit at x=70 on every form); `formSettings.labelCol:8`/`wrapperCol:16`, layout `horizontal`.
 - Known parasites fixed during normalization: VDD/BPD `container60` legacy `style` string (10px vertical pad + 25px left indent) nulled; `container52` KIB wrapper deleted and `mddKibCtr` re-parented; `pageContent`/`container001d3d` wrappers got `no-padding`.

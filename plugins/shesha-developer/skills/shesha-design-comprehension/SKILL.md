@@ -76,9 +76,4 @@ Pin **one** viewport (default 1440×900) for *both* capture and verification. Pr
 
 ## Relationship to the other skills
 
-| Concern | Skill |
-|---|---|
-| Ingest design, plan screens, orchestrate, verify end-to-end | `shesha-developer:shesha-claude-designer` (calls this skill per screen) |
-| **Comprehend a design → measured layout blueprint + placement verification** | **this skill** |
-| Build correct structure, CRUD, validate, push | `shesha-developer:shesha-form-edit` |
-| Map tokens → app theme + per-component v7 style blocks | `shesha-developer:shesha-design-system` |
+This skill owns the measured layout blueprint + placement verification, called per-screen by `shesha-developer:shesha-claude-designer`. For the full ownership split across all four skills, see the canonical table in [`shesha-claude-designer/README.md`](../shesha-claude-designer/README.md) ("Skill | Owns | Must NOT"), collapsed here in Task 4 (2026-07-30) so it is asserted in one place, not five.

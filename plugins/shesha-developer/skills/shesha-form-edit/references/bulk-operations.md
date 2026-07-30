@@ -99,7 +99,7 @@ Find target components by subtree **CONTENT/shape**, never by `componentName` co
 | Header banner | first container child of `components[0]` |
 | Status chip | the `refListStatus` component |
 | Title | `text` with `contentDisplay: "name"` |
-| Subtitle | the gray `#c7c7c7` text |
+| Subtitle | the muted-gray text (colour convention: `shesha-design-system` → `component-recipes.md` → `subtitle-text`) |
 | Divider (to delete) | band child whose subtree has NO content leaf (only containers/sectionSeparators) |
 | Content columns | the remaining band children |
 | Page-content wrapper | the container whose `className` contains `sha-page-content` (find by className, not name) |
@@ -132,7 +132,7 @@ Clone the template's FULL style objects onto each target's analogous component �
 
 RequirementsStudio 2026-06 rollouts that proved this playbook:
 
-- **KIB divider redesign (17 detail forms)**: `transform-kib.js` piloted on `module-definition-details`, then `transform-kib-all.js` rolled to the 16 others — dividers identified structurally (KIB child with no content leaf) and deleted with a component-count-delta guard; stretch + `border.border.left = {width:"1px", style:"solid", color:"#d9d9d9"}` stamped on base+desktop+tablet+mobile of columns 2+.
+- **KIB divider redesign (17 detail forms)**: `transform-kib.js` piloted on `module-definition-details`, then `transform-kib-all.js` rolled to the 16 others — dividers identified structurally (KIB child with no content leaf) and deleted with a component-count-delta guard; stretch + a 1px solid `border.border.left` (divider colour convention: `shesha-design-system` → `component-recipes.md` → status-chip note) stamped on base+desktop+tablet+mobile of columns 2+.
 - **Create-forms cleanup (33 forms)**: `transform-creates.js` + `audit-creates2.js` normalized everything to the `module-definition-create` canon in one pass — 19 broken reflist dropdowns fixed, base-project-detail variants REBUILT wholesale from their transformed standalone twin minus `baseProject` (guard: bpd fields ⊆ twin fields), audited to 0 issues pre- AND post-push.
 - **Layout v2 (32 forms)**: `transform-layout-v2.js` with in-script assertions — non-final rows must have both cells filled; no columns row after a textArea within a section; field-set unchanged.
 - **Subtable toolbars (68 Add-bearing subtables)**: add-button wrapper moved into the toolbar row — toolbar/addWrapper located by subtree quickSearch/pager/buttonGroup content because names diverged (`ctrl_*` vs `container13be03`); a follow-up pass stamped the `sha-index-table-control` / `index-table-controls-right` classes, verified by quick-search x-offset going −8px → +4px (= template).

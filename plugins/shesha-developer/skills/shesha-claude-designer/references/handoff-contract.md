@@ -4,12 +4,7 @@ The conductor (`shesha-claude-designer`) coordinates three specialists. This is 
 
 ## Roles
 
-| Skill | Owns | Must NOT |
-|---|---|---|
-| `shesha-claude-designer` | ingest design, comprehend→plan, sequence, gate, verify end-to-end | author form JSON, pick hexes, push |
-| `shesha-design-comprehension` | per-screen measured layout blueprint + placement verification (the probe + the diff) | author form JSON, pick hexes, push |
-| `shesha-form-edit` | structure, CRUD wiring, validation, push, publish; **splits via flex `container` rows (never `columns`), sized via `desktop.dimensions.width`** | apply v7 appearance blocks itself; author `columns`; pick tokens/hexes |
-| `shesha-design-system` | **all appearance**: app theme + per-component v7 style blocks + the v7 mechanics/channels docs + the capability matrix; audit | author structure, wire CRUD, push, or author `columns` |
+See the canonical ownership table in [`shesha-claude-designer/README.md`](../README.md) ("Skill | Owns | Must NOT") — collapsed here in Task 4 (2026-07-30) so the split is asserted in one place, not five.
 
 ## Contracts
 
