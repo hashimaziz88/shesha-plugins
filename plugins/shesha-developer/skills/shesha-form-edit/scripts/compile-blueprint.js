@@ -1,4 +1,16 @@
 #!/usr/bin/env node
+// SUPERSEDED (docs/RECONCILIATION.md): the blueprint format + compiler decision
+// settled in favour of scripts/compile-spec.mjs against
+// shesha-design-comprehension/assets/blueprint.schema.json — see
+// references/compiling.md for the current build path. This script implements
+// the retired schemas/blueprint.schema.json format (now deleted; nothing here
+// reads that file directly, so this script still runs) and the retired
+// 11-value archetype vocabulary (see references/archetypes.md's "Retired P2
+// vocabulary" table) — e.g. its CAPTURE_ARCHETYPES set below still treats
+// 'modal-dialog' as capture-and-inject-Submit, the inverse of P1's
+// capture-dialog contract. Kept for historical/troubleshooting reference
+// only; do not target it for new work.
+//
 // compile-blueprint.js --blueprint <blueprint.json> --out <form.json>
 //                      [--backend http://localhost:21021] [--no-live]
 //

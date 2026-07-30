@@ -6,15 +6,13 @@ per screen: `<workdir>/blueprints/<screen>.blueprint.json`, conforming to
 rendered-mock format; this file remains the source of truth for the IR's shape. Eight worked
 examples (one per archetype) live in [blueprint-examples.md](blueprint-examples.md).
 
-**A second format also exists, pending reconciliation of the two coexisting compiler
-toolchains** (see `shesha-claude-designer/README.md`): a human-reviewable
-`<screen>.blueprint.md` with fenced `layout-tree`/`bindings`/`assertions` blocks plus a
-fenced ` ```blueprint-json ` machine twin conforming to
-[`../schemas/blueprint.schema.json`](../schemas/blueprint.schema.json), consumed by the
-field-validated `compile-blueprint.js`. Everything below documents the pure-JSON IR that
-`compile-spec.mjs` consumes and this skill's own test suite (`tests/blueprint-schema.test.mjs`,
-`tests/assertions.test.mjs`) validates against — check which compiler owns the target build
-before assuming only one format applies.
+**This is the single blueprint format.** A second, `schemas/blueprint.schema.json` +
+`.blueprint.md`-twin format previously coexisted pending reconciliation of the two compiler
+toolchains (see `shesha-claude-designer/README.md`); that reconciliation is now settled in
+favour of this pure-JSON IR (`docs/RECONCILIATION.md`). The retired schema and its
+`compile-blueprint.js` consumer are no longer the build path — everything below documents the
+pure-JSON IR that `compile-spec.mjs` consumes and this skill's own test suite
+(`tests/blueprint-schema.test.mjs`, `tests/assertions.test.mjs`) validates against.
 
 ## Why a JSON blueprint, not hand-authored Markdown
 
@@ -51,15 +49,12 @@ object**, so none of them can disagree with what the compiler consumes:
 Pure prose was the thing that drifted. A blueprint that IS the compiler's input, rendered rather
 than transcribed, cannot.
 
-**The parallel Markdown+twin format takes a different tradeoff** (pure JSON alone would be
+**The retired Markdown+twin format took a different tradeoff** (pure JSON alone would have been
 unreviewable to that pipeline's authors; pure prose is the thing that drifts either way): every
-`.md` blueprint there carries fenced `layout-tree`/`bindings`/`assertions` blocks a human reviews,
-PLUS one fenced ` ```blueprint-json ` block conforming to
-[`../schemas/blueprint.schema.json`](../schemas/blueprint.schema.json) that
-`compile-blueprint.js` actually consumes ("no spec, no build" — a blueprint without a valid
-blueprint-json block cannot be built there). The Markdown and JSON twin MUST agree — same
-regions/nesting/widths/bindings/assertion ids; when they diverge, the JSON twin is what gets
-built, so fix the divergence, never ship it.
+`.md` blueprint there carried fenced `layout-tree`/`bindings`/`assertions` blocks a human reviews,
+plus one fenced ` ```blueprint-json ` block conforming to the retired `schemas/blueprint.schema.json`,
+consumed by the retired `compile-blueprint.js`. That format is no longer authored — this pure-JSON
+IR is the single blueprint format going forward.
 
 ## Document structure
 
@@ -301,9 +296,6 @@ justified against the manifest rather than silently present or silently missing.
       `scripts/lib/validate-blueprint.mjs`, exercised in `tests/blueprint-schema.test.mjs`) before
       treating it as complete.
 
-(The parallel Markdown+twin format has its own equivalent checklist — same physics, same
-predicate grammar, different container: `Archetype` from the OTHER enum in
-`schemas/blueprint.schema.json`; native cell widths in `row=[…]` lines; fidelity tier +
-confidence + viewport stamped at the top; a fenced ` ```blueprint-json ` block present, schema-
-valid, and agreeing with the Markdown blocks. See that pipeline's own docs for the full checklist
-— this file's checklist above is authoritative for the pure-JSON IR only.)
+(The retired Markdown+twin format had its own equivalent checklist against the now-deleted
+`schemas/blueprint.schema.json` and its 11-value archetype enum — that pipeline is no longer
+authored; this file's checklist above is authoritative for the single blueprint IR.)

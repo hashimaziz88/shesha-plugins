@@ -5,7 +5,7 @@ description: THE MAIN SKILL for all Shesha 0.45 designer work — the single ent
 
 # Shesha Claude Designer
 
-**The conductor for design → on-brand Shesha app.** It never authors form JSON or picks colours — it moves **artifacts** between the three worker skills: design source → theme tokens + screen inventory → per-screen blueprint (`.md` + `blueprint-json` twin) → compiled+pushed form → gate/oracle results → report envelope. Roles, contracts and the fan-out map: **[references/conducting.md](references/conducting.md)**. The full pipeline diagram and the "two coexisting compiler toolchains" note live in **[README.md](README.md)** — read it once per session, not per screen. Firm-rule ids cite `shesha-form-edit/references/_rules.json`.
+**The conductor for design → on-brand Shesha app.** It never authors form JSON or picks colours — it moves **artifacts** between the three worker skills: design source → theme tokens + screen inventory → per-screen blueprint (`<screen>.blueprint.json`) → compiled+pushed form → gate/oracle results → report envelope. Roles, contracts and the fan-out map: **[references/conducting.md](references/conducting.md)**. The full pipeline diagram lives in **[README.md](README.md)** — read it once per session, not per screen. Firm-rule ids cite `shesha-form-edit/references/_rules.json`.
 
 ## Step R — Route by weight (always first)
 
@@ -30,7 +30,7 @@ Identify the source and its fidelity tier: readable source (A) · runnable proto
 
 ## Step 2 — Comprehend each screen into a layout blueprint ← the placement spine
 
-**REQUIRED SUB-SKILL `shesha-developer:shesha-design-comprehension`**, one agent per screen in parallel (MUST for 2+; contract in [conducting.md](references/conducting.md)). Each screen yields `<workdir>/blueprints/<screen>.blueprint.md` — measured layout-tree/bindings/assertions **plus the fenced `blueprint-json` twin, validated against `shesha-design-comprehension/schemas/blueprint.schema.json`**: a measured node tree with explicit grid columns/spans, nesting, tab assignment, bindings, and a placement `assertions` block (typed predicates, not prose). The twin is the build input ("no spec, no build") — this is what stops container placement from drifting; never hand `shesha-form-edit` a prose brief. Name regions with the canonical archetypes from `shesha-design-system/references/default-layout-patterns.md`; measure only where the design deviates from those patterns.
+**REQUIRED SUB-SKILL `shesha-developer:shesha-design-comprehension`**, one agent per screen in parallel (MUST for 2+; contract in [conducting.md](references/conducting.md)). Each screen yields `<workdir>/blueprints/<screen>.blueprint.json`, validated against `shesha-design-comprehension/assets/blueprint.schema.json`: a measured node tree with explicit grid columns/spans, nesting, tab assignment, bindings, and a placement `assertions` block (typed predicates, not prose). The blueprint is the build input ("no spec, no build") — this is what stops container placement from drifting; never hand `shesha-form-edit` a prose brief. Name regions with the canonical archetypes from `shesha-design-system/references/default-layout-patterns.md`; measure only where the design deviates from those patterns.
 
 ## Step 3 — Establish the theme (once) + plan the screens
 
@@ -40,7 +40,7 @@ Then hand the token set to `shesha-developer:shesha-design-system` to ensure the
 
 ## Step 4 — Build each screen (delegate)
 
-Fan out one `shesha-form-edit` dispatch per screen, in parallel. This is a **compile, not an authoring task** — dispatch prompt: *"compile the attached blueprint (`<workdir>/blueprints/<screen>.blueprint.json` path or the blueprint-json block); return pushed+verified form facts."* Form-edit owns compile → gates → push → oracle [R-046]; agents never return unpushed markup as done. Two compiler/validator toolchains coexist pending reconciliation (see README.md) — form-edit picks whichever is current for the target Shesha version; do not assume only `compile-blueprint.js` or only `compile-spec.mjs` exists.
+Fan out one `shesha-form-edit` dispatch per screen, in parallel. This is a **compile, not an authoring task** — dispatch prompt: *"compile the attached blueprint (`<workdir>/blueprints/<screen>.blueprint.json`) via `scripts/compile-spec.mjs`; return pushed+verified form facts."* Form-edit owns compile → gates → push → oracle [R-046]; agents never return unpushed markup as done.
 
 Styling goes through `shesha-developer:shesha-design-system` ONLY — theme blocks per the plan; form-edit re-pushes the styled result through its one gated path. A styling prompt to a structure agent is a contract violation.
 

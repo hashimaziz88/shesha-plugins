@@ -9,13 +9,12 @@ design source
 theme tokens + screen inventory
    │ 2 comprehend (per screen, ∥)
    ▼
-blueprint.md  ──  human view (layout-tree / bindings / assertions)
-              └─  machine twin: fenced ```blueprint-json  (schema-validated)
+<screen>.blueprint.json — schema-validated (nodes / bindings / assertions)
    │ 3 theme once + plan {archetype, blocks}
    │ 4 build: shesha-form-edit COMPILES the blueprint
    ▼
-compile-blueprint.js → GATES (validate-schema → validate-guardrails →
-resolve-bindings → validate-styledness) → STYLE (design-system) →
+compile-spec.mjs → validate-form.mjs (Tier 1 → Tier 2 → Tier 3) →
+STYLE (design-system) →
 PUSH → ORACLE (re-fetch diff + render-instrument.js + design-critic verdict*)
    │ 5 verify: structural (oracle) · placement diff (≤2 iter) · visual audit (≤2 cycles)
    ▼
@@ -28,14 +27,14 @@ report envelope (form ids, gate results, verdicts, probe paths)
 | Skill | Owns | Must NOT |
 |---|---|---|
 | **`shesha-claude-designer`** (conductor — start here) | Route by weight, ingest, sequence screens, move the artifacts, gate on verification | Author form JSON · pick colours · push |
-| **`shesha-design-comprehension`** | Measure each screen into a blueprint (`.md` + `blueprint-json` twin); re-measure the built form and diff against the `assertions` (placement gate) | Author JSON · push |
+| **`shesha-design-comprehension`** | Measure each screen into a blueprint (`<screen>.blueprint.json`); re-measure the built form and diff against the `assertions` (placement gate) | Author JSON · push |
 | **`shesha-form-edit`** | The compiler: blueprint → markup via golden archetypes; the four gates; the one push path; the oracle | Pick tokens/hexes · ship unstyled or unverified |
 | **`shesha-design-system`** | All appearance: app-level Ant theme + brand token files + per-component v7 blocks + the capability annotations | Author structure · wire CRUD · push |
 
 ## Where the shared machinery lives
 
 - **Rule registry (single source of every mechanical fact):** `shesha-form-edit/references/_rules.json` — validators and docs cite `[R-xxx]`; prose never restates more than a sentence.
-- **Blueprint schema (the build input):** `shesha-design-comprehension/schemas/blueprint.schema.json` — form-edit's `compile-blueprint.js` accepts only this ("no spec, no build").
+- **Blueprint schema (the build input):** `shesha-design-comprehension/assets/blueprint.schema.json` — form-edit's `compile-spec.mjs` accepts only this ("no spec, no build"). The earlier `schemas/blueprint.schema.json` + `compile-blueprint.js` pairing is retired; see "One compiler, two open questions" below.
 - **Measured capability matrix (style authority):** `shesha-form-edit/assets/measured-capability-matrix.json` — gym-generated per release; effects per `component × setting-path`. The hand matrix `shesha-design-system/assets/capability-matrix.json` is annotation only (technique keys, crossCuttingRules, fixes), overlaid by `merge-capability.js`.
 - **Brand token files:** `shesha-design-system/assets/themes/*.tokens.json` — `shesha` (default), `requirements-studio`, `wcg`. A new brand = copy the default, swap values, keep key names.
 - **Golden archetypes (compiler fixtures):** `shesha-form-edit/assets/golden/` (indexed by `_index.json`).
@@ -43,23 +42,25 @@ report envelope (form ids, gate results, verdicts, probe paths)
 1. **Ingest** (`shesha-claude-designer`) — read the design source; extract the token set + screen list. *Run* a compiled prototype and probe it; never parse a minified bundle.
 2. **Comprehend** (`shesha-design-comprehension`) — each screen → `blueprints/<screen>.blueprint.json`, a measured layout node tree with a typed placement `assertions` block. This is what stops container placement from drifting.
 3. **Plan** (`shesha-claude-designer`) — establish the theme **once**, then map each blueprint region to a **block** (`shesha-form-edit/assets/blocks`) + its paired **style overlay/recipe** (`shesha-design-system`). The per-screen plan is `{archetype, blocks[], recipes[]}`.
-4. **Build** — for each screen: **(a)** `shesha-form-edit` **compiles** the blueprint into native structure with CRUD already wired, then pushes; **(b)** `shesha-design-system` resolves the token overlays and returns styled JSON — which `shesha-form-edit` pushes through its single push path. Two compiler/validator toolchains currently coexist pending reconciliation (see "Two toolchains" below) — `compile-blueprint.js` → `validate-schema.js`/`validate-guardrails.js`/`validate-styledness.js` is the field-validated path the team runs today; `scripts/compile-spec.mjs` → `scripts/validate-form.mjs` (see `shesha-form-edit/references/compiling.md`) is the registry-backed path proven by 474 tests + `evals/`. Either produces gated, structurally-valid markup; do not assume only one exists.
+4. **Build** — for each screen: **(a)** `shesha-form-edit` **compiles** the blueprint (`scripts/compile-spec.mjs` → `scripts/validate-form.mjs`, see `shesha-form-edit/references/compiling.md`) into native structure with CRUD already wired, then pushes; **(b)** `shesha-design-system` resolves the token overlays and returns styled JSON — which `shesha-form-edit` pushes through its single push path. This is the single compiler entry point (see "One compiler, two open questions" below for what is still being reconciled on the validator/ground-truth side).
 5. **Verify** — three gates in order: **structural** (native components, fully flexed, fields bound) → **placement** (`shesha-design-comprehension` re-measures the live form and `scripts/verify-placement.mjs`'s exit code is the gate against the blueprint assertions) → **visual** (screenshot vs theme). Mismatches route back to the owning skill.
 
 The contract that wires the conductor to the sub-skills is [`references/handoff-contract.md`](references/handoff-contract.md).
 
-### Two toolchains, one contract, pending reconciliation
+### One compiler, two open questions
 
-The compile/validate layer was built twice, independently, from the same blueprint contract:
+The compile/validate layer was built twice, independently, from the same blueprint contract.
+**The blueprint format + compiler decision is now settled**: `shesha-design-comprehension/assets/blueprint.schema.json` is the one blueprint schema, and `scripts/compile-spec.mjs` → `scripts/validate-form.mjs` is the one compile/validate entry point. `schemas/blueprint.schema.json` and `scripts/compile-blueprint.js` are the retired path — `compile-blueprint.js` is kept in the tree (nothing executable still reads the retired schema file, so it still runs), but it implements the retired archetype vocabulary and is not the build path any new work should target.
 
-| | Field-validated (primary today) | Registry-backed (474 tests + evals) |
+What is **still open**, per `docs/RECONCILIATION.md` §"Recommended position" (a separate decision, not settled by this pass):
+
+| | Field-validated (P2) | Registry-backed (P1 — the compiler) |
 |---|---|---|
 | Ground truth | `assets/components-kb/` + `gym/forms/` (live-probed) | `assets/registry/registry-0.45.1.json` (generated from settings-form source) |
-| Compile | `scripts/compile-blueprint.js` | `scripts/compile-spec.mjs` |
 | Validate | `validate-schema.js`, `validate-guardrails.js`, `validate-styledness.js` | `validate-form.mjs` (3 tiers, exit codes, `hooks/gate-policy.json`) |
 | Golden corpus | `assets/golden/` | `assets/exemplars/` |
 
-Both are real, both are gated, both remain reachable until a follow-up reconciles them into one. Do not delete either side's scripts, assets, or docs on the assumption the other one "is" the pipeline.
+The recommended position is to **merge** the validators (P1 as chassis, porting P2's `R-015` and the `validate-styledness` coverage triad) and to **keep both** ground-truth sources with a stated division of labour — neither is decided by this schema/archetype pass. Do not delete either side's validator scripts, ground-truth assets, or corpora on the assumption the other one "is" the pipeline.
 
 ---
 
@@ -100,7 +101,7 @@ A block style-overlay says `"color": "$role:bodyText"`, not `"#1f1f1f"`. At stam
 | **Relax or tighten a design rule** | recipes in `references/shesha-design-standards.md`; **functional guardrails stay in** `shesha-form-edit/references/form-quality.md` | guardrails and relaxable recipes are deliberately kept in separate blocks |
 | **Change blueprint/placement vocabulary** | `shesha-design-comprehension/references/blueprint-ir.md` + `verification-loop.md` | must move in lockstep with the flex-split idiom |
 | **Change a mechanical rule** | `shesha-form-edit/references/_rules.json` | validators + docs cite it by `[R-xxx]` id; single source, don't restate the fact elsewhere |
-| **Change what the field-validated compiler emits** | `shesha-form-edit/scripts/compile-blueprint.js` + the golden archetypes (`assets/golden/`) | the parallel registry-backed compiler is `scripts/compile-spec.mjs` + `assets/exemplars/` — see "Two toolchains" above |
+| **Change what the compiler emits** | `shesha-form-edit/scripts/compile-spec.mjs` + the archetype flow manifests (`assets/archetypes/*.flow.json`) | `scripts/compile-blueprint.js` (the retired field-validated compiler) still reads `assets/golden/` but is not the build path — see "One compiler, two open questions" above |
 | **Record new style capability / re-measure after a Shesha upgrade (gym)** | re-run the gym (`shesha-form-edit/references/gym.md`) → regenerates the measured matrix; annotate techniques in the hand matrix | distinct from the `capability-matrix.json` row above — this is the KB/gym side |
 
 ---

@@ -1,8 +1,8 @@
 # Consuming a layout blueprint (from shesha-design-comprehension)
 
-**Two coexisting compilers consume two coexisting blueprint formats, pending reconciliation** (see `shesha-claude-designer/README.md`'s "Two toolchains" section). This file documents the registry-backed pure-JSON path (`compile-spec.mjs`) first — it is the one this skill's own test suite proves (`tests/e2e-compile.test.mjs`, `tests/card-collapsible-fixture.test.mjs`) — then the field-validated Markdown+twin path (`compile-blueprint.js`) below it. Check which compiler the target build actually uses before assuming only one applies.
+**This skill has one compiler and one blueprint format** (`docs/RECONCILIATION.md` settles the reconciliation between the two that used to coexist here — see `shesha-claude-designer/README.md`'s "One compiler, two open questions" section). This file documents the pure-JSON path (`compile-spec.mjs`) — the one this skill's own test suite proves (`tests/e2e-compile.test.mjs`, `tests/card-collapsible-fixture.test.mjs`). The retired Markdown+twin path (`compile-blueprint.js`) is documented separately, below, for historical/troubleshooting reference only — it is not the build path.
 
-## The registry-backed path (`compile-spec.mjs`)
+## The compiler (`compile-spec.mjs`)
 
 When this skill is invoked by `shesha-claude-designer` (or directly with a design to match), the requirements arrive as a **layout blueprint** — a `<screen>.blueprint.json` produced by `shesha-developer:shesha-design-comprehension`, conforming to `../shesha-design-comprehension/assets/blueprint.schema.json`. Building from it is a **compile, not an authoring task** — see [compiling.md](compiling.md) for the one-command path (`compile-spec.mjs` then `validate-form.mjs`) and the full contract. This file is the field-mapping reference for reading a blueprint and troubleshooting a compile that fails or produces the wrong thing.
 
@@ -30,36 +30,31 @@ Layout splits (a design's two-column row, a fixed-width rail) are expressed in a
 
 A blueprint node's `recipe:` annotations (if present) are for `shesha-design-system` — not this skill's concern. Structure only.
 
-## The field-validated path (`compile-blueprint.js`)
+## RETIRED — the field-validated path (`compile-blueprint.js`)
 
-Design-driven requirements arrive as a **blueprint**: a Markdown file
+**Not the build path.** `docs/RECONCILIATION.md` settles the blueprint format/compiler decision
+in favour of the pure-JSON path above; the retired path below is documented only because
+`scripts/compile-blueprint.js` still exists in the tree (nothing executable reads the retired
+`schemas/blueprint.schema.json`, so deleting it did not break the script) and a reader may still
+encounter it. Do not target it for new work.
+
+Design-driven requirements used to arrive as a **blueprint**: a Markdown file
 (`<screen>.blueprint.md`) carrying a fenced ```` ```blueprint-json ```` block
-that conforms to `shesha-design-comprehension/schemas/blueprint.schema.json`.
-The blueprint is a *measured placement contract* — build to it exactly.
+that conformed to the retired `schemas/blueprint.schema.json`. That format is not authored
+anymore.
 
-## Pipeline
-
-1. **Extract** the `blueprint-json` block (the Markdown around it is
-   human-readable commentary — the JSON is the contract).
+1. **Extract** the `blueprint-json` block (the Markdown around it was
+   human-readable commentary — the JSON was the contract).
 2. **Compile**: `node scripts/compile-blueprint.js --blueprint <bp.json> --out
-   <workdir>/<form>.json`. The compiler picks the golden archetype from the
-   blueprint's `archetype`, builds the layout tree as flex containers sized via
-   `desktop.dimensions.width` [R-028/R-029], types each node from `kind`, and
-   wires `bindings` (validate every propertyName live [R-034] via
-   `resolve-bindings.js`).
-3. **Gates onward** as for any build — schema → guardrails → bindings →
-   styledness. The blueprint's region `recipe:` annotations pass through to
-   `shesha-design-system` untouched (style is not your concern here).
-
-## What the blueprint's parts drive
-
-| Blueprint part | Drives |
-|---|---|
-| `archetype` | which golden archetype the compiler clones (`assets/golden/_index.json`) |
-| `layout-tree` rows/nesting | flex container structure + every `parentId` [R-001] |
-| `kind` per node | the component `type` |
-| `bindings` | each input's `propertyName` + component type |
-| `assertions` | the post-push placement re-measure |
+   <workdir>/<form>.json`. The compiler picked the golden archetype from the
+   blueprint's `archetype` (the retired 11-value enum, not the current eight —
+   see `archetypes.md`'s "Retired P2 vocabulary" table for the mapping), built the
+   layout tree as flex containers sized via `desktop.dimensions.width`
+   [R-028/R-029], typed each node from `kind`, and wired `bindings`.
+3. **Gates onward** as for any build — `validate-schema.js` → `validate-guardrails.js` →
+   `resolve-bindings.js` → `validate-styledness.js` (still-live P2 validator scripts;
+   whether/how these merge with `validate-form.mjs` is a separate, still-open question
+   per `docs/RECONCILIATION.md` §"Recommended position", not settled by this pass).
 
 ## After push — assertions are verified by comprehension
 
