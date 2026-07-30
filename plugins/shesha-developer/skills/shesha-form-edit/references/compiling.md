@@ -44,7 +44,7 @@ used to produce it.
 | Owned by the compiler | Emitter | Re-checked by |
 |---|---|---|
 | `parentId` on every component | `normalize-form.mjs` Phase B2 (`node.parentId = ctx.parent ? ctx.parent.id : 'root'`) | `T1-PARENT-MISSING` |
-| `id` minting (real UUIDs, no short placeholders, no duplicates) | `normalize-form.mjs` Phase B1 (`fixId`/`deterministicUuid`, seeded from the node's tree path — same input -> same id) | `T1-ID-EMPTY`, `T1-ID-NOT-UUID`, `T1-ID-DUPLICATE` |
+| `id` minting (real UUIDs/nanoids, no short placeholders, no duplicates) | `normalize-form.mjs` Phase B1 (`fixId`/`deterministicUuid`, seeded from the node's tree path — same input -> same id) | `T1-ID-EMPTY`, `T1-ID-DUPLICATE` |
 | Per-component `version` (the hardcoded per-framework-version list this doc used to carry) | `normalize-form.mjs` Phase B3 (`stampVersion`, reads `assets/registry/registry-0.45.1.json` — the single source of truth, not a doc-maintained list) | `T1-VERSION-MISSING`, `T1-VERSION-STALE` |
 | `dataContext` mandatory props (`entityType`, `sourceType: "Entity"`, `dataFetchingMode: "paging"`, `defaultPageSize: 10`) | `scripts/lib/compile/datacontext.mjs`'s `buildDataContext()` | `T2-DATACONTEXT-PROPS` |
 | `buttonGroup` item shape + Submit/exit wiring (`{ actionName: "Submit", actionOwner: "shesha.form" }` paired with a Navigate/Close Dialog/Cancel Edit exit) | `scripts/lib/compile/actions.mjs`'s `buildButtonGroupItem()`/`buildButtonGroupItems()`, completed against the archetype's flow manifest when a required action is missing (`flow-complete.mjs`) | `T2-SUBMIT-WIRING`, `T2-EXIT-MISSING`, `T2-LOOSE-BUTTON` |
