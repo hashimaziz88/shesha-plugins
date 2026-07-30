@@ -2,7 +2,7 @@
   "$block": "dashed-add-button",
   "$kind": "fragment",
   "$styleOverlay": "dashed-add-button",
-  "_note": "The '+ Add X' dashed button that sits at the bottom of a rail-card list. A full-width wrapper container carries the dashed per-side hairline (borderType:'custom', all four sides 1.5px dashed) + centred content; the inner buttonGroup holds a single 'link' button (PlusOutlined + Show Dialog opening the create dialog at modalWidth 60%, formMode edit). The dashed box is structural-neutral and lives on the wrapper; the button text is brand (a $role placeholder) — link buttons take colour from the app theme, so never hardcode a hex. Pattern generalised from the live VDD 'Add Endpoint'/'Add Role' rail buttons.",
+  "_note": "The '+ Add X' dashed button that sits at the bottom of a rail-card list. A full-width wrapper container carries the dashed per-side hairline (borderType:'custom', all four sides 1.5px dashed) + centred content; the inner buttonGroup holds a single 'link' button (PlusOutlined + Show Dialog opening the create dialog at modalWidth 60%, formMode edit). The dashed box is structural-neutral and lives on the wrapper; the button text is brand — link buttons take colour from the app theme (buttonGroup v15's per-item colour prop is a no-op; capability-matrix.json's 'buttonType colour' row verdict is renders-via-app-theme), so no hex OR role belongs on the item. 2026-07-30 (Phase 5 item 4): removed this item's `color: \"$role:addButtonText\"` prop entirely rather than pointing it at an invented role — the channel it targeted never rendered anything (confirmed by the matrix verdict above), so it was a dangling reference to a role that resolved against no shipped brand AND described a colour decision that doesn't exist. rail-panel.block.json's identical link+PlusOutlined+Add button item has never carried a color prop, which is the established, correct pattern this now matches. Pattern generalised from the live VDD 'Add Endpoint'/'Add Role' rail buttons.",
   "$slots": {
     "button": "subtree.components.0.items.0",
     "buttonLabel": "subtree.components.0.items.0.label",
@@ -87,7 +87,6 @@
             "hidden": false,
             "size": "small",
             "buttonAction": null,
-            "color": "$role:addButtonText",
             "actionConfiguration": {
               "_type": "action-config",
               "actionName": "Show Dialog",

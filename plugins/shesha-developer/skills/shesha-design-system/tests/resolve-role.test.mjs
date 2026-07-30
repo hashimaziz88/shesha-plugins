@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { resolveRole, validateRoles } from '../scripts/lib/resolve-role.mjs';
@@ -126,18 +126,56 @@ test('the shipped catalogue is valid against the registry and resolves fully', (
   }
 });
 
-test('detail-rail throws under the requirements-studio brand rather than silently resolving the wrong rail', () => {
-  // requirements-studio.tokens.json has its own chrome.railWidth (56px, an unrelated
-  // collapsed-icon-rail width). detail-rail resolves $chrome.detailRailWidth, which
-  // that brand file does not define. This MUST throw, not silently fall back to 56 —
-  // the RS brand is known to be missing many keys (a separately-tracked gap), and a
-  // loud failure here surfaces that instead of hiding it behind a plausible-looking
-  // wrong pixel value.
+test('detail-rail resolves under the requirements-studio brand (Phase 5 item 4 added chrome.detailRailWidth)', () => {
+  // Before Phase 5 item 4, requirements-studio.tokens.json had its own chrome.railWidth
+  // (56px, an unrelated collapsed-icon-rail width) but no chrome.detailRailWidth, so
+  // resolving detail-rail against it threw — correctly (loud beats silently wrong), but
+  // it meant the one shipped custom brand couldn't build a record-detail archetype at
+  // all. Phase 5 item 4 added the missing chrome.detailRailWidth (332, the shesha
+  // default's own value — a structural/layout metric, not a colour decision, and no
+  // RS-specific measurement exists to use instead). This test now asserts the opposite
+  // of what it used to: resolution succeeds, and this brand's OWN railWidth (56,
+  // unrelated) stays untouched.
   const roles = JSON.parse(readFileSync(join(ROOT, 'assets/roles.styles.json'), 'utf8'));
   const rsTokens = JSON.parse(
     readFileSync(join(ROOT, 'assets/themes/requirements-studio.tokens.json'), 'utf8'));
-  assert.throws(() => resolveRole('detail-rail', { roles, tokens: rsTokens }),
-    /unresolvable token: \$chrome\.detailRailWidth/);
+  const r = resolveRole('detail-rail', { roles, tokens: rsTokens });
+  assert.equal(r.desktop.dimensions.width, 332);
+  assert.equal(rsTokens.chrome.railWidth, 56); // this brand's own, unrelated chrome key, unchanged
+});
+
+// The shipped brands, by name — deliberately NOT a directory glob. assets/themes/ can
+// hold untracked, in-progress brand files during development (e.g. skyline.tokens.json,
+// explicitly left uncommitted/unfinished per this repo's working conventions) that are
+// not yet "shipped" and may legitimately be incomplete; globbing the directory would
+// make this test fail on someone else's in-progress work rather than on a real gap in a
+// brand this project actually ships.
+const SHIPPED_BRAND_FILES = ['shesha.tokens.json', 'requirements-studio.tokens.json'];
+
+test('every role in the shipped catalogue resolves against every shipped brand', () => {
+  // Phase 5 item 4: the RS brand used to be missing ~198 of the default's keys, so this
+  // never held for RS. Iterates every role in roles.styles.json (not a hardcoded list, so
+  // a newly added role/archetype is covered automatically) against each shipped brand.
+  const roles = JSON.parse(readFileSync(join(ROOT, 'assets/roles.styles.json'), 'utf8'));
+  const themesDir = join(ROOT, 'assets/themes');
+  for (const file of SHIPPED_BRAND_FILES) {
+    assert.ok(existsSync(join(themesDir, file)), `expected shipped brand file ${file} to exist`);
+  }
+
+  for (const file of SHIPPED_BRAND_FILES) {
+    const tokens = JSON.parse(readFileSync(join(themesDir, file), 'utf8'));
+    for (const name of Object.keys(roles)) {
+      assert.doesNotThrow(
+        () => {
+          const r = resolveRole(name, { roles, tokens });
+          for (const bp of ['desktop', 'tablet', 'mobile']) {
+            assert.ok(!JSON.stringify(r[bp]).includes('"$'), `${name}.${bp} has an unresolved token`);
+          }
+        },
+        `role "${name}" fails to resolve against brand file "${file}"`,
+      );
+    }
+  }
 });
 
 test('container roles set the complete layout contract', () => {

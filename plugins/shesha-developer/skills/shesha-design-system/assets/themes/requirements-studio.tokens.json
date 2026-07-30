@@ -19,7 +19,9 @@
       "canvas": "#f0f2f5",
       "surface": "#ffffff",
       "surfaceAlt": "#fafafa",
-      "surfaceMuted": "#f7f7f7"
+      "surfaceMuted": "#f7f7f7",
+      "surfaceInset": "#f0f2f5",
+      "$note": "surfaceInset (added Phase 5 item 4) reuses this brand's own canvas value rather than inventing a new tone: the shesha default brand's surfaceInset (#F0F2F5) happens to equal ITS OWN canvas-adjacent divider tone, and RS's canvas (#f0f2f5) is the same literal — the closest existing RS analogue for a muted/recessed chip fill (card-with-header-strip's count badge, rail-panel's count badge). This was a dangling $palette.surfaces.surfaceInset reference before this fix."
     },
     "lines": {
       "border": "#e5e7eb",
@@ -64,7 +66,12 @@
     "overlay": "0 8px 24px rgba(15, 23, 42, 0.08)",
     "rowHover": "0 1px 2px rgba(15, 23, 42, 0.04)"
   },
-  "chrome": { "railWidth": 56, "headerHeight": 52, "recordBarHeight": 96 },
+  "chrome": {
+    "railWidth": 56, "headerHeight": 52, "recordBarHeight": 96,
+    "detailRailWidth": 332, "navTileWidth": 220, "metricTileWidth": 200,
+    "chartMinHeight": 280, "formColMax": 800,
+    "$note": "detailRailWidth/navTileWidth/metricTileWidth/chartMinHeight/formColMax (added Phase 5 item 4) are pure structural/layout metrics, not colour or brand decisions -- they are the shesha default's own values, reused as-is because no RS-specific measurement for a record-detail rail column / nav tile / metric tile / chart surface / wizard form-column exists anywhere in this brand's source material, and there is no reason layout-budget pixel widths should differ by brand absent one. This brand's OWN railWidth (56, collapsed sidebar rail) and recordBarHeight (96) are unrelated, differently-scoped chrome concepts that were already correctly not confused with these before this fix -- see resolve-role.test.mjs and roles.styles.json's detail-rail/nav-tile/metric-tile/chart-surface/wizard-shell roles."
+  },
   "statusLifecycle": {
     "$reflist": "Shesha.RequirementsStudio.RsStatus",
     "order": ["Draft", "Confirmed", "InBuild", "Delivered", "Rejected", "OnHold"],
@@ -86,10 +93,15 @@
     "readOnlyFieldBg": "palette.surfaces.surfaceMuted",
     "inputBorder": "palette.lines.borderStrong",
     "hairline": "palette.lines.border",
+    "divider": "palette.lines.divider",
     "sectionHeading": "palette.brand.primary",
     "bodyText": "palette.ink.primary",
+    "bodyInk": "palette.ink.primary",
     "helperText": "palette.ink.soft",
+    "mutedText": "palette.ink.soft",
+    "progressAccent": "palette.brand.primary",
     "baseRadius": "radius.md",
-    "cardRadius": "radius.lg"
+    "cardRadius": "radius.lg",
+    "$note": "divider/bodyInk/mutedText/progressAccent (added Phase 5 item 4): this brand's own palette already carried the backing values (lines.divider, ink.primary, ink.soft, brand.primary) -- only the role-map entry exposing them was missing, an omission rather than a genuine brand decision. bodyInk deliberately targets the same path as bodyText (matching the shesha default's own bodyInk/bodyText pair); progressAccent matches Ant Design's own convention of a Progress bar defaulting to the theme's primary/interactive colour."
   }
 }

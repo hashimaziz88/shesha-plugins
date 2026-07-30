@@ -118,9 +118,10 @@
     "headerBandBg": "palette.brand.primary",
     "selectedBg": "palette.brand.tint",
     "hoverBg": "palette.brand.tintSoft",
+    "progressAccent": "palette.brand.primary",
     "baseRadius": "radius.md",
     "cardRadius": "radius.lg",
-    "$note": "sectionHeading resolves to Nero ink (not brand) — Shesha reserves Cobalt for interactive affordances, so card/section headings are near-black, not coloured. This differs from brands that colour their headings."
+    "$note": "sectionHeading resolves to Nero ink (not brand) — Shesha reserves Cobalt for interactive affordances, so card/section headings are near-black, not coloured. This differs from brands that colour their headings. progressAccent (added Phase 5 item 4) maps to the same brand.primary as appPrimary/headerBandBg: a progress bar's accent stroke defaulting to the brand's primary/interactive colour is Ant Design's own convention for an unthemed Progress component, not a bespoke decision — this was a dangling $role:progressAccent reference (completeness-bar block) that resolved against no shipped brand at all before this fix."
   },
   "$antdTheme": {
     "$use": "The resolved Ant Design 6.x ConfigProvider theme for the Shesha default brand. Apply this OBJECT verbatim at the app level (Configuration Studio → Settings → Default UI → Frontend → Theme settings, or the settings API with the `sha-frontend-application: default-app` header) — see references/app-theme.md. This is the 'set once' layer; per-component v7 style blocks handle what it can't express.",
