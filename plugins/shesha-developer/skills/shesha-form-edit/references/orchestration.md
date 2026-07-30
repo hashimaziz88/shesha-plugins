@@ -25,7 +25,8 @@ Exit criteria per stage: audit = every target has a verdict; pilot = assertions 
 
 | Agent | Use for | Model | Never |
 |---|---|---|---|
-| `shesha-developer:form-author` | Drafting genuinely distinct new forms, one agent per form, in parallel | inherit | pushing |
+| `shesha-developer:form-author` | Drafting genuinely distinct new forms with **no design source and no blueprint**, one agent per form, in parallel | inherit | pushing; accepting a blueprint or design source (that is `shesha-form-designer`'s remit) |
+| `shesha-developer:shesha-form-designer` | ONE per screen when a blueprint or design source exists — comprehend → compile → validate → push → placement gate → critic | opus | hand-authoring markup; declaring done on a non-zero placement exit |
 | `shesha-developer:form-auditor` | Read-only verdict per form, before bulk pushes and after rollouts | sonnet | editing |
 | `shesha-developer:fleet-transformer` | ONE per bulk mutation — writes the transform script, pilots, rolls out | sonnet | one-per-form |
 | `shesha-developer:fullstack-prereq-checker` | Backend readiness before entity-bound work | haiku | fixing |
@@ -72,7 +73,8 @@ One final agent (or do it inline): aggregate the verdicts; use ONLY the data pro
 | ≤ 3 forms | Single context, no agents. Dispatch overhead exceeds the benefit. |
 | Audits / verification, > 3 forms | Fan out `form-auditor`, one per form — read-heavy, independent, parallel. Proven at 16+ forms. |
 | The same mechanical change on N forms | ONE `fleet-transformer`. The script costs the same for 1 or 50 forms; per-form agents multiply cost AND drift. |
-| N genuinely distinct new forms | Parallel `form-author` dispatches (judgment is per-form; wall-clock wins). Push + audit centrally afterwards. |
+| N genuinely distinct new forms, none with a design source or blueprint | Parallel `form-author` dispatches (judgment is per-form; wall-clock wins). Push + audit centrally afterwards. |
+| N screens that DO have blueprints or design sources | One `shesha-form-designer` per screen — it owns its own compile, push and placement gate, so there is no central push step to serialise on. |
 | Entity-bound work, unverified backend | One `fullstack-prereq-checker` first — a haiku-priced gate that prevents authoring against missing entities. |
 
 Pilot-first is itself a cost control: a wrong fleet rollout costs 2× (rollback + redo); the pilot caps the blast radius at one form.

@@ -22,7 +22,9 @@ Most of the waste in a design run is the same setup repeated per screen. Establi
 | `shesha-design-comprehension` | per-screen measured blueprint + placement verification (probe + diff) | author form JSON, pick hexes, push |
 | `shesha-form-edit` | compile the blueprint-json → gates → push → oracle; CRUD wiring; flex-row splits (never `columns` [R-028]) | apply v7 appearance blocks; pick tokens/hexes |
 | `shesha-design-system` | ALL appearance: app theme + per-component v7 blocks + capability matrix; audit | author structure, wire CRUD, push |
-| `form-author` (agent) | draft NEW structure markup from a seed; return JSON only | style / apply a theme (dispatching it with a styling prompt is a contract violation), push |
+| `shesha-form-designer` (agent) | **the per-screen dispatch for this pipeline** — blueprint → compile → validate → push → placement gate → critic, both skills preloaded so no step can be skipped | hand-author markup, author a brand token file, declare done on a non-zero placement exit |
+
+**`form-author` is NOT part of a conducted run.** Its remit is a brand-new form with **no design source and no blueprint at all** — exactly the case this pipeline never produces, since Step 2 gives every screen a blueprint. Dispatching it here would hand a blueprint to an agent whose own scope section forbids taking one. Per-screen work goes to `shesha-form-designer`; `form-author` belongs to `shesha-form-edit`'s standalone no-design route.
 
 ## Contracts
 
@@ -53,7 +55,7 @@ Omit any of these and the agent re-picks a shell, re-authenticates, or skips the
 | 4 Style | central | `shesha-design-system` styles centrally for coherence; styled JSON re-pushes through form-edit |
 | 5 Verify | **serial** | placement + visual are browser-bound (one Playwright session) |
 
-Cross-link ordering (list → detail → create) governs the **push + verify** sequence, not the authoring. Within one screen's build, `shesha-form-edit` may fan out its own `form-author`s (its orchestration.md) — one level down; the conductor stays at the screen axis. Orchestrate with `superpowers:dispatching-parallel-agents`.
+Cross-link ordering (list → detail → create) governs the **push + verify** sequence, not the authoring. One screen = one `shesha-form-designer` dispatch; there is no second authoring level beneath it, because the screen already has a blueprint and the compiler is deterministic. (`shesha-form-edit`'s own `form-author` fan-out exists for its standalone no-blueprint route only — see the note under the ownership table.) The conductor stays at the screen axis. Orchestrate with `superpowers:dispatching-parallel-agents`.
 
 **Threshold:** 1 screen → inline, no dispatch. 2+ screens → MUST fan out Steps 2 + 4a, one agent per screen; a multi-screen build run serially is a defect.
 

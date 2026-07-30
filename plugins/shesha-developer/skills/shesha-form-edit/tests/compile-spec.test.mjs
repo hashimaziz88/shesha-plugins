@@ -266,3 +266,54 @@ test('CLI: --json prints both markup and report', () => {
   assert.ok(parsed.markup?.components);
   assert.ok(parsed.report?.nodes);
 });
+
+// ---------------------------------------------------------------------------
+// Theme resolution — the mechanism [R-042] depends on. Styling is a
+// COMPILE-TIME input, so a blueprint's `theme` id has to reach the token load
+// or a named brand silently compiles to the default one.
+// ---------------------------------------------------------------------------
+
+test('theme: a blueprint with no theme id compiles with the shipped default', () => {
+  const bp = loadBlueprint('standalone-capture');
+  delete bp.theme;
+  const { report } = compileSpec(bp);
+  assert.equal(report.theme, 'shesha');
+  assert.ok(!report.defaults.some((d) => d.startsWith('theme:')));
+});
+
+test('theme: a named brand with a token file is the one actually used', () => {
+  const bp = { ...loadBlueprint('standalone-capture'), theme: 'requirements-studio' };
+  const { report } = compileSpec(bp);
+  assert.equal(report.theme, 'requirements-studio');
+  assert.ok(!report.defaults.some((d) => d.startsWith('theme:')));
+});
+
+test('theme: an unknown brand falls back to the default and says so, never throws', () => {
+  const bp = { ...loadBlueprint('standalone-capture'), theme: 'no-such-brand' };
+  const { report } = compileSpec(bp);
+  assert.equal(report.theme, 'shesha');
+  const note = report.defaults.find((d) => d.startsWith('theme:'));
+  assert.ok(note, 'the fallback must be reported, not silent');
+  assert.match(note, /no-such-brand/);
+  assert.match(note, /separate, explicitly requested task/);
+});
+
+test('theme: a named brand changes the emitted markup (tokens really are baked in)', () => {
+  const base = loadBlueprint('standalone-capture');
+  const asDefault = compileSpec({ ...base, theme: 'shesha' }).markup;
+  const asBrand = compileSpec({ ...base, theme: 'requirements-studio' }).markup;
+  assert.notEqual(
+    JSON.stringify(asBrand),
+    JSON.stringify(asDefault),
+    'a different brand must produce different baked-in style values',
+  );
+});
+
+test('theme: caller-supplied tokens still win over the blueprint id', () => {
+  const bp = { ...loadBlueprint('standalone-capture'), theme: 'requirements-studio' };
+  const tokens = JSON.parse(
+    readFileSync(join(ROOT, '../shesha-design-system/assets/themes/shesha.tokens.json'), 'utf8'),
+  );
+  const { report } = compileSpec(bp, { tokens });
+  assert.equal(report.theme, 'caller-supplied');
+});

@@ -53,7 +53,9 @@ end with a summary naming every form created or modified (module + name + id)
   the compiler; fetch → edit in place (preserve ids [R-025]) → GATES onward.
 - **New form(s) or a structural rebuild**: full pipeline below.
 - **2+ forms** → [references/orchestration.md](references/orchestration.md)
-  (fan out `form-author` agents; ONE `fleet-transformer` for bulk mutations).
+  (fan out `form-author` agents **only when there is no design source and no
+  blueprint** — otherwise one `shesha-form-designer` per screen; ONE
+  `fleet-transformer` for bulk mutations).
 - **Backend prerequisites in doubt** (new entity, missing reflist/endpoint) →
   dispatch `fullstack-prereq-checker` first; plan backend changes in one
   build + double-boot [R-040].
@@ -168,11 +170,15 @@ form with a `fail` verdict.
 
 ## 5 · Style — compiled in, not a second pass
 
-Design is a **compile-time input**: `compile-blueprint.js --theme <brand>`
-(default `shesha`) resolves brand colour, type scale, radius, spacing and
-borders from `shesha-design-system/assets/themes/<brand>.tokens.json` and bakes
-them into every node, so the first output is already on-brand [R-042]. No
-separate styling pass is needed for a compiled form.
+Design is a **compile-time input**: the theme is named by the blueprint's own
+`theme` id (default `shesha`), and `compile-spec.mjs` loads
+`shesha-design-system/assets/themes/<theme>.tokens.json` and bakes brand colour,
+type scale, radius, spacing and borders into every node as it emits — so the
+first output is already on-brand [R-042]. No separate styling pass is needed for
+a compiled form. **There is no `--theme` flag**: set `theme` in the blueprint,
+and read `report.theme` back to confirm which brand was used. An id with no
+token file falls back to the default and says so in `report.defaults` — that is
+never a reason to author a brand file.
 
 Two things still route to `Skill(shesha-developer:shesha-design-system)`:
 - **the one-time app AntD theme** (`$antdTheme` — input/table/button chrome), set
@@ -316,7 +322,7 @@ Anything unverified is reported as UNVERIFIED, never as done.
 
 **Touching more than ~3 forms?** Read [references/bulk-operations.md](references/bulk-operations.md) first — pilot-first is mandatory. Mutations go through **one `shesha-developer:fleet-transformer` agent** (never per-form authoring agents); audits fan out **one `shesha-developer:form-auditor` per form**. Dispatch templates + cost table: [references/orchestration.md](references/orchestration.md).
 
-**Authoring 2+ genuinely distinct new forms?** Dispatch one `shesha-developer:form-author` agent per form in parallel (each gets the seed, metadata, requirements, and an output path); you audit and push centrally afterwards. A single new form stays in-context.
+**Authoring 2+ genuinely distinct new forms, with no design source and no blueprint for any of them?** Dispatch one `shesha-developer:form-author` agent per form in parallel (each gets the seed, metadata, requirements, and an output path); you audit and push centrally afterwards. A single new form stays in-context. **If a blueprint or a design source exists for a screen, `form-author` is the wrong agent** — its own scope section rejects that dispatch; use `shesha-developer:shesha-form-designer`, which compiles the blueprint deterministically and proves placement by measurement.
 
 **Read [references/component-cheatsheet.md](references/component-cheatsheet.md) FIRST** — it has the current per-component `version` + minimal shape, so you don't burn round-trips probing for versions or read multi-thousand-line seeds. **Never read a large seed wholesale** (`assets/golden/standalone-capture--employee-create.json`, `assets/golden/capture-dialog--rs-create-dialog.json`, etc. can run thousands of lines — that's tens of thousands of wasted tokens); open them only with `Grep`/offset for one specific fragment. Prefer the small/lean seeds — every `assets/exemplars/` form is under ~400 lines by construction; among `assets/golden/`, prefer `table-worklist--inline-editable-table.json`/`standalone-capture--standalone-create.json` over the multi-thousand-line ones.
 

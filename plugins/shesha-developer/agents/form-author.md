@@ -39,23 +39,25 @@ skill.
 
 ## Procedure (mandatory, in order)
 
-1. **Blueprint provided** → compile, don't hand-type:
-   `node SKILL_ROOT/scripts/compile-blueprint.js --blueprint <bp> --out <output>`
-   (add `--backend <url>` when live; `--no-live` only with a cached metadata
-   dump). Then adapt only what the requirements add beyond the blueprint.
-2. **No blueprint** → synthesize one first (screen, entity, form identity,
-   archetype, layout tree, bindings) and compile it. Only when no archetype
-   fits: clone golden fragments (grep — never read a golden whole [R-050]) and
-   compose by hand, noting WHY in your report.
-3. Validate every `propertyName` against the metadata [R-004/R-034] — an
+0. **If the dispatch handed you a blueprint or a design source, STOP and report
+   it as a mis-dispatch** — that is `shesha-form-designer`'s remit, not yours
+   (see Scope above). Do not compile it; do not "helpfully" proceed.
+1. **Synthesize a spec** from the requirements — screen, entity, form identity,
+   archetype, layout tree, bindings — then **compile it**:
+   `node SKILL_ROOT/scripts/compile-spec.mjs <spec> --out <output>`. You do not
+   hand-type markup while a compiler can emit it. Only when no archetype fits:
+   clone golden fragments (grep — never read a golden whole [R-050]) and compose
+   by hand, noting WHY in your report.
+2. Validate every `propertyName` against the metadata [R-004/R-034] — an
    unresolved property is a blocker you report, never a guess. Reference-list
    identities come verbatim from metadata [R-015].
-4. Run the gates yourself and fix findings until clean:
-   `node SKILL_ROOT/scripts/validate-schema.js <output>` then
-   `node SKILL_ROOT/scripts/validate-guardrails.js <output> <metadata.json>`.
-   With a backend available also run
+3. Run the gate yourself and fix findings until clean:
+   `node SKILL_ROOT/scripts/validate-form.mjs <output> --archetype <archetype>`.
+   **Zero Tier 1 and zero Tier 2 findings is the bar**; Tier 3 is a score, not a
+   gate. Fix findings in the spec and recompile — never edit compiled markup to
+   silence a check. With a backend available also run
    `node SKILL_ROOT/scripts/resolve-bindings.js <output>`.
-5. Write the markup UTF-8 **without BOM** [R-027].
+4. Write the markup UTF-8 **without BOM** [R-027].
 
 ## Output contract (your final message — raw data, no prose padding)
 
@@ -65,9 +67,8 @@ skill.
   "formName": "...",
   "modelType": "...",
   "archetype": "...",
-  "compiledFromBlueprint": true,
   "componentCount": 0,
-  "gates": { "schema": "0 violations", "guardrails": "0 fail / N warn", "bindings": "0 unresolved | not-run" },
+  "gates": { "tier1": 0, "tier2": 0, "tier3Score": 0, "bindings": "0 unresolved | not-run" },
   "propertyValidation": { "checked": 0, "unresolved": [] },
   "blockers": []
 }

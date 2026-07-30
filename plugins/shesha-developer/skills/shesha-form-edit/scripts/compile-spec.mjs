@@ -46,7 +46,9 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 
 const DEFAULT_REGISTRY_PATH = join(HERE, '../assets/registry/registry-0.45.1.json');
 const DEFAULT_ROLES_PATH = join(HERE, '../../shesha-design-system/assets/roles.styles.json');
-const DEFAULT_TOKENS_PATH = join(HERE, '../../shesha-design-system/assets/themes/shesha.tokens.json');
+const THEMES_DIR = join(HERE, '../../shesha-design-system/assets/themes');
+const DEFAULT_THEME_ID = 'shesha';
+const DEFAULT_TOKENS_PATH = join(THEMES_DIR, `${DEFAULT_THEME_ID}.tokens.json`);
 const DEFAULT_FLOWS_DIR = join(HERE, '../assets/archetypes');
 const DEFAULT_BLUEPRINT_SCHEMA_PATH = join(HERE, '../../shesha-design-comprehension/assets/blueprint.schema.json');
 
@@ -60,6 +62,34 @@ function loadDefaults() {
     roles: loadJson(DEFAULT_ROLES_PATH),
     tokens: loadJson(DEFAULT_TOKENS_PATH),
     blueprintSchema: loadJson(DEFAULT_BLUEPRINT_SCHEMA_PATH),
+  };
+}
+
+/**
+ * The theme is a COMPILE-TIME input [R-042] — tokens are baked into every node
+ * as the tree is emitted, so a blueprint's `theme` id has to be honoured HERE
+ * or a non-default brand silently compiles to the default one. Resolution
+ * mirrors `shesha-design-system/scripts/resolve-brand.mjs`: a named theme with
+ * a token file is used; anything else falls back to the shipped default and
+ * says so in `report.defaults` (never a thrown error, and never a reason to
+ * author a new brand file).
+ */
+function resolveThemeTokens(themeId) {
+  const requested = typeof themeId === 'string' ? themeId.trim() : '';
+  if (!requested || requested === DEFAULT_THEME_ID) {
+    return { themeId: DEFAULT_THEME_ID, tokens: loadJson(DEFAULT_TOKENS_PATH), note: null };
+  }
+  const candidate = join(THEMES_DIR, `${requested}.tokens.json`);
+  if (existsSync(candidate)) {
+    return { themeId: requested, tokens: loadJson(candidate), note: null };
+  }
+  return {
+    themeId: DEFAULT_THEME_ID,
+    tokens: loadJson(DEFAULT_TOKENS_PATH),
+    note: `theme: blueprint requested "${requested}", which has no token file in `
+      + `shesha-design-system/assets/themes/ — compiled with the shipped default `
+      + `"${DEFAULT_THEME_ID}" instead. Do NOT author a brand file for this; brand `
+      + 'authoring is a separate, explicitly requested task.',
   };
 }
 
@@ -121,8 +151,12 @@ export function compileSpec(blueprint, opts = {}) {
   const defaultsBag = needsDefaults ? loadDefaults() : {};
   const registry = opts.registry ?? defaultsBag.registry;
   const roles = opts.roles ?? defaultsBag.roles;
-  const tokens = opts.tokens ?? defaultsBag.tokens;
   const blueprintSchema = opts.blueprintSchema ?? defaultsBag.blueprintSchema;
+
+  // An explicitly-passed token set always wins (callers that already resolved a
+  // brand); otherwise the blueprint's own `theme` id decides.
+  const resolvedTheme = opts.tokens ? null : resolveThemeTokens(blueprint.theme);
+  const tokens = opts.tokens ?? resolvedTheme.tokens;
 
   if (blueprintSchema) {
     const errors = validateBlueprint(blueprint, blueprintSchema);
@@ -140,6 +174,7 @@ export function compileSpec(blueprint, opts = {}) {
 
   const defaults = [];
   const formSettings = buildFormSettings(blueprint, defaults);
+  if (resolvedTheme?.note) defaults.push(resolvedTheme.note);
   for (const a of added) {
     defaults.push(`${a.node} (${a.type}): ${a.reason}`);
   }
@@ -151,6 +186,7 @@ export function compileSpec(blueprint, opts = {}) {
     archetype: blueprint.archetype,
     screen: blueprint.screen,
     form: blueprint.form,
+    theme: resolvedTheme ? resolvedTheme.themeId : 'caller-supplied',
     isDetailForm,
     nodes: treeReport,
     defaults,
@@ -189,7 +225,7 @@ function runCli(argv) {
   } else if (args.out) {
     writeFileSync(resolve(args.out), `${JSON.stringify(markup, null, 2)}\n`, 'utf8');
     process.stdout.write(`Wrote ${args.out}\n`);
-    process.stdout.write(`${report.nodes.length} node(s) emitted (${report.defaults.length} default(s) applied).\n`);
+    process.stdout.write(`${report.nodes.length} node(s) emitted (${report.defaults.length} default(s) applied), theme "${report.theme}".\n`);
   } else {
     process.stdout.write(`${JSON.stringify(markup, null, 2)}\n`);
   }
