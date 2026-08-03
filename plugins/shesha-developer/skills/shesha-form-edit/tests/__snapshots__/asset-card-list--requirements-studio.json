@@ -1,0 +1,196 @@
+{
+  "components": [
+    {
+      "id": "300cd5e0-dd2d-5614-b446-7af15094c942",
+      "type": "container",
+      "version": 7,
+      "componentName": "stack3",
+      "direction": "vertical",
+      "display": "flex",
+      "flexDirection": "column",
+      "gap": 16,
+      "flexWrap": "nowrap",
+      "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}",
+      "desktop": {
+        "display": "flex",
+        "flexDirection": "column",
+        "flexWrap": "nowrap",
+        "justifyContent": "flex-start",
+        "alignItems": "stretch",
+        "gap": "16px",
+        "dimensions": {
+          "width": "auto",
+          "height": "auto",
+          "minHeight": "auto",
+          "maxHeight": "auto",
+          "minWidth": "0px",
+          "maxWidth": "100%"
+        },
+        "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}",
+        "background": {
+          "type": "color",
+          "color": "#f0f2f5"
+        }
+      },
+      "components": [
+        {
+          "id": "c55e8a71-2b44-5b43-bcfc-f583d92ddf2b",
+          "type": "text",
+          "version": 5,
+          "componentName": "heading2",
+          "content": "Assets",
+          "textType": "span",
+          "contentDisplay": "content",
+          "contentType": "custom",
+          "desktop": {
+            "font": {
+              "size": 24,
+              "weight": "600",
+              "color": "#0d685a"
+            }
+          },
+          "parentId": "300cd5e0-dd2d-5614-b446-7af15094c942"
+        },
+        {
+          "id": "029895f6-6a5d-5819-9329-99a7159e0e0f",
+          "type": "text",
+          "version": 5,
+          "componentName": "listHint",
+          "content": "One card per asset, newest first.",
+          "textType": "span",
+          "contentDisplay": "content",
+          "contentType": "custom",
+          "desktop": {
+            "font": {
+              "size": 14,
+              "color": "#1f1f1f"
+            }
+          },
+          "parentId": "300cd5e0-dd2d-5614-b446-7af15094c942"
+        },
+        {
+          "id": "2a9764e6-9ea3-5136-99d3-da2fb92b38a9",
+          "type": "container",
+          "version": 7,
+          "componentName": "card3",
+          "direction": "vertical",
+          "display": "flex",
+          "flexDirection": "column",
+          "gap": 12,
+          "flexWrap": "nowrap",
+          "stylingBox": "{\"paddingTop\":\"12\",\"paddingRight\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"12\"}",
+          "desktop": {
+            "display": "flex",
+            "flexDirection": "column",
+            "flexWrap": "nowrap",
+            "justifyContent": "flex-start",
+            "alignItems": "stretch",
+            "gap": "12px",
+            "dimensions": {
+              "width": "auto",
+              "height": "auto",
+              "minHeight": "auto",
+              "maxHeight": "auto",
+              "minWidth": "0px",
+              "maxWidth": "100%"
+            },
+            "stylingBox": "{\"paddingTop\":\"12\",\"paddingRight\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"12\"}",
+            "background": {
+              "type": "color",
+              "color": "#ffffff"
+            },
+            "border": {
+              "radiusType": "all",
+              "borderType": "all",
+              "border": {
+                "all": {
+                  "width": "1px",
+                  "color": "#e5e7eb",
+                  "style": "solid"
+                }
+              },
+              "radius": {
+                "all": 12
+              }
+            },
+            "shadow": {
+              "offsetX": 0,
+              "offsetY": 1,
+              "blurRadius": 4,
+              "spreadRadius": 0,
+              "color": "rgba(0,0,0,0.08)"
+            }
+          },
+          "components": [
+            {
+              "id": "bf35f44a-8c6f-5fab-b123-90c6f8fbf994",
+              "type": "text",
+              "version": 5,
+              "componentName": "cardTitle",
+              "content": "Register",
+              "textType": "span",
+              "contentDisplay": "content",
+              "contentType": "custom",
+              "desktop": {
+                "font": {
+                  "size": 16,
+                  "weight": "600",
+                  "color": "#0d685a"
+                }
+              },
+              "parentId": "2a9764e6-9ea3-5136-99d3-da2fb92b38a9"
+            },
+            {
+              "id": "bd0a1b2b-5659-5841-b337-2fb5b8b83bba",
+              "type": "dataContext",
+              "version": 8,
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 10,
+              "uniqueStateId": "assetCards",
+              "componentName": "assetCards",
+              "propertyName": "assetCards",
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "components": [
+                {
+                  "id": "15a83efb-5809-518d-afdd-3fe79c265f4e",
+                  "type": "datalist",
+                  "version": 11,
+                  "componentName": "assetCardsList",
+                  "propertyName": "assetCardsList",
+                  "formSelectionMode": "name",
+                  "formId": {
+                    "name": "gym-asset-card",
+                    "module": "boxfusion.test"
+                  },
+                  "orientation": "vertical",
+                  "selectionMode": "none",
+                  "parentId": "bd0a1b2b-5659-5841-b337-2fb5b8b83bba"
+                }
+              ],
+              "parentId": "2a9764e6-9ea3-5136-99d3-da2fb92b38a9"
+            }
+          ],
+          "parentId": "300cd5e0-dd2d-5614-b446-7af15094c942"
+        }
+      ],
+      "parentId": "root"
+    }
+  ],
+  "formSettings": {
+    "layout": "vertical",
+    "colon": false,
+    "labelCol": {
+      "span": 24
+    },
+    "wrapperCol": {
+      "span": 24
+    },
+    "modelType": {
+      "name": "Asset",
+      "module": "boxfusion.test"
+    }
+  }
+}

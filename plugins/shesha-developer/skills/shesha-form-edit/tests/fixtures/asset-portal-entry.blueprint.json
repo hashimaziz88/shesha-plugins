@@ -1,0 +1,35 @@
+{
+  "$comment": "auth-page archetype fixture. The form NAME deliberately avoids the anonymous-form word list (login/signin/register/otp/forgot/reset/public) that [R-022] keys on: an anonymous form must carry formSettings.access 5, and the compiler has no access channel — access is a post-push form-settings fact, not markup. So this fixture pins the auth-page ANATOMY (centred, width-capped card, no page chrome) and leaves the access/[R-041] contract to the live push.",
+  "screen": "Asset portal entry",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-asset-portal-entry", "label": "Portal Entry" },
+  "archetype": "auth-page",
+  "theme": "shesha",
+  "layout": {
+    "kind": "stack", "name": "authHost", "gap": "lg", "padding": "lg", "align": "center", "justify": "center",
+    "children": [
+      { "kind": "card", "name": "entryCard", "width": "420px", "padding": "lg", "gap": "md", "children": [
+        { "kind": "heading", "level": 2, "name": "entryTitle", "content": "Sign in to the asset register" },
+        { "kind": "text", "name": "entryHint", "content": "Use your organisation credentials." },
+        { "kind": "field", "property": "userName", "title": "Username" },
+        { "kind": "field", "property": "emailAddress", "title": "Email Address" },
+        { "kind": "actions", "name": "entryActions", "children": [
+          { "kind": "chip", "name": "btnSubmitCredentials", "title": "Submit" },
+          { "kind": "chip", "name": "btnCancel", "title": "Cancel" }
+        ] }
+      ] }
+    ]
+  },
+  "bindings": [
+    { "label": "Username", "property": "userName" },
+    { "label": "Email Address", "property": "emailAddress" }
+  ],
+  "assertions": [
+    { "id": "A1", "statement": "the entry card is centred and width-capped at 420px; the page carries NO header band and no meta strip" },
+    { "id": "A2", "statement": "the blueprint's own buttons win over the Save/Back floor, with exactly one primary [R-007/R-057]" },
+    { "id": "A3", "statement": "auth-page is not a capture archetype — no validationErrors/Save floor is appended below the card" }
+  ]
+}

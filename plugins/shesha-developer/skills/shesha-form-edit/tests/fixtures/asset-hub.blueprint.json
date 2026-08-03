@@ -1,0 +1,44 @@
+{
+  "screen": "Asset hub",
+  "subtitle": "Register  /  Assets  /  Hub",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-asset-hub", "label": "Asset" },
+  "archetype": "hub",
+  "theme": "shesha",
+  "layout": {
+    "kind": "stack", "gap": "lg", "padding": "lg",
+    "children": [
+      { "kind": "heading", "level": 1, "content": "Asset hub" },
+      { "kind": "row", "name": "hubSplit", "gap": "lg", "align": "stretch", "children": [
+        { "kind": "container", "name": "mainCol", "width": "66%", "gap": "lg", "children": [
+          { "kind": "card", "title": "Maintenance history", "padding": "md", "gap": "md", "children": [
+            { "kind": "datatable", "name": "maintenanceLog", "columns": ["name", "location", "purchaseDate"] }
+          ] }
+        ] },
+        { "kind": "container", "name": "railCol", "width": "33%", "gap": "lg", "children": [
+          { "kind": "card", "title": "Related assets", "padding": "md", "gap": "md", "children": [
+            { "kind": "datalist", "name": "relatedAssets", "itemForm": "gym-asset-card" }
+          ] }
+        ] }
+      ] }
+    ]
+  },
+  "bindings": [
+    { "label": "Asset Name", "property": "name" },
+    { "label": "Serial Number", "property": "serialNumber" },
+    { "label": "Location", "property": "location" },
+    {
+      "property": "status",
+      "datatype": "reference-list-item",
+      "referenceList": { "module": "boxfusion.test", "name": "AssetStatus" }
+    }
+  ],
+  "assertions": [
+    { "id": "A1", "statement": "the page opens with a header band carrying the screen title, the subtitle trail and a status chip" },
+    { "id": "A2", "statement": "a KeyInformationBar meta strip sits under the band, one cell per non-status binding" },
+    { "id": "A3", "statement": "hubSplit has exactly two children; mainCol (66%) left of railCol (33%), each holding one data region" }
+  ]
+}

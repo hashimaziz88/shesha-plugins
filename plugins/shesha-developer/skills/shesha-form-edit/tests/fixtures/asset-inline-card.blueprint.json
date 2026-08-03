@@ -1,0 +1,39 @@
+{
+  "screen": "Asset inline card",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-asset-inline-card", "label": "Asset" },
+  "archetype": "inline-card",
+  "theme": "shesha",
+  "layout": {
+    "kind": "stack", "name": "cardHost", "gap": "md", "padding": "md",
+    "children": [
+      { "kind": "card", "name": "assetInlineCard", "padding": "md", "gap": "sm", "children": [
+        { "kind": "row", "name": "cardTopRow", "gap": "md", "justify": "space-between", "align": "center", "children": [
+          { "kind": "heading", "level": 3, "name": "cardTitle", "content": "{{data.name}}" },
+          { "kind": "field", "property": "status" }
+        ] },
+        { "kind": "grid", "columns": 2, "gap": "sm", "children": [
+          { "kind": "field", "property": "serialNumber" },
+          { "kind": "field", "property": "location" }
+        ] }
+      ] }
+    ]
+  },
+  "bindings": [
+    { "label": "Serial Number", "property": "serialNumber" },
+    { "label": "Location", "property": "location" },
+    {
+      "property": "status",
+      "datatype": "reference-list-item",
+      "referenceList": { "module": "boxfusion.test", "name": "AssetStatus" }
+    }
+  ],
+  "assertions": [
+    { "id": "A1", "statement": "the whole screen is ONE card row — title and status chip on one line, then a two-column detail grid" },
+    { "id": "A2", "statement": "the status property renders as a reference-list editor, never as plain text [R-036]" },
+    { "id": "A3", "statement": "inline-card is not a page archetype — no header band, no meta strip" }
+  ]
+}

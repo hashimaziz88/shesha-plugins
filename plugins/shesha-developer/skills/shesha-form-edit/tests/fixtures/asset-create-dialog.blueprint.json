@@ -1,0 +1,32 @@
+{
+  "screen": "New asset dialog",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-asset-create-dialog", "label": "New Asset" },
+  "archetype": "modal-dialog",
+  "theme": "shesha",
+  "layout": {
+    "kind": "stack", "name": "dialogBody", "gap": "md", "padding": "md",
+    "children": [
+      { "kind": "text", "name": "dialogHint", "content": "Capture the asset, then save to close the dialog." },
+      { "kind": "grid", "columns": 2, "gap": "md", "children": [
+        { "kind": "field", "property": "name" },
+        { "kind": "field", "property": "serialNumber" },
+        { "kind": "field", "property": "category" },
+        { "kind": "field", "property": "location" }
+      ] }
+    ]
+  },
+  "bindings": [
+    { "label": "Asset Name", "property": "name" },
+    { "property": "serialNumber" },
+    { "property": "category" },
+    { "property": "location" }
+  ],
+  "assertions": [
+    { "id": "A1", "statement": "the dialog carries NO page-header band and no meta strip — a dialog has no page anatomy" },
+    { "id": "A2", "statement": "the capture floor lands: validationErrors plus a right-aligned Save/Back footer row [R-006/R-007/R-057]" }
+  ]
+}

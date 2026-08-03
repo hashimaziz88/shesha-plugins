@@ -1,0 +1,26 @@
+{
+  "screen": "Asset card list",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-asset-card-list", "label": "Assets" },
+  "archetype": "list-card",
+  "theme": "shesha",
+  "layout": {
+    "kind": "stack", "gap": "lg", "padding": "lg",
+    "children": [
+      { "kind": "heading", "level": 1, "content": "Assets" },
+      { "kind": "text", "name": "listHint", "content": "One card per asset, newest first." },
+      { "kind": "card", "title": "Register", "padding": "md", "gap": "md", "children": [
+        { "kind": "datalist", "name": "assetCards", "itemForm": "gym-asset-card" }
+      ] }
+    ]
+  },
+  "bindings": [],
+  "assertions": [
+    { "id": "A1", "statement": "the datalist is wrapped in a dataContext carrying entityType + sourceType Entity [R-005]" },
+    { "id": "A2", "statement": "the datalist points at the item card form by name (formSelectionMode: name) [R-048]" },
+    { "id": "A3", "statement": "list-card is not a page archetype — no header band is injected" }
+  ]
+}
