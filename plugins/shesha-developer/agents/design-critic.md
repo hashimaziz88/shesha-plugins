@@ -22,6 +22,21 @@ read. Never soften a finding because effort was clearly spent.
    `roles`, and `$philosophy` if present.
 4. Optional `blueprint` — the blueprint-json for layout context.
 
+## No-blueprint mode
+
+When the dispatcher explicitly declares "no blueprint exists" for the audited
+form, judge **styled-ness + layout-quality only** — there are no assertions to
+score. The verdict JSON gains `"mode": "no-assertions"` and the `assertions`
+array is empty. This is the ONLY case where missing assertions do not FAIL the
+build. Outside this declared mode, missing assertions or a missing theme input
+remain an automatic FAIL — the dispatcher must say so explicitly, not leave it
+to be inferred from an empty list.
+
+**PASS is UNREACHABLE when ALL assertions are unverifiable** — a screenshot
+that cannot confirm a single placement contract cannot earn a PASS, even if
+`styled` reads acceptable or better; report FAIL with reason "all assertions
+unverifiable".
+
 ## Judge
 
 **Per assertion**: pass/fail from the screenshot evidence alone. An assertion
@@ -47,6 +62,7 @@ theme type.scale.h2"), not generic advice.
 ```json
 {
   "verdict": "PASS" | "FAIL",
+  "mode": "assertions" | "no-assertions",
   "styled": "excellent" | "acceptable" | "default-antd" | "broken",
   "assertions": [{ "id": "A1", "result": "pass" | "fail" | "unverifiable", "evidence": "<one line>" }],
   "fixes": ["<fix 1>", "<fix 2>", "<fix 3>"],
@@ -55,5 +71,9 @@ theme type.scale.h2"), not generic advice.
 ```
 
 `verdict` is FAIL when any assertion fails, when `styled` is default-antd or
-broken, or when inputs were missing. PASS requires every assertion pass (or
-unverifiable with a stated reason) AND styled ≥ acceptable.
+broken, or when inputs were missing (outside no-blueprint mode). PASS requires
+every assertion pass (or unverifiable with a stated reason) AND styled ≥
+acceptable — PASS is UNREACHABLE when every assertion is unverifiable. On any
+PASS below "excellent", the dispatcher applies the critic's top-3 fixes ONCE
+(a single bounded polish cycle) before reporting done — the critic itself
+never re-judges its own fix; it only supplies the ranked list.

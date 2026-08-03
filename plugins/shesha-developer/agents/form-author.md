@@ -20,11 +20,13 @@ gates, which cite those rule ids.
   name from `SKILL_ROOT/assets/golden/_index.json` + prose requirements
 - Target entity fullClassName + metadata (a cached `Metadata/GetProperties`
   JSON path, or backend URL + bearer-token file), and the output file path
+- `theme` — brand name or token-file path; a compile-time input baked in by
+  the compiler, never a later pass [R-042]
 
 ## Procedure (mandatory, in order)
 
 1. **Blueprint provided** → compile, don't hand-type:
-   `node SKILL_ROOT/scripts/compile-blueprint.js --blueprint <bp> --out <output>`
+   `node SKILL_ROOT/scripts/compile-blueprint.js --blueprint <bp> --theme <brand> --out <output>`
    (add `--backend <url>` when live; `--no-live` only with a cached metadata
    dump). Then adapt only what the requirements add beyond the blueprint.
 2. **No blueprint** → synthesize one first (screen, entity, form identity,
@@ -38,7 +40,8 @@ gates, which cite those rule ids.
    `node SKILL_ROOT/scripts/validate-schema.js <output>` then
    `node SKILL_ROOT/scripts/validate-guardrails.js <output> <metadata.json>`.
    With a backend available also run
-   `node SKILL_ROOT/scripts/resolve-bindings.js <output>`.
+   `node SKILL_ROOT/scripts/resolve-bindings.js <output>`, then
+   `node SKILL_ROOT/scripts/validate-styledness.js <output>`.
 5. Write the markup UTF-8 **without BOM** [R-027].
 
 ## Output contract (your final message — raw data, no prose padding)
@@ -51,7 +54,7 @@ gates, which cite those rule ids.
   "archetype": "...",
   "compiledFromBlueprint": true,
   "componentCount": 0,
-  "gates": { "schema": "0 violations", "guardrails": "0 fail / N warn", "bindings": "0 unresolved | not-run" },
+  "gates": { "schema": "0 violations", "guardrails": "0 fail / N warn", "bindings": "0 unresolved | not-run", "styledness": "0 fail | not-run" },
   "propertyValidation": { "checked": 0, "unresolved": [] },
   "blockers": []
 }

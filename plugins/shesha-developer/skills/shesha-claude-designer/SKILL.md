@@ -46,7 +46,7 @@ Styling is a compile-time input, not a post-hoc pass: the theme chosen in Step 3
 
 1. **Structural** — form-edit's own oracle: re-fetch diff + render instrument + gate results. Failures go back to form-edit before any styling.
 2. **Placement diff** — `shesha-design-comprehension` re-probes the built, published, table→details-navigated form and diffs against the blueprint `assertions`. **Cap: 2 routed-fix iterations per screen**, then a placement report. Record the probe `*.layout.json` path — no recorded probe = not done.
-3. **Visual audit** — one final screenshot + console/network per screen in the adminportal; `shesha-design-system` audit-mode returns prop-level fixes. **Cap: 2 fix cycles; waits ≤ 20 s.** When the `design-critic` agent is present, it consumes this gate and returns the verdict. If the frontend isn't running, report "built but NOT visually verified" — never "done".
+3. **Visual audit** — one final screenshot + console/network per screen in the adminportal; `shesha-design-system` audit-mode returns prop-level fixes. **Cap: 2 fix cycles; waits ≤ 20 s.** This gate IS a `design-critic` dispatch — MANDATORY, not optional — with the screenshot + blueprint assertions + theme token path; it returns the verdict. If the frontend isn't running, report "built but NOT visually verified" — never "done".
 
 ## Step 6 — Report envelope
 

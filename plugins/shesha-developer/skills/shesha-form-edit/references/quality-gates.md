@@ -58,6 +58,12 @@ critic PASSes (styled ≥ acceptable, no failed assertions). Skipping it — as 
 the incident that motivated this doc, where a green render-instrument masked a
 poor layout — is the failure mode this stack exists to prevent.
 
+**Calibration — polish once, not to convergence.** The PASS bar stays styled ≥
+acceptable. But on any PASS below "excellent", the builder applies the
+critic's top-3 fixes ONCE — a single bounded polish cycle — before reporting
+done. The critic is not re-dispatched to re-judge that polish; one pass is the
+contract, not a loop to convergence.
+
 ## Layer 5 — Persistence gate (Stop hook, `push-ledger.json`)
 
 The four layers above judge a form; this one judges that it exists on the

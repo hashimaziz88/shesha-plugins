@@ -29,6 +29,7 @@ Exit criteria per stage: audit = every target has a verdict; pilot = assertions 
 | `shesha-developer:form-auditor` | Read-only verdict per form, before bulk pushes and after rollouts | sonnet | editing |
 | `shesha-developer:fleet-transformer` | ONE per bulk mutation — writes the transform script, pilots, rolls out | sonnet | one-per-form |
 | `shesha-developer:fullstack-prereq-checker` | Backend readiness before entity-bound work | haiku | fixing |
+| `shesha-developer:design-critic` | MANDATORY visual quality verdict per form, after render-instrument PASSes | inherit | editing |
 
 ---
 
