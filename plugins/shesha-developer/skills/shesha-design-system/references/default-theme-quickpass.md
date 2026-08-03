@@ -1,6 +1,8 @@
-# Default-theme quick pass (invoked by `shesha-form-edit` Step 6.5)
+# Default-theme quick pass — styling a form the compiler didn't build
 
-The **cost-capped** styling pass applied to every new form built with **no brand and no design source**, so no form ships unstyled. It is a small, fixed subset of [component-recipes.md](component-recipes.md), pre-resolved with the default `shesha` theme values from `assets/themes/shesha.tokens.json`, and its numbers follow the canonical build style in [default-layout-patterns.md](default-layout-patterns.md). Apply it in **one pass** and hand the styled markup back to `shesha-form-edit` for its push step (Step 7) — this is a floor, not a design project. Returning the markup is a *handback*, not the end of the task: the form still has to be pushed and verified by the caller, so do not treat "styled markup returned" as completion.
+Styling is a **compile-time** input baked in by `shesha-form-edit`'s compiler from the theme token file [R-042] — this quick pass is NOT that pipeline. It exists only for the forms the compiler never touched: a hand-composed form, a small edit to an existing form, or a brand with no token file yet. Use it to bring such a form up to the default-theme floor without a full design pass.
+
+It is a small, fixed subset of [component-recipes.md](component-recipes.md), pre-resolved with the default `shesha` theme values from `assets/themes/shesha.tokens.json`, and its numbers follow the canonical build style in [default-layout-patterns.md](default-layout-patterns.md). Apply it in **one pass** over the tree — this is a floor, not a design project. Styling the markup is not the end of the task: the form still has to be pushed and verified, so do not treat "styled markup produced" as completion.
 
 **Hard limits (what makes it "quick"):**
 - Do NOT read [capability-matrix.md](capability-matrix.md) or [token-to-prop-mapping.md](token-to-prop-mapping.md) — every value below is already resolved and channel-safe.
@@ -38,8 +40,11 @@ Do not add shadows — the default `shesha` brand is border-forward (cards rende
 | Role | fontSize | fontWeight |
 |---|---|---|
 | Page title | 24 | 600 |
-| Section / card header | 15–16 | 600 |
+| Card header | 16 | 600 |
+| Section header | 13–14 | 600 |
 | Uppercase micro-label / eyebrow | 11 | 600 (letter-spacing 0.04em) |
+
+This is THE type scale for the whole plugin — do not restate these numbers elsewhere; cite this table instead. Page title and card header are direct token values (`type.scale.title` = 24, `type.scale.cardHeader` = 16 in `shesha.tokens.json`); the token file has no separate "section header" entry, so 13–14 sits between its `dense` (13) and `body` (14) scale steps. The token file (`assets/themes/shesha.tokens.json`) is the ultimate authority — if it gains an explicit section-header value, resolve this row to match it exactly.
 
 ### 4. Action row — one buttonGroup, primary from the app theme
 The form's `buttonGroup`: confirm exactly one `buttonType: "primary"` item (Submit/Save) with the rest `default` — then leave colours alone. Brand primary (`#003BB2`) comes from the app-level theme; **never repaint buttons per form.** Give the group a top gap: `stylingBox` `{"marginTop":"16"}`.
