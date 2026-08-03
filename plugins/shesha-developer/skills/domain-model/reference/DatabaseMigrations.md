@@ -106,7 +106,7 @@ The prefix is defined in AssemblyInfo.cs with [assembly: TablePrefix("PREFIX_")]
 
 **Common Prefixes:**
 - `Core_` - Shesha.Core framework tables (Person, Organisation, Account, OtpAuditItem)
-- `LB_` - LandBank.Crm module tables (example)
+- `LB_` - example module tables prefix (illustrative only)
 - `MyApp_` - Your custom module tables
 
 **Practical Workflow for Finding the Correct Prefix:**

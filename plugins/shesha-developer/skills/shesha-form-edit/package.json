@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test \"tests/**/*.test.*js\"",
+    "test": "node --test \"tests/**/*.test.*js\" && node scripts/check-doc-links.mjs",
     "setup": "npm install && npx playwright install chromium --with-deps"
   },
   "devDependencies": {
