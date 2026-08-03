@@ -616,6 +616,49 @@ if (CAPTURE_ARCHETYPES.has(bp.archetype)) {
 }
 for (const c of rootChildren) c.parentId = 'root';
 
+// ---- slot-aware nesting guard --------------------------------------------------
+// Some 0.45 components do not host children in a plain `components` array: they
+// declare NAMED slots (a card's header/content, a tabs' tabs, a wizard's steps).
+// A child emitted into `components` on such a component is silently DROPPED by the
+// renderer — the markup validates, the screen comes up empty. assets/component-
+// registry.json is the shape authority for which slots exist, so the guard reads
+// customContainerNames from there rather than hard-coding a list.
+//
+// Registry absent, or a type it does not know → no check (the registry says what
+// EXISTS; a gap in it must never invent a compile error). As of the committed
+// registry, 8 components declare slots (card, collapsiblePanel, tabs, wizard,
+// columns, sizableColumns, searchableTabs, KeyInformationBar); the compiler only
+// ever emits one of them (tabs) and it emits into `tabs`, so today this guard is a
+// no-op that pins that invariant and catches the next slotted emitter.
+{
+  const REG = (() => {
+    try { return JSON.parse(fs.readFileSync(path.join(SCRIPT_DIR, '..', 'assets', 'component-registry.json'), 'utf8').replace(/^﻿/, '')); }
+    catch { return null; }
+  })();
+  const slotErrors = [];
+  if (REG?.components) {
+    (function walk(node, where) {
+      if (Array.isArray(node)) return node.forEach((n, i) => walk(n, `${where}[${i}]`));
+      if (!node || typeof node !== 'object') return;
+      const slots = typeof node.type === 'string' ? REG.components[node.type]?.customContainerNames : null;
+      if (Array.isArray(slots) && slots.length && !slots.includes('components')
+          && Array.isArray(node.components) && node.components.length) {
+        slotErrors.push(
+          `${where} (${node.type}${node.componentName ? ` "${node.componentName}"` : ''}): ${node.components.length} child(ren) emitted into \`components\`, `
+          + `but the registry declares named slots for this type — valid slots are ${slots.map((s) => `\`${s}\``).join(', ')}. `
+          + 'The renderer reads children from the named slot only, so these children would never render.',
+        );
+      }
+      for (const [k, v] of Object.entries(node)) if (v && typeof v === 'object') walk(v, `${where}.${k}`);
+    })(rootChildren, 'components');
+  }
+  if (slotErrors.length) {
+    console.error(`SLOT NESTING ERROR — ${slotErrors.length} misplaced child set(s), nothing written:`);
+    for (const e of slotErrors) console.error(`  FAIL ${e}`);
+    process.exit(2);
+  }
+}
+
 const form = {
   components: rootChildren,
   formSettings: {

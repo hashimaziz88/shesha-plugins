@@ -17,6 +17,16 @@ records what each setting measurably does. Output:
 | `gym/screenshots/`, `gym/errors/` | One PNG per component; console/network errors per form (git-ignored) |
 | `assets/components-kb/` (115 types, versions, settingsFields) | `scripts/generate-component-kb.js <designer-components src> assets/components-kb` — regenerate FIRST when the release changed, settings paths downstream must match |
 | `schemas/form-config.schema.json` | `scripts/generate-schema.js` — the cheapest gate; regenerate after the KB |
+| `assets/component-registry.json` | `scripts/gen-registry.mjs` — the TYPED SHAPE registry (what exists, and of what type); regenerate after the KB + enums. Stamps `frameworkVersion` and `generatedFrom` (`live-backend` \| `offline-kb`) |
+
+## Authority boundary — registry vs matrix
+
+Two artifacts, two different questions. Never conflate them:
+
+- **`assets/component-registry.json` — what EXISTS.** Every component, every prop path, and the *type* of each typed prop (`enum` + members, `numeric-picker` + presets, `number`, `boolean`, `string`, `css-length`), plus `authorable` / `authorableReason` and any named `customContainerNames` slots. `validate-schema.js` enforces it as shape typing; `lookup.js` reads it to explain a non-authorable type; `compile-blueprint.js` reads its slot names for the nesting guard.
+- **`assets/measured-capability-matrix.json` — what RENDERS.** Per-setting measured `effect` with `cssDelta` evidence, gated by R-053.
+
+The consequence, stated once: **a registry prop with no matrix measurement is `not-measured` — never "supported".** Existing in the registry licences *authoring the shape*; only a matrix measurement licences *claiming the effect*. The reverse gap is a registry bug, not a licence: a channel the matrix measured whose path the registry does not know means the KB parse missed a prop (`tests/registry.test.mjs` cross-checks this, with an explicit exemption set).
 
 ## Matrix schema
 
@@ -55,6 +65,7 @@ adminportal running (default `http://localhost:3000`), and in this skill folder:
 node scripts/generate-component-kb.js <designer-components src> assets/components-kb  # only when the release changed — KB first
 node scripts/extract-enums.js --source <designer-components dir of the renderer source matching the KB>
 node scripts/generate-schema.js                   # regenerate schemas/form-config.schema.json from the KB
+node scripts/gen-registry.mjs                     # regenerate assets/component-registry.json (typed shape); --offline to skip the backend
 node scripts/generate-component-gym.js            # all KB types; or --only textField,container
 node scripts/run-gym.js                           # push + measure; --only / --skip-push / --headed
 node scripts/merge-capability.js                  # overlay hand matrix; --dry-run first
@@ -66,12 +77,18 @@ On a new release:
 1. Regenerate the components-kb from that release's source (`generate-component-kb.js`),
    then re-run `extract-enums.js` against the same checkout, then `generate-schema.js`
    — settings paths must match the KB generation, in that order.
-2. Regenerate + rerun. Deterministic uuids mean `git diff gym/` shows exactly what changed.
-3. Set `sheshaVersion` via the runner defaults (edit `run-gym.js` constants
+2. Regenerate the typed registry (`gen-registry.mjs`) from the same KB + enums. With a
+   backend up it stamps that machine's real `frameworkVersion` and records live version
+   drift vs the KB (R-049); `--offline` produces the same shape from the bundled KB alone
+   and stamps `generatedFrom:"offline-kb"` so a report can say which it read. Run it
+   BEFORE the gym: `validate-schema.js` types every gym form against it.
+3. Regenerate + rerun. Deterministic uuids mean `git diff gym/` shows exactly what changed.
+4. Set `sheshaVersion` via the runner defaults (edit `run-gym.js` constants
    or pass `--backend`/`--portal`). Compare matrices across releases before trusting
    version-specific styling advice.
-4. **Verify + commit**: coverage must equal the KB type count; `validate-blocks.js`
-   and `node --test tests/` green; commit the regenerated artifacts together.
+5. **Verify + commit**: coverage must equal the KB type count; `validate-blocks.js`
+   and `node --test tests/` green (`tests/registry.test.mjs` cross-checks the registry
+   against the refreshed matrix); commit the regenerated artifacts together.
 
 ## How measurement works
 
