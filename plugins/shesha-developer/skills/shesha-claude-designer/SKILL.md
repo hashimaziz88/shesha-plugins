@@ -30,7 +30,7 @@ Identify the source and its fidelity tier: readable source (A) · runnable proto
 
 ## Step 2 — Comprehend each screen → blueprint
 
-**REQUIRED SUB-SKILL `shesha-developer:shesha-design-comprehension`**, one agent per screen in parallel (MUST for 2+; Contract in [conducting.md](references/conducting.md)). Each screen yields `<workdir>/blueprints/<screen>.blueprint.md` — measured layout-tree/bindings/assertions **plus the fenced `blueprint-json` twin, validated against `shesha-design-comprehension/schemas/blueprint.schema.json`**. The twin is the build input ("no spec, no build"); never hand `shesha-form-edit` a prose brief. Name regions with the canonical archetypes from `shesha-design-system/references/default-layout-patterns.md`; measure only where the design deviates from those patterns.
+**REQUIRED SUB-SKILL `shesha-developer:shesha-design-comprehension`**, one agent per screen in parallel (MUST for 2+; Contract in [conducting.md](references/conducting.md)). Each screen yields `<workdir>/blueprints/<screen>.blueprint.md` — measured layout-tree/bindings/assertions **plus the fenced `blueprint-json` twin, validated against `shesha-design-comprehension/schemas/blueprint.schema.json` by `node shesha-design-comprehension/scripts/validate-blueprint.mjs <blueprint.json|.md>` (exit 0 = valid; the compiler runs the same validator and refuses to build otherwise)**. The twin is the build input ("no spec, no build"); never hand `shesha-form-edit` a prose brief. Name regions with the canonical archetypes from `shesha-design-system/references/default-layout-patterns.md`; measure only where the design deviates from those patterns.
 
 ## Step 3 — Theme once + plan
 

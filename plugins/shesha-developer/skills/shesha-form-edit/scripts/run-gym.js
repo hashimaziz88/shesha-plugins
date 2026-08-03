@@ -7,7 +7,7 @@
 // Usage:
 //   node run-gym.js [--only textField,container] [--skip-push] [--skip-measure]
 //                   [--portal http://localhost:3000] [--backend http://localhost:21021]
-//                   [--headed]
+//                   [--headed] [--token-file <path>]
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -31,6 +31,7 @@ const has = (name) => args.includes(name);
 const BACKEND = argVal('--backend', 'http://localhost:21021');
 const PORTAL = argVal('--portal', 'http://localhost:3000');
 const ONLY = argVal('--only', '').split(',').map((s) => s.trim()).filter(Boolean);
+const TOKEN_FILE_ARG = argVal('--token-file', null);
 const WAIT_MS = 20000;
 const RETRIES = 2;
 
@@ -59,7 +60,7 @@ const formNames = Object.keys(manifest.forms).sort()
 // ---------------------------------------------------------------------------
 // Push phase
 
-const api = new GymApi(BACKEND);
+const api = new GymApi(BACKEND, { tokenFile: TOKEN_FILE_ARG });
 await api.authenticate();
 if (!manifest.module.id) manifest.module.id = await api.resolveModuleId(manifest.module.name);
 

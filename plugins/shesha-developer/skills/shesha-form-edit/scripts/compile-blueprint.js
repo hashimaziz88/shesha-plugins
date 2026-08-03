@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // compile-blueprint.js --blueprint <blueprint.json> --out <form.json>
 //                      [--backend http://localhost:21021] [--no-live]
-//                      [--theme <name>] [--no-style]
+//                      [--theme <name>] [--no-style] [--token-file <path>]
 //
 // L3: the blueprint IR is the ONLY build input; the model chooses the
 // adaptation, this script types the JSON. Pipeline:
@@ -16,12 +16,15 @@
 // component choice from live Metadata/GetProperties. --no-live skips (bindings
 // then need resolve-bindings.js before push).
 // Accepts a raw JSON blueprint or a Markdown blueprint containing a fenced
-// ```blueprint-json block.
+// ```blueprint-json block. The blueprint is validated against
+// shesha-design-comprehension/schemas/blueprint.schema.json (via that skill's
+// scripts/validate-blueprint.mjs) BEFORE anything compiles — invalid → exit 2,
+// no output written.
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { gymUuid } from './gym-lib/ids.js';
 import { GymApi } from './gym-lib/api.js';
 
@@ -35,18 +38,35 @@ const argVal = (name, dflt) => {
 };
 const bpFile = argVal('--blueprint', null);
 const outFile = argVal('--out', null);
-if (!bpFile || !outFile) { console.error('usage: node compile-blueprint.js --blueprint <bp.json|bp.md> --out <form.json> [--backend url] [--no-live] [--theme name] [--no-style]'); process.exit(2); }
+if (!bpFile || !outFile) { console.error('usage: node compile-blueprint.js --blueprint <bp.json|bp.md> --out <form.json> [--backend url] [--no-live] [--theme name] [--no-style] [--token-file path]'); process.exit(2); }
 
-// ---- load blueprint (JSON or fenced block in Markdown) ------------------------
-let bpText = fs.readFileSync(bpFile, 'utf8').replace(/^﻿/, '');
-if (bpFile.endsWith('.md')) {
-  const m = bpText.match(/```blueprint-json\s*\n([\s\S]*?)```/);
-  if (!m) { console.error('no ```blueprint-json fenced block found in the Markdown blueprint'); process.exit(2); }
-  bpText = m[1];
+// ---- load + VALIDATE the blueprint (JSON or fenced block in Markdown) ---------
+// The schema check is not the compiler's own opinion: it runs the one validator
+// that owns the blueprint contract, shesha-design-comprehension's
+// validate-blueprint.mjs. In-process import over a sibling-skill relative path —
+// both skills ship in the same plugin, so no package resolution is involved; the
+// existsSync guard turns a mangled install into a readable error instead of an
+// ERR_MODULE_NOT_FOUND stack. Nothing is written before this passes.
+const VALIDATOR = path.join(SCRIPT_DIR, '..', '..', 'shesha-design-comprehension', 'scripts', 'validate-blueprint.mjs');
+if (!fs.existsSync(VALIDATOR)) {
+  console.error(`blueprint validator missing: ${VALIDATOR} — the shesha-design-comprehension skill must ship alongside shesha-form-edit`);
+  process.exit(2);
 }
-const bp = JSON.parse(bpText);
-for (const req of ['screen', 'entity', 'form', 'archetype', 'layout']) {
-  if (!bp[req]) { console.error(`blueprint missing required "${req}" — no spec, no build`); process.exit(1); }
+const { validateBlueprint, loadSchema, readBlueprint } = await import(pathToFileURL(VALIDATOR).href);
+
+let bp;
+try {
+  bp = readBlueprint(bpFile);
+} catch (err) {
+  console.error(`cannot read blueprint ${bpFile}: ${err.message}`);
+  process.exit(2);
+}
+const bpFindings = validateBlueprint(bp, loadSchema()).errors;
+if (bpFindings.length) {
+  console.error(`INVALID blueprint ${bpFile} — no spec, no build (${bpFindings.length} finding(s), nothing written):`);
+  for (const f of bpFindings) console.error(`  FAIL ${f}`);
+  console.error('  gate: node ../shesha-design-comprehension/scripts/validate-blueprint.mjs <blueprint>');
+  process.exit(2);
 }
 
 const index = JSON.parse(fs.readFileSync(path.join(KB_DIR, '_index.json'), 'utf8'));
@@ -59,8 +79,10 @@ const ver = (type) => {
 // ---- live metadata (datatype → component, reflist identity) -------------------
 let propsMeta = null; // Map(lower -> prop)
 if (!args.includes('--no-live')) {
-  const api = new GymApi(argVal('--backend', 'http://localhost:21021'));
-  await api.authenticate();
+  const api = new GymApi(argVal('--backend', 'http://localhost:21021'), { tokenFile: argVal('--token-file', null) });
+  // A credentials/config failure is the caller's to fix — say so once, no stack.
+  try { await api.authenticate(); }
+  catch (err) { console.error(`auth against ${api.baseUrl} failed: ${err.message}`); process.exit(2); }
   const { ok, body } = await api.getJson(`/api/services/app/Metadata/GetProperties?container=${encodeURIComponent(bp.entity.fullClassName)}`);
   const arr = Array.isArray(body?.result) ? body.result : null;
   if (ok && arr) {

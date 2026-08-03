@@ -8,15 +8,15 @@ Pick ONE shell per session and stick to it: **on Windows run every command throu
 
 ## 2. Auth once, cache BOM-free, never inline the JWT
 
-- Authenticate ONCE per session: `POST $BASE_URL/api/TokenAuth/Authenticate` (`admin`/`123qwe` local-dev default; task-supplied credentials always win). Re-auth only on 401 or after the 24 h TTL.
-- Cache the token to **one session file** — the `<workdir>/access-token` the orchestrator supplies, else `$env:TEMP/shesha-form-edit/access-token` — and read it back on every call (`$(cat <tokenfile>)` / `(Get-Content <tokenfile> -Raw).Trim()`).
+- Authenticate ONCE per session: `POST $BASE_URL/api/TokenAuth/Authenticate`. Credentials come from `SHESHA_USER` / `SHESHA_PASSWORD` (or task-supplied values, which always win). The `admin`/`123qwe` local-dev default is permitted **only when the backend host is `localhost`/`127.0.0.1`/`::1`** — against any other backend the scripts hard-fail naming those two env vars rather than trying it. Re-auth only on 401 or after the 24 h TTL.
+- Cache the token to **one session file**, resolved in this order: the explicit path (`--token-file <path>`, accepted by `compile-blueprint.js`, `resolve-bindings.js`, `render-instrument.js`, `run-gym.js`) → `SHESHA_TOKEN_FILE` → `<workdir>/access-token` (the process cwd). **Never a path inside the installed plugin/skill directory** — that tree is shared across every project and backend. A cached token is itself a credential: with a valid token file, no username/password is needed at all. Read it back on every call (`$(cat <tokenfile>)` / `(Get-Content <tokenfile> -Raw).Trim()`).
 - **Write it BOM-free** — `Out-File`/`Set-Content -Encoding utf8` emit a BOM that poisons the header (`Authorization: Bearer ﻿eyJ…` → *Invalid user name or password*) and breaks Node `JSON.parse`. Write via Node `fs.writeFileSync`, or `[System.IO.File]::WriteAllText(path, s, (New-Object System.Text.UTF8Encoding $false))`; trim on read (bash: `sed 's/^\xEF\xBB\xBF//'`).
 - **Never paste the raw JWT into a command** — it echoes back into context on every result.
 - Non-ASCII request bodies from PowerShell: send UTF-8 **bytes** (`[System.Text.Encoding]::UTF8.GetBytes($json)` or `curl --data-binary @file`) — em dashes/curly quotes in a text body trigger a server 500 code-page error.
 
 ## 3. Scratch under $WORKDIR, never the project tree
 
-All scratch — build/push scripts, staged markup, probe dumps — goes in the session `$WORKDIR` (the orchestrator's `<workdir>`, else `$env:TEMP/shesha-form-edit/`). **Never** the user's project directory or cwd (litter erodes trust), and **never `/tmp`** (git-bash `/tmp` ≠ PowerShell `$env:TEMP` ≠ `C:\tmp` — files written in one shell are "not found" by the next). Pass values into Node via **env vars**, not positional argv. Prefer one combined fetch→mutate→push script over many small probe commands — each round-trip is paid context.
+All scratch — build/push scripts, staged markup, probe dumps, **the cached token (§2)** — goes in the session `$WORKDIR` (the orchestrator's `<workdir>`, else `$env:TEMP/shesha-form-edit/`). **Never** the user's project directory or cwd (litter erodes trust), and **never `/tmp`** (git-bash `/tmp` ≠ PowerShell `$env:TEMP` ≠ `C:\tmp` — files written in one shell are "not found" by the next). Pass values into Node via **env vars**, not positional argv. Prefer one combined fetch→mutate→push script over many small probe commands — each round-trip is paid context.
 
 ## 4. One execution model — who owns what across dispatch shapes
 

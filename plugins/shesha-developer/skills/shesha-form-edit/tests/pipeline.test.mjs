@@ -20,6 +20,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { validateBlueprint, loadSchema } from '../../shesha-design-comprehension/scripts/validate-blueprint.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const SKILL = path.join(HERE, '..');
@@ -43,29 +44,36 @@ test('there are blueprint fixtures to compile', () => {
 // ---- blueprint fixtures are valid blueprint IR -------------------------------
 // Structural check against shesha-design-comprehension/schemas/blueprint.schema.json
 // (required keys, node `kind` enum, no unknown node keys) — the schema is the
-// contract between comprehension and the compiler, and it has no runtime validator.
+// contract between comprehension and the compiler. The logic lives in
+// shesha-design-comprehension/scripts/validate-blueprint.mjs (the same validator
+// compile-blueprint.js runs before it compiles); this test only pins the fixtures
+// against it, plus the fixtures-stay-small bar that is a test concern only.
 test('every fixture is valid blueprint IR', () => {
-  const schemaPath = path.join(SKILL, '..', 'shesha-design-comprehension', 'schemas', 'blueprint.schema.json');
-  const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
-  const nodeDef = schema.$defs.node;
-  const kinds = new Set(nodeDef.properties.kind.enum);
-  const nodeKeys = new Set(Object.keys(nodeDef.properties));
-  const archetypes = new Set(schema.properties.archetype.enum);
+  const schema = loadSchema(
+    path.join(SKILL, '..', 'shesha-design-comprehension', 'schemas', 'blueprint.schema.json'));
 
   for (const f of BLUEPRINTS) {
     const bp = JSON.parse(fs.readFileSync(path.join(FIXTURES, f), 'utf8'));
-    for (const req of schema.required) assert.ok(bp[req] !== undefined, `${f}: missing required "${req}"`);
-    assert.ok(archetypes.has(bp.archetype), `${f}: archetype "${bp.archetype}" not in the schema enum`);
-    assert.ok(bp.entity.fullClassName, `${f}: entity.fullClassName missing`);
-    assert.ok(bp.form.module && bp.form.name, `${f}: form.module/name missing`);
-    let count = 0;
-    (function walkNode(n, at) {
-      count++;
-      assert.ok(kinds.has(n.kind), `${f} ${at}: kind "${n.kind}" not in the schema enum`);
-      for (const k of Object.keys(n)) assert.ok(nodeKeys.has(k), `${f} ${at}: unknown node key "${k}"`);
-      for (const [i, c] of (n.children ?? []).entries()) walkNode(c, `${at}/${n.kind}[${i}]`);
-    })(bp.layout, 'layout');
-    assert.ok(count >= 4 && count <= 60, `${f}: ${count} nodes — fixtures stay small`);
+    const { errors, nodeCount } = validateBlueprint(bp, schema);
+    assert.deepEqual(errors, [], `${f}: invalid blueprint IR —\n  ${errors.join('\n  ')}`);
+    assert.ok(nodeCount >= 4 && nodeCount <= 60, `${f}: ${nodeCount} nodes — fixtures stay small`);
+  }
+});
+
+// The validator has teeth: a mutated blueprint must come back with findings, or
+// the assertion above is vacuous.
+test('validateBlueprint rejects a bad archetype and an unknown node key', () => {
+  const schema = loadSchema(
+    path.join(SKILL, '..', 'shesha-design-comprehension', 'schemas', 'blueprint.schema.json'));
+  const bad = {
+    screen: 'Mutant', archetype: 'not-an-archetype',
+    entity: {}, form: { module: 'm' },
+    layout: { kind: 'stack', bogusKey: 1, children: [{ kind: 'notAKind' }] },
+  };
+  const { errors } = validateBlueprint(bad, schema);
+  for (const needle of [/archetype "not-an-archetype"/, /entity\.fullClassName/, /form\.module\/name/,
+    /unknown node key "bogusKey"/, /kind "notAKind"/]) {
+    assert.ok(errors.some((e) => needle.test(e)), `expected a finding matching ${needle}:\n${errors.join('\n')}`);
   }
 });
 

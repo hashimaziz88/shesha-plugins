@@ -3,18 +3,61 @@
 //   Module list lives under /api/services/app/Module (NOT Shesha/Module).
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
-const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
-const TOKEN_FILE = path.join(SCRIPT_DIR, '..', '..', 'access-token');
+// ---- token file resolution ---------------------------------------------------
+// NEVER derive this from the script's own directory: that is the installed plugin
+// tree, shared across every project and every backend, and a session token has no
+// business being cached there [contracts.md §2–3]. Order: explicit arg →
+// SHESHA_TOKEN_FILE → the session workdir (cwd).
+export function resolveTokenFile(explicit) {
+  if (explicit) return path.resolve(explicit);
+  const fromEnv = (process.env.SHESHA_TOKEN_FILE ?? '').trim();
+  if (fromEnv) return path.resolve(fromEnv);
+  return path.join(process.cwd(), 'access-token');
+}
+
+// A hostname where the well-known local-dev credentials are acceptable.
+const isLocalHost = (baseUrl) => {
+  let host;
+  try { host = new URL(baseUrl).hostname; } catch { return false; }
+  return host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '[::1]';
+};
 
 export class GymApi {
-  constructor(baseUrl = 'http://localhost:21021') {
+  /**
+   * @param {string} baseUrl backend origin
+   * @param {{tokenFile?: string, user?: string, password?: string}} [opts]
+   */
+  constructor(baseUrl = 'http://localhost:21021', opts = {}) {
     this.baseUrl = baseUrl.replace(/\/$/, '');
     this.token = null;
+    this.tokenFile = resolveTokenFile(opts.tokenFile);
+    this.user = opts.user ?? null;
+    this.password = opts.password ?? null;
   }
 
-  async authenticate(user = 'admin', password = '123qwe') {
+  /**
+   * Credentials, most specific first: explicit args → constructor opts →
+   * SHESHA_USER / SHESHA_PASSWORD. The local-dev default is a localhost-only
+   * convenience; against any other host, missing credentials is a hard error.
+   */
+  resolveCredentials(user, password) {
+    const u = user ?? this.user ?? (process.env.SHESHA_USER || null);
+    const p = password ?? this.password ?? (process.env.SHESHA_PASSWORD || null);
+    if (u && p) return { user: u, password: p };
+    if (isLocalHost(this.baseUrl)) return { user: u ?? 'admin', password: p ?? '123qwe' };
+    throw new Error(
+      `refusing to authenticate against ${this.baseUrl} without credentials — ` +
+      'set SHESHA_USER and SHESHA_PASSWORD (or pass them explicitly). ' +
+      'The built-in local-dev default is only allowed for localhost/127.0.0.1.',
+    );
+  }
+
+  async authenticate(user, password) {
+    const TOKEN_FILE = this.tokenFile;
+    // A cached token IS a credential — try it first. Credentials are resolved only
+    // when we have to POST Authenticate, and resolveCredentials throws there before
+    // any request leaves the process.
     if (fs.existsSync(TOKEN_FILE)) {
       const cached = fs.readFileSync(TOKEN_FILE, 'utf8').replace(/^﻿/, '').trim();
       if (cached) {
@@ -27,16 +70,18 @@ export class GymApi {
         this.token = null;
       }
     }
+    const creds = this.resolveCredentials(user, password);
     const res = await fetch(`${this.baseUrl}/api/TokenAuth/Authenticate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userNameOrEmailAddress: user, password }),
+      body: JSON.stringify({ userNameOrEmailAddress: creds.user, password: creds.password }),
     });
     if (!res.ok) throw new Error(`auth failed: HTTP ${res.status}`);
     const body = await res.json();
     this.token = body?.result?.accessToken ?? body?.accessToken;
     if (!this.token) throw new Error('auth response had no accessToken');
-    fs.writeFileSync(TOKEN_FILE, this.token, { encoding: 'utf8' });
+    fs.mkdirSync(path.dirname(TOKEN_FILE), { recursive: true });
+    fs.writeFileSync(TOKEN_FILE, this.token, { encoding: 'utf8' }); // BOM-free [contracts.md §2]
     return this.token;
   }
 

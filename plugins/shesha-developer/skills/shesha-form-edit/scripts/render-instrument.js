@@ -2,6 +2,7 @@
 // render-instrument.js --form <module>/<name> [--portal http://localhost:3000]
 //                      [--backend http://localhost:21021] [--out <dir>]
 //                      [--expect-data] [--mode edit|readonly] [--headed]
+//                      [--token-file <path>]
 //
 // The ONE scripted browser pass (L5 oracle). Fail-closed: no screenshot = FAIL,
 // no rendered components = FAIL, console errors = FAIL, --expect-data with all
@@ -18,7 +19,7 @@ const argVal = (name, dflt) => {
   return i >= 0 && args[i + 1] ? args[i + 1] : dflt;
 };
 const formArg = argVal('--form', null);
-if (!formArg || !formArg.includes('/')) { console.error('usage: node render-instrument.js --form <module>/<name> [--portal url] [--expect-data]'); process.exit(2); }
+if (!formArg || !formArg.includes('/')) { console.error('usage: node render-instrument.js --form <module>/<name> [--portal url] [--expect-data] [--token-file path]'); process.exit(2); }
 const [module, ...nameParts] = formArg.split('/');
 const formName = nameParts.join('/');
 const PORTAL = argVal('--portal', 'http://localhost:3000');
@@ -30,7 +31,7 @@ let chromium;
 try { ({ chromium } = await import('playwright')); }
 catch { console.error('playwright not installed — run: npm install && npx playwright install chromium'); process.exit(2); }
 
-const api = new GymApi(argVal('--backend', 'http://localhost:21021'));
+const api = new GymApi(argVal('--backend', 'http://localhost:21021'), { tokenFile: argVal('--token-file', null) });
 await api.authenticate();
 
 fs.mkdirSync(OUT_DIR, { recursive: true });

@@ -68,7 +68,10 @@ entity resolution, metadata, and reflist existence
 ## 2 · Spec — no spec, no build
 
 Every build has a spec: a **blueprint IR** JSON
-(`shesha-design-comprehension/schemas/blueprint.schema.json`).
+(`shesha-design-comprehension/schemas/blueprint.schema.json`), validated by
+`node ../shesha-design-comprehension/scripts/validate-blueprint.mjs <bp.json|.md>`
+— the compiler runs that same validator first and exits 2, writing nothing, on a
+finding.
 
 - Design-driven work arrives with one (from `shesha-claude-designer` /
   `shesha-design-comprehension`) — consume it as-is.

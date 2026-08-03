@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // resolve-bindings.js <form.json> [--backend http://localhost:21021] [--model-type <fullClassName>]
+//                                 [--token-file <path>]
 //
 // L4 blocking gate for entity-bound forms [R-015, R-016, R-034]:
 //  - every bound propertyName exists on its scope's entity (live Metadata/GetProperties)
@@ -13,12 +14,14 @@ import fs from 'node:fs';
 import { GymApi } from './gym-lib/api.js';
 
 const args = process.argv.slice(2);
-const file = args.find((a) => !a.startsWith('--'));
+// the positional form.json — never the VALUE of a value-taking flag
+const VALUE_FLAGS = new Set(['--backend', '--model-type', '--token-file']);
+const file = args.find((a, i) => !a.startsWith('--') && !VALUE_FLAGS.has(args[i - 1]));
 const argVal = (name, dflt) => {
   const i = args.indexOf(name);
   return i >= 0 && args[i + 1] ? args[i + 1] : dflt;
 };
-if (!file) { console.error('usage: node resolve-bindings.js <form.json> [--backend url] [--model-type fullClassName]'); process.exit(2); }
+if (!file) { console.error('usage: node resolve-bindings.js <form.json> [--backend url] [--model-type fullClassName] [--token-file path]'); process.exit(2); }
 
 let root = JSON.parse(fs.readFileSync(file, 'utf8').replace(/^﻿/, ''));
 if (typeof root.markup === 'string') root = JSON.parse(root.markup);
@@ -26,7 +29,7 @@ if (root.result && (root.result.markup || root.result.components)) {
   root = typeof root.result.markup === 'string' ? JSON.parse(root.result.markup) : root.result;
 }
 
-const api = new GymApi(argVal('--backend', 'http://localhost:21021'));
+const api = new GymApi(argVal('--backend', 'http://localhost:21021'), { tokenFile: argVal('--token-file', null) });
 await api.authenticate();
 
 // ---- entity metadata cache --------------------------------------------------

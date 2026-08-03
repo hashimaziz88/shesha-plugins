@@ -1,4 +1,7 @@
 node_modules/
+# no longer derived from the script dir — but the token-file default is the cwd,
+# and the documented invocation is `node scripts/…` FROM this directory, so a
+# token can still land here. Keep this line.
 access-token
 gym/screenshots/
 gym/errors/
