@@ -58,6 +58,19 @@ critic PASSes (styled ≥ acceptable, no failed assertions). Skipping it — as 
 the incident that motivated this doc, where a green render-instrument masked a
 poor layout — is the failure mode this stack exists to prevent.
 
+## Layer 5 — Persistence gate (Stop hook, `push-ledger.json`)
+
+The four layers above judge a form; this one judges that it exists on the
+backend. `scripts/ledger.mjs` is the sole writer of
+`<git root>/.claude/cache/shesha-form-edit/push-ledger.json` (`record` at push,
+`update --status verified` after the re-fetch diff), and the Stop hook reads it.
+Exactly **one fail-open** remains: no ledger file at all → the session recorded
+no form work, so there is nothing to gate. Everything else BLOCKS the stop — a
+stale ledger (>12h, it cannot vouch for this session), malformed or empty JSON (it
+is script-written, so a broken file means it was hand-edited or truncated), and
+any entry whose status is not `verified`/`abandoned`. `node scripts/ledger.mjs
+verify` runs the same check on demand [R-046].
+
 ## The rule
 
 `compile (Layer 1) → render-instrument (Layer 2) → placement diff (Layer 3) →

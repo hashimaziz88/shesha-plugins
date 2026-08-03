@@ -139,9 +139,13 @@ theme falls back to neutral tokens.
 ## 6 · Push + Oracle
 
 Push: `POST FormConfiguration/Create` (new) / `PUT UpdateMarkup` (existing) —
-[references/api.md](references/api.md). Record every form in the push ledger
-(`.claude/cache/shesha-form-edit/push-ledger.json`); the Stop hook blocks
-session end while any entry is unverified [R-046].
+[references/api.md](references/api.md). Record every form through the script —
+never hand-write the ledger JSON:
+`node scripts/ledger.mjs record --form <module>/<name> --id <guid> --status pushed`,
+then `update --status verified` once the re-fetch diff is clean (or
+`--status abandoned --note "<reason>"`). The Stop hook blocks session end while
+any entry is open, and also blocks on a stale/malformed/hand-made ledger
+[R-046]; `node scripts/ledger.mjs verify` is the same check on demand.
 
 The oracle judges the deliverable through four fail-closed layers — a green
 render alone never means done. Full model: [references/quality-gates.md](references/quality-gates.md).

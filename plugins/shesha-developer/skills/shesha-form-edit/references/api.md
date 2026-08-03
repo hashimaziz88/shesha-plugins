@@ -175,6 +175,14 @@ curl -s -X PUT "$BASE_URL/api/services/Shesha/FormConfiguration/UpdateMarkup" \
 
 Successful response: HTTP 200 with `{ "result": null, "success": true, ... }`. The endpoint returns `void`.
 
+Immediately record the push in the ledger — the Stop hook will not let the session end otherwise:
+
+```bash
+node scripts/ledger.mjs record --form "$MODULE/$FORM_NAME" --id "$FORM_ID" --status pushed
+```
+
+`scripts/ledger.mjs` is the only writer of `push-ledger.json` — never hand-write or hand-edit that file; a malformed or hand-made ledger is a hard BLOCK at Stop.
+
 On error, ABP returns:
 
 ```json
@@ -252,6 +260,14 @@ curl -s -X POST "$BASE_URL/api/services/Shesha/FormConfiguration/Create" \
 ```
 
 To resolve `moduleId`, query `GET /api/services/Shesha/Module/GetAll` with bearer token and pick the module by `name`.
+
+The response carries the new form's `id`. Record it before doing anything else — a form created but not tracked is a form that silently never gets verified:
+
+```bash
+node scripts/ledger.mjs record --form "$MODULE/$FORM_NAME" --id "$FORM_ID" --status pushed
+```
+
+(Use `--status authored` if you created the record but have not yet pushed markup.)
 
 ---
 
@@ -397,6 +413,16 @@ const after = JSON.parse(JSON.parse(fs.readFileSync(process.env.WORKDIR + '/form
 ```
 
 For anonymous forms, also confirm the envelope: re-fetch via `GetByName` and assert `result.access === 5`. The `Create` endpoint may not honor `access` on initial create; on mismatch, call `UpdateMarkup` once more with `access: 5, permissions: []` and re-verify.
+
+Once the diff is clean, close the ledger entry — this is what releases the Stop gate:
+
+```bash
+node scripts/ledger.mjs update --form "$MODULE/$FORM_NAME" --status verified
+# work you genuinely dropped instead:
+# node scripts/ledger.mjs update --form "$MODULE/$FORM_NAME" --status abandoned --note "<reason>"
+```
+
+Then `node scripts/ledger.mjs verify` must exit 0 before you report the task done.
 
 Common server normalizations to ignore (not bugs): re-ordered keys inside an object, whitespace inside string-encoded `stylingBox` values, `null` → `undefined` collapsing on optional fields. Anything else — surface to the user.
 
