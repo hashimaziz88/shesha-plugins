@@ -1,5 +1,5 @@
 {
-  "description": "Mechanical gates for Shesha form authoring: validate-on-write (guardrails + styled-ness on any form markup written to disk) and a Stop-time persistence gate (a session that authored forms may not end while the push ledger shows unpushed/unverified work). Plus permanent session-activity logging to <cwd>/.claude-designer-logs/logs/<sessionId>/log.DDMMYYYY.txt.",
+  "description": "Mechanical gates for Shesha form authoring: validate-on-write (guardrails + styled-ness on any form markup written to disk) and a Stop-time persistence gate (a session that authored forms may not end while the push ledger shows unpushed/unverified work). Plus permanent session-activity logging: one log tree per session, pinned at the git toplevel (resolved once via a tmpdir pointer file, so it stays stable even when tools run from different cwds) at <root>/.claude-designer-logs/logs/<sessionId>/log.DDMMYYYY.txt. PostToolUse lines are prefixed TOOL-FAIL when the tool reported an error/non-zero exit; Stop appends a USAGE line with whatever cost/token fields the payload carries (or 'none-reported'). Note: PostToolUse:* logging plus the Write|Edit validate hook means two Node process spawns per file write — a known, accepted cost.",
   "hooks": {
     "SessionStart": [
       {
