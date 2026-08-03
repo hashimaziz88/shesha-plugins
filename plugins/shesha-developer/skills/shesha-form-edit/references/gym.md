@@ -58,6 +58,7 @@ node scripts/generate-schema.js                   # regenerate schemas/form-conf
 node scripts/generate-component-gym.js            # all KB types; or --only textField,container
 node scripts/run-gym.js                           # push + measure; --only / --skip-push / --headed
 node scripts/merge-capability.js                  # overlay hand matrix; --dry-run first
+node scripts/validate-blocks.js                   # re-check assets/blocks/ $validatedAgainst claims against the refreshed matrix
 node scripts/generate-non-negotiables.js          # regenerate non-negotiables.md from _rules.json (run after any rule change too)
 ```
 

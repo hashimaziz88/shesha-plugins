@@ -69,5 +69,7 @@ One aggregate envelope for the run: per screen — form (module + name + id), bl
 | Tokens → app theme + v7 style blocks | `shesha-developer:shesha-design-system` |
 | Ground truth (KB / schema / measured capability matrix reruns) | `/shesha-gym` command → `shesha-form-edit/references/gym.md` |
 
-Slash commands: `/shesha-build <archetype> <entity>` · `/shesha-audit
-<module>/<form>` · `/shesha-gym` — each enters this pipeline at the right step.
+Slash commands: `/shesha-build <archetype> <entity>` compiles direct from
+archetype+entity (skips comprehension, Steps 1-2 above); `/shesha-audit
+<module>/<form>` is read-only verification; `/shesha-gym` regenerates ground
+truth (maintenance, not a design pipeline run).

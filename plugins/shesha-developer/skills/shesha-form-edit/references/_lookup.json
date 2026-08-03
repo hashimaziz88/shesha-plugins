@@ -45,6 +45,7 @@
   },
   "topics": {
     "new-form":        { "files": ["components/form-shape.md", "examples.md"], "assets": ["golden/_index.json", "blocks/", "examples/"], "rules": ["clone the closest golden archetype or vetted block FIRST; freehand composition is the fallback, not the default"] },
+    "blocks":          { "files": ["block-library.md"], "assets": ["blocks/"], "scripts": ["validate-blocks.js"], "rules": ["hand-composition tier for when no archetype fits; every block's $validatedAgainst claims are checked against the measured capability matrix"] },
     "styling":         { "files": ["renderer-physics.md"], "handoff": "shesha-developer:shesha-design-system", "rules": ["structural builds do not author appearance; trigger the design-system pass"] },
     "binding":         { "files": ["entity-binding.md"], "scripts": ["backend-probe.mjs"], "rules": ["camelCase propertyName; metadata-availability gate is BLOCKING; probe before hand-rolled round-trips"] },
     "actions-wiring":  { "files": ["components/actions.md", "components/scripts.md"] },

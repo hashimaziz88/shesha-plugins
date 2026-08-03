@@ -1,15 +1,23 @@
 # Block library
 
-Authored layout **blocks** — small, parented, version-stamped component subtrees that you
-**compose** into a form. A block is structure only; the matching **style overlay** lives in
-`shesha-design-system` and is applied after composition. Never hand-copy a 25K-line seed —
-map each blueprint node to a block, insert its subtree into a named `$slot`, re-stamp ids,
-fill `$bindings`, then hand off to the design-system overlay.
+This is the **hand-composition tier**: for when no golden archetype fits (SKILL.md §3) —
+use it as the fallback, not the default. Authored layout **blocks** — small, parented,
+version-stamped component subtrees that you **compose** into a form. A block is structure
+only; the matching **style overlay** lives in `shesha-design-system` and is applied after
+composition. Never hand-copy a 25K-line seed — map each blueprint node to a block, insert
+its subtree into a named `$slot`, re-stamp ids, fill `$bindings`, then hand off to the
+design-system overlay.
 
-Blocks live in `assets/blocks/*.block.json`. Every block file carries: `$block`, `$archetype`,
-`$styleOverlay` (the paired overlay name in shesha-design-system), `$slots`, `$bindings`,
-`$validatedAgainst` (matrix rows the structure relies on), and a `subtree` (the literal markup).
-Some also carry a `$rowTemplate` (a separately-published Table-type row form).
+Blocks live in `assets/blocks/*.block.json`, one per catalogue entry below, each paired
+1:1 with a same-named overlay in
+`shesha-design-system/assets/block-styles/<block-name>.style.json`. Every block file
+carries: `$block`, `$archetype`, `$styleOverlay` (the paired overlay name in
+shesha-design-system), `$slots`, `$bindings`, `$validatedAgainst` (matrix rows the
+structure relies on — checked mechanically by `scripts/validate-blocks.js` against the
+measured capability matrix; a claim that maps to a `no-op` row, or to no row at all, is a
+hard failure), and a `subtree` (the literal markup). Some also carry a `$rowTemplate` (a
+separately-published Table-type row form). All 10 blocks below have a paired overlay of
+the same name in `shesha-design-system/assets/block-styles/`.
 
 ## Catalogue
 

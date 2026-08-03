@@ -18,5 +18,7 @@ scripts below live in `plugins/shesha-developer/skills/shesha-form-edit/scripts/
    crashes with `--baseline-only --only <types>`).
 4. `node scripts/merge-capability.js --dry-run`, review contradictions, then
    run it for real.
-5. Report the coverage summary (renderStatus counts, per-effect totals,
-   contradictions) and commit the regenerated artifacts.
+5. `node scripts/validate-blocks.js` — the refreshed matrix can flip a block's
+   `$validatedAgainst` claim to a hard failure; fix any block that now fails.
+6. Report the coverage summary (renderStatus counts, per-effect totals,
+   contradictions, validate-blocks result) and commit the regenerated artifacts.

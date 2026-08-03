@@ -96,8 +96,9 @@ The compiler types the JSON: flex containers with `desktop.dimensions.width`
 [R-006/R-007/R-020], KB versions [R-003], deterministic ids.
 
 Hand-composition is the exception (no archetype fits, exotic component mix) —
-note WHY in the push ledger, compose from `assets/blocks/` +
-`assets/components-kb/` quick shapes, and expect the same gates. Component
+note WHY in the push ledger, compose from `assets/blocks/` (catalogue +
+assembly workflow: [references/block-library.md](references/block-library.md))
++ `assets/components-kb/` quick shapes, and expect the same gates. Component
 shapes and per-type recipes: [references/components/](references/components/)
 (routed by `scripts/lookup.js` — run it for every component type you author;
 a no-hit is a gate violation).
@@ -175,6 +176,7 @@ never as done.
 | API routes + push recipes | [references/api.md](references/api.md) |
 | Entity binding + metadata probe | [references/entity-binding.md](references/entity-binding.md) |
 | Component recipes (per type) | [references/components/](references/components/) via `scripts/lookup.js` |
+| Block library (hand-composition tier) | [references/block-library.md](references/block-library.md) |
 | Renderer physics (0.45) | [references/renderer-physics.md](references/renderer-physics.md) |
 | Verification + browser rules | [references/verification.md](references/verification.md) |
 | Symptom → cause | [references/debug.md](references/debug.md) |
