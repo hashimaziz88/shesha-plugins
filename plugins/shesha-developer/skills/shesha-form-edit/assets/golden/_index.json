@@ -1,7 +1,7 @@
 {
   "corpus": "0.45 golden archetypes — RequirementsStudio + employee starter seeds (0.45-shaped, v7 style blocks)",
   "extracted": "2026-07-22",
-  "note": "Archetype keys match the blueprint IR vocabulary (shesha-design-comprehension/schemas/blueprint.schema.json). These files are COMPILER INPUT and grep targets — never read one whole [R-050]. compile-blueprint.js clones the closest archetype; agents pick via this index only.",
+  "note": "Archetype keys match the blueprint IR vocabulary (shesha-design-comprehension/schemas/blueprint.schema.json). These files are the SEED/REFERENCE TIER for hand-composition and regression comparison, and grep targets — never read one whole [R-050]. compile-blueprint.js builds from the blueprint tree directly and never reads this corpus; agents pick via this index only when hand-composing.",
   "forms": [
     {
       "file": "table-worklist--employee-table.json",

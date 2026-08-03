@@ -1,8 +1,9 @@
 # Golden archetypes (0.45)
 
 One production-shaped form per archetype, keyed to the blueprint IR vocabulary.
-These are **compiler fixtures and grep targets** — `compile-blueprint.js`
-clones the closest archetype; agents choose via `_index.json` and grep
+These are the **seed/reference tier** for hand-composition and regression
+comparison — `compile-blueprint.js` builds markup from the blueprint tree
+directly and never reads this corpus; agents choose via `_index.json` and grep
 fragments, never read a whole file [R-050].
 
 Provenance: RequirementsStudio (0.45.1) + employee starter seeds, v7 style

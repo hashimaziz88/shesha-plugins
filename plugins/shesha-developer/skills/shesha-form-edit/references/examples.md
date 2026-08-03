@@ -3,18 +3,19 @@
 Two asset pools feed a build. Both are grep targets — never read a whole file
 [R-050].
 
-## 1. Golden archetypes (`assets/golden/`) — the primary clone source
+## 1. Golden archetypes (`assets/golden/`) — seed/reference tier
 
 `assets/golden/_index.json` indexes the 0.45 golden corpus: **table-worklist ·
 record-detail · hub · capture · capture-standalone · modal-dialog · list-card ·
 list-card-item · inline-card · dashboard**. Archetype keys match the blueprint
 IR vocabulary (`shesha-design-comprehension/schemas/blueprint.schema.json`).
 
-The normal path is the compiler: `scripts/compile-blueprint.js` clones the
-closest archetype from the blueprint's `Archetype:` header and re-types it
-(ids, versions [R-003], bindings, dataContext wrappers [R-005]). Manual cloning
-is the fallback for hand-composition — pick via `_index.json` only, grep the
-fragment you need, and re-stamp every id + `parentId` [R-001/R-002/R-025].
+The normal path is the compiler: `scripts/compile-blueprint.js` builds the
+layout tree directly from the blueprint (ids, versions [R-003], bindings,
+dataContext wrappers [R-005]) — it never reads the golden corpus. Golden files
+serve hand-composition (no archetype-shaped compiler path fits, exotic
+component mix) and regression comparison — pick via `_index.json` only, grep
+the fragment you need, and re-stamp every id + `parentId` [R-001/R-002/R-025].
 
 ## 2. Pattern fragments (`assets/examples/`)
 

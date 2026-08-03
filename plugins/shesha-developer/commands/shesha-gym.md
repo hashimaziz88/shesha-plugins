@@ -4,7 +4,8 @@ argument-hint: [--backend url] [--portal url] [--only type1,type2]
 ---
 
 Rerun the Shesha component gym per
-`plugins/shesha-developer/skills/shesha-form-edit/references/gym.md`:
+`plugins/shesha-developer/skills/shesha-form-edit/references/gym.md` — all
+scripts below live in `plugins/shesha-developer/skills/shesha-form-edit/scripts/`:
 
 1. Preconditions: backend + adminportal running; `npm install && npx
    playwright install chromium` in the shesha-form-edit skill folder.

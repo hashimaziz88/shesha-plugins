@@ -1,6 +1,6 @@
 ---
 name: shesha-form-edit
-description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). The build executor of the v2 compiler pipeline — compiles a blueprint IR (or a spec synthesized from prose requirements) into markup through golden archetypes and the measured capability matrix, gates it mechanically (schema → guardrails → bindings → styled-ness), pushes via Create/UpdateMarkup, and verifies the deliverable (re-fetch diff + render instrument). Invoke directly for targeted work when dispatched by the main skill or when the user names a specific form and edit ("add a sector dropdown above the email field", "wire the Save button"). 0.45-only — versioned 0.43-class backends belong to the shesha-developer-0-43 plugin. Ends every new no-design form with the mandatory default `shesha` theme pass via shesha-design-system — no form ships unstyled.
+description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). The build executor of the v2 compiler pipeline — compiles a blueprint IR (or a spec synthesized from prose requirements) into markup, typed against the measured capability matrix and baking in theme tokens read from shesha-design-system's theme files at compile time, gates it mechanically (schema → guardrails → bindings → styled-ness), pushes via Create/UpdateMarkup, and verifies the deliverable (re-fetch diff + render instrument). Invoke directly for targeted work when dispatched by the main skill or when the user names a specific form and edit ("add a sector dropdown above the email field", "wire the Save button"). 0.45-only — versioned 0.43-class backends belong to the shesha-developer-0-43 plugin. Every new no-design form compiles with the default `shesha` theme's tokens baked in — no form ships unstyled.
 allowed-tools:
   - Bash
   - PowerShell
@@ -80,7 +80,9 @@ Every build has a spec: a **blueprint IR** JSON
 
 Archetypes: `assets/golden/_index.json` (table-worklist · record-detail · hub
 · capture · modal-dialog · list-card · inline-card · dashboard). Golden files
-are compiler fixtures — grep fragments, never read one whole [R-050].
+are the seed/reference tier for hand-composition and regression comparison —
+the compiler builds from the blueprint tree directly and never reads them —
+grep fragments, never read one whole [R-050].
 
 ## 3 · Compile
 

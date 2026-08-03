@@ -1,45 +1,35 @@
 # Non-negotiables — index of the rule registry
 
+**GENERATED — do not hand-edit.** Regenerate with
+`node scripts/generate-non-negotiables.js` after any `_rules.json` change.
+
 **`_rules.json` is the single source; validators cite these ids; this file is
 only a reading order.** Each line below is the one-line gist — the full
 statement (and the failure it prevents) lives in the registry entry.
 
 ## Structure
-- [R-001] `parentId` on every component (root-level → `"root"`) · [R-002] ids are generated UUIDs/nanoids, never placeholders
-- [R-006] `validationErrors` in the tree whenever any input is required · [R-009] `defaultValue` is a string, never a literal array/number/object
-- [R-018] `editMode` per form type, never blanket-stamped · [R-020] minimal component count; Submit + exit pair is part of the floor
-- [R-021] human-readable labels on every field · [R-025] preserve ids when editing existing forms · [R-031] conditional visibility = code-mode `hidden`, never `customVisibility`
+- [R-001] Every component carries `parentId` set to its direct parent's `id` (root-level components get "root") · [R-002] Every component `id` is a generated unique id — a UUID or a nanoid (the 0.45 designer emits nanoids) · [R-006] A `validationErrors` component is ALWAYS in the tree (conventionally just above the action row) whenever the form has any required input — otherwise a failed submit renders nothing · [R-009] `defaultValue` is a mustache-template STRING, never a literal array/number/object — the resolver calls `.match()` on it and a non-string throws `e.match is not a function`, killing the render · [R-018] `editMode` is per form type — never blanket-stamp · [R-020] Minimal component count: the requested fields + validationErrors + ONE buttonGroup with Submit AND an exit button + minimum layout structure · [R-021] Human-readable labels on every field — labels are user-facing AND how browser tests locate fields · [R-025] Preserve ids on existing components when editing — fresh GUIDs only on clones/new nodes · [R-031] Conditional visibility = code-mode `hidden` ({_mode:"code",_code:"return !(data?.x)"} — TRUE hides)
 
 ## Binding
-- [R-004] every `propertyName` camelCase (incl. datatable columns) · [R-014] mustache uses `{{double braces}}`
-- [R-015] reflist identity copied verbatim from metadata · [R-016] `modelType` = `{name,module}` object from live EntityConfig; `entityType` stays the fullClassName string
-- [R-034] a bound value renders only from a real entity property · [R-035] `{{ }}` HTML-escapes; `{{{ }}}` for trusted display values
+- [R-004] Every `propertyName` is camelCase — including datatable column propertyNames · [R-014] Mustache expressions always use {{double braces}} · [R-015] A reference list's identity is READ from metadata, never guessed — `referenceListId.{module,name}` copied verbatim from the property's referenceListName/referenceListModule · [R-016] On 0.45 `formSettings.modelType` is the `{ name, module }` OBJECT resolved from the live EntityConfig (never assumed); `dataContext.entityType` stays the fullClassName STRING · [R-034] A bound value renders ONLY when `propertyName` is a real entity property — it drives the gql fetch · [R-035] Mustache {{ }} HTML-escapes ' & < > — use {{{triple-brace}}} for trusted display values
 
 ## Data
-- [R-005] datatable/datalist wrapper = `dataContext` v8 with explicit `entityType` + `sourceType` · [R-010] inline column editors are `[not-editable]` or `{type, settings:{…}}`
-- [R-011] `checkboxGroup` options in `items` (not `values`) · [R-037] reduce FKs to `{id}` in `onPrepareSubmitData`
-- [R-039] custom loading via `onAfterDataLoad` (`onInitialized` not wired) · [R-045] preset FKs need a bound component AND `onPrepareSubmitData`
+- [R-005] The data wrapper for datatable/datalist is `dataContext` (v8) carrying explicit `entityType` (fullClassName STRING), `sourceType: "Entity"`, `dataFetchingMode: "paging"`, `defaultPageSize`, `uniqueStateId`, `componentName`, `propertyName` · [R-010] Inline-editing column editors MUST be `{ "type": "[not-editable]" }` or `{ "type": "<editor>", "settings": { full component model with its own type+version+editMode+hideLabel } }` · [R-011] `checkboxGroup` hardcoded options use `items` (NOT `values`), each `{label, value}`, with dataSourceType "values" · [R-017] Entity-bound forms use the default `dataLoaderType/dataSubmitterType: "gql"` · [R-037] Dynamic CRUD Update rejects an FK sent as a nested object ("not allowed to be updated") — reduce every FK to `{ id }` in formSettings.onPrepareSubmitData · [R-039] 0.45 lifecycle: `onInitialized` is NOT wired on dynamic pages — custom data loading goes through `onAfterDataLoad` (async-capable) · [R-045] Contextually-preset required FKs on create dialogs need BOTH a real bound component AND formSettings.onPrepareSubmitData — formArguments/setFieldsValue alone never reach the submit payload
 
 ## Actions
-- [R-007] form actions in ONE `buttonGroup`; Submit = `Submit`/`shesha.form` + paired exit · [R-008] every Navigate has a non-empty target
-- [R-043] canonical CRUD wiring (Add = Show Dialog modal, detail lifecycle, Save+Back) · [R-044] row delete = Execute Script + Refresh table, never "Delete row"/"table"
+- [R-007] Form action buttons live in ONE `buttonGroup`, never standalone `button` components · [R-008] Every Navigate action carries a non-empty `target`/`targetUrl` · [R-043] CRUD wiring is canonical: table Add = buttonGroup item with Show Dialog (modal, formId {name,module}, modalWidth 60%, formMode edit) — never Navigate; detail lifecycle = Start Edit / Submit / Cancel Edit (owner shesha.form); standalone create/edit page = Save (Submit, primary) + Back (Navigate); toolbar Refresh/Toggle Columns use the dataContext component's id as actionOwner; row→detail = action column navigate to /dynamic/<module>/<form>?id={{selectedRow.id}} · [R-044] Row delete/unlink = Execute Script + `await http.delete(...)` + onSuccess Refresh table with actionOwner = the dataContext component id
 
 ## Scripts
-- [R-012] code-mode props are `{_mode:"code",_code}` objects · [R-013] embedded scripts JSON-safe
-- [R-023] no `globalState` — appContext/pageContext · [R-024] try/catch + async/await, no `.then()` · [R-038] Execute Script returns a Promise; params in the URL
+- [R-012] Code-mode props are objects `{ "_mode": "code", "_code": "..." }` — a code-carrying prop stored as a plain JS string is silently stripped on save · [R-013] All embedded script strings must be JSON-safe: no template literals, no unescaped newlines, no smart quotes · [R-023] No `globalState` for cross-form state — use `contexts.appContext` (app-wide) or `pageContext` (inter-page) · [R-024] API calls in embedded scripts use try/catch + async/await, never .then() chains · [R-038] Execute Script actions must return a Promise (no IIFEs); `http.get(url,{params})` drops params — query args go in the URL string; formArguments/selectedRows are NOT in Execute Script scope (multiselect via the context's selectedIds)
 
 ## Styling
-- [R-028] page splits = flex containers sized via `desktop.dimensions.width`, never `columns` · [R-029] flex props need explicit `display:"flex"`
-- [R-030] appearance through desktop/tablet/mobile blocks; background/shadow as complete objects; legacy `style` string wins
-- [R-032] container renders two divs; inner overflow hard-coded · [R-033] field-level `labelCol` ignored · [R-036] `refListStatus` colour from the reflist item · [R-048] datalist row-card recipe
+- [R-028] Layout splits are flex-container children sized via `desktop.dimensions.width` (accepts % and calc()) — NEVER the Shesha `columns` component, never customStyle:{flex} (ignored), never style-channel flexShrink (never reaches the outer div) · [R-029] A flex container MUST carry its flex model in the `desktop` breakpoint block — `desktop.{display:'flex', flexDirection, justifyContent, alignItems, gap, dimensions}` · [R-030] Appearance goes through desktop/tablet/mobile breakpoint blocks (the measured channels in measured-capability-matrix.json) · [R-032] A container renders TWO divs: the outer (sha-components-container, the flex item) receives only dimensions+shadow; layout props land on the inner · [R-033] Field-level `labelCol` is ignored — only formSettings.labelCol/wrapperCol applies (field-level labelAlign IS honored) · [R-036] `refListStatus` fill colour comes ONLY from the reference-list item's own colour — no item colour = grey regardless of solidBackground · [R-048] Datalist row-template cards: name-mode bound text, `dimensions: fit-content`, single-line ellipsis for long text, status chip on its own row, padding/overflow via the legacy `style` prop, card height "auto" — the collapse/overflow fix lives in the block subtree · [R-051] 0.45 app-level theme delivery has no `token`/`components` channel: IConfigurableTheme carries only primaryColor/errorColor/warningColor/successColor/infoColor + layout/text roles; `processingColor`, `text.link`, and any antd `token`/`components` block are silently dropped on write
 
 ## Security
-- [R-022] `access: 5` on anonymous forms, verified post-push · [R-041] never expose raw entity CRUD anonymously — custom `[AbpAllowAnonymous]` service
+- [R-022] `access: 5` on anonymous forms (login, register, OTP); verify post-push by re-fetch · [R-041] NEVER expose raw entity CRUD to the anonymous internet
 
 ## API / process
-- [R-026] API namespace per service, never guessed · [R-027] BOM-free UTF-8 for tokens and staged JSON
-- [R-019] "list" → datalist, "table" → datatable · [R-040] plan backend changes up front; one build + double-boot
-- [R-042] no form ships unstyled · [R-046] pushed + verified before "done" (push ledger) · [R-047] verification = re-fetch + diff · [R-050] never read a whole golden/seed file — grep fragments
+- [R-026] API namespace is per service, never guessed: FormConfiguration under /api/services/Shesha/…; Metadata, Module, EntityConfig, ReferenceList under /api/services/app/… · [R-027] UTF-8, BOM-free bytes for the cached token and every staged JSON file — a BOM poisons `Authorization: Bearer` and Node JSON.parse · [R-019] "list"/"cards"/"feed"/"tiles" → `datalist`; "table"/"grid"/"spreadsheet" → `datatable` · [R-040] Plan ALL backend changes up front and apply in ONE build + double-boot: a NEW entity needs TWO boots (its CRUD controller registers on the boot after EntityConfig seeds); reflist items + app-service code need one · [R-042] No form ships unstyled · [R-046] A validated file on disk is NOT a delivered form · [R-047] Verification = re-fetch the pushed form and diff against what was sent; the 200 alone proves nothing · [R-050] Never read a whole large seed/golden form — grep the fragment you need
 
 ## Versioning
-- [R-003] every component carries its type's current KB `version` · [R-049] versions drift per release; the 0.45 KB is authoritative here — prior-generation authoring lives in the `shesha-developer-0-43` plugin (see [versioning.md](versioning.md))
+- [R-003] Every component carries its type's CURRENT integer `version` from the 0.45 components-kb · [R-049] Component versions are framework-release-specific and DRIFT across point releases

@@ -38,9 +38,9 @@ Brand selection: user-named brand / handed tokens / existing `<brand>.tokens.jso
 
 ## Step 4 — Build (delegate)
 
-Fan out one `shesha-form-edit` dispatch per screen, in parallel. Form-edit now **compiles** the blueprint — the dispatch prompt is: *"compile the attached blueprint (`<workdir>/blueprints/<screen>.blueprint.json` path or the blueprint-json block); return pushed+verified form facts."* Form-edit owns compile → gates → push → oracle [R-046]; agents never return unpushed markup as done.
+Fan out one `shesha-form-edit` dispatch per screen, in parallel. Form-edit now **compiles** the blueprint — the dispatch prompt is: *"compile the attached blueprint (`<workdir>/blueprints/<screen>.blueprint.json` path or the blueprint-json block) with theme `<brand>` (from Step 3); return pushed+verified form facts."* Form-edit owns compile → gates → push → oracle [R-046]; agents never return unpushed markup as done.
 
-Styling goes through `shesha-developer:shesha-design-system` ONLY — theme blocks per the plan; form-edit re-pushes the styled result through its one gated path. A styling prompt to a structure agent is a contract violation.
+Styling is a compile-time input, not a post-hoc pass: the theme chosen in Step 3 rides in the dispatch prompt and form-edit's compiler bakes its tokens into every node [R-042]. `shesha-design-system` supplies the token set and is invoked directly only to audit the rendered result or to re-style an already-built form — never as a second styling pass a structure agent hands work back to.
 
 ## Step 5 — Verify (three gates, in order)
 
@@ -56,7 +56,7 @@ One aggregate envelope for the run: per screen — form (module + name + id), bl
 
 - **Comprehend before building** — every screen gets a schema-valid blueprint before form-edit is dispatched.
 - **Placement and visual gates are BLOCKING and CAPPED** (2 iterations / 2 cycles) — an honest partial-match report beats an unconverging loop.
-- **Delegate ownership**: structure/push = `shesha-form-edit` [R-046]; styling = `shesha-design-system` only; placement = `shesha-design-comprehension`. Splits are flex containers, never `columns` [R-028]; flex containers set `display:"flex"` [R-029] — enforced by form-edit's gates, never patched by the conductor.
+- **Delegate ownership**: structure/push = `shesha-form-edit` [R-046]; styling tokens = `shesha-design-system`, compiled in by form-edit, never a separate pass [R-042]; placement = `shesha-design-comprehension`. Splits are flex containers, never `columns` [R-028/R-029] — enforced by form-edit's gates, never patched by the conductor.
 - **Set up once, propagate everywhere** — pre-flight state rides in every dispatch prompt.
 - **Fan out across screens (MUST for 2+)**; barriers (theme, push, verify) stay serial ([conducting.md](references/conducting.md)).
 - **Honesty about gaps** — if a design detail can't be expressed in Shesha, say so.
@@ -67,7 +67,7 @@ One aggregate envelope for the run: per screen — form (module + name + id), bl
 | Design → blueprint (.md + blueprint-json) + placement verify | `shesha-developer:shesha-design-comprehension` |
 | Compile blueprint → gates → push → oracle | `shesha-developer:shesha-form-edit` |
 | Tokens → app theme + v7 style blocks | `shesha-developer:shesha-design-system` |
-| Ground truth (KB / schema / measured capability matrix reruns) | `shesha-developer:shesha-gym` |
+| Ground truth (KB / schema / measured capability matrix reruns) | `/shesha-gym` command → `shesha-form-edit/references/gym.md` |
 
 Slash commands: `/shesha-build <archetype> <entity>` · `/shesha-audit
 <module>/<form>` · `/shesha-gym` — each enters this pipeline at the right step.

@@ -13,15 +13,13 @@ shapes. Instead:
 
 - **Design in the React grammar** ([designing-like-react.md](designing-like-react.md))
   — Stack/Row/Grid/Card/Field/Actions. Each primitive compiles to ONE
-  gym-verified container shape via `compile-blueprint.js`. There is exactly one
-  way to make a Row and it is proven to render (flex model in the `desktop`
-  block, child `minWidth:0`, width as the split lever) [R-028/R-029].
+  gym-verified container shape via `compile-blueprint.js`, proven to render [R-028/R-029].
 - **Consistency from a fixed scale** — spacing (`xs..2xl`), heading levels,
   gaps and card treatment come from the compiler's scales and the theme tokens,
   not per-form invention. Every form draws from the same system.
 - **Selection over generation** — clone the closest golden archetype
   (`assets/golden/`); you inherit production chrome and only swap content.
-- **Never unstyled** — the design-system Style pass is mandatory [R-042].
+- **Never unstyled** — theme tokens are baked in at compile, mandatory for every build [R-042].
 
 ## Layer 2 — Objective render gate (`render-instrument.js`, fail-closed)
 

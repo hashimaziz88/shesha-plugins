@@ -63,7 +63,7 @@ Pin **one** viewport (default 1440×900) for *both* capture and verification. Pr
 
 - **Measure, don't guess.** Every split-child count / span in a blueprint must come from a probe measurement, a parsed source grid template, or (Tier C only) explicit vision reading — never from prose intuition. Stamp the blueprint with its fidelity tier and confidence.
 - **The blueprint is a contract.** Whatever the `assertions` block states MUST be re-verified after the build. A blueprint without verification is just a prettier prose brief.
-- **Express splits as flex-container children — NEVER the Shesha `columns` component** [R-028]. A split is a `container` with `display:"flex"` + `flexDirection:"row"` + `gap` (without an explicit `display:"flex"` the flex props are inert and children stack [R-029]). Record spans in **native units (px/fr/%)** and map each child to `desktop.dimensions.width` (fill = `calc(100% - <rail+gap>px)`, rail = fixed px); `customStyle:{flex}` is inert. Full sizing physics: `shesha-form-edit/references/renderer-physics.md`. The diff asserts cluster membership / grouping / nesting depth / tab key — never pixels.
+- **Express splits as flex-container children — NEVER the Shesha `columns` component** [R-028/R-029]; record spans in native units (px/fr/%) for mapping to `desktop.dimensions.width`. Full sizing physics: `shesha-form-edit/references/renderer-physics.md`. The diff asserts cluster membership / grouping / nesting depth / tab key — never pixels.
 - **Stay in your lane.** Produce blueprints + verification verdicts. Never author form JSON, never set colours, never push — route those to `shesha-form-edit` and `shesha-design-system`.
 - **One viewport.** Never compare measurements taken at different viewports; record the viewport in every capture.
 
@@ -76,9 +76,4 @@ Pin **one** viewport (default 1440×900) for *both* capture and verification. Pr
 
 ## Relationship to the other skills
 
-| Concern | Skill |
-|---|---|
-| Ingest design, plan screens, orchestrate, verify end-to-end | `shesha-developer:shesha-claude-designer` (calls this skill per screen) |
-| **Comprehend a design → measured layout blueprint + placement verification** | **this skill** |
-| Build correct structure, CRUD, validate, push | `shesha-developer:shesha-form-edit` |
-| Map tokens → app theme + per-component v7 style blocks | `shesha-developer:shesha-design-system` |
+This skill owns comprehending a design into a measured layout blueprint and verifying placement by re-measurement; `shesha-claude-designer` calls it once per screen. Full ownership table: [skills/shesha-claude-designer/SKILL.md](../shesha-claude-designer/SKILL.md).

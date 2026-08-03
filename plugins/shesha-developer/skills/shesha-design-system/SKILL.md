@@ -1,6 +1,6 @@
 ---
 name: shesha-design-system
-description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns how forms LOOK — maps brand design tokens (colour, type, spacing, radius, shadow, status lifecycle) onto Shesha's app-level Ant Design theme and per-component v7 style blocks, through channels the measured capability matrix proves work. Ships two brand themes (shesha default, requirements-studio) and accepts new token files. Invoked automatically by shesha-form-edit's Style step so no form ships unstyled [R-042]. Invoke directly only for targeted styling of an existing form. 0.45-only — 0.43 styling lives in the shesha-developer-0-43 plugin. Never authors structure/components, CRUD, or runtime fixes — that is shesha-form-edit's job.
+description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns how forms LOOK — maps brand design tokens (colour, type, spacing, radius, shadow, status lifecycle) onto Shesha's app-level Ant Design theme and per-component v7 style blocks, through channels the measured capability matrix proves work. Ships two brand themes (shesha default, requirements-studio) and accepts new token files. Its tokens are a COMPILE-TIME input resolved by shesha-form-edit's compiler, never a separate styling pass over built markup [R-042]. Invoke directly only to audit a rendered form against its theme, or for targeted prop-level styling of an EXISTING form. 0.45-only — 0.43 styling lives in the shesha-developer-0-43 plugin. Never authors structure/components, CRUD, or runtime fixes — that is shesha-form-edit's job.
 ---
 
 # Shesha Design System (0.45)
@@ -35,7 +35,7 @@ Design conventions every recipe respects: [references/shesha-design-standards.md
 
 ## Capability authority
 
-"Does style channel X actually render on component Y?" is answered by **`shesha-form-edit/assets/measured-capability-matrix.json`** — the gym-measured 0.45 authority, regenerated per release. The local `assets/capability-matrix.json` is **annotation only**: technique key paths, cross-cutting rules, and fixes, overlaid with measured evidence by `merge-capability.js`. How to read the pair: [references/capability-matrix.md](references/capability-matrix.md). Never author a style on a channel measured as a no-op.
+The measured capability matrix is the single authority on "does style channel X render on component Y"; canonical explanation: `shesha-form-edit/references/gym.md`. How this skill's local annotation layer reads against it: [references/capability-matrix.md](references/capability-matrix.md).
 
 ## Mechanics & firm rules
 
@@ -61,9 +61,4 @@ Design conventions every recipe respects: [references/shesha-design-standards.md
 | Design conventions | [references/shesha-design-standards.md](references/shesha-design-standards.md) |
 | Appearance grading | [references/appearance-quality.md](references/appearance-quality.md) |
 
-| Concern | Skill |
-|---|---|
-| Ingest design, plan, orchestrate, verify | `shesha-developer:shesha-claude-designer` |
-| Design → measured blueprint + placement verify | `shesha-developer:shesha-design-comprehension` |
-| Build structure, CRUD, gates, push | `shesha-developer:shesha-form-edit` |
-| **Tokens → app theme + v7 style blocks** | **this skill** |
+This skill owns tokens → app theme + v7 style blocks, compiled in by `shesha-form-edit`, never a second pass. Full ownership table: [skills/shesha-claude-designer/SKILL.md](../shesha-claude-designer/SKILL.md).
