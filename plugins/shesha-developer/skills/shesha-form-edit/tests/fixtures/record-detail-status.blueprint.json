@@ -1,0 +1,41 @@
+{
+  "screen": "Asset record",
+  "subtitle": "Register  /  Assets  /  Record",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-asset-record", "label": "Asset" },
+  "archetype": "record-detail",
+  "theme": "shesha",
+  "layout": {
+    "kind": "stack", "gap": "lg", "padding": "lg",
+    "children": [
+      { "kind": "heading", "level": 1, "content": "Asset record" },
+      { "kind": "card", "title": "Identity", "padding": "md", "gap": "md", "children": [
+        { "kind": "grid", "columns": 2, "gap": "md", "children": [
+          { "kind": "field", "property": "name" },
+          { "kind": "field", "property": "serialNumber" },
+          { "kind": "field", "property": "status" },
+          { "kind": "field", "property": "location" }
+        ] }
+      ] },
+      { "kind": "actions" }
+    ]
+  },
+  "bindings": [
+    { "label": "Asset Name", "property": "name" },
+    { "label": "Serial Number", "property": "serialNumber" },
+    { "label": "Location", "property": "location" },
+    {
+      "property": "status",
+      "datatype": "reference-list-item",
+      "referenceList": { "module": "boxfusion.test", "name": "AssetStatus" }
+    }
+  ],
+  "assertions": [
+    { "id": "A1", "statement": "the page opens with a header band carrying the screen title, the subtitle trail and a status chip" },
+    { "id": "A2", "statement": "the status property renders as refListStatus in the band (never as plain text) and as a dropdown in the body" },
+    { "id": "A3", "statement": "a KeyInformationBar meta strip sits under the band, one cell per non-status binding" }
+  ]
+}

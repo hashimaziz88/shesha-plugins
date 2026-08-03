@@ -34,7 +34,7 @@ Identify the source and its fidelity tier: readable source (A) · runnable proto
 
 ## Step 3 — Theme once + plan
 
-Brand selection: user-named brand / handed tokens / existing `<brand>.tokens.json` → use it; distinct palette in the design → author a new token file (copy the default `shesha`, swap values, keep key names); else the default `shesha`. Hand the token set to `shesha-design-system` to set the app-level theme **once**. Map each screen to `{archetype, blocks[]}`; sequence the build (list → detail → create). Present plan + blueprints + cost; gate once (unless headless).
+Brand selection: user-named brand / handed tokens / existing `<brand>.tokens.json` → use it; distinct palette in the design → author a new token file (copy the default `shesha`, swap values, keep key names); no brand but the user asks for something **"modern" / "professional" / "bolder"** → offer `shesha-bold` (the default's saturated voice, brand-tinted page-header band, same spacing/radius scales); else the default `shesha`. Hand the token set to `shesha-design-system` to set the app-level theme **once**. Map each screen to `{archetype, blocks[]}`; sequence the build (list → detail → create). Present plan + blueprints + cost; gate once (unless headless).
 
 ## Step 4 — Build (delegate)
 

@@ -4,7 +4,7 @@
       "id": "1cac950a-9207-5bb5-a0e7-3e47c202bec7",
       "type": "container",
       "version": 7,
-      "componentName": "stack3",
+      "componentName": "stack2",
       "direction": "vertical",
       "display": "flex",
       "flexDirection": "column",
@@ -34,21 +34,162 @@
       },
       "components": [
         {
-          "id": "1006301d-7d51-5592-8a71-af523c193bc5",
-          "type": "text",
-          "version": 5,
-          "componentName": "heading2",
-          "content": "Assets",
-          "textType": "span",
-          "contentDisplay": "content",
-          "contentType": "custom",
+          "type": "container",
+          "version": 7,
+          "propertyName": "pageHeaderBand",
+          "componentName": "pageHeaderBand",
+          "hidden": false,
+          "display": "flex",
+          "flexDirection": "column",
+          "justifyContent": "flex-start",
+          "alignItems": "stretch",
+          "id": "1df4598d-2ae3-5dd2-827e-2712a1f9326b",
           "desktop": {
-            "font": {
-              "size": 24,
-              "weight": "600",
-              "color": "#181818"
+            "background": {
+              "type": "color",
+              "color": "#FFFFFF"
+            },
+            "border": {
+              "radiusType": "all",
+              "borderType": "custom",
+              "border": {
+                "bottom": {
+                  "width": "1px",
+                  "style": "solid",
+                  "color": "#E8EAF0"
+                }
+              },
+              "radius": {
+                "all": 0
+              }
+            },
+            "shadow": {},
+            "stylingBox": "{\"paddingTop\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"16\",\"paddingRight\":\"16\"}",
+            "display": "flex",
+            "flexDirection": "column",
+            "flexWrap": "nowrap",
+            "justifyContent": "flex-start",
+            "alignItems": "stretch",
+            "gap": "12px",
+            "dimensions": {
+              "width": "100%",
+              "height": "auto",
+              "minHeight": "auto",
+              "maxHeight": "auto",
+              "minWidth": "0px",
+              "maxWidth": "100%"
             }
           },
+          "gap": 12,
+          "direction": "vertical",
+          "stylingBox": "{\"paddingTop\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"16\",\"paddingRight\":\"16\"}",
+          "components": [
+            {
+              "type": "container",
+              "version": 7,
+              "propertyName": "titleRow",
+              "componentName": "titleRow",
+              "hidden": false,
+              "display": "flex",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "alignItems": "flex-start",
+              "flexWrap": "nowrap",
+              "gap": 16,
+              "id": "a389abf1-4695-5f47-8c73-ad39897544d4",
+              "desktop": {
+                "background": {},
+                "border": {},
+                "shadow": {},
+                "display": "flex",
+                "flexDirection": "row",
+                "flexWrap": "nowrap",
+                "justifyContent": "space-between",
+                "alignItems": "flex-start",
+                "gap": "16px",
+                "dimensions": {
+                  "width": "100%",
+                  "height": "auto",
+                  "minHeight": "auto",
+                  "maxHeight": "auto",
+                  "minWidth": "0px",
+                  "maxWidth": "100%"
+                },
+                "stylingBox": "{}"
+              },
+              "direction": "horizontal",
+              "stylingBox": "{}",
+              "components": [
+                {
+                  "type": "container",
+                  "version": 7,
+                  "propertyName": "titleLeft",
+                  "componentName": "titleLeft",
+                  "hidden": false,
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "justifyContent": "flex-start",
+                  "alignItems": "center",
+                  "flexWrap": "wrap",
+                  "gap": 12,
+                  "id": "a4b48109-89e9-50b4-b905-73ba48c277d0",
+                  "desktop": {
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
+                    "alignItems": "center",
+                    "gap": "12px",
+                    "dimensions": {
+                      "width": "100%",
+                      "height": "auto",
+                      "minHeight": "auto",
+                      "maxHeight": "auto",
+                      "minWidth": "0px",
+                      "maxWidth": "100%"
+                    },
+                    "stylingBox": "{}"
+                  },
+                  "direction": "horizontal",
+                  "stylingBox": "{}",
+                  "components": [
+                    {
+                      "type": "text",
+                      "version": 5,
+                      "propertyName": "pageTitle",
+                      "componentName": "titleText",
+                      "label": "Page title",
+                      "hideLabel": true,
+                      "hidden": false,
+                      "isDynamic": false,
+                      "textType": "paragraph",
+                      "level": 1,
+                      "content": "Assets",
+                      "contentDisplay": "content",
+                      "dataType": "string",
+                      "strong": true,
+                      "fontSize": "text-2xl",
+                      "fontWeight": "600",
+                      "enableStyleOnReadonly": false,
+                      "id": "7abf46d0-a7c1-5866-bf67-766688825f49",
+                      "desktop": {
+                        "font": {
+                          "size": 24,
+                          "weight": "600",
+                          "color": "#181818",
+                          "align": "left"
+                        }
+                      },
+                      "contentType": "custom",
+                      "parentId": "a4b48109-89e9-50b4-b905-73ba48c277d0"
+                    }
+                  ],
+                  "parentId": "a389abf1-4695-5f47-8c73-ad39897544d4"
+                }
+              ],
+              "parentId": "1df4598d-2ae3-5dd2-827e-2712a1f9326b"
+            }
+          ],
           "parentId": "1cac950a-9207-5bb5-a0e7-3e47c202bec7"
         },
         {
@@ -98,7 +239,7 @@
               "parentId": "312a960b-d7c0-54fe-8080-a853af94c5c3"
             },
             {
-              "id": "923306c4-d6ee-5d28-916b-5af385d9f90b",
+              "id": "0bb91fbf-8462-5da3-9efd-769d370f56d2",
               "type": "buttonGroup",
               "version": 15,
               "componentName": "formActions",
@@ -109,7 +250,7 @@
               "editMode": "editable",
               "items": [
                 {
-                  "id": "0027f04c-fe73-5cc9-9111-785638cc741b",
+                  "id": "341713d4-be3e-54d6-916e-12ec00609e11",
                   "itemType": "item",
                   "itemSubType": "button",
                   "sortOrder": 0,
@@ -128,7 +269,7 @@
                   }
                 },
                 {
-                  "id": "2c7af131-ccbd-57da-bae1-724926b71d15",
+                  "id": "292ecb9a-541d-58df-9d9f-606f791a573d",
                   "itemType": "item",
                   "itemSubType": "button",
                   "sortOrder": 1,
@@ -178,6 +319,16 @@
               "canAddInline": "no",
               "canDeleteInline": "no",
               "useMultiselect": false,
+              "rowDimensions": {
+                "height": 44
+              },
+              "headerBackgroundColor": "#F8F8F9",
+              "desktop": {
+                "font": {
+                  "size": 14,
+                  "color": "#181818"
+                }
+              },
               "items": [
                 {
                   "id": "0aad4c00-cad9-548c-871f-66365ad606c3",

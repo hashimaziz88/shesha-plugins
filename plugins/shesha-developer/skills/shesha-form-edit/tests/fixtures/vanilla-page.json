@@ -1,0 +1,125 @@
+{
+  "$fixture": "A page-archetype form that is TECHNICALLY styled but VANILLA: page ground, a themed card, real font declarations, a datatable carrying the measured presentation channels — and no page anatomy whatsoever. It exists to prove validate-styledness' page-anatomy check has teeth: everything else about it passes, so page-anatomy must be the ONLY failing line.",
+  "components": [
+    {
+      "id": "8f2c1a44-1111-4aaa-8bbb-0123456789ab",
+      "type": "container",
+      "version": 7,
+      "parentId": "root",
+      "componentName": "pageRoot",
+      "direction": "vertical",
+      "display": "flex",
+      "flexDirection": "column",
+      "gap": 12,
+      "flexWrap": "nowrap",
+      "stylingBox": "{}",
+      "desktop": {
+        "display": "flex",
+        "flexDirection": "column",
+        "flexWrap": "nowrap",
+        "justifyContent": "flex-start",
+        "alignItems": "stretch",
+        "gap": "12px",
+        "dimensions": { "width": "100%", "height": "auto", "minHeight": "auto", "maxHeight": "auto", "minWidth": "0px", "maxWidth": "100%" },
+        "stylingBox": "{}",
+        "background": { "type": "color", "color": "#F8F8F9" }
+      },
+      "components": [
+        {
+          "id": "8f2c1a44-2222-4aaa-8bbb-0123456789ab",
+          "type": "container",
+          "version": 7,
+          "parentId": "8f2c1a44-1111-4aaa-8bbb-0123456789ab",
+          "componentName": "assetsCard",
+          "direction": "vertical",
+          "display": "flex",
+          "flexDirection": "column",
+          "gap": 12,
+          "flexWrap": "nowrap",
+          "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}",
+          "desktop": {
+            "display": "flex",
+            "flexDirection": "column",
+            "flexWrap": "nowrap",
+            "justifyContent": "flex-start",
+            "alignItems": "stretch",
+            "gap": "12px",
+            "dimensions": { "width": "auto", "height": "auto", "minHeight": "auto", "maxHeight": "auto", "minWidth": "0px", "maxWidth": "100%" },
+            "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}",
+            "background": { "type": "color", "color": "#FFFFFF" },
+            "border": { "radiusType": "all", "borderType": "all", "border": { "all": { "width": "1px", "color": "#E8EAF0", "style": "solid" } }, "radius": { "all": 8 } }
+          },
+          "components": [
+            {
+              "id": "8f2c1a44-3333-4aaa-8bbb-0123456789ab",
+              "type": "text",
+              "version": 5,
+              "parentId": "8f2c1a44-2222-4aaa-8bbb-0123456789ab",
+              "componentName": "cardHeading",
+              "content": "Assets",
+              "textType": "span",
+              "contentDisplay": "content",
+              "contentType": "custom",
+              "desktop": { "font": { "size": 16, "weight": "600", "color": "#181818" } }
+            },
+            {
+              "id": "8f2c1a44-4444-4aaa-8bbb-0123456789ab",
+              "type": "dataContext",
+              "version": 1,
+              "parentId": "8f2c1a44-2222-4aaa-8bbb-0123456789ab",
+              "componentName": "assets",
+              "propertyName": "assets",
+              "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+              "sourceType": "Entity",
+              "dataFetchingMode": "paging",
+              "defaultPageSize": 10,
+              "uniqueStateId": "assets",
+              "sortMode": "standard",
+              "allowReordering": "no",
+              "components": [
+                {
+                  "id": "8f2c1a44-5555-4aaa-8bbb-0123456789ab",
+                  "type": "datatable",
+                  "version": 29,
+                  "parentId": "8f2c1a44-4444-4aaa-8bbb-0123456789ab",
+                  "componentName": "assetsGrid",
+                  "propertyName": "assetsGrid",
+                  "canEditInline": "no",
+                  "canAddInline": "no",
+                  "canDeleteInline": "no",
+                  "useMultiselect": false,
+                  "rowDimensions": { "height": 44 },
+                  "headerBackgroundColor": "#F8F8F9",
+                  "desktop": { "font": { "size": 14, "color": "#181818" } },
+                  "items": [
+                    {
+                      "id": "8f2c1a44-6666-4aaa-8bbb-0123456789ab",
+                      "parentId": "8f2c1a44-5555-4aaa-8bbb-0123456789ab",
+                      "itemType": "item",
+                      "sortOrder": 0,
+                      "columnType": "data",
+                      "propertyName": "name",
+                      "caption": "Name",
+                      "isVisible": true,
+                      "allowSorting": true,
+                      "displayComponent": { "type": "[default]" },
+                      "editComponent": { "type": "[not-editable]" },
+                      "createComponent": { "type": "[not-editable]" }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "vertical",
+    "colon": false,
+    "labelCol": { "span": 24 },
+    "wrapperCol": { "span": 24 },
+    "modelType": "boxfusion.test.Domain.Domain.Assets.Asset"
+  }
+}

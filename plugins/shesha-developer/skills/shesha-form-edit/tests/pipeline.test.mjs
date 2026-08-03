@@ -30,6 +30,12 @@ const SNAPSHOTS = path.join(HERE, '__snapshots__');
 const WORK = fs.mkdtempSync(path.join(os.tmpdir(), 'form-edit-pipeline-'));
 
 const THEMES = ['shesha', 'requirements-studio'];
+// shesha-bold is the third shipped theme. It rides the snapshot matrix for ONE fixture
+// only — enough to pin that a third theme resolves DIFFERENTLY (its page-header band is
+// brand-tinted, not white) without tripling the snapshot churn on every compiler change.
+const EXTRA_THEMES = { 'table-worklist': ['shesha-bold'] };
+const ALL_THEMES = [...new Set([...THEMES, ...Object.values(EXTRA_THEMES).flat()])];
+const SNAP_SUFFIX = new RegExp(`--(${ALL_THEMES.join('|')})\\.json$`);
 const BLUEPRINTS = fs.readdirSync(FIXTURES).filter((f) => f.endsWith('.blueprint.json')).sort();
 
 const run = (script, args) => {
@@ -80,7 +86,8 @@ test('validateBlueprint rejects a bad archetype and an unknown node key', () => 
 // ---- compile → gates → snapshot ---------------------------------------------
 for (const fixture of BLUEPRINTS) {
   const name = fixture.replace(/\.blueprint\.json$/, '');
-  for (const theme of THEMES) {
+  const archetype = JSON.parse(fs.readFileSync(path.join(FIXTURES, fixture), 'utf8')).archetype;
+  for (const theme of [...THEMES, ...(EXTRA_THEMES[name] ?? [])]) {
     test(`${name} @ ${theme}: compiles, passes every offline gate, matches its snapshot`, () => {
       const out = path.join(WORK, `${name}--${theme}.json`);
       const compiled = run('compile-blueprint.js', [
@@ -92,7 +99,9 @@ for (const fixture of BLUEPRINTS) {
       assert.doesNotMatch(compiled.out, /theme ".*" not found/, `theme "${theme}" was not found`);
 
       for (const gate of ['validate-schema.js', 'validate-guardrails.js', 'validate-styledness.js']) {
-        const r = run(gate, [out]);
+        // styledness needs the archetype — its page-anatomy floor only applies to page
+        // archetypes, and an archetype is a blueprint fact, not a component.
+        const r = run(gate, [out, ...(gate === 'validate-styledness.js' ? ['--archetype', archetype] : [])]);
         assert.equal(r.code, 0, `${gate} failed for ${name}@${theme}:\n${r.out}`);
       }
 
@@ -125,7 +134,7 @@ test('every buttonGroup in every snapshot is inline [R-057]', () => {
   const CAPTURE = new Set(['asset-capture', 'react-grammar']); // the capture-archetype fixtures
   let seen = 0;
   for (const snap of snaps) {
-    const fixture = snap.replace(/--(shesha|requirements-studio)\.json$/, '');
+    const fixture = snap.replace(SNAP_SUFFIX, '');
     const doc = JSON.parse(fs.readFileSync(path.join(SNAPSHOTS, snap), 'utf8'));
     (function walk(node, parent) {
       if (Array.isArray(node)) return node.forEach((n) => walk(n, parent));
@@ -204,6 +213,228 @@ test('a blueprint that names its own action buttons gets those, not Save/Back [R
   // capture footer: right-aligned flex row around the group
   assert.equal(parent.desktop.flexDirection, 'row', 'the footer must be a flex row [R-057]');
   assert.equal(parent.desktop.justifyContent, 'flex-end', 'a capture footer right-aligns its actions [R-057]');
+});
+
+// ---- page chrome: blocks are per-archetype compiler output --------------------
+// The compiler used to bake the neutral floor and nothing else, so a compiled page was
+// technically-styled and visually vanilla — no page anatomy. assets/blocks/*.block.json
+// is now instantiated as ARCHETYPE CHROME (resolver in compile-blueprint.js), and these
+// tests read the committed snapshots, so a compiler change has to re-record before it can
+// ship a bandless page.
+
+/** first-child-of-page-root walk, mirroring validate-styledness' structural detection */
+const bandOf = (doc) => {
+  const root = doc.components[0];
+  return (root.components ?? [])[0] ?? null;
+};
+const findByName = (node, cname) => {
+  let hit = null;
+  (function w(n) {
+    if (hit || !n || typeof n !== 'object') return;
+    if (Array.isArray(n)) return n.forEach(w);
+    if (n.componentName === cname) { hit = n; return; }
+    for (const v of Object.values(n)) w(v);
+  })(node);
+  return hit;
+};
+const collectTypes = (node) => {
+  const out = [];
+  (function w(n) {
+    if (!n || typeof n !== 'object') return;
+    if (Array.isArray(n)) return n.forEach(w);
+    if (typeof n.type === 'string') out.push(n.type);
+    for (const v of Object.values(n)) w(v);
+  })(node);
+  return out;
+};
+const snap = (name, theme = 'shesha') =>
+  JSON.parse(fs.readFileSync(path.join(SNAPSHOTS, `${name}--${theme}.json`), 'utf8'));
+
+test('a compiled table-worklist opens with a page-header band (structural)', () => {
+  const band = bandOf(snap('table-worklist'));
+  assert.ok(band, 'the page root has no first child at all');
+  assert.equal(band.type, 'container', `the band must be a container, got ${band.type}`);
+  assert.equal(band.componentName, 'pageHeaderBand');
+  // a band is a SURFACE with a title: background + a bottom hairline + title-scale text
+  assert.ok(band.desktop?.background?.color, 'the band carries no background colour');
+  assert.ok(band.desktop?.border?.border?.bottom?.color, 'the band carries no bottom hairline');
+  assert.equal(band.desktop.display, 'flex', 'the band must read its flex model from desktop.* [R-029]');
+  const title = findByName(band, 'titleText');
+  assert.ok(title, 'the band has no title text node');
+  assert.equal(title.content, 'Assets', 'the band title comes from the blueprint heading it consumed');
+  assert.ok(title.desktop.font.size >= 18, `the title is ${title.desktop.font.size}px — not title scale`);
+  assert.equal(title.contentType, 'custom', 'a text colour without contentType:"custom" is a no-op [R-052]');
+  // the consumed h1 must NOT also survive in the body — one page title, not two
+  const bodyTitles = collectTypes(snap('table-worklist').components[0].components.slice(1))
+    .filter((t) => t === 'text').length;
+  const dup = JSON.stringify(snap('table-worklist').components[0].components.slice(1)).match(/"content":\s*"Assets"/g);
+  assert.equal(dup, null, `the blueprint h1 was duplicated below the band (${bodyTitles} body text nodes)`);
+});
+
+test('a status-bearing record-detail compiles a refListStatus chip into its band, never plain text', () => {
+  const doc = snap('record-detail-status');
+  const band = bandOf(doc);
+  assert.equal(band.componentName, 'pageHeaderBand');
+  const chip = findByName(band, 'statusChip');
+  assert.ok(chip, 'the band has no status chip');
+  assert.equal(chip.type, 'refListStatus', `a status is a chip, not a ${chip.type}`);
+  assert.equal(chip.propertyName, 'status');
+  // identity copied verbatim from the blueprint binding — never guessed [R-015]
+  assert.deepEqual(chip.referenceListId, { module: 'boxfusion.test', name: 'AssetStatus' });
+  // refListStatus' desktop.font/background/shadow are all measured no-ops, so the chip
+  // must carry NO breakpoint block at all [R-053]; nor customStyle, which the 0.45
+  // renderer ignores outright [R-028].
+  for (const bpk of ['desktop', 'tablet', 'mobile']) {
+    assert.ok(!chip[bpk] || !Object.keys(chip[bpk]).length,
+      `the chip authors ${bpk}.* — every appearance channel on refListStatus is a measured no-op [R-053]`);
+  }
+  assert.equal(chip.customStyle, undefined, 'customStyle never reaches the 0.45 renderer [R-028]');
+  // the subtitle rides the band's breadcrumb slot, filled as code-mode JS
+  const crumb = findByName(band, 'breadcrumbTrail');
+  assert.ok(crumb, 'the band dropped its subtitle carrier');
+  assert.match(crumb.content._code, /Register {2}\/ {2}Assets/);
+  // and a native KeyInformationBar carries the meta strip, one cell per non-status binding
+  const strip = doc.components[0].components[1];
+  assert.equal(strip.type, 'KeyInformationBar', `expected the native meta-strip carrier, got ${strip.type}`);
+  assert.equal(strip.columns.length, 3);
+  assert.deepEqual(strip.columns.map((c) => c.components[0].content), ['ASSET NAME', 'SERIAL NUMBER', 'LOCATION']);
+  assert.deepEqual(strip.columns.map((c) => c.components[1].content),
+    ['{{data.name}}', '{{data.serialNumber}}', '{{data.location}}']);
+});
+
+test('a compiled dashboard gets a stat-tile row of native statistic components', () => {
+  const doc = snap('asset-dashboard');
+  assert.equal(bandOf(doc).componentName, 'pageHeaderBand');
+  const row = doc.components[0].components[1];
+  assert.equal(row.componentName, 'statTileRow');
+  assert.equal(row.desktop.flexDirection, 'row', 'a stat-tile row is a row [R-029]');
+  assert.equal(row.components.length, 2, 'one tile per data region in the blueprint');
+  assert.deepEqual(row.components.map((t) => t.type), ['statistic', 'statistic']);
+  assert.deepEqual(row.components.map((t) => t.title), ['Recently registered', 'Awaiting verification']);
+  for (const tile of row.components) {
+    assert.ok(tile.desktop.dimensions.width.startsWith('calc('), 'tiles are sized by desktop.dimensions.width [R-028]');
+    assert.ok(tile.valueFont.size >= 18, 'the tile value carries the display type step');
+  }
+});
+
+test('capture / modal-dialog / auth-page archetypes get NO page chrome', () => {
+  for (const name of ['asset-capture', 'react-grammar']) {   // the capture-archetype fixtures
+    const doc = snap(name);
+    const text = JSON.stringify(doc);
+    assert.doesNotMatch(text, /pageHeaderBand|statTileRow|"KeyInformationBar"/,
+      `${name} is a capture archetype — a dialog/capture screen has no page anatomy, so it must carry no band, strip or stat row`);
+  }
+});
+
+test('a blueprint can opt out of chrome with `chrome: false`', () => {
+  const src = JSON.parse(fs.readFileSync(path.join(FIXTURES, 'table-worklist.blueprint.json'), 'utf8'));
+  const bpFile = path.join(WORK, 'no-chrome.blueprint.json');
+  fs.writeFileSync(bpFile, JSON.stringify({ ...src, chrome: false, form: { ...src.form, name: 'no-chrome' } }, null, 2));
+  const out = path.join(WORK, 'no-chrome.json');
+  // chrome:false means the page-anatomy floor does not apply either, so the compiler's own
+  // styledness self-gate must still pass — the two have to agree or every compile breaks.
+  const r = run('compile-blueprint.js', ['--blueprint', bpFile, '--out', out, '--no-live', '--theme', 'shesha']);
+  assert.equal(r.code, 0, `an opted-out compile must still self-gate clean:\n${r.out}`);
+  assert.doesNotMatch(fs.readFileSync(out, 'utf8'), /pageHeaderBand/, 'chrome:false still emitted a band');
+  // the h1 the band would have consumed stays in the body
+  assert.match(fs.readFileSync(out, 'utf8'), /"content": "Assets"/);
+});
+
+test('no snapshot ever ships a block placeholder literal', () => {
+  // "$binding:x" / "$slot:y" / "$role:t" are the block library's model-fill schemes. A
+  // literal that survives into markup renders as that literal text on the page.
+  for (const file of fs.readdirSync(SNAPSHOTS).filter((f) => f.endsWith('.json'))) {
+    const text = fs.readFileSync(path.join(SNAPSHOTS, file), 'utf8');
+    assert.doesNotMatch(text, /\$binding:|\$slot:|\$role:/, `${file} carries an unresolved block placeholder`);
+  }
+});
+
+// ---- the third theme resolves differently ------------------------------------
+test('shesha-bold resolves a brand-tinted header band where shesha resolves a white one', () => {
+  const bandBg = (theme) => bandOf(snap('table-worklist', theme)).desktop.background.color;
+  const themeOf = (t) => JSON.parse(fs.readFileSync(
+    path.join(SKILL, '..', 'shesha-design-system', 'assets', 'themes', `${t}.tokens.json`), 'utf8'));
+  for (const t of ['shesha', 'requirements-studio', 'shesha-bold']) {
+    const roles = themeOf(t).roles;
+    for (const role of ['bandBg', 'bandText', 'bandSubtext', 'bandBorder', 'tableHeaderBg', 'statTileBg', 'statTileValue']) {
+      assert.ok(roles[role], `theme "${t}" is missing roles.${role} — chrome tk() lookups would silently fall back`);
+    }
+    assert.ok(themeOf(t).chrome.tableRowHeight, `theme "${t}" is missing chrome.tableRowHeight (datatable density)`);
+  }
+  const bold = themeOf('shesha-bold');
+  assert.equal(bandBg('shesha'), '#FFFFFF', 'the default band is a white surface');
+  assert.equal(bandBg('shesha-bold'), bold.palette.brand.tint, 'shesha-bold tints its band with the brand');
+  assert.notEqual(bandBg('shesha'), bandBg('shesha-bold'), 'the third theme must resolve DIFFERENTLY, or it is not a theme');
+  assert.equal(bold.palette.brand.primary, '#0047FF');
+  // same structural system: identical spacing + radius scales, identical key names
+  const base = themeOf('shesha');
+  assert.deepEqual(bold.spacing, base.spacing, 'shesha-bold must keep the shesha spacing scale');
+  assert.deepEqual(bold.radius, base.radius, 'shesha-bold must keep the shesha radius scale');
+  assert.deepEqual(Object.keys(bold.roles).sort(), Object.keys(base.roles).sort(),
+    'shesha-bold must keep every shesha role key so recipes and block overlays resolve unchanged');
+});
+
+// ---- the styledness floor has teeth -----------------------------------------
+test('a chrome-less page archetype FAILS validate-styledness, and page-anatomy is the only failure', () => {
+  const fixture = path.join(FIXTURES, 'vanilla-page.json');
+  const r = run('validate-styledness.js', [fixture, '--archetype', 'table-worklist']);
+  assert.notEqual(r.code, 0, `a vanilla page archetype must FAIL:\n${r.out}`);
+  const fails = r.out.split('\n').filter((l) => l.startsWith('FAIL')).map((l) => l.split(/\s+/)[1]);
+  assert.deepEqual(fails, ['page-anatomy'],
+    `everything but the band passes in this fixture, so page-anatomy must be the lone failure:\n${r.out}`);
+  assert.match(r.out, /must open with a page-header band/);
+
+  // the same markup as a NON-page archetype passes — dialogs carry no page chrome
+  for (const dialog of ['capture', 'modal-dialog', 'auth-page']) {
+    const ok = run('validate-styledness.js', [fixture, '--archetype', dialog]);
+    assert.equal(ok.code, 0, `${dialog} must not be held to the page-band floor:\n${ok.out}`);
+  }
+  // with no --archetype the check WARNs rather than passing silently
+  const unknown = run('validate-styledness.js', [fixture]);
+  assert.equal(unknown.code, 0);
+  assert.match(unknown.out, /WARN page-anatomy — archetype unknown/);
+});
+
+test('validate-styledness FAILS a status rendered as prose and a default-AntD grid', () => {
+  const doc = JSON.parse(fs.readFileSync(path.join(FIXTURES, 'vanilla-page.json'), 'utf8'));
+  const card = doc.components[0].components[0];
+  const grid = card.components[1].components[0];
+  // (a) status as prose
+  card.components.push({
+    id: '8f2c1a44-7777-4aaa-8bbb-0123456789ab', parentId: card.id, type: 'textField', version: 4,
+    componentName: 'statusField', propertyName: 'status', label: 'Status',
+    desktop: { dimensions: { width: '100%' } },
+  });
+  // (b) a grid with neither density nor header/body contrast
+  delete grid.rowDimensions; delete grid.headerBackgroundColor; delete grid.desktop;
+  const probe = path.join(WORK, 'styledness-teeth.json');
+  fs.writeFileSync(probe, JSON.stringify(doc, null, 2));
+  const r = run('validate-styledness.js', [probe, '--archetype', 'record-detail']);
+  assert.notEqual(r.code, 0);
+  assert.match(r.out, /FAIL status-as-text — textField "status"/);
+  assert.match(r.out, /FAIL datatable-presentation — datatable "assetsGrid"/);
+  assert.match(r.out, /rowDimensions\.height \(row density\)/);
+  // and it says WHY hover/stripe intent does not count as evidence
+  assert.match(r.out, /rowHoverBackgroundColor \/ striped \/ rowDividers .*"not-measured"/);
+});
+
+test('every compiled datatable carries the measured grid presentation channels', () => {
+  for (const file of fs.readdirSync(SNAPSHOTS).filter((f) => f.endsWith('.json'))) {
+    const theme = file.match(SNAP_SUFFIX)?.[1];
+    const tokens = JSON.parse(fs.readFileSync(
+      path.join(SKILL, '..', 'shesha-design-system', 'assets', 'themes', `${theme}.tokens.json`), 'utf8'));
+    (function w(n) {
+      if (!n || typeof n !== 'object') return;
+      if (Array.isArray(n)) return n.forEach(w);
+      if (n.type === 'datatable') {
+        assert.equal(n.rowDimensions?.height, tokens.chrome.tableRowHeight,
+          `${file}: datatable "${n.componentName}" row density must come from the theme`);
+        assert.ok(n.headerBackgroundColor, `${file}: datatable "${n.componentName}" has no header contrast`);
+        assert.ok(n.desktop?.font?.size, `${file}: datatable "${n.componentName}" has no body type`);
+      }
+      for (const v of Object.values(n)) w(v);
+    })(JSON.parse(fs.readFileSync(path.join(SNAPSHOTS, file), 'utf8')).components);
+  }
 });
 
 // ---- spacing resolves through the theme, not a hardcoded literal --------------
@@ -408,6 +639,58 @@ for (const [golden, baseline] of Object.entries(GOLDEN_BASELINE_FAILS)) {
     assert.equal(r.code, baseline.length ? 1 : 0, 'exit code must follow the fail count');
   });
 }
+
+// ---- golden corpus: the styledness floor, honestly baselined --------------------
+// The goldens are hand-made SEED templates, and the raised styledness floor catches real
+// debt in them. The bar is the same as for guardrails: no NEW failing check, and the debt
+// is written down per-form rather than papered over by weakening the check. The archetype
+// comes from the golden's filename prefix (that is the archetype it seeds), so the
+// page-anatomy floor is genuinely enforced here — and it FAILS the three hand-made page
+// goldens that open straight into content with no header band, which is exactly the
+// vanilla shape this work exists to make impossible.
+const GOLDEN_STYLEDNESS_BASELINE = {
+  'auth-page--auth-login.json': [],
+  'capture--employee-create.json': [],
+  // page ground + coverage debt: this standalone seed is a bare form body by design
+  'capture-standalone--standalone-create.json': ['page-chrome', 'style-coverage'],
+  'dashboard--dashboard.json': [],
+  // VANILLA PAGE: opens into content, and its five grids author no density
+  'hub--rs-detail-with-header.json': ['datatable-presentation', 'page-anatomy'],
+  // an inline-editing seed: no page ground, no type, no grid presentation
+  'inline-card--inline-editable-table.json': ['datatable-presentation', 'page-chrome', 'style-coverage', 'typography'],
+  'list-card--entity-datalist.json': ['page-chrome'],
+  'list-card-item--entity-card.json': [],
+  'modal-dialog--rs-create-dialog.json': [],
+  'record-detail--employee-detail.json': ['page-anatomy'],   // VANILLA PAGE
+  'table-worklist--employee-table.json': ['page-anatomy'],   // VANILLA PAGE
+};
+const failingChecks = (output) => [...new Set(
+  output.split('\n').filter((l) => l.startsWith('FAIL')).map((l) => l.split(/\s+/)[1]).filter(Boolean),
+)].sort();
+
+test('the golden styledness baseline covers the whole corpus', () => {
+  assert.deepEqual(Object.keys(GOLDEN_STYLEDNESS_BASELINE).sort(), Object.keys(GOLDEN_BASELINE_FAILS).sort());
+});
+
+for (const [golden, baseline] of Object.entries(GOLDEN_STYLEDNESS_BASELINE)) {
+  test(`golden ${golden}: no new failing styledness check`, () => {
+    const archetype = golden.replace(/--.*$/, '');
+    const r = run('validate-styledness.js', [path.join(SKILL, 'assets', 'golden', golden), '--archetype', archetype]);
+    assert.deepEqual(failingChecks(r.out), baseline.slice().sort(),
+      `the failing styledness checks for ${golden} changed — a new check regressed the corpus (or the corpus was fixed; update GOLDEN_STYLEDNESS_BASELINE)`);
+    assert.equal(r.code, baseline.length ? 1 : 0, 'exit code must follow the fail count');
+  });
+}
+
+// the page-anatomy floor must be the reason the page goldens fail — proof it has teeth on
+// hand-made markup, not only on the purpose-built vanilla-page fixture
+test('the page-anatomy floor FAILS the hand-made page goldens that have no header band', () => {
+  for (const golden of ['table-worklist--employee-table.json', 'record-detail--employee-detail.json', 'hub--rs-detail-with-header.json']) {
+    const r = run('validate-styledness.js', [path.join(SKILL, 'assets', 'golden', golden), '--archetype', golden.replace(/--.*$/, '')]);
+    assert.match(r.out, /FAIL page-anatomy — a ".*" page must open with a page-header band/,
+      `${golden} is a page seed with no band — the floor must say so`);
+  }
+});
 
 test('golden corpus: R-052/R-053 are the ONLY rules the legacy-corpus flag masks', () => {
   const extra = new Set();

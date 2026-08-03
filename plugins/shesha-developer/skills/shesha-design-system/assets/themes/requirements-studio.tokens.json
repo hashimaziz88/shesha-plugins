@@ -53,28 +53,89 @@
       "title": 24,
       "titleLg": 28
     },
-    "weights": { "regular": 400, "medium": 500, "semibold": 600, "bold": 700 },
-    "lineHeights": { "tight": 1.2, "snug": 1.35, "base": 1.5 }
+    "weights": {
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700
+    },
+    "lineHeights": {
+      "tight": 1.2,
+      "snug": 1.35,
+      "base": 1.5
+    }
   },
-  "spacing": { "1": 4, "2": 8, "3": 12, "4": 16, "5": 20, "6": 24, "8": 32, "10": 40, "12": 48 },
-  "radius": { "xs": 2, "sm": 4, "md": 6, "lg": 12, "pill": 9999 },
+  "spacing": {
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 20,
+    "6": 24,
+    "8": 32,
+    "10": 40,
+    "12": 48
+  },
+  "radius": {
+    "xs": 2,
+    "sm": 4,
+    "md": 6,
+    "lg": 12,
+    "pill": 9999
+  },
   "shadow": {
     "none": "none",
     "card": "0 1px 4px rgba(0, 0, 0, 0.06)",
     "overlay": "0 8px 24px rgba(15, 23, 42, 0.08)",
     "rowHover": "0 1px 2px rgba(15, 23, 42, 0.04)"
   },
-  "chrome": { "railWidth": 56, "headerHeight": 52, "recordBarHeight": 96 },
+  "chrome": {
+    "railWidth": 56,
+    "headerHeight": 52,
+    "recordBarHeight": 96,
+    "tableRowHeight": 44
+  },
   "statusLifecycle": {
     "$reflist": "Shesha.RequirementsStudio.RsStatus",
-    "order": ["Draft", "Confirmed", "InBuild", "Delivered", "Rejected", "OnHold"],
+    "order": [
+      "Draft",
+      "Confirmed",
+      "InBuild",
+      "Delivered",
+      "Rejected",
+      "OnHold"
+    ],
     "badges": {
-      "Draft":     { "bg": "#f0f2f5", "fg": "#4a4a4a", "border": "#d6d6d6" },
-      "Confirmed": { "bg": "#e8f6ff", "fg": "#2563eb", "border": "#2563eb" },
-      "InBuild":   { "bg": "#fdeedd", "fg": "#e28030", "border": "#e28030" },
-      "Delivered": { "bg": "#e8f2ef", "fg": "#0d685a", "border": "#629e97" },
-      "Rejected":  { "bg": "#fdecea", "fg": "#c0392b", "border": "#c0392b" },
-      "OnHold":    { "bg": "#fef3c7", "fg": "#d97706", "border": "#d97706" }
+      "Draft": {
+        "bg": "#f0f2f5",
+        "fg": "#4a4a4a",
+        "border": "#d6d6d6"
+      },
+      "Confirmed": {
+        "bg": "#e8f6ff",
+        "fg": "#2563eb",
+        "border": "#2563eb"
+      },
+      "InBuild": {
+        "bg": "#fdeedd",
+        "fg": "#e28030",
+        "border": "#e28030"
+      },
+      "Delivered": {
+        "bg": "#e8f2ef",
+        "fg": "#0d685a",
+        "border": "#629e97"
+      },
+      "Rejected": {
+        "bg": "#fdecea",
+        "fg": "#c0392b",
+        "border": "#c0392b"
+      },
+      "OnHold": {
+        "bg": "#fef3c7",
+        "fg": "#d97706",
+        "border": "#d97706"
+      }
     }
   },
   "roles": {
@@ -90,6 +151,17 @@
     "bodyText": "palette.ink.primary",
     "helperText": "palette.ink.soft",
     "baseRadius": "radius.md",
-    "cardRadius": "radius.lg"
+    "cardRadius": "radius.lg",
+    "bodyInk": "palette.ink.primary",
+    "mutedText": "palette.ink.soft",
+    "divider": "palette.lines.divider",
+    "bandBg": "palette.surfaces.surface",
+    "bandText": "palette.ink.primary",
+    "bandSubtext": "palette.ink.soft",
+    "bandBorder": "palette.lines.border",
+    "tableHeaderBg": "palette.surfaces.surfaceAlt",
+    "statTileBg": "palette.surfaces.surface",
+    "statTileValue": "palette.brand.primary",
+    "$chromeNote": "band*/statTile*/tableHeaderBg are the PAGE-CHROME roles the compiler resolves when it stamps per-archetype chrome (page-header band, meta strip, dashboard stat tiles, datatable header). Every theme must define them so tk() never misses."
   }
 }

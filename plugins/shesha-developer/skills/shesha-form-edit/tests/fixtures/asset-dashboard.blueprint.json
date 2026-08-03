@@ -1,0 +1,28 @@
+{
+  "screen": "Asset dashboard",
+  "subtitle": "Register  /  Overview",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-asset-dashboard", "label": "Assets" },
+  "archetype": "dashboard",
+  "theme": "shesha",
+  "layout": {
+    "kind": "stack", "gap": "lg", "padding": "lg",
+    "children": [
+      { "kind": "heading", "level": 1, "content": "Asset dashboard" },
+      { "kind": "card", "title": "Recently registered", "padding": "md", "gap": "md", "children": [
+        { "kind": "datatable", "name": "recentAssets", "columns": ["name", "serialNumber", "purchaseDate"] }
+      ] },
+      { "kind": "card", "title": "Awaiting verification", "padding": "md", "gap": "md", "children": [
+        { "kind": "datatable", "name": "unverifiedAssets", "columns": ["name", "location"] }
+      ] }
+    ]
+  },
+  "bindings": [],
+  "assertions": [
+    { "id": "A1", "statement": "the page opens with a header band, then a stat-tile row of native statistic components — one per data region" },
+    { "id": "A2", "statement": "both datatables carry row density + header contrast (the measured grid presentation channels)" }
+  ]
+}

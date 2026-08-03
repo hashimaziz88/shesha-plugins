@@ -119,6 +119,11 @@ const isCaptureFooter = () => CAPTURE_ARCHETYPES.has(bp.archetype);
 // row and must render as one horizontal line, never a vertical stack [R-057].
 const BUTTON_TYPES = new Set(['button', 'buttonGroup', 'buttons']);
 
+// A property name that reads as a reference-list lifecycle (status / state / stage,
+// plain or suffixed: assetStatus, workflowState). Same expression validate-styledness
+// uses for its status-as-text check, so the compiler and the gate agree by construction.
+const STATUS_PROP = /(^|[a-z])(status|state|stage)$/;
+
 function titleCase(prop) {
   const last = prop.split('.').pop();
   return last.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (c) => c.toUpperCase());
@@ -208,8 +213,14 @@ function fieldComponent(node, idKey) {
   const meta = propsMeta?.get(String(prop).toLowerCase().split('.')[0]);
   let type = node.component ?? binding.component;
   if (!type) {
-    const dt = binding.datatype ?? meta?.dataType ?? 'string';
-    type = BY_DATATYPE[dt] ?? 'textField';
+    const dt = binding.datatype ?? meta?.dataType;
+    // A status/state/stage property is a LIFECYCLE, never free text. With live metadata
+    // the datatype already says reference-list-item; without it (--no-live) the plain
+    // 'string' default used to compile a status to a textField — which throws the
+    // lifecycle away and is exactly what validate-styledness' status-as-text check
+    // FAILS on. Default it to the reference-list editor instead; resolve-bindings
+    // fills the identity from metadata [R-015].
+    type = dt ? (BY_DATATYPE[dt] ?? 'textField') : (STATUS_PROP.test(prop) ? 'dropdown' : 'textField');
   }
   const comp = {
     id: gymUuid('bp', bp.form.name, idKey),
@@ -283,6 +294,15 @@ function compileNode(node, idPrefix) {
         type: 'datatable', version: ver('datatable'),
         componentName: `${node.name ?? 'table'}Grid`, propertyName: `${node.name ?? 'table'}Grid`,
         canEditInline: 'no', canAddInline: 'no', canDeleteInline: 'no', useMultiselect: false,
+        // Presentation floor for a grid [R-042 / validate-styledness "datatable-presentation"].
+        // The measured matrix is the authority on WHICH grid channels render: `rowDimensions.height`
+        // (density) and `headerBackgroundColor` are recorded changes-geometry, while the obvious
+        // candidates — rowHoverBackgroundColor, striped, rowDividers, rowPaddingTop/Bottom — are
+        // all `not-measured`, so hover/stripe intent has no proven channel and is NOT authored here.
+        // Row height + header contrast + body ink are the three that provably reach the DOM.
+        rowDimensions: { height: tk('chrome.tableRowHeight', 44) },
+        headerBackgroundColor: tk('tableHeaderBg', '#f5f6f8'),
+        desktop: { font: { size: tk('type.scale.body', 14), color: tk('bodyText', '#181818') } },
         items: (node.columns ?? []).map((col, i) => ({
           id: gymUuid('bp', bp.form.name, `${idKey}/col/${col}`),
           itemType: 'item', sortOrder: i, columnType: 'data',
@@ -562,6 +582,457 @@ function actionFooterRow(group) {
   return row;
 }
 
+// ---- block instantiation: page chrome comes from the BLOCK LIBRARY -----------
+// assets/blocks/*.block.json used to be hand-composition-only: a model read the
+// subtree and filled the placeholders by hand. That left the compiler emitting the
+// neutral floor and nothing else — technically styled, but no page anatomy.
+//
+// A block is a `subtree` plus two model-filled schemes:
+//   "$binding:x"  a FACT the filler must supply (a title, a reflist identity, …)
+//   "$slot:y"     a structural hole (here: a generated id)
+// and a paired ../shesha-design-system/assets/block-styles/<overlay>.style.json whose
+// `targets` are keyed by componentName and whose values may carry "$role:token"
+// placeholders that resolve against the ACTIVE THEME.
+//
+// This resolver instantiates a block deterministically:
+//   * every node gets a compiler id (gymUuid over form name + id scope) and the KB
+//     version for its type — the block files' own hardcoded versions are re-stamped,
+//     so a KB bump can never leave chrome on a stale version [R-003]
+//   * "$binding:x" resolves from the facts dict; UNRESOLVABLE drops the owning node
+//     (never a literal — asserted below), "$slot:y" becomes a deterministic id
+//   * the paired overlay is merged per componentName, "$role:t" through tk(); a role
+//     the active theme does not define is DROPPED rather than emitted as a literal
+//   * measured no-op breakpoint channels are stripped per type [R-053] and a text
+//     node that ends up with a font colour gets contentType:"custom" [R-052]
+//   * container flex intent declared at the block root is mirrored into `desktop`,
+//     because the 0.45 renderer reads the flex model from there [R-029/R-030]
+const BLOCK_DIR = path.join(SCRIPT_DIR, '..', 'assets', 'blocks');
+const BLOCK_STYLE_DIR = path.join(SCRIPT_DIR, '..', '..', 'shesha-design-system', 'assets', 'block-styles');
+
+/** measured no-op appearance channels per component type — same normalisation as validate-guardrails' R-053 */
+const noopChannels = (() => {
+  let matrix;
+  const cache = new Map();
+  return (type) => {
+    if (matrix === undefined) {
+      try { matrix = JSON.parse(fs.readFileSync(path.join(SCRIPT_DIR, '..', 'assets', 'measured-capability-matrix.json'), 'utf8').replace(/^﻿/, '')); }
+      catch { matrix = null; }
+    }
+    if (!matrix) return null;
+    if (cache.has(type)) return cache.get(type);
+    const byPath = new Map();
+    for (const [key, val] of Object.entries(matrix.components?.[type]?.settings ?? {})) {
+      const p = key.split('=')[0];
+      if (!/^(desktop|tablet|mobile)\./.test(p)) continue;
+      if (!byPath.has(p)) byPath.set(p, []);
+      byPath.get(p).push(val);
+    }
+    const set = new Set();
+    for (const [p, variants] of byPath) {
+      const real = variants.filter((v) => v.effect !== 'not-measured' && v.effect !== 'unknown');
+      if (!real.length || !real.every((v) => v.effect === 'no-op') || !real.every((v) => v.bucket === 'appearance')) continue;
+      set.add(p);
+    }
+    cache.set(type, set);
+    return set;
+  };
+})();
+
+const readJson = (file) => { try { return JSON.parse(fs.readFileSync(file, 'utf8').replace(/^﻿/, '')); } catch { return null; } };
+const isPlain = (v) => v && typeof v === 'object' && !Array.isArray(v);
+
+/** delete a dotted path from an object (used to strip measured no-op channels) */
+function unsetPath(obj, dotted) {
+  const parts = dotted.split('.');
+  let cur = obj;
+  for (const k of parts.slice(0, -1)) { if (!isPlain(cur)) return; cur = cur[k]; }
+  if (isPlain(cur)) delete cur[parts[parts.length - 1]];
+}
+
+/** deep-merge `src` into `dst` (objects merge, everything else overwrites) */
+function deepMerge(dst, src) {
+  for (const [k, v] of Object.entries(src)) {
+    if (isPlain(v)) { if (!isPlain(dst[k])) dst[k] = {}; deepMerge(dst[k], v); }
+    else dst[k] = v;
+  }
+  return dst;
+}
+
+/** resolve every "$role:token" inside an overlay value; a role the theme lacks → undefined (key dropped) */
+function resolveRoles(value) {
+  if (typeof value === 'string') {
+    const m = /^\$role:(.+)$/.exec(value);
+    if (!m) return value;
+    return tk(m[1], undefined);
+  }
+  if (Array.isArray(value)) return value.map(resolveRoles).filter((v) => v !== undefined);
+  if (isPlain(value)) {
+    const out = {};
+    for (const [k, v] of Object.entries(value)) { const r = resolveRoles(v); if (r !== undefined) out[k] = r; }
+    return out;
+  }
+  return value;
+}
+
+/**
+ * Instantiate one block into a ready component node.
+ * @param {string} name         block file base name (assets/blocks/<name>.block.json)
+ * @param {object} opts.facts   values for the block's "$binding:x" placeholders
+ * @param {string} opts.idScope id-key prefix — deterministic ids across recompiles [R-025]
+ * @param {Set<string>} opts.prune componentNames to drop outright
+ * @returns {object|null} the node, or null when the block (or its root) could not be filled
+ */
+function instantiateBlock(name, { facts = {}, idScope, prune = new Set() } = {}) {
+  const block = readJson(path.join(BLOCK_DIR, `${name}.block.json`));
+  if (!block?.subtree) {
+    console.error(`WARN: block "${name}" not found in ${BLOCK_DIR} — chrome for this archetype is skipped`);
+    return null;
+  }
+  const overlay = readJson(path.join(BLOCK_STYLE_DIR, `${block.$styleOverlay ?? name}.style.json`));
+  const targets = overlay?.targets ?? {};
+
+  /** resolve placeholders inside a value; returns {value, missing:[]} */
+  function fill(value, idKey) {
+    const missing = [];
+    const walk = (v) => {
+      if (typeof v === 'string') {
+        const b = /^\$binding:(.+)$/.exec(v);
+        if (b) {
+          const got = facts[b[1]];
+          if (got === undefined || got === null || got === '') { missing.push(b[1]); return undefined; }
+          return got;
+        }
+        const s = /^\$slot:(.+)$/.exec(v);
+        if (s) return gymUuid('bp', bp.form.name, `${idKey}/slot/${s[1]}`);
+        return v;
+      }
+      if (Array.isArray(v)) return v.map(walk).filter((x) => x !== undefined);
+      if (isPlain(v)) {
+        const out = {};
+        for (const [k, x] of Object.entries(v)) { const r = walk(x); if (r !== undefined) out[k] = r; }
+        return out;
+      }
+      return v;
+    };
+    return { value: walk(value), missing };
+  }
+
+  function visit(raw, idPath) {
+    if (!isPlain(raw) || typeof raw.type !== 'string') return null;
+    const cname = raw.componentName ?? raw.propertyName ?? raw.type;
+    if (prune.has(cname)) return null;
+    const idKey = `${idScope}/${idPath}/${cname}`;
+
+    const kids = Array.isArray(raw.components) ? raw.components : null;
+    const { components, ...rest } = raw;
+    const { value: node, missing } = fill(rest, idKey);
+    // A block placeholder the compiler cannot fill from blueprint/entity facts is a
+    // hole in the DESIGN, not something to paper over with a literal: drop the node.
+    if (missing.length) return null;
+
+    node.id = gymUuid('bp', bp.form.name, idKey);
+    node.version = ver(node.type);
+
+    // overlay (theme roles resolved) then the compiler's own token defaults on top
+    const t = targets[cname];
+    if (t) for (const bpk of ['desktop', 'tablet', 'mobile']) {
+      const blk = resolveRoles(t[bpk]);
+      if (isPlain(blk) && Object.keys(blk).length) deepMerge(node[bpk] = node[bpk] ?? {}, blk);
+    }
+
+    // a container's flex model must live in `desktop` or children stack [R-029]
+    if (node.type === 'container') {
+      // A block's `gap: "16"` is a LITERAL px value — the block files were hand-authored
+      // and live-validated in px, unlike a blueprint's gap, where a numeric string is a
+      // step on the theme spacing scale ('16' → spacing.16 → 64px). Reading them the same
+      // way blew the band's 16px title gap out to 64px.
+      const gapPx = /^\d+(\.\d+)?$/.test(String(node.gap ?? '')) ? Number(node.gap) : resolveSpace(node.gap, themePx('3', 12));
+      const dk = node.desktop = node.desktop ?? {};
+      dk.display = 'flex';
+      dk.flexDirection = node.flexDirection ?? 'column';
+      dk.flexWrap = node.flexWrap ?? 'nowrap';
+      dk.justifyContent = node.justifyContent ?? 'flex-start';
+      dk.alignItems = node.alignItems ?? 'stretch';
+      dk.gap = `${gapPx}px`;
+      dk.dimensions = { width: '100%', height: 'auto', minHeight: 'auto', maxHeight: 'auto', minWidth: '0px', maxWidth: '100%', ...(dk.dimensions ?? {}) };
+      dk.stylingBox = dk.stylingBox ?? '{}';
+      node.gap = gapPx;                    // root duplicate as a NUMBER, matching the compiler's own containers
+      node.display = 'flex';
+      node.direction = dk.flexDirection === 'row' ? 'horizontal' : 'vertical';
+      node.stylingBox = dk.stylingBox;
+    }
+
+    // measured-channel hygiene: no authored no-op, and text ink needs the custom gate
+    const noops = noopChannels(node.type);
+    if (noops) for (const ch of noops) {
+      if (node.type === 'text' && /\.font\.color$/.test(ch)) continue; // owned by R-052, satisfied below
+      unsetPath(node, ch);
+    }
+    if (node.type === 'text') {
+      const coloured = ['desktop', 'tablet', 'mobile'].some((b) => node[b]?.font?.color);
+      if (coloured) node.contentType = 'custom';
+    }
+    // The block library predates R-028: several blocks reach for `customStyle` to set
+    // display/flex, which the 0.45 renderer ignores outright. Drop those — the pill's
+    // shape comes from the component itself (solidBackground + the reference-list item
+    // colours [R-036]), and a split is sized with desktop.dimensions.width. customStyle
+    // that carries no flex intent (letter-spacing, text-transform) is left alone.
+    if (node.customStyle && /\b(flex|display)\b/.test(JSON.stringify(node.customStyle))) delete node.customStyle;
+
+    if (kids) {
+      const out = [];
+      kids.forEach((child, i) => {
+        const c = visit(child, `${idPath}/${i}`);
+        if (!c) return;
+        c.parentId = node.id;
+        out.push(c);
+      });
+      node.components = out;
+    }
+    return node;
+  }
+
+  const root = visit(block.subtree, 'root');
+  if (!root) return null;
+  // A "$binding:"/"$slot:" literal in shipped markup renders as that literal text —
+  // a class of bug the resolver must make impossible, not merely unlikely.
+  const text = JSON.stringify(root);
+  if (/\$binding:|\$slot:|\$role:/.test(text)) {
+    console.error(`BLOCK RESOLVER ERROR — block "${name}" emitted an unresolved placeholder, nothing written:`);
+    for (const m of new Set(text.match(/\$(?:binding|slot|role):[A-Za-z0-9_.]+/g) ?? [])) console.error(`  FAIL ${m}`);
+    process.exit(2);
+  }
+  return root;
+}
+
+// ---- per-archetype page chrome ----------------------------------------------
+// Page archetypes get anatomy ABOVE the blueprint's content, inside the page root:
+//   table-worklist            → page-header band
+//   record-detail | hub       → page-header band + meta strip (native KeyInformationBar)
+//   dashboard                 → page-header band + a `statistic` stat-tile row
+//   capture | modal-dialog | auth-page | wizard | … → NOTHING. A dialog or a login
+//   page has no page anatomy; giving them a band would be a design error, not a floor.
+const PAGE_ARCHETYPES = new Set(['table-worklist', 'record-detail', 'hub', 'dashboard']);
+// Blueprint opt-out: `"chrome": false` on the blueprint ROOT (a root-level key — the
+// blueprint schema constrains layout-NODE keys, not root keys, so this needs no schema
+// change). Use it when the design genuinely has no page header, e.g. a screen embedded
+// in a host page that already draws one.
+const chromeEnabled = bp.chrome !== false && PAGE_ARCHETYPES.has(bp.archetype);
+
+/** the reflist status fact, from live metadata first, else an explicit blueprint binding */
+function statusFact() {
+  for (const b of bp.bindings ?? []) {
+    if (!STATUS_PROP.test(String(b.property ?? ''))) continue;
+    const live = propsMeta?.get(String(b.property).toLowerCase());
+    if (live?.referenceListName) {
+      return { property: b.property, module: live.referenceListModule ?? null, name: live.referenceListName.split('.').pop() };
+    }
+    // No live backend (--no-live) → the identity may ride on the binding itself as
+    // `referenceList: {module, name}`, which is what comprehension READ off metadata.
+    // Identity is never GUESSED [R-015]: no live metadata and no declared identity
+    // means no chip, because an unidentified reference list renders EMPTY.
+    if (b.referenceList?.name) return { property: b.property, module: b.referenceList.module ?? null, name: b.referenceList.name.split('.').pop() };
+  }
+  return null;
+}
+
+/**
+ * Pull the band's content out of the blueprint layout, MUTATING a shallow clone of
+ * layout.children: a leading level-1 heading becomes the band title (leaving it in the
+ * body too would ship two page titles), and a top-level actions/buttonGroup node
+ * becomes the band's header actions (page actions belong in the band).
+ */
+function harvestChrome(layout) {
+  const out = { title: bp.screen ?? bp.form?.label ?? titleCase(bp.form.name), subtitle: bp.subtitle ?? null, actions: null };
+  if (!Array.isArray(layout.children)) return out;
+  const kids = layout.children.slice();
+  if (kids[0]?.kind === 'heading' && (kids[0].level ?? 2) === 1 && (kids[0].content ?? kids[0].title)) {
+    out.title = kids.shift().content ?? out.title;
+    if (!out.subtitle && kids[0]?.kind === 'text' && kids[0].content) out.subtitle = kids.shift().content;
+  }
+  const ai = kids.findIndex((k) => k.kind === 'actions' || k.kind === 'buttonGroup');
+  if (ai >= 0) out.actions = kids.splice(ai, 1)[0];
+  layout.children = kids;
+  return out;
+}
+
+/** the page-header band [block: page-header-band] */
+function chromeBand(harvest, status) {
+  const prune = new Set();
+  if (!harvest.subtitle) prune.add('breadcrumbTrail');
+  if (!status) prune.add('statusChip');
+  if (!harvest.actions) prune.add('headerActions');
+  const band = instantiateBlock('page-header-band', {
+    idScope: `${bp.form.name}/chrome/band`,
+    prune,
+    // `facts` fills the inline "$binding:x" placeholders. The block's `$bindings` array
+    // ALSO declares dotted paths (subtree.components.0.content._code, …) for values the
+    // block spells out in full rather than as a placeholder — those indices are into the
+    // UNPRUNED subtree, so pruning invalidates them; the compiler fills them by
+    // componentName below instead, which survives any prune.
+    facts: {
+      referenceListModule: status?.module ?? null,
+      referenceListName: status?.name,
+    },
+  });
+  if (!band) return null;
+
+  // ---- fill the band from blueprint facts + theme tokens ---------------------
+  const find = (cname) => {
+    let hit = null;
+    (function walk(n) { if (hit || !isPlain(n)) return; if (n.componentName === cname) { hit = n; return; } for (const c of n.components ?? []) walk(c); })(band);
+    return hit;
+  };
+  // band surface: the overlay's $role:surfaceCard is not a role any theme defines, so
+  // the band background/hairline come from the chrome roles (bandBg is where shesha-bold
+  // visibly parts company with shesha: a brand tint instead of a white surface).
+  band.desktop.background = { type: 'color', color: tk('bandBg', '#ffffff') };
+  band.desktop.border = { radiusType: 'all', borderType: 'custom', border: { bottom: { width: '1px', style: 'solid', color: tk('bandBorder', '#e5e7eb') } }, radius: { all: 0 } };
+  band.desktop.stylingBox = JSON.stringify({
+    paddingTop: String(themePx('3', 12)), paddingBottom: String(themePx('3', 12)),
+    paddingLeft: String(themePx('4', 16)), paddingRight: String(themePx('4', 16)),
+  });
+  band.stylingBox = band.desktop.stylingBox;
+
+  const crumb = find('breadcrumbTrail');
+  if (crumb) {
+    // $bindings path subtree.components.0.content._code — "JS returning the breadcrumb
+    // string". The compiler knows the trail as a literal, so it returns that literal
+    // rather than reaching into `data` for fields it cannot prove exist.
+    crumb.content = { _mode: 'code', _code: `return ${JSON.stringify(String(harvest.subtitle))};` };
+    crumb.desktop = deepMerge(crumb.desktop ?? {}, { font: { size: tk('type.scale.micro', 12), weight: String(tk('type.weights.regular', 400)), color: tk('bandSubtext', '#6b7280'), align: 'left' } });
+    crumb.contentType = 'custom';
+  }
+  const title = find('titleText');
+  if (title) {
+    title.content = String(harvest.title);
+    title.propertyName = 'pageTitle';
+    title.label = 'Page title';
+    title.desktop = deepMerge(title.desktop ?? {}, { font: { size: tk('type.scale.title', 24), weight: String(tk('type.weights.semibold', 600)), color: tk('bandText', '#181818'), align: 'left' } });
+    title.contentType = 'custom';
+  }
+  const chip = find('statusChip');
+  if (chip && status) {
+    chip.propertyName = status.property;
+    chip.referenceListId = { module: status.module ?? null, name: status.name };
+  }
+  const left = find('titleLeft');
+  const actions = find('headerActions');
+  if (left) {
+    // the ONLY split lever is desktop.dimensions.width [R-028]; the band's titleRow gap is 16
+    left.desktop.dimensions = { ...left.desktop.dimensions, width: actions ? 'calc(100% - 220px)' : '100%' };
+  }
+  if (actions && harvest.actions) {
+    // reuse the compiler's own action machinery so band buttons obey [R-007]/[R-008]
+    const group = floorButtonGroup(`${bp.form.name}/chrome/band`, harvest.actions);
+    actions.items = group.items.map((it) => ({ ...it, id: gymUuid('bp', bp.form.name, `${bp.form.name}/chrome/band/action/${it.name}`) }));
+  }
+  return band;
+}
+
+/**
+ * The meta strip, carried by the NATIVE KeyInformationBar (the registry says it exists,
+ * is authorable and declares a `columns` slot) rather than the hand-composed container
+ * strip — a native carrier is one component instead of nine, and its dividers/gap are
+ * measured. Cells are the first three non-status bindings, label + mustache value.
+ */
+function chromeMetaStrip() {
+  const cells = (bp.bindings ?? []).filter((b) => b.property && !STATUS_PROP.test(b.property)).slice(0, 3);
+  if (cells.length < 2) return null;
+  const idScope = `${bp.form.name}/chrome/meta`;
+  const kib = {
+    id: gymUuid('bp', bp.form.name, `${idScope}/bar`),
+    type: 'KeyInformationBar', version: ver('KeyInformationBar'),
+    componentName: 'metaStrip', propertyName: 'metaStrip',
+    label: 'Key information', hideLabel: true, hidden: false,
+    orientation: 'horizontal', alignItems: 'flex-start',
+    gap: themePx('8', 32), dividerThickness: '1px', dividerColor: tk('divider', '#f0f0f0'), dividerHeight: 60,
+    desktop: {
+      background: { type: 'color', color: tk('cardBg', '#ffffff') },
+      dimensions: { width: '100%', height: 'auto', minWidth: '0px', maxWidth: '100%' },
+    },
+    columns: cells.map((b, i) => {
+      const colId = gymUuid('bp', bp.form.name, `${idScope}/col/${b.property}`);
+      const mk = (kind, extra) => ({
+        id: gymUuid('bp', bp.form.name, `${idScope}/col/${b.property}/${kind}`),
+        type: 'text', version: ver('text'),
+        componentName: `meta${kind}_${i + 1}`, propertyName: `meta${kind}_${i + 1}`,
+        hideLabel: true, hidden: false, textType: 'span', contentDisplay: 'content',
+        dataType: 'string', contentType: 'custom', ...extra,
+      });
+      return {
+        id: colId, width: 220, textAlign: 'left', flexDirection: 'column', padding: '0px',
+        components: [
+          mk('Label', {
+            content: String(b.label ?? titleCase(b.property)).toUpperCase(),
+            desktop: { font: { size: tk('type.scale.micro', 12), weight: String(tk('type.weights.semibold', 600)), color: tk('bandSubtext', '#6b7280'), align: 'left' } },
+            customStyle: { _mode: 'code', _code: "return { letterSpacing: '0.06em', textTransform: 'uppercase' };" },
+          }),
+          mk('Value', {
+            content: `{{data.${b.property}}}`,
+            desktop: { font: { size: tk('type.scale.body', 14), weight: String(tk('type.weights.regular', 400)), color: tk('bodyText', '#181818'), align: 'left' } },
+          }),
+        ],
+      };
+    }),
+  };
+  for (const col of kib.columns) for (const c of col.components) c.parentId = kib.id;
+  return kib;
+}
+
+/**
+ * Dashboard stat-tile row — one native `statistic` per data region in the layout.
+ * The compiler cannot know a metric the blueprint never measured, so the value is the
+ * em-dash default rather than an invented number; the row is the ANATOMY, and a
+ * blueprint that later carries metrics fills the values.
+ */
+function chromeStatRow(layout) {
+  const regions = [];
+  // A tile's title is the human name of the region it summarises: the datatable node's own
+  // title if it has one, else the enclosing card/section heading (which is where a blueprint
+  // actually puts the human label), else the node name title-cased.
+  (function walk(n, groupTitle) {
+    if (!isPlain(n)) return;
+    if (n.kind === 'datatable' || n.kind === 'datalist') regions.push({ ...n, $groupTitle: groupTitle });
+    const next = ((n.kind === 'card' || n.kind === 'section') && n.title) ? n.title : groupTitle;
+    for (const c of n.children ?? []) walk(c, next);
+  })(layout, null);
+  if (!regions.length) return null;
+  const idScope = `${bp.form.name}/chrome/stats`;
+  const tiles = regions.slice(0, 4).map((r, i) => ({
+    id: gymUuid('bp', bp.form.name, `${idScope}/tile/${r.name ?? i}`),
+    type: 'statistic', version: ver('statistic'),
+    componentName: `statTile${i + 1}`, propertyName: `statTile${i + 1}`,
+    hideLabel: true, hidden: false,
+    title: String(r.title ?? r.$groupTitle ?? titleCase(r.name ?? `region ${i + 1}`)),
+    value: '—',
+    titleFont: { size: tk('type.scale.micro', 12), weight: String(tk('type.weights.semibold', 600)), color: tk('bandSubtext', '#6b7280'), align: 'left' },
+    valueFont: { size: tk('type.scale.title', 24), weight: String(tk('type.weights.semibold', 600)), color: tk('statTileValue', '#181818'), align: 'left' },
+    desktop: {
+      background: { type: 'color', color: tk('statTileBg', '#ffffff') },
+      border: { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', style: 'solid', color: tk('hairline', '#e5e7eb') } }, radius: { all: tk('cardRadius', 8) } },
+      dimensions: { width: `calc((100% - ${(Math.min(regions.length, 4) - 1) * themePx('4', 16)}px) / ${Math.min(regions.length, 4)})`, height: 'auto', minWidth: '0px', maxWidth: '100%' },
+      stylingBox: paddingBox('4'),
+    },
+  }));
+  const row = {
+    id: gymUuid('bp', bp.form.name, `${idScope}/row`),
+    type: 'container', version: ver('container'),
+    componentName: 'statTileRow', propertyName: 'statTileRow',
+    direction: 'horizontal', display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+    gap: themePx('4', 16), stylingBox: '{}',
+    desktop: {
+      display: 'flex', flexDirection: 'row', flexWrap: 'wrap',
+      justifyContent: 'flex-start', alignItems: 'stretch', gap: `${themePx('4', 16)}px`,
+      dimensions: { width: '100%', height: 'auto', minHeight: 'auto', maxHeight: 'auto', minWidth: '0px', maxWidth: '100%' },
+      stylingBox: '{}',
+    },
+    components: tiles,
+  };
+  for (const t of tiles) t.parentId = row.id;
+  return row;
+}
+
 // ---- page chrome -------------------------------------------------------------
 // validate-styledness.js requires page ground (a root background / sha-page /
 // hideHeading) in the first root components. Before, only kind:"card" roots got a
@@ -597,7 +1068,25 @@ function stampPageChrome(node) {
 }
 
 // ---- assemble ------------------------------------------------------------------
-const rootChildren = [stampPageChrome(compileNode(bp.layout, bp.form.name))];
+// Chrome is harvested from the blueprint BEFORE the content compiles: harvestChrome
+// mutates a shallow clone of layout.children (a leading h1 and a top-level action row
+// move INTO the band instead of being duplicated below it).
+const layout = chromeEnabled ? { ...bp.layout, children: [...(bp.layout.children ?? [])] } : bp.layout;
+const harvest = chromeEnabled ? harvestChrome(layout) : null;
+const pageRoot = stampPageChrome(compileNode(layout, bp.form.name));
+
+if (chromeEnabled) {
+  const status = statusFact();
+  const chrome = [chromeBand(harvest, status)];
+  if (bp.archetype === 'record-detail' || bp.archetype === 'hub') chrome.push(chromeMetaStrip());
+  if (bp.archetype === 'dashboard') chrome.push(chromeStatRow(layout));
+  const stamped = chrome.filter(Boolean);
+  for (const c of stamped) c.parentId = pageRoot.id;
+  pageRoot.components = [...stamped, ...(pageRoot.components ?? [])];
+  console.error(`chrome (${bp.archetype}): ${stamped.map((c) => c.componentName).join(' + ') || '(none resolvable)'}`);
+}
+
+const rootChildren = [pageRoot];
 
 // floor: capture archetypes always get validationErrors + Submit/exit pair
 // [R-006/R-007/R-020] (CAPTURE_ARCHETYPES is declared up top — buildContainer
@@ -683,10 +1172,19 @@ console.log(`compiled ${bp.screen} (${bp.archetype}) → ${outFile}`);
 // not make the evidence vanish. (validate-guardrails' optional entity-metadata arg
 // is not available at compile time; it runs metadata-free, exactly as the offline
 // eval suite invokes it — the identity checks then WARN instead of FAIL.)
+// validate-styledness cannot read the archetype off the markup (an archetype is a
+// blueprint fact, not a component), and its page-anatomy floor only applies to page
+// archetypes — so the compiler, which DOES know, passes it through. Without the flag
+// that gate degrades to a WARN, never to a false pass.
 const SELF_GATES = ['validate-schema.js', 'validate-guardrails.js', 'validate-styledness.js'];
+const GATE_ARGS = {
+  'validate-styledness.js': ['--archetype', bp.archetype,
+    // the compiler and the floor must AGREE, or an opted-out blueprint could never compile
+    ...(bp.chrome === false ? ['--no-page-anatomy'] : [])],
+};
 const failedGates = [];
 for (const gate of SELF_GATES) {
-  const r = spawnSync(process.execPath, [path.join(SCRIPT_DIR, gate), outFile], { encoding: 'utf8' });
+  const r = spawnSync(process.execPath, [path.join(SCRIPT_DIR, gate), outFile, ...(GATE_ARGS[gate] ?? [])], { encoding: 'utf8' });
   if (r.status !== 0) {
     failedGates.push(gate);
     console.error(`\n--- ${gate} FAILED on ${outFile} ---`);

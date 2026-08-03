@@ -1,6 +1,6 @@
 ---
 name: shesha-design-system
-description: Use when applying our branding to a form ("apply our branding", "the buttons are the wrong colour"), auditing a rendered form against its theme, or doing targeted prop-level styling of an EXISTING form. Enter via shesha-claude-designer for full designs; invoke directly for this styling/audit work. Owns how forms LOOK and supplies brand design tokens (colour, type, spacing, radius, shadow, status lifecycle) that shesha-form-edit's compiler resolves as a COMPILE-TIME input — never a separate styling pass over built markup [R-042]. Ships two brand themes (shesha default, requirements-studio) and accepts new token files. 0.45-only — 0.43 styling lives in the shesha-developer-0-43 plugin. Never authors structure/components, CRUD, or runtime fixes — that is shesha-form-edit's job.
+description: Use when applying our branding to a form ("apply our branding", "the buttons are the wrong colour"), auditing a rendered form against its theme, or doing targeted prop-level styling of an EXISTING form. Enter via shesha-claude-designer for full designs; invoke directly for this styling/audit work. Owns how forms LOOK and supplies brand design tokens (colour, type, spacing, radius, shadow, status lifecycle) that shesha-form-edit's compiler resolves as a COMPILE-TIME input — never a separate styling pass over built markup [R-042]. Ships three brand themes (shesha default, shesha-bold, requirements-studio) and accepts new token files. 0.45-only — 0.43 styling lives in the shesha-developer-0-43 plugin. Never authors structure/components, CRUD, or runtime fixes — that is shesha-form-edit's job.
 ---
 
 # Shesha Design System (0.45)
@@ -19,11 +19,12 @@ A form looks "cheap" when only one layer is done (AntD still default-blue, or no
 
 ## Steps
 
-1. **Pick the theme.** Token files live in `assets/themes/<brand>.tokens.json`. Two ship:
+1. **Pick the theme.** Token files live in `assets/themes/<brand>.tokens.json`. Three ship:
 
    | Brand | File | What it is |
    |---|---|---|
    | `shesha` | `shesha.tokens.json` | **The default** — Cobalt `#003BB2` interactive anchor, Navy chrome, Nero ink, white cards on Athens Grey canvas, borders-not-shadows, ready `$antdTheme` block. Used whenever no brand is named — including form-edit's mandatory no-design pass [R-042] via the cost-capped [default-theme-quickpass.md](references/default-theme-quickpass.md) (for that pass, follow that file only). |
+   | `shesha-bold` | `shesha-bold.tokens.json` | The default's bolder voice — Electric Cobalt `#0047FF` primary and a **brand-tinted page-header band** (`roles.bandBg` = `palette.brand.tint`) instead of a white one, on the same neutral card/canvas system and the identical spacing/radius scales and role keys. Offer it for "modern / professional" briefs with no named brand. |
    | `requirements-studio` | `requirements-studio.tokens.json` | Example custom brand: green primary, Inter, custom status lifecycle. |
 
    User names a brand / hands tokens / an app `<brand>.tokens.json` exists → use it. A genuinely new brand → copy `shesha.tokens.json` → `<brand>.tokens.json`, swap the values, **keep every key name identical** so recipes, block-overlays and `roles.*` resolve unchanged. Load the file; resolve `roles.*` before authoring.
