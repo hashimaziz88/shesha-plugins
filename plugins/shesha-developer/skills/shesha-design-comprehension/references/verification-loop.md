@@ -7,11 +7,22 @@ Runs as **Layer 3 (placement diff)** of `shesha-form-edit/references/quality-gat
 ## Procedure
 
 1. **Build + publish** the form via `shesha-form-edit` (Draft → Live).
-2. **Clear the form cache** after every push, or you measure a ghost of the previous build [R-056] — recipe in `shesha-form-edit/references/verification.md` §2.
-3. **Navigate the real path.** Open the form via **table-row → details**, never a pasted `?id=` (a direct id load 500s the subtable Crud/Create). Pin the **same viewport** used for capture (1440×900).
-4. **Re-probe.** Run the *same* `scripts/layout-probe.js` against the rendered Shesha form → actual `layout.json`. Same instrument as capture = comparable numbers.
-5. **Diff actual vs the blueprint `assertions`** — structurally, not by pixels (next section).
-6. **Route mismatches back to `shesha-form-edit`** as concrete fixes; rebuild → re-publish → clear cache → re-probe → re-diff. **HARD CAP: 2 routed-fix iterations.** If assertions still fail after the second re-probe, STOP the loop and emit a placement report instead: each still-failing assertion id, its measured vs asserted values, and the suspected structural cause. Two failed targeted fixes means the fix vocabulary doesn't reach the problem (usually a version/renderer constraint, not placement) — a third iteration burns 5–10 minutes without converging. An honest "placement partial: A2, A4 unmet — <measured facts>" beats a 40-minute loop every time.
+2. **Consume the instrument's artifact — do NOT launch a browser.** The Layer 2
+   render-instrument run already navigated, cleared the cache [R-056] and
+   measured this form at 1440×900; it wrote its layout payload as
+   `<out>/<module>--<name>.layout-probe.json` next to the verdict and screenshot.
+   Read that file as the actual `layout.json` for the diff. **One browser boot
+   per verify cycle** — artifacts fan out, browsers don't
+   (`shesha-form-edit/references/quality-gates.md`, browser-verification tiers).
+3. **Fallback re-probe — only when the artifact is absent** (no instrument run, or
+   `--no-browser`): clear the form cache first, or you measure a ghost of the
+   previous build [R-056] (recipe in `shesha-form-edit/references/verification.md`
+   §2); open the form via **table-row → details**, never a pasted `?id=` (a direct
+   id load 500s the subtable Crud/Create); pin the **same viewport** used for
+   capture (1440×900); run the *same* `scripts/layout-probe.js` → actual
+   `layout.json`. Same instrument as capture = comparable numbers.
+4. **Diff actual vs the blueprint `assertions`** — structurally, not by pixels (next section).
+5. **Route mismatches back to `shesha-form-edit`** as concrete fixes; rebuild → re-publish → re-run the render-instrument (which clears the cache and rewrites the layout-probe artifact) → re-diff. **HARD CAP: 2 routed-fix iterations.** If assertions still fail after the second re-probe, STOP the loop and emit a placement report instead: each still-failing assertion id, its measured vs asserted values, and the suspected structural cause. Two failed targeted fixes means the fix vocabulary doesn't reach the problem (usually a version/renderer constraint, not placement) — a third iteration burns 5–10 minutes without converging. An honest "placement partial: A2, A4 unmet — <measured facts>" beats a 40-minute loop every time.
 
 ## What to diff (and why it survives the pixel↔width-expression gap)
 

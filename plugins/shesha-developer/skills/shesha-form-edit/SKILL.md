@@ -161,18 +161,33 @@ render alone never means done. Full model: [references/quality-gates.md](referen
 1. **Re-fetch + diff** — the pushed markup equals what you sent; a 200 alone
    proves nothing [R-047] ([references/verification.md](references/verification.md)).
 2. **Render instrument** (objective, unless `--no-browser`):
-   `node scripts/render-instrument.js --form <module>/<name>` — navigate, probe,
-   screenshot, console/network dump, binding smoke, and layout-quality checks
-   (stacked splits, collapsed inputs/buttons, overflow). Exit ≠ 0 → fix and
-   re-run; diagnose via [references/debug.md](references/debug.md).
-3. **Placement diff** (intent) — blueprint builds re-probe against the
-   blueprint's `assertions`; this is what catches "the layout I intended didn't
-   happen" (comprehension owns it).
+   `node scripts/render-instrument.js --form <module>/<name>` — or, for a set,
+   `--forms <module>/<a>,<module>/<b>` (ONE Chromium launch, ONE login, per-form
+   artifacts). Navigate, probe, screenshot, console/network dump, binding smoke,
+   layout-quality checks (stacked splits, collapsed inputs/buttons, overflow).
+   Writes `<module>--<name>.{png,verdict.json,layout-probe.json}`. Exit ≠ 0 →
+   fix and re-run; diagnose via [references/debug.md](references/debug.md).
+3. **Placement diff** (intent) — blueprint builds diff the blueprint's
+   `assertions` against the instrument's `layout-probe.json`; this is what
+   catches "the layout I intended didn't happen" (comprehension owns it).
 4. **Design-critic** (visual quality, MANDATORY) — dispatch the
    `design-critic` agent with the screenshot + assertions + theme tokens; it
    returns a strict verdict (per-assertion, styled-ness, top-3 fixes). The
    build is NOT done until the critic PASSes (styled ≥ acceptable). A green
    render-instrument does not substitute for it.
+
+**Browser budget — one boot per verify cycle.** Artifacts fan out; browsers
+don't. Full tier table: [references/quality-gates.md](references/quality-gates.md).
+
+| Tier | When | Browser work |
+|---|---|---|
+| 0 | fleet/bulk mid-flight forms; small edit to a form already verified this session | none — gates + re-fetch diff only |
+| 1 (default) | every form you push and report done | ONE `render-instrument` run per form per fix cycle (batch with `--forms`). A green verdict **closes** browser work — layers 3 and 4 read its artifacts |
+| 2 (exception) | the instrument FAILed and [references/debug.md](references/debug.md) routes to interactive diagnosis, **or** the user asked for interaction testing (dialog flows, nav wiring) | interactive Playwright MCP, scoped to that symptom/flow — never on a green run |
+
+**A green instrument does not need a manual confirmation lap.** Re-driving a
+browser over a PASSing verdict adds no evidence. The Stop hook logs
+`BROWSER: <n> instrument-boots, <m> mcp-calls`.
 
 ## 7 · Report
 

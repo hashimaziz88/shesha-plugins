@@ -33,16 +33,46 @@ container div per the two-div rule [R-032]). Hard-fails on:
 - an action row collapsed to an overflow "…" (no visible labelled button),
 - console errors, failed requests, empty bound regions with `--expect-data`.
 
+Every run writes three artifacts per form into `--out` —
+`<module>--<name>.png`, `.verdict.json`, `.layout-probe.json` — which are the
+inputs to Layers 3 and 4 (see the tiers below).
+
 **A PASS here is necessary, not sufficient.** It cannot judge *intent* ("the
 two columns I designed") or *aesthetics* ("does this look professional") — those
 are Layers 3 and 4.
+
+### Browser-verification tiers — one browser boot per verify cycle
+
+**Artifacts fan out; browsers don't.** One `render-instrument` run per form per fix
+cycle produces the whole evidence set — screenshot, `verdict.json`,
+`layout-probe.json` — and Layers 3 and 4 read those files. Batch a set of forms
+with `--forms mod/a,mod/b,...`: ONE Chromium launch, ONE login, per-form
+artifacts (the reused `storageState` makes repeat cycles cheaper still).
+
+| Tier | When | Browser work allowed |
+|---|---|---|
+| **0 — no browser** | fleet/bulk mid-flight forms; a small edit to a form already verified this session | none — mechanical gates only (schema, guardrails, bindings, styled-ness) + the re-fetch diff |
+| **1 — DEFAULT** | every form you push and intend to report done | exactly ONE `render-instrument` run per form per fix cycle (batch the set in one launch). A **green** instrument **CLOSES** browser work for that form |
+| **2 — exception** | (i) the instrument **FAILed** and [debug.md](debug.md) routes the symptom to interactive diagnosis, or (ii) the user explicitly asked for interaction testing (dialog flows, navigation wiring) | interactive Playwright MCP, scoped to the named symptom/flow. **Never on a green run** |
+
+**Kill this rationalization verbatim: "a green instrument does not need a manual
+confirmation lap."** Re-driving a browser through a form whose verdict is already
+PASS adds no evidence — it only spends the run. (Measured: one session spent
+44/143 tool calls — 31% — inside Playwright MCP; another re-verified an
+already-green instrument across 12 interactive calls.) The Stop hook records the
+count as `BROWSER: <n> instrument-boots, <m> mcp-calls` in the session log; a
+large `mcp-calls` next to a green boot is the waste this table exists to prevent.
+
+A Tier-1 green verdict does **not** shorten the stack: Layers 3 and 4 still run —
+they just consume the artifacts instead of a browser.
 
 ## Layer 3 — Intent gate (blueprint assertions / placement diff)
 
 The blueprint carries `assertions` (stable-property placement contracts, e.g.
 "mainSplit has two children side-by-side; status fields inside the rail").
-`shesha-design-comprehension` re-probes the built form and diffs against them
-(capped iterations). This is what catches **"the layout I intended didn't
+`shesha-design-comprehension` diffs them against the instrument's
+`<module>--<name>.layout-probe.json` — no second browser session; its own probe
+run is the fallback when that artifact is absent (capped iterations). This is what catches **"the layout I intended didn't
 happen"** — the render-instrument alone can't, because it doesn't know intent.
 Write assertions for every non-trivial placement.
 

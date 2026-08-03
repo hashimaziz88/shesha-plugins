@@ -17,7 +17,17 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 // High-frequency, low-value tools we don't want to log on every call.
+// NOTE: browser tools (playwright/chrome MCP) must NEVER be added here — the
+// Stop-time BROWSER telemetry counts them off these very log lines.
 const SKIP_TOOLS = new Set(['TodoWrite', 'TaskList', 'TaskGet', 'ToolSearch']);
+
+// Browser-cost telemetry [one browser boot per verify cycle]. Counted off the
+// session's own log lines, which already carry the tool name and the command.
+// Matched against the TOOL NAME only. Covers the playwright MCP, the generic
+// *_Browser_* tools, and the chrome-driving MCPs (whose names say "chrome", not
+// "browser").
+const BROWSER_TOOL_RE = /playwright|browser|chrome|puppeteer/i;
+const INSTRUMENT_RE = /render-instrument/;
 
 function oneLine(s, max) {
   if (s == null) return '';
@@ -94,6 +104,46 @@ function extractUsage(p) {
   return Object.keys(out).length ? out : null;
 }
 
+/**
+ * Browser-cost telemetry for the Stop line. Reads the session's OWN log tree
+ * (every log.DDMMYYYY.txt under <root>/.claude-designer-logs/logs/<sid>/) and
+ * counts, off the already-written PostToolUse lines:
+ *   - instrument-boots: Bash/PowerShell calls running scripts/render-instrument.js
+ *     (one call = one Chromium launch, even in --forms batch mode)
+ *   - mcp-calls: interactive browser/playwright MCP tool calls
+ * A high mcp-calls count next to a green instrument boot is the waste this
+ * measurement exists to make visible. Returns null when nothing is readable.
+ */
+function countBrowserActivity(dir) {
+  let files;
+  try {
+    files = fs.readdirSync(dir).filter((f) => /^log\.\d{8}\.txt$/.test(f));
+  } catch {
+    return null;
+  }
+  if (!files.length) return null;
+
+  const LINE_RE = /^\[[^\]]*\]\s+(\S+)\s+TOOL\s+(\S+)(.*)$/;
+  let instrumentBoots = 0;
+  let mcpCalls = 0;
+  let read = 0;
+  for (const f of files) {
+    let content;
+    try { content = fs.readFileSync(path.join(dir, f), 'utf8'); } catch { continue; }
+    read++;
+    for (const line of content.split('\n')) {
+      const m = LINE_RE.exec(line);
+      if (!m) continue;
+      const [, prefix, toolName, rest] = m;
+      if (prefix !== 'PostToolUse' && prefix !== 'TOOL-FAIL') continue;
+      if (BROWSER_TOOL_RE.test(toolName)) mcpCalls++;
+      else if (INSTRUMENT_RE.test(rest)) instrumentBoots++;
+    }
+  }
+  if (!read) return null;
+  return { instrumentBoots, mcpCalls };
+}
+
 function main() {
   let raw = '';
   try { raw = fs.readFileSync(0, 'utf8'); } catch { return 0; }
@@ -159,6 +209,12 @@ function main() {
         ? `[${now.toISOString()}] USAGE           ${JSON.stringify(usage)}\n`
         : `[${now.toISOString()}] USAGE           none-reported\n`;
       fs.appendFileSync(file, usageLine, 'utf8');
+
+      const browser = countBrowserActivity(dir);
+      const browserLine = browser
+        ? `[${now.toISOString()}] BROWSER         ${browser.instrumentBoots} instrument-boots, ${browser.mcpCalls} mcp-calls\n`
+        : `[${now.toISOString()}] BROWSER         unknown\n`;
+      fs.appendFileSync(file, browserLine, 'utf8');
     }
   } catch { /* logging must never break the session */ }
   return 0;

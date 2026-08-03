@@ -2,6 +2,8 @@
 
 Workflow for proving a push actually landed and smoke-testing it in the browser. Read after any push (the Push + Oracle step) and before claiming success. Symptom→cause lookup lives in [debug.md](debug.md); API recipes in [api.md](api.md).
 
+**How much browser you are allowed:** the tier table in [quality-gates.md](quality-gates.md) — Tier 1 (default) is ONE `render-instrument` run per form per fix cycle, batched across a set with `--forms`; the interactive recipes below (§3, §6) are Tier 2, for a FAILed instrument or explicitly requested interaction testing. A green instrument closes browser work; it needs no manual confirmation lap.
+
 ---
 
 ## 1. API-first verification
