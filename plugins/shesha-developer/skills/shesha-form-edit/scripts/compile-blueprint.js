@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // compile-blueprint.js --blueprint <blueprint.json> --out <form.json>
 //                      [--backend http://localhost:21021] [--no-live]
+//                      [--theme <name>] [--no-style]
 //
 // L3: the blueprint IR is the ONLY build input; the model chooses the
 // adaptation, this script types the JSON. Pipeline:
@@ -19,6 +20,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { gymUuid } from './gym-lib/ids.js';
 import { GymApi } from './gym-lib/api.js';
@@ -33,7 +35,7 @@ const argVal = (name, dflt) => {
 };
 const bpFile = argVal('--blueprint', null);
 const outFile = argVal('--out', null);
-if (!bpFile || !outFile) { console.error('usage: node compile-blueprint.js --blueprint <bp.json|bp.md> --out <form.json> [--backend url] [--no-live]'); process.exit(2); }
+if (!bpFile || !outFile) { console.error('usage: node compile-blueprint.js --blueprint <bp.json|bp.md> --out <form.json> [--backend url] [--no-live] [--theme name] [--no-style]'); process.exit(2); }
 
 // ---- load blueprint (JSON or fenced block in Markdown) ------------------------
 let bpText = fs.readFileSync(bpFile, 'utf8').replace(/^﻿/, '');
@@ -94,12 +96,35 @@ function titleCase(prop) {
 // The model designs in React terms (Stack/Row/Grid/Card, gap/padding, heading
 // levels); these map each to the measured Shesha channel. Colour/brand is the
 // Style pass's job — here we set only structural layout + hierarchy defaults.
-const SPACE = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, '2xl': 32 };
+// Neutral spacing scale — the fallback when the active theme file defines no
+// spacing map (and the whole scale under --no-style / an unknown theme, where TOK
+// is null): neutral means sane defaults, never 0.
+// It carries the numeric-string STEPS as well as the aliases, so a spacing key such
+// as '4' still resolves to 16 with no theme loaded instead of degrading to 4px.
+const SPACE = {
+  '1': 4, '2': 8, '3': 12, '4': 16, '5': 20, '6': 24, '8': 32, '10': 40, '12': 48, '16': 64, '20': 80,
+  xs: 4, sm: 8, md: 12, lg: 16, xl: 24, '2xl': 32,
+};
+// Spacing is a THEME token, not a literal. `TOK.spacing` (defined below, always
+// before the first compile call) is consulted FIRST, so a numeric-STRING key is a
+// step on the theme scale — '4' → spacing.4 → 16px — and never 4px. That confusion
+// is why the card default emitted 4px while its comment claimed 16.
+const themeSpace = (key) => {
+  const map = TOK && TOK.spacing;
+  if (!map || typeof map !== 'object') return undefined;
+  const v = map[key];
+  return typeof v === 'number' && Number.isFinite(v) ? v : undefined;
+};
+// a spacing token with a neutral px fallback — for the compiler's own defaults
+const themePx = (key, fallback) => themeSpace(key) ?? fallback;
 const resolveSpace = (v, dflt) => {
   if (v === undefined || v === null) return dflt;
-  if (typeof v === 'number') return v;
-  if (SPACE[v] !== undefined) return SPACE[v];
-  const n = parseInt(v, 10);
+  if (typeof v === 'number') return v; // a raw NUMBER is a literal px value
+  const key = String(v).trim();
+  const themed = themeSpace(key); // '4' → 16; also picks up xs/sm/md/… if a theme names them
+  if (themed !== undefined) return themed;
+  if (SPACE[key] !== undefined) return SPACE[key];
+  const n = parseInt(key, 10);
   return Number.isFinite(n) ? n : dflt;
 };
 const ALIGN = { start: 'flex-start', center: 'center', end: 'flex-end', stretch: 'stretch', baseline: 'baseline' };
@@ -120,9 +145,17 @@ function paddingBox(v) {
 // `$antdTheme` app setup, not a per-form pass.)
 const THEME_DIR = path.join(SCRIPT_DIR, '..', '..', 'shesha-design-system', 'assets', 'themes');
 const themeName = argVal('--theme', bp.theme || 'shesha');
+// --no-style is the ONLY thing that skips the theme pass [R-042]. It takes the
+// exact same road as an unknown theme: TOK stays null, so every tk() / resolveSpace()
+// call yields its neutral fallback instead of a brand token (SKILL.md §5).
+const noStyle = args.includes('--no-style');
 let TOK = null;
-try { TOK = JSON.parse(fs.readFileSync(path.join(THEME_DIR, `${themeName}.tokens.json`), 'utf8')); }
-catch { console.error(`WARN: theme "${themeName}" not found in ${THEME_DIR} — emitting neutral defaults`); }
+if (noStyle) {
+  console.error('NOTE: --no-style — theme-token resolution skipped, emitting neutral tokens [R-042]');
+} else {
+  try { TOK = JSON.parse(fs.readFileSync(path.join(THEME_DIR, `${themeName}.tokens.json`), 'utf8')); }
+  catch { console.error(`WARN: theme "${themeName}" not found in ${THEME_DIR} — emitting neutral defaults`); }
+}
 
 const tkRaw = (dotted) => (dotted || '').split('.').reduce((o, k) => (o == null ? o : o[k]), TOK);
 // resolve a token path or a role (roles.* values are themselves token paths → resolve twice)
@@ -295,7 +328,7 @@ function buildContainer(node, idKey) {
   // gridded controls to stubs. The field then fills its column at 100%.
   if (node.kind === 'grid') {
     const cols = Number.isInteger(node.columns) ? node.columns : (children.length || 1);
-    const g = resolveSpace(node.gap, 16);
+    const g = resolveSpace(node.gap, themePx('4', 16)); // theme spacing.4, neutral 16
     const w = `calc((100% - ${(cols - 1) * g}px) / ${cols})`;
     children = children.map((c, i) => {
       const col = {
@@ -333,13 +366,16 @@ function buildContainer(node, idKey) {
   // NOT from root-level props — this is THE reason root display/flexDirection did
   // nothing and rows stacked. Build the full desktop style object (mirrors the
   // container's own defaultStyles shape) so layout is honoured. [R-030/R-032]
+  // ONE resolved gap for both the desktop block and the root-level duplicate below —
+  // resolving it twice let the two drift apart.
+  const gapPx = resolveSpace(node.gap, isRow ? themePx('4', 16) : themePx('3', 12));
   const desktop = {
     display: 'flex',
     flexDirection: isRow ? 'row' : 'column',
     flexWrap: node.kind === 'grid' ? 'wrap' : 'nowrap',
     justifyContent: node.justify ? (JUSTIFY[node.justify] ?? node.justify) : 'flex-start',
     alignItems: node.align ? (ALIGN[node.align] ?? node.align) : (isRow ? 'flex-start' : 'stretch'),
-    gap: `${resolveSpace(node.gap, isRow ? 16 : 12)}px`,
+    gap: `${gapPx}px`,
     dimensions: {
       width: node.width ?? (isRow ? '100%' : 'auto'),
       height: 'auto', minHeight: 'auto', maxHeight: 'auto',
@@ -354,7 +390,9 @@ function buildContainer(node, idKey) {
     desktop.background = { type: 'color', color: tk('cardBg', '#ffffff') };
     desktop.border = { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', color: tk('hairline', '#e5e7eb'), style: 'solid' } }, radius: { all: tk('cardRadius', 8) } };
     desktop.shadow = { offsetX: 0, offsetY: 1, blurRadius: 4, spreadRadius: 0, color: 'rgba(0,0,0,0.08)' };
-    if (node.padding === undefined) desktop.stylingBox = paddingBox('4'); // spacing.4 = 16
+    // '4' is a spacing TOKEN key: theme spacing.4 = 16px in both shipped themes
+    // (neutral fallback 16 under --no-style) — not 4px.
+    if (node.padding === undefined) desktop.stylingBox = paddingBox('4');
   }
 
   const container = {
@@ -364,7 +402,7 @@ function buildContainer(node, idKey) {
     // root duplicates kept for migration compatibility; desktop is authoritative
     direction: isRow ? 'horizontal' : 'vertical',
     display: 'flex', flexDirection: isRow ? 'row' : 'column',
-    gap: resolveSpace(node.gap, isRow ? 16 : 12),
+    gap: gapPx,
     flexWrap: node.kind === 'grid' ? 'wrap' : 'nowrap',
     stylingBox: desktop.stylingBox,
     desktop,
@@ -468,4 +506,32 @@ const form = {
 
 fs.writeFileSync(outFile, JSON.stringify(form, null, 2) + '\n');
 console.log(`compiled ${bp.screen} (${bp.archetype}) → ${outFile}`);
-console.log(`next gates: validate-schema → validate-guardrails → resolve-bindings`);
+
+// ---- self-gating: the compiler runs its own offline gates ---------------------
+// Writing the file unconditionally made "compiled" a claim about effort, not about
+// the artifact. The three gates that need nothing but the file itself now run here,
+// so a compile that produces markup the skill's own rules reject FAILS THE COMMAND.
+// The output is deliberately LEFT ON DISK — self-gating fails the command, it does
+// not make the evidence vanish. (validate-guardrails' optional entity-metadata arg
+// is not available at compile time; it runs metadata-free, exactly as the offline
+// eval suite invokes it — the identity checks then WARN instead of FAIL.)
+const SELF_GATES = ['validate-schema.js', 'validate-guardrails.js', 'validate-styledness.js'];
+const failedGates = [];
+for (const gate of SELF_GATES) {
+  const r = spawnSync(process.execPath, [path.join(SCRIPT_DIR, gate), outFile], { encoding: 'utf8' });
+  if (r.status !== 0) {
+    failedGates.push(gate);
+    console.error(`\n--- ${gate} FAILED on ${outFile} ---`);
+    console.error(`${r.stdout ?? ''}${r.stderr ?? ''}`.trimEnd());
+  }
+}
+if (failedGates.length) {
+  console.error(`\nself-gate FAILED: ${failedGates.join(', ')} — output left at ${outFile} for diagnosis`);
+  process.exit(1);
+}
+console.log(`self-gated: ${SELF_GATES.join(' → ')} all pass`);
+// Four gates, not three [R-042/quality-gates.md]. The three above already ran on
+// this file; resolve-bindings stays CALLER-RUN because it needs the live backend
+// (entity metadata + reflist identities), which the compiler may not have.
+console.log('gate chain: validate-schema → validate-guardrails → resolve-bindings → validate-styledness');
+console.log('next: resolve-bindings (caller-run — needs the live backend), then push');
