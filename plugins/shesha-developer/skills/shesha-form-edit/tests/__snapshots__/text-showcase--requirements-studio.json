@@ -1,0 +1,508 @@
+{
+  "components": [
+    {
+      "id": "7b0767c6-bb21-59a4-8308-d3b1d8e658ff",
+      "type": "container",
+      "version": 7,
+      "componentName": "stack7",
+      "direction": "vertical",
+      "display": "flex",
+      "flexDirection": "column",
+      "gap": 24,
+      "flexWrap": "nowrap",
+      "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}",
+      "desktop": {
+        "display": "flex",
+        "flexDirection": "column",
+        "flexWrap": "nowrap",
+        "justifyContent": "flex-start",
+        "alignItems": "stretch",
+        "gap": "24px",
+        "dimensions": {
+          "width": "auto",
+          "height": "auto",
+          "minHeight": "auto",
+          "maxHeight": "auto",
+          "minWidth": "0px",
+          "maxWidth": "100%"
+        },
+        "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}",
+        "background": {
+          "type": "color",
+          "color": "#f0f2f5"
+        }
+      },
+      "components": [
+        {
+          "id": "34b4e3e7-543d-5167-8e3a-375955c8599b",
+          "type": "text",
+          "version": 5,
+          "componentName": "heading2",
+          "content": "This Month's Picks",
+          "textType": "span",
+          "contentDisplay": "content",
+          "contentType": "custom",
+          "desktop": {
+            "font": {
+              "size": 24,
+              "weight": "600",
+              "color": "#0d685a"
+            }
+          },
+          "parentId": "7b0767c6-bb21-59a4-8308-d3b1d8e658ff"
+        },
+        {
+          "id": "dec9299e-44a6-5e08-b04d-2736319b7731",
+          "type": "text",
+          "version": 5,
+          "componentName": "pageBlurb",
+          "content": "Everything the editors watched and read, with a line on why it mattered.",
+          "textType": "span",
+          "contentDisplay": "content",
+          "contentType": "custom",
+          "desktop": {
+            "font": {
+              "size": 14,
+              "color": "#1f1f1f"
+            }
+          },
+          "parentId": "7b0767c6-bb21-59a4-8308-d3b1d8e658ff"
+        },
+        {
+          "id": "d742981a-fe2f-5e54-a610-52110552a8d3",
+          "type": "container",
+          "version": 7,
+          "componentName": "row7",
+          "direction": "horizontal",
+          "display": "flex",
+          "flexDirection": "row",
+          "gap": 16,
+          "flexWrap": "nowrap",
+          "stylingBox": "{}",
+          "desktop": {
+            "display": "flex",
+            "flexDirection": "row",
+            "flexWrap": "nowrap",
+            "justifyContent": "flex-start",
+            "alignItems": "flex-start",
+            "gap": "16px",
+            "dimensions": {
+              "width": "100%",
+              "height": "auto",
+              "minHeight": "auto",
+              "maxHeight": "auto",
+              "minWidth": "0px",
+              "maxWidth": "100%"
+            },
+            "stylingBox": "{}"
+          },
+          "components": [
+            {
+              "id": "3f0e2129-2b50-51eb-b747-5108cdec1341",
+              "type": "container",
+              "version": 7,
+              "componentName": "card5",
+              "direction": "vertical",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": 8,
+              "flexWrap": "nowrap",
+              "stylingBox": "{\"paddingTop\":\"12\",\"paddingRight\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"12\"}",
+              "desktop": {
+                "display": "flex",
+                "flexDirection": "column",
+                "flexWrap": "nowrap",
+                "justifyContent": "flex-start",
+                "alignItems": "stretch",
+                "gap": "8px",
+                "dimensions": {
+                  "width": "50%",
+                  "height": "auto",
+                  "minHeight": "auto",
+                  "maxHeight": "auto",
+                  "minWidth": "0px",
+                  "maxWidth": "100%"
+                },
+                "stylingBox": "{\"paddingTop\":\"12\",\"paddingRight\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"12\"}",
+                "background": {
+                  "type": "color",
+                  "color": "#ffffff"
+                },
+                "border": {
+                  "radiusType": "all",
+                  "borderType": "all",
+                  "border": {
+                    "all": {
+                      "width": "1px",
+                      "color": "#e5e7eb",
+                      "style": "solid"
+                    }
+                  },
+                  "radius": {
+                    "all": 12
+                  }
+                },
+                "shadow": {
+                  "offsetX": 0,
+                  "offsetY": 1,
+                  "blurRadius": 4,
+                  "spreadRadius": 0,
+                  "color": "rgba(0,0,0,0.08)"
+                }
+              },
+              "components": [
+                {
+                  "id": "f9e55308-e920-59e3-a8f3-8c1e5e1ebf10",
+                  "type": "text",
+                  "version": 5,
+                  "componentName": "cardTitle",
+                  "content": "Feature Film",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "desktop": {
+                    "font": {
+                      "size": 16,
+                      "weight": "600",
+                      "color": "#0d685a"
+                    }
+                  },
+                  "parentId": "3f0e2129-2b50-51eb-b747-5108cdec1341"
+                },
+                {
+                  "id": "1426b47d-2683-562c-81b0-7c13fbe60cea",
+                  "type": "text",
+                  "version": 5,
+                  "componentName": "heading5",
+                  "content": "The Long Afternoon",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "desktop": {
+                    "font": {
+                      "size": 16,
+                      "weight": "600",
+                      "color": "#0d685a"
+                    }
+                  },
+                  "parentId": "3f0e2129-2b50-51eb-b747-5108cdec1341"
+                },
+                {
+                  "id": "cb75637e-ba47-573b-9468-ef09b4e46c78",
+                  "type": "text",
+                  "version": 5,
+                  "componentName": "filmMeta",
+                  "content": "1998 · Drama · 142 min",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "desktop": {
+                    "font": {
+                      "size": 14,
+                      "color": "#1f1f1f"
+                    }
+                  },
+                  "parentId": "3f0e2129-2b50-51eb-b747-5108cdec1341"
+                },
+                {
+                  "id": "0537daf3-a03a-58d3-9b88-67c008ea8919",
+                  "type": "text",
+                  "version": 5,
+                  "componentName": "filmBlurb",
+                  "content": "A slow, generous portrait of a town that has forgotten what it was for.",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "desktop": {
+                    "font": {
+                      "size": 14,
+                      "color": "#1f1f1f"
+                    }
+                  },
+                  "parentId": "3f0e2129-2b50-51eb-b747-5108cdec1341"
+                },
+                {
+                  "id": "af301b42-5fb7-5d0c-80da-c68c77597446",
+                  "type": "textField",
+                  "version": 6,
+                  "propertyName": "title",
+                  "label": "Title",
+                  "labelAlign": "left",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "100%",
+                      "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#d6d6d6"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
+                    }
+                  },
+                  "parentId": "3f0e2129-2b50-51eb-b747-5108cdec1341"
+                },
+                {
+                  "id": "4934b562-f5d1-5eee-8e29-7150b815ef43",
+                  "type": "textField",
+                  "version": 6,
+                  "propertyName": "releaseYear",
+                  "label": "Release Year",
+                  "labelAlign": "left",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "100%",
+                      "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#d6d6d6"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
+                    }
+                  },
+                  "parentId": "3f0e2129-2b50-51eb-b747-5108cdec1341"
+                }
+              ],
+              "parentId": "d742981a-fe2f-5e54-a610-52110552a8d3"
+            },
+            {
+              "id": "e67800f5-567f-5c10-996e-6692eabaf95c",
+              "type": "container",
+              "version": 7,
+              "componentName": "card7",
+              "direction": "vertical",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": 8,
+              "flexWrap": "nowrap",
+              "stylingBox": "{\"paddingTop\":\"12\",\"paddingRight\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"12\"}",
+              "desktop": {
+                "display": "flex",
+                "flexDirection": "column",
+                "flexWrap": "nowrap",
+                "justifyContent": "flex-start",
+                "alignItems": "stretch",
+                "gap": "8px",
+                "dimensions": {
+                  "width": "50%",
+                  "height": "auto",
+                  "minHeight": "auto",
+                  "maxHeight": "auto",
+                  "minWidth": "0px",
+                  "maxWidth": "100%"
+                },
+                "stylingBox": "{\"paddingTop\":\"12\",\"paddingRight\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"12\"}",
+                "background": {
+                  "type": "color",
+                  "color": "#ffffff"
+                },
+                "border": {
+                  "radiusType": "all",
+                  "borderType": "all",
+                  "border": {
+                    "all": {
+                      "width": "1px",
+                      "color": "#e5e7eb",
+                      "style": "solid"
+                    }
+                  },
+                  "radius": {
+                    "all": 12
+                  }
+                },
+                "shadow": {
+                  "offsetX": 0,
+                  "offsetY": 1,
+                  "blurRadius": 4,
+                  "spreadRadius": 0,
+                  "color": "rgba(0,0,0,0.08)"
+                }
+              },
+              "components": [
+                {
+                  "id": "9d51efb9-4dd8-5ad1-aad1-6811167c73ec",
+                  "type": "text",
+                  "version": 5,
+                  "componentName": "cardTitle",
+                  "content": "Book of the Month",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "desktop": {
+                    "font": {
+                      "size": 16,
+                      "weight": "600",
+                      "color": "#0d685a"
+                    }
+                  },
+                  "parentId": "e67800f5-567f-5c10-996e-6692eabaf95c"
+                },
+                {
+                  "id": "bf40d527-1e3a-5a4c-a1f3-934ae6e34d23",
+                  "type": "text",
+                  "version": 5,
+                  "componentName": "heading7",
+                  "content": "Notes on a Quiet Trade",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "desktop": {
+                    "font": {
+                      "size": 16,
+                      "weight": "600",
+                      "color": "#0d685a"
+                    }
+                  },
+                  "parentId": "e67800f5-567f-5c10-996e-6692eabaf95c"
+                },
+                {
+                  "id": "965583a8-d062-53fc-b8c9-63117c13fc46",
+                  "type": "text",
+                  "version": 5,
+                  "componentName": "bookMeta",
+                  "content": "Nonfiction · 304 pages",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "desktop": {
+                    "font": {
+                      "size": 14,
+                      "color": "#1f1f1f"
+                    }
+                  },
+                  "parentId": "e67800f5-567f-5c10-996e-6692eabaf95c"
+                },
+                {
+                  "id": "89059573-e11f-5988-80da-c96244658312",
+                  "type": "text",
+                  "version": 5,
+                  "componentName": "bookBlurb",
+                  "content": "Reads like a workshop manual and lands like a memoir.",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "desktop": {
+                    "font": {
+                      "size": 14,
+                      "color": "#1f1f1f"
+                    }
+                  },
+                  "parentId": "e67800f5-567f-5c10-996e-6692eabaf95c"
+                },
+                {
+                  "id": "cbc14a48-3a9a-529d-8bb0-f2b06bdcc291",
+                  "type": "textField",
+                  "version": 6,
+                  "propertyName": "author",
+                  "label": "Author",
+                  "labelAlign": "left",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "100%",
+                      "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#d6d6d6"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
+                    }
+                  },
+                  "parentId": "e67800f5-567f-5c10-996e-6692eabaf95c"
+                },
+                {
+                  "id": "58065542-f5eb-59e0-8d68-349814929bbf",
+                  "type": "textField",
+                  "version": 6,
+                  "propertyName": "isbn",
+                  "label": "ISBN",
+                  "labelAlign": "left",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "100%",
+                      "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#d6d6d6"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
+                    }
+                  },
+                  "parentId": "e67800f5-567f-5c10-996e-6692eabaf95c"
+                }
+              ],
+              "parentId": "d742981a-fe2f-5e54-a610-52110552a8d3"
+            }
+          ],
+          "parentId": "7b0767c6-bb21-59a4-8308-d3b1d8e658ff"
+        },
+        {
+          "id": "f988d993-5b02-502d-a9e8-8c09718fcb88",
+          "type": "text",
+          "version": 5,
+          "componentName": "footnote",
+          "content": "Picks are editorial and rotate on the first Monday.",
+          "textType": "span",
+          "contentDisplay": "content",
+          "contentType": "custom",
+          "desktop": {
+            "font": {
+              "size": 14,
+              "color": "#1f1f1f"
+            }
+          },
+          "parentId": "7b0767c6-bb21-59a4-8308-d3b1d8e658ff"
+        }
+      ],
+      "parentId": "root"
+    }
+  ],
+  "formSettings": {
+    "layout": "vertical",
+    "colon": false,
+    "labelCol": {
+      "span": 24
+    },
+    "wrapperCol": {
+      "span": 24
+    },
+    "modelType": {
+      "name": "Title",
+      "module": "boxfusion.test"
+    }
+  }
+}

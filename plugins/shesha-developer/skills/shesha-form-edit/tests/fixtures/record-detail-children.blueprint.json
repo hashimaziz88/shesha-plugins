@@ -1,0 +1,50 @@
+{
+  "screen": "Asset detail with child records",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-asset-detail", "label": "Asset" },
+  "archetype": "record-detail",
+  "theme": "shesha",
+  "layout": {
+    "kind": "stack", "gap": "lg", "padding": "lg",
+    "children": [
+      { "kind": "heading", "level": 1, "content": "Asset" },
+      { "kind": "row", "name": "headerRow", "gap": "lg", "align": "start", "children": [
+        { "kind": "card", "title": "Identity", "width": "66%", "padding": "md", "gap": "md", "children": [
+          { "kind": "grid", "columns": 2, "gap": "md", "children": [
+            { "kind": "field", "property": "name" },
+            { "kind": "field", "property": "serialNumber" },
+            { "kind": "field", "property": "category" },
+            { "kind": "field", "property": "purchaseDate" }
+          ] }
+        ] },
+        { "kind": "card", "title": "Placement", "width": "33%", "padding": "md", "gap": "sm", "children": [
+          { "kind": "field", "property": "location" },
+          { "kind": "text", "name": "placementNote", "content": "Moves are recorded on the movements tab." }
+        ] }
+      ] },
+      { "kind": "tabs", "name": "childRecords", "children": [
+        { "kind": "tab", "name": "movements", "title": "Movements", "children": [
+          { "kind": "datatable", "name": "movements", "columns": ["movedOn", "fromLocation", "toLocation"] }
+        ] },
+        { "kind": "tab", "name": "documents", "title": "Documents", "children": [
+          { "kind": "datalist", "name": "documents", "itemForm": "gym-asset-document-card" }
+        ] }
+      ] },
+      { "kind": "actions" }
+    ]
+  },
+  "bindings": [
+    { "label": "Asset Name", "property": "name" },
+    { "property": "serialNumber" },
+    { "property": "category" },
+    { "property": "purchaseDate" },
+    { "property": "location" }
+  ],
+  "assertions": [
+    { "id": "A1", "statement": "Identity card 66% left of Placement card 33%" },
+    { "id": "A2", "statement": "child records live in a two-tab group, each tab carrying its own dataContext" }
+  ]
+}

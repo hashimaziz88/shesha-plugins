@@ -7,7 +7,7 @@ Runs as **gate 5a.5** in `shesha-claude-designer` — after structural integrity
 ## Procedure
 
 1. **Build + publish** the form via `shesha-form-edit` (Draft → Live).
-2. **Clear the form cache.** The frontend caches form markup in IndexedDB — clear `form` / `form_lookup` from `/favicon.ico` (not in-app) after every push, or you measure a ghost of the previous build.
+2. **Clear the form cache** after every push, or you measure a ghost of the previous build [R-056] — recipe in `shesha-form-edit/references/verification.md` §2.
 3. **Navigate the real path.** Open the form via **table-row → details**, never a pasted `?id=` (a direct id load 500s the subtable Crud/Create). Pin the **same viewport** used for capture (1440×900).
 4. **Re-probe.** Run the *same* `scripts/layout-probe.js` against the rendered Shesha form → actual `layout.json`. Same instrument as capture = comparable numbers.
 5. **Diff actual vs the blueprint `assertions`** — structurally, not by pixels (next section).
@@ -39,7 +39,7 @@ Keep each fix to: the failing assertion id, the measured fact (with numbers), th
 
 ## Failure modes
 
-- **Stale IndexedDB cache** → you measure the previous build. Clear after every push — procedure in `shesha-form-edit/references/verification.md §2`.
+- **Stale form cache** → you measure the previous build. Clear after every push [R-056].
 - **Direct `?id=` load** → 500s on subtables, or renders a partial form. Always navigate table→details (`verification.md §3`).
 - **Different viewport** between capture and verification → incomparable numbers. Pin one.
 - **Responsive collapse** at the test viewport → if the design is genuinely responsive, capture+verify at the breakpoint the design targets, and say so in the blueprint.

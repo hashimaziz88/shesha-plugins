@@ -1,0 +1,30 @@
+{
+  "screen": "Asset worklist",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-asset-worklist", "label": "Assets" },
+  "archetype": "table-worklist",
+  "theme": "shesha",
+  "layout": {
+    "kind": "stack", "gap": "lg", "padding": "lg",
+    "children": [
+      { "kind": "heading", "level": 1, "content": "Assets" },
+      { "kind": "row", "name": "toolbar", "gap": "md", "justify": "space-between", "align": "center", "children": [
+        { "kind": "text", "name": "toolbarHint", "content": "Every asset on the register, newest first." },
+        { "kind": "actions" }
+      ] },
+      {
+        "kind": "datatable",
+        "name": "assets",
+        "columns": ["name", "serialNumber", "category", "location", "purchaseDate"]
+      }
+    ]
+  },
+  "bindings": [],
+  "assertions": [
+    { "id": "A1", "statement": "the table is wrapped in a dataContext carrying entityType + sourceType Entity [R-005]" },
+    { "id": "A2", "statement": "toolbar hint and action row sit on one line, spread apart" }
+  ]
+}

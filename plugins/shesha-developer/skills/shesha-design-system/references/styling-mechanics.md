@@ -104,6 +104,6 @@ stamped on base + every breakpoint of each squeezed container.
 4. **Channel→div mapping** — prop landing on the inner div when the constraint is on the outer flex item?
 5. **enableStyleOnReadonly** — readonly/Live with `false`?
 6. Verify with `getBoundingClientRect`/`getComputedStyle`, **not screenshots** (scaled screenshots fake 10–15px offsets that are really 0).
-7. Clear the FE IndexedDB form cache from a static page before re-testing — see `shesha-form-edit/references/verification.md`.
+7. Clear the frontend form cache before re-testing [R-056] — `shesha-form-edit/references/verification.md` §2.
 
 **Worked case (channel 4):** a detail-form header band had `alignItems:"stretch"` stamped on base + all breakpoints yet rendered `flex-start` with mystery padding; the stylingBox audit showed it clean. Cause: a legacy `style` string (`"return { padding: '10px 0px 10px 25px', alignItems: 'flex-start' }"`) on the band, plus a wrapper `style` blocking vertical stretch — the template form had `style: null` on the same containers. Fix: null `style` on base + all breakpoints and re-express as designer props; `style` strings identical across all forms including the template can stay.

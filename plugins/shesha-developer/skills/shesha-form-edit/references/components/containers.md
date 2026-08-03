@@ -24,6 +24,8 @@ Layout wrapper. Children go in `components: []`. Direction defaults to column.
 
 Per-breakpoint settings live under `desktop` / `tablet` / `mobile` keys.
 
+A container background of `type: "image"` resolves from stored-file paths only, so a plain `url` renders `url(null)` — use an `image` component sized via `desktop.dimensions` instead [R-054].
+
 Use containers as semantic divs for grouping related rows (consents block, action row, footer row). See [layout.md](layout.md) for the full house pattern.
 
 ---
@@ -173,7 +175,7 @@ Stat-row component for 2–4 key facts across the top of a record page.
           "type": "container",
           "componentName": "containerLabelXXX",
           "components": [
-            { "type": "text", "content": "Name", "fontSize": "text-xs", "fontWeight": "500",
+            { "type": "text", "content": "Name", "contentType": "custom", "fontSize": "text-xs", "fontWeight": "500",
               "desktop": { "font": { "color": "#6b7280", "type": "Segoe UI", "size": 11, "weight": "500" } } }
           ]
         },
@@ -187,7 +189,7 @@ Stat-row component for 2–4 key facts across the top of a record page.
 
 **Structure**: each `column` has exactly two children — a `container` holding the **label text**, and a **value field** (`textField` or `switch`). Not the typical Shesha container pattern.
 
-**Styling labels**: set `fontSize: "text-xs"`, `fontWeight: "500"` as direct props, plus `desktop.font.color: "#6b7280"` for muted gray.
+**Styling labels**: set `fontSize: "text-xs"`, `fontWeight: "500"` as direct props, plus `contentType: "custom"` + `desktop.font.color: "#6b7280"` for muted gray — without `contentType: "custom"` the colour is a no-op [R-052].
 
 **Styling values**: add `desktop.font` with `size: 15`, `weight: "600"`, `color: "#111827"` on the `textField` — makes the actual data pop.
 
@@ -203,6 +205,7 @@ For a "Related Records" or section-heading strip above a tab group — style an 
 {
   "type": "text",
   "content": "Related Records",
+  "contentType": "custom",
   "fontSize": "text-sm",
   "fontWeight": "700",
   "desktop": {

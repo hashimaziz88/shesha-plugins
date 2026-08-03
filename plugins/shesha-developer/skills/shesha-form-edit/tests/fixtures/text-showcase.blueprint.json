@@ -1,0 +1,44 @@
+{
+  "screen": "Movie & book showcase",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Media.Title",
+    "modelType": { "name": "Title", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-text-showcase", "label": "Showcase" },
+  "archetype": "record-detail",
+  "theme": "shesha",
+  "layout": {
+    "kind": "stack", "gap": "xl", "padding": "lg",
+    "children": [
+      { "kind": "heading", "level": 1, "content": "This Month's Picks" },
+      { "kind": "text", "name": "pageBlurb", "content": "Everything the editors watched and read, with a line on why it mattered." },
+      { "kind": "row", "gap": "lg", "align": "start", "children": [
+        { "kind": "card", "title": "Feature Film", "width": "50%", "padding": "md", "gap": "sm", "children": [
+          { "kind": "heading", "level": 3, "content": "The Long Afternoon" },
+          { "kind": "text", "name": "filmMeta", "content": "1998 · Drama · 142 min" },
+          { "kind": "text", "name": "filmBlurb", "content": "A slow, generous portrait of a town that has forgotten what it was for." },
+          { "kind": "field", "property": "title" },
+          { "kind": "field", "property": "releaseYear" }
+        ] },
+        { "kind": "card", "title": "Book of the Month", "width": "50%", "padding": "md", "gap": "sm", "children": [
+          { "kind": "heading", "level": 3, "content": "Notes on a Quiet Trade" },
+          { "kind": "text", "name": "bookMeta", "content": "Nonfiction · 304 pages" },
+          { "kind": "text", "name": "bookBlurb", "content": "Reads like a workshop manual and lands like a memoir." },
+          { "kind": "field", "property": "author" },
+          { "kind": "field", "property": "isbn" }
+        ] }
+      ] },
+      { "kind": "text", "name": "footnote", "content": "Picks are editorial and rotate on the first Monday." }
+    ]
+  },
+  "bindings": [
+    { "label": "Title", "property": "title" },
+    { "label": "Release Year", "property": "releaseYear" },
+    { "label": "Author", "property": "author" },
+    { "label": "ISBN", "property": "isbn" }
+  ],
+  "assertions": [
+    { "id": "A1", "statement": "the two cards sit side by side at 50% each" },
+    { "id": "A2", "statement": "every text/heading node carries a themed colour that actually renders (contentType custom) [R-052]" }
+  ]
+}

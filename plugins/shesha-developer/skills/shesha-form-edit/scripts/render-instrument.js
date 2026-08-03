@@ -61,6 +61,28 @@ try {
     try { localStorage.setItem(key, blob); } catch { /* init */ }
   }, { key: TOKEN_KEY, blob: tokenBlob });
   const page = await context.newPage();
+
+  // ---- IndexedDB form cache [R-056] -------------------------------------------
+  // A fresh Playwright context starts with an empty profile, so this is already
+  // clean — the delete is explicit anyway so the behaviour DOCUMENTS itself and
+  // survives anyone switching to a persistent context. Run it from /favicon.ico:
+  // an in-app deleteDatabase blocks silently on the app's open connections.
+  try {
+    await page.goto(`${PORTAL}/favicon.ico`, { waitUntil: 'domcontentloaded', timeout: 10000 });
+    verdict.cacheCleared = await page.evaluate(async () => {
+      const drop = (name) => new Promise((resolve) => {
+        const req = indexedDB.deleteDatabase(name);
+        req.onsuccess = () => resolve(true);
+        req.onerror = () => resolve(false);
+        req.onblocked = () => resolve(false);
+        setTimeout(() => resolve(false), 2000); // never hang the budget on a blocked delete
+      });
+      return { form: await drop('form'), form_lookup: await drop('form_lookup') };
+    });
+  } catch (e) {
+    verdict.cacheCleared = { error: String(e.message).slice(0, 160) };
+  }
+
   page.on('console', (m) => { if (m.type() === 'error') verdict.consoleErrors.push(m.text().slice(0, 400)); });
   page.on('pageerror', (e) => verdict.consoleErrors.push(`PAGEERROR: ${String(e).slice(0, 400)}`));
   page.on('response', (r) => { if (r.status() >= 400) verdict.networkErrors.push(`${r.status()} ${r.url().slice(0, 180)}`); });
@@ -213,4 +235,11 @@ try {
 const outFile = path.join(OUT_DIR, `${module}--${formName.replace(/[^a-z0-9-]/gi, '-')}.verdict.json`);
 fs.writeFileSync(outFile, JSON.stringify(verdict, null, 2) + '\n');
 console.log(JSON.stringify(verdict, null, 2));
+// For a HUMAN repeating this check in their own browser: the same clear, by hand [R-056].
+console.log([
+  '',
+  `// manual re-check — run ON ${PORTAL}/favicon.ico (NOT in the app: deleteDatabase blocks) [R-056]`,
+  "indexedDB.deleteDatabase('form'); indexedDB.deleteDatabase('form_lookup');",
+  `// then open ${verdict.url} and hard-reload`,
+].join('\n'));
 process.exit(verdict.verdict === 'PASS' ? 0 : 1);

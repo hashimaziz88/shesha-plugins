@@ -25,7 +25,9 @@ const after = JSON.parse(JSON.parse(fs.readFileSync('form-after.json', 'utf8')).
 
 ---
 
-## 2. IndexedDB form cache
+## 2. IndexedDB form cache — [R-056]
+
+**This section is the canonical home of the cache-clearing procedure.** Every other doc cites `[R-056]` and links here instead of restating the recipe; `scripts/render-instrument.js` performs it automatically before it navigates.
 
 The frontend caches form configurations in **IndexedDB** (`form` / `form_lookup` databases). After a successful, API-verified push, the browser can keep rendering the **stale cached markup** — you will chase ghosts, "fixing" markup that is already correct.
 

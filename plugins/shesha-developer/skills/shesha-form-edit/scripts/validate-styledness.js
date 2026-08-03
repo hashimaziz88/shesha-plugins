@@ -78,5 +78,6 @@ findings.push(`${fontDecls ? 'OK  ' : 'FAIL'} typography — ${fontDecls} explic
 
 findings.forEach((f) => console.log(f));
 const failed = findings.some((f) => f.startsWith('FAIL'));
-console.log(`\n${failed ? 'STYLEDNESS: FAIL' : 'STYLEDNESS: PASS'} (${cov}% coverage, ${inlineConflicts} inline conflicts)`);
+// this script IS the mechanical check behind [R-042] — no form ships unstyled
+console.log(`\n${failed ? 'STYLEDNESS: FAIL' : 'STYLEDNESS: PASS'} [R-042] (${cov}% coverage, ${inlineConflicts} inline conflicts)`);
 process.exit(failed && !warnOnly ? 1 : 0);

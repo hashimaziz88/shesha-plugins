@@ -57,9 +57,11 @@ The project's house pattern for full-page forms (auth pages, registration, singl
 
 4. **`columns`** is for true grid rows (firstName + lastName, two-button rows, label + value). "Total `flex` must be 24 across direct columns." For a simple inline text + link row, prefer a sub-`container` with `flexDirection: "row"` and `alignItems: "baseline"` — wraps cleaner on narrow viewports.
 
-5. **`link` for inline anchors** — "for 'Sign in' / 'Forgot password' / 'Create one' links inline with text, use the `link` component" (see [actions.md](actions.md)), not a button styled as link. Buttons in a flex row don't align well with surrounding text.
+5. **`image` stays in flow** — an image renders inside an unsized antd `ant-image` wrapper, so `position: absolute` collapses it to 0×0; size it with `desktop.dimensions` (the flat `width`/`height`/`objectFit` props are measured no-ops) [R-055].
 
-6. **Don't recreate page chrome from scratch** — copy `auth-login`'s JSON, deep-copy, regenerate ids on the cloned subtree (preserving `parentId` references via an id-remap pass), and replace just the inner content. The designer-tweaked styles for the outer container, card, image, and inner container are tedious to author by hand.
+6. **`link` for inline anchors** — "for 'Sign in' / 'Forgot password' / 'Create one' links inline with text, use the `link` component" (see [actions.md](actions.md)), not a button styled as link. Buttons in a flex row don't align well with surrounding text.
+
+7. **Don't recreate page chrome from scratch** — copy `auth-login`'s JSON, deep-copy, regenerate ids on the cloned subtree (preserving `parentId` references via an id-remap pass), and replace just the inner content. The designer-tweaked styles for the outer container, card, image, and inner container are tedious to author by hand.
 
 ---
 

@@ -1,0 +1,431 @@
+{
+  "components": [
+    {
+      "id": "0f1851ff-32ee-5224-a0e2-41a195c0d378",
+      "type": "container",
+      "version": 7,
+      "componentName": "page",
+      "direction": "vertical",
+      "display": "flex",
+      "flexDirection": "column",
+      "gap": 12,
+      "flexWrap": "nowrap",
+      "stylingBox": "{}",
+      "desktop": {
+        "display": "flex",
+        "flexDirection": "column",
+        "flexWrap": "nowrap",
+        "justifyContent": "flex-start",
+        "alignItems": "stretch",
+        "gap": "12px",
+        "dimensions": {
+          "width": "auto",
+          "height": "auto",
+          "minHeight": "auto",
+          "maxHeight": "auto",
+          "minWidth": "0px",
+          "maxWidth": "100%"
+        },
+        "stylingBox": "{}",
+        "background": {
+          "type": "color",
+          "color": "#f0f2f5"
+        }
+      },
+      "components": [
+        {
+          "id": "15285a02-f18f-59c8-9465-84be6340f364",
+          "type": "text",
+          "version": 5,
+          "componentName": "pageTitle",
+          "content": "Register Asset",
+          "textType": "span",
+          "contentDisplay": "content",
+          "contentType": "custom",
+          "desktop": {
+            "font": {
+              "size": 14,
+              "color": "#1f1f1f"
+            }
+          },
+          "parentId": "0f1851ff-32ee-5224-a0e2-41a195c0d378"
+        },
+        {
+          "id": "777cf29e-708f-5795-8750-ed837fa1870a",
+          "type": "container",
+          "version": 7,
+          "componentName": "mainSplit",
+          "direction": "horizontal",
+          "display": "flex",
+          "flexDirection": "row",
+          "gap": 16,
+          "flexWrap": "nowrap",
+          "stylingBox": "{}",
+          "desktop": {
+            "display": "flex",
+            "flexDirection": "row",
+            "flexWrap": "nowrap",
+            "justifyContent": "flex-start",
+            "alignItems": "flex-start",
+            "gap": "16px",
+            "dimensions": {
+              "width": "100%",
+              "height": "auto",
+              "minHeight": "auto",
+              "maxHeight": "auto",
+              "minWidth": "0px",
+              "maxWidth": "100%"
+            },
+            "stylingBox": "{}"
+          },
+          "components": [
+            {
+              "id": "3bcb2240-0d2e-58ff-8bb2-bc00c7cc76ed",
+              "type": "container",
+              "version": 7,
+              "componentName": "mainCol",
+              "direction": "vertical",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": 12,
+              "flexWrap": "nowrap",
+              "stylingBox": "{}",
+              "desktop": {
+                "display": "flex",
+                "flexDirection": "column",
+                "flexWrap": "nowrap",
+                "justifyContent": "flex-start",
+                "alignItems": "stretch",
+                "gap": "12px",
+                "dimensions": {
+                  "width": "66%",
+                  "height": "auto",
+                  "minHeight": "auto",
+                  "maxHeight": "auto",
+                  "minWidth": "0px",
+                  "maxWidth": "100%"
+                },
+                "stylingBox": "{}"
+              },
+              "components": [
+                {
+                  "id": "956c969f-d17a-553f-895d-9b46f7e2dd77",
+                  "type": "textField",
+                  "version": 6,
+                  "propertyName": "name",
+                  "label": "Asset Name",
+                  "labelAlign": "left",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "100%",
+                      "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#d6d6d6"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
+                    }
+                  },
+                  "parentId": "3bcb2240-0d2e-58ff-8bb2-bc00c7cc76ed"
+                },
+                {
+                  "id": "8a728812-0b00-5f2c-b80f-79fa25b80469",
+                  "type": "textField",
+                  "version": 6,
+                  "propertyName": "serialNumber",
+                  "label": "Serial Number",
+                  "labelAlign": "left",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "100%",
+                      "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#d6d6d6"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
+                    }
+                  },
+                  "parentId": "3bcb2240-0d2e-58ff-8bb2-bc00c7cc76ed"
+                },
+                {
+                  "id": "5d8e5055-1dec-50ae-8f88-0fe51c453834",
+                  "type": "textField",
+                  "version": 6,
+                  "propertyName": "category",
+                  "label": "Category",
+                  "labelAlign": "left",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "100%",
+                      "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#d6d6d6"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
+                    }
+                  },
+                  "parentId": "3bcb2240-0d2e-58ff-8bb2-bc00c7cc76ed"
+                },
+                {
+                  "id": "993ce7b7-4478-5998-a424-693ef92bf0ac",
+                  "type": "textField",
+                  "version": 6,
+                  "propertyName": "purchaseDate",
+                  "label": "Purchase Date",
+                  "labelAlign": "left",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "100%",
+                      "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#d6d6d6"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
+                    }
+                  },
+                  "parentId": "3bcb2240-0d2e-58ff-8bb2-bc00c7cc76ed"
+                }
+              ],
+              "parentId": "777cf29e-708f-5795-8750-ed837fa1870a"
+            },
+            {
+              "id": "df06aa78-4aff-591a-8e2c-87ebc4a248af",
+              "type": "container",
+              "version": 7,
+              "componentName": "railCol",
+              "direction": "vertical",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": 12,
+              "flexWrap": "nowrap",
+              "stylingBox": "{}",
+              "desktop": {
+                "display": "flex",
+                "flexDirection": "column",
+                "flexWrap": "nowrap",
+                "justifyContent": "flex-start",
+                "alignItems": "stretch",
+                "gap": "12px",
+                "dimensions": {
+                  "width": "33%",
+                  "height": "auto",
+                  "minHeight": "auto",
+                  "maxHeight": "auto",
+                  "minWidth": "0px",
+                  "maxWidth": "100%"
+                },
+                "stylingBox": "{}"
+              },
+              "components": [
+                {
+                  "id": "10ed0ad3-aa87-5587-9c6c-b4a5ae069c9f",
+                  "type": "textField",
+                  "version": 6,
+                  "propertyName": "status",
+                  "label": "Status",
+                  "labelAlign": "left",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "100%",
+                      "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#d6d6d6"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
+                    }
+                  },
+                  "parentId": "df06aa78-4aff-591a-8e2c-87ebc4a248af"
+                },
+                {
+                  "id": "a6fd5e70-adff-5c3c-b424-130b42c9c66e",
+                  "type": "textField",
+                  "version": 6,
+                  "propertyName": "location",
+                  "label": "Location",
+                  "labelAlign": "left",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "100%",
+                      "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#d6d6d6"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
+                    }
+                  },
+                  "parentId": "df06aa78-4aff-591a-8e2c-87ebc4a248af"
+                },
+                {
+                  "id": "ffc6df9c-a5e4-59f4-882d-c2b9150928ed",
+                  "type": "textField",
+                  "version": 6,
+                  "propertyName": "assignedEmployee",
+                  "label": "Assigned Employee",
+                  "labelAlign": "left",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "100%",
+                      "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#d6d6d6"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
+                    }
+                  },
+                  "parentId": "df06aa78-4aff-591a-8e2c-87ebc4a248af"
+                }
+              ],
+              "parentId": "777cf29e-708f-5795-8750-ed837fa1870a"
+            }
+          ],
+          "parentId": "0f1851ff-32ee-5224-a0e2-41a195c0d378"
+        }
+      ],
+      "parentId": "root"
+    },
+    {
+      "id": "740fe70b-4d02-50a5-8cae-fbc7f390a5d8",
+      "type": "validationErrors",
+      "version": 0,
+      "componentName": "formValidationErrors",
+      "parentId": "root"
+    },
+    {
+      "id": "5124939f-8100-5ea3-ba64-24f62d45eb4e",
+      "type": "buttonGroup",
+      "version": 15,
+      "componentName": "formActions",
+      "propertyName": "formActions",
+      "label": "Form Actions",
+      "hideLabel": true,
+      "isInline": true,
+      "editMode": "editable",
+      "items": [
+        {
+          "id": "bcfac0f5-2e50-581e-afb5-d8c06d7c5e7d",
+          "itemType": "item",
+          "itemSubType": "button",
+          "sortOrder": 0,
+          "name": "btnSave",
+          "label": "Save",
+          "buttonType": "primary",
+          "icon": "SaveOutlined",
+          "buttonAction": "submit",
+          "editMode": "inherited",
+          "actionConfiguration": {
+            "_type": "action-config",
+            "actionName": "Submit",
+            "actionOwner": "shesha.form",
+            "handleSuccess": false,
+            "handleFail": false
+          }
+        },
+        {
+          "id": "5913e2b2-0508-568c-9add-9e730b8d060f",
+          "itemType": "item",
+          "itemSubType": "button",
+          "sortOrder": 1,
+          "name": "btnBack",
+          "label": "Back",
+          "buttonType": "default",
+          "icon": "ArrowLeftOutlined",
+          "buttonAction": "navigate",
+          "editMode": "inherited",
+          "actionConfiguration": {
+            "_type": "action-config",
+            "actionName": "Navigate",
+            "actionOwner": "shesha.common",
+            "actionArguments": {
+              "navigationType": "url",
+              "url": "/"
+            }
+          }
+        }
+      ],
+      "parentId": "root"
+    }
+  ],
+  "formSettings": {
+    "layout": "vertical",
+    "colon": false,
+    "labelCol": {
+      "span": 24
+    },
+    "wrapperCol": {
+      "span": 24
+    },
+    "modelType": {
+      "name": "Asset",
+      "module": "boxfusion.test"
+    }
+  }
+}

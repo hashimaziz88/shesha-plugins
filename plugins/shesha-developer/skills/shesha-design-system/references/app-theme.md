@@ -17,4 +17,4 @@ The app theme is the `Shesha.ThemeSettings` setting (Ant Design `ConfigProvider`
 
 ## Verify
 
-Check in the running app: a primary button, a link, an active tab ink-bar and a focus ring should all be the brand primary; the page background should be the brand canvas; base radius on inputs should match. Clear the IndexedDB cache (`/favicon.ico`) after changing theme settings so the frontend re-reads them.
+Check in the running app: a primary button, a link, an active tab ink-bar and a focus ring should all be the brand primary; the page background should be the brand canvas; base radius on inputs should match. Clear the frontend form cache after changing theme settings so they are re-read [R-056] (`shesha-form-edit/references/verification.md` §2).

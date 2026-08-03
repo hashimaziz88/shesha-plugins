@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * backend-probe.mjs <baseUrl> <tokenFile> <spec.json>
+ * backend-probe.mjs <baseUrl> <tokenFile> <spec.json> [--versions]
  *
  * ONE run that collapses the ~10 small backend round-trips a form build otherwise
  * makes (auth reload, module id, entity resolve, metadata, reflist existence) —
@@ -30,6 +30,15 @@
  *   6. Emits ONE compact JSON summary to stdout AND writes each entity's slice to
  *      <tokenFile dir>/<Entity>.probe.json for reuse.
  *
+ * With --versions it ALSO harvests the target backend's LIVE component versions [R-049]:
+ *   GET Shesha/FormConfiguration/GetAll (filtered to spec.module) → newest 1–2 forms →
+ *   GetJson each → walk the markup for every {type, version} pair → write
+ *   <tokenFile dir>/live-versions.json as { baseUrl, harvestedFrom, versions:{type:ver} }.
+ *   Feed that file to `validate-guardrails.js --live-versions <file>`: drift against a LIVE
+ *   backend is a FAIL, whereas the bundled 0.45 KB can only WARN. Versions drift across
+ *   point releases (a container is v7 in the KB and v9 on a newer backend), so this is the
+ *   only way to be exact about the machine you are pushing to.
+ *
  * A single 404 (or any non-2xx / network error) never throws — the status is recorded and
  * the run continues.
  */
@@ -39,9 +48,11 @@ import path from 'path';
 
 // ---------- args ----------
 
-const [baseUrlArg, tokenFile, specFile] = process.argv.slice(2);
+const rawArgs = process.argv.slice(2);
+const WANT_VERSIONS = rawArgs.includes('--versions');
+const [baseUrlArg, tokenFile, specFile] = rawArgs.filter((a) => !a.startsWith('--'));
 if (!baseUrlArg || !tokenFile || !specFile) {
-  console.error('usage: node backend-probe.mjs <baseUrl> <tokenFile> <spec.json>');
+  console.error('usage: node backend-probe.mjs <baseUrl> <tokenFile> <spec.json> [--versions]');
   process.exit(2);
 }
 
@@ -135,6 +146,65 @@ function distil(p) {
     if (p.referenceListModule) o.referenceListModule = p.referenceListModule;
   }
   return o;
+}
+
+// ---------- live component versions (--versions) ----------
+
+// Harvest {componentType: version} off real markup on THIS backend. The newest
+// forms are used because they were saved by the running designer, so their
+// version stamps are exactly what this release migrates to.
+async function harvestLiveVersions() {
+  const filter = JSON.stringify({ and: [{ '==': [{ var: 'module.name' }, specModule] }] });
+  const list = await getJson(`/api/services/Shesha/FormConfiguration/GetAll?${qs({ MaxResultCount: 200, Filter: filter })}`);
+  let forms = itemsOf(list.json);
+  if (!forms.length) {
+    // no module match (or no Filter support) — fall back to the unfiltered list
+    const all = await getJson(`/api/services/Shesha/FormConfiguration/GetAll?${qs({ MaxResultCount: 200 })}`);
+    forms = itemsOf(all.json);
+  }
+  const stamp = (f) => Date.parse(f.lastModificationTime || f.creationTime || '') || 0;
+  forms = forms.filter((f) => f && f.id).sort((a, b) => stamp(b) - stamp(a)).slice(0, 2);
+
+  const versions = {};
+  const conflicts = {};
+  const harvestedFrom = [];
+  for (const f of forms) {
+    const r = await getJson(`/api/services/Shesha/FormConfiguration/GetJson?${qs({ id: f.id })}`);
+    if (r.status !== 200 || !r.json) { harvestedFrom.push({ id: f.id, name: f.name, status: r.status, note: 'GetJson returned no markup' }); continue; }
+    let markup = r.json;
+    if (typeof markup.markup === 'string') { try { markup = JSON.parse(markup.markup); } catch { /* leave as-is */ } }
+    if (markup.result) markup = typeof markup.result.markup === 'string' ? JSON.parse(markup.result.markup) : markup.result;
+    let seen = 0;
+    (function walk(v) {
+      if (Array.isArray(v)) return v.forEach(walk);
+      if (!v || typeof v !== 'object') return;
+      if (typeof v.type === 'string' && Number.isInteger(v.version)) {
+        seen++;
+        if (versions[v.type] === undefined) versions[v.type] = v.version;
+        else if (versions[v.type] !== v.version) (conflicts[v.type] ??= new Set()).add(v.version);
+      }
+      for (const x of Object.values(v)) walk(x);
+    })(markup.components ?? markup);
+    harvestedFrom.push({ id: f.id, name: f.name, components: seen });
+  }
+
+  const out = {
+    baseUrl,
+    module: specModule,
+    harvestedAt: new Date().toISOString(),
+    harvestedFrom,
+    // a type stamped at two different versions in the same corpus is ambiguous —
+    // record it rather than picking a winner, so the gate can be trusted.
+    ambiguous: Object.fromEntries(Object.entries(conflicts).map(([t, s]) => [t, [versions[t], ...s]])),
+    versions,
+  };
+  const file = path.join(outDir, 'live-versions.json');
+  try {
+    fs.writeFileSync(file, JSON.stringify(out, null, 2) + '\n');
+  } catch (err) {
+    console.error(`WARN: could not write ${file}: ${err.message}`);
+  }
+  return { file, typeCount: Object.keys(versions).length, formCount: harvestedFrom.length, ambiguous: Object.keys(out.ambiguous).length };
 }
 
 // ---------- main ----------
@@ -260,6 +330,9 @@ async function main() {
     module: moduleSummary,
     entities: results,
   };
+
+  // Step 7 (--versions) — live component versions for the R-049 gate.
+  if (WANT_VERSIONS) summary.liveVersions = await harvestLiveVersions();
 
   // Step 6 — per-entity probe files for reuse.
   for (const e of results) {

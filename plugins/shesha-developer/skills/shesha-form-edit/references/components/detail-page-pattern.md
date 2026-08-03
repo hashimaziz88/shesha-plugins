@@ -79,7 +79,7 @@ Also uncap `maxHeight` (`"150px"` → `"auto"`) on banner + KIB so compacted con
 |---|---|---|
 | Title bound to entity prop | `contentDisplay:"name"` + `propertyName:"<titleProp>"` (+ `content:"{{data.<titleProp>}}"`, `textType:"paragraph"`, `fontSize:"text-xl"`, `strong:true` (runtime-verified; not in the groups index — clean-form-config may flag it; do NOT strip), base `font.size` 15.5 + breakpoint `font.size` 17.5) | A plain mustache string in `content` with `contentDisplay:"content"` renders **EMPTY** |
 | Transform a bound value (e.g. truncate to 100 chars) | `contentDisplay:"content"` + code-mode content: `"content": {"_mode":"code","_code":"...return ...;"}` — `content` is `jsSetting:true`, evaluated with `data` in scope | Truncate the **STRING**, not CSS `ellipsis` — a non-wrapping long text sets the flex item's min-width floor to full text width and pushes the KIB out |
-| Gray subtitle | `contentType:"custom"` + `font.color:"#c7c7c7"` | Without `contentType:"custom"`, `font.color` is **IGNORED** (renders antd default `rgba(0,0,0,0.88)`); `font.size` works regardless |
+| Gray subtitle | `contentType:"custom"` + `font.color:"#c7c7c7"` | Without `contentType:"custom"`, `font.color` is **IGNORED** (renders antd default `rgba(0,0,0,0.88)`); `font.size` works regardless [R-052] |
 
 **Pixel parity = COMPONENT TRANSPLANT, not property tweaks.** Designer-output components carry bloat (~167 keys vs a clean ~35-key template) with hidden extras like `font.color:"#000000"` that render visibly different despite identical-looking font size/weight. A one-directional diff misses extra keys — do a **bidirectional full-key diff** and compare **COMPUTED styles in-browser**. Transplant the template's whole text component, preserving target `id`/`parentId`/`componentName`/`propertyName` (for subtitles also keep `content`).
 
@@ -113,7 +113,7 @@ Container names vary across forms (`container60` vs `hdrBand`, `pageContent` vs 
 
 When deleting/inserting nodes in a transform, guard with a component-count delta (e.g. delta must equal nodes removed). Clone repeated structure with fresh GUID ids AND fresh componentNames — never mutate the template's originals.
 
-Verify with `getBoundingClientRect`/`getComputedStyle`, never screenshots (scaling makes 0px offsets look like 10–15px). The frontend caches form configs in IndexedDB — clear from a static page like `/favicon.ico`, not in-app (`deleteDatabase` blocks while the app holds connections). See [../verification.md](../verification.md).
+Verify with `getBoundingClientRect`/`getComputedStyle`, never screenshots (scaling makes 0px offsets look like 10–15px). Clear the frontend form cache first [R-056] — recipe in [../verification.md](../verification.md) §2.
 
 ---
 

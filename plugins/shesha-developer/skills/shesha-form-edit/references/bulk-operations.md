@@ -123,7 +123,7 @@ Clone the template's FULL style objects onto each target's analogous component �
 - **Auditor fan-out**: one read-only auditor agent per form, strict JSON verdict schema (loose prose output can't be filtered/counted). Dispatch templates and the agent table live in [orchestration.md](orchestration.md) — do not restate them here.
 - **Compare exports by component count, not file size** — formatting/normalization changes size without changing structure.
 - **Re-fetch after every push** — `UpdateMarkup` returning 200 + empty `result` is not proof the markup persisted ([verification.md](verification.md) §1).
-- **Pilot/browser checks**: `getBoundingClientRect` / `getComputedStyle` exact-value assertions, never scaled screenshots; clear the IndexedDB form cache from `/favicon.ico` between re-tests ([verification.md](verification.md) §2/§4).
+- **Pilot/browser checks**: `getBoundingClientRect` / `getComputedStyle` exact-value assertions, never scaled screenshots; clear the form cache between re-tests [R-056] ([verification.md](verification.md) §2/§4).
 - Backend readiness for entity-bound fleets: [full-stack-prereqs.md](full-stack-prereqs.md).
 
 ---

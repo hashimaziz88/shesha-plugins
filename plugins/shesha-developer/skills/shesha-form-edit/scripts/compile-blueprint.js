@@ -189,6 +189,9 @@ function compileNode(node, idPrefix) {
         type: 'text', version: ver('text'),
         componentName: node.name ?? `text${seq}`,
         content: node.content ?? node.title ?? '', textType: 'span', contentDisplay: 'content',
+        // contentType:"custom" is what LETS desktop.font.color reach the DOM — without
+        // it antd's own preset ink wins and the colour is measured as a no-op [R-052]
+        contentType: 'custom',
         desktop: { font: { size: tk('type.scale.body', 14), color: tk('bodyText', '#181818') } },
       };
     case 'heading': {
@@ -199,6 +202,8 @@ function compileNode(node, idPrefix) {
         type: 'text', version: ver('text'),
         componentName: node.name ?? `heading${seq}`,
         content: node.content ?? node.title ?? '', textType: 'span', contentDisplay: 'content',
+        // heading ink needs the same contentType:"custom" gate as body text [R-052]
+        contentType: 'custom',
         // on-brand hierarchy from the theme type scale + heading ink [R-030]
         desktop: { font: { size: tk(HEADING_TOKEN[lvl], h.size), weight: String(tk('type.weights.semibold', 600)), color: tk('sectionHeading', '#181818') } },
       };
@@ -396,8 +401,42 @@ function floorButtonGroup(idKey) {
   };
 }
 
+// ---- page chrome -------------------------------------------------------------
+// validate-styledness.js requires page ground (a root background / sha-page /
+// hideHeading) in the first root components. Before, only kind:"card" roots got a
+// background, so a stack/region/row root compiled to markup that failed the
+// compiler's OWN gate. Page ground is now stamped at the form root regardless of
+// root kind — same mechanism as the card surface, pageBg token instead of cardBg.
+function stampPageChrome(node) {
+  const surfaceable = node.type === 'container' || node.type === 'card';
+  if (!surfaceable) {
+    // datatable/datalist roots compile to a dataContext, whose desktop block is not
+    // a measured surface — wrap it in a page-root container that carries the ground.
+    const wrapper = {
+      id: gymUuid('bp', bp.form.name, `${bp.form.name}/pageRoot`),
+      type: 'container', version: ver('container'),
+      componentName: 'pageRoot',
+      direction: 'vertical', display: 'flex', flexDirection: 'column', gap: 12, flexWrap: 'nowrap',
+      stylingBox: '{}',
+      desktop: {
+        display: 'flex', flexDirection: 'column', flexWrap: 'nowrap',
+        justifyContent: 'flex-start', alignItems: 'stretch', gap: '12px',
+        dimensions: { width: '100%', height: 'auto', minHeight: 'auto', maxHeight: 'auto', minWidth: '0px', maxWidth: '100%' },
+        stylingBox: '{}',
+      },
+      components: [node],
+    };
+    node.parentId = wrapper.id;
+    return stampPageChrome(wrapper);
+  }
+  node.desktop = node.desktop ?? {};
+  // a card root already carries its own surface — don't overwrite it
+  if (!node.desktop.background) node.desktop.background = { type: 'color', color: tk('pageBg', '#f5f6f8') };
+  return node;
+}
+
 // ---- assemble ------------------------------------------------------------------
-const rootChildren = [compileNode(bp.layout, bp.form.name)];
+const rootChildren = [stampPageChrome(compileNode(bp.layout, bp.form.name))];
 
 // floor: capture archetypes always get validationErrors + Submit/exit pair [R-006/R-007/R-020]
 const CAPTURE_ARCHETYPES = new Set(['capture', 'modal-dialog', 'wizard']);

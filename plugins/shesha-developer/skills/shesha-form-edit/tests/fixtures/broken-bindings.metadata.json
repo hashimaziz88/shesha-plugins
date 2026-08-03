@@ -1,0 +1,13 @@
+{
+  "result": [
+    { "path": "Name", "dataType": "string" },
+    { "path": "SerialNumber", "dataType": "string" },
+    { "path": "PurchaseDate", "dataType": "date-time" },
+    { "path": "Status", "dataType": "reference-list-item", "referenceListName": "boxfusion.test.AssetStatus", "referenceListModule": "boxfusion.test" },
+    { "path": "Category", "dataType": "reference-list-item", "referenceListName": "boxfusion.test.AssetCategory", "referenceListModule": "boxfusion.test" },
+    { "path": "Location", "dataType": "entity", "entityType": "boxfusion.test.Domain.Domain.Assets.Location" },
+    { "path": "AssignedEmployee", "dataType": "entity", "entityType": "boxfusion.test.Domain.Domain.Hr.Employee" }
+  ],
+  "success": true,
+  "_note": "Metadata/GetProperties dump for the broken-bindings negative fixture. Feeding it as arg 2 upgrades the reference-list identity check (R-015) from WARN to FAIL, which is what makes the fixture fail offline: broken-bindings.json guesses referenceListId.name 'GuessedStatusName' where metadata says 'AssetStatus'."
+}

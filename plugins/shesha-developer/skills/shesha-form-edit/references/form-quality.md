@@ -35,7 +35,7 @@ Part 1 is the terse always-on floor: build it into EVERY form from the first com
 - **Appearance floor (presence check)** — a no-brand form still ships the default-theme markers: canvas page background (`#F8F8F9`), white hairline card surfaces, titles with `fontSize`+`fontWeight`, one primary in the action group. HOW is `shesha-design-system`'s Step 6.5 pass; THAT it happened is a construction check. Exempt only if a brand/blueprint pipeline styled it.
 - **One layout grid** — `formSettings.layout` + `labelCol`/`wrapperCol` set once at form level. Field-level `labelCol` is silently ignored; align a lone full-width field by placing it in a 50% column.
 - **Titles carry explicit `fontSize`+`fontWeight`** sized to role — page title 24/`600` (`700` if bold), card header 16/`600`, section header 13–14/`600`. Unstyled headers render at body size and the page loses its hierarchy.
-- **Nothing clips or overflows** — fix a squeezed container with `dimensions.minHeight: 'fit-content'` (clean-form-config may flag it; do NOT strip). Verify with `getBoundingClientRect` after clearing the FE IndexedDB form cache ([verification.md](verification.md)).
+- **Nothing clips or overflows** — fix a squeezed container with `dimensions.minHeight: 'fit-content'` (clean-form-config may flag it; do NOT strip). Verify with `getBoundingClientRect` after clearing the frontend form cache [R-056] ([verification.md](verification.md) §2).
 
 ## Part 2 — grading notes (rationale + silent-failure symptoms)
 

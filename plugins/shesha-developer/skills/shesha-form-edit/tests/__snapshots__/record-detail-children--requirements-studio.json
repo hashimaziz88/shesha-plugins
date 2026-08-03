@@ -1,0 +1,774 @@
+{
+  "components": [
+    {
+      "id": "04a04723-4c79-534b-b49b-49d69755b392",
+      "type": "container",
+      "version": 7,
+      "componentName": "stack6",
+      "direction": "vertical",
+      "display": "flex",
+      "flexDirection": "column",
+      "gap": 16,
+      "flexWrap": "nowrap",
+      "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}",
+      "desktop": {
+        "display": "flex",
+        "flexDirection": "column",
+        "flexWrap": "nowrap",
+        "justifyContent": "flex-start",
+        "alignItems": "stretch",
+        "gap": "16px",
+        "dimensions": {
+          "width": "auto",
+          "height": "auto",
+          "minHeight": "auto",
+          "maxHeight": "auto",
+          "minWidth": "0px",
+          "maxWidth": "100%"
+        },
+        "stylingBox": "{\"paddingTop\":\"16\",\"paddingRight\":\"16\",\"paddingBottom\":\"16\",\"paddingLeft\":\"16\"}",
+        "background": {
+          "type": "color",
+          "color": "#f0f2f5"
+        }
+      },
+      "components": [
+        {
+          "id": "e36ac6d4-2124-52d6-8f43-44bea013a4fa",
+          "type": "text",
+          "version": 5,
+          "componentName": "heading2",
+          "content": "Asset",
+          "textType": "span",
+          "contentDisplay": "content",
+          "contentType": "custom",
+          "desktop": {
+            "font": {
+              "size": 24,
+              "weight": "600",
+              "color": "#0d685a"
+            }
+          },
+          "parentId": "04a04723-4c79-534b-b49b-49d69755b392"
+        },
+        {
+          "id": "9ca22147-6e00-564d-bbff-0a844cc3ef5d",
+          "type": "container",
+          "version": 7,
+          "componentName": "headerRow",
+          "direction": "horizontal",
+          "display": "flex",
+          "flexDirection": "row",
+          "gap": 16,
+          "flexWrap": "nowrap",
+          "stylingBox": "{}",
+          "desktop": {
+            "display": "flex",
+            "flexDirection": "row",
+            "flexWrap": "nowrap",
+            "justifyContent": "flex-start",
+            "alignItems": "flex-start",
+            "gap": "16px",
+            "dimensions": {
+              "width": "100%",
+              "height": "auto",
+              "minHeight": "auto",
+              "maxHeight": "auto",
+              "minWidth": "0px",
+              "maxWidth": "100%"
+            },
+            "stylingBox": "{}"
+          },
+          "components": [
+            {
+              "id": "662e9d00-d9d0-5ecb-a144-ffcc844db96b",
+              "type": "container",
+              "version": 7,
+              "componentName": "card4",
+              "direction": "vertical",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": 12,
+              "flexWrap": "nowrap",
+              "stylingBox": "{\"paddingTop\":\"12\",\"paddingRight\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"12\"}",
+              "desktop": {
+                "display": "flex",
+                "flexDirection": "column",
+                "flexWrap": "nowrap",
+                "justifyContent": "flex-start",
+                "alignItems": "stretch",
+                "gap": "12px",
+                "dimensions": {
+                  "width": "66%",
+                  "height": "auto",
+                  "minHeight": "auto",
+                  "maxHeight": "auto",
+                  "minWidth": "0px",
+                  "maxWidth": "100%"
+                },
+                "stylingBox": "{\"paddingTop\":\"12\",\"paddingRight\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"12\"}",
+                "background": {
+                  "type": "color",
+                  "color": "#ffffff"
+                },
+                "border": {
+                  "radiusType": "all",
+                  "borderType": "all",
+                  "border": {
+                    "all": {
+                      "width": "1px",
+                      "color": "#e5e7eb",
+                      "style": "solid"
+                    }
+                  },
+                  "radius": {
+                    "all": 12
+                  }
+                },
+                "shadow": {
+                  "offsetX": 0,
+                  "offsetY": 1,
+                  "blurRadius": 4,
+                  "spreadRadius": 0,
+                  "color": "rgba(0,0,0,0.08)"
+                }
+              },
+              "components": [
+                {
+                  "id": "d4ee7098-1186-5d7e-8cf5-590d5a16b3ec",
+                  "type": "text",
+                  "version": 5,
+                  "componentName": "cardTitle",
+                  "content": "Identity",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "desktop": {
+                    "font": {
+                      "size": 16,
+                      "weight": "600",
+                      "color": "#0d685a"
+                    }
+                  },
+                  "parentId": "662e9d00-d9d0-5ecb-a144-ffcc844db96b"
+                },
+                {
+                  "id": "48e54589-43f3-5e07-a905-390e62564931",
+                  "type": "container",
+                  "version": 7,
+                  "componentName": "grid4",
+                  "direction": "horizontal",
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "gap": 12,
+                  "flexWrap": "wrap",
+                  "stylingBox": "{}",
+                  "desktop": {
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
+                    "alignItems": "flex-start",
+                    "gap": "12px",
+                    "dimensions": {
+                      "width": "100%",
+                      "height": "auto",
+                      "minHeight": "auto",
+                      "maxHeight": "auto",
+                      "minWidth": "0px",
+                      "maxWidth": "100%"
+                    },
+                    "stylingBox": "{}"
+                  },
+                  "components": [
+                    {
+                      "id": "2ea7445c-2bb3-5966-8ac1-677d262f97de",
+                      "type": "container",
+                      "version": 7,
+                      "componentName": "gridCol0",
+                      "direction": "vertical",
+                      "display": "flex",
+                      "flexDirection": "column",
+                      "flexWrap": "nowrap",
+                      "gap": 0,
+                      "desktop": {
+                        "display": "flex",
+                        "flexDirection": "column",
+                        "flexWrap": "nowrap",
+                        "justifyContent": "flex-start",
+                        "alignItems": "stretch",
+                        "gap": "0px",
+                        "stylingBox": "{}",
+                        "dimensions": {
+                          "width": "calc((100% - 12px) / 2)",
+                          "minWidth": "0px",
+                          "height": "auto",
+                          "minHeight": "auto",
+                          "maxHeight": "auto",
+                          "maxWidth": "100%"
+                        }
+                      },
+                      "components": [
+                        {
+                          "id": "7ca85650-469d-5d88-acf2-5d9a0fa4c147",
+                          "type": "textField",
+                          "version": 6,
+                          "propertyName": "name",
+                          "label": "Asset Name",
+                          "labelAlign": "left",
+                          "desktop": {
+                            "dimensions": {
+                              "width": "100%",
+                              "minWidth": "0px"
+                            },
+                            "border": {
+                              "radiusType": "all",
+                              "borderType": "all",
+                              "border": {
+                                "all": {
+                                  "width": "1px",
+                                  "style": "solid",
+                                  "color": "#d6d6d6"
+                                }
+                              },
+                              "radius": {
+                                "all": 6
+                              }
+                            }
+                          },
+                          "parentId": "2ea7445c-2bb3-5966-8ac1-677d262f97de"
+                        }
+                      ],
+                      "parentId": "48e54589-43f3-5e07-a905-390e62564931"
+                    },
+                    {
+                      "id": "e5aef6ca-36b6-5f25-b1dd-034a29152f59",
+                      "type": "container",
+                      "version": 7,
+                      "componentName": "gridCol1",
+                      "direction": "vertical",
+                      "display": "flex",
+                      "flexDirection": "column",
+                      "flexWrap": "nowrap",
+                      "gap": 0,
+                      "desktop": {
+                        "display": "flex",
+                        "flexDirection": "column",
+                        "flexWrap": "nowrap",
+                        "justifyContent": "flex-start",
+                        "alignItems": "stretch",
+                        "gap": "0px",
+                        "stylingBox": "{}",
+                        "dimensions": {
+                          "width": "calc((100% - 12px) / 2)",
+                          "minWidth": "0px",
+                          "height": "auto",
+                          "minHeight": "auto",
+                          "maxHeight": "auto",
+                          "maxWidth": "100%"
+                        }
+                      },
+                      "components": [
+                        {
+                          "id": "960da692-e2c6-5f46-aaa9-41721ff706e4",
+                          "type": "textField",
+                          "version": 6,
+                          "propertyName": "serialNumber",
+                          "label": "Serial Number",
+                          "labelAlign": "left",
+                          "desktop": {
+                            "dimensions": {
+                              "width": "100%",
+                              "minWidth": "0px"
+                            },
+                            "border": {
+                              "radiusType": "all",
+                              "borderType": "all",
+                              "border": {
+                                "all": {
+                                  "width": "1px",
+                                  "style": "solid",
+                                  "color": "#d6d6d6"
+                                }
+                              },
+                              "radius": {
+                                "all": 6
+                              }
+                            }
+                          },
+                          "parentId": "e5aef6ca-36b6-5f25-b1dd-034a29152f59"
+                        }
+                      ],
+                      "parentId": "48e54589-43f3-5e07-a905-390e62564931"
+                    },
+                    {
+                      "id": "aa9dd8ca-e178-52fe-a5b3-27c5c466463e",
+                      "type": "container",
+                      "version": 7,
+                      "componentName": "gridCol2",
+                      "direction": "vertical",
+                      "display": "flex",
+                      "flexDirection": "column",
+                      "flexWrap": "nowrap",
+                      "gap": 0,
+                      "desktop": {
+                        "display": "flex",
+                        "flexDirection": "column",
+                        "flexWrap": "nowrap",
+                        "justifyContent": "flex-start",
+                        "alignItems": "stretch",
+                        "gap": "0px",
+                        "stylingBox": "{}",
+                        "dimensions": {
+                          "width": "calc((100% - 12px) / 2)",
+                          "minWidth": "0px",
+                          "height": "auto",
+                          "minHeight": "auto",
+                          "maxHeight": "auto",
+                          "maxWidth": "100%"
+                        }
+                      },
+                      "components": [
+                        {
+                          "id": "c53535b3-eb61-5864-b6bf-6e3166a2578f",
+                          "type": "textField",
+                          "version": 6,
+                          "propertyName": "category",
+                          "label": "Category",
+                          "labelAlign": "left",
+                          "desktop": {
+                            "dimensions": {
+                              "width": "100%",
+                              "minWidth": "0px"
+                            },
+                            "border": {
+                              "radiusType": "all",
+                              "borderType": "all",
+                              "border": {
+                                "all": {
+                                  "width": "1px",
+                                  "style": "solid",
+                                  "color": "#d6d6d6"
+                                }
+                              },
+                              "radius": {
+                                "all": 6
+                              }
+                            }
+                          },
+                          "parentId": "aa9dd8ca-e178-52fe-a5b3-27c5c466463e"
+                        }
+                      ],
+                      "parentId": "48e54589-43f3-5e07-a905-390e62564931"
+                    },
+                    {
+                      "id": "a38719dd-c938-5cb5-b798-822f3967457e",
+                      "type": "container",
+                      "version": 7,
+                      "componentName": "gridCol3",
+                      "direction": "vertical",
+                      "display": "flex",
+                      "flexDirection": "column",
+                      "flexWrap": "nowrap",
+                      "gap": 0,
+                      "desktop": {
+                        "display": "flex",
+                        "flexDirection": "column",
+                        "flexWrap": "nowrap",
+                        "justifyContent": "flex-start",
+                        "alignItems": "stretch",
+                        "gap": "0px",
+                        "stylingBox": "{}",
+                        "dimensions": {
+                          "width": "calc((100% - 12px) / 2)",
+                          "minWidth": "0px",
+                          "height": "auto",
+                          "minHeight": "auto",
+                          "maxHeight": "auto",
+                          "maxWidth": "100%"
+                        }
+                      },
+                      "components": [
+                        {
+                          "id": "4f103f38-c2b9-5fab-bc4a-188cec42bbb0",
+                          "type": "textField",
+                          "version": 6,
+                          "propertyName": "purchaseDate",
+                          "label": "Purchase Date",
+                          "labelAlign": "left",
+                          "desktop": {
+                            "dimensions": {
+                              "width": "100%",
+                              "minWidth": "0px"
+                            },
+                            "border": {
+                              "radiusType": "all",
+                              "borderType": "all",
+                              "border": {
+                                "all": {
+                                  "width": "1px",
+                                  "style": "solid",
+                                  "color": "#d6d6d6"
+                                }
+                              },
+                              "radius": {
+                                "all": 6
+                              }
+                            }
+                          },
+                          "parentId": "a38719dd-c938-5cb5-b798-822f3967457e"
+                        }
+                      ],
+                      "parentId": "48e54589-43f3-5e07-a905-390e62564931"
+                    }
+                  ],
+                  "parentId": "662e9d00-d9d0-5ecb-a144-ffcc844db96b"
+                }
+              ],
+              "parentId": "9ca22147-6e00-564d-bbff-0a844cc3ef5d"
+            },
+            {
+              "id": "13df791c-50f4-5276-a2e8-853a9d879627",
+              "type": "container",
+              "version": 7,
+              "componentName": "card5",
+              "direction": "vertical",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": 8,
+              "flexWrap": "nowrap",
+              "stylingBox": "{\"paddingTop\":\"12\",\"paddingRight\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"12\"}",
+              "desktop": {
+                "display": "flex",
+                "flexDirection": "column",
+                "flexWrap": "nowrap",
+                "justifyContent": "flex-start",
+                "alignItems": "stretch",
+                "gap": "8px",
+                "dimensions": {
+                  "width": "33%",
+                  "height": "auto",
+                  "minHeight": "auto",
+                  "maxHeight": "auto",
+                  "minWidth": "0px",
+                  "maxWidth": "100%"
+                },
+                "stylingBox": "{\"paddingTop\":\"12\",\"paddingRight\":\"12\",\"paddingBottom\":\"12\",\"paddingLeft\":\"12\"}",
+                "background": {
+                  "type": "color",
+                  "color": "#ffffff"
+                },
+                "border": {
+                  "radiusType": "all",
+                  "borderType": "all",
+                  "border": {
+                    "all": {
+                      "width": "1px",
+                      "color": "#e5e7eb",
+                      "style": "solid"
+                    }
+                  },
+                  "radius": {
+                    "all": 12
+                  }
+                },
+                "shadow": {
+                  "offsetX": 0,
+                  "offsetY": 1,
+                  "blurRadius": 4,
+                  "spreadRadius": 0,
+                  "color": "rgba(0,0,0,0.08)"
+                }
+              },
+              "components": [
+                {
+                  "id": "17855bc2-b1cb-584d-b275-07a0515cdc7c",
+                  "type": "text",
+                  "version": 5,
+                  "componentName": "cardTitle",
+                  "content": "Placement",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "desktop": {
+                    "font": {
+                      "size": 16,
+                      "weight": "600",
+                      "color": "#0d685a"
+                    }
+                  },
+                  "parentId": "13df791c-50f4-5276-a2e8-853a9d879627"
+                },
+                {
+                  "id": "30e5a532-9532-53b5-954f-466b511e5a16",
+                  "type": "textField",
+                  "version": 6,
+                  "propertyName": "location",
+                  "label": "Location",
+                  "labelAlign": "left",
+                  "desktop": {
+                    "dimensions": {
+                      "width": "100%",
+                      "minWidth": "0px"
+                    },
+                    "border": {
+                      "radiusType": "all",
+                      "borderType": "all",
+                      "border": {
+                        "all": {
+                          "width": "1px",
+                          "style": "solid",
+                          "color": "#d6d6d6"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
+                      }
+                    }
+                  },
+                  "parentId": "13df791c-50f4-5276-a2e8-853a9d879627"
+                },
+                {
+                  "id": "c6442b66-c375-563e-9cee-a2763e2f74bb",
+                  "type": "text",
+                  "version": 5,
+                  "componentName": "placementNote",
+                  "content": "Moves are recorded on the movements tab.",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "desktop": {
+                    "font": {
+                      "size": 14,
+                      "color": "#1f1f1f"
+                    }
+                  },
+                  "parentId": "13df791c-50f4-5276-a2e8-853a9d879627"
+                }
+              ],
+              "parentId": "9ca22147-6e00-564d-bbff-0a844cc3ef5d"
+            }
+          ],
+          "parentId": "04a04723-4c79-534b-b49b-49d69755b392"
+        },
+        {
+          "id": "d5d21fd4-6f22-59ef-8252-1e51f68f3ca1",
+          "type": "tabs",
+          "version": 4,
+          "componentName": "childRecords",
+          "tabType": "line",
+          "defaultActiveKey": "movements",
+          "tabs": [
+            {
+              "id": "8a5945fd-90b2-5b2e-97a7-fa8942bc7045",
+              "key": "movements",
+              "title": "Movements",
+              "components": [
+                {
+                  "id": "f8b612e3-d47a-55fd-86fe-1d00775aa666",
+                  "type": "dataContext",
+                  "version": 8,
+                  "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+                  "sourceType": "Entity",
+                  "dataFetchingMode": "paging",
+                  "defaultPageSize": 10,
+                  "uniqueStateId": "movements",
+                  "componentName": "movements",
+                  "propertyName": "movements",
+                  "sortMode": "standard",
+                  "allowReordering": "no",
+                  "components": [
+                    {
+                      "id": "1dd5aaee-4c34-5d37-b6a9-908a113f391e",
+                      "type": "datatable",
+                      "version": 29,
+                      "componentName": "movementsGrid",
+                      "propertyName": "movementsGrid",
+                      "canEditInline": "no",
+                      "canAddInline": "no",
+                      "canDeleteInline": "no",
+                      "useMultiselect": false,
+                      "items": [
+                        {
+                          "id": "5e3585cd-32f3-5979-9f94-91476abea0ce",
+                          "itemType": "item",
+                          "sortOrder": 0,
+                          "columnType": "data",
+                          "propertyName": "movedOn",
+                          "caption": "Moved On",
+                          "isVisible": true,
+                          "allowSorting": true,
+                          "displayComponent": {
+                            "type": "[default]"
+                          },
+                          "editComponent": {
+                            "type": "[not-editable]"
+                          },
+                          "createComponent": {
+                            "type": "[not-editable]"
+                          },
+                          "parentId": "1dd5aaee-4c34-5d37-b6a9-908a113f391e"
+                        },
+                        {
+                          "id": "2defc0f6-1649-59f8-90ec-97269ad509a8",
+                          "itemType": "item",
+                          "sortOrder": 1,
+                          "columnType": "data",
+                          "propertyName": "fromLocation",
+                          "caption": "From Location",
+                          "isVisible": true,
+                          "allowSorting": true,
+                          "displayComponent": {
+                            "type": "[default]"
+                          },
+                          "editComponent": {
+                            "type": "[not-editable]"
+                          },
+                          "createComponent": {
+                            "type": "[not-editable]"
+                          },
+                          "parentId": "1dd5aaee-4c34-5d37-b6a9-908a113f391e"
+                        },
+                        {
+                          "id": "eb10a35a-75a0-5014-a80d-9a993ed089b4",
+                          "itemType": "item",
+                          "sortOrder": 2,
+                          "columnType": "data",
+                          "propertyName": "toLocation",
+                          "caption": "To Location",
+                          "isVisible": true,
+                          "allowSorting": true,
+                          "displayComponent": {
+                            "type": "[default]"
+                          },
+                          "editComponent": {
+                            "type": "[not-editable]"
+                          },
+                          "createComponent": {
+                            "type": "[not-editable]"
+                          },
+                          "parentId": "1dd5aaee-4c34-5d37-b6a9-908a113f391e"
+                        }
+                      ],
+                      "parentId": "f8b612e3-d47a-55fd-86fe-1d00775aa666"
+                    }
+                  ],
+                  "parentId": "d5d21fd4-6f22-59ef-8252-1e51f68f3ca1"
+                }
+              ]
+            },
+            {
+              "id": "8096cdb2-1f0a-596e-b9a4-917c5d6d32f7",
+              "key": "documents",
+              "title": "Documents",
+              "components": [
+                {
+                  "id": "4cc983d0-e42b-54b4-aff2-0c16dda55155",
+                  "type": "dataContext",
+                  "version": 8,
+                  "entityType": "boxfusion.test.Domain.Domain.Assets.Asset",
+                  "sourceType": "Entity",
+                  "dataFetchingMode": "paging",
+                  "defaultPageSize": 10,
+                  "uniqueStateId": "documents",
+                  "componentName": "documents",
+                  "propertyName": "documents",
+                  "sortMode": "standard",
+                  "allowReordering": "no",
+                  "components": [
+                    {
+                      "id": "b7e3438f-e989-576c-9a19-df5c76377c49",
+                      "type": "datalist",
+                      "version": 11,
+                      "componentName": "documentsList",
+                      "propertyName": "documentsList",
+                      "formSelectionMode": "name",
+                      "formId": {
+                        "name": "gym-asset-document-card",
+                        "module": "boxfusion.test"
+                      },
+                      "orientation": "vertical",
+                      "selectionMode": "none",
+                      "parentId": "4cc983d0-e42b-54b4-aff2-0c16dda55155"
+                    }
+                  ],
+                  "parentId": "d5d21fd4-6f22-59ef-8252-1e51f68f3ca1"
+                }
+              ]
+            }
+          ],
+          "parentId": "04a04723-4c79-534b-b49b-49d69755b392"
+        },
+        {
+          "id": "53c90f5b-a1d4-55e8-a401-73ca31a3d4ef",
+          "type": "buttonGroup",
+          "version": 15,
+          "componentName": "formActions",
+          "propertyName": "formActions",
+          "label": "Form Actions",
+          "hideLabel": true,
+          "isInline": true,
+          "editMode": "editable",
+          "items": [
+            {
+              "id": "9ace1147-6526-5920-bdf7-e5c15c7732c2",
+              "itemType": "item",
+              "itemSubType": "button",
+              "sortOrder": 0,
+              "name": "btnSave",
+              "label": "Save",
+              "buttonType": "primary",
+              "icon": "SaveOutlined",
+              "buttonAction": "submit",
+              "editMode": "inherited",
+              "actionConfiguration": {
+                "_type": "action-config",
+                "actionName": "Submit",
+                "actionOwner": "shesha.form",
+                "handleSuccess": false,
+                "handleFail": false
+              }
+            },
+            {
+              "id": "4af35678-c25b-5d73-801e-6de65078c952",
+              "itemType": "item",
+              "itemSubType": "button",
+              "sortOrder": 1,
+              "name": "btnBack",
+              "label": "Back",
+              "buttonType": "default",
+              "icon": "ArrowLeftOutlined",
+              "buttonAction": "navigate",
+              "editMode": "inherited",
+              "actionConfiguration": {
+                "_type": "action-config",
+                "actionName": "Navigate",
+                "actionOwner": "shesha.common",
+                "actionArguments": {
+                  "navigationType": "url",
+                  "url": "/"
+                }
+              }
+            }
+          ],
+          "parentId": "04a04723-4c79-534b-b49b-49d69755b392"
+        }
+      ],
+      "parentId": "root"
+    }
+  ],
+  "formSettings": {
+    "layout": "vertical",
+    "colon": false,
+    "labelCol": {
+      "span": 24
+    },
+    "wrapperCol": {
+      "span": 24
+    },
+    "modelType": {
+      "name": "Asset",
+      "module": "boxfusion.test"
+    }
+  }
+}

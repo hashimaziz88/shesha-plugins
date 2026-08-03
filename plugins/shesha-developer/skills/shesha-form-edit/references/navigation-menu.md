@@ -131,7 +131,7 @@ Content-Type: application/json
 | Layer | Behavior |
 |---|---|
 | Browser | Menu is fetched at app mount — a normal page reload shows the new item. No dev-server restart. |
-| IndexedDB form cache | Caches **forms**, not the menu setting. If the *target form* renders stale after navigation, clear IndexedDB from a static page (`/favicon.ico` first — in-app `deleteDatabase` blocks). |
+| IndexedDB form cache | Caches **forms**, not the menu setting. If the *target form* renders stale after navigation, clear the form cache [R-056] ([verification.md](verification.md) §2). |
 | Backend | ABP setting cache is invalidated by UpdateValue (unverified — confirm against the target app; if a stale value persists, restart the backend). |
 
 Before adding the item, verify the target actually loads at `/dynamic/<Module>/<form-name>` — a menu entry to a broken form just relocates the failure. Table views are safe to deep-link; `*-details` forms need an `id` and have page-context caveats (see [verification.md](verification.md) / detail-page-pattern.md).
