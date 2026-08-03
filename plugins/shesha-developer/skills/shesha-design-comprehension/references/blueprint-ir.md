@@ -74,6 +74,20 @@ Indentation = nesting (DOM depth). Each line: `<node-name>  <kind> [attributes]`
 - A **fixed-width** cell (rail, icon column, action column) is recorded as its native px and builds to a `container` with `width:"<n>px"` (+ `minWidth`/`maxWidth`). The filling sibling builds to `width:"calc(100% - <fixed+gap>px)"`.
 - A sub-pixel/handle cell (e.g. a 16px drag handle) keeps its small fixed px (`16px`) — never collapse it to 0; the builder needs a real fixed cell.
 
+## Presentation IR — how a node LOOKS
+
+Placement is only half a design. Every layout node MAY carry an optional `presentation` block (schema `$defs.presentation`, schema version ≥ 1.1.0). It is how **measured styling is recorded**: quantized to the design system, never as prose. "The header is a very plain white strip" is not a blueprint fact; `{"recipe": "page-header-band", "surface": "band"}` is.
+
+| field | values | what the compiler does |
+|---|---|---|
+| `recipe` | a block name from `shesha-form-edit/assets/blocks/` (`page-header-band`, `meta-strip`, `status-pill`, `card-with-header-strip`, `completeness-bar`, `flex-split-main-rail`, `rail-panel`, `rail-label-value-row`, `requirement-datalist-row`, `dashed-add-button`) | instantiates that block **at this node**, through the same resolver the per-archetype chrome uses. An explicit recipe is **authoritative** for its node: the archetype chrome stands down rather than emitting the same recipe twice (declare `page-header-band` on the header region and you get exactly one band). The node's children become the block's content facts, not compiled siblings. |
+| `role` | `title` · `status` · `metric` · `meta` · `body` | the semantic carrier: `title` → the heading treatment · `status` → a `refListStatus` **chip** (never prose) · `metric` → a native `statistic` tile · `meta` → a `KeyInformationBar` strip · `body` → no-op |
+| `tone` | `accent` · `neutral` · `success` · `warning` · `danger` | a colour **role**, resolved through the ACTIVE theme — `accent` → brand primary/tint, `neutral` → surfaces + body ink, the three status tones → the theme's status palette. The same blueprint therefore resolves a different accent under `shesha` (`#003BB2`) than under `requirements-studio` (`#0d685a`). A tone the theme does not define falls back to neutral ink — add the token to the theme, never a hex here. |
+| `surface` | `card` · `band` · `plain` | `card` → the card surface (bg + hairline + radius) · `band` → the band surface (`bandBg` + bottom hairline) · `plain` → no surface |
+| `overrides` | `{"<prop>": "<token path>"}` | the one-off escape hatch. `<prop>` is a dotted path under the emitted component's `desktop` block (plus the `gap` / `padding` spacing aliases); the value is resolved against the active theme's token file. |
+
+**Tokens only.** An `overrides` value must match `^(spacing|radius|palette|type|shadow)\.` — a raw hex (`#0d685a`) or a size literal (`12px`, `12`) is a **validation error**, because a literal cannot follow the theme [R-042]. A token path the active theme does not define is a **compile error** naming the path: an undefined token is a design defect, not something to fall back from. Every field inside `presentation` is optional, and a node without the block compiles exactly as it always did.
+
 ## Worked example — `view-detail` (measured, Tier A/B, 1440×900)
 
 Grounded in the live probe of the design's *Facility Referral Form* view-detail screen: body split measured `widths=[962,332]` → `row=[fill, 332px]` (left fills `calc(100% - 348px)`, rail fixed at **332px**, gap 24); KIB measured 6 equal cells; header content split `[fill, 332px]`-style; requirement rows `[handle 16px / content fill]`.
@@ -123,6 +137,23 @@ region: body                   row  row=[fill, 332px] native=[1fr,332px] gap=24 
       └─ panel: Required End-points  card + count-badge + "+"  → datalist ← ViewDefinition.requiredEndpoints
 ```
 
+## Presentation  (the measured look, quantized — machine-twin excerpt)
+```blueprint-json
+{ "layout": { "kind": "region", "name": "page", "children": [
+  { "kind": "region", "name": "header-band",
+    "presentation": { "recipe": "page-header-band", "surface": "band" },
+    "children": [ { "kind": "heading", "level": 1, "content": "Facility Referral Form" },
+                  { "kind": "text", "content": "Project  /  Module  /  Views" } ] },
+  { "kind": "region", "name": "kib", "presentation": { "role": "meta" }, "children": [ "…6 field cells…" ] },
+  { "kind": "text", "name": "completeness", "title": "Completeness", "content": "72%",
+    "presentation": { "role": "metric", "tone": "accent",
+                      "overrides": { "font.size": "type.scale.titleLg" } } },
+  { "kind": "chip", "name": "viewStatus", "property": "status",
+    "presentation": { "role": "status" } }
+] } }
+```
+Measured → quantized: the header strip's white fill + bottom hairline became `surface: "band"` on the `page-header-band` recipe (not "plain white strip"); the 24px cobalt completeness figure became `role: "metric"` + `tone: "accent"` plus ONE token-path override (`type.scale.titleLg`, a real key in `shesha-design-system/assets/themes/shesha.tokens.json`); the pill became `role: "status"`. No hex, no px, anywhere.
+
 ## Bindings
 ```bindings
 label              | entity property        | component              | datatype
@@ -160,6 +191,7 @@ This one document is simultaneously: the thing a reviewer signs off (prose + tre
 - [ ] `Archetype` is one of the 11 values in the schema enum, with a variant note if needed.
 - [ ] Every `row` line records native cell widths (`row=[…]`, `fill`/`1fr` + fixed px) and a `gap`; no Shesha `columns` component, no `/24` normalisation. Each cell maps to a `container` sized via `desktop.dimensions.width` (fill → `calc(100% - <fixed+gap>px)`, fixed → `<n>px`); the row carries `display:"flex"`.
 - [ ] Every bound field has `← Entity.property`; every region names its design-system `recipe`.
+- [ ] Measured styling is recorded as `presentation` (`recipe` / `role` / `tone` / `surface`, plus token-path `overrides`) — never as prose, never as a hex or a px literal.
 - [ ] `assertions` cover: split-cell membership, row grouping, nesting depth, tab assignment — the things that drift. No pixel asserts.
 - [ ] Fidelity tier + confidence + viewport stamped at the top.
 - [ ] A ` ```blueprint-json ` block is present, validates against `schemas/blueprint.schema.json`, and agrees with the Markdown blocks (regions, widths, bindings, assertion ids).

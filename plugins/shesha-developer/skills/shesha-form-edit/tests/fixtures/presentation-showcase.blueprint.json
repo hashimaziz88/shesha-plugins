@@ -1,0 +1,60 @@
+{
+  "screen": "Asset presentation showcase",
+  "subtitle": "Facilities  /  Assets  /  AHU-04",
+  "entity": {
+    "fullClassName": "boxfusion.test.Domain.Domain.Assets.Asset",
+    "modelType": { "name": "Asset", "module": "boxfusion.test" }
+  },
+  "form": { "module": "boxfusion.test", "name": "gym-presentation-showcase", "label": "Asset" },
+  "archetype": "record-detail",
+  "theme": "shesha",
+  "layout": {
+    "kind": "stack", "name": "page", "gap": "lg",
+    "children": [
+      {
+        "kind": "region", "name": "headerBand",
+        "presentation": { "recipe": "page-header-band" },
+        "children": [
+          { "kind": "heading", "level": 1, "content": "Air Handling Unit 04" },
+          { "kind": "text", "content": "Facilities  /  Assets  /  AHU-04" }
+        ]
+      },
+      {
+        "kind": "row", "name": "metricsRow", "gap": "md",
+        "presentation": { "surface": "card" },
+        "children": [
+          {
+            "kind": "text", "name": "uptimeMetric", "title": "Uptime", "content": "98.6%", "width": "50%",
+            "presentation": { "role": "metric", "tone": "accent", "overrides": { "font.size": "type.scale.titleLg" } }
+          },
+          {
+            "kind": "chip", "name": "assetStatusChip", "property": "status",
+            "presentation": { "role": "status" }
+          }
+        ]
+      },
+      {
+        "kind": "card", "name": "identity", "title": "Identity", "gap": "md",
+        "children": [
+          { "kind": "field", "property": "name" },
+          { "kind": "field", "property": "serialNumber" }
+        ]
+      }
+    ]
+  },
+  "bindings": [
+    { "label": "Asset Name", "property": "name" },
+    { "label": "Serial Number", "property": "serialNumber" },
+    {
+      "property": "status",
+      "datatype": "reference-list-item",
+      "referenceList": { "module": "boxfusion.test", "name": "AssetStatus" }
+    }
+  ],
+  "assertions": [
+    { "id": "A1", "statement": "the page opens with EXACTLY ONE page-header band — the one the blueprint declared (recipe: page-header-band); the archetype chrome adds no second band" },
+    { "id": "A2", "statement": "the uptime metric renders as a statistic tile whose value ink is the ACTIVE theme's brand primary (tone: accent), and whose value type step is the theme's type.scale.titleLg" },
+    { "id": "A3", "statement": "the asset status renders as a refListStatus chip (role: status), never as prose" },
+    { "id": "A4", "statement": "the metrics row carries a card surface (background + hairline + radius), all resolved from the active theme" }
+  ]
+}

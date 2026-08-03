@@ -1,6 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "shesha-blueprint.schema.json",
+  "version": "1.1.0",
+  "$comment": "Schema version (semver, this document — NOT a blueprint field and never emitted into compiled markup). 1.0.0 = the structural IR (kinds, widths, bindings, assertions). 1.1.0 = adds the optional per-node `presentation` block (recipe/role/tone/surface/overrides) — the presentation IR.",
   "title": "Shesha blueprint IR (machine twin)",
   "description": "The JSON twin of a screen blueprint. Comprehension emits it alongside the Markdown blueprint (fenced ```blueprint-json block); form-edit's compile-blueprint.js accepts ONLY this as build input — no spec, no build (L2).",
   "type": "object",
@@ -78,7 +80,52 @@
         "component": { "type": "string", "description": "kind=field: explicit component type override (else by-datatype)" },
         "content": { "type": "string", "description": "kind=text/heading: literal content" },
         "itemForm": { "type": "string", "description": "kind=datalist: item card form name" },
+        "presentation": { "$ref": "#/$defs/presentation" },
         "children": { "type": "array", "items": { "$ref": "#/$defs/node" } }
+      }
+    },
+    "presentation": {
+      "description": "How this node LOOKS, quantized to the design system — the presentation IR. Every field is optional; a node with no `presentation` compiles exactly as before. Measured styling is never recorded as prose (\"very plain\"): it is quantized to the nearest recipe/role/tone/surface and, when nothing else fits, to a token path in `overrides`. The compiler resolves all of it against the ACTIVE theme (--theme), which stays the only styling input [R-042].",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recipe": {
+          "$comment": "The enum IS the file list of shesha-form-edit/assets/blocks/*.block.json — the block library is the source of truth; add a block, add its name here.",
+          "description": "a block from the block library, instantiated at this node's position (authoritative for this node — archetype chrome will not emit the same recipe twice)",
+          "enum": [
+            "card-with-header-strip",
+            "completeness-bar",
+            "dashed-add-button",
+            "flex-split-main-rail",
+            "meta-strip",
+            "page-header-band",
+            "rail-label-value-row",
+            "rail-panel",
+            "requirement-datalist-row",
+            "status-pill"
+          ]
+        },
+        "role": {
+          "description": "what the node IS semantically: title → heading treatment · status → refListStatus chip · metric → statistic tile · meta → KeyInformationBar meta strip · body → no-op (plain content)",
+          "enum": ["title", "status", "metric", "meta", "body"]
+        },
+        "tone": {
+          "description": "the colour ROLE, never a colour: accent → brand primary/tint · neutral → surfaces + body ink · success|warning|danger → the theme's status palette. A tone the active theme does not define falls back to neutral ink.",
+          "enum": ["accent", "neutral", "success", "warning", "danger"]
+        },
+        "surface": {
+          "description": "card → card surface (bg + hairline + radius) · band → band surface (bandBg + bottom hairline) · plain → no surface",
+          "enum": ["card", "band", "plain"]
+        },
+        "overrides": {
+          "description": "escape hatch for one-off appearance: dotted path under the emitted component's `desktop` block (plus the `gap`/`padding` aliases) → a TOKEN PATH. Token paths ONLY — a raw hex or px value is a validation error, because a literal cannot follow the theme.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^(spacing|radius|palette|type|shadow)\\.",
+            "description": "a path into the active theme token file, e.g. \"type.scale.titleLg\", \"palette.brand.tint\", \"spacing.4\", \"radius.lg\", \"shadow.card\""
+          }
+        }
       }
     }
   }

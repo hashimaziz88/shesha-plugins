@@ -254,8 +254,22 @@ function fieldComponent(node, idKey) {
 }
 
 let seq = 0;
+/**
+ * One node → one component. `presentation` (the presentation IR) is a DECORATOR over the
+ * structural compile: a recipe or a role may replace what the node's `kind` would have
+ * emitted, then tone / surface / overrides colour whatever came out. A node with no
+ * `presentation` block takes exactly the road it always took.
+ */
 function compileNode(node, idPrefix) {
   const idKey = `${idPrefix}/${node.kind}:${node.name ?? node.property ?? seq++}`;
+  const pres = node.presentation;
+  if (!pres) return compileKind(node, idKey);
+  const presented = presentedNode(node, idKey, pres);   // recipe > role > (null → kind)
+  const comp = presented ?? compileKind(node, idKey);
+  return applyPresentation(comp, node, pres, idKey);
+}
+
+function compileKind(node, idKey) {
   switch (node.kind) {
     case 'field':
       return fieldComponent(node, idKey);
@@ -456,14 +470,7 @@ function buildContainer(node, idKey) {
 
   // card: on-brand surface from tokens (border-forward per the Shesha philosophy —
   // hairline border, whisper shadow) so it's designed in the first output [R-030]
-  if (node.kind === 'card') {
-    desktop.background = { type: 'color', color: tk('cardBg', '#ffffff') };
-    desktop.border = { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', color: tk('hairline', '#e5e7eb'), style: 'solid' } }, radius: { all: tk('cardRadius', 8) } };
-    desktop.shadow = { offsetX: 0, offsetY: 1, blurRadius: 4, spreadRadius: 0, color: 'rgba(0,0,0,0.08)' };
-    // '4' is a spacing TOKEN key: theme spacing.4 = 16px in both shipped themes
-    // (neutral fallback 16 under --no-style) — not 4px.
-    if (node.padding === undefined) desktop.stylingBox = paddingBox('4');
-  }
+  if (node.kind === 'card') applyCardSurface(desktop, node);
 
   const container = {
     id: gymUuid('bp', bp.form.name, idKey),
@@ -480,6 +487,20 @@ function buildContainer(node, idKey) {
   };
   for (const c of container.components) c.parentId = container.id;
   return container;
+}
+
+/**
+ * The card SURFACE — one definition, two callers: `kind: "card"` and
+ * `presentation.surface: "card"` on any container. Border-forward per the Shesha design
+ * philosophy (hairline border + whisper shadow), all of it from theme tokens [R-030].
+ */
+function applyCardSurface(desktop, node) {
+  desktop.background = { type: 'color', color: tk('cardBg', '#ffffff') };
+  desktop.border = { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', color: tk('hairline', '#e5e7eb'), style: 'solid' } }, radius: { all: tk('cardRadius', 8) } };
+  desktop.shadow = { offsetX: 0, offsetY: 1, blurRadius: 4, spreadRadius: 0, color: 'rgba(0,0,0,0.08)' };
+  // '4' is a spacing TOKEN key: theme spacing.4 = 16px in both shipped themes
+  // (neutral fallback 16 under --no-style) — not 4px.
+  if (node.padding === undefined) desktop.stylingBox = paddingBox('4');
 }
 
 // ---- action rows -------------------------------------------------------------
@@ -856,14 +877,21 @@ function harvestChrome(layout) {
   return out;
 }
 
-/** the page-header band [block: page-header-band] */
-function chromeBand(harvest, status) {
+/**
+ * The page-header band [block: page-header-band].
+ * ONE band builder, two callers: the per-archetype chrome below, and a blueprint node
+ * that declares `presentation.recipe: "page-header-band"` (which passes its own idScope,
+ * so the band's ids follow the node's position). The archetype chrome stands down when a
+ * node declares the recipe — see `bandDeclared` at the assemble step; that is what makes
+ * a double band impossible rather than merely unlikely.
+ */
+function chromeBand(harvest, status, idScope = `${bp.form.name}/chrome/band`) {
   const prune = new Set();
   if (!harvest.subtitle) prune.add('breadcrumbTrail');
   if (!status) prune.add('statusChip');
   if (!harvest.actions) prune.add('headerActions');
   const band = instantiateBlock('page-header-band', {
-    idScope: `${bp.form.name}/chrome/band`,
+    idScope,
     prune,
     // `facts` fills the inline "$binding:x" placeholders. The block's `$bindings` array
     // ALSO declares dotted paths (subtree.components.0.content._code, …) for values the
@@ -924,8 +952,8 @@ function chromeBand(harvest, status) {
   }
   if (actions && harvest.actions) {
     // reuse the compiler's own action machinery so band buttons obey [R-007]/[R-008]
-    const group = floorButtonGroup(`${bp.form.name}/chrome/band`, harvest.actions);
-    actions.items = group.items.map((it) => ({ ...it, id: gymUuid('bp', bp.form.name, `${bp.form.name}/chrome/band/action/${it.name}`) }));
+    const group = floorButtonGroup(idScope, harvest.actions);
+    actions.items = group.items.map((it) => ({ ...it, id: gymUuid('bp', bp.form.name, `${idScope}/action/${it.name}`) }));
   }
   return band;
 }
@@ -1033,6 +1061,331 @@ function chromeStatRow(layout) {
   return row;
 }
 
+// ---- presentation IR ---------------------------------------------------------
+// A layout node may carry a `presentation` block (blueprint schema $defs.presentation):
+//   recipe    a block from assets/blocks/, instantiated AT THIS NODE through the same
+//             instantiateBlock resolver the archetype chrome uses — one resolver, not two
+//   role      what the node IS: title → heading · status → refListStatus chip ·
+//             metric → statistic tile · meta → KeyInformationBar strip · body → no-op
+//   tone      a colour ROLE resolved through the ACTIVE theme, never a colour
+//   surface   card | band | plain
+//   overrides a dotted path under the emitted `desktop` block → a TOKEN PATH
+// The theme (--theme) stays the only styling input [R-042]: nothing here reads a literal
+// colour or size, and an unknown token path FAILS the compile rather than degrading.
+
+/**
+ * tone → token paths. Fallbacks are deliberately NEUTRAL (grey ink / grey surfaces), so
+ * `--no-style` and an unknown theme emit no brand or semantic colour at all [R-042]. A
+ * theme that does not define a semantic colour (requirements-studio ships no
+ * palette.semantic.success) therefore resolves that tone to neutral ink — add the token to
+ * the theme rather than hardcoding the colour here.
+ */
+const TONE_TOKENS = {
+  accent: { fg: ['palette.brand.primary', '#181818'], bg: ['palette.brand.tint', '#f0f2f5'], border: ['palette.brand.primary', '#d0d5e0'] },
+  neutral: { fg: ['palette.ink.primary', '#181818'], bg: ['palette.surfaces.surface', '#ffffff'], border: ['palette.lines.border', '#e5e7eb'] },
+  success: { fg: ['palette.semantic.success', '#181818'], bg: ['palette.semantic.successBg', '#f0f2f5'], border: ['palette.semantic.successBorder', '#d0d5e0'] },
+  warning: { fg: ['palette.semantic.warning', '#181818'], bg: ['palette.semantic.warningBg', '#f0f2f5'], border: ['palette.semantic.warningBorder', '#d0d5e0'] },
+  danger: { fg: ['palette.semantic.danger', '#181818'], bg: ['palette.semantic.dangerBg', '#f0f2f5'], border: ['palette.semantic.dangerBorder', '#d0d5e0'] },
+};
+const toneColours = (tone) => {
+  const t = TONE_TOKENS[tone];
+  if (!t) return null;
+  return { fg: tk(t.fg[0], t.fg[1]), bg: tk(t.bg[0], t.bg[1]), border: tk(t.border[0], t.border[1]) };
+};
+// The types whose surface/ink channels the measured matrix proves render. refListStatus is
+// absent on purpose: EVERY appearance channel on it is a measured no-op [R-053] — its
+// colour comes from the reference-list items [R-036] — so a tone on a chip is a no-op here
+// too, by design rather than by omission.
+const TONEABLE = new Set(['text', 'statistic', 'container', 'card', 'datatable', 'KeyInformationBar']);
+const SURFACEABLE = new Set(['container', 'card', 'statistic', 'KeyInformationBar']);
+
+/** every declared recipe, in compile order — written to the <out>.presentation.json sidecar */
+const presentationDeclared = [];
+
+/** a reference-list identity for a property: live metadata first, else the blueprint binding [R-015] */
+function reflistIdentity(prop) {
+  if (!prop) return null;
+  const live = propsMeta?.get(String(prop).toLowerCase());
+  if (live?.referenceListName) {
+    return { property: prop, module: live.referenceListModule ?? null, name: live.referenceListName.split('.').pop() };
+  }
+  const b = bindingIndex.get(prop);
+  if (b?.referenceList?.name) return { property: prop, module: b.referenceList.module ?? null, name: b.referenceList.name.split('.').pop() };
+  return null;
+}
+
+/** the band facts carried by a NODE (rather than by the whole blueprint, as harvestChrome does) */
+function harvestFromNode(node) {
+  const kids = Array.isArray(node.children) ? node.children : [];
+  const heading = kids.find((k) => k.kind === 'heading');
+  const text = kids.find((k) => k.kind === 'text' && (k.content ?? '').trim());
+  const actions = kids.find((k) => k.kind === 'actions' || k.kind === 'buttonGroup');
+  return {
+    title: heading?.content ?? heading?.title ?? node.title ?? bp.screen ?? titleCase(bp.form.name),
+    subtitle: text?.content ?? bp.subtitle ?? null,
+    actions: actions ?? null,
+  };
+}
+
+/** the facts a block's "$binding:x" placeholders can be filled from, for a node-level recipe */
+function recipeFacts(node) {
+  const st = reflistIdentity(node.property) ?? statusFact();
+  return {
+    statusPropertyName: node.property ?? st?.property,
+    referenceListModule: st?.module ?? null,
+    referenceListName: st?.name,
+    rowProperty: node.property,
+    rowLabel: node.title ?? (node.property ? titleCase(node.property) : undefined),
+  };
+}
+
+/** instantiate the declared recipe at this node */
+function recipeNode(node, idKey, recipe) {
+  // page-header-band goes through the band builder, not raw instantiateBlock: the band
+  // needs its title/subtitle/chip/actions filled, and that filling already exists.
+  if (recipe === 'page-header-band') return chromeBand(harvestFromNode(node), statusFact(), `${idKey}/band`);
+  return instantiateBlock(recipe, { idScope: idKey, facts: recipeFacts(node) });
+}
+
+/** role: status → a refListStatus CHIP, never prose */
+function statusChipNode(node, idKey) {
+  const prop = node.property ?? statusFact()?.property;
+  if (!prop) { console.error('WARN: presentation.role "status" on a node with no property — skipped'); return null; }
+  const id = reflistIdentity(prop);
+  if (id?.name) {
+    const pill = instantiateBlock('status-pill', {
+      idScope: idKey,
+      facts: { statusPropertyName: prop, referenceListModule: id.module ?? null, referenceListName: id.name },
+    });
+    // the block names its root "statusChip"; a page can hold more than one chip (the band
+    // already carries one), so the blueprint's node name wins where it gave one
+    if (pill) { if (node.name) pill.componentName = node.name; return pill; }
+  }
+  // No declared identity (--no-live, nothing on the binding) → still a chip. resolve-bindings
+  // fills the identity from metadata [R-015]; an unidentified reference list renders EMPTY,
+  // which is a binding gap, not a reason to fall back to text.
+  if (!id?.name) console.error(`WARN: no reference-list identity for "${prop}" — the chip ships unidentified; run resolve-bindings [R-015]`);
+  return {
+    id: gymUuid('bp', bp.form.name, `${idKey}/chip`),
+    type: 'refListStatus', version: ver('refListStatus'),
+    componentName: node.name ?? `${prop}Chip`, propertyName: prop,
+    label: titleCase(prop), hideLabel: true, showIcon: false,
+    ...(id?.name ? { referenceListId: { module: id.module ?? null, name: id.name } } : {}),
+  };
+}
+
+/** role: metric → a native `statistic` tile (same carrier as the dashboard stat row) */
+function metricTile(node, idKey, pres) {
+  const name = node.name ?? `metric${seq}`;
+  const tone = toneColours(pres.tone) ?? { fg: tk('statTileValue', '#181818') };
+  return {
+    id: gymUuid('bp', bp.form.name, `${idKey}/metric`),
+    type: 'statistic', version: ver('statistic'),
+    componentName: name, propertyName: name,
+    hideLabel: true, hidden: false,
+    title: String(node.title ?? titleCase(name)),
+    // the compiler never invents a number: an unmeasured metric is the em-dash default
+    value: String(node.content ?? '—'),
+    titleFont: { size: tk('type.scale.micro', 12), weight: String(tk('type.weights.semibold', 600)), color: tk('bandSubtext', '#6b7280'), align: 'left' },
+    valueFont: { size: tk('type.scale.title', 24), weight: String(tk('type.weights.semibold', 600)), color: tone.fg, align: 'left' },
+    desktop: {
+      background: { type: 'color', color: tk('statTileBg', '#ffffff') },
+      border: { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', style: 'solid', color: tk('hairline', '#e5e7eb') } }, radius: { all: tk('cardRadius', 8) } },
+      dimensions: { width: node.width ?? '100%', height: 'auto', minWidth: '0px', maxWidth: '100%' },
+      stylingBox: paddingBox('4'),
+    },
+  };
+}
+
+/** role: meta → the native KeyInformationBar strip, one cell per bound child */
+function metaBar(node, idKey) {
+  const cells = (node.children ?? []).filter((c) => c.property);
+  if (cells.length < 2) { console.error('WARN: presentation.role "meta" needs 2+ bound children — skipped'); return null; }
+  const kib = {
+    id: gymUuid('bp', bp.form.name, `${idKey}/meta`),
+    type: 'KeyInformationBar', version: ver('KeyInformationBar'),
+    componentName: node.name ?? 'metaStrip', propertyName: node.name ?? 'metaStrip',
+    label: 'Key information', hideLabel: true, hidden: false,
+    orientation: 'horizontal', alignItems: 'flex-start',
+    gap: themePx('8', 32), dividerThickness: '1px', dividerColor: tk('divider', '#f0f0f0'), dividerHeight: 60,
+    desktop: {
+      background: { type: 'color', color: tk('cardBg', '#ffffff') },
+      dimensions: { width: '100%', height: 'auto', minWidth: '0px', maxWidth: '100%' },
+    },
+    columns: cells.slice(0, 6).map((c, i) => {
+      const label = c.title ?? bindingIndex.get(c.property)?.label ?? titleCase(c.property);
+      const mk = (kind, extra) => ({
+        id: gymUuid('bp', bp.form.name, `${idKey}/meta/${c.property}/${kind}`),
+        type: 'text', version: ver('text'),
+        componentName: `meta${kind}_${i + 1}`, propertyName: `meta${kind}_${i + 1}`,
+        hideLabel: true, hidden: false, textType: 'span', contentDisplay: 'content',
+        dataType: 'string', contentType: 'custom', ...extra,
+      });
+      return {
+        id: gymUuid('bp', bp.form.name, `${idKey}/meta/${c.property}`),
+        width: 220, textAlign: 'left', flexDirection: 'column', padding: '0px',
+        components: [
+          mk('Label', {
+            content: String(label).toUpperCase(),
+            desktop: { font: { size: tk('type.scale.micro', 12), weight: String(tk('type.weights.semibold', 600)), color: tk('bandSubtext', '#6b7280'), align: 'left' } },
+          }),
+          mk('Value', {
+            content: `{{data.${c.property}}}`,
+            desktop: { font: { size: tk('type.scale.body', 14), weight: String(tk('type.weights.regular', 400)), color: tk('bodyText', '#181818'), align: 'left' } },
+          }),
+        ],
+      };
+    }),
+  };
+  for (const col of kib.columns) for (const c of col.components) c.parentId = kib.id;
+  return kib;
+}
+
+/**
+ * recipe > role > (null → the node's own `kind`). A recipe is AUTHORITATIVE for its node:
+ * whatever the kind would have emitted, the block replaces it, and the node's children are
+ * the block's content facts rather than compiled siblings.
+ */
+function presentedNode(node, idKey, pres) {
+  if (pres.recipe) {
+    const built = recipeNode(node, idKey, pres.recipe);
+    presentationDeclared.push({
+      recipe: pres.recipe,
+      node: node.name ?? node.property ?? node.kind,
+      componentName: built?.componentName ?? null,
+      type: built?.type ?? null,
+      role: pres.role ?? null, tone: pres.tone ?? null, surface: pres.surface ?? null,
+      landed: Boolean(built),
+    });
+    if (built) return built;
+    // Declared and NOT landed is recorded, not swallowed: validate-styledness reads the
+    // sidecar and fails the form, so a recipe that silently vanished cannot ship.
+    console.error(`WARN: recipe "${pres.recipe}" could not be instantiated at ${node.name ?? node.kind} — falling back to the node's own kind`);
+  }
+  switch (pres.role) {
+    case 'status': return statusChipNode(node, idKey);
+    case 'metric': return metricTile(node, idKey, pres);
+    case 'meta': return metaBar(node, idKey);
+    // a title is the existing heading path — level 1 unless the node says otherwise
+    case 'title': return compileKind({ ...node, kind: 'heading', level: node.level ?? 1 }, idKey);
+    default: return null;   // body | undefined → the node's own kind
+  }
+}
+
+/** set a dotted path on an object, creating plain objects on the way down */
+function setPath(obj, dotted, value) {
+  const parts = dotted.split('.');
+  let cur = obj;
+  for (const k of parts.slice(0, -1)) {
+    if (!isPlain(cur[k])) cur[k] = {};
+    cur = cur[k];
+  }
+  cur[parts[parts.length - 1]] = value;
+}
+
+function applyTone(comp, tone) {
+  const t = toneColours(tone);
+  if (!t || !TONEABLE.has(comp.type)) return;
+  if (comp.type === 'statistic') { comp.valueFont = { ...(comp.valueFont ?? {}), color: t.fg }; return; }
+  const dk = comp.desktop = comp.desktop ?? {};
+  if (comp.type === 'text') {
+    dk.font = { ...(dk.font ?? {}), color: t.fg };
+    comp.contentType = 'custom';   // without it the ink never reaches the DOM [R-052]
+    return;
+  }
+  dk.background = { type: 'color', color: t.bg };
+  const radius = dk.border?.radius ?? { all: tk('cardRadius', 8) };
+  dk.border = { radiusType: 'all', borderType: 'all', border: { all: { width: '1px', style: 'solid', color: t.border } }, radius };
+}
+
+function applySurface(comp, node, surface) {
+  if (!surface || !SURFACEABLE.has(comp.type)) return;
+  const dk = comp.desktop = comp.desktop ?? {};
+  if (surface === 'card') { applyCardSurface(dk, node); return; }
+  if (surface === 'band') {
+    dk.background = { type: 'color', color: tk('bandBg', '#ffffff') };
+    dk.border = { radiusType: 'all', borderType: 'custom', border: { bottom: { width: '1px', style: 'solid', color: tk('bandBorder', '#e5e7eb') } }, radius: { all: 0 } };
+    if (node.padding === undefined) {
+      dk.stylingBox = JSON.stringify({
+        paddingTop: String(themePx('3', 12)), paddingBottom: String(themePx('3', 12)),
+        paddingLeft: String(themePx('4', 16)), paddingRight: String(themePx('4', 16)),
+      });
+      comp.stylingBox = dk.stylingBox;
+    }
+    return;
+  }
+  // plain: no surface at all
+  delete dk.background; delete dk.border; delete dk.shadow;
+}
+
+/**
+ * overrides: `"<dotted path under desktop>": "<token path>"`, plus the two structural
+ * aliases `gap` and `padding` (spacing tokens). The value is resolved against the ACTIVE
+ * theme token file; an unknown path is a COMPILE ERROR naming the path — a token that does
+ * not exist is a design defect, not something to fall back from.
+ */
+function applyOverrides(comp, node, overrides, idKey) {
+  for (const [prop, tokenPath] of Object.entries(overrides ?? {})) {
+    if (!TOK) {
+      console.error(`NOTE: --no-style / unknown theme — override ${prop} → ${tokenPath} not resolved (neutral output) [R-042]`);
+      continue;
+    }
+    const value = tkRaw(tokenPath);
+    if (value === undefined || value === null || isPlain(value)) {
+      console.error(`OVERRIDE ERROR — unknown token path "${tokenPath}" (presentation.overrides.${prop} on ${node.name ?? node.kind}) in theme "${themeName}", nothing written:`);
+      console.error(`  FAIL the active theme file defines no ${tokenPath}. Token paths only [R-042]: spacing.* · radius.* · palette.* · type.* · shadow.*`);
+      process.exit(2);
+    }
+    if (prop === 'gap') {
+      const px = Number(value);
+      const dk = comp.desktop = comp.desktop ?? {};
+      dk.gap = `${px}px`;
+      if (comp.type === 'container') comp.gap = px;
+      continue;
+    }
+    if (prop === 'padding') {
+      const box = JSON.stringify({ paddingTop: String(value), paddingRight: String(value), paddingBottom: String(value), paddingLeft: String(value) });
+      const dk = comp.desktop = comp.desktop ?? {};
+      dk.stylingBox = box;
+      if (comp.type === 'container') comp.stylingBox = box;
+      continue;
+    }
+    // `statistic` carries its type on titleFont/valueFont, not on a desktop.font block
+    if (comp.type === 'statistic' && prop.startsWith('font.')) {
+      const key = prop.slice('font.'.length);
+      comp.valueFont = { ...(comp.valueFont ?? {}), [key]: value };
+      continue;
+    }
+    // an appearance channel the matrix records as a no-op is not styling — refuse to author it
+    if (noopChannels(comp.type)?.has(`desktop.${prop}`)) {
+      console.error(`WARN: override ${prop} on ${comp.type} is a measured no-op channel [R-053] — skipped`);
+      continue;
+    }
+    setPath(comp.desktop = comp.desktop ?? {}, prop, value);
+    if (comp.type === 'text' && prop.startsWith('font.color')) comp.contentType = 'custom';
+  }
+  void idKey;
+}
+
+function applyPresentation(comp, node, pres, idKey) {
+  if (!comp || typeof comp !== 'object') return comp;
+  applyTone(comp, pres.tone);
+  applySurface(comp, node, pres.surface);
+  applyOverrides(comp, node, pres.overrides, idKey);
+  return comp;
+}
+
+/** every recipe the blueprint DECLARES, read off the layout before anything compiles */
+const declaredRecipes = (() => {
+  const out = new Set();
+  (function walk(n) {
+    if (!isPlain(n)) return;
+    if (n.presentation?.recipe) out.add(n.presentation.recipe);
+    for (const c of n.children ?? []) walk(c);
+  })(bp.layout);
+  return out;
+})();
+
 // ---- page chrome -------------------------------------------------------------
 // validate-styledness.js requires page ground (a root background / sha-page /
 // hideHeading) in the first root components. Before, only kind:"card" roots got a
@@ -1071,19 +1424,33 @@ function stampPageChrome(node) {
 // Chrome is harvested from the blueprint BEFORE the content compiles: harvestChrome
 // mutates a shallow clone of layout.children (a leading h1 and a top-level action row
 // move INTO the band instead of being duplicated below it).
-const layout = chromeEnabled ? { ...bp.layout, children: [...(bp.layout.children ?? [])] } : bp.layout;
-const harvest = chromeEnabled ? harvestChrome(layout) : null;
+// An explicit `presentation.recipe: "page-header-band"` on a node is AUTHORITATIVE for the
+// band: the archetype chrome stands down (no second band), and the harvest does not run —
+// the declaring node's own children are the band's title/subtitle/actions.
+const bandDeclared = declaredRecipes.has('page-header-band');
+const harvestable = chromeEnabled && !bandDeclared;
+const layout = harvestable ? { ...bp.layout, children: [...(bp.layout.children ?? [])] } : bp.layout;
+const harvest = harvestable ? harvestChrome(layout) : null;
 const pageRoot = stampPageChrome(compileNode(layout, bp.form.name));
 
 if (chromeEnabled) {
   const status = statusFact();
-  const chrome = [chromeBand(harvest, status)];
+  const chrome = [bandDeclared ? null : chromeBand(harvest, status)];
   if (bp.archetype === 'record-detail' || bp.archetype === 'hub') chrome.push(chromeMetaStrip());
   if (bp.archetype === 'dashboard') chrome.push(chromeStatRow(layout));
   const stamped = chrome.filter(Boolean);
   for (const c of stamped) c.parentId = pageRoot.id;
-  pageRoot.components = [...stamped, ...(pageRoot.components ?? [])];
-  console.error(`chrome (${bp.archetype}): ${stamped.map((c) => c.componentName).join(' + ') || '(none resolvable)'}`);
+  const kids = pageRoot.components ?? [];
+  if (bandDeclared) {
+    // the rest of the chrome goes AFTER the blueprint's own band, or the page would open
+    // with a meta strip and the page-anatomy floor would (correctly) fail
+    const at = kids.findIndex((c) => c.componentName === 'pageHeaderBand');
+    pageRoot.components = at >= 0 ? [...kids.slice(0, at + 1), ...stamped, ...kids.slice(at + 1)] : [...stamped, ...kids];
+  } else {
+    pageRoot.components = [...stamped, ...kids];
+  }
+  const names = [bandDeclared ? 'pageHeaderBand (blueprint-declared)' : null, ...stamped.map((c) => c.componentName)].filter(Boolean);
+  console.error(`chrome (${bp.archetype}): ${names.join(' + ') || '(none resolvable)'}`);
 }
 
 const rootChildren = [pageRoot];
@@ -1163,6 +1530,28 @@ const form = {
 
 fs.writeFileSync(outFile, JSON.stringify(form, null, 2) + '\n');
 console.log(`compiled ${bp.screen} (${bp.archetype}) → ${outFile}`);
+
+// ---- presentation manifest (sidecar) -----------------------------------------
+// A declared recipe has to be checkable AFTER the compile, by something that only has the
+// markup. The declaration is a BLUEPRINT fact and does not belong in the pushed form (it
+// would not survive the Create/UpdateMarkup round-trip and would pollute the diff), so it
+// rides a sidecar next to --out: <out>.presentation.json. validate-styledness reads it when
+// it exists and FAILS a form whose declared recipe left no structural trace.
+// No declared recipe → no sidecar, so nothing changes for a blueprint without presentation.
+const sidecarFile = `${outFile}.presentation.json`;
+if (presentationDeclared.length) {
+  fs.writeFileSync(sidecarFile, `${JSON.stringify({
+    form: { module: bp.form.module, name: bp.form.name },
+    archetype: bp.archetype,
+    theme: noStyle ? null : themeName,
+    declared: presentationDeclared,
+  }, null, 2)}\n`);
+  console.log(`presentation manifest → ${sidecarFile} (${presentationDeclared.length} declared recipe(s))`);
+} else if (fs.existsSync(sidecarFile)) {
+  // a stale manifest from an earlier blueprint would fail this form for recipes it no
+  // longer declares — the manifest describes THIS compile or it does not exist
+  fs.rmSync(sidecarFile, { force: true });
+}
 
 // ---- self-gating: the compiler runs its own offline gates ---------------------
 // Writing the file unconditionally made "compiled" a claim about effort, not about

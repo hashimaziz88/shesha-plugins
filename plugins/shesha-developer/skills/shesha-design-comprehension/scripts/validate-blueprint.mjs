@@ -11,6 +11,10 @@
 //   * `entity.fullClassName` and `form.module` / `form.name` are non-empty
 //   * every layout node's `kind` is in the node enum, and carries no key the
 //     node definition does not declare (recursive walk through `children`)
+//   * a node's optional `presentation` block: recipe/role/tone/surface are
+//     enum-checked (the recipe enum is the block library's file list, embedded
+//     in the schema), and every `overrides` value is a THEME TOKEN PATH — a raw
+//     hex or px literal is an error, because a literal cannot follow the theme
 //
 // Library:  import { validateBlueprint, loadSchema, readBlueprint } from '.../validate-blueprint.mjs'
 //           validateBlueprint(bp, schema) -> { errors: string[], nodeCount: number }
@@ -83,6 +87,48 @@ export function validateBlueprint(bp, schema) {
   if (!bp.entity?.fullClassName) errors.push('entity.fullClassName missing');
   if (!bp.form?.module || !bp.form?.name) errors.push('form.module/name missing');
 
+  // ---- presentation IR (schema $defs.presentation) ---------------------------
+  // Enums come from the schema, never from a second list in here: the recipe enum
+  // IS the block library's file list (shesha-form-edit/assets/blocks/*.block.json),
+  // so a new block is added in ONE place.
+  const presDef = schema.$defs?.presentation;
+  const presKeys = new Set(Object.keys(presDef?.properties ?? {}));
+  const presEnum = (k) => presDef?.properties?.[k]?.enum ?? null;
+  const overridePattern = new RegExp(presDef?.properties?.overrides?.additionalProperties?.pattern ?? '^$');
+
+  const checkPresentation = (p, at) => {
+    if (!presDef) { errors.push(`${at}: node carries "presentation" but the schema has no $defs.presentation — schema too old`); return; }
+    if (!p || typeof p !== 'object' || Array.isArray(p)) { errors.push(`${at}: presentation is not an object`); return; }
+    for (const k of Object.keys(p)) {
+      if (!presKeys.has(k)) errors.push(`${at}: unknown presentation key "${k}" (known: ${[...presKeys].join(', ')})`);
+    }
+    for (const k of ['recipe', 'role', 'tone', 'surface']) {
+      if (p[k] === undefined) continue;
+      const allowed = presEnum(k);
+      if (allowed && !allowed.includes(p[k])) {
+        errors.push(`${at}: presentation.${k} "${p[k]}" not in the schema enum (${allowed.join(' | ')})`
+          + (k === 'recipe' ? ' — the recipe enum is the block library file list (shesha-form-edit/assets/blocks/)' : ''));
+      }
+    }
+    if (p.overrides !== undefined) {
+      if (!p.overrides || typeof p.overrides !== 'object' || Array.isArray(p.overrides)) {
+        errors.push(`${at}: presentation.overrides must be an object of "<prop>": "<token path>"`);
+      } else {
+        for (const [prop, val] of Object.entries(p.overrides)) {
+          if (typeof val !== 'string' || !overridePattern.test(val)) {
+            const what = typeof val !== 'string' ? `${typeof val} ${JSON.stringify(val)}`
+              : /^#|rgba?\(/i.test(val) ? `raw colour "${val}"`
+              : /^-?\d+(\.\d+)?(px|rem|em|%)?$/.test(val) ? `raw size "${val}"`
+              : `"${val}"`;
+            errors.push(`${at}: presentation.overrides.${prop} is ${what} — TOKENS ONLY. `
+              + 'Use a token path into the active theme file (spacing.*, radius.*, palette.*, type.*, shadow.*); '
+              + 'a literal cannot follow the theme [R-042].');
+          }
+        }
+      }
+    }
+  };
+
   const walkNode = (n, at) => {
     if (!n || typeof n !== 'object' || Array.isArray(n)) {
       errors.push(`${at}: node is not an object`);
@@ -93,6 +139,7 @@ export function validateBlueprint(bp, schema) {
     for (const k of Object.keys(n)) {
       if (!nodeKeys.has(k)) errors.push(`${at}: unknown node key "${k}"`);
     }
+    if (n.presentation !== undefined) checkPresentation(n.presentation, `${at}/${n.kind}`);
     const children = n.children;
     if (children !== undefined && !Array.isArray(children)) {
       errors.push(`${at}: children must be an array`);

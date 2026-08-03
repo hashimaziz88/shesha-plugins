@@ -29,6 +29,13 @@
  *                     rowPaddingTop/Bottom) are all `not-measured` in
  *                     assets/measured-capability-matrix.json, so they are NOT accepted as
  *                     evidence — an unproven channel is not styling.
+ *   8. declared-recipe — ONLY when a presentation manifest sits next to the form
+ *                     (<form.json>.presentation.json, written by compile-blueprint.js for a
+ *                     blueprint whose nodes declare `presentation.recipe`): every declared
+ *                     recipe must have LANDED in the markup. The signature is the block's
+ *                     componentName stem — a declared recipe that left no component with
+ *                     that name (or never instantiated at all) is a design the form does not
+ *                     have. No manifest → the check is silent.
  *
  * The archetype is a BLUEPRINT fact, not a component, so it cannot be read off the markup.
  * compile-blueprint.js passes --archetype from its self-gate. Without the flag check 5
@@ -64,6 +71,8 @@ const findings = [];
 let visual = 0, styled = 0, fontDecls = 0, inlineConflicts = 0;
 const datatables = [];   // for check 7
 const statusAsText = []; // for check 6
+const componentNames = new Set(); // for check 8 (declared-recipe signatures)
+const typesPresent = new Set();   // for check 8 (structural shape fallback)
 
 // A reference-list status property name (status / state / stage, plain or suffixed) and the
 // component types that would render it as prose. `text` is included: a bound text node shows
@@ -81,6 +90,8 @@ function walk(node) {
   if (!node || typeof node !== 'object') return;
   if (Array.isArray(node)) return node.forEach(walk);
   if (typeof node.type === 'string') {
+    typesPresent.add(node.type);
+    if (typeof node.componentName === 'string' && node.componentName) componentNames.add(node.componentName);
     if (VISUAL.has(node.type)) {
       visual++;
       if (hasStructuredStyle(node) || node.className || node.stylingBox) styled++;
@@ -193,6 +204,39 @@ if (!datatables.length) {
       if (!contrast) gaps.push('headerBackgroundColor or a desktop.font block (header/body contrast)');
       findings.push(`FAIL datatable-presentation — datatable "${t.componentName || t.propertyName || t.id}" is default-AntD: missing ${gaps.join(' and ')}. `
         + 'These are the channels the measured matrix records as rendering; rowHoverBackgroundColor / striped / rowDividers / rowPaddingTop-Bottom are all "not-measured" there, so they do not count as evidence.');
+    }
+  }
+}
+
+// 8. every recipe the blueprint DECLARED actually landed in the markup
+// The manifest is written by compile-blueprint.js next to its --out; it exists only for a
+// blueprint that declared at least one `presentation.recipe`. Absent → nothing to check.
+// A block whose root is a plain container/card/text has NO distinctive type signature —
+// every form is full of containers — so for those the componentName is the only evidence.
+// A distinctive carrier (refListStatus, statistic, KeyInformationBar, datalist, …) still
+// present under another name is a rename, which is worth a WARN rather than a FAIL.
+const GENERIC_CARRIERS = new Set(['container', 'card', 'text']);
+const manifestFile = `${file}.presentation.json`;
+if (fs.existsSync(manifestFile)) {
+  let manifest = null;
+  try { manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8').replace(/^﻿/, '')); }
+  catch (err) { findings.push(`FAIL declared-recipe — the presentation manifest ${manifestFile} is unreadable: ${err.message}`); }
+  const declared = Array.isArray(manifest?.declared) ? manifest.declared : [];
+  if (manifest && !declared.length) {
+    findings.push('WARN declared-recipe — a presentation manifest sits next to this form but declares no recipe');
+  }
+  for (const d of declared) {
+    const where = `"${d.recipe}"${d.node ? ` at node "${d.node}"` : ''}`;
+    if (d.landed === false || !d.componentName) {
+      findings.push(`FAIL declared-recipe — the blueprint declared recipe ${where} and the compiler could not instantiate it; `
+        + 'the form does not have the design its blueprint describes (fill the block\'s facts, or drop the recipe).');
+    } else if (componentNames.has(d.componentName)) {
+      findings.push(`OK   declared-recipe — ${where} landed as "${d.componentName}"`);
+    } else if (d.type && !GENERIC_CARRIERS.has(d.type) && typesPresent.has(d.type)) {
+      findings.push(`WARN declared-recipe — ${where} left no component named "${d.componentName}", but a ${d.type} is present — renamed, or a different carrier?`);
+    } else {
+      findings.push(`FAIL declared-recipe — ${where} is missing from the markup: no component named "${d.componentName}"`
+        + `${d.type ? ` and no ${d.type} at all` : ''}. A declared recipe that left no structural trace did not ship.`);
     }
   }
 }
