@@ -13,7 +13,7 @@ Two data sources: `'values'` (hardcoded) or `'referenceList'` (Shesha reference 
 **Always read `referenceListId.module` and `referenceListId.name` from the property metadata — never guess.** The property object returned by `Metadata/GetProperties` has two fields you need:
 
 - `property.referenceListModule` → `referenceListId.module`
-- `property.referenceListName` → `referenceListId.name` (this is the fully-qualified list name, e.g. `"PBF.MembershipManagement.AccountType"`)
+- `property.referenceListName` → `referenceListId.name` (this is the fully-qualified list name, e.g. `"His.Facilities.ReferralStatus"`)
 
 A wrong module/name pair produces a **silent empty dropdown** with no runtime error — there is no way to detect this without opening the form in a browser. Never infer or guess these values.
 
@@ -21,14 +21,14 @@ A wrong module/name pair produces a **silent empty dropdown** with no runtime er
 {
   "id": "...",
   "type": "dropdown",
-  "propertyName": "accountType",
-  "label": "Account Type",
+  "propertyName": "referralStatus",
+  "label": "Referral Status",
   "dataSourceType": "referenceList",
   "referenceListId": {
-    "module": "PBF.MembershipManagement",
-    "name": "PBF.MembershipManagement.AccountType"
+    "module": "His.Facilities",
+    "name": "His.Facilities.ReferralStatus"
   },
-  "referenceListName": "PBF.MembershipManagement.AccountType",
+  "referenceListName": "His.Facilities.ReferralStatus",
   "valueFormat": "simple",
   "mode": "single",
   "editMode": "inherited"
@@ -115,8 +115,8 @@ Display-only badge for a reference-list-typed property:
   "id": "...",
   "type": "refListStatus",
   "propertyName": "status",
-  "module": "PBF.MembershipManagement",
-  "referenceListName": "ApplicationStatus",
+  "module": "His.Facilities",
+  "referenceListName": "ReferralStatus",
   "showIcon": true
 }
 ```

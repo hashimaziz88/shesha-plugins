@@ -21,11 +21,11 @@ Direct property access. There's no setter function:
 ```js
 // READ
 const org = contexts.appContext.selectedOrg;
-const tier = contexts.appContext.pbfSelectedTier;
+const ward = contexts.appContext.selectedWard;
 
 // WRITE
 contexts.appContext.selectedOrg = data.organisationId;
-contexts.appContext.pbfSelectedTier = {
+contexts.appContext.selectedWard = {
   id: data.id,
   name: data.name,
   mode: data.mode
@@ -40,7 +40,7 @@ Available inside any embedded script. Values are shared across all forms — set
 
 `contexts.appContext` is in-memory only. F5 / Ctrl+R / opening in a new tab → values are gone. For a typical SPA flow (`application.navigator.navigateToUrl(...)` — soft navigation), it survives fine.
 
-If you need state that survives a hard refresh: **don't** stash it in `localStorage`. Either pass it through the URL (`?tierId=...`) and re-read via the form's `formArguments`, or persist server-side (a draft entity row, a user-preference setting).
+If you need state that survives a hard refresh: **don't** stash it in `localStorage`. Either pass it through the URL (`?wardId=...`) and re-read via the form's `formArguments`, or persist server-side (a draft entity row, a user-preference setting).
 
 ---
 
@@ -48,7 +48,7 @@ If you need state that survives a hard refresh: **don't** stash it in `localStor
 
 From the Shesha docs: *"For inter-page data passing, Page Context is advised over App Context unless the value is genuinely global."*
 
-Concrete: a selected tier carried from `tier-pricing` → `auth-login` → `member-registration` arguably crosses three pages, but it's a single user-flow concept — `pageContext` would be enough. Use `appContext` only when *every* form in the app might need to read it (brand variant, language, current organisation).
+Concrete: a selected ward carried from `ward-selection` → `auth-login` → `facility-registration` arguably crosses three pages, but it's a single user-flow concept — `pageContext` would be enough. Use `appContext` only when *every* form in the app might need to read it (brand variant, language, current organisation).
 
 ---
 
@@ -62,20 +62,20 @@ Use `localStorage` (or `sessionStorage`) when **all** of the following hold:
 
 Concrete green-light examples:
 - A pending registration intent the user is mid-flow on, surviving an accidental F5.
-- "Last selected tier" UX preference on the public landing page.
+- "Last selected ward" UX preference on the public landing page.
 - An OTP `operationId` that needs to survive between the send-pin page and the verify-pin page even if the user reloads.
 - Theme preference, language preference (when not yet logged in to set it server-side).
 
-Use `sessionStorage` when the value should die when the tab closes (more conservative than `localStorage`). Always namespace keys (`pbf_pendingRegister`, not `pendingRegister`).
+Use `sessionStorage` when the value should die when the tab closes (more conservative than `localStorage`). Always namespace keys (`app_pendingRegister`, not `pendingRegister`).
 
 ## Common-mistake mapping
 
 | Old pattern (don't write) | Better pattern |
 |---|---|
-| `setGlobalState({ key: 'pbfSelectedTier', data: tier })` | `contexts.appContext.pbfSelectedTier = tier` |
-| `globalState?.pbfSelectedTier` | `contexts.appContext.pbfSelectedTier` |
+| `setGlobalState({ key: 'selectedWard', data: ward })` | `contexts.appContext.selectedWard = ward` |
+| `globalState?.selectedWard` | `contexts.appContext.selectedWard` |
 | `localStorage.setItem('accessToken', ...)` | Use Shesha's built-in token mechanism — never store auth tokens client-side yourself |
 | `localStorage.setItem('userProfile', JSON.stringify(user))` (PII) | `contexts.appContext.user` (in-memory only) or fetch from `/Session/GetCurrentLoginInformations` on demand |
-| `localStorage.setItem('pendingRegister', ...)` (mid-flow intent) | OK if it must survive refresh — namespace the key (`pbf_pendingRegister`) and clear it once consumed |
+| `localStorage.setItem('pendingRegister', ...)` (mid-flow intent) | OK if it must survive refresh — namespace the key (`app_pendingRegister`) and clear it once consumed |
 
 Reference: https://shesha-grads.vercel.app/docs/shesha-basics/appContext

@@ -128,6 +128,6 @@ Clone the template's FULL style objects onto each target's analogous component â
 
 ---
 
-### Worked example (project-specific)
+### Worked example
 
-Provenance: proven on live 2026-06 fleet rollouts (17-form KIB redesign via one piloted transform script; 33 create-forms fixed in one scripted pass with field-set assertions; audited to 0 issues pre- and post-push).
+Proven on live fleet rollouts: a multi-form header/KIB redesign via one piloted transform script, and a separate multi-form create-form fix in one scripted pass with field-set assertions â€” both audited to 0 issues pre- and post-push.

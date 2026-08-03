@@ -10,9 +10,9 @@ Async lookup, type-ahead. Bind to entity, set `entityType`, optional `displayPro
 {
   "id": "...",
   "type": "autocomplete",
-  "propertyName": "subscription",
-  "label": "Subscription",
-  "entityType": "PBF.MembershipManagement.Domain.Domain.Subscription",
+  "propertyName": "practitioner",
+  "label": "Practitioner",
+  "entityType": "His.Facilities.Domain.Domain.Practitioner",
   "displayPropertyName": "_displayName",
   "filter": "...",
   "editMode": "editable"
@@ -29,10 +29,10 @@ Modal-based entity picker with full search. Heavier than `autocomplete` but supp
 {
   "id": "...",
   "type": "entityPicker",
-  "propertyName": "tier",
-  "entityType": "PBF.MembershipManagement.Domain.Domain.Tier",
+  "propertyName": "ward",
+  "entityType": "His.Facilities.Domain.Domain.Ward",
   "displayEntityKey": "name",
-  "modalTitle": "Select Tier",
+  "modalTitle": "Select Ward",
   "items": [ /* table columns config */ ],
   "editMode": "editable"
 }

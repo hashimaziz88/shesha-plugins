@@ -86,7 +86,7 @@ Variants: `textArea` (multiline), `passwordCombo` (password + confirm).
   "type": "fileUpload",
   "propertyName": "coverImage",
   "label": "Cover Image",
-  "ownerType": "PBF.MembershipManagement.Domain.Domain.Event",
+  "ownerType": "His.Facilities.Domain.Domain.Facility",
   "ownerName": "CoverImage",
   "editMode": "inherited"
 }
@@ -108,7 +108,7 @@ Variants: `textArea` (multiline), `passwordCombo` (password + confirm).
   "min": 0,
   "max": 1000,
   "regExp": "^[A-Z]{2}\\d{4}$",
-  "validator": "value && value.startsWith('PBF')",
+  "validator": "value && value.startsWith('FAC')",
   "message": "Custom message shown when invalid"
 }
 ```

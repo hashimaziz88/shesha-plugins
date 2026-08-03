@@ -83,7 +83,7 @@ uses [buttonGroup](#buttongroup-action-row--preferred)).
     "actionOwner": "Shesha.Common",
     "actionName": "ExecuteScript",
     "actionArguments": {
-      "expression": "try { await http.post('/api/services/PBF.MembershipManagement/Application/Approve', { id: data.id }); message.success('Approved'); } catch (err) { message.error(err?.response?.data?.error?.message ?? 'Failed'); }"
+      "expression": "try { await http.post('/api/services/His.Facilities/Application/Approve', { id: data.id }); message.success('Approved'); } catch (err) { message.error(err?.response?.data?.error?.message ?? 'Failed'); }"
     }
   }
 }
@@ -113,7 +113,7 @@ uses [buttonGroup](#buttongroup-action-row--preferred)).
     "actionOwner": "shesha.common",
     "actionName": "Execute Script",
     "actionArguments": {
-      "expression": "const tier = contexts.appContext.pbfSelectedTier; if (tier) { application.navigator.navigateToUrl('/dynamic/PBF.MembershipManagement/member-registration'); } else { application.navigator.navigateToUrl(actionResponse?.url || '/dynamic/PBF.MembershipManagement/tier-pricing'); }"
+      "expression": "const ward = contexts.appContext.selectedWard; if (ward) { application.navigator.navigateToUrl('/dynamic/His.Facilities/facility-registration'); } else { application.navigator.navigateToUrl(actionResponse?.url || '/dynamic/His.Facilities/ward-selection'); }"
     }
   },
   "onFail": {
@@ -159,7 +159,7 @@ Inline anchor link — for "Sign in", "Forgot password", "Create one" style link
     "handleFail": false,
     "actionArguments": {
       "navigationType": "url",
-      "url": "/no-auth/PBF.MembershipManagement/auth-login"
+      "url": "/no-auth/His.Facilities/auth-login"
     }
   }
 }
@@ -206,4 +206,4 @@ Stash the returned `operationId` between pages via `contexts.appContext.otpOpera
 
 ## Implicit submit on entity forms
 
-Most member/details forms have an implicit submit button via `formSettings.onSubmit`. Explicit `button` with `actionName: "Submit"` is for custom toolbars.
+Most entity/details forms have an implicit submit button via `formSettings.onSubmit`. Explicit `button` with `actionName: "Submit"` is for custom toolbars.

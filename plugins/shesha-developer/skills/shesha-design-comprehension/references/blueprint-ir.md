@@ -70,7 +70,7 @@ Indentation = nesting (DOM depth). Each line: `<node-name>  <kind> [attributes]`
 
 ## Worked example — `view-detail` (measured, Tier A/B, 1440×900)
 
-Grounded in the live probe of the design's *Grant Application Form* view-detail screen: body split measured `widths=[962,332]` → `row=[fill, 332px]` (left fills `calc(100% - 348px)`, rail fixed at **332px**, gap 24); KIB measured 6 equal cells; header content split `[fill, 332px]`-style; requirement rows `[handle 16px / content fill]`.
+Grounded in the live probe of the design's *Facility Referral Form* view-detail screen: body split measured `widths=[962,332]` → `row=[fill, 332px]` (left fills `calc(100% - 348px)`, rail fixed at **332px**, gap 24); KIB measured 6 equal cells; header content split `[fill, 332px]`-style; requirement rows `[handle 16px / content fill]`.
 
 ````markdown
 # Blueprint — view-detail

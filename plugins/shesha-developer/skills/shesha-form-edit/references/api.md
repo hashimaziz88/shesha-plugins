@@ -94,8 +94,8 @@ ACCESS_TOKEN=$(cat "$WORKDIR/access-token" | sed 's/^\xEF\xBB\xBF//' | tr -d '\r
 
 ```bash
 curl -s -G "$BASE_URL/api/services/Shesha/FormConfiguration/GetByName" \
-  --data-urlencode "module=PBF.MembershipManagement" \
-  --data-urlencode "name=member-create" \
+  --data-urlencode "module=His.Facilities" \
+  --data-urlencode "name=facility-create" \
   -H "Authorization: Bearer $ACCESS_TOKEN"
 ```
 
@@ -105,11 +105,11 @@ Response (ABP envelope):
 {
   "result": {
     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-    "module": { "name": "PBF.MembershipManagement", "id": "..." },
-    "name": "member-create",
-    "label": "Member - Create",
+    "module": { "name": "His.Facilities", "id": "..." },
+    "name": "facility-create",
+    "label": "Facility - Create",
     "markup": "{...stringified form JSON...}",
-    "modelType": "PBF.MembershipManagement.Domain.Domain.Member",
+    "modelType": "His.Facilities.Domain.Domain.Facility",
     "versionNo": 1,
     "versionStatus": 3
   },
@@ -245,9 +245,9 @@ curl -s -X POST "$BASE_URL/api/services/Shesha/FormConfiguration/Create" \
   -H "Content-Type: application/json" \
   -d '{
     "moduleId": "...module-guid...",
-    "name": "member-quickview",
-    "label": "Member - Quick View",
-    "modelType": "PBF.MembershipManagement.Domain.Domain.Member"
+    "name": "facility-quickview",
+    "label": "Facility - Quick View",
+    "modelType": "His.Facilities.Domain.Domain.Facility"
   }'
 ```
 
@@ -262,7 +262,7 @@ To resolve `moduleId`, query `GET /api/services/Shesha/Module/GetAll` with beare
 ```bash
 curl -s -G "$BASE_URL/api/services/Shesha/FormConfiguration/GetAll" \
   --data-urlencode "MaxResultCount=200" \
-  --data-urlencode 'Filter={"and":[{"==":[{"var":"module.name"},"PBF.MembershipManagement"]}]}' \
+  --data-urlencode 'Filter={"and":[{"==":[{"var":"module.name"},"His.Facilities"]}]}' \
   -H "Authorization: Bearer $ACCESS_TOKEN"
 ```
 
@@ -293,9 +293,9 @@ Used by Step 4.5 of the skill to validate `propertyName` references against the 
 ```bash
 # Scoped, primary — direct array of properties. Pipe to file; do not read inline.
 curl -s -G "$BASE_URL/api/services/app/Metadata/GetProperties" \
-  --data-urlencode "container=PBF.MembershipManagement.Domain.Domain.Member" \
+  --data-urlencode "container=His.Facilities.Domain.Domain.Facility" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -o ".claude/cache/shesha-form-edit/metadata/Member.raw.json"
+  -o ".claude/cache/shesha-form-edit/metadata/Facility.raw.json"
 ```
 
 If `GetProperties` 404s on an older build, fall back to the fuller container fetch `GET /api/services/app/Metadata/Get` (ABP envelope, `result.properties[]`), then `Shesha/Metadata/Get` — same `-o`-to-file discipline; distill before reading.
@@ -305,8 +305,8 @@ Property shape (relevant fields). `GetProperties` returns this as a **direct arr
 ```json
 {
   "result": {
-    "containerName": "PBF.MembershipManagement.Domain.Domain.Member",
-    "entityFullName": "PBF.MembershipManagement.Domain.Domain.Member",
+    "containerName": "His.Facilities.Domain.Domain.Facility",
+    "entityFullName": "His.Facilities.Domain.Domain.Facility",
     "properties": [
       {
         "path": "firstName",
@@ -328,9 +328,9 @@ Save raw response to `.claude/cache/shesha-form-edit/metadata/<entity>.raw.json`
 
 ```bash
 node .claude/skills/shesha-form-edit/scripts/summarize.js \
-  .claude/cache/shesha-form-edit/metadata/Member.raw.json \
+  .claude/cache/shesha-form-edit/metadata/Facility.raw.json \
   --type metadata \
-  --out .claude/cache/shesha-form-edit/metadata/Member.summary.md
+  --out .claude/cache/shesha-form-edit/metadata/Facility.summary.md
 ```
 
 Validation pass: for every input component in the edit, confirm `propertyName` matches a `properties[].path` (top-level only — nested-path validation is out of scope). Mismatches must be surfaced to the user before push.

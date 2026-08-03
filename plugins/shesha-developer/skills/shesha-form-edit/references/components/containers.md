@@ -99,7 +99,7 @@ For a simple inline text + link row, prefer a sub-`container` with `flexDirectio
       "key": "business",
       "title": "Business",
       "components": [ /* ... */ ],
-      "hidden": { "_mode": "code", "_code": "data.accountType !== 'PBF'" }
+      "hidden": { "_mode": "code", "_code": "data.facilityType !== 'Clinic'" }
     }
   ],
   "defaultActiveKey": "personal"

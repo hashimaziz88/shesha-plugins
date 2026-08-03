@@ -15,7 +15,7 @@ After `JSON.parse(markup)`:
     { "id": "...", "type": "container", "components": [ ... ] }
   ],
   "formSettings": {
-    "modelType": { "name": "Member", "module": "PBF.MembershipManagement" },
+    "modelType": { "name": "Facility", "module": "His.Facilities" },
     "dataLoaderType": "gql",
     "dataSubmitterType": "gql",
     "layout": "horizontal",
@@ -79,7 +79,7 @@ Many string/number/boolean properties accept either a **plain value** or a **wra
 ```json
 "hidden": false                                                       // plain
 "hidden": { "_mode": "value", "_value": false }                       // wrapped, equivalent
-"hidden": { "_mode": "code", "_code": "data.accountType !== 'PBF'" }  // runtime JS
+"hidden": { "_mode": "code", "_code": "data.facilityType !== 'Clinic'" }  // runtime JS
 ```
 
 When `_mode === "code"`, `_code` is evaluated at runtime against the script context (see [scripts.md](scripts.md)). Use this for dynamic visibility, dynamic enabled, dynamic default values, dynamic labels.

@@ -116,27 +116,27 @@ Verify the autocomplete `entityType` against live metadata before shipping — e
 
 ---
 
-### Worked example (project-specific)
+### Worked example
 
-Junction link-add dialog for `ModuleDefinitionUsedModule` — the "Used Modules" tab on `module-definition-details` opens `module-definition-used-module-add`.
+Junction link-add dialog for `FacilityUsedWard` — the "Linked Wards" tab on `facility-details` opens `facility-used-ward-add`.
 
-- `formSettings.modelType` = `Shesha.RequirementsStudio.Domain.ModuleDefinitionUsedModule` (the JOIN entity).
-- Junction accessors: `module` (parent), `usedModule` (target → `ModuleDefinition`).
-- Visible field: ONE `autocomplete` bound to `usedModule`, `dataSourceType: 'entitiesList'`, `entityType: "Shesha.RequirementsStudio.Domain.ModuleDefinition"`.
-- Read-only `autocomplete` bound to `module` (satisfies hard-rule part (a)).
-- Opening Add button (on the Used Modules subtable): Show Dialog with `formArguments` code returning
-  `{ module: { id: data.id, _displayName: data.name, _className: 'Shesha.RequirementsStudio.Domain.ModuleDefinition' } }`;
-  `onSuccess` → Refresh table, actionOwner = the Used Modules `dataContext` id.
-- Metadata caveat from this project: RS `Release` is registered as `ReleaseDefinition` — always resolve `entityType` via `EntityConfig/GetMainDataList`, not the FK property name.
+- `formSettings.modelType` = `His.Facilities.Domain.FacilityUsedWard` (the JOIN entity).
+- Junction accessors: `facility` (parent), `usedWard` (target → `Ward`).
+- Visible field: ONE `autocomplete` bound to `usedWard`, `dataSourceType: 'entitiesList'`, `entityType: "His.Facilities.Domain.Ward"`.
+- Read-only `autocomplete` bound to `facility` (satisfies hard-rule part (a)).
+- Opening Add button (on the Linked Wards subtable): Show Dialog with `formArguments` code returning
+  `{ facility: { id: data.id, _displayName: data.name, _className: 'His.Facilities.Domain.Facility' } }`;
+  `onSuccess` → Refresh table, actionOwner = the Linked Wards `dataContext` id.
+- Metadata caveat: an entity's registered name can diverge from its FK property name — always resolve `entityType` via `EntityConfig/GetMainDataList`, not the FK property name.
 
 `formSettings.onPrepareSubmitData` (exact, satisfies hard-rule part (b)):
 
 ```js
 const a = form.formArguments;
-if (a && a.module && a.module.id) {
-  data.module = { id: a.module.id };
+if (a && a.facility && a.facility.id) {
+  data.facility = { id: a.facility.id };
 }
 return data;
 ```
 
-Fleet precedent (2026-06-10): the same injection (`data.baseProject = { id: a.baseProject.id }`) was stamped on all 16 `base-project-detail-*-create` forms, fixing the shipped 500s; verified end-to-end — `bpd-api-create` Crud/Create returned 200 with `baseProject` in the payload.
+This same injection pattern (rehydrating the parent FK from `formArguments` in `onPrepareSubmitData`) generalizes to any junction-create dialog opened from a parent detail page — omitting it is the most common cause of a link-add dialog shipping a 500 on submit.

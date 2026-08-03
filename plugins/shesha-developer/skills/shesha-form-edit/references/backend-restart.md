@@ -61,8 +61,8 @@ You're headless when the task supplied a context block (Backend URL / Module / W
 you're in `claude -p`. Run this **once** as a single combined sequence (don't probe step-by-step):
 
 ```bash
-WH="<workingDir>/backend/src/<App>.Web.Host"          # e.g. .../boxfusion.test/backend/src/boxfusion.test.Web.Host
-DLL="$WH/bin/Debug/net8.0/<App>.Web.Host.dll"          # e.g. boxfusion.test.Web.Host.dll
+WH="<workingDir>/backend/src/<App>.Web.Host"          # e.g. .../<app>/backend/src/*.Web.Host
+DLL="$WH/bin/Debug/net8.0/<App>.Web.Host.dll"          # e.g. *.Web.Host.dll
 BASE="http://localhost:21021"
 
 # 1. Stop whatever holds the port (IIS Express + its tray, or the port owner)

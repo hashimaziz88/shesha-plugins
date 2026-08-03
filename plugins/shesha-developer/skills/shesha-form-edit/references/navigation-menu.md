@@ -153,11 +153,11 @@ Settings UI at `/shesha/settings` → module **Shesha** → category **Frontend*
 
 ---
 
-### Worked example (project-specific)
+### Worked example
 
-RequirementsStudio, verified live 2026-06-11 against `http://localhost:21021`:
+His.Facilities:
 
-- App key: `default-app` (RS `adminportal/src/app/app-provider.tsx` sets no `applicationKey`). Without the header/param, GetValue returned `{"version":2,"items":[]}`; with it, the real 3-group menu.
-- Live structure: groups `Administration` (icon `ToolOutlined`), `Configurations` (`SettingOutlined`), `Requirements Studio` (no icon) — the last holding 17 buttons, all `navigationType: "form"` pointing at module `Shesha.RequirementsStudio` table forms (`base-project-table`, `module-definition-table`, `release-definition-table`, …), all icon-less.
-- A new RS table entry is the button JSON above with `"formId": { "name": "view-definition-table", "module": "Shesha.RequirementsStudio" }`, appended to the `Requirements Studio` group's `childItems`.
-- RS's header (`MainLayout headerFormId={{module: "Shesha.RequirementsStudio", name: "header"}}`) contains only `logoLink`/`logoImage`, `headerAppControl`, and `profileDropdown` — no nav items; all RS navigation lives in the sidebar setting.
+- App key: `default-app` (the app's `adminportal/src/app/app-provider.tsx` sets no `applicationKey`). Without the header/param, GetValue returned `{"version":2,"items":[]}`; with it, the real menu.
+- Structure: groups `Administration` (icon `ToolOutlined`), `Configurations` (`SettingOutlined`), `Facilities` (no icon) — the last holding a handful of buttons, all `navigationType: "form"` pointing at module `His.Facilities` table forms (`facility-table`, `ward-table`, `practitioner-table`, …), all icon-less.
+- A new Facilities table entry is the button JSON above with `"formId": { "name": "practitioner-table", "module": "His.Facilities" }`, appended to the `Facilities` group's `childItems`.
+- The app's header (`MainLayout headerFormId={{module: "His.Facilities", name: "header"}}`) contains only `logoLink`/`logoImage`, `headerAppControl`, and `profileDropdown` — no nav items; all navigation lives in the sidebar setting.

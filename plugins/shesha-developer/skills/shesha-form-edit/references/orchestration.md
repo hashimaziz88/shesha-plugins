@@ -85,6 +85,6 @@ Plugin agents do not inherit a `permissionMode`. The fleet-transformer's `curl` 
 
 ---
 
-### Worked example (project-specific)
+### Worked example
 
-Provenance: shaped by live 2026-06 fleet rollouts — a 16-form auditor fan-out with a strict verdict schema, a one-script KIB transform piloted then rolled to 16 forms with component-count-delta guards, and a 33-form scripted cleanup audited to 0 issues pre- and post-push.
+Shaped by live fleet rollouts — a multi-form auditor fan-out with a strict verdict schema, a one-script KIB transform piloted then rolled out across the fleet with component-count-delta guards, and a separate multi-form scripted cleanup audited to 0 issues pre- and post-push.

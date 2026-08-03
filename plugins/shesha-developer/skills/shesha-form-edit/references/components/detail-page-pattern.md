@@ -117,12 +117,12 @@ Verify with `getBoundingClientRect`/`getComputedStyle`, never screenshots (scali
 
 ---
 
-### Worked example (project-specific)
+### Worked example
 
-`module-definition-details` (module `Shesha.RequirementsStudio`) is the live reference — all 17 RS detail forms were normalized to it:
+`facility-details` (module `His.Facilities`) is a representative reference — a whole fleet of detail forms across a module were normalized to this shape:
 
-- Band `container60` > [banner `container61`, KIB `mddKibCtr`]; 13 other forms use `hdrBand`/`hdrLeft` naming — same shape.
-- Title binds `name`; status chip = `refListStatus` on `RsStatus`; subtitle gray `#c7c7c7`.
-- KIB: Licensing Model dropdown + Front End / Back End switches; columns 2+ carry the `#d9d9d9` border-left; verified computed column height == KIB height (84px), `border-left 1px solid rgb(217,217,217)`.
-- Toolbar `mddPageHeading` `justifyContent:"left"` (Edit at x=70 on every form); `formSettings.labelCol:8`/`wrapperCol:16`, layout `horizontal`.
-- Known parasites fixed during normalization: VDD/BPD `container60` legacy `style` string (10px vertical pad + 25px left indent) nulled; `container52` KIB wrapper deleted and `mddKibCtr` re-parented; `pageContent`/`container001d3d` wrappers got `no-padding`.
+- Band `container60` > [banner `container61`, KIB `fdKibCtr`]; other forms use `hdrBand`/`hdrLeft` naming — same shape.
+- Title binds `name`; status chip = `refListStatus` on the module's `status` reflist; subtitle gray `#c7c7c7`.
+- KIB: a Facility Type dropdown + Active / Ward-Linked switches; columns 2+ carry the `#d9d9d9` border-left; verified computed column height == KIB height (84px), `border-left 1px solid rgb(217,217,217)`.
+- Toolbar `fdPageHeading` `justifyContent:"left"` (Edit at x=70 on every form); `formSettings.labelCol:8`/`wrapperCol:16`, layout `horizontal`.
+- Known parasites fixed during normalization: legacy `container60` `style` string (10px vertical pad + 25px left indent) nulled; `container52` KIB wrapper deleted and `fdKibCtr` re-parented; `pageContent`/`container001d3d` wrappers got `no-padding`.

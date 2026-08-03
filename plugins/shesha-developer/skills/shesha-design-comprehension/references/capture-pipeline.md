@@ -22,7 +22,7 @@ The placement is explicit in the source; read it, don't infer it.
 - **bindings** from props (`view.realisesUseCases`, `view.requiredApis`).
 - **markitdown role (A):** convert any mixed spec docs alongside the source — a domain-model `.md`, a requirements `.docx`/`.pdf` — into a content/label outline used to *name* fields and cross-check the bindings table. It does not read layout here; the source does.
 
-## Tier B — runnable prototype (the offline RS app is Tier B)
+## Tier B — runnable prototype (an offline single-file app bundle is Tier B)
 
 Render each screen and measure the rendered DOM.
 
@@ -32,7 +32,7 @@ Render each screen and measure the rendered DOM.
 4. **Read the signal.** The probe's `multiColumnContainers` array gives, per container: `columnCount`, `columnEdges`, `childWidths`. Record widths in native units (px / `fill` / `1fr`) for `row=[…]` — do NOT normalise to `/24`. One screenshot per screen (`browser_take_screenshot`) for a visual cross-check — never one per element.
 5. **markitdown role (B):** optionally caption that single screenshot for a prose content/section outline that labels the measured boxes — secondary to the measurement.
 
-Worked numbers from the RS pilot (Grant Application Form view-detail): the probe returned `cols=2 widths=[962,332]` for the body (→ `row=[fill, 332px]`: left fills `calc(100% - 356px)`, rail fixed 332px) and `cols=6` for the KIB — see [blueprint-ir.md](blueprint-ir.md) for how those become the blueprint.
+Worked numbers from a pilot capture (Facility Referral Form view-detail): the probe returned `cols=2 widths=[962,332]` for the body (→ `row=[fill, 332px]`: left fills `calc(100% - 356px)`, rail fixed 332px) and `cols=6` for the KIB — see [blueprint-ir.md](blueprint-ir.md) for how those become the blueprint.
 
 ## Tier C — screenshots / PDF only (lowest fidelity)
 

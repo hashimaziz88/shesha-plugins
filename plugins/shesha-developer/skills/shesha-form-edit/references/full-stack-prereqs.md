@@ -109,11 +109,11 @@ For **new entity-bound forms** or any entity you have not verified this session,
 
 ---
 
-### Worked example (project-specific)
+### Worked example
 
-From RequirementsStudio (memory: `feedback-shesha-form-edit-gotchas` #3/#4, `feedback-shesha-delete-cascade-gotchas`):
+From His.Facilities:
 
-- **§1 wrong reflist name:** `ViewDefinition.existsInDevOps` binds to `Shesha.RequirementsStudio.RsDevOpsStatus`, NOT `RsExistsInDevOps` — using the property-derived name caused a `ConfigurationLoadingError` that blocked the whole form. Metadata `referenceListName` had the truth.
-- **§3 class/property divergence:** `Shesha.RequirementsStudio.Domain.Release` 404s on the Metadata endpoint; the registered class is `ReleaseDefinition` — found via `EntityConfig/GetMainDataList`, then used as the autocomplete `entityType` for `viewDefinition.release`.
-- **§4 frontend guard:** "block BaseProject delete when children exist" could not be done backend-side on the dynamic route — implemented as a script on the table delete button.
+- **§1 wrong reflist name:** `Referral.existsInRegistry` binds to `His.Facilities.RegistryStatus`, NOT `ExistsInRegistry` — using the property-derived name caused a `ConfigurationLoadingError` that blocked the whole form. Metadata `referenceListName` had the truth.
+- **§3 class/property divergence:** `His.Facilities.Domain.Ward` 404s on the Metadata endpoint; the registered class is `WardDefinition` — found via `EntityConfig/GetMainDataList`, then used as the autocomplete `entityType` for `referral.ward`.
+- **§4 frontend guard:** "block Facility delete when children exist" could not be done backend-side on the dynamic route — implemented as a script on the table delete button.
 - **§5 restore an accidental soft delete:** `UPDATE <Table> SET IsDeleted=0, DeletionTime=NULL, DeleterUserId=NULL WHERE Id='...'` (sqlcmd; DB name in Web.Host appsettings `ConnectionStrings:Default`).

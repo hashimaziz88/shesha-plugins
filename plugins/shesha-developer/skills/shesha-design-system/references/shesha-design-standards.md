@@ -1,6 +1,6 @@
 # Shesha design standards (brand-agnostic)
 
-General conventions for how Shesha (Ant Design 6.x, light-mode) applications should be designed and styled — distilled from the Shesha Design System reference (A. Slavchov, Senior UI/UX). These are the *standards* the comprehension layer annotates blueprints with and the styling layer enforces; they hold **regardless of brand**. A brand's concrete hex/type values live in its `*.tokens.json` — the shipped **default `shesha.tokens.json`**, or a custom brand like `requirements-studio.tokens.json` — not here.
+General conventions for how Shesha (Ant Design 6.x, light-mode) applications should be designed and styled — distilled from the Shesha Design System reference. These are the *standards* the comprehension layer annotates blueprints with and the styling layer enforces; they hold **regardless of brand**. A brand's concrete hex/type values live in its `*.tokens.json` — the shipped **default `shesha.tokens.json`**, or a custom brand like `requirements-studio.tokens.json` — not here.
 
 ## Foundations
 

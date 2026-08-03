@@ -17,7 +17,7 @@ The project's house pattern for full-page forms (auth pages, registration, singl
             └── content.components:
                 ├── image                       ← logo at top of card
                 │   ├── dataSource: "url"
-                │   └── url: "/images/pbf-logo.png"
+                │   └── url: "/images/app-logo.png"
                 │
                 └── container "innerContent"   ← form content wrapper
                     ├── text "heading"          ← page title

@@ -84,12 +84,12 @@ API calls must be wrapped in `try/catch` and properly awaited:
 
 ```js
 try {
-  const response = await http.get('/api/services/PBF.MembershipManagement/Member/GetTier', {
+  const response = await http.get('/api/services/His.Facilities/Facility/GetWard', {
     params: { id: data.id }
   });
-  setFormData({ values: { tier: response.data.result }, mergeValues: true });
+  setFormData({ values: { ward: response.data.result }, mergeValues: true });
 } catch (err) {
-  message.error(err?.response?.data?.error?.message ?? 'Failed to load tier');
+  message.error(err?.response?.data?.error?.message ?? 'Failed to load ward');
 }
 ```
 
