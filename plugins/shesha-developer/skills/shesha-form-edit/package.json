@@ -3,9 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node test-log/tracker.mjs",
-    "iterate": "node test-log/iterate.mjs",
-    "auto": "node test-log/auto-cycle.mjs",
+    "test": "node --test tests/",
     "setup": "npm install && npx playwright install chromium --with-deps"
   },
   "devDependencies": {

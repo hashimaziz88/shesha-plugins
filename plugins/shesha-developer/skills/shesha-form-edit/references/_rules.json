@@ -105,6 +105,8 @@
     { "id": "R-049", "group": "versioning", "severity": "process", "check": null,
       "statement": "Component versions are framework-release-specific and DRIFT across point releases. The 0.45 components-kb (_index.json) is authoritative for this plugin; when exactness matters probe a live form on the target backend. Version facts are the only cross-generation knowledge kept here — 0.43 authoring lives in the shesha-developer-0-43 plugin." },
     { "id": "R-050", "group": "process", "severity": "process", "check": null,
-      "statement": "Never read a whole large seed/golden form — grep the fragment you need. Whole-file reads of 100KB+ markup are the top context-burn failure." }
+      "statement": "Never read a whole large seed/golden form — grep the fragment you need. Whole-file reads of 100KB+ markup are the top context-burn failure." },
+    { "id": "R-051", "group": "styling", "severity": "warn", "check": null,
+      "statement": "0.45 app-level theme delivery has no `token`/`components` channel: IConfigurableTheme carries only primaryColor/errorColor/warningColor/successColor/infoColor + layout/text roles; `processingColor`, `text.link`, and any antd `token`/`components` block are silently dropped on write. Deliver such styling per-component at compile time instead." }
   ]
 }

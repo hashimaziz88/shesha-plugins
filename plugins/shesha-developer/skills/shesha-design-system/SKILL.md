@@ -1,6 +1,6 @@
 ---
 name: shesha-design-system
-description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns how forms LOOK — maps brand design tokens (colour, type, spacing, radius, shadow, status lifecycle) onto Shesha's app-level Ant Design theme and per-component v7 style blocks, through channels the measured capability matrix proves work. Ships three brand themes (shesha default, requirements-studio, wcg) and accepts new token files. Invoked automatically by shesha-form-edit's Style step so no form ships unstyled [R-042]. Invoke directly only for targeted styling of an existing form. 0.45-only — 0.43 styling lives in the shesha-developer-0-43 plugin. Never authors structure/components, CRUD, or runtime fixes — that is shesha-form-edit's job.
+description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns how forms LOOK — maps brand design tokens (colour, type, spacing, radius, shadow, status lifecycle) onto Shesha's app-level Ant Design theme and per-component v7 style blocks, through channels the measured capability matrix proves work. Ships two brand themes (shesha default, requirements-studio) and accepts new token files. Invoked automatically by shesha-form-edit's Style step so no form ships unstyled [R-042]. Invoke directly only for targeted styling of an existing form. 0.45-only — 0.43 styling lives in the shesha-developer-0-43 plugin. Never authors structure/components, CRUD, or runtime fixes — that is shesha-form-edit's job.
 ---
 
 # Shesha Design System (0.45)
@@ -19,13 +19,12 @@ A form looks "cheap" when only one layer is done (AntD still default-blue, or no
 
 ## Steps
 
-1. **Pick the theme.** Token files live in `assets/themes/<brand>.tokens.json`. Three ship:
+1. **Pick the theme.** Token files live in `assets/themes/<brand>.tokens.json`. Two ship:
 
    | Brand | File | What it is |
    |---|---|---|
    | `shesha` | `shesha.tokens.json` | **The default** — Cobalt `#003BB2` interactive anchor, Navy chrome, Nero ink, white cards on Athens Grey canvas, borders-not-shadows, ready `$antdTheme` block. Used whenever no brand is named — including form-edit's mandatory no-design pass [R-042] via the cost-capped [default-theme-quickpass.md](references/default-theme-quickpass.md) (for that pass, follow that file only). |
    | `requirements-studio` | `requirements-studio.tokens.json` | Example custom brand (LandBank green, Inter, RsStatus lifecycle). |
-   | `wcg` | `wcg.tokens.json` | Additional shipped brand. |
 
    User names a brand / hands tokens / an app `<brand>.tokens.json` exists → use it. A genuinely new brand → copy `shesha.tokens.json` → `<brand>.tokens.json`, swap the values, **keep every key name identical** so recipes, block-overlays and `roles.*` resolve unchanged. Load the file; resolve `roles.*` before authoring.
 2. **Apply the app-level theme (once per project)** — [app-theme.md](references/app-theme.md). Never skip when the complaint is "buttons/links are the wrong colour".
