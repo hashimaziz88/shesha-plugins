@@ -26,30 +26,39 @@ if ($RepoRoot -eq "") {
 }
 $BackendDir = Join-Path $RepoRoot "backend"
 
-# Auto-detect port from launchSettings.json if not specified
-if ($Port -eq 0) {
-    $launchSettings = Get-ChildItem -Path $BackendDir -Recurse -Filter "launchSettings.json" |
-        Where-Object { $_.FullName -match "Web\.Host" } | Select-Object -First 1
-    if ($launchSettings) {
-        $json = Get-Content $launchSettings.FullName | ConvertFrom-Json
-        # Look for "Project" profile first, then fall back to first profile
-        $projectProfile = $null
-        if ($json.profiles.PSObject.Properties["Project"]) {
-            $projectProfile = $json.profiles.Project
-        } else {
-            $profiles = $json.profiles.PSObject.Properties | Select-Object -First 1
-            if ($profiles) { $projectProfile = $profiles.Value }
-        }
-        if ($projectProfile -and $projectProfile.applicationUrl) {
-            $url = $projectProfile.applicationUrl -split ";" | Select-Object -First 1
-            if ($url -match ":(\d+)") {
-                $Port = [int]$Matches[1]
+# In sandboxed/ephemeral environments the backend runs in a separate process/pod, not on this
+# machine - SHESHA_BACKEND_URL (set by the host environment) points at it directly, bypassing the
+# launchSettings/port-detection/localhost logic below entirely, and skipping straight to "server
+# already running" further down.
+if ($env:SHESHA_BACKEND_URL) {
+    $BaseUrl = $env:SHESHA_BACKEND_URL.TrimEnd('/')
+}
+else {
+    # Auto-detect port from launchSettings.json if not specified
+    if ($Port -eq 0) {
+        $launchSettings = Get-ChildItem -Path $BackendDir -Recurse -Filter "launchSettings.json" |
+            Where-Object { $_.FullName -match "Web\.Host" } | Select-Object -First 1
+        if ($launchSettings) {
+            $json = Get-Content $launchSettings.FullName | ConvertFrom-Json
+            # Look for "Project" profile first, then fall back to first profile
+            $projectProfile = $null
+            if ($json.profiles.PSObject.Properties["Project"]) {
+                $projectProfile = $json.profiles.Project
+            } else {
+                $profiles = $json.profiles.PSObject.Properties | Select-Object -First 1
+                if ($profiles) { $projectProfile = $profiles.Value }
+            }
+            if ($projectProfile -and $projectProfile.applicationUrl) {
+                $url = $projectProfile.applicationUrl -split ";" | Select-Object -First 1
+                if ($url -match ":(\d+)") {
+                    $Port = [int]$Matches[1]
+                }
             }
         }
+        if ($Port -eq 0) { $Port = 21021 }
     }
-    if ($Port -eq 0) { $Port = 21021 }
+    $BaseUrl = "http://localhost:$Port"
 }
-$BaseUrl = "http://localhost:$Port"
 $ServerProcess = $null
 
 # Project detection variables (populated by Find-ProjectFiles)

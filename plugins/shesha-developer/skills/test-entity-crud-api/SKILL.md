@@ -50,6 +50,12 @@ Replace `<skill-base-dir>` with this skill's base directory and `<repo-root>` wi
 
 Add `-StartServer` if `--start-server` was passed.
 
+**In sandboxed/ephemeral environments** where the backend runs in a separate process or pod (not
+reachable at `localhost`), set the `SHESHA_BACKEND_URL` environment variable before running this
+skill and never pass `-StartServer` — `Run-EndpointTests.ps1` uses `SHESHA_BACKEND_URL` directly
+as the server address when it is set, skipping port detection and treating the backend as already
+running. Starting a second server would race the live one on the same shared source files.
+
 #### Server Startup (when `-StartServer` is used)
 
 The `Run-EndpointTests.ps1` script handles the full server lifecycle automatically:

@@ -13,9 +13,11 @@
 
 Order of precedence:
 
-1. `src/PBF.MembershipManagement.Web.Host/Properties/launchSettings.json` → `profiles.Project.applicationUrl`
-2. `src/PBF.MembershipManagement.Web.Host/appsettings.json` → `Kestrel:Endpoints:Http:Url`
-3. Fallback: `http://localhost:21021`
+1. Task-supplied context block (always wins)
+2. `SHESHA_BACKEND_URL` environment variable — sandboxed/ephemeral environments where the backend runs in a separate process or pod, not at `localhost`
+3. `src/*.Web.Host/Properties/launchSettings.json` → `profiles.Project.applicationUrl`
+4. `src/*.Web.Host/appsettings.json` → `Kestrel:Endpoints:Http:Url`
+5. Fallback: `http://localhost:21021`
 
 Strip trailing slash.
 

@@ -162,6 +162,9 @@ the backend is **rebuilt and restarted** — Shesha applies migrations and seeds
 startup. So the sequence is: make the change + migration → **rebuild + restart** → verify.
 
 **Restart correctly — this is the biggest cost/failure sink when improvised:**
+- **Ephemeral / shesha-agent sandbox:** if `$SHESHA_AGENT_API_URL` is set, never rebuild or restart
+  yourself — trigger and wait for the restart over shesha-agent's own API instead. See the runbook's
+  "Ephemeral / shesha-agent sandbox" section below for the exact commands.
 - **Never relaunch IIS Express outside Visual Studio** — `hostingModel=InProcess` + `processPath="%LAUNCHER_PATH%"` gives `HTTP 500.0 ANCM in-process` failure. 
 - **Headless / CI:** stop the port holder → `dotnet build` the Web.Host → launch `ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://localhost:<port> dotnet <App>.Web.Host.dll` in the background → poll `/swagger/index.html` for 200.
 - **A brand-new entity needs TWO boots** — its dynamic CRUD controller registers only on the boot *after* its `EntityConfig` is seeded; poll `…/api/dynamic/<module>/<Entity>/Crud/GetAll` and restart once more if it 404s.

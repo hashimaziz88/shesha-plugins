@@ -27,6 +27,34 @@ In-Process handler load failure`**. Do **not** try to relaunch IIS Express. Use 
 
 ---
 
+## Ephemeral / shesha-agent sandbox — check this FIRST
+
+If the `SHESHA_AGENT_API_URL` and `SHESHA_SESSION_ID` environment variables are set, you're running
+inside a shesha-agent ephemeral session, not on a developer's machine or in CI. The backend there
+already runs under `dotnet watch`, and a separate system handles rebuild/redeploy — **do not** take
+over the port or run `dotnet build`/`dotnet run` yourself (the Headless section below does exactly
+that, and it will race the live process, producing MSB3027/MSB3021 file-copy errors). Instead,
+trigger and wait for the restart yourself over shesha-agent's own API:
+
+```bash
+curl -X POST "$SHESHA_AGENT_API_URL/api/app-restart/$SHESHA_SESSION_ID/restart-changed-apps"
+
+# Poll until the backend is running (a few minutes' timeout is reasonable)
+until curl -s "$SHESHA_AGENT_API_URL/api/app-restart/$SHESHA_SESSION_ID/app-statuses" \
+    | grep -q '"backend":"running"'; do
+  sleep 3
+done
+```
+
+Then verify against `$SHESHA_BACKEND_URL` (never `localhost`) — including the same 2-boot lag
+described below for a brand-new entity: poll `Crud/GetAll`, and re-run the two commands above once
+more if it 404s, since the controller only registers on the boot after `EntityConfig` is seeded.
+
+Skip the rest of this doc in this case — the Headless and Attended sections below both assume you can
+freely stop/rebuild/relaunch the backend process yourself, which you must never do here.
+
+---
+
 ## Headless / CI / harness — take over the port with Kestrel
 
 You're headless when the task supplied a context block (Backend URL / Module / Working directory) or
