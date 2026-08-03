@@ -871,5 +871,33 @@ fs.writeFileSync(path.join(outDir, '_meta.json'), JSON.stringify({
 
 fs.writeFileSync(path.join(outDir, '_gaps.json'), JSON.stringify(gaps, null, 2) + '\n');
 
+// ---------------------------------------------------------------------------
+// Post-write consistency assertion: _index.json keys <-> component *.json files
+//
+// The index and the per-component files are written from the same in-memory map,
+// so a clean run is self-consistent BY CONSTRUCTION. This guard exists for the
+// case that map does not describe: files left behind in outDir by an earlier run
+// (renamed/removed component types) which would otherwise sit un-indexed forever.
+// ---------------------------------------------------------------------------
+{
+  const writtenIndex = JSON.parse(fs.readFileSync(path.join(outDir, '_index.json'), 'utf8'));
+  const indexFiles = new Set(Object.values(writtenIndex).map((r) => r.file));
+  const dirFiles = new Set(
+    fs.readdirSync(outDir).filter((f) => f.endsWith('.json') && !f.startsWith('_'))
+  );
+  const onDiskNotIndexed = [...dirFiles].filter((f) => !indexFiles.has(f)).sort();
+  const indexedNotOnDisk = [...indexFiles].filter((f) => !dirFiles.has(f)).sort();
+  if (onDiskNotIndexed.length || indexedNotOnDisk.length) {
+    console.error('FATAL: components-kb index/tree mismatch in ' + outDir);
+    console.error(`  files on disk but NOT in _index.json (${onDiskNotIndexed.length}):`);
+    for (const f of onDiskNotIndexed) console.error(`    + ${f}`);
+    console.error(`  _index.json rows whose file is MISSING on disk (${indexedNotOnDisk.length}):`);
+    for (const f of indexedNotOnDisk) console.error(`    - ${f}`);
+    console.error('  Fix: delete stale *.json files from the output dir, or re-run against a clean dir.');
+    process.exit(1);
+  }
+}
+
 console.log(`Extracted ${sortedTypes.length} toolbox components -> ${outDir}`);
 console.log(`Gaps/warnings: ${gaps.length} (see _gaps.json)`);
+console.log(`Index/tree consistency: OK (${Object.keys(JSON.parse(fs.readFileSync(path.join(outDir, '_index.json'), 'utf8'))).length} entries)`);
