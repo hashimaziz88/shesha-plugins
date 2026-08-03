@@ -9,9 +9,16 @@
 //   - any other relative target is resolved relative to the citing file's dir
 // Anchors and query strings on the target are stripped before resolution.
 //
+// ALSO checks the designer doc family (shesha-form-edit / shesha-claude-designer
+// / shesha-design-comprehension / shesha-design-system / agents / the two
+// shesha-build/shesha-audit commands / hooks/scripts) for stale numbered
+// "Step N" cross-references. The two canonical files that actually define
+// numbered steps (shesha-form-edit/SKILL.md, shesha-claude-designer/SKILL.md)
+// are exempt; every other file in that family must cite step NAMES.
+//
 // Usage: node scripts/check-doc-links.mjs
-// Exit 0 with a count summary if every link resolves; exit 1 listing every
-// `file:line -> broken target` otherwise.
+// Exit 0 with a count summary if every link resolves and no stale step
+// references are found; exit 1 listing every finding otherwise.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -104,11 +111,107 @@ for (const filePath of mdFiles) {
   }
 }
 
-if (broken.length) {
-  console.error(`Found ${broken.length} broken relative markdown link(s):\n`);
-  for (const entry of broken) console.error(`  ${entry}`);
+// ---------------------------------------------------------------------------
+// Step-number staleness check (designer doc family only)
+//
+// This family used to cross-reference numbered "Step N" steps from the two
+// SKILL.mds; those numbers drift every time either SKILL.md is renumbered.
+// Canon: cite step NAMES (e.g. "the Gates step", "the Pre-flight step"),
+// never bare numbers, everywhere outside the two files that own the numbering.
+
+const STEP_FAMILY_DIRS = [
+  'skills/shesha-form-edit',
+  'skills/shesha-claude-designer',
+  'skills/shesha-design-comprehension',
+  'skills/shesha-design-system',
+  'agents',
+];
+const STEP_FAMILY_EXTRA_DIRS = ['hooks/scripts']; // .cjs files
+const STEP_FAMILY_SINGLE_FILES = [
+  'commands/shesha-build.md',
+  'commands/shesha-audit.md',
+];
+const STEP_FAMILY_EXCLUDE = new Set([
+  'skills/shesha-form-edit/SKILL.md',
+  'skills/shesha-claude-designer/SKILL.md',
+]);
+
+const STEP_RE = /\bStep\s+[0-9]+(?:\.[0-9]+)?\b/g;
+// Exempt citations of the two canonical SKILL.md's own numbering, e.g.
+// "shesha-claude-designer/SKILL.md Step 4" or "...SKILL.md) Step 4" — these
+// name a step in the file that legitimately owns numbering, not a stale
+// in-place reference to be fixed here.
+const ALLOWED_CITATION_RE = /SKILL\.md[^A-Za-z0-9]{0,3}Step\s+[0-9]+(?:\.[0-9]+)?\b/g;
+
+function collectFiles(relDir, extList, out) {
+  const abs = path.join(PLUGIN_ROOT, relDir);
+  let entries;
+  try {
+    entries = fs.readdirSync(abs, { withFileTypes: true });
+  } catch (_) {
+    return;
+  }
+  for (const entry of entries) {
+    const relPath = path.join(relDir, entry.name).split(path.sep).join('/');
+    if (entry.isDirectory()) {
+      if (SKIP_DIR_NAMES.has(entry.name)) continue;
+      collectFiles(relPath, extList, out);
+    } else if (entry.isFile() && extList.some((ext) => entry.name.endsWith(ext))) {
+      out.push(relPath);
+    }
+  }
+}
+
+const stepFamilyFiles = [];
+for (const dir of STEP_FAMILY_DIRS) collectFiles(dir, ['.md'], stepFamilyFiles);
+for (const dir of STEP_FAMILY_EXTRA_DIRS) collectFiles(dir, ['.cjs'], stepFamilyFiles);
+for (const f of STEP_FAMILY_SINGLE_FILES) {
+  if (fs.existsSync(path.join(PLUGIN_ROOT, f))) stepFamilyFiles.push(f);
+}
+
+const staleSteps = [];
+for (const relPath of stepFamilyFiles) {
+  if (STEP_FAMILY_EXCLUDE.has(relPath)) continue;
+  const isMd = relPath.endsWith('.md');
+  const fileContent = fs.readFileSync(path.join(PLUGIN_ROOT, relPath), 'utf8');
+  const fileLines = fileContent.split('\n');
+  let stepInFence = false;
+  for (let i = 0; i < fileLines.length; i++) {
+    const rawLine = fileLines[i];
+    if (isMd) {
+      if (/^\s*```/.test(rawLine)) { stepInFence = !stepInFence; continue; }
+      if (stepInFence) continue;
+    }
+    // Strip inline code spans on .md files (same rationale as the link check
+    // above); .cjs files are scanned as-is (the known hit is a `//` comment).
+    const scanLine = isMd ? rawLine.replace(/`[^`]*`/g, '') : rawLine;
+    const masked = scanLine.replace(ALLOWED_CITATION_RE, (m) => '#'.repeat(m.length));
+    STEP_RE.lastIndex = 0;
+    let stepMatch;
+    while ((stepMatch = STEP_RE.exec(masked))) {
+      staleSteps.push(`${relPath}:${i + 1} -> "${stepMatch[0]}"`);
+    }
+  }
+}
+
+if (broken.length || staleSteps.length) {
+  if (broken.length) {
+    console.error(`Found ${broken.length} broken relative markdown link(s):\n`);
+    for (const entry of broken) console.error(`  ${entry}`);
+  }
+  if (staleSteps.length) {
+    console.error(`\nFound ${staleSteps.length} stale numbered-step reference(s) in the designer doc family:\n`);
+    for (const entry of staleSteps) console.error(`  ${entry}`);
+    console.error(
+      '\nCite step NAMES (e.g. "the Gates step"), not numbers — numbering lives only in ' +
+      'shesha-form-edit/SKILL.md and shesha-claude-designer/SKILL.md.'
+    );
+  }
   process.exit(1);
 }
 
-console.log(`check-doc-links: scanned ${mdFiles.length} .md file(s), ${checked} relative link(s), 0 broken.`);
+console.log(
+  `check-doc-links: scanned ${mdFiles.length} .md file(s), ${checked} relative link(s), 0 broken; ` +
+  `${stepFamilyFiles.length} designer doc-family file(s) scanned for stale step numbers, 0 found.`
+);
 process.exit(0);

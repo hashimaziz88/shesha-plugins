@@ -48,7 +48,7 @@ end with a summary naming every form created or modified (module + name + id)
 - **Small edit to an existing form** (add/move/rewire a few components): skip
   the compiler; fetch → edit in place (preserve ids [R-025]) → GATES onward.
 - **New form(s) or a structural rebuild**: full pipeline below.
-- **2+ forms** → [references/orchestration.md](references/orchestration.md)
+- **4+ forms** → (threshold: [references/orchestration.md](references/orchestration.md))
   (fan out `form-author` agents; ONE `fleet-transformer` for bulk mutations).
 - **Backend prerequisites in doubt** (new entity, missing reflist/endpoint) →
   dispatch `fullstack-prereq-checker` first; plan backend changes in one

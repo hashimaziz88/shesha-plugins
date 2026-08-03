@@ -20,7 +20,7 @@ function main() {
   if (fs.statSync(filePath).size > 5 * 1024 * 1024) return 0;
 
   let doc;
-  try { doc = JSON.parse(fs.readFileSync(filePath, 'utf8')); } catch { return 0; } // not valid JSON yet — Step 5.5 catches it
+  try { doc = JSON.parse(fs.readFileSync(filePath, 'utf8')); } catch { return 0; } // not valid JSON yet — the validate-on-write hook catches it
   // Detect form markup: components array of typed nodes (raw, GetJson response, or golden wrapper)
   const tree = doc?.components || doc?.markup?.components ||
     (typeof doc?.markup === 'string' && doc.markup.includes('"components"') ? 'stringified' : null);

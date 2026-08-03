@@ -68,7 +68,7 @@ Compose from blocks — **never** copy a 25K-line seed and edit it down.
    row is `renders`/`gotcha` in the capability matrix, no `columns`, no stray hex, no flex row
    missing `display:flex`). Then validate the assembled form against the component-properties index.
 7. **Push** via the form-edit API (Create / UpdateMarkup / ImportJson) and publish any
-   `$rowTemplate` as its own Table-type form. Expect the gate-5a.5 placement re-measure.
+   `$rowTemplate` as its own Table-type form. Expect the Layer 3 (placement diff) re-measure.
 
 ## The styling boundary (read this twice)
 

@@ -1,6 +1,6 @@
 # Bulk/fleet form transforms (pilot-first)
 
-Mechanics for changing many forms at once without losing fields or regressing working wiring. Routing thresholds (when to go fleet-mode at all) live in SKILL.md Step R (fleet mode past ~3 forms or a multi-page brief); agent dispatch lives in [orchestration.md](orchestration.md). This file is the HOW.
+Mechanics for changing many forms at once without losing fields or regressing working wiring. Fan-out threshold (canon, stated once): [orchestration.md](orchestration.md) — ≤3 forms inline, 4+ fan out. Agent dispatch lives in [orchestration.md](orchestration.md). This file is the HOW.
 
 ---
 
@@ -10,7 +10,7 @@ Read this file when:
 
 | Condition | Why it qualifies |
 |---|---|
-| The same change touches **> 3 forms** | Manual per-form editing drifts; a script is cheaper and consistent |
+| The same change touches **4+ forms** (threshold: [orchestration.md](orchestration.md)) | Manual per-form editing drifts; a script is cheaper and consistent |
 | ANY restructure where **field loss is possible** (re-layout, tab re-bucketing, header transplant) — even on 1 form | Field loss is the #1 risk of bulk re-layouts; only a transform with assertions catches it |
 
 ---

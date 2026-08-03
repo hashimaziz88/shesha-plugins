@@ -1,4 +1,4 @@
-# Entity binding — resolve, verify, never guess (the Step 4.5 contract)
+# Entity binding — resolve, verify, never guess (the Pre-flight step's entity-binding contract)
 
 Everything that connects a form to the backend's registered entities: `modelType`, `entityType`, property metadata, reference lists, and the create-vs-bind decision. Skipped only when `formSettings.dataLoaderType === "none"`.
 
@@ -43,7 +43,7 @@ With metadata in hand:
 
 ## 5. Reference-list identity — copied from metadata, never derived
 
-Every `dropdown`/`radio`/`checkboxGroup`/`refListStatus` with `dataSourceType: "referenceList"` takes its `referenceListId.{module,name}` (or `refListStatus`'s `module`/`referenceListName`) **verbatim** from the bound property's `referenceListName`/`referenceListModule` in the metadata. Deriving `status` → `FlightBookingStatus` when the real list is `BookingStatus` renders a silently EMPTY dropdown that passes every structural check. Assert authored-vs-metadata equality (mechanically re-checked in Step 6's `validate-guardrails.js` when the metadata dump is passed). **Existence + items gate before push:** the reflist configuration item (`app/ConfigurationItem/GetCurrent?itemType=reference-list&name=…&module=…` — the route `resolve-bindings.js` uses; see [api.md §10.5](api.md)) must return the list with ≥1 item; a 404 or zero items is a blocking fail → `domain-model` seeds it.
+Every `dropdown`/`radio`/`checkboxGroup`/`refListStatus` with `dataSourceType: "referenceList"` takes its `referenceListId.{module,name}` (or `refListStatus`'s `module`/`referenceListName`) **verbatim** from the bound property's `referenceListName`/`referenceListModule` in the metadata. Deriving `status` → `FlightBookingStatus` when the real list is `BookingStatus` renders a silently EMPTY dropdown that passes every structural check. Assert authored-vs-metadata equality (mechanically re-checked in the Gates step's `validate-guardrails.js` when the metadata dump is passed). **Existence + items gate before push:** the reflist configuration item (`app/ConfigurationItem/GetCurrent?itemType=reference-list&name=…&module=…` — the route `resolve-bindings.js` uses; see [api.md §10.5](api.md)) must return the list with ≥1 item; a 404 or zero items is a blocking fail → `domain-model` seeds it.
 
 ## 6. After any domain change
 

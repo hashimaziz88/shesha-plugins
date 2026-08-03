@@ -1,6 +1,6 @@
 # Multi-agent orchestration for form fleets
 
-When work spans many forms (or many full-stack pages), single-context editing degrades — context fills with markup, later forms get sloppier, and verification gets skipped. This file is the dispatch playbook. Mechanics of the transforms themselves: [bulk-operations.md](bulk-operations.md). Routing thresholds: SKILL.md Step R (fleet mode past ~3 forms changed or a multi-page/app brief; below that stay inline).
+When work spans many forms (or many full-stack pages), single-context editing degrades — context fills with markup, later forms get sloppier, and verification gets skipped. This file is the dispatch playbook, and the single authority for the fan-out threshold — **≤3 forms → single context, no agents; 4+ forms → fan out** (cost table below). Mechanics of the transforms themselves: [bulk-operations.md](bulk-operations.md). Screen-level routing (by SCREEN count, not form count) is [shesha-claude-designer/SKILL.md](../../shesha-claude-designer/SKILL.md) Step 4 — Build (delegate).
 
 ---
 
@@ -67,6 +67,8 @@ One final agent (or do it inline): aggregate the verdicts; use ONLY the data pro
 ---
 
 ## Cost guidance — when fan-out pays
+
+**Canon threshold (single source, cited everywhere else): ≤3 → single context, no agents; 4+ → fan out.**
 
 | Situation | Do |
 |---|---|
