@@ -110,6 +110,102 @@ for (const fixture of BLUEPRINTS) {
   }
 }
 
+// ---- action buttons render inline [R-057] ------------------------------------
+// The snapshots are the compiler's committed output, so they are also the cheapest
+// place to pin the inline contract: EVERY buttonGroup the compiler has ever emitted
+// carries isInline:true — without it the whole group folds into an overflow "…" menu,
+// which is invisible in the markup and only shows up in a browser. Reading the
+// snapshots means a compiler change has to re-record before it can ship a collapsed
+// action row. On capture archetypes the group additionally sits in a right-aligned
+// flex row (its own dimensions/stylingBox are measured no-ops, so the container is
+// the only alignment lever).
+test('every buttonGroup in every snapshot is inline [R-057]', () => {
+  const snaps = fs.readdirSync(SNAPSHOTS).filter((f) => f.endsWith('.json'));
+  assert.ok(snaps.length >= 5, `expected the recorded snapshots, found ${snaps.length}`);
+  const CAPTURE = new Set(['asset-capture', 'react-grammar']); // the capture-archetype fixtures
+  let seen = 0;
+  for (const snap of snaps) {
+    const fixture = snap.replace(/--(shesha|requirements-studio)\.json$/, '');
+    const doc = JSON.parse(fs.readFileSync(path.join(SNAPSHOTS, snap), 'utf8'));
+    (function walk(node, parent) {
+      if (Array.isArray(node)) return node.forEach((n) => walk(n, parent));
+      if (!node || typeof node !== 'object') return;
+      if (node.type === 'buttonGroup') {
+        seen++;
+        assert.equal(node.isInline, true,
+          `${snap}: buttonGroup "${node.componentName}" is not isInline:true — it renders as an overflow "…" menu [R-057]`);
+        assert.ok((node.items ?? []).length >= 2, `${snap}: buttonGroup "${node.componentName}" lost its Save/exit pair [R-007]`);
+        if (CAPTURE.has(fixture)) {
+          assert.equal(parent?.desktop?.display, 'flex',
+            `${snap}: the capture footer holding "${node.componentName}" is not a flex box [R-057]`);
+          assert.equal(parent?.desktop?.flexDirection, 'row',
+            `${snap}: the capture footer holding "${node.componentName}" is a ${parent?.desktop?.flexDirection} stack, not a row [R-057]`);
+          assert.equal(parent?.desktop?.justifyContent, 'flex-end',
+            `${snap}: a capture footer right-aligns its actions [R-057]`);
+        }
+      }
+      const nextParent = typeof node.type === 'string' && node.id ? node : parent;
+      for (const v of Object.values(node)) walk(v, nextParent);
+    })(doc.components, null);
+  }
+  assert.ok(seen >= 4, `expected buttonGroups across the snapshots, found ${seen}`);
+});
+
+// The floor pair is a FLOOR, not a ceiling: a blueprint that names its own buttons
+// gets those. children[] is the button channel the blueprint schema allows today
+// (node.items/node.buttons are honoured too, for when it grows a richer shape).
+test('a blueprint that names its own action buttons gets those, not Save/Back [R-057]', () => {
+  const bp = {
+    screen: 'Own Buttons', archetype: 'capture',
+    entity: { fullClassName: 'His.Facilities.Domain.Asset', modelType: 'His.Facilities.Domain.Asset' },
+    form: { module: 'His.Facilities', name: 'own-buttons' },
+    layout: {
+      kind: 'stack', name: 'page', gap: 'lg',
+      children: [
+        { kind: 'heading', level: 1, content: 'Register Asset' },
+        { kind: 'field', property: 'name' },
+        { kind: 'actions', name: 'assetActions', children: [
+          { kind: 'chip', name: 'btnSubmitAsset', title: 'Submit for Approval' },
+          { kind: 'chip', name: 'btnSaveDraft', title: 'Save Draft' },
+          { kind: 'chip', name: 'btnCancel', title: 'Cancel' },
+        ] },
+      ],
+    },
+  };
+  const bpFile = path.join(WORK, 'own-buttons.blueprint.json');
+  fs.writeFileSync(bpFile, JSON.stringify(bp, null, 2));
+  const out = path.join(WORK, 'own-buttons.json');
+  const r = run('compile-blueprint.js', ['--blueprint', bpFile, '--out', out, '--no-live', '--theme', 'shesha']);
+  assert.equal(r.code, 0, `compile failed (its own gates rejected it):\n${r.out}`);
+  const doc = JSON.parse(fs.readFileSync(out, 'utf8'));
+
+  const groups = [];
+  (function walk(n, parent) {
+    if (Array.isArray(n)) return n.forEach((x) => walk(x, parent));
+    if (!n || typeof n !== 'object') return;
+    if (n.type === 'buttonGroup') groups.push({ group: n, parent });
+    const next = typeof n.type === 'string' && n.id ? n : parent;
+    for (const v of Object.values(n)) walk(v, next);
+  })(doc.components, null);
+
+  assert.equal(groups.length, 1, `expected exactly ONE action group, found ${groups.length} [R-020]`);
+  const { group, parent } = groups[0];
+  assert.equal(group.isInline, true, 'an authored action group is still inline [R-057]');
+  assert.deepEqual(group.items.map((i) => i.label), ['Submit for Approval', 'Save Draft', 'Cancel'],
+    'the blueprint-specified buttons were clobbered by the Save/Back floor');
+  // one primary, on the first submit-shaped button [R-007]
+  assert.deepEqual(group.items.map((i) => i.buttonType), ['primary', 'default', 'default']);
+  assert.equal(group.items[0].actionConfiguration.actionName, 'Submit');
+  assert.equal(group.items[2].actionConfiguration.actionName, 'Navigate');
+  // deterministic ids: same blueprint, same ids
+  const rerun = path.join(WORK, 'own-buttons-rerun.json');
+  assert.equal(run('compile-blueprint.js', ['--blueprint', bpFile, '--out', rerun, '--no-live', '--theme', 'shesha']).code, 0);
+  assert.equal(fs.readFileSync(rerun, 'utf8'), fs.readFileSync(out, 'utf8'), 'recompiling the same blueprint changed the output');
+  // capture footer: right-aligned flex row around the group
+  assert.equal(parent.desktop.flexDirection, 'row', 'the footer must be a flex row [R-057]');
+  assert.equal(parent.desktop.justifyContent, 'flex-end', 'a capture footer right-aligns its actions [R-057]');
+});
+
 // ---- spacing resolves through the theme, not a hardcoded literal --------------
 // A numeric-STRING spacing key is a step on the theme scale: '4' → spacing.4 → 16px.
 // It used to fall through to parseInt('4') and emit 4px — while the card default's
@@ -337,4 +433,16 @@ test('broken-bindings fixture FAILS the guardrail gate', () => {
 
   const withoutMeta = run('validate-guardrails.js', [fixture]);
   assert.equal(withoutMeta.code, 0, 'without metadata the identity check can only warn — that contract changed');
+});
+
+test('stacked-buttons fixture FAILS the guardrail gate on R-057', () => {
+  // Both stack shapes in one file: a COLUMN container holding two button components,
+  // and a two-item buttonGroup with no isInline:true. Nothing else in the fixture is
+  // broken, so R-057 must be the ONLY failing id — that is what makes it a proof the
+  // check has teeth rather than a file that trips something.
+  const r = run('validate-guardrails.js', [path.join(FIXTURES, 'stacked-buttons.json')]);
+  assert.notEqual(r.code, 0, `expected a non-zero exit:\n${r.out}`);
+  assert.deepEqual(failingRuleIds(r.out), ['R-057'], `expected R-057 alone to fail:\n${r.out}`);
+  assert.match(r.out, /actionStack/, 'the stacked container must be named');
+  assert.match(r.out, /collapsedGroup/, 'the non-inline buttonGroup must be named');
 });

@@ -261,6 +261,38 @@ function checkStyleChannels(node) {
   }
 }
 
+// ---- R-057 — adjacent action buttons render inline ---------------------------
+// Two failure shapes, one rule:
+//   (i)  a buttonGroup with 2+ button items and no isInline:true — the renderer
+//        collapses the whole group into an overflow "…" menu (measured by
+//        render-instrument's collapsedActions probe).
+//   (ii) 2+ button/buttonGroup components sharing a container that is not a real
+//        flex ROW — they stack one per line. buttonGroup has no alignment lever of
+//        its own (its dimensions/stylingBox are measured no-ops), so the container
+//        is where both the row and the capture-footer right-alignment live.
+const BUTTON_COMPONENTS = new Set(['button', 'buttonGroup', 'buttons']);
+
+function checkInlineActions(node) {
+  if (node.type === 'buttonGroup') {
+    const buttons = (node.items || []).filter((it) => it && typeof it === 'object' && it.itemType !== 'group');
+    if (buttons.length >= 2 && node.isInline !== true) {
+      add('R-057', label(node),
+        `buttonGroup has ${buttons.length} buttons but isInline is ${JSON.stringify(node.isInline ?? null)} — the group collapses to an overflow "…" menu instead of an inline row`);
+    }
+  }
+  const kids = (node.components || []).filter((c) => c && typeof c === 'object' && c.type);
+  const buttonKids = kids.filter((c) => BUTTON_COMPONENTS.has(c.type));
+  if (buttonKids.length >= 2) {
+    const dk = node.desktop || {};
+    const flexed = dk.display === 'flex' || dk.display === 'inline-flex';
+    const row = flexed && (dk.flexDirection === undefined || dk.flexDirection === 'row' || dk.flexDirection === 'row-reverse');
+    if (!row) {
+      add('R-057', label(node),
+        `${buttonKids.length} action button component(s) share this container but desktop is display:${JSON.stringify(dk.display ?? null)} / flexDirection:${JSON.stringify(dk.flexDirection ?? null)} — they stack one per line; make it a flex ROW (and justifyContent:"flex-end" for a capture footer)`);
+    }
+  }
+}
+
 // ---- R-028 — split mechanics ------------------------------------------------
 function checkSplitMechanics(node, isRootLevel) {
   if (node.type === 'columns') {
@@ -445,6 +477,7 @@ function walkTree(nodes, parent) {
 
     checkReflistIdentity(node);
     checkStyleChannels(node);
+    checkInlineActions(node);
     checkSplitMechanics(node, parent === null);
     if (navigateTargetMissing(node)) add('R-008', label(node));
 

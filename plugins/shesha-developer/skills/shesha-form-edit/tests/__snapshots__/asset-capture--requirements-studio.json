@@ -360,55 +360,87 @@
       "parentId": "root"
     },
     {
-      "id": "5124939f-8100-5ea3-ba64-24f62d45eb4e",
-      "type": "buttonGroup",
-      "version": 15,
-      "componentName": "formActions",
-      "propertyName": "formActions",
-      "label": "Form Actions",
-      "hideLabel": true,
-      "isInline": true,
-      "editMode": "editable",
-      "items": [
-        {
-          "id": "bcfac0f5-2e50-581e-afb5-d8c06d7c5e7d",
-          "itemType": "item",
-          "itemSubType": "button",
-          "sortOrder": 0,
-          "name": "btnSave",
-          "label": "Save",
-          "buttonType": "primary",
-          "icon": "SaveOutlined",
-          "buttonAction": "submit",
-          "editMode": "inherited",
-          "actionConfiguration": {
-            "_type": "action-config",
-            "actionName": "Submit",
-            "actionOwner": "shesha.form",
-            "handleSuccess": false,
-            "handleFail": false
-          }
+      "id": "74925e0a-b2c7-5c68-b564-5c99ec29ac2c",
+      "type": "container",
+      "version": 7,
+      "componentName": "formActionsRow",
+      "direction": "horizontal",
+      "display": "flex",
+      "flexDirection": "row",
+      "flexWrap": "nowrap",
+      "gap": 8,
+      "stylingBox": "{}",
+      "desktop": {
+        "display": "flex",
+        "flexDirection": "row",
+        "flexWrap": "nowrap",
+        "justifyContent": "flex-end",
+        "alignItems": "center",
+        "gap": "8px",
+        "dimensions": {
+          "width": "100%",
+          "height": "auto",
+          "minHeight": "auto",
+          "maxHeight": "auto",
+          "minWidth": "0px",
+          "maxWidth": "100%"
         },
+        "stylingBox": "{}"
+      },
+      "components": [
         {
-          "id": "5913e2b2-0508-568c-9add-9e730b8d060f",
-          "itemType": "item",
-          "itemSubType": "button",
-          "sortOrder": 1,
-          "name": "btnBack",
-          "label": "Back",
-          "buttonType": "default",
-          "icon": "ArrowLeftOutlined",
-          "buttonAction": "navigate",
-          "editMode": "inherited",
-          "actionConfiguration": {
-            "_type": "action-config",
-            "actionName": "Navigate",
-            "actionOwner": "shesha.common",
-            "actionArguments": {
-              "navigationType": "url",
-              "url": "/"
+          "id": "5124939f-8100-5ea3-ba64-24f62d45eb4e",
+          "type": "buttonGroup",
+          "version": 15,
+          "componentName": "formActions",
+          "propertyName": "formActions",
+          "label": "Form Actions",
+          "hideLabel": true,
+          "isInline": true,
+          "editMode": "editable",
+          "items": [
+            {
+              "id": "bcfac0f5-2e50-581e-afb5-d8c06d7c5e7d",
+              "itemType": "item",
+              "itemSubType": "button",
+              "sortOrder": 0,
+              "name": "btnSave",
+              "label": "Save",
+              "buttonType": "primary",
+              "icon": "SaveOutlined",
+              "buttonAction": "submit",
+              "editMode": "inherited",
+              "actionConfiguration": {
+                "_type": "action-config",
+                "actionName": "Submit",
+                "actionOwner": "shesha.form",
+                "handleSuccess": false,
+                "handleFail": false
+              }
+            },
+            {
+              "id": "5913e2b2-0508-568c-9add-9e730b8d060f",
+              "itemType": "item",
+              "itemSubType": "button",
+              "sortOrder": 1,
+              "name": "btnBack",
+              "label": "Back",
+              "buttonType": "default",
+              "icon": "ArrowLeftOutlined",
+              "buttonAction": "navigate",
+              "editMode": "inherited",
+              "actionConfiguration": {
+                "_type": "action-config",
+                "actionName": "Navigate",
+                "actionOwner": "shesha.common",
+                "actionArguments": {
+                  "navigationType": "url",
+                  "url": "/"
+                }
+              }
             }
-          }
+          ],
+          "parentId": "74925e0a-b2c7-5c68-b564-5c99ec29ac2c"
         }
       ],
       "parentId": "root"

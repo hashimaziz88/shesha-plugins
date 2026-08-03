@@ -147,6 +147,31 @@ try {
       collapsedActions += btns.filter((b) => isEllipsis(b.innerText)).length;
     }
 
+    // stacked action buttons [R-057]: inside one action container, two sibling
+    // buttons whose y-ranges are disjoint while their x-ranges overlap are on
+    // separate lines — the vertical-stack failure the "…" probe above cannot see.
+    // Action containers = every buttonGroup, plus any container holding ≥2 marked
+    // button/buttonGroup components.
+    const actionContainers = [...bgs];
+    for (const c of comps) {
+      if (c.getAttribute('data-sha-c-type') !== 'container') continue;
+      const btnKids = [...c.querySelectorAll('[data-sha-c-type="button"], [data-sha-c-type="buttonGroup"]')];
+      if (btnKids.length >= 2) actionContainers.push(c);
+    }
+    const stackedActionRows = [];
+    for (const ac of actionContainers) {
+      const btns = [...ac.querySelectorAll('button')].filter(vis)
+        .filter((b) => !isEllipsis(b.innerText) && (b.innerText || '').trim().length > 0);
+      if (btns.length < 2) continue;
+      const rects = btns.map((b) => b.getBoundingClientRect());
+      const stacked = rects.some((a, i) => rects.slice(i + 1).some((b) => {
+        const yDisjoint = a.bottom <= b.top + 1 || b.bottom <= a.top + 1;
+        const xOverlap = Math.min(a.right, b.right) - Math.max(a.left, b.left) > 4;
+        return yDisjoint && xOverlap;
+      }));
+      if (stacked) stackedActionRows.push(ac.getAttribute('data-sha-c-name') || ac.getAttribute('data-sha-c-id'));
+    }
+
     // horizontal overflow: no marked component should extend past the viewport
     let maxRight = 0;
     for (const el of comps) { const r = el.getBoundingClientRect(); if (r.width > 0 && r.right > maxRight) maxRight = r.right; }
@@ -180,6 +205,7 @@ try {
       layout: {
         controls: controlEls.length, tinyControls,
         realButtons, buttonGroups: bgs.length, collapsedActions,
+        stackedActionRows,
         overflowX,
         rowsExpectedSideBySide: rowContainers.length,
         rowsThatStacked: rowContainers.filter((r) => !r.sideBySide).map((r) => r.name),
@@ -220,6 +246,7 @@ try {
     if (L.overflowX > 24) verdict.reasons.push(`layout: content overflows the viewport by ${L.overflowX}px (horizontal scroll)`);
     if (L.collapsedActions > 0) verdict.reasons.push('layout: action row shows an overflow "…" instead of inline buttons (buttonGroup needs isInline:true)');
     if (L.buttonGroups > 0 && L.realButtons === 0) verdict.reasons.push('layout: a buttonGroup rendered no visible labelled button (collapsed/overflow)');
+    if (L.stackedActionRows?.length) verdict.reasons.push(`layout: ${L.stackedActionRows.length} action container(s) render their buttons stacked vertically instead of inline (${L.stackedActionRows.filter(Boolean).join(', ') || 'unnamed'}) — buttonGroup needs isInline:true, the container a flex row [R-057]`);
   }
   // the render-instrument proves the form LOADS + is geometrically sound; a PASS
   // here is necessary, not sufficient — the visual design-critic is the quality gate.

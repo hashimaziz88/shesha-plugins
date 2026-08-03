@@ -109,6 +109,16 @@ const BY_DATATYPE = {
   'guid': 'textField',
 };
 
+// Capture-class archetypes: their action row is a FOOTER, so it right-aligns
+// [R-057]. Declared here (not next to the floor block that also reads it) because
+// buildContainer consults it while the tree is still compiling — a later `const`
+// would be in its temporal dead zone.
+const CAPTURE_ARCHETYPES = new Set(['capture', 'modal-dialog', 'wizard']);
+const isCaptureFooter = () => CAPTURE_ARCHETYPES.has(bp.archetype);
+// Component types that ARE buttons. A container holding only these is an action
+// row and must render as one horizontal line, never a vertical stack [R-057].
+const BUTTON_TYPES = new Set(['button', 'buttonGroup', 'buttons']);
+
 function titleCase(prop) {
   const last = prop.split('.').pop();
   return last.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (c) => c.toUpperCase());
@@ -265,7 +275,8 @@ function compileNode(node, idPrefix) {
     }
     case 'buttonGroup':
     case 'actions':
-      return floorButtonGroup(idKey);
+      // the node's own button specs win over the Save/Back floor [R-057]
+      return floorButtonGroup(idKey, node);
     case 'datatable': {
       const table = {
         id: gymUuid('bp', bp.form.name, `${idKey}/table`),
@@ -341,8 +352,23 @@ function compileNode(node, idPrefix) {
 // (gap/padding/align/justify/width) and maps each to a measured channel; a
 // container ALWAYS sets display:flex so the flex props aren't inert [R-029].
 function buildContainer(node, idKey) {
-  const isRow = node.kind === 'row' || node.kind === 'grid';
-  let children = (node.children ?? []).map((c) => compileNode(c, idKey));
+  const COLUMN_PARENT = node.kind !== 'row' && node.kind !== 'grid';
+  let children = (node.children ?? []).map((c) => {
+    const compiled = compileNode(c, idKey);
+    // A capture screen's action row is a FOOTER. Inside a COLUMN stack the group has
+    // no alignment lever of its own (buttonGroup dimensions/stylingBox are measured
+    // no-ops), so it gets its own right-aligned row [R-057]. Inside an author's row
+    // (a toolbar) the author's justify already governs — left alone.
+    if (COLUMN_PARENT && isCaptureFooter() && (c.kind === 'actions' || c.kind === 'buttonGroup')) {
+      return actionFooterRow(compiled);
+    }
+    return compiled;
+  });
+  // An action row is a row whatever kind the author reached for: a container whose
+  // children are ALL buttons renders as one horizontal line, never a vertical stack
+  // [R-057]. Capture footers right-align; elsewhere the author's justify stands.
+  const allButtons = children.length > 0 && children.every((c) => BUTTON_TYPES.has(c.type));
+  const isRow = node.kind === 'row' || node.kind === 'grid' || allButtons;
 
   // grid: N equal columns. Each child is WRAPPED in a width-carrying flex column
   // (the same mechanism the 66/33 row split uses) rather than sizing the field
@@ -390,13 +416,15 @@ function buildContainer(node, idKey) {
   // container's own defaultStyles shape) so layout is honoured. [R-030/R-032]
   // ONE resolved gap for both the desktop block and the root-level duplicate below —
   // resolving it twice let the two drift apart.
-  const gapPx = resolveSpace(node.gap, isRow ? themePx('4', 16) : themePx('3', 12));
+  // action rows sit tighter than layout rows: spacing.2 between buttons
+  const gapPx = resolveSpace(node.gap, allButtons ? themePx('2', 8) : (isRow ? themePx('4', 16) : themePx('3', 12)));
   const desktop = {
     display: 'flex',
     flexDirection: isRow ? 'row' : 'column',
     flexWrap: node.kind === 'grid' ? 'wrap' : 'nowrap',
-    justifyContent: node.justify ? (JUSTIFY[node.justify] ?? node.justify) : 'flex-start',
-    alignItems: node.align ? (ALIGN[node.align] ?? node.align) : (isRow ? 'flex-start' : 'stretch'),
+    justifyContent: node.justify ? (JUSTIFY[node.justify] ?? node.justify)
+      : (allButtons && isCaptureFooter() ? 'flex-end' : 'flex-start'),
+    alignItems: node.align ? (ALIGN[node.align] ?? node.align) : (allButtons ? 'center' : (isRow ? 'flex-start' : 'stretch')),
     gap: `${gapPx}px`,
     dimensions: {
       width: node.width ?? (isRow ? '100%' : 'auto'),
@@ -434,31 +462,104 @@ function buildContainer(node, idKey) {
   return container;
 }
 
-function floorButtonGroup(idKey) {
-  // isInline:true is what renders Save/Back as an inline button row; without it
-  // the group collapses to an overflow "…" menu (proven by the golden shape).
+// ---- action rows -------------------------------------------------------------
+// The Save/Back pair is the FLOOR [R-007/R-020], not a ceiling: a blueprint that
+// names its own buttons gets those instead. Button specs are read from, in order:
+//   node.items / node.buttons — the rich shape {name,label,buttonType,icon,action,url}
+//   node.children            — the shape the blueprint schema allows TODAY (a node's
+//                              only child channel), read as label-carrying specs
+// Whatever the source, the group always carries isInline:true — without it the
+// renderer collapses it to an overflow "…" menu (proven by the golden shape) [R-057].
+const DEFAULT_ACTION_SPECS = [
+  { name: 'btnSave', label: 'Save', buttonType: 'primary', icon: 'SaveOutlined', action: 'submit' },
+  { name: 'btnBack', label: 'Back', buttonType: 'default', icon: 'ArrowLeftOutlined', action: 'navigate', url: '/' },
+];
+const SUBMIT_WORDS = /^(save|submit|create|add|update|confirm|apply|send|register)\b/i;
+const EXIT_WORDS = /^(back|cancel|close|discard|exit|return)\b/i;
+const DEFAULT_ICONS = { submit: 'SaveOutlined', navigate: 'ArrowLeftOutlined' };
+
+/** Normalise one authored spec (rich object OR blueprint child node) into a spec. */
+function actionSpec(raw, i) {
+  const label = raw.label ?? raw.title ?? raw.content ?? (raw.name ? titleCase(raw.name) : `Action ${i + 1}`);
+  const name = raw.name ?? `btn${String(label).replace(/[^A-Za-z0-9]/g, '') || i}`;
+  let action = raw.action ?? raw.buttonAction ?? null;
+  if (!action) action = SUBMIT_WORDS.test(label) ? 'submit' : (EXIT_WORDS.test(label) ? 'navigate' : null);
+  return { name, label, action, buttonType: raw.buttonType, icon: raw.icon, url: raw.url ?? raw.target };
+}
+
+/**
+ * A normalised spec → a buttonGroup item. The id key is the button's SLUG (btnSave →
+ * "save"), so the Save/Back pair keeps the ids it has always had and an authored
+ * button keeps its id across recompiles [R-025]. Key order mirrors the golden item
+ * shape so a rerun diffs cleanly.
+ */
+function actionItem(spec, i, idKey, allowPrimary) {
+  const slug = spec.name.replace(/^btn/i, '').replace(/[^A-Za-z0-9]/g, '').toLowerCase() || String(i);
+  const item = {
+    id: gymUuid('bp', bp.form.name, `${idKey}/actions/${slug}`),
+    itemType: 'item', itemSubType: 'button', sortOrder: i,
+    name: spec.name, label: spec.label,
+    // exactly ONE primary per action zone [R-007] — the first submit earns it
+    buttonType: spec.buttonType ?? (spec.action === 'submit' && allowPrimary ? 'primary' : 'default'),
+  };
+  const icon = spec.icon ?? (spec.action ? DEFAULT_ICONS[spec.action] : undefined);
+  if (icon) item.icon = icon;
+  if (spec.action) item.buttonAction = spec.action;
+  item.editMode = 'inherited';
+  if (spec.action === 'submit') {
+    item.actionConfiguration = { _type: 'action-config', actionName: 'Submit', actionOwner: 'shesha.form', handleSuccess: false, handleFail: false };
+  } else if (spec.action === 'navigate') {
+    // a Navigate with an empty target crashes the page [R-008] — default to the root
+    item.actionConfiguration = { _type: 'action-config', actionName: 'Navigate', actionOwner: 'shesha.common', actionArguments: { navigationType: 'url', url: spec.url ?? '/' } };
+  }
+  return item;
+}
+
+function floorButtonGroup(idKey, node) {
+  const authored = [node?.items, node?.buttons, node?.children].find((a) => Array.isArray(a) && a.length);
+  const specs = (authored ?? DEFAULT_ACTION_SPECS).map(actionSpec);
+  let primaryTaken = specs.some((s) => s.buttonType === 'primary');
+  const items = specs.map((spec, i) => {
+    const allow = !primaryTaken;
+    if (spec.action === 'submit' && allow) primaryTaken = true;
+    return actionItem(spec, i, idKey, allow);
+  });
+  const name = node?.name ?? 'formActions';
   return {
     id: gymUuid('bp', bp.form.name, `${idKey}/actions`),
     type: 'buttonGroup', version: ver('buttonGroup'),
-    componentName: 'formActions', propertyName: 'formActions',
+    componentName: name, propertyName: name,
     label: 'Form Actions', hideLabel: true, isInline: true, editMode: 'editable',
-    items: [
-      {
-        id: gymUuid('bp', bp.form.name, `${idKey}/actions/save`),
-        itemType: 'item', itemSubType: 'button', sortOrder: 0,
-        name: 'btnSave', label: 'Save', buttonType: 'primary', icon: 'SaveOutlined',
-        buttonAction: 'submit', editMode: 'inherited',
-        actionConfiguration: { _type: 'action-config', actionName: 'Submit', actionOwner: 'shesha.form', handleSuccess: false, handleFail: false },
-      },
-      {
-        id: gymUuid('bp', bp.form.name, `${idKey}/actions/back`),
-        itemType: 'item', itemSubType: 'button', sortOrder: 1,
-        name: 'btnBack', label: 'Back', buttonType: 'default', icon: 'ArrowLeftOutlined',
-        buttonAction: 'navigate', editMode: 'inherited',
-        actionConfiguration: { _type: 'action-config', actionName: 'Navigate', actionOwner: 'shesha.common', actionArguments: { navigationType: 'url', url: '/' } },
-      },
-    ],
+    items,
   };
+}
+
+/**
+ * Wrap an action group in its own flex ROW so 2+ buttons read as one line and, on a
+ * capture footer, sit right-aligned [R-057]. buttonGroup's own dimensions/stylingBox
+ * are measured no-ops (assets/measured-capability-matrix.json), so the alignment
+ * lever HAS to be the containing container — exactly what buildContainer normalises
+ * for author-written action rows.
+ */
+function actionFooterRow(group) {
+  const row = {
+    id: gymUuid('bp', bp.form.name, `${group.id}/actionsRow`),
+    type: 'container', version: ver('container'),
+    componentName: `${group.componentName}Row`,
+    direction: 'horizontal', display: 'flex', flexDirection: 'row', flexWrap: 'nowrap',
+    gap: themePx('2', 8), stylingBox: '{}',
+    desktop: {
+      display: 'flex', flexDirection: 'row', flexWrap: 'nowrap',
+      justifyContent: isCaptureFooter() ? 'flex-end' : 'flex-start',
+      alignItems: 'center',
+      gap: `${themePx('2', 8)}px`,
+      dimensions: { width: '100%', height: 'auto', minHeight: 'auto', maxHeight: 'auto', minWidth: '0px', maxWidth: '100%' },
+      stylingBox: '{}',
+    },
+    components: [group],
+  };
+  group.parentId = row.id;
+  return row;
 }
 
 // ---- page chrome -------------------------------------------------------------
@@ -498,8 +599,9 @@ function stampPageChrome(node) {
 // ---- assemble ------------------------------------------------------------------
 const rootChildren = [stampPageChrome(compileNode(bp.layout, bp.form.name))];
 
-// floor: capture archetypes always get validationErrors + Submit/exit pair [R-006/R-007/R-020]
-const CAPTURE_ARCHETYPES = new Set(['capture', 'modal-dialog', 'wizard']);
+// floor: capture archetypes always get validationErrors + Submit/exit pair
+// [R-006/R-007/R-020] (CAPTURE_ARCHETYPES is declared up top — buildContainer
+// needs it while the tree compiles)
 const treeText = JSON.stringify(rootChildren);
 if (CAPTURE_ARCHETYPES.has(bp.archetype)) {
   if (!treeText.includes('"validationErrors"')) {
@@ -509,7 +611,8 @@ if (CAPTURE_ARCHETYPES.has(bp.archetype)) {
       componentName: 'formValidationErrors',
     });
   }
-  if (!treeText.includes('"Submit"')) rootChildren.push(floorButtonGroup('floor'));
+  // the appended pair lands in its own right-aligned footer row [R-057]
+  if (!treeText.includes('"Submit"')) rootChildren.push(actionFooterRow(floorButtonGroup('floor')));
 }
 for (const c of rootChildren) c.parentId = 'root';
 

@@ -531,55 +531,87 @@
           "parentId": "177566ff-e1ab-58f4-aa87-f1dde4bef0eb"
         },
         {
-          "id": "8b9f096e-be84-5888-9d4e-9c2860e49c3a",
-          "type": "buttonGroup",
-          "version": 15,
-          "componentName": "formActions",
-          "propertyName": "formActions",
-          "label": "Form Actions",
-          "hideLabel": true,
-          "isInline": true,
-          "editMode": "editable",
-          "items": [
-            {
-              "id": "d8df2c04-5b0e-5baa-a3cc-cce25772d3ec",
-              "itemType": "item",
-              "itemSubType": "button",
-              "sortOrder": 0,
-              "name": "btnSave",
-              "label": "Save",
-              "buttonType": "primary",
-              "icon": "SaveOutlined",
-              "buttonAction": "submit",
-              "editMode": "inherited",
-              "actionConfiguration": {
-                "_type": "action-config",
-                "actionName": "Submit",
-                "actionOwner": "shesha.form",
-                "handleSuccess": false,
-                "handleFail": false
-              }
+          "id": "49b7e504-bbfa-5636-9cd3-138b9695d625",
+          "type": "container",
+          "version": 7,
+          "componentName": "formActionsRow",
+          "direction": "horizontal",
+          "display": "flex",
+          "flexDirection": "row",
+          "flexWrap": "nowrap",
+          "gap": 8,
+          "stylingBox": "{}",
+          "desktop": {
+            "display": "flex",
+            "flexDirection": "row",
+            "flexWrap": "nowrap",
+            "justifyContent": "flex-end",
+            "alignItems": "center",
+            "gap": "8px",
+            "dimensions": {
+              "width": "100%",
+              "height": "auto",
+              "minHeight": "auto",
+              "maxHeight": "auto",
+              "minWidth": "0px",
+              "maxWidth": "100%"
             },
+            "stylingBox": "{}"
+          },
+          "components": [
             {
-              "id": "5b5140b0-ce6c-55bf-9293-cd33acfe28c2",
-              "itemType": "item",
-              "itemSubType": "button",
-              "sortOrder": 1,
-              "name": "btnBack",
-              "label": "Back",
-              "buttonType": "default",
-              "icon": "ArrowLeftOutlined",
-              "buttonAction": "navigate",
-              "editMode": "inherited",
-              "actionConfiguration": {
-                "_type": "action-config",
-                "actionName": "Navigate",
-                "actionOwner": "shesha.common",
-                "actionArguments": {
-                  "navigationType": "url",
-                  "url": "/"
+              "id": "8b9f096e-be84-5888-9d4e-9c2860e49c3a",
+              "type": "buttonGroup",
+              "version": 15,
+              "componentName": "formActions",
+              "propertyName": "formActions",
+              "label": "Form Actions",
+              "hideLabel": true,
+              "isInline": true,
+              "editMode": "editable",
+              "items": [
+                {
+                  "id": "d8df2c04-5b0e-5baa-a3cc-cce25772d3ec",
+                  "itemType": "item",
+                  "itemSubType": "button",
+                  "sortOrder": 0,
+                  "name": "btnSave",
+                  "label": "Save",
+                  "buttonType": "primary",
+                  "icon": "SaveOutlined",
+                  "buttonAction": "submit",
+                  "editMode": "inherited",
+                  "actionConfiguration": {
+                    "_type": "action-config",
+                    "actionName": "Submit",
+                    "actionOwner": "shesha.form",
+                    "handleSuccess": false,
+                    "handleFail": false
+                  }
+                },
+                {
+                  "id": "5b5140b0-ce6c-55bf-9293-cd33acfe28c2",
+                  "itemType": "item",
+                  "itemSubType": "button",
+                  "sortOrder": 1,
+                  "name": "btnBack",
+                  "label": "Back",
+                  "buttonType": "default",
+                  "icon": "ArrowLeftOutlined",
+                  "buttonAction": "navigate",
+                  "editMode": "inherited",
+                  "actionConfiguration": {
+                    "_type": "action-config",
+                    "actionName": "Navigate",
+                    "actionOwner": "shesha.common",
+                    "actionArguments": {
+                      "navigationType": "url",
+                      "url": "/"
+                    }
+                  }
                 }
-              }
+              ],
+              "parentId": "49b7e504-bbfa-5636-9cd3-138b9695d625"
             }
           ],
           "parentId": "177566ff-e1ab-58f4-aa87-f1dde4bef0eb"

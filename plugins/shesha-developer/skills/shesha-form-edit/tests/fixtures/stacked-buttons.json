@@ -1,0 +1,102 @@
+{
+  "_comment": "NEGATIVE fixture for R-057 — an action row that stacks. Two shapes in one file: (1) actionStack is a COLUMN container holding two button components, so they render one per line; (2) collapsedGroup is a buttonGroup with two items and no isInline:true, so the renderer folds it into an overflow \"…\" menu. Everything else is deliberately clean — styled, versioned, parented, no form actions on the standalone buttons — so R-057 is the ONLY rule that fails. Consumed by tests/pipeline.test.mjs.",
+  "components": [
+    {
+      "id": "sb-root-container-0001",
+      "type": "container",
+      "version": 7,
+      "parentId": "root",
+      "componentName": "pageRoot",
+      "direction": "vertical",
+      "desktop": {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": "12px",
+        "font": { "size": 14, "weight": "400" },
+        "background": { "type": "color", "color": "#f5f6f8" },
+        "dimensions": { "width": "100%", "minWidth": "0px", "maxWidth": "100%" }
+      },
+      "components": [
+        {
+          "id": "sb-action-stack-0002",
+          "type": "container",
+          "version": 7,
+          "parentId": "sb-root-container-0001",
+          "componentName": "actionStack",
+          "direction": "vertical",
+          "desktop": {
+            "display": "flex",
+            "flexDirection": "column",
+            "gap": "8px",
+            "dimensions": { "width": "100%", "minWidth": "0px", "maxWidth": "100%" }
+          },
+          "components": [
+            {
+              "id": "sb-button-add-0003",
+              "type": "button",
+              "version": 9,
+              "parentId": "sb-action-stack-0002",
+              "componentName": "btnPrimaryAction",
+              "label": "Add Movement",
+              "buttonType": "primary",
+              "editMode": "editable",
+              "desktop": { "font": { "size": 14, "weight": "600" } }
+            },
+            {
+              "id": "sb-button-export-0004",
+              "type": "button",
+              "version": 9,
+              "parentId": "sb-action-stack-0002",
+              "componentName": "btnSecondaryAction",
+              "label": "Export",
+              "buttonType": "default",
+              "editMode": "editable",
+              "desktop": { "font": { "size": 14, "weight": "400" } }
+            }
+          ]
+        },
+        {
+          "id": "sb-collapsed-group-0005",
+          "type": "buttonGroup",
+          "version": 15,
+          "parentId": "sb-root-container-0001",
+          "componentName": "collapsedGroup",
+          "propertyName": "collapsedGroup",
+          "label": "Row Actions",
+          "hideLabel": true,
+          "editMode": "editable",
+          "desktop": { "font": { "size": 14, "weight": "400" } },
+          "items": [
+            {
+              "id": "sb-group-item-edit-0006",
+              "itemType": "item",
+              "itemSubType": "button",
+              "sortOrder": 0,
+              "name": "btnEdit",
+              "label": "Edit",
+              "buttonType": "default",
+              "editMode": "inherited"
+            },
+            {
+              "id": "sb-group-item-print-0007",
+              "itemType": "item",
+              "itemSubType": "button",
+              "sortOrder": 1,
+              "name": "btnPrint",
+              "label": "Print",
+              "buttonType": "default",
+              "editMode": "inherited"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "formSettings": {
+    "layout": "vertical",
+    "colon": false,
+    "labelCol": { "span": 24 },
+    "wrapperCol": { "span": 24 },
+    "modelType": { "name": "Asset", "module": "His.Facilities" }
+  }
+}
