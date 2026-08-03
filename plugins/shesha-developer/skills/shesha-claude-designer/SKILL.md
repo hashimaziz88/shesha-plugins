@@ -16,7 +16,7 @@ This skill is often invoked as a blanket entry point for tasks that don't need a
 | Single screen + NO design source (prose adjectives only) | Hand the ENTIRE task to `Skill(shesha-developer:shesha-form-edit)` and stop — its pipeline ends styled [R-042] and oracle-verified. Conducting a one-screen prose build is the measured #1 cause of 30+ min runs form-edit finishes in ~8. |
 | Single trivial edit ("add a checkbox to X") | Same — straight to `shesha-form-edit`. |
 | Single screen + a REAL design source (files to measure) | This pipeline, comprehension inline (no dispatch), placement gate on that one screen. |
-| 2+ screens, or a kit/prototype covering an app | Full pipeline with per-screen fan-out. |
+| 2+ screens, or a kit/prototype covering an app | Full pipeline (fan-out threshold: [orchestration.md](../shesha-form-edit/references/orchestration.md) — MUST for 4+; 2–3 may build inline sequentially). |
 
 When routing away, pass the full context (backend URL, credentials, module, workdir) and let `shesha-form-edit` own the run end-to-end, including the summary.
 
@@ -30,7 +30,7 @@ Identify the source and its fidelity tier: readable source (A) · runnable proto
 
 ## Step 2 — Comprehend each screen → blueprint
 
-**REQUIRED SUB-SKILL `shesha-developer:shesha-design-comprehension`**, one agent per screen in parallel (MUST for 2+; Contract in [conducting.md](references/conducting.md)). Each screen yields `<workdir>/blueprints/<screen>.blueprint.md` — measured layout-tree/bindings/assertions **plus the fenced `blueprint-json` twin, validated against `shesha-design-comprehension/schemas/blueprint.schema.json` by `node shesha-design-comprehension/scripts/validate-blueprint.mjs <blueprint.json|.md>` (exit 0 = valid; the compiler runs the same validator and refuses to build otherwise)**. The twin is the build input ("no spec, no build"); never hand `shesha-form-edit` a prose brief. Name regions with the canonical archetypes from `shesha-design-system/references/default-layout-patterns.md`; measure only where the design deviates from those patterns.
+**REQUIRED SUB-SKILL `shesha-developer:shesha-design-comprehension`**, one agent per screen in parallel (MUST for 4+ screens, 2–3 may run inline sequentially — threshold canon in orchestration.md; Contract in [conducting.md](references/conducting.md)). Each screen yields `<workdir>/blueprints/<screen>.blueprint.md` — measured layout-tree/bindings/assertions **plus the fenced `blueprint-json` twin, validated against `shesha-design-comprehension/schemas/blueprint.schema.json` by `node shesha-design-comprehension/scripts/validate-blueprint.mjs <blueprint.json|.md>` (exit 0 = valid; the compiler runs the same validator and refuses to build otherwise)**. The twin is the build input ("no spec, no build"); never hand `shesha-form-edit` a prose brief. Name regions with the canonical archetypes from `shesha-design-system/references/default-layout-patterns.md`; measure only where the design deviates from those patterns.
 
 ## Step 3 — Theme once + plan
 
@@ -60,7 +60,7 @@ One aggregate envelope for the run: per screen — form (module + name + id), bl
 - **Placement and visual gates are BLOCKING and CAPPED** (2 iterations / 2 cycles) — an honest partial-match report beats an unconverging loop.
 - **Delegate ownership**: structure/push = `shesha-form-edit` [R-046]; styling tokens = `shesha-design-system`, compiled in by form-edit, never a separate pass [R-042]; placement = `shesha-design-comprehension`. Splits are flex containers, never `columns` [R-028/R-029] — enforced by form-edit's gates, never patched by the conductor.
 - **Set up once, propagate everywhere** — pre-flight state rides in every dispatch prompt.
-- **Fan out across screens (MUST for 2+)**; barriers (theme, push, verify) stay serial ([conducting.md](references/conducting.md)).
+- **Fan out across screens (MUST for 4+; 2–3 may build inline)**; barriers (theme, push, verify) stay serial ([conducting.md](references/conducting.md)).
 - **Honesty about gaps** — if a design detail can't be expressed in Shesha, say so.
 
 | Concern | Skill |
