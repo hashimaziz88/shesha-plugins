@@ -18,12 +18,13 @@ Pick ONE shell per session and stick to it: **on Windows run every command throu
 
 All scratch — build/push scripts, staged markup, probe dumps — goes in the session `$WORKDIR` (the orchestrator's `<workdir>`, else `$env:TEMP/shesha-form-edit/`). **Never** the user's project directory or cwd (litter erodes trust), and **never `/tmp`** (git-bash `/tmp` ≠ PowerShell `$env:TEMP` ≠ `C:\tmp` — files written in one shell are "not found" by the next). Pass values into Node via **env vars**, not positional argv. Prefer one combined fetch→mutate→push script over many small probe commands — each round-trip is paid context.
 
-## 4. Dispatch contract — agents return markup, they never push and never style
+## 4. One execution model — who owns what across dispatch shapes
 
-A dispatched authoring agent (`form-author`, a comprehension agent, any ad-hoc builder):
-- **returns markup ONLY** — it never calls Create/UpdateMarkup/ImportJson, never publishes, never clears caches;
-- **never styles** — appearance is authored solely by `Skill(shesha-developer:shesha-design-system)`; an authoring agent hand-editing v7 style blocks bypasses token discipline and version-gating;
-- receives in its brief: the pinned shell/tool (§1), `$WORKDIR` + token-file path (§2–3), its input (blueprint/seed/metadata summary), and this contract restated in one line.
+- A dispatched **FORM-EDIT WORKER** (Skill dispatch by the conductor) owns the full pipeline for its screen: compile (theme baked in) → gates → push → ledger → oracle; it returns pushed+verified form facts.
+- A **FORM-AUTHOR SUBAGENT** (`form-author`) compiles + gates but never pushes — Create/UpdateMarkup/ImportJson, publish, and cache-clear stay with its dispatcher, which owns push+oracle for the markup it returns.
+- `shesha-design-system` authors tokens and audit verdicts only — appearance is baked in at compile time [R-042], never a hand-edit over built v7 style blocks.
+- `shesha-design-comprehension` authors blueprints and placement verdicts only.
+- All backend writes go through exactly one gated push path (§5) regardless of which of the above executed the compile — a dispatched agent receives in its brief: the pinned shell/tool (§1), `$WORKDIR` + token-file path (§2–3), its input (blueprint/seed/metadata summary), and this contract restated in one line.
 
 ## 5. One gated push path
 
