@@ -1,6 +1,6 @@
 ---
 name: shesha-form-edit
-description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). The build executor of the v2 compiler pipeline — compiles a blueprint IR (or a spec synthesized from prose requirements) into markup, typed against the measured capability matrix and baking in theme tokens read from shesha-design-system's theme files at compile time, gates it mechanically (schema → guardrails → bindings → styled-ness), pushes via Create/UpdateMarkup, and verifies the deliverable (re-fetch diff + render instrument). Invoke directly for targeted work when dispatched by the main skill or when the user names a specific form and edit ("add a sector dropdown above the email field", "wire the Save button"). 0.45-only — versioned 0.43-class backends belong to the shesha-developer-0-43 plugin. Every new no-design form compiles with the default `shesha` theme's tokens baked in — no form ships unstyled.
+description: Use when building or editing one specific Shesha form — compiling a blueprint IR (or a spec synthesized from prose requirements) into markup, or when the user names a specific form and edit ("add a sector dropdown above the email field", "wire the Save button"). Enter via shesha-claude-designer for full designs; invoke directly for this targeted, single-form work. The build executor of the v2 compiler pipeline — types markup against the measured capability matrix, bakes in theme tokens from shesha-design-system at compile time, gates it mechanically, pushes via Create/UpdateMarkup, and verifies the deliverable. 0.45-only — versioned 0.43-class backends belong to the shesha-developer-0-43 plugin. Every new no-design form compiles with the default `shesha` theme's tokens baked in — no form ships unstyled.
 allowed-tools:
   - Bash
   - PowerShell
@@ -81,11 +81,17 @@ finding.
   "table"/grid → `datatable` [R-019]. This is the judgment step: get the
   archetype and the layout tree right here, not in JSON surgery later.
 
-Archetypes: `assets/golden/_index.json` (table-worklist · record-detail · hub
-· capture · modal-dialog · list-card · inline-card · dashboard). Golden files
-are the seed/reference tier for hand-composition and regression comparison —
-the compiler builds from the blueprint tree directly and never reads them —
-grep fragments, never read one whole [R-050].
+Archetypes: the schema enum is the single authority — 11 values, see
+`shesha-design-comprehension/schemas/blueprint.schema.json`:
+<!-- archetype-enum -->
+`record-detail` · `hub` · `list-card` · `capture` · `dashboard` ·
+`solution-map` · `wizard` · `inline-card` · `table-worklist` ·
+`modal-dialog` · `auth-page`.
+(no goldens yet: solution-map, wizard). Golden files
+(`assets/golden/_index.json`) are the seed/reference tier for
+hand-composition and regression comparison — the compiler builds from the
+blueprint tree directly and never reads them — grep fragments, never read one
+whole [R-050].
 
 ## 3 · Compile
 
@@ -132,7 +138,7 @@ separate styling pass is needed for a compiled form.
 
 Two things still route to `Skill(shesha-developer:shesha-design-system)`:
 - **the one-time app AntD theme** (`$antdTheme` — input/table/button chrome), set
-  once per app, not per form ([references/app-theme via design-system]);
+  once per app, not per form ([app-theme.md](../shesha-design-system/references/app-theme.md));
 - **re-styling a form you did NOT compile** (a hand-composed form, a small edit,
   or matching a brand that has no token file yet).
 

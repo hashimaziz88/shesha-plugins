@@ -1,6 +1,6 @@
 ---
 name: shesha-design-comprehension
-description: EXECUTION LAYER under shesha-claude-designer (the main entry for all designer work — enter there first). Owns the blueprint IR — turns a design source (readable HTML/JSX, a runnable prototype, or screenshots/PDF) into a measured layout blueprint (Markdown + schema-validated blueprint-json twin) that shesha-form-edit's compiler consumes, and verifies a built form against the blueprint's assertions by re-measurement. Invoke directly only for targeted work: diagnosing placement drift on an already-built form, or producing/refreshing a single screen's blueprint.
+description: Use when turning a design source (readable HTML/JSX, a runnable prototype, or screenshots/PDF) into a measured layout blueprint, diagnosing placement drift on an already-built form, or verifying a built form against its blueprint assertions. Enter via shesha-claude-designer for full designs; invoke directly when producing/refreshing a single screen's blueprint or doing targeted drift diagnosis. Owns the blueprint IR (Markdown + schema-validated blueprint-json twin) that shesha-form-edit's compiler consumes. 0.45-only.
 ---
 
 # Shesha Design Comprehension

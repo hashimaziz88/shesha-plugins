@@ -5,10 +5,15 @@ Two asset pools feed a build. Both are grep targets — never read a whole file
 
 ## 1. Golden archetypes (`assets/golden/`) — seed/reference tier
 
-`assets/golden/_index.json` indexes the 0.45 golden corpus: **table-worklist ·
-record-detail · hub · capture · capture-standalone · modal-dialog · list-card ·
-list-card-item · inline-card · dashboard**. Archetype keys match the blueprint
-IR vocabulary (`shesha-design-comprehension/schemas/blueprint.schema.json`).
+`assets/golden/_index.json` indexes the 0.45 golden corpus — one golden file
+per archetype, plus two extra file variants (`capture-standalone`,
+`list-card-item`) filed under their parent archetype, not standalone
+archetypes: **table-worklist · record-detail · hub · capture**
+(+ `capture-standalone` file, a minimal capture variant) **· modal-dialog ·
+list-card** (+ `list-card-item` file, the datalist row-template card) **·
+inline-card · dashboard · auth-page**. Archetype keys match the blueprint IR
+vocabulary — the schema enum is the single authority
+(`shesha-design-comprehension/schemas/blueprint.schema.json`).
 
 The normal path is the compiler: `scripts/compile-blueprint.js` builds the
 layout tree directly from the blueprint (ids, versions [R-003], bindings,

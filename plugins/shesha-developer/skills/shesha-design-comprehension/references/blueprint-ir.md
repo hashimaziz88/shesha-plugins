@@ -24,7 +24,7 @@ The Markdown blocks (`layout-tree` / `bindings` / `assertions`) remain the human
 # Blueprint — <screen-slug>
 Screen identity:  <human name + where it lives>
 Entity (modelType, resolve live):  <Entity>   ·   Form identity:  <module> / <form-name>
-Archetype:  <one of the 8 — see below>  [+ variant note]
+Archetype:  <one of the 11 — see below>  [+ variant note]
 Fidelity tier:  A | B | C        Confidence:  high | medium | low
 Viewport captured:  <w>x<h>      Source:  <probe file / source path / screenshot>
 
@@ -44,14 +44,20 @@ Viewport captured:  <w>x<h>      Source:  <probe file / source path / screenshot
 
 ## The archetypes (target vocabulary)
 
-The blueprint's `Archetype` must be one of the values in the IR schema's
-`archetype` enum (`schemas/blueprint.schema.json`), so the compiler picks the
-right seed:
-`table-worklist` · `record-detail` · `hub` · `capture` · `modal-dialog` · `list-card` · `inline-card` · `dashboard` · `solution-map` · `wizard`.
+The schema enum is the single authority: the blueprint's `Archetype` must be
+one of the 11 values in the IR schema's `archetype` enum
+(`schemas/blueprint.schema.json`), so the compiler picks the right seed.
+<!-- archetype-enum -->
+`record-detail` · `hub` · `list-card` · `capture` · `dashboard` ·
+`solution-map` · `wizard` · `inline-card` · `table-worklist` ·
+`modal-dialog` · `auth-page`.
+
 Each one's clonable seed is catalogued in
 `shesha-form-edit/assets/golden/_index.json` (grep it — never read a golden
-whole). `solution-map` and `wizard` have no golden seed yet, so the compiler
-falls back to hand-composition for those.
+whole), except `solution-map` and `wizard`, which have no golden reference
+form yet — the compiler falls back to hand-composition for those.
+`auth-page`'s golden reference form exists (manual-clone only — the compiler
+does not wire anonymous auth).
 
 ## `layout-tree` grammar
 
@@ -151,7 +157,7 @@ This one document is simultaneously: the thing a reviewer signs off (prose + tre
 
 ## Authoring checklist
 
-- [ ] `Archetype` is one of the eight, with a variant note if needed.
+- [ ] `Archetype` is one of the 11 values in the schema enum, with a variant note if needed.
 - [ ] Every `row` line records native cell widths (`row=[…]`, `fill`/`1fr` + fixed px) and a `gap`; no Shesha `columns` component, no `/24` normalisation. Each cell maps to a `container` sized via `desktop.dimensions.width` (fill → `calc(100% - <fixed+gap>px)`, fixed → `<n>px`); the row carries `display:"flex"`.
 - [ ] Every bound field has `← Entity.property`; every region names its design-system `recipe`.
 - [ ] `assertions` cover: split-cell membership, row grouping, nesting depth, tab assignment — the things that drift. No pixel asserts.

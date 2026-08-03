@@ -194,7 +194,73 @@ for (const relPath of stepFamilyFiles) {
   }
 }
 
-if (broken.length || staleSteps.length) {
+// ---------------------------------------------------------------------------
+// Archetype vocabulary check
+//
+// The schema enum (shesha-design-comprehension/schemas/blueprint.schema.json
+// `archetype` enum) is the single authority for archetype names. Docs that
+// restate the vocabulary mark their list with a `<!-- archetype-enum -->`
+// comment on its own line; the block of lines immediately following it (up
+// to the first blank line) must contain EXACTLY the schema's enum values —
+// no more, no fewer, no drift ("one of the 8", stale lists, etc).
+
+const ARCHETYPE_DOC_FILES = [
+  'skills/shesha-design-comprehension/references/blueprint-ir.md',
+  'skills/shesha-form-edit/SKILL.md',
+];
+const SCHEMA_PATH = path.join(
+  PLUGIN_ROOT,
+  'skills/shesha-design-comprehension/schemas/blueprint.schema.json'
+);
+
+const archetypeFindings = [];
+let schemaEnum = null;
+try {
+  const schema = JSON.parse(fs.readFileSync(SCHEMA_PATH, 'utf8'));
+  schemaEnum = schema.properties && schema.properties.archetype && schema.properties.archetype.enum;
+} catch (err) {
+  archetypeFindings.push(`could not read/parse schema at ${path.relative(REPO_ROOT, SCHEMA_PATH)}: ${err.message}`);
+}
+
+const TOKEN_RE = /`([a-z]+(?:-[a-z]+)*)`/g;
+
+if (schemaEnum) {
+  const enumSet = new Set(schemaEnum);
+  for (const relPath of ARCHETYPE_DOC_FILES) {
+    const abs = path.join(PLUGIN_ROOT, relPath);
+    if (!fs.existsSync(abs)) {
+      archetypeFindings.push(`${relPath}: file not found`);
+      continue;
+    }
+    const fileLines = fs.readFileSync(abs, 'utf8').split('\n');
+    const markerIdx = fileLines.findIndex((l) => l.includes('<!-- archetype-enum -->'));
+    if (markerIdx === -1) {
+      archetypeFindings.push(`${relPath}: no <!-- archetype-enum --> marker found`);
+      continue;
+    }
+    const blockLines = [];
+    for (let i = markerIdx + 1; i < fileLines.length; i++) {
+      if (fileLines[i].trim() === '') break;
+      blockLines.push(fileLines[i]);
+    }
+    const blockText = blockLines.join('\n');
+    const found = new Set();
+    let m;
+    TOKEN_RE.lastIndex = 0;
+    while ((m = TOKEN_RE.exec(blockText))) found.add(m[1]);
+
+    const missing = [...enumSet].filter((v) => !found.has(v));
+    const extra = [...found].filter((v) => !enumSet.has(v));
+    if (missing.length || extra.length) {
+      let msg = `${relPath}: archetype list (after <!-- archetype-enum --> at line ${markerIdx + 1}) does not match schema enum`;
+      if (missing.length) msg += ` — missing: ${missing.join(', ')}`;
+      if (extra.length) msg += ` — unexpected: ${extra.join(', ')}`;
+      archetypeFindings.push(msg);
+    }
+  }
+}
+
+if (broken.length || staleSteps.length || archetypeFindings.length) {
   if (broken.length) {
     console.error(`Found ${broken.length} broken relative markdown link(s):\n`);
     for (const entry of broken) console.error(`  ${entry}`);
@@ -207,11 +273,20 @@ if (broken.length || staleSteps.length) {
       'shesha-form-edit/SKILL.md and shesha-claude-designer/SKILL.md.'
     );
   }
+  if (archetypeFindings.length) {
+    console.error(`\nFound ${archetypeFindings.length} archetype-vocabulary finding(s):\n`);
+    for (const entry of archetypeFindings) console.error(`  ${entry}`);
+    console.error(
+      '\nThe schema enum (shesha-design-comprehension/schemas/blueprint.schema.json) ' +
+      'is the single authority for archetype names.'
+    );
+  }
   process.exit(1);
 }
 
 console.log(
   `check-doc-links: scanned ${mdFiles.length} .md file(s), ${checked} relative link(s), 0 broken; ` +
-  `${stepFamilyFiles.length} designer doc-family file(s) scanned for stale step numbers, 0 found.`
+  `${stepFamilyFiles.length} designer doc-family file(s) scanned for stale step numbers, 0 found; ` +
+  `${ARCHETYPE_DOC_FILES.length} archetype-vocabulary block(s) checked against the schema enum, 0 drift.`
 );
 process.exit(0);
