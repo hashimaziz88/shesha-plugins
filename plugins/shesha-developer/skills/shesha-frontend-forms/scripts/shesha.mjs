@@ -30,6 +30,8 @@ import { normaliseMarkup, runGates } from './lib/gates.mjs';
 import { generateKit, KitError } from './gen-kit.mjs';
 import { PREVIEW_EXIT, PreviewError, renderPreview } from './lib/preview.mjs';
 import { COMPILE_EXIT, CompileError, compileSpec } from './lib/compile.mjs';
+import { PUSH_EXIT, PushError, pushForm } from './lib/push.mjs';
+import * as ledger from './lib/ledger.mjs';
 
 const SKILL_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -50,11 +52,11 @@ const SUBCOMMANDS = {
   check: 'Run the offline gate chain over a form markup file',
   preview: 'Render a mirror-kit JSX spec to pixels — the forward model',
   compile: 'Compile a mirror-kit JSX spec to Shesha 0.45 form JSON',
-  push: 'Push a form and verify it by re-fetch diff                        [Phase 5]',
+  push: 'Push a form and verify it by re-fetch diff — the only write path',
   render: 'Render a live form and run the rendered gates                     [Phase 6]',
   fidelity: 'Compare the approved mock render against the Shesha render        [Phase 7]',
   smoke: 'Post-push binding smoke test                                      [Phase 6]',
-  ledger: 'Read or repair the persistence ledger                             [Phase 5]',
+  ledger: 'Read or repair the persistence ledger',
   build: 'Supervised multi-screen build from a manifest                     [Phase 11]',
 };
 
@@ -1024,6 +1026,223 @@ async function cmdCompile(flags) {
   return gate.ok ? EXIT.OK : EXIT.GATE;
 }
 
+const PUSH_HELP = `shesha push — the ONLY write path
+
+Usage:
+  node shesha.mjs push --file <f.json> --form <module>/<name> --app <path> [options]
+
+The chain, and every link is load-bearing:
+  gates -> ledger "authored" -> Create|UpdateMarkup -> ledger "pushed"
+        -> re-fetch -> canonical diff -> ledger "verified"
+
+A 200 PROVES NOTHING [R-047]. The backend can accept a write and store something other
+than what was sent — a forgotten stringify, a field the server rewrites, a permission
+filter that answers 200 with a null body. So verification is re-fetch and diff, and
+"verified" is unreachable except as a side effect of a diff artefact written in the same
+run.
+
+The canonical diff treats re-ordered KEYS and null-versus-absent as equal, because the
+server normalises both and a gate that cries wolf gets disabled. Everything else is a
+difference, including array order — components render in the order they appear.
+
+Options:
+  --file <f>       the markup to push.  REQUIRED
+  --form <m>/<n>   module/name.  REQUIRED
+  --app <path>     the Shesha app (ground truth, ledger, token cache).  REQUIRED
+  --backend <url>  default: ${DEFAULT_BACKEND}
+  --dry-run        run the gates and record "authored", then stop before writing
+  --no-create      fail rather than creating a form that does not exist
+  --fast           skip the round-trip gate (NOT recommended before a write)
+  --json           machine-readable result
+
+Exit codes:
+  0 pushed and verified · 8 the gates failed, nothing was written
+  9 an HTTP error · 10 the re-fetch differed, so the push is UNVERIFIED
+  64 usage error
+`;
+
+async function cmdPush(flags) {
+  if (flags.help) {
+    process.stdout.write(PUSH_HELP);
+    return EXIT.OK;
+  }
+  for (const [f, why] of [['file', '<f.json>'], ['form', '<module>/<name>'], ['app', '<path>']]) {
+    if (!flags[f] || flags[f] === true) {
+      process.stderr.write(`push: --${f} ${why} is required.\n\n` + PUSH_HELP);
+      return EXIT.USAGE;
+    }
+  }
+  if (!String(flags.form).includes('/')) {
+    process.stderr.write('push: --form must be <module>/<name>.\n');
+    return EXIT.USAGE;
+  }
+  const [formModule, formName] = String(flags.form).split('/');
+  const appRoot = resolve(flags.app);
+  const filePath = resolve(flags.file);
+  if (!existsSync(filePath)) {
+    process.stderr.write(`push: no such file: ${filePath}\n`);
+    return EXIT.USAGE;
+  }
+  const gt = loadGroundTruth(appRoot);
+  if (!gt) {
+    process.stderr.write(`push: no ground truth — run \`probe --app ${appRoot}\` first\n`);
+    return EXIT.GATE;
+  }
+
+  const raw = readFileSync(filePath, 'utf8');
+  let markup;
+  try {
+    const { doc } = normaliseMarkup(JSON.parse(raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw));
+    markup = doc;
+  } catch (e) {
+    process.stderr.write(`push: ${filePath} is not valid JSON: ${(e && e.message) || e}\n`);
+    return PUSH_EXIT.GATES;
+  }
+  const ctx = buildCheckContext(gt, markup, flags);
+
+  // The full chain runs before a write. --fast exists for debugging, not for pushing.
+  let roundTripResult = flags.fast
+    ? { skipReason: '--fast was passed, so the strongest structural check did NOT run before this write' }
+    : null;
+  if (!flags.fast) {
+    try {
+      const rt = await runRoundTrip(appRoot, markup, {});
+      roundTripResult = rt.result;
+    } catch (e) {
+      roundTripResult = { error: (e && e.message) || String(e) };
+    }
+  }
+
+  try {
+    const r = await pushForm({
+      appRoot,
+      backend: typeof flags.backend === 'string' ? flags.backend : DEFAULT_BACKEND,
+      file: filePath,
+      formModule,
+      formName,
+      groundTruth: gt,
+      ctx,
+      roundTripResult,
+      outDir: join(appRoot, '.shesha', 'push'),
+      dryRun: !!flags['dry-run'],
+      createIfMissing: !flags['no-create'],
+      onProgress: (m) => process.stderr.write(`push: ${m}\n`),
+    });
+    process.stdout.write(
+      JSON.stringify(
+        {
+          ok: true,
+          form: r.form,
+          id: r.id ?? null,
+          created: !!r.created,
+          dryRun: !!r.dryRun,
+          verified: r.verified,
+          artefacts: r.artefacts ?? null,
+          gateWarnings: r.gate.counts.warnings,
+          runId: r.runId,
+        },
+        null,
+        2
+      ) + '\n'
+    );
+    return EXIT.OK;
+  } catch (e) {
+    if (!(e instanceof PushError)) throw e;
+    process.stderr.write(`push: ${e.message}\n`);
+    for (const d of e.detail || []) process.stderr.write(`   ${d.why}${d.at ? `\n      ${d.at}` : ''}\n`);
+    return e.exitCode || PUSH_EXIT.HTTP;
+  }
+}
+
+const LEDGER_HELP = `shesha ledger — read or repair the persistence ledger
+
+Usage:
+  node shesha.mjs ledger status --app <path> [--json]
+  node shesha.mjs ledger gate   --app <path> [--authored-evidence]
+  node shesha.mjs ledger reset  --app <path> --reason "<why>"
+  node shesha.mjs ledger quarantine --app <path>
+
+ONE RULE: no status without an artefact. A status claiming verification must carry a file
+that exists and was produced in the same run. The previous corpus held exactly one
+"verified" write across 1,274 tool calls, and it named a form from an unrelated earlier
+run — a status with nothing behind it reads as assurance and is worse than none.
+
+  status       what each form's latest state is, and what is outstanding
+  gate         the Stop decision. FAIL CLOSED: open work, a vanished artefact, a malformed
+               ledger, or an absent ledger alongside authoring evidence all block.
+  reset        mark open work abandoned WITH A REASON. History is never deleted.
+  quarantine   move a corrupt ledger aside, keeping it as evidence.
+
+Exit codes:
+  0 nothing outstanding · 1 outstanding work (gate blocks) · 64 usage error
+`;
+
+async function cmdLedger(flags, positional) {
+  if (flags.help) {
+    process.stdout.write(LEDGER_HELP);
+    return EXIT.OK;
+  }
+  const sub = positional[1] || 'status';
+  if (!flags.app || flags.app === true) {
+    process.stderr.write('ledger: --app <path> is required.\n\n' + LEDGER_HELP);
+    return EXIT.USAGE;
+  }
+  const appRoot = resolve(flags.app);
+
+  if (sub === 'status') {
+    const s = ledger.status(appRoot);
+    if (flags.json) {
+      process.stdout.write(JSON.stringify(s, null, 2) + '\n');
+    } else {
+      process.stdout.write(`ledger ${s.path}\n`);
+      if (!s.exists) process.stdout.write('  (no ledger yet)\n');
+      for (const f of s.forms) {
+        process.stdout.write(
+          `  ${f.open ? 'OPEN' : ' ok '}  ${f.form.padEnd(44)} ${f.status.padEnd(10)} ${f.ts}${f.artefactMissing ? '  ARTEFACT MISSING' : ''}\n`
+        );
+      }
+      process.stdout.write(`  ${s.entryCount} entr${s.entryCount === 1 ? 'y' : 'ies'}, ${s.open.length} outstanding\n`);
+      for (const m of s.malformed) process.stdout.write(`  MALFORMED line ${m.line}: ${m.why}\n`);
+    }
+    return s.open.length || s.malformed.length || s.brokenClaims.length ? EXIT.GATE : EXIT.OK;
+  }
+
+  if (sub === 'gate') {
+    const g = ledger.stopGate(appRoot, { authoredEvidence: !!flags['authored-evidence'] });
+    if (flags.json) {
+      process.stdout.write(JSON.stringify(g, null, 2) + '\n');
+    } else if (g.block) {
+      process.stderr.write('ledger gate: BLOCKED\n');
+      for (const r of g.reasons) process.stderr.write(`  - ${r}\n`);
+      process.stderr.write(`Run: ${g.command}\n`);
+    } else {
+      process.stdout.write('ledger gate: clear\n');
+    }
+    return g.block ? EXIT.GATE : EXIT.OK;
+  }
+
+  if (sub === 'reset') {
+    const reason = typeof flags.reason === 'string' ? flags.reason : null;
+    if (!reason) {
+      // Abandoning work without saying why is how a ledger stops meaning anything.
+      process.stderr.write('ledger reset: --reason "<why>" is required. Abandoning work silently defeats the ledger.\n');
+      return EXIT.USAGE;
+    }
+    const r = ledger.reset(appRoot, { reason });
+    process.stdout.write(JSON.stringify({ ok: true, abandoned: r.closed, reason }, null, 2) + '\n');
+    return EXIT.OK;
+  }
+
+  if (sub === 'quarantine') {
+    const to = ledger.quarantine(appRoot);
+    process.stdout.write(JSON.stringify({ ok: true, movedTo: to }, null, 2) + '\n');
+    return EXIT.OK;
+  }
+
+  process.stderr.write(`ledger: unknown subcommand "${sub}".\n\n${LEDGER_HELP}`);
+  return EXIT.USAGE;
+}
+
 function unimplemented(name, phase) {
   return async (flags) => {
     const help = `shesha ${name} — ${SUBCOMMANDS[name]}\n\nNot implemented until Phase ${phase}.\n`;
@@ -1042,11 +1261,11 @@ const HANDLERS = {
   check: cmdCheck,
   preview: cmdPreview,
   compile: cmdCompile,
-  push: unimplemented('push', 5),
+  push: cmdPush,
   render: unimplemented('render', 6),
   fidelity: unimplemented('fidelity', 7),
   smoke: unimplemented('smoke', 6),
-  ledger: unimplemented('ledger', 5),
+  ledger: cmdLedger,
   build: unimplemented('build', 11),
 };
 
@@ -1068,13 +1287,32 @@ async function main() {
     process.stderr.write(`Unknown subcommand "${sub}".\n\n${topHelp()}`);
     return EXIT.USAGE;
   }
-  return handler(flags);
+  // Positional args are passed through for subcommands with their own verbs (ledger status).
+  return handler(flags, positional);
+}
+
+/**
+ * Exit hygiene.
+ *
+ * Calling process.exit() while a keep-alive socket is still open trips a libuv assertion on
+ * Windows ("!(handle->flags & UV_HANDLE_CLOSING)") which replaces the real exit code with
+ * 127. That is not cosmetic: every gate in this toolchain is an exit code, so a mangled one
+ * silently turns a refusal into an unrecognised failure.
+ *
+ * So the code is set on process.exitCode and the loop is allowed to drain first. A short
+ * unref'd timer forces exit if a pooled connection would otherwise hold the process open,
+ * and because it is unref'd it never delays a clean exit.
+ */
+function finish(code) {
+  process.exitCode = code ?? EXIT.OK;
+  const t = setTimeout(() => process.exit(code ?? EXIT.OK), 2000);
+  if (typeof t.unref === 'function') t.unref();
 }
 
 main()
-  .then((code) => process.exit(code ?? EXIT.OK))
+  .then(finish)
   .catch((e) => {
     // Never swallow an unexpected failure. Make it loud, with the stack.
     process.stderr.write(`shesha: unhandled error\n${(e && e.stack) || e}\n`);
-    process.exit(1);
+    finish(1);
   });
