@@ -8,10 +8,10 @@ All 57 rules ported from the previous stack, each dispositioned. Ported as ideas
 
 | id | group | disposition | validator | note |
 |---|---|---|---|---|
-| R-001 | structure | enforceable | `scripts/rules/structure.mjs` | also guaranteed by the compiler, but check() gates fetched and hand-edited files too |
+| R-001 | structure | enforceable | `scripts/rules/structure.mjs` | DEMOTED fail->warn on evidence: the old rule claimed a missing parentId crashes the renderer, but componentsTreeToFlatStructure recomputes it from tree position (null->"root" observed) and a shipped production form carries three nulls and renders. Also corrected: a slot child's parentId is the SLOT id, not the owning component's. |
 | R-002 | structure | enforceable | `scripts/rules/structure.mjs` | extended beyond the original: also asserts id uniqueness, because the flat structure is keyed by id and duplicates silently overwrite |
 | R-003 | versioning | enforceable | `scripts/rules/versioning.mjs` | the RULE survives; its DATA source is now derived — versions come from migrator.lastVersion in ground truth, not from a hand-maintained KB |
-| R-004 | binding | enforceable | `scripts/rules/binding.mjs` |  |
+| R-004 | binding | enforceable | `scripts/rules/binding.mjs` | NARROWED to components the framework itself says bind an entity property (dataTypeSupported non-null) plus datatable data columns. isInput does not discriminate — it is true for datatableContext and datatable, whose propertyName is an identifier, and flagging those was a false positive on correct shipped markup. |
 | R-005 | data | enforceable | `scripts/rules/data.mjs` |  |
 | R-006 | structure | enforceable | `scripts/rules/structure.mjs` |  |
 | R-007 | actions | enforceable | `scripts/rules/actions.mjs` |  |
@@ -25,7 +25,7 @@ All 57 rules ported from the previous stack, each dispositioned. Ported as ideas
 | R-015 | binding | enforceable | `scripts/rules/binding.mjs` | needs live metadata in ctx; skips with a reason without it |
 | R-016 | binding | enforceable | `scripts/rules/binding.mjs` |  |
 | R-017 | data | enforceable | `scripts/rules/data.mjs` |  |
-| R-018 | structure | enforceable | `scripts/rules/structure.mjs` | the "never blanket-stamp" prose is judgment and was dropped; the checkable half survives — editMode "inherited" on a form that cannot enter edit mode renders blank |
+| R-018 | structure | enforceable | `scripts/rules/structure.mjs` | the "never blanket-stamp" prose is judgment and was dropped; the checkable half survives — editMode "inherited" on an INPUT on a form that cannot enter edit mode renders blank. Restricted to inputs because the shipped PBF form sets it on six containers harmlessly. |
 | R-019 | process | stale | — | _stale:_ Routing guidance (list vs table), not a markup invariant. → `references/recipes.md + AskUserQuestion when ambiguous` |
 | R-020 | structure | compile-time | — | the compiler emits exactly the floor from the archetype; "padding is a defect" is judgment, not a markup invariant |
 | R-021 | structure | enforceable | `scripts/rules/structure.mjs` |  |

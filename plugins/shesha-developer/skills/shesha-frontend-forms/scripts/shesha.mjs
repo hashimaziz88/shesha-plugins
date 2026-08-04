@@ -729,7 +729,11 @@ async function cmdCheck(flags) {
   // Gate 2 needs the framework itself. Without --app, or with --fast, it degrades to a
   // warning rather than silently passing.
   let roundTripResult = null;
-  if (flags.app && !flags.fast) {
+  if (!flags.app) {
+    roundTripResult = { skipReason: 'no --app supplied' };
+  } else if (flags.fast) {
+    roundTripResult = { skipReason: '--fast was passed' };
+  } else {
     try {
       const rt = await runRoundTrip(flags.app, markup, { verbose: !!flags.verbose });
       roundTripResult = rt.result;

@@ -42,11 +42,11 @@ const MODULES = { structure, binding, data, actions, scripts, styling, security,
  */
 export const TRIAGE = [
   // ---- structure ----------------------------------------------------------------
-  { id: 'R-001', group: 'structure', disposition: 'enforceable', note: 'also guaranteed by the compiler, but check() gates fetched and hand-edited files too' },
+  { id: 'R-001', group: 'structure', disposition: 'enforceable', note: 'DEMOTED fail->warn on evidence: the old rule claimed a missing parentId crashes the renderer, but componentsTreeToFlatStructure recomputes it from tree position (null->"root" observed) and a shipped production form carries three nulls and renders. Also corrected: a slot child\'s parentId is the SLOT id, not the owning component\'s.' },
   { id: 'R-002', group: 'structure', disposition: 'enforceable', note: 'extended beyond the original: also asserts id uniqueness, because the flat structure is keyed by id and duplicates silently overwrite' },
   { id: 'R-006', group: 'structure', disposition: 'enforceable' },
   { id: 'R-009', group: 'structure', disposition: 'enforceable' },
-  { id: 'R-018', group: 'structure', disposition: 'enforceable', note: 'the "never blanket-stamp" prose is judgment and was dropped; the checkable half survives — editMode "inherited" on a form that cannot enter edit mode renders blank' },
+  { id: 'R-018', group: 'structure', disposition: 'enforceable', note: 'the "never blanket-stamp" prose is judgment and was dropped; the checkable half survives — editMode "inherited" on an INPUT on a form that cannot enter edit mode renders blank. Restricted to inputs because the shipped PBF form sets it on six containers harmlessly.' },
   { id: 'R-020', group: 'structure', disposition: 'compile-time', note: 'the compiler emits exactly the floor from the archetype; "padding is a defect" is judgment, not a markup invariant' },
   { id: 'R-021', group: 'structure', disposition: 'enforceable' },
   { id: 'R-025', group: 'structure', disposition: 'enforceable', note: 'requires --baseline; skips with a reason without one' },
@@ -57,7 +57,7 @@ export const TRIAGE = [
   { id: 'R-049', group: 'versioning', disposition: 'derivable', note: 'versions drift per release, so probe derives them per app from the installed package. The KB/_index.json and the live-form harvesting apparatus are both obsolete.' },
 
   // ---- binding ------------------------------------------------------------------
-  { id: 'R-004', group: 'binding', disposition: 'enforceable' },
+  { id: 'R-004', group: 'binding', disposition: 'enforceable', note: 'NARROWED to components the framework itself says bind an entity property (dataTypeSupported non-null) plus datatable data columns. isInput does not discriminate — it is true for datatableContext and datatable, whose propertyName is an identifier, and flagging those was a false positive on correct shipped markup.' },
   { id: 'R-014', group: 'binding', disposition: 'enforceable' },
   { id: 'R-015', group: 'binding', disposition: 'enforceable', note: 'needs live metadata in ctx; skips with a reason without it' },
   { id: 'R-016', group: 'binding', disposition: 'enforceable' },

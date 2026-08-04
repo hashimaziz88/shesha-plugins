@@ -162,11 +162,14 @@ export function gateStructural(markup, ctx) {
  */
 export function gateRoundTrip(markup, roundTripResult) {
   const out = [];
-  if (!roundTripResult) {
+  if (!roundTripResult || roundTripResult.skipReason) {
+    const why = (roundTripResult && roundTripResult.skipReason) || 'no --app supplied';
     return [
-      violation('round-trip', 'skipped — pass --app so the framework\'s own tree/flat/upgrade cycle can run', {
-        severity: 'warn',
-      }),
+      violation(
+        'round-trip',
+        `skipped (${why}) — the framework's own tree/flat/upgrade cycle is the strongest structural check available and did NOT run`,
+        { severity: 'warn' }
+      ),
     ];
   }
   if (roundTripResult.error) {
