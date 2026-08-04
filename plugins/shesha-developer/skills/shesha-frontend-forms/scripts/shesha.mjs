@@ -27,6 +27,7 @@ import { deriveFrameworkTruth, FrameworkError, resolveAppPaths, runRoundTrip } f
 import { BackendError, DEFAULT_BACKEND, deriveBackendTruth } from './lib/api.mjs';
 import { loadRules, renderManifest, TRIAGE } from './lib/rules.mjs';
 import { normaliseMarkup, runGates } from './lib/gates.mjs';
+import { BUILD_EXIT, buildOffline, buildOnline, loadManifest, summariseBuild } from './lib/build.mjs';
 import {
   NEGATIVE_CASES,
   NOT_COVERED,
@@ -1722,8 +1723,180 @@ const HANDLERS = {
   smoke: cmdSmoke,
   ledger: cmdLedger,
   eval: cmdEval,
-  build: unimplemented('build', 11),
+  build: cmdBuild,
 };
+
+const BUILD_HELP = `shesha build — the supervisor: many screens, one manifest
+
+Usage:
+  node shesha.mjs build --manifest <f.json> --app <path> [--offline] [--no-render] [--json]
+
+Runs the SAME compile / check / push / render every subcommand runs. It adds no rules of its
+own — a supervisor that validated differently would be a second, quieter rulebook.
+
+ORDERING, and it is the whole point:
+
+  Phase 1  compile + gate EVERY screen.        Nothing touches the backend.
+  Phase 2  push, then render, in one browser.  Only if phase 1 was clean for ALL screens.
+
+A typo in screen four is therefore found before screens one to three are deployed. Once pushing
+starts, a failure no longer aborts the run: screen two being un-renderable does not make screen
+three's deployment wrong, and stopping would strand the fleet in exactly the half-built state the
+barrier exists to prevent. Every screen's outcome is reported.
+
+Manifest:
+
+  {
+    "theme": "shesha",
+    "screens": [
+      { "module": "boxfusion.test", "name": "astronaut-worklist",
+        "spec": "specs/worklist.spec.jsx",
+        "expectStatTiles": true, "expectBand": true, "groups": 2 },
+      { "module": "boxfusion.test", "name": "astronaut-detail",
+        "spec": "specs/detail.spec.jsx", "expectSurface": true }
+    ]
+  }
+
+\`spec\` is relative to the MANIFEST, so a manifest travels with its specs. Per-screen "theme"
+overrides the top-level one. The expect* flags and "groups" are the same anatomy declarations
+\`render\` takes — an anatomy assertion is only made when the screen declares it.
+
+Options:
+  --manifest <f>    the manifest.  REQUIRED
+  --app <path>      the Shesha app.  REQUIRED
+  --offline         stop after phase 1. Compiles and gates, writes nothing to the backend
+  --no-render       push, but skip the rendered gates
+  --json            machine-readable
+
+Exit codes:
+  0 every screen pushed, verified and rendered · 1 offline gates failed (nothing pushed)
+  6 the manifest is invalid · 8 a push did not verify · 11 a rendered gate failed
+  64 usage error
+`;
+
+async function cmdBuild(flags) {
+  if (flags.help) {
+    process.stdout.write(BUILD_HELP);
+    return EXIT.OK;
+  }
+  if (!flags.app || flags.app === true || !flags.manifest || flags.manifest === true) {
+    process.stderr.write('build: --manifest <f.json> and --app <path> are required.\n\n' + BUILD_HELP);
+    return EXIT.USAGE;
+  }
+
+  const appRoot = resolve(flags.app);
+  let appPaths;
+  let gt;
+  try {
+    appPaths = resolveAppPaths(appRoot);
+    const gtPath = join(appRoot, '.shesha', 'ground-truth.json');
+    if (!existsSync(gtPath)) {
+      process.stderr.write(`build: no ground truth at ${gtPath} — run \`probe\` first\n`);
+      return EXIT.USAGE;
+    }
+    gt = JSON.parse(readFileSync(gtPath, 'utf8'));
+  } catch (e) {
+    process.stderr.write(`build: ${e.message}\n`);
+    return e.exitCode || EXIT.NOT_045;
+  }
+
+  let manifest;
+  try {
+    manifest = loadManifest(flags.manifest);
+  } catch (e) {
+    process.stderr.write(`build: ${e.message}\n`);
+    return e.exitCode || BUILD_EXIT.MANIFEST_INVALID;
+  }
+
+  const say = (m) => process.stderr.write(`build: ${m}\n`);
+  say(`${manifest.screens.length} screen(s) from ${manifest.path}`);
+
+  // ---- phase 1: offline, for every screen ------------------------------------------
+  const offline = await buildOffline({
+    manifest,
+    appRoot,
+    groundTruth: gt,
+    kitDirFor: (themeName) => {
+      const multi = existsSync(join(appRoot, '.shesha', `kit-${themeName}`));
+      return multi ? join(appRoot, '.shesha', `kit-${themeName}`) : join(appRoot, '.shesha', 'kit');
+    },
+    nodeModulesDir: join(appPaths.adminportal, 'node_modules'),
+    outDir: join(appRoot, '.shesha', 'build'),
+    makeCtx: (markup, form) => buildCheckContext(gt, markup, { form }),
+    onProgress: say,
+  });
+
+  const stoppedOffline = !!flags.offline;
+  let summary = summariseBuild(offline, { pushed: false });
+
+  // ---- phase 2: only when EVERY screen is clean ------------------------------------
+  if (summary.ok && !stoppedOffline) {
+    let theme;
+    try {
+      theme = loadTheme(manifest.theme);
+    } catch (e) {
+      process.stderr.write(`build: ${e.message}\n`);
+      return EXIT.USAGE;
+    }
+    await buildOnline({
+      offline,
+      appRoot,
+      backend: typeof flags.backend === 'string' ? flags.backend : DEFAULT_BACKEND,
+      frontendUrl: typeof flags.frontend === 'string' ? flags.frontend : DEFAULT_FRONTEND,
+      groundTruth: gt,
+      theme,
+      vanilla: resolveVanilla(appRoot),
+      pushDir: join(appRoot, '.shesha', 'push'),
+      renderDir: join(appRoot, '.shesha', 'render'),
+      render: !flags['no-render'],
+      onProgress: say,
+    });
+    summary = summariseBuild(offline, { pushed: true });
+  }
+
+  const report = {
+    manifest: manifest.path,
+    theme: manifest.theme,
+    summary,
+    screens: offline.map((e) => ({
+      form: e.form,
+      archetype: e.archetype || null,
+      theme: e.themeName,
+      offlineOk: e.ok,
+      failures: e.failures || [],
+      warnings: e.warnings || 0,
+      pushed: e.pushed ?? null,
+      pushError: e.pushError || null,
+      rendered: e.rendered ?? null,
+      renderExit: e.renderExit ?? null,
+      screenshot: e.screenshot || null,
+      markup: e.file,
+    })),
+  };
+  const reportPath = join(appRoot, '.shesha', 'build', 'build-report.json');
+  mkdirSync(dirname(reportPath), { recursive: true });
+  writeFileSync(reportPath, JSON.stringify(report, null, 2) + '\n', 'utf8');
+
+  if (flags.json) {
+    process.stdout.write(JSON.stringify(report, null, 2) + '\n');
+    return summary.exitCode;
+  }
+
+  process.stdout.write(`\nbuild ${manifest.path}  (theme ${manifest.theme})\n\n`);
+  for (const s of report.screens) {
+    const mark = !s.offlineOk ? 'FAIL' : s.pushed === false ? 'PUSH' : s.rendered === false ? 'RNDR' : ' ok ';
+    process.stdout.write(`[${mark}] ${s.form}${s.archetype ? `  (${s.archetype})` : ''}\n`);
+    for (const f of s.failures) process.stdout.write(`       ${f.ruleId ? f.ruleId + ' ' : ''}${f.message}\n`);
+    if (s.pushError) process.stdout.write(`       push: ${s.pushError}\n`);
+    if (s.rendered === false) process.stdout.write(`       render: exit ${s.renderExit}\n`);
+  }
+  process.stdout.write(`\n${summary.why}\n`);
+  process.stdout.write(`report ${reportPath}\n`);
+  if (summary.phase === 'offline' && !summary.ok) {
+    process.stdout.write('\nNothing was pushed. The barrier is deliberate: a half-built fleet is\nharder to reason about than a build that refused to start.\n');
+  }
+  return summary.exitCode;
+}
 
 const EVAL_HELP = `shesha eval — the objective regression harness
 

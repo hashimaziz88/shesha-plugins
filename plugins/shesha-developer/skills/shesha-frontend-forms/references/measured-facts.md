@@ -173,8 +173,22 @@ Scope to the **largest** of `.sha-page-content` / `.sha-form` / `.sha-components
 `/rgba(0, 0, 0, 0)|transparent/` searched for the literal text `rgba0, 0, 0, 0` so a fully
 transparent background scored as a real colour. Neither threw.
 
-**Readiness before measurement.** Require real form output with no `.ant-spin-spinning`, else
-exit 12. Measuring a spinner once produced six confident design failures against a blank page.
+**Readiness before measurement — but CONTENT is the signal, not the absence of spinners.**
+
+Require real form output (`.sha-components-container` / `.ant-table` / `.ant-form-item` /
+`.sha-datatable` / `input`), else exit 12. Measuring a spinner once produced six confident design
+failures against a blank page.
+
+The first fix over-corrected to *"no `.ant-spin-spinning` anywhere"*, which cost a **false exit 12
+on a page that had fully rendered**: the worklist keeps **one** spinner up permanently, so
+readiness could never become true and the gates were skipped on a screen whose own screenshot
+looked perfect. A spinner now only disqualifies a page with **no** content, and any spinner still
+up at readiness is recorded as `spinnersAtReady` so a measurement taken beside one is visible
+rather than silently equivalent to a quiet page.
+
+**An empty grid needs an empty state in EITHER dialect.** The grid clause accepted only
+`.ant-empty`; Shesha's datatable is not an antd Table and renders `.sha-global-empty-state`, so
+every correctly-empty Shesha grid would hang readiness forever.
 
 **A row is wrapped only when one child sits entirely below another.** Comparing tops flagged
 every centred row.

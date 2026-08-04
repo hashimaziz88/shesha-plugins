@@ -61,6 +61,18 @@ matters — a gate chain returning nothing on everything would pass every positi
 reports what it does not cover, and that a zero spread means *the compiler* is deterministic, not
 that a model is consistent.
 
+## Many screens at once
+
+```bash
+node scripts/shesha.mjs build --manifest <f.json> --app <p> [--offline]
+```
+
+The supervisor runs the same eight steps over a manifest and adds no rules of its own. Its one
+structural decision: **every screen is compiled and gated before any screen is pushed.** A typo in
+screen four is found before screens one to three are deployed. After that barrier a failure no
+longer aborts the run — stopping mid-fleet would strand it in exactly the half-built state the
+barrier prevents — so every screen's outcome is reported instead.
+
 ## Instead of reading documents
 
 ```bash

@@ -161,18 +161,35 @@ export async function renderForms({
        * font weight, no micro-labels, no surface triplet. Confident nonsense is worse than no
        * gate at all.
        *
-       * So readiness means the FORM is present and the spinners are gone. If that never
-       * happens, the result is RENDER_DEFERRED (exit 12) and the gates DO NOT RUN. That is
-       * what exit 12 is for.
+       * So readiness means REAL FORM CONTENT is present. If that never happens, the result is
+       * RENDER_DEFERRED (exit 12) and the gates DO NOT RUN. That is what exit 12 is for.
+       *
+       * It used to also require that every spinner had gone, which turned out to be too strict
+       * in the other direction — see the clause below. Any spinner still up when the page is
+       * declared ready is recorded in the evidence as spinnersAtReady.
        */
       let ready = false;
+      let spinnersAtReady = null;
       try {
         await page.goto(url, { waitUntil: 'domcontentloaded', timeout: timeoutMs });
         try {
           await page.waitForFunction(
             () => {
+              /**
+               * CONTENT is the readiness signal. A SPINNER only disqualifies a page that has no
+               * content yet.
+               *
+               * This clause used to be `if (spinning > 0) return false`, which is too strict and
+               * cost a false exit 12 on a page that had fully rendered: measured on
+               * astronaut-worklist, once .sha-components-container appeared the page still carried
+               * one .ant-spin-spinning permanently, so readiness could never become true and the
+               * gates were skipped on a screen that looked perfect in its own screenshot.
+               *
+               * The defect this guard was written for was the opposite case — measuring a page that
+               * was ENTIRELY spinner, which produced six confident design failures from a blank
+               * page. That case is still caught, because content is 0 there.
+               */
               const spinning = document.querySelectorAll('.ant-spin-spinning, .ant-skeleton-active').length;
-              if (spinning > 0) return false;
               /**
                * A grid that is still fetching is NOT ready, even though the page around it is.
                *
@@ -186,7 +203,17 @@ export async function renderForms({
               for (const g of grids) {
                 if (/(^|\s)loading/i.test(g.textContent || '')) return false;
                 const rows = g.querySelectorAll('[role="cell"], tbody tr').length;
-                const empty = g.parentElement && g.parentElement.querySelector('.ant-empty');
+                /**
+                 * An empty state, in EITHER dialect. `.ant-empty` is antd's; Shesha's datatable is
+                 * not an antd Table (measured — it is a div-based react-table) and renders its own
+                 * `.sha-global-empty-state`. Accepting only the antd class would hang readiness on
+                 * every correctly-empty Shesha grid.
+                 */
+                const empty =
+                  (g.parentElement &&
+                    g.parentElement.querySelector('.ant-empty, .sha-global-empty-state')) ||
+                  document.querySelector('.sha-global-empty-state') ||
+                  /no data/i.test(g.textContent || '');
                 if (rows === 0 && !empty) return false;
               }
               // Real form output, not the shell: a rendered component container, a table, or
@@ -194,12 +221,21 @@ export async function renderForms({
               const content = document.querySelectorAll(
                 '.sha-components-container, .ant-table, .ant-form-item, .sha-datatable, input, .sha-component'
               ).length;
-              return content > 0;
+              if (content === 0) return false;
+              // Content exists. A residual spinner alongside it does not make the page unmeasurable,
+              // but it IS recorded, so a measurement taken next to one is visible in the evidence
+              // rather than silently equivalent to a quiet page.
+              window.__shesha_spinners_at_ready = spinning;
+              return true;
             },
             null,
             { timeout: 45000 }
           );
           ready = true;
+          // How many spinners were still up when the page was declared ready. Recorded rather
+          // than ignored: it is the difference between "quiet page" and "measured next to a
+          // still-loading region", and only the evidence can tell those apart afterwards.
+          spinnersAtReady = await page.evaluate(() => window.__shesha_spinners_at_ready ?? null).catch(() => null);
         } catch {
           ready = false;
         }
@@ -279,6 +315,7 @@ export async function renderForms({
         theme: theme.name,
         navOk,
         ready,
+        spinnersAtReady,
         navError,
         captureError,
         screenshot: shotOk ? pngPath : null,

@@ -196,6 +196,50 @@ authored specs; this harness deliberately does not. It prints what it does not c
 The harness has its own tests, and the load-bearing one asserts that a mutation which breaks
 nothing is graded as a **failure**. An eval harness that cannot fail is decoration.
 
+## build — the supervisor
+
+```bash
+node shesha.mjs build --manifest <f.json> --app <p> [--offline] [--no-render] [--json]
+```
+
+Runs the same compile / check / push / render every subcommand runs, over a manifest of screens. It
+holds **no rules of its own** — a supervisor that validated differently would be a second, quieter
+rulebook — and it reuses the same `buildCheckContext` so it cannot gate on different facts.
+
+**Phase 1** compiles and gates *every* screen; nothing touches the backend.
+**Phase 2** pushes, then renders the whole fleet in **one** browser, and only if phase 1 was clean
+for every screen.
+
+That barrier is the point: a typo in screen four is found before screens one to three are deployed.
+Once pushing starts a failure no longer aborts the run, because screen two being un-renderable does
+not make screen three's deployment wrong, and stopping there would strand the fleet in exactly the
+half-built state the barrier exists to prevent. Every screen's outcome is reported and written to
+`.shesha/build/build-report.json`.
+
+```json
+{
+  "theme": "shesha",
+  "screens": [
+    { "module": "boxfusion.test", "name": "astronaut-worklist", "spec": "specs/worklist.spec.jsx",
+      "expectStatTiles": true, "expectBand": true, "groups": 2 },
+    { "module": "boxfusion.test", "name": "astronaut-detail", "spec": "specs/detail.spec.jsx",
+      "expectSurface": true }
+  ]
+}
+```
+
+`spec` resolves relative to the **manifest**, so a manifest travels with its specs. A per-screen
+`theme` overrides the top-level one. The `expect*` flags and `groups` are the same anatomy
+declarations `render` takes, so an anatomy assertion is only made where a screen declares it.
+
+The manifest is validated up front and reports **every** problem at once — missing keys, a spec
+that does not exist, two screens targeting one form — because that is the last moment a bad build
+is still free to abort.
+
+Exits: **1** offline gates failed (nothing pushed) · **6** manifest invalid · **8** a push did not
+verify · **11** a rendered gate failed. A push failure outranks a render failure: an unverified
+write leaves backend state unknown, not merely unproven.
+
 ## Budget
 
 ```bash
