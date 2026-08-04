@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Shesha ground-truth harness</title>
+  </head>
+  <body>
+    <div id="status">booting</div>
+    <!-- bundle.js is written next to this file by framework.mjs at run time. -->
+    <script src="./bundle.js"></script>
+    <script>
+      // The grid of {dataType, dataFormat} pairs is injected by framework.mjs as
+      // window.__shesha_grid before this runs. It comes from LIVE metadata where the
+      // backend is reachable, so dataTypeSupported is only ever sampled against pairs
+      // that actually occur in this app.
+      (function () {
+        var g = window.__shesha_grid || [];
+        try {
+          if (!window.__shprobe || typeof window.__shprobe.start !== 'function') {
+            window.__shesha_ground_truth = {
+              ok: false,
+              error: 'harness bundle did not expose __shprobe.start — esbuild build or evaluation failed',
+            };
+            document.getElementById('status').textContent = 'bundle missing';
+            return;
+          }
+          window.__shprobe.start(g);
+          document.getElementById('status').textContent = 'probing';
+        } catch (e) {
+          window.__shesha_ground_truth = { ok: false, error: String((e && e.stack) || e) };
+          document.getElementById('status').textContent = 'threw';
+        }
+      })();
+    </script>
+  </body>
+</html>

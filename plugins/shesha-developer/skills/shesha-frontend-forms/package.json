@@ -1,0 +1,17 @@
+{
+  "name": "shesha-frontend-forms",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Toolchain for the shesha-frontend-forms skill: derives Shesha 0.45 ground truth from the target app's own installed package.",
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.mjs\""
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "playwright": "^1.49.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

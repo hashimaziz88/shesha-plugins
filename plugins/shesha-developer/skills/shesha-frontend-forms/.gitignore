@@ -1,0 +1,7 @@
+# Hard constraint 9: commit the lockfile, never vendor node_modules.
+# The old stack committed 43 MB of Playwright into a skill directory.
+node_modules/
+
+# Transient harness bundles. Ground truth itself is written into the TARGET app's
+# .shesha/ directory, never here (hard constraint 5).
+.tmp/
