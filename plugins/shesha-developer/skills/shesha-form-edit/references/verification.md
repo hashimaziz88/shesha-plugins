@@ -44,6 +44,12 @@ indexedDB.deleteDatabase('form_lookup');
 
 **When to run:** whenever the browser disagrees with a verified API re-fetch. Order of escalation: hard-refresh (Ctrl+Shift+R, [debug.md row 12](debug.md)) → IndexedDB clear from `/favicon.ico` → re-test. Run the clear after **every** re-push in a fix loop (see §6).
 
+**The clear procedure is a risk-reducer, not a guarantee** [R-055]. Even done correctly from `/favicon.ico`, `deleteDatabase` has **wedged the entire browser origin** — every subsequent page load on that origin hangs, and nothing in-page recovers it. The only recovery is **fully restarting the browser** (measured: twice in one project). Consequences for how you plan a run:
+
+- Budget for the wedge. It is not rare enough to treat as an anomaly, and it costs a browser restart plus re-auth mid-loop.
+- Batch your markup changes. Every push needs a cache clear to be seen live, so each extra push cycle re-rolls this dice — one push carrying five fixes is strictly safer than five pushes carrying one each. This is a second, independent reason the 2-cycle cap in §6 exists.
+- If page loads on the origin start hanging right after a clear, **stop diagnosing the form** — restart the browser first, then resume. Chasing it as a form or dev-server fault burns the whole iteration budget.
+
 ---
 
 ## 3. Navigating for tests
@@ -83,6 +89,15 @@ Example assertions that have caught real regressions:
 - Squeezed/scrolling header containers: fix is `dimensions.minHeight: 'fit-content'` (runtime-verified; not in the groups index — clean-form-config may flag it; do NOT strip) — `dimensions` is the only channel reaching the container's outer div; see `styling-mechanics.md` (in `shesha-design-system`).
 
 For pixel-parity work ("match the reference form"), compare **computed** styles in-browser AND do a bidirectional full-key JSON diff — identical-looking designer props can render differently because of one extra key (e.g. a stray `font.color`).
+
+**Nothing fails loudly on this stack** [R-055]. A style that doesn't apply produces no error, no warning and no console output — the schema listing a prop is no evidence it renders (`text.textAlign` is listed and dead; `desktop.font.color` on `text` and `customStyle:{flex}` are both measured no-ops). Every renderer fact in [renderer-physics.md](renderer-physics.md) was found by diffing computed styles against what was authored. So: **a fix is not verified until it is measured**, and "the prop is in the schema" is never a diagnosis.
+
+Two failure modes that masquerade as something else:
+
+| Symptom | Actually | Check |
+|---|---|---|
+| Page looks frozen after back-to-back screenshot/zoom calls | A **CDP paint-buffer glitch** — the page is alive, the capture is stale | Run a plain JS probe (`evaluate` returning `document.title` / a `getBoundingClientRect`). If it answers, the page is fine — re-capture instead of "fixing" a freeze. Space captures out rather than firing them back-to-back |
+| A style block has visibly no effect, no error anywhere | Component `version` doesn't match what's live — the **whole block silently no-ops** [R-003] | Compare the component's `version` against a live form of the same type before attempting any style fix. This is the cheapest check in the loop and it invalidates every other hypothesis |
 
 ---
 

@@ -34,7 +34,7 @@ Identify the source and its fidelity tier: readable source (A) · runnable proto
 
 ## Step 3 — Theme once + plan
 
-Brand selection: user-named brand / handed tokens / existing `<brand>.tokens.json` → use it; distinct palette in the design → author a new token file (copy the default `shesha`, swap values, keep key names); else the default `shesha`. Hand the token set to `shesha-design-system` to set the app-level theme **once**. Map each screen to `{archetype, blocks[]}`; sequence the build (list → detail → create). Present plan + blueprints + cost; gate once (unless headless).
+Brand selection: user-named brand / handed tokens / existing `<brand>.tokens.json` → use it; distinct palette in the design → author a new token file (copy the default `shesha`, swap values, keep key names); else the default `shesha`. Hand the token set to `shesha-design-system` to set the app-level theme **once**. Values the design source leaves unspecified are **not invented** — they fall through to the Ant Design 6.3.5 default, looked up in `shesha-design-system/references/ant-baseline.md`. Map each screen to `{archetype, blocks[]}`; sequence the build (list → detail → create). Present plan + blueprints + cost; gate once (unless headless).
 
 ## Step 4 — Build (delegate)
 

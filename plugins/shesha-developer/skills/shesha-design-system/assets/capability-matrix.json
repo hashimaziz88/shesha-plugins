@@ -13,7 +13,12 @@
     "Size flex-split children via desktop.dimensions.width (reaches outer div); customStyle:{flex} is inert on the outer div.",
     "font on a CONTAINER is a no-op — put font on the text child.",
     "MEASUREMENT: in LIVE mode, text/refListStatus components do NOT carry the data-sha-c-name attribute (only containers do). Query by component name only finds containers — read a CONTAINER's innerText to verify the text inside it. (Edit mode does stamp the attr on text, which is misleading.)",
-    "MEASUREMENT: a dispatched DOM MouseEvent does NOT fire a React/antd component's onChange (e.g. ant-select selection). Use a REAL click (Playwright browser_click) to trigger onChange handlers, or your interaction silently no-ops."
+    "MEASUREMENT: a dispatched DOM MouseEvent does NOT fire a React/antd component's onChange (e.g. ant-select selection). Use a REAL click (Playwright browser_click) to trigger onChange handlers, or your interaction silently no-ops.",
+    "The flex-row rule is a DESCENDANT selector, not direct-child: once ANY ancestor container is horizontal, every nested container is forced to row+wrap regardless of its own flexDirection. Fix = an extra width:100% wrapper per child that needs its own line (one nesting level per stacked child).",
+    "NOTHING FAILS LOUDLY. A prop existing in the schema is no evidence it renders (text.textAlign is listed and dead). Every verdict here came from diffing computed live-DOM styles against what was authored — a fix is not verified until it is measured.",
+    "Before a third restamp attempt, check this matrix for a measured no-op on that channel. If the channel is inert, restamping cannot work — change approach.",
+    "Control-level appearance (button fill, input border/focus ring, table header tint, control height, base radius, base font) is APP-THEME owned — never re-declared per component. v7 blocks carry composition only. See references/ant-baseline.md.",
+    "Anything neither the brand token file nor this matrix specifies takes the Ant Design 6.3.5 default — looked up in references/ant-tokens.md, never invented."
   ],
   "versions": {
     "container": 7,
@@ -237,7 +242,7 @@
       "component": "text",
       "channel": "fontSize/fontWeight/color/align",
       "verdict": "renders",
-      "key": "fontSize (Tailwind class) + fontWeight DIRECT props; desktop.font for exact; {{{triple-brace}}} raw",
+      "key": "fontSize (Tailwind class) + fontWeight DIRECT props. COLOUR: with NO textType the component renders <h1 class='ant-typography'> and AntD's h1 rule overrides size+colour silently — proven working form is textType:'paragraph' + contentType:'custom' + a TOP-LEVEL font object. desktop.font.color measured no-op (probe used textType:'span'); several goldens ship span+desktop.font.color, so whether span escapes the trap is UNRESOLVED — measure computed colour, do not read the JSON [R-052]. Align via desktop.font.align (top-level textAlign is dead). {{{triple-brace}}} raw.",
       "measured": {
         "summary": "mixed",
         "effects": {
@@ -389,11 +394,49 @@
       "channel": "collection count (badge/title)",
       "verdict": "renders",
       "key": "Compute counts in formSettings.onAfterDataLoad: `var r = await http.get('/api/dynamic/<Mod>/<Entity>/Crud/GetAll?filter='+<parentFk filter>+'&properties=id&maxResultCount=1000'); form.setFieldsValue({xCount: (r.data.result.items||[]).length});` then bind a text/badge content to `data.xCount`. Use items.length, NOT result.totalCount (unreliable at small maxResultCount). The reliable way to show a live collection count in a header/badge (the live appContext/context read in a text is NOT — see the global-filter row). Proven on the rail count badges + the View Requirements count."
+    },
+    {
+      "component": "text",
+      "channel": "textTransform/letterSpacing",
+      "verdict": "no-op",
+      "key": "NO working lever — code-mode prop and flat prop both inert; same CSS via el.style works, so it is the component. Type the text uppercase in content instead."
+    },
+    {
+      "component": "buttonGroup",
+      "channel": "per-item colour / enable",
+      "verdict": "no-op",
+      "key": "buttonGroup has NO per-item colour and NO per-item enable/disable — one shared buttonType for the group. Wrapping a single-item group in a coloured container does not tint it (wrapper stays transparent). To colour one action, move it out to a standalone button."
+    },
+    {
+      "component": "button vs buttonGroup",
+      "channel": "row alignment",
+      "verdict": "gotcha",
+      "key": "Different wrappers + different default heights (buttonGroup hugs content; standalone button auto-wrapped in a ~50px vertically-centring box). Mixing them in one row misaligns and NO style fixes it — use one kind per row."
+    },
+    {
+      "component": "container",
+      "channel": "background.image (url)",
+      "verdict": "no-op",
+      "key": "background.type:'image' with a plain URL never renders — renderer wants an internally-stored file reference. Only working path is an in-flow image component."
+    },
+    {
+      "component": "image",
+      "channel": "position:absolute overlay",
+      "verdict": "no-op",
+      "key": "Forcing an image out of flow collapses its wrapper to 0x0 even with explicit height. No photo-with-text-overlay on this stack — hero banners are banner-then-content."
+    },
+    {
+      "component": "(none)",
+      "channel": "decorative icon",
+      "verdict": "gap",
+      "key": "No general-purpose icon/decorative component. Icons only via button.icon (interactive), iconPicker (an input), or statistic (unverified, different flat-prop system). A decorative KPI icon means a label-less button with a neutralised cursor — prefer a layout that avoids it."
     }
   ],
   "todo": [
     "input styling in readonly + enableStyleOnReadonly (needs bound value)",
     "equal N-cell distribution (dimensions.width calc vs content-width)",
-    "tabs active-ink, collapsiblePanel accent"
+    "tabs active-ink, collapsiblePanel accent",
+    "UNRESOLVED (R-052): does text with textType:'span' honour desktop.font.color? The gym probe measured no-op on span, yet 6 golden archetypes ship span+desktop.font.color and read as correct. Re-probe span vs paragraph vs unset, colour in a breakpoint block vs a top-level font object — then either promote R-052 to fail or narrow it to the no-textType case only.",
+    "text textTransform/letterSpacing: confirmed no working lever via props; el.style injection works. Check whether a className channel can carry it before declaring the gap permanent (R-052)."
   ]
 }

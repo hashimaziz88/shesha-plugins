@@ -2,6 +2,8 @@
 
 General conventions for how Shesha (Ant Design 6.x, light-mode) applications should be designed and styled — distilled from the Shesha Design System reference (A. Slavchov, Senior UI/UX). These are the *standards* the comprehension layer annotates blueprints with and the styling layer enforces; they hold **regardless of brand**. A brand's concrete hex/type values live in its `*.tokens.json` — the shipped **default `shesha.tokens.json`**, or a custom brand like `requirements-studio.tokens.json` — not here.
 
+**Anything these standards and the brand file both leave unspecified takes the Ant Design 6.3.5 default** — looked up in [ant-baseline.md](ant-baseline.md) / [ant-tokens.md](ant-tokens.md), never guessed. That file also records where the Shesha default deliberately deviates from stock Ant (headings capped at 24, hardened semantic colours, no web font) so those aren't mistaken for drift, plus the measured WCAG verdict per brand token. `#1890FF` and `#1677FF` are always wrong.
+
 ## Foundations
 
 - **Light mode only.** No dark mode.

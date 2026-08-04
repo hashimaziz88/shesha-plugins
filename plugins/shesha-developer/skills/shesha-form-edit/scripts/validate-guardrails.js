@@ -191,6 +191,21 @@ function walkTree(nodes, parent) {
       }
     }
 
+    // text does not take colour like other v7 components (R-052). All warn, not
+    // fail: the h1 case is proven, but several goldens ship textType:"span" with
+    // desktop.font.color, so whether span escapes the trap is unresolved —
+    // verify by measuring computed colour, not by reading the JSON.
+    if (t === 'text') {
+      const blockColour = node.desktop?.font?.color || node.tablet?.font?.color || node.mobile?.font?.color;
+      if ((blockColour || node.font?.color) && !node.textType) {
+        add('R-052', label(node), 'text sets a colour with no textType — it renders as <h1 class="ant-typography"> and AntD\'s h1 rule overrides size AND colour silently. Set textType:"paragraph" + contentType:"custom" + a top-level font.color', 'warn');
+      } else if (blockColour && !node.font?.color) {
+        add('R-052', label(node), `text colour is only in a breakpoint block (textType:"${node.textType}") — desktop.font.color measured as a no-op on text; the working form is textType:"paragraph" + contentType:"custom" + a top-level font.color. Measure the computed colour before trusting it`, 'warn');
+      }
+      if (node.textAlign) add('R-052', label(node), 'top-level textAlign is in the schema but dead at runtime — use desktop.font.align', 'warn');
+      if (node.textTransform || node.letterSpacing) add('R-052', label(node), 'textTransform/letterSpacing have no working lever on text — type the content in the case you want', 'warn');
+    }
+
     if (t === 'button') {
       const an = actionName(node);
       if (an && FORM_ACTIONS.has(an)) add('R-007', label(node), `Standalone button carries form action "${an}" — must be a buttonGroup item`);
