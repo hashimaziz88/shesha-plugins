@@ -1,0 +1,279 @@
+{
+  "$schema": "shesha-frontend-forms/symptoms/1",
+  "purpose": "Symptom-first diagnostic catalogue, served by `shesha explain --symptom`. Data, not a document, so it is queried rather than read. Ported from the previous stack's debug.md (29 rows) plus the residue of three rules whose triage moved them here.",
+  "generation": "0.45",
+  "symptoms": [
+    {
+      "id": "S-01",
+      "symptom": "Field renders but will not accept input; a button click does nothing",
+      "tags": ["readonly", "disabled", "not editable", "cannot type", "input", "greyed"],
+      "causes": ["editMode missing or \"inherited\" on a form whose effective mode resolved to read-only — typically dataLoaderType \"none\" or an anonymous page."],
+      "fix": "Set editMode \"editable\" on every interactive component. Walk the tree and assert; do not spot-fix one field.",
+      "ruleIds": ["R-018"]
+    },
+    {
+      "id": "S-02",
+      "symptom": "Button click fires nothing — no console output, no network call",
+      "tags": ["button", "action", "click", "no network", "nothing happens"],
+      "causes": [
+        "actionConfiguration missing or malformed, or actionName unrecognised.",
+        "actionOwner case mismatch — it is \"shesha.common\", not \"Shesha.Common\".",
+        "The handler script throws before reaching the API call; look for an unhandled exception."
+      ],
+      "fix": "Verify actionConfiguration._type is \"action-config\", actionOwner case matches exactly, and actionName is a documented value. Wrap the script body in try/catch.",
+      "ruleIds": ["R-007", "R-013", "R-024"]
+    },
+    {
+      "id": "S-03",
+      "symptom": "A value shows in the field but never persists on save",
+      "tags": ["save", "persist", "not saved", "submit", "lost"],
+      "causes": [
+        "propertyName typo, or it points at a property the entity does not have.",
+        "formSettings.dataSubmitterType is \"none\"."
+      ],
+      "fix": "Validate every propertyName against live entity metadata (check --file does this when probe ran against a backend). Confirm dataSubmitterType is set when the form is meant to save.",
+      "ruleIds": ["R-034", "R-004"]
+    },
+    {
+      "id": "S-04",
+      "symptom": "Anonymous page returns 401 or redirects to login",
+      "tags": ["401", "anonymous", "login redirect", "public", "access"],
+      "causes": ["formSettings.access is not 5 (still the default 3). Create sometimes ignores access on the initial create."],
+      "fix": "Push with access 5 and permissions []. Then re-fetch via ConfigurationItem/GetCurrent and assert access === 5 — the 200 alone proves nothing.",
+      "ruleIds": ["R-022"]
+    },
+    {
+      "id": "S-05",
+      "symptom": "Datalist or datatable shows nothing although the data exists",
+      "tags": ["empty table", "no rows", "datatable blank", "datalist empty"],
+      "causes": ["entityType/sourceType are set on the table component itself instead of on a datatableContext wrapper."],
+      "fix": "Wrap the table in datatableContext; move entityType, sourceType and permanentFilter to the wrapper and clear them from the inner component.",
+      "ruleIds": ["R-005"]
+    },
+    {
+      "id": "S-06",
+      "symptom": "Refresh button, Export to Excel or quick-search do nothing",
+      "tags": ["toolbar", "refresh", "export", "quick search", "no-op"],
+      "causes": ["Toolbar actions target the data wrapper by actionOwner. No wrapper means nothing to target."],
+      "fix": "Add the datatableContext wrapper and set each toolbar action's actionOwner to the wrapper component's id.",
+      "ruleIds": ["R-005", "R-044"]
+    },
+    {
+      "id": "S-07",
+      "symptom": "A datalist row template renders empty",
+      "tags": ["row template", "subform", "datalist card blank"],
+      "causes": ["Missing datatableContext wrapper (see S-05).", "The wrapper exists but formId.module / formId.name point at a form that does not exist."],
+      "fix": "Confirm the wrapper exists, then verify the row-template form resolves via ConfigurationItem/GetCurrent.",
+      "ruleIds": ["R-005"]
+    },
+    {
+      "id": "S-08",
+      "symptom": "Dropdown is empty, or shows ids instead of labels",
+      "tags": ["dropdown empty", "reflist", "reference list", "no options", "shows ids"],
+      "causes": [
+        "dataSourceType \"referenceList\" with the wrong referenceListId module/name pair — the canonical silent killer, because a derived name renders empty with no error.",
+        "dataSourceType \"values\" with malformed items; dropdown/radio need {id, label, value}."
+      ],
+      "fix": "Copy referenceListId verbatim from the property metadata's referenceListName/referenceListModule. Never derive it from the property name. For manual values, assert all three keys per item.",
+      "ruleIds": ["R-015", "R-011"]
+    },
+    {
+      "id": "S-09",
+      "symptom": "Card children render in the wrong place or vanish entirely",
+      "tags": ["card", "children missing", "wrong place", "container slot"],
+      "causes": ["Children were pushed onto card.components instead of card.content.components."],
+      "fix": "Move children into card.content.components; header content goes in card.header.components. Container slots are per-type — read customContainerNames from ground truth rather than assuming a generic children array.",
+      "ruleIds": ["R-001"]
+    },
+    {
+      "id": "S-10",
+      "symptom": "A conditional tab or container will not hide",
+      "tags": ["hidden", "visibility", "conditional", "will not hide", "still visible"],
+      "causes": [
+        "hidden returns a string rather than a boolean — commonly _code returning \"true\" as a string.",
+        "The form uses legacy customVisibility, which 0.45 ignores entirely."
+      ],
+      "fix": "Use code-mode hidden whose _code returns a real boolean (true hides). Use optional chaining: a create form has no data context initially and a throw fails open, which masks the bug.",
+      "ruleIds": ["R-031"]
+    },
+    {
+      "id": "S-11",
+      "symptom": "A script runs but no error ever surfaces — silent failure",
+      "tags": ["silent", "no error", "script fails", "promise rejected"],
+      "causes": ["An API call with no try/catch; the promise rejects and nothing is visible.", "A .then() chain swallowed the error."],
+      "fix": "Wrap in try/catch with message.error in the catch. Convert .then() chains to await.",
+      "ruleIds": ["R-024"]
+    },
+    {
+      "id": "S-12",
+      "symptom": "Push succeeded with 200 but the UI still shows the old form",
+      "tags": ["stale", "cache", "200 but unchanged", "old markup", "indexeddb"],
+      "causes": ["The adminportal's IndexedDB stores `form` and `form_lookup` keep serving the previous markup after any push."],
+      "fix": "Clear both IndexedDB stores from a NON-app page (an in-app deleteDatabase blocks silently), then reload. Otherwise you are measuring a ghost of the previous build. `render` does this as part of its own boot.",
+      "ruleIds": ["R-056", "R-047"]
+    },
+    {
+      "id": "S-13",
+      "symptom": "Push 500: \"Unable to translate bytes [E2] at index N from specified code page to Unicode\"",
+      "tags": ["500", "encoding", "code page", "em dash", "utf8", "powershell"],
+      "causes": ["The request body was encoded as Windows-1252 — em dashes, curly quotes or accented characters failed to encode. This came from PowerShell's Invoke-RestMethod -Body with a string."],
+      "fix": "Send UTF-8 bytes. This toolchain cannot reproduce it: every write goes through lib/api.mjs, which is UTF-8 and BOM-free by construction. If you see it, something outside the toolchain is doing the push.",
+      "ruleIds": ["R-027"]
+    },
+    {
+      "id": "S-14",
+      "symptom": "Push 500 with an NHibernate or mapping error",
+      "tags": ["500", "nhibernate", "mapping", "modeltype"],
+      "causes": ["formSettings.modelType references an entity that does not exist or is not mapped.", "A propertyName references a property the entity does not have."],
+      "fix": "Re-resolve modelType from live EntityConfig and re-check every binding against Metadata/GetProperties.",
+      "ruleIds": ["R-016", "R-034"]
+    },
+    {
+      "id": "S-15",
+      "symptom": "Form loads on first visit but fails after a hard refresh",
+      "tags": ["hard refresh", "appcontext", "state lost", "second visit"],
+      "causes": ["A contexts.appContext value is being read as if it survived a refresh, but appContext is in-memory only."],
+      "fix": "Pass the value via the URL and re-read from formArguments, or persist it server-side. localStorage only for non-sensitive state, namespaced.",
+      "ruleIds": ["R-023"]
+    },
+    {
+      "id": "S-16",
+      "symptom": "application.user is undefined inside a script on an anonymous page",
+      "tags": ["application.user", "undefined", "anonymous", "no user"],
+      "causes": ["The form is anonymous (access 5), so there is no logged-in user."],
+      "fix": "Optional-chain everything (application.user?.x). For anonymous flows take the value from formArguments (URL params).",
+      "ruleIds": ["R-022"]
+    },
+    {
+      "id": "S-17",
+      "symptom": "Submit button no-ops on a form that has onSubmit configured",
+      "tags": ["submit", "onsubmit", "no-op", "executescript"],
+      "causes": ["A toolbar button with actionName \"Submit\" triggers the form-level submit pipeline, not formSettings.onSubmit directly."],
+      "fix": "Decide which you want: \"Submit\" runs the form's submit pipeline; \"Execute Script\" runs an arbitrary script. They are not interchangeable.",
+      "ruleIds": ["R-007", "R-038"]
+    },
+    {
+      "id": "S-18",
+      "symptom": "Tab key skips a field, or focus order is wrong",
+      "tags": ["tab order", "focus", "keyboard", "a11y"],
+      "causes": ["Visual order no longer matches the components array order — usually a parent container using flexDirection row-reverse or similar."],
+      "fix": "Match array order to visual order. If the visual reversal is intentional, set tabIndex explicitly.",
+      "ruleIds": ["R-029"]
+    },
+    {
+      "id": "S-19",
+      "symptom": "\"has configuration issue(s) — e.match is not a function\"; the component or the whole form fails to render",
+      "tags": ["e.match is not a function", "does not render", "defaultvalue", "crash"],
+      "causes": ["defaultValue is a literal array, number or object. The resolver calls .match() on it, expecting a template string.", "Also fires when a versionless component replays its migration chain."],
+      "fix": "Make defaultValue a mustache-template string, or bind through form data instead. Stamp the correct integer version on every component.",
+      "ruleIds": ["R-009", "R-003"]
+    },
+    {
+      "id": "S-20",
+      "symptom": "\"'datatable' has configuration issue(s) — Cannot read properties of undefined (reading 'version')\"; the table renders empty",
+      "tags": ["reading version", "datatable empty", "inline edit", "editcomponent"],
+      "causes": ["An inline column's editComponent/createComponent is a flat component model with no settings wrapper, so the cell reads .settings as undefined and the migration does undefined.version."],
+      "fix": "Wrap it: editComponent = { type, settings: { ...full model including version } }.",
+      "ruleIds": ["R-010"]
+    },
+    {
+      "id": "S-21",
+      "symptom": "\"Cannot read properties of undefined (reading 'migrator')\" from a datatable cell; the table is blank",
+      "tags": ["reading migrator", "default", "inline edit", "blank table"],
+      "causes": ["A column's editComponent/createComponent is { type: \"[default]\" }. Only displayComponent resolves [default]; edit/create pass it to the registry and get undefined."],
+      "fix": "Use { type: \"[not-editable]\" } for read-only, or a concrete { type, settings } editor. Never [default] on edit/create.",
+      "ruleIds": ["R-010"]
+    },
+    {
+      "id": "S-22",
+      "symptom": "An inline table renders rows but no per-row Edit/Delete buttons",
+      "tags": ["crud-operations", "inline", "no row buttons", "edit delete missing"],
+      "causes": ["No crud-operations column, and/or canEditInline / canDeleteInline are not \"yes\"."],
+      "fix": "Add { columnType: \"crud-operations\", sortOrder: -1, itemType: \"item\" } and set the inline flags.",
+      "ruleIds": ["R-010"]
+    },
+    {
+      "id": "S-23",
+      "symptom": "An inline reflist dropdown shows \"unknown\" for the existing value in edit mode, though options load and saving works",
+      "tags": ["unknown", "inline dropdown", "reflist editor", "cosmetic"],
+      "causes": ["A known cosmetic limitation of reflist dropdowns used as inline-grid editors in @shesha-io/reactjs 0.45.x — the editor cannot pre-resolve the current item to its label."],
+      "fix": "Not a configuration bug. The control is functional. valueFormat / useRawValues toggles do not change it. Leave it alone.",
+      "ruleIds": []
+    },
+    {
+      "id": "S-24",
+      "symptom": "A just-created entity still 404s on Metadata/GetProperties or its Crud/GetAll",
+      "tags": ["404", "new entity", "crud missing", "two boot", "metadata 404"],
+      "causes": ["A code-first domain change is not live until the backend is rebuilt and restarted.", "A NEW entity's dynamic CRUD controller registers only on the boot AFTER its EntityConfig is seeded — the two-boot lag."],
+      "fix": "Rebuild and restart. For a new entity restart twice, then poll its Crud/GetAll for a 200 before authoring any form against it.",
+      "ruleIds": []
+    },
+    {
+      "id": "S-25",
+      "symptom": "HTTP Error 500.0 — ANCM In-Process handler load failure after restarting the backend",
+      "tags": ["ANCM", "500.0", "iis express", "in-process", "restart failure"],
+      "causes": ["IIS Express was relaunched outside Visual Studio, but hostingModel InProcess needs VS's %LAUNCHER_PATH%."],
+      "fix": "Do not relaunch IIS Express directly. Headless: run the Web.Host dll with ASPNETCORE_ENVIRONMENT=Development. Attended: restart from Visual Studio.",
+      "ruleIds": []
+    },
+    {
+      "id": "S-26",
+      "symptom": "A form that rendered before now 404s by name, but fetching it by id still returns markup",
+      "tags": ["404 by name", "orphaned revision", "islast", "after restart"],
+      "causes": ["A backend restart re-ran the configuration bootstrappers and orphaned the form's live revision; lookups by name filter on isLast."],
+      "fix": "Re-push the markup to restore the live revision. Author forms after restarts, not before, to avoid this within a run.",
+      "ruleIds": ["R-047"]
+    },
+    {
+      "id": "S-27",
+      "symptom": "Datatable shows headers and a correct row count in the pager, but every cell is blank",
+      "tags": ["blank cells", "correct count", "pascalcase", "columns blank", "count right"],
+      "causes": ["Column propertyNames are PascalCase, copied verbatim from Metadata/GetProperties paths. Shesha camelCases the QUERY, so the fetch and the count are right, but the cell accessor reads the literal propertyName against camelCase row keys and gets undefined."],
+      "fix": "camelCase every column propertyName, and every input propertyName too. This is the single most misleading failure in the catalogue, because the correct count makes it look like a styling problem.",
+      "ruleIds": ["R-004"]
+    },
+    {
+      "id": "S-28",
+      "symptom": "Datalist card: text overlaps, a quote clips at the card top, fields collapse, or an inner scrollbar appears",
+      "tags": ["datalist card", "overlap", "clipped", "scrollbar", "collapse"],
+      "causes": ["The datalist renders each row's card form in a cell that collapses ant-form-item heights and forces white-space nowrap; content-mode text and shared-row chips collapse."],
+      "fix": "Build the row card with name-mode bound text, dimensions fit-content, single-line ellipsis for long text, the status chip on its own row, and card height auto.",
+      "ruleIds": ["R-048"]
+    },
+    {
+      "id": "S-29",
+      "symptom": "Create/edit fields render as read-only spans rather than inputs (and it is NOT an editMode problem)",
+      "tags": ["read-only spans", "not inputs", "versionless", "legacy render"],
+      "causes": ["Components are missing an integer version, so the renderer takes a legacy read-only fallback path. Usually from modelling a form on a versionless legacy seed."],
+      "fix": "Stamp the current version on every component, derived from that type's own migrator chain (probe emits the map). Never seed from a versionless legacy form.",
+      "ruleIds": ["R-003"]
+    },
+    {
+      "id": "S-30",
+      "symptom": "A container's header is squeezed to nothing, or a child overflows its container",
+      "tags": ["squeezed header", "overflow", "two div", "container height", "clipped header"],
+      "causes": ["A container renders TWO divs. The outer (sha-components-container, the flex item) takes only dimensions and shadow; layout props land on the inner, whose overflow is hard-coded to auto. So the model's own overflow prop is a no-op."],
+      "fix": "Set dimensions.minHeight to \"fit-content\" on the container. Do not try to fix it with an overflow prop — that channel is dead.",
+      "ruleIds": [],
+      "note": "Residue of former rule R-032, deleted as a rule because it describes runtime physics with no authored value that is right or wrong."
+    },
+    {
+      "id": "S-31",
+      "symptom": "A displayed value shows &amp; or &lt; instead of the character",
+      "tags": ["escaped", "html entities", "amp", "ampersand", "mustache escaping"],
+      "causes": ["Mustache {{ }} HTML-escapes & < > and quotes."],
+      "fix": "Use {{{triple braces}}} for trusted display values. GUIDs and numbers are unaffected, so this only shows up on free text.",
+      "ruleIds": [],
+      "note": "Residue of former rule R-035, deleted as a rule because a double brace is correct far more often than not."
+    },
+    {
+      "id": "S-32",
+      "symptom": "Crud/Create 500s on a create dialog whose required foreign key was supposed to be preset by the calling screen",
+      "tags": ["create 500", "preset fk", "formarguments", "setfieldsvalue", "required fk"],
+      "causes": ["formArguments and setFieldsValue never reach the submit payload. A contextually-preset FK needs BOTH a real bound component AND an onPrepareSubmitData reducer."],
+      "fix": "Bind the FK to a real (possibly hidden) component and reduce it to {id} in formSettings.onPrepareSubmitData.",
+      "ruleIds": ["R-037"],
+      "note": "Residue of former rule R-045, deleted as a rule because WHICH FKs are preset is a property of the calling screen, not of this form, so it is not checkable from this markup."
+    }
+  ]
+}

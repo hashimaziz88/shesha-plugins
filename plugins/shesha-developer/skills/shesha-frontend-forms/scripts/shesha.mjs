@@ -19,11 +19,15 @@
  *   64  usage error
  *   70  not implemented in this phase
  */
-import { mkdirSync, writeFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { deriveFrameworkTruth, FrameworkError, resolveAppPaths } from './lib/framework.mjs';
 import { BackendError, DEFAULT_BACKEND, deriveBackendTruth } from './lib/api.mjs';
+import { loadRules, renderManifest, TRIAGE } from './lib/rules.mjs';
+
+const SKILL_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 const EXIT = {
   OK: 0,
@@ -38,7 +42,7 @@ const EXIT = {
 
 const SUBCOMMANDS = {
   probe: 'Derive Shesha 0.45 ground truth from the target app and write .shesha/ground-truth.json',
-  explain: 'Look up a symptom, rule or component in the derived ground truth  [Phase 1]',
+  explain: 'Look up a symptom, rule or component — replaces reading documents',
   check: 'Run the offline gates over a form markup file                       [Phase 2]',
   preview: 'Render a mirror-kit JSX spec to mock.png                           [Phase 3]',
   compile: 'Compile a mirror-kit JSX spec to Shesha form JSON                 [Phase 4]',
@@ -367,6 +371,202 @@ async function cmdProbe(flags) {
   return EXIT.OK;
 }
 
+const EXPLAIN_HELP = `shesha explain — look something up instead of reading a document
+
+Usage:
+  node shesha.mjs explain --symptom "<text>"      what you are seeing, in your own words
+  node shesha.mjs explain --rule R-0xx            one rule: statement, disposition, validator
+  node shesha.mjs explain --component <type>      what this app's framework says about a type
+  node shesha.mjs explain --manifest [--write]    the rule triage table (regenerates MANIFEST.md)
+  node shesha.mjs explain --rules                 every rule id with its disposition
+
+This exists so that diagnosing a failure is a query, not a document read. The catalogue is
+symptom-first because that is the only thing you actually have when a form misbehaves.
+
+Options:
+  --app <path>   include facts derived from this app's ground-truth.json (needed by --component)
+  --json         machine-readable output
+
+Exit codes:
+  0 a match was found · 4 no match · 64 usage error
+`;
+
+function loadSymptoms() {
+  const p = join(SKILL_ROOT, 'assets', 'symptoms.json');
+  if (!existsSync(p)) return [];
+  try {
+    return JSON.parse(readFileSync(p, 'utf8')).symptoms || [];
+  } catch {
+    return [];
+  }
+}
+
+function loadGroundTruth(appPath) {
+  if (!appPath || appPath === true) return null;
+  const p = join(resolve(appPath), '.shesha', 'ground-truth.json');
+  if (!existsSync(p)) return null;
+  try {
+    return JSON.parse(readFileSync(p, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+/** Token-overlap scoring. Deliberately dumb and dependency-free; ranking beats precision here. */
+function scoreSymptom(entry, queryTokens) {
+  const haystack = `${entry.symptom} ${(entry.tags || []).join(' ')} ${(entry.causes || []).join(' ')}`.toLowerCase();
+  let score = 0;
+  for (const t of queryTokens) {
+    if (!t) continue;
+    if ((entry.tags || []).some((tag) => tag.toLowerCase().includes(t))) score += 3;
+    else if (entry.symptom.toLowerCase().includes(t)) score += 2;
+    else if (haystack.includes(t)) score += 1;
+  }
+  return score;
+}
+
+async function cmdExplain(flags) {
+  if (flags.help || Object.keys(flags).length === 0) {
+    process.stdout.write(EXPLAIN_HELP);
+    return flags.help ? EXIT.OK : EXIT.USAGE;
+  }
+  const asJson = !!flags.json;
+  const emit = (obj, text) => {
+    process.stdout.write(asJson ? JSON.stringify(obj, null, 2) + '\n' : text);
+  };
+
+  // ---- --manifest -------------------------------------------------------------
+  if (flags.manifest) {
+    const md = renderManifest();
+    if (flags.write) {
+      const out = join(SKILL_ROOT, 'scripts', 'rules', 'MANIFEST.md');
+      writeFileSync(out, md, 'utf8');
+      process.stderr.write(`wrote ${out}\n`);
+    }
+    process.stdout.write(md);
+    return EXIT.OK;
+  }
+
+  // ---- --rules ----------------------------------------------------------------
+  if (flags.rules) {
+    const rows = [...TRIAGE].sort((a, b) => a.id.localeCompare(b.id));
+    emit(
+      rows,
+      rows.map((t) => `${t.id}  ${t.disposition.padEnd(12)} ${t.group.padEnd(11)} ${t.reason || t.note || ''}`).join('\n') + '\n'
+    );
+    return EXIT.OK;
+  }
+
+  // ---- --rule R-0xx -----------------------------------------------------------
+  if (typeof flags.rule === 'string') {
+    const id = flags.rule.toUpperCase().startsWith('R-') ? flags.rule.toUpperCase() : `R-${flags.rule.padStart(3, '0')}`;
+    const row = TRIAGE.find((t) => t.id === id);
+    if (!row) {
+      process.stderr.write(`explain: no rule "${id}". Try --rules for the full list.\n`);
+      return EXIT.NO_MATCH;
+    }
+    const impl = loadRules().find((r) => r.id === id);
+    const symptoms = loadSymptoms().filter((s) => (s.ruleIds || []).includes(id));
+    const payload = {
+      id,
+      group: row.group,
+      disposition: row.disposition,
+      severity: impl?.severity ?? null,
+      statement: impl?.statement ?? null,
+      note: row.note ?? null,
+      reason: row.reason ?? null,
+      movedTo: row.movedTo ?? null,
+      validator: impl ? `scripts/rules/${row.group === 'process' ? 'structure' : row.group}.mjs` : null,
+      relatedSymptoms: symptoms.map((s) => ({ id: s.id, symptom: s.symptom })),
+    };
+    let text = `${id}  [${row.group}/${payload.severity ?? row.disposition}]  disposition: ${row.disposition}\n\n`;
+    if (payload.statement) text += `${payload.statement}\n\n`;
+    if (row.reason) text += `STALE — ${row.reason}\n`;
+    if (row.movedTo) text += `moved to: ${row.movedTo}\n`;
+    if (row.note) text += `note: ${row.note}\n`;
+    if (payload.validator) text += `validator: ${payload.validator}\n`;
+    if (symptoms.length) {
+      text += `\nrelated symptoms:\n` + symptoms.map((s) => `  ${s.id}  ${s.symptom}`).join('\n') + '\n';
+    }
+    emit(payload, text);
+    return EXIT.OK;
+  }
+
+  // ---- --component <type> -----------------------------------------------------
+  if (typeof flags.component === 'string') {
+    const gt = loadGroundTruth(flags.app);
+    if (!gt) {
+      process.stderr.write(
+        'explain --component needs derived ground truth. Run:\n' +
+          '  node shesha.mjs probe --app <path>\n' +
+          'then pass the same --app here.\n'
+      );
+      return EXIT.NO_MATCH;
+    }
+    const type = flags.component;
+    const def = gt.registry[type];
+    if (!def) {
+      const near = Object.keys(gt.registry)
+        .filter((t) => t.toLowerCase().includes(type.toLowerCase()))
+        .slice(0, 10);
+      process.stderr.write(
+        `explain: "${type}" is not a registered component type in this app.\n` +
+          (near.length ? `did you mean: ${near.join(', ')}\n` : '')
+      );
+      return EXIT.NO_MATCH;
+    }
+    let text = `${def.type}  "${def.name}"\n`;
+    text += `  version        ${def.lastVersion === null ? 'none (no migrator)' : def.lastVersion}`;
+    if (def.lastVersion !== null) text += `  (chain of ${def.migrationVersions.length})`;
+    text += '\n';
+    text += `  isInput        ${def.isInput}\n`;
+    text += `  containers     ${def.customContainerNames ? def.customContainerNames.join(', ') : '(none — not a container)'}\n`;
+    if (def.dataTypeSupported) text += `  binds          ${def.dataTypeSupported.join(', ')}\n`;
+    text += `  settings props ${def.settings.propertyNames.length}${def.settings.source === 'absent' ? ' (no settings markup)' : ''}\n`;
+    if (def.settings.propertyNames.length) {
+      text += `                 ${def.settings.propertyNames.slice(0, 24).join(' ')}\n`;
+    }
+    text += `  framework      ${gt.framework.version} (derived ${gt.generatedAt})\n`;
+    emit(def, text);
+    return EXIT.OK;
+  }
+
+  // ---- --symptom "<text>" -----------------------------------------------------
+  if (typeof flags.symptom === 'string') {
+    const q = flags.symptom.toLowerCase();
+    const tokens = q.split(/[^a-z0-9.]+/).filter((t) => t.length > 2);
+    const scored = loadSymptoms()
+      .map((s) => ({ s, score: scoreSymptom(s, tokens) }))
+      .filter((x) => x.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3);
+
+    if (!scored.length) {
+      process.stderr.write(
+        `explain: nothing in the catalogue matches "${flags.symptom}".\n` +
+          'This is a knowledge-base miss, which is a gap to report — not a cue to go read the\n' +
+          'compiled @shesha-io bundle. Try fewer, more distinctive words first.\n'
+      );
+      return EXIT.NO_MATCH;
+    }
+
+    let text = '';
+    for (const { s, score } of scored) {
+      text += `${s.id}  (match ${score})  ${s.symptom}\n`;
+      for (const c of s.causes || []) text += `  cause: ${c}\n`;
+      text += `  fix:   ${s.fix}\n`;
+      if (s.note) text += `  note:  ${s.note}\n`;
+      if ((s.ruleIds || []).length) text += `  rules: ${s.ruleIds.join(', ')}\n`;
+      text += '\n';
+    }
+    emit(scored.map((x) => x.s), text);
+    return EXIT.OK;
+  }
+
+  process.stderr.write(EXPLAIN_HELP);
+  return EXIT.USAGE;
+}
+
 function unimplemented(name, phase) {
   return async (flags) => {
     const help = `shesha ${name} — ${SUBCOMMANDS[name]}\n\nNot implemented until Phase ${phase}.\n`;
@@ -381,7 +581,7 @@ function unimplemented(name, phase) {
 
 const HANDLERS = {
   probe: cmdProbe,
-  explain: unimplemented('explain', 1),
+  explain: cmdExplain,
   check: unimplemented('check', 2),
   preview: unimplemented('preview', 3),
   compile: unimplemented('compile', 4),
