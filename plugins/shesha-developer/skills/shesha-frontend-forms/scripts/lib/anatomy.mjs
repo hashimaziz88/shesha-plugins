@@ -508,6 +508,13 @@ export const CAPTURE_FN = `() => {
       kit: el.getAttribute('data-kit') || null,
       part: el.getAttribute('data-part') || null,
       declaredBinding: el.getAttribute('data-binding') || null,
+      // Only the ant-/sha- classes, which are the sole stable way to tell WHAT a rendered box
+      // is. Shesha emits no data-* type markers, so without these the fidelity diff can see
+      // boxes but not roles, and a role check that cannot observe one side is decoration.
+      cls: (typeof el.className === 'string' ? el.className : '')
+        .split(/\\s+/)
+        .filter((c) => /^(ant|sha)-/.test(c))
+        .slice(0, 8),
       isInput: isInput(el),
       box: { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) },
       childTopSpread: childTops.length > 1 ? Math.max(...childTops) - Math.min(...childTops) : 0,
@@ -538,7 +545,7 @@ export const CAPTURE_FN = `() => {
   const opaque = nodes.filter(n => n.style.background && !/rgba\\(0, 0, 0, 0\\)|transparent/.test(n.style.background));
   const byArea = [...opaque].sort((a,b) => (b.box.w*b.box.h) - (a.box.w*a.box.h));
   const scopeBg = getComputedStyle(scope).backgroundColor;
-  const pageBackground = (scopeBg && !/rgba(0, 0, 0, 0)|transparent/.test(scopeBg)) ? scopeBg : getComputedStyle(document.body).backgroundColor;
+  const pageBackground = (scopeBg && !/rgba\\(0, 0, 0, 0\\)|transparent/.test(scopeBg)) ? scopeBg : getComputedStyle(document.body).backgroundColor;
 
   // A micro-label is uppercase, small and tracked out. Counting the SHAPE rather than a
   // class name is what makes it real: the previous stack emitted the markup and never
@@ -563,9 +570,9 @@ export const CAPTURE_FN = `() => {
       fontWeights: [...new Set(nodes.map(n => n.style.fontWeight))],
       fontFamily: nodes.length ? nodes[0].style.fontFamily : null,
       cardRadii: [...new Set(cards.map(c => c.style.borderRadius))],
-      cardSurface: (cards.filter(c => c.style.background && !/rgba(0, 0, 0, 0)|transparent/.test(c.style.background)).sort((x,y)=>(y.box.w*y.box.h)-(x.box.w*x.box.h))[0] || { style: {} }).style.background || null,
+      cardSurface: (cards.filter(c => c.style.background && !/rgba\\(0, 0, 0, 0\\)|transparent/.test(c.style.background)).sort((x,y)=>(y.box.w*y.box.h)-(x.box.w*x.box.h))[0] || { style: {} }).style.background || null,
       pageBackground,
-      borderColour: (nodes.find(n => parseFloat(n.style.borderTopWidth) > 0 && n.style.borderColor && !/rgba(0, 0, 0, 0)|transparent/.test(n.style.borderColor)) || { style: {} }).style.borderColor || null,
+      borderColour: (nodes.find(n => parseFloat(n.style.borderTopWidth) > 0 && n.style.borderColor && !/rgba\\(0, 0, 0, 0\\)|transparent/.test(n.style.borderColor)) || { style: {} }).style.borderColor || null,
       // The primary action: a filled button-ish element carrying the brand colour.
 primaryActions: 0,
 primaryColour: null,

@@ -33,6 +33,7 @@ import { COMPILE_EXIT, CompileError, compileSpec } from './lib/compile.mjs';
 import { PUSH_EXIT, PushError, pushForm } from './lib/push.mjs';
 import * as ledger from './lib/ledger.mjs';
 import { RENDER_EXIT, RenderError, renderForms, smokeForm } from './lib/render.mjs';
+import { FIDELITY_EXIT, FidelityError, calibrate, calibrationPath, compareGeometry, comparePixels, loadCalibration } from './lib/fidelity.mjs';
 import { loadTheme } from './gen-kit.mjs';
 
 const DEFAULT_FRONTEND = 'http://localhost:3000';
@@ -58,7 +59,7 @@ const SUBCOMMANDS = {
   compile: 'Compile a mirror-kit JSX spec to Shesha 0.45 form JSON',
   push: 'Push a form and verify it by re-fetch diff — the only write path',
   render: 'Render a live form and run the rendered gates',
-  fidelity: 'Compare the approved mock render against the Shesha render        [Phase 7]',
+  fidelity: 'Compare the approved mock render against the Shesha render',
   smoke: 'Post-push binding smoke test — bindings, not styling',
   ledger: 'Read or repair the persistence ledger',
   build: 'Supervised multi-screen build from a manifest                     [Phase 11]',
@@ -1490,6 +1491,202 @@ async function cmdSmoke(flags) {
   return r.pass ? EXIT.OK : RENDER_EXIT.SMOKE;
 }
 
+const FIDELITY_HELP = `shesha fidelity — does the Shesha render show the same page as the approved mock?
+
+Usage:
+  node shesha.mjs fidelity --form <module>/<name> --app <path> [--archetype <a>] [options]
+  node shesha.mjs fidelity --calibrate --form <m>/<n> --app <path> --archetype <a>
+
+TWO DIFFS, WITH DELIBERATELY DIFFERENT AUTHORITY.
+
+  geometry  EXACT and BLOCKING. Membership, grouping, nesting and order — never raw pixel
+            positions, because the kit renders approximately while Shesha renders exactly.
+            "Four tiles share one row" is a fact both sides must agree on; "the second tile
+            starts at x=380" is not.
+  pixel     ADVISORY, against a threshold from a CALIBRATION RUN. An uncalibrated threshold
+            is a number someone made up, and an invented threshold gets tuned until it
+            passes. --calibrate records the raw samples so the number can be audited.
+
+Emits a side-by-side composite for the critic, which is the artefact a human already
+approved on one side.
+
+Options:
+  --form <m>/<n>    the form.  REQUIRED
+  --app <path>      the Shesha app.  REQUIRED
+  --archetype <a>   which calibration entry to use. Default: table-worklist
+  --mock <png>      override the mock render path
+  --render <png>    override the Shesha render path
+  --calibrate       measure and WRITE the threshold for this archetype instead of asserting
+  --runs <n>        calibration samples. Default: 5
+  --no-resample     calibrate from repeat diffs of ONE render instead of fresh renders.
+                    Cheaper, needs no frontend — and measures no variance, so the recorded
+                    derivation says so.
+  --theme <name>    theme for the calibration re-renders. Default: shesha
+  --json            machine-readable
+
+Exit codes:
+  0 geometry agrees (pixel drift is advisory) · 18 geometry drift · 11 a render is missing
+  64 usage error
+`;
+
+async function cmdFidelity(flags) {
+  if (flags.help) {
+    process.stdout.write(FIDELITY_HELP);
+    return EXIT.OK;
+  }
+  if (!flags.app || flags.app === true || !flags.form || flags.form === true || !String(flags.form).includes('/')) {
+    process.stderr.write('fidelity: --form <module>/<name> and --app <path> are required.\n\n' + FIDELITY_HELP);
+    return EXIT.USAGE;
+  }
+  const [module, name] = String(flags.form).split('/');
+  const appRoot = resolve(flags.app);
+  const archetype = typeof flags.archetype === 'string' ? flags.archetype : 'table-worklist';
+
+  const mockPng = typeof flags.mock === 'string' ? resolve(flags.mock) : join(appRoot, '.shesha', 'preview', 'mock.png');
+  const mockGeomPath = join(appRoot, '.shesha', 'preview', 'mock-geometry.json');
+  const sheshaPng = typeof flags.render === 'string' ? resolve(flags.render) : join(appRoot, '.shesha', 'render', `${module}.${name}.png`);
+  const evidencePath = join(appRoot, '.shesha', 'render', `${module}.${name}.evidence.json`);
+  const outDir = join(appRoot, '.shesha', 'fidelity');
+
+  for (const [p, what] of [[mockPng, 'mock render (run `preview`)'], [sheshaPng, 'Shesha render (run `render`)']]) {
+    if (!existsSync(p)) {
+      // Fail closed: without both images there is nothing to compare, and "no drift found"
+      // would be a lie.
+      process.stderr.write(`fidelity: missing ${what}: ${p}\n`);
+      return FIDELITY_EXIT.MISSING;
+    }
+  }
+
+  // ---- calibration mode ------------------------------------------------------------
+  if (flags.calibrate) {
+    // Each sample is a fresh Shesha render, so the recorded spread is real render-to-render
+    // movement rather than an artefact of re-running a deterministic diff. --no-resample keeps
+    // the cheap path for when the frontend is not running.
+    const wantResample = flags.resample !== false && !flags['no-resample'];
+    let theme;
+    if (wantResample) {
+      try {
+        theme = loadTheme(typeof flags.theme === 'string' ? flags.theme : 'shesha');
+      } catch (e) {
+        process.stderr.write(`fidelity: ${e.message}\n`);
+        return EXIT.USAGE;
+      }
+    }
+    const sampleDir = join(appRoot, '.shesha', 'fidelity', 'calibration-samples');
+    const resample = wantResample
+      ? async (i) => {
+          const res = await renderForms({
+            appRoot,
+            backend: typeof flags.backend === 'string' ? flags.backend : DEFAULT_BACKEND,
+            frontendUrl: typeof flags.frontend === 'string' ? flags.frontend : DEFAULT_FRONTEND,
+            forms: [{ module, name }],
+            theme,
+            vanilla: null,
+            outDir: join(sampleDir, `run-${i + 1}`),
+            headless: true,
+          });
+          const shot = res[0] && res[0].screenshot;
+          if (!shot) throw new FidelityError(`calibration run ${i + 1} produced no screenshot`, FIDELITY_EXIT.MISSING);
+          return shot;
+        }
+      : null;
+
+    const cal = await calibrate({
+      archetype,
+      mockPng,
+      sheshaPng,
+      outDir,
+      runs: Number(flags.runs) || 5,
+      resample,
+      onProgress: (m) => process.stderr.write(`fidelity: ${m}\n`),
+    });
+    const p = calibrationPath(appRoot);
+    const existing = loadCalibration(appRoot) || { archetypes: {} };
+    existing.archetypes = existing.archetypes || {};
+    existing.archetypes[archetype] = cal;
+    existing.note =
+      'Per-archetype pixel-diff thresholds, derived from measured samples. The geometry diff is ' +
+      'the blocking one; these numbers only bound the ADVISORY pixel diff.';
+    writeFileSync(p, JSON.stringify(existing, null, 2) + '\n', 'utf8');
+    process.stdout.write(JSON.stringify({ ok: true, calibration: p, ...cal }, null, 2) + '\n');
+    return EXIT.OK;
+  }
+
+  // ---- assertion mode --------------------------------------------------------------
+  const mockGeometry = existsSync(mockGeomPath) ? JSON.parse(readFileSync(mockGeomPath, 'utf8')) : null;
+  const evidence = existsSync(evidencePath) ? JSON.parse(readFileSync(evidencePath, 'utf8')) : null;
+  if (!mockGeometry) {
+    process.stderr.write(`fidelity: no mock geometry at ${mockGeomPath} — run \`preview\` first\n`);
+    return FIDELITY_EXIT.MISSING;
+  }
+
+  // `render` writes the captured boxes to their own file so evidence.json stays readable.
+  // Without them there is nothing to compare, and fail-closed means saying so.
+  // --render overrides the image, so it must override the boxes too. Taking the PNG from one
+  // render and the geometry from another compares two different pages and calls it a result.
+  const geomFile = typeof flags.render === 'string'
+    ? sheshaPng.replace(/\.png$/i, '.geometry.json')
+    : join(appRoot, '.shesha', 'render', `${module}.${name}.geometry.json`);
+  if (!existsSync(geomFile)) {
+    process.stderr.write(`fidelity: no Shesha geometry at ${geomFile} — re-run \`render\` so the boxes are captured\n`);
+    return FIDELITY_EXIT.MISSING;
+  }
+  const sheshaGeometry = JSON.parse(readFileSync(geomFile, 'utf8'));
+
+  const geom = compareGeometry({ mockGeometry, sheshaGeometry });
+  const pixels = await comparePixels({ mockPng, sheshaPng, outDir });
+
+  const cal = loadCalibration(appRoot);
+  const entry = cal && cal.archetypes ? cal.archetypes[archetype] : null;
+  const threshold = entry ? entry.threshold : null;
+  const pixelVerdict = threshold === null ? 'uncalibrated' : pixels.diffRatio <= threshold ? 'within' : 'over';
+
+  const report = {
+    form: `${module}/${name}`,
+    archetype,
+    mock: mockPng,
+    render: sheshaPng,
+    composite: pixels.compositePath,
+    geometry: geom,
+    pixel: {
+      diffRatio: pixels.diffRatio,
+      differingPixels: pixels.differingPixels,
+      comparedPixels: pixels.comparedPixels,
+      tolerance: pixels.tolerance,
+      threshold,
+      verdict: pixelVerdict,
+      advisory: true,
+      note:
+        threshold === null
+          ? 'no calibration for this archetype, so the pixel diff is reported WITHOUT a verdict. Run --calibrate; a threshold invented here would be worthless.'
+          : 'advisory only. The kit and Shesha are two different renderers, so a large steady baseline is expected; what matters is that it stays put.',
+    },
+    blocking: geom.pass ? null : 'geometry',
+  };
+  const reportPath = join(outDir, `${module}.${name}.fidelity.json`);
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(reportPath, JSON.stringify(report, null, 2) + '\n', 'utf8');
+
+  if (flags.json) {
+    process.stdout.write(JSON.stringify({ ...report, reportPath }, null, 2) + '\n');
+  } else {
+    process.stdout.write(`fidelity ${report.form} (${archetype})\n`);
+    process.stdout.write(`  composite  ${pixels.compositePath}\n`);
+    process.stdout.write(`  report     ${reportPath}\n`);
+    process.stdout.write(`  geometry   ${geom.pass ? 'agrees' : `DRIFT (${geom.drift.length})`}\n`);
+    for (const d of geom.drift) process.stdout.write(`    [18] ${d.axis}: ${d.why}\n`);
+    for (const na of geom.notAsserted || []) process.stdout.write(`    not asserted  ${na}\n`);
+    process.stdout.write(
+      `  pixel      ${(pixels.diffRatio * 100).toFixed(2)}% differing` +
+        (threshold === null ? '  (UNCALIBRATED — no verdict)' : `  threshold ${(threshold * 100).toFixed(2)}%  -> ${pixelVerdict}`) +
+        '  [advisory]\n'
+    );
+    process.stdout.write(`  observed   ${JSON.stringify(geom.observations)}\n`);
+  }
+
+  return geom.pass ? EXIT.OK : FIDELITY_EXIT.GEOMETRY_DRIFT;
+}
+
 function unimplemented(name, phase) {
   return async (flags) => {
     const help = `shesha ${name} — ${SUBCOMMANDS[name]}\n\nNot implemented until Phase ${phase}.\n`;
@@ -1510,7 +1707,7 @@ const HANDLERS = {
   compile: cmdCompile,
   push: cmdPush,
   render: cmdRender,
-  fidelity: unimplemented('fidelity', 7),
+  fidelity: cmdFidelity,
   smoke: cmdSmoke,
   ledger: cmdLedger,
   build: unimplemented('build', 11),

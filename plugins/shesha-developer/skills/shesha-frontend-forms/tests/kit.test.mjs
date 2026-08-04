@@ -430,3 +430,42 @@ describe('channel support derivation', () => {
     assert.match(unknown.reason, /not in registry/);
   });
 });
+
+/**
+ * CAPTURE_FN is a TEMPLATE LITERAL, so every regex escape inside it needs doubling: `\s`
+ * written once collapses to a bare `s` before the browser ever sees it, and `\(` collapses to
+ * `(`, silently turning a literal into a capture group.
+ *
+ * Both failure modes shipped. `.split(/\s+/)` split class lists on the letter "s", so the
+ * fidelity diff read zero roles; and `/rgba(0, 0, 0, 0)|transparent/` searched for the literal
+ * text "rgba0, 0, 0, 0", so a fully transparent background scored as a real colour in
+ * pageBackground, cardSurface and borderColour. Neither threw — they just quietly answered
+ * wrongly, which is the exact defect class this project exists to remove. Hence a test.
+ */
+describe('capture function escaping', () => {
+  it('has no single-escaped regex metacharacters', async () => {
+    const { CAPTURE_FN } = await import('../scripts/lib/anatomy.mjs');
+    // CAPTURE_FN is already the POST-collapse string — what the browser will actually run.
+    // So the bug is visible directly: look for regex literals that lost their escapes.
+    const offenders = [];
+
+    // A character class shorthand that survived would appear as \s / \d / \w. If the source
+    // single-escaped it, the shorthand is GONE and we cannot see it here — so instead assert
+    // the known-good forms are present, proving the doubling survived.
+    if (!/\s\+/.test(CAPTURE_FN) && /\.split\(\/s\+\//.test(CAPTURE_FN)) {
+      offenders.push('split(/s+/) — \s collapsed to s; double the backslash in the source');
+    }
+    // An unescaped-paren rgba test matches literal "rgba0, 0, 0, 0" and never fires.
+    const unescapedRgba = CAPTURE_FN.match(/\/rgba\(0, 0, 0, 0\)/g);
+    if (unescapedRgba) {
+      offenders.push(`${unescapedRgba.length} rgba test(s) with unescaped parens`);
+    }
+    assert.deepEqual(offenders, [], offenders.join('; '));
+  });
+
+  it('records ant-/sha- class names, since roles are not otherwise observable', async () => {
+    const { CAPTURE_FN } = await import('../scripts/lib/anatomy.mjs');
+    assert.match(CAPTURE_FN, /cls:/, 'capture must record class names');
+    assert.match(CAPTURE_FN, /\^\(ant\|sha\)-/, 'capture must filter to ant-/sha- classes');
+  });
+});

@@ -244,6 +244,17 @@ export async function renderForms({
         exitCode = gates.exitCode;
       }
 
+      // The boxes go to their own file so evidence.json stays readable; `fidelity` reads them
+      // from there rather than re-rendering.
+      const geometryPath = join(outDir, `${form.module}.${form.name}.geometry.json`);
+      if (geometry) {
+        writeFileSync(
+          geometryPath,
+          JSON.stringify({ form: label, viewport, nodes: geometry.nodes, gaps: geometry.gaps }, null, 2) + '\n',
+          'utf8',
+        );
+      }
+
       const evidence = {
         form: label,
         url,
@@ -260,6 +271,7 @@ export async function renderForms({
         pageErrors,
         failedRequests,
         nodeCount: geometry ? geometry.nodes.length : 0,
+        geometryPath: geometry ? geometryPath : null,
         fingerprint: geometry ? geometry.fingerprint : null,
         gaps: geometry ? geometry.gaps : null,
         gates: gates
