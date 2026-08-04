@@ -87,6 +87,41 @@ Two traps in that walk, both of which returned a smaller *plausible* answer with
 `contentType` includes the **empty string** as a legal value. Treating it as illegal fails a
 correct form.
 
+### A settings editor's option list is a UI shortlist, not a validation contract
+
+The single most important thing measured about the harvest. `container.justifyContent` is a
+`radio` offering **left / center / right**, yet real forms carry `space-between`, `flex-end` and
+`flex-start`. Rendering one of those forms and reading **computed** styles found
+`space-between` ×6, `flex-end` ×1 and `flex-start` ×363 actually applied — the framework passes
+the value straight through to CSS. Same story for `dataContext.defaultPageSize`, a dropdown
+listing 5…200 while `8` works.
+
+So **closedness cannot be inferred from the settings markup.** A value outside the harvested set
+is only a defect where the renderer *switches* on the prop, which has to be measured per prop.
+R-058 therefore fails only for a small measured allowlist (`text.textType`,
+`text.contentDisplay`, `text.contentType`) and warns everywhere else.
+
+Shipping R-058 as a blanket failure produced **nine findings on five real forms**, every one a
+false positive. That is the 95.6%-false-positive failure mode of the previous stack, reproduced in
+miniature and caught by running the gates against markup we did not write.
+
+## Actions
+
+**A Navigate action's destination key depends on its `navigationType`.**
+
+```js
+{ navigationType: 'form', formId: { name, module }, queryParameters: [{key, value}] }  // form
+{ navigationType: 'url',  target: '/some/path' }                                       // url
+```
+
+Requiring `target` unconditionally flagged **six valid form-navigations** across the real forms on
+this backend as `<Link href=undefined>` crashes. R-008 now validates per navigationType and warns
+rather than failing on a navigationType it does not recognise.
+
+**An absent `dataSubmitterType` means the form does not submit.** Reading `!== 'none'` treats
+`undefined` as submitting, which demanded a Submit button on three read-only list views. Absent is
+not enabled.
+
 ## Structure
 
 **A slot child's `parentId` is the SLOT's id, not the owning component's.**

@@ -277,7 +277,10 @@ export async function deriveBackendTruth(backend, { cacheDir, user, password, ma
   }
 
   say('reading entities');
-  const entitiesRes = await call(backend, '/api/services/app/EntityConfig/GetMainDataList', { token });
+  // Without an explicit page size the server answers its default page (10 rows), which
+  // silently hides most of the app's entities — and a hidden entity reads downstream as
+  // "no metadata for this binding" rather than "the list was truncated".
+  const entitiesRes = await call(backend, '/api/services/app/EntityConfig/GetMainDataList?maxResultCount=1000', { token });
   if (!entitiesRes.ok) notes.push(`GetMainDataList failed: HTTP ${entitiesRes.status} ${entitiesRes.error || ''}`.trim());
   else if (entitiesRes.filtered) notes.push('GetMainDataList returned 200 with a null payload (permission-filtered)');
 

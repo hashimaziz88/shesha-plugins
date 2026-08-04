@@ -14,8 +14,8 @@ All 59 rules ported from the previous stack, each dispositioned. Ported as ideas
 | R-004 | binding | enforceable | `scripts/rules/binding.mjs` | NARROWED to components the framework itself says bind an entity property (dataTypeSupported non-null) plus datatable data columns. isInput does not discriminate — it is true for datatableContext and datatable, whose propertyName is an identifier, and flagging those was a false positive on correct shipped markup. |
 | R-005 | data | enforceable | `scripts/rules/data.mjs` |  |
 | R-006 | structure | enforceable | `scripts/rules/structure.mjs` |  |
-| R-007 | actions | enforceable | `scripts/rules/actions.mjs` |  |
-| R-008 | actions | enforceable | `scripts/rules/actions.mjs` |  |
+| R-007 | actions | enforceable | `scripts/rules/actions.mjs` | PREDICATE CORRECTED Phase 9a against real forms: applies() read dataSubmitterType !== "none", so an ABSENT submitter counted as submitting and the rule demanded a Submit button on three read-only list views. Absent is not enabled — it now requires an explicit non-empty submitter other than "none". |
+| R-008 | actions | enforceable | `scripts/rules/actions.mjs` | NARROWED Phase 9a against real forms: required a `target` on every Navigate, which flagged six valid form-navigations ({navigationType: "form", formId: {name, module}}) as crashes. `target` is the navigationType "url" shape only. Now validates per navigationType and WARNS rather than failing on a navigationType it does not know. |
 | R-009 | structure | enforceable | `scripts/rules/structure.mjs` |  |
 | R-010 | data | enforceable | `scripts/rules/data.mjs` |  |
 | R-011 | data | enforceable | `scripts/rules/data.mjs` |  |
@@ -65,7 +65,7 @@ All 59 rules ported from the previous stack, each dispositioned. Ported as ideas
 | R-055 | styling | enforceable | `scripts/rules/styling.mjs` |  |
 | R-056 | process | compile-time | — | DEFERRED TO PHASE 6: render clears the form/form_lookup IndexedDB stores as part of its own boot, so measuring a ghost is unrepresentable |
 | R-057 | styling | enforceable | `scripts/rules/styling.mjs` |  |
-| R-058 | styling | enforceable | `scripts/rules/styling.mjs` | NEW, added Phase 8. Enum-valued props must carry a value their own settings editor offers. The legal sets are harvested by probe from each type's settings markup (700 enum props, 697 with static values) rather than hand-listed, so they cannot go stale against the installed package. Partially closes the R-053 gap: prop VALIDITY is now checkable offline without vendoring a capability matrix. Prop EFFECT still is not. |
+| R-058 | styling | enforceable | `scripts/rules/styling.mjs` | NEW, added Phase 8; DEMOTED fail->warn in Phase 9a on evidence. The harvested sets are still derived by probe from each type's settings markup (700 enums, 697 with values). But shipping it as a blanket FAIL produced nine findings on five real forms — containers with justifyContent space-between/flex-end/flex-start, alignItems stretch, a dataContext with defaultPageSize 8. Rendering one of those forms and reading COMPUTED styles found space-between x6, flex-end x1 and flex-start x363 actually applied, so the framework passes those through to CSS and the editor radio (left/center/right) is a UI shortlist, NOT a validation contract. Closedness cannot be inferred from settings markup. It now FAILS only for the CLOSED_ENUMS allowlist, where the renderer is measured to switch on the value (text.textType/contentDisplay/contentType), and WARNS elsewhere. |
 | R-059 | styling | enforceable | `scripts/rules/styling.mjs` | NEW, added Phase 8. MINED: text needs textType + contentDisplay + contentType present alongside content or the whole desktop.font block is inert. This was the Phase 6 font-channel defect; the compiler now emits all three, so the rule guards the regression. |
 
 ## Implementations with no triage row

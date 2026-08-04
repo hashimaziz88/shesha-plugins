@@ -344,6 +344,13 @@ function emitComponent(name, spec, theme, groundTruth, report) {
 function emitRenderBody(name, spec, parts) {
   const has = (p) => Object.prototype.hasOwnProperty.call(parts, p);
   const L = [];
+  if (name === 'DataTable') {
+    // Columns describe the grid; QuickSearch / TableFilter describe the toolbar above it.
+    // Splitting them here is what keeps a search box out of the header row.
+    L.push(`  const __kids = React.Children.toArray(props.children).filter(Boolean);`);
+    L.push(`  const __cols = __kids.filter((c) => c.type && c.type.name === 'Column');`);
+    L.push(`  const __tools = __kids.filter((c) => c.type && (c.type.name === 'QuickSearch' || c.type.name === 'TableFilter'));`);
+  }
   L.push(`  return (`);
   L.push(`    <div data-kit="${name}" data-shesha-type="${spec.sheshaType}" style={style}>`);
 
@@ -381,10 +388,12 @@ function emitRenderBody(name, spec, parts) {
     L.push(`        </div>`);
     L.push(`      ))}`);
   } else if (name === 'DataTable') {
-    L.push(`      {props.toolbar ? <div data-part="toolbar" style={PARTS.toolbar}>{props.toolbar}</div> : null}`);
+    // Columns describe the grid; QuickSearch / TableFilter describe the toolbar above it.
+    // Splitting them here is what keeps a search box out of the header row.
+    L.push(`      {__tools.length ? <div data-part="toolbar" style={{ ...PARTS.toolbar, display: 'flex', alignItems: 'center', gap: 12 }}>{__tools}</div> : null}`);
     L.push(`      <table style={{ width: '100%', borderCollapse: 'collapse' }}>`);
     L.push(`        <thead><tr>`);
-    L.push(`          {React.Children.map(props.children, (col, i) => (`);
+    L.push(`          {React.Children.map(__cols, (col, i) => (`);
     L.push(`            <th key={i} style={{ ...PARTS.head, textAlign: (col && col.props && col.props.align) || PARTS.head.textAlign, width: col && col.props && col.props.width !== 'fill' ? col.props.width : undefined }}>`);
     L.push(`              {(col && col.props && (col.props.caption || col.props.bind)) || ''}`);
     L.push(`            </th>`);
@@ -393,7 +402,7 @@ function emitRenderBody(name, spec, parts) {
     L.push(`        <tbody>`);
     L.push(`          {[0, 1, 2, 3, 4].map((r) => (`);
     L.push(`            <tr key={r}>`);
-    L.push(`              {React.Children.map(props.children, (col, i) => (`);
+    L.push(`              {React.Children.map(__cols, (col, i) => (`);
     L.push(`                <td key={i} style={{ ...PARTS.cell, textAlign: (col && col.props && col.props.align) || PARTS.cell.textAlign }}>`);
     L.push(`                  {col && col.props && col.props.children ? col.props.children : <span style={{ color: PARTS.cell.color, opacity: 0.55 }}>{'sample'}</span>}`);
     L.push(`                </td>`);
@@ -428,6 +437,14 @@ function emitRenderBody(name, spec, parts) {
     L.push(`          {t && t.props ? t.props.title : ''}`);
     L.push(`        </div>`);
     L.push(`      ))}`);
+  } else if (name === 'QuickSearch') {
+    // The framework paints its own antd Search box; the mock only has to show the model
+    // that a search affordance occupies this slot, at this size.
+    L.push(`      <span style={{ opacity: 0.5, marginRight: 6 }}>{'\\u2315'}</span>`);
+    L.push(`      <span style={{ opacity: 0.55 }}>{props.placeholder || 'Search'}</span>`);
+  } else if (name === 'TableFilter') {
+    L.push(`      <span style={{ opacity: 0.6, marginRight: 6 }}>{'\\u2261'}</span>`);
+    L.push(`      <span>{'Filter'}</span>`);
   } else if (name === 'StatusPill') {
     L.push(`      <span style={{ padding: '4px 10px', background: E.accent, color: '#ffffff' }}>{props.bind || props.children || 'STATUS'}</span>`);
   } else if (name === 'Badge' || name === 'CountBadge') {

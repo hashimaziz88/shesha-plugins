@@ -12,6 +12,31 @@ import { allComponents, styleBlocks } from '../lib/walk.mjs';
 const TEXT_TYPES = new Set(['text', 'paragraph', 'title']);
 const BUTTONISH = new Set(['button', 'buttonGroup']);
 
+/**
+ * `<type>.<prop>` pairs where an out-of-set value is genuinely DISCARDED, so R-058 blocks.
+ *
+ * MEASURED, and the measurement went against the first version of this rule. R-058 originally
+ * failed on any value outside the harvested set, which produced nine failures across five real
+ * forms: containers carrying `justifyContent: space-between` / `flex-end` / `flex-start`,
+ * `alignItems: stretch`, and a dataContext with `defaultPageSize: 8`. Rendering one of those forms
+ * and reading COMPUTED styles found space-between x6, flex-end x1 and flex-start x363 actually
+ * applied — so the framework passes those straight through to CSS and the settings editor's
+ * three-item radio (left/center/right) is a UI shortlist, not a validation contract. The same goes
+ * for the pageSize dropdown, which lists 5..200 while 8 works fine.
+ *
+ * Closedness therefore CANNOT be inferred from the settings markup. It is only known where the
+ * renderer switches on the value, which has to be established by measurement per prop. This set
+ * holds the ones established so far; everything else warns.
+ */
+const CLOSED_ENUMS = new Set([
+  // Measured in Phase 6 (the font channel): the renderer selects a typography component from
+  // textType and reads contentDisplay/contentType to decide what to render at all. Wrong or
+  // missing values leave desktop.font inert with no error. See also R-059.
+  'text.textType',
+  'text.contentDisplay',
+  'text.contentType',
+]);
+
 function hasFlexIntent(block) {
   return (
     block &&
@@ -357,11 +382,12 @@ export const rules = {
    */
   'R-058': {
     id: 'R-058',
-    severity: 'fail',
+    severity: 'warn',
     statement:
-      'A prop whose settings editor is a fixed choice list carries one of that list\'s values. ' +
-      'An out-of-set value does not throw — the renderer silently substitutes a default, so the ' +
-      'authored intent vanishes without any error.',
+      'A prop whose settings editor offers a fixed choice list carries one of that list\'s values. ' +
+      'FAIL only where the renderer is known to SWITCH on the value, so an out-of-set value is ' +
+      'discarded; a warning everywhere else, because an editor\'s option list is a UI shortlist ' +
+      'and many props are passed straight through to CSS.',
     applies(ctx) {
       return ctx.registry
         ? true
@@ -393,15 +419,21 @@ export const rules = {
           if (typeof raw === 'object') continue;
 
           const value = String(raw);
-          if (!spec.values.includes(value)) {
-            out.push({
-              message:
-                `${node.type} "${node.componentName || node.id}" sets ${prop}="${value}", which is ` +
-                `not one of the values its own settings editor offers (${spec.values.map((v) => v === '' ? '""' : v).join(', ')}). ` +
-                `The renderer will substitute a default rather than error, so this is authored and then ignored.`,
-              fixPointer: `${path}/${prop}`,
-            });
-          }
+          if (spec.values.includes(value)) continue;
+
+          const closed = CLOSED_ENUMS.has(`${node.type}.${prop}`);
+          out.push({
+            severity: closed ? 'fail' : 'warn',
+            message: closed
+              ? `${node.type} "${node.componentName || node.id}" sets ${prop}="${value}", which is not one of ` +
+                `${spec.values.map((v) => (v === '' ? '""' : v)).join(', ')}. The renderer switches on this ` +
+                `prop, so an unrecognised value is discarded and the authored intent vanishes without an error.`
+              : `${node.type} "${node.componentName || node.id}" sets ${prop}="${value}", which its settings ` +
+                `editor does not offer (${spec.values.map((v) => (v === '' ? '""' : v)).join(', ')}). That list ` +
+                `is a UI shortlist, not a contract — many props pass straight through to CSS — so verify it ` +
+                `renders rather than assuming either way.`,
+            fixPointer: `${path}/${prop}`,
+          });
         }
       }
       return out;

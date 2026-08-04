@@ -600,6 +600,21 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
       return [node];
     }
 
+    /**
+     * ---- Toolbar controls that belong to a table's data context ----------------------
+     *
+     * datatable.quickSearch and datatable.filter both read the nearest table context, so
+     * they are only meaningful INSIDE the dataContext wrapper the DataTable branch emits.
+     * Reaching them here means the spec put one somewhere else, and a quick search that
+     * searches nothing is exactly the kind of silent no-op this compiler refuses to emit.
+     */
+    if (name === 'QuickSearch' || name === 'TableFilter') {
+      throw new CompileError(
+        `<${name}> must be a child of <DataTable> — it binds to that table's data context, and outside it the control renders but does nothing`,
+        COMPILE_EXIT.SPEC_INVALID
+      );
+    }
+
     // ---- DataTable -------------------------------------------------------------------
     if (name === 'DataTable') {
       const entity = props.entity || modelType || null;
@@ -684,7 +699,51 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
         canAddInline: 'no',
         canDeleteInline: 'no',
       });
-      ctx.components = [table];
+      /**
+       * Toolbar controls live inside the wrapper, above the table, in their own flex row.
+       * The row is a real container with display:flex in the desktop block [R-029] —
+       * without it the search box and the filter button stack full-width.
+       */
+      const toolbarKids = kids.filter((k) => k && (k.__kit === 'QuickSearch' || k.__kit === 'TableFilter'));
+      const rowNodes = [];
+      if (toolbarKids.length) {
+        const rowId = stableId(seed, `${path}/toolbar`);
+        const controls = toolbarKids.map((k, i) => {
+          const kSpec = anatomy.components[k.__kit];
+          const kPath = `${path}/toolbar/${i}`;
+          const node = mk(kSpec.sheshaType, kPath, {
+            componentName: `${k.__kit[0].toLowerCase()}${k.__kit.slice(1)}${i}`,
+            parentId: rowId,
+            hidden: false,
+            block: false,
+          });
+          const d = styleFor(kSpec.sheshaType, kSpec.style, theme, registry, report, `${k.__kit}@${kPath}`);
+          if (d) node.desktop = d;
+          if (k.props && k.props.width && k.props.width !== 'fill') {
+            node.desktop = node.desktop || {};
+            node.desktop.dimensions = { ...(node.desktop.dimensions || {}), width: String(k.props.width) };
+          }
+          bump(k.__kit);
+          return node;
+        });
+        rowNodes.push(
+          mk('container', `${path}/toolbar`, {
+            componentName: `tableToolbar${path.replace(/\W/g, '')}`.slice(0, 40),
+            parentId: ctxId,
+            desktop: {
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: '12',
+            },
+            stylingBox: JSON.stringify({ paddingBottom: '12' }),
+            components: controls,
+          })
+        );
+        rowNodes[0].id = rowId;
+      }
+
+      ctx.components = [...rowNodes, table];
       return [ctx];
     }
 

@@ -19,8 +19,17 @@ export const rules = {
       'Submit carries actionName "Submit" with actionOwner "shesha.form" and is paired with an ' +
       'exit button, because downstream tooling reads form intent from the buttonGroup items.',
     applies(_ctx, markup) {
-      const submits = markup?.formSettings?.dataSubmitterType !== 'none';
-      return submits ? true : { skip: true, reason: 'form does not submit, so it has no action floor' };
+      /**
+       * MEASURED CORRECTION. This read `dataSubmitterType !== 'none'`, so an ABSENT submitter
+       * counted as "this form submits" and the rule demanded a Submit button. Three of the four
+       * real forms it fired on are read-only list views with dataSubmitterType undefined — not
+       * configured, therefore not submitting. Absent is not enabled.
+       */
+      const submitter = markup?.formSettings?.dataSubmitterType;
+      const submits = typeof submitter === 'string' && submitter !== '' && submitter !== 'none';
+      return submits
+        ? true
+        : { skip: true, reason: `no submitter configured (dataSubmitterType=${JSON.stringify(submitter)}), so there is no action floor` };
     },
     check(markup) {
       const out = [];
@@ -103,16 +112,51 @@ export const rules = {
     id: 'R-008',
     severity: 'fail',
     statement:
-      'Every Navigate action carries a non-empty target. An empty target renders ' +
-      '<Link href={undefined}> and crashes the page.',
+      'Every Navigate action carries a destination APPROPRIATE TO ITS navigationType: a `url` ' +
+      'navigation needs a non-empty target, a `form` navigation needs a formId. A missing ' +
+      'destination renders <Link href={undefined}> and crashes the page.',
     check(markup) {
       const out = [];
       const check = (node, path, label) => {
         const a = actionOf(node);
         if (!a || a.actionName !== 'Navigate') return;
         const args = a.actionArguments || {};
+
+        /**
+         * MEASURED CORRECTION. This rule originally required a `target` key on every Navigate and
+         * fired six times across the real forms on this backend — every one of them a valid
+         * form-navigation: `{navigationType: 'form', formId: {name, module}, queryParameters: […]}`.
+         * `target` is the shape for navigationType 'url' only, so the rule was flagging correct
+         * production markup as a crash. The destination key depends on the navigationType.
+         */
+        const navType = typeof args.navigationType === 'string' ? args.navigationType : null;
+
+        if (navType === 'form') {
+          const f = args.formId;
+          const ok =
+            (typeof f === 'string' && f.trim() !== '') ||
+            (f && typeof f === 'object' && (f.id || (f.name && f.module)));
+          if (!ok) {
+            out.push({
+              message: `Navigate action on ${label} is a form navigation with no resolvable formId — needs an id, or a name plus module`,
+              fixPointer: `${path}/actionConfiguration/actionArguments/formId`,
+            });
+          }
+          return;
+        }
+
         const value = NAVIGATE_KEYS.map((k) => args[k]).find((v) => typeof v === 'string' && v.trim() !== '');
         if (!value) {
+          // An unknown navigationType is not judged: guessing at its destination key is how the
+          // previous version of this rule produced false positives.
+          if (navType && navType !== 'url') {
+            out.push({
+              severity: 'warn',
+              message: `Navigate action on ${label} has navigationType "${navType}", whose destination key is not known to this rule — verify it resolves`,
+              fixPointer: `${path}/actionConfiguration/actionArguments`,
+            });
+            return;
+          }
           out.push({
             message: `Navigate action on ${label} has no non-empty target — this renders <Link href=undefined> and crashes the page`,
             fixPointer: `${path}/actionConfiguration/actionArguments/target`,

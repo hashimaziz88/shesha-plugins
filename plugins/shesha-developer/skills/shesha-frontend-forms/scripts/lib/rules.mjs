@@ -74,8 +74,8 @@ export const TRIAGE = [
   { id: 'R-045', group: 'data', disposition: 'stale', reason: 'Its own note concedes it is not mechanically checkable — which FKs are contextually preset is a property of the CALLING screen, not this form. R-037 covers the checkable half.', movedTo: 'R-037' },
 
   // ---- actions ------------------------------------------------------------------
-  { id: 'R-007', group: 'actions', disposition: 'enforceable' },
-  { id: 'R-008', group: 'actions', disposition: 'enforceable' },
+  { id: 'R-007', group: 'actions', disposition: 'enforceable', note: 'PREDICATE CORRECTED Phase 9a against real forms: applies() read dataSubmitterType !== "none", so an ABSENT submitter counted as submitting and the rule demanded a Submit button on three read-only list views. Absent is not enabled — it now requires an explicit non-empty submitter other than "none".' },
+  { id: 'R-008', group: 'actions', disposition: 'enforceable', note: 'NARROWED Phase 9a against real forms: required a `target` on every Navigate, which flagged six valid form-navigations ({navigationType: "form", formId: {name, module}}) as crashes. `target` is the navigationType "url" shape only. Now validates per navigationType and WARNS rather than failing on a navigationType it does not know.' },
   { id: 'R-043', group: 'actions', disposition: 'compile-time', note: 'canonical CRUD wiring is what the compiler emits per archetype; the catalogue of shapes belongs in recipes.md' },
   { id: 'R-044', group: 'actions', disposition: 'enforceable' },
 
@@ -101,7 +101,7 @@ export const TRIAGE = [
   { id: 'R-054', group: 'styling', disposition: 'enforceable' },
   { id: 'R-055', group: 'styling', disposition: 'enforceable' },
   { id: 'R-057', group: 'styling', disposition: 'enforceable' },
-  { id: 'R-058', group: 'styling', disposition: 'enforceable', note: 'NEW, added Phase 8. Enum-valued props must carry a value their own settings editor offers. The legal sets are harvested by probe from each type\'s settings markup (700 enum props, 697 with static values) rather than hand-listed, so they cannot go stale against the installed package. Partially closes the R-053 gap: prop VALIDITY is now checkable offline without vendoring a capability matrix. Prop EFFECT still is not.' },
+  { id: 'R-058', group: 'styling', disposition: 'enforceable', note: 'NEW, added Phase 8; DEMOTED fail->warn in Phase 9a on evidence. The harvested sets are still derived by probe from each type\'s settings markup (700 enums, 697 with values). But shipping it as a blanket FAIL produced nine findings on five real forms — containers with justifyContent space-between/flex-end/flex-start, alignItems stretch, a dataContext with defaultPageSize 8. Rendering one of those forms and reading COMPUTED styles found space-between x6, flex-end x1 and flex-start x363 actually applied, so the framework passes those through to CSS and the editor radio (left/center/right) is a UI shortlist, NOT a validation contract. Closedness cannot be inferred from settings markup. It now FAILS only for the CLOSED_ENUMS allowlist, where the renderer is measured to switch on the value (text.textType/contentDisplay/contentType), and WARNS elsewhere.' },
   { id: 'R-059', group: 'styling', disposition: 'enforceable', note: 'NEW, added Phase 8. MINED: text needs textType + contentDisplay + contentType present alongside content or the whole desktop.font block is inert. This was the Phase 6 font-channel defect; the compiler now emits all three, so the rule guards the regression.' },
 
   // ---- security -----------------------------------------------------------------

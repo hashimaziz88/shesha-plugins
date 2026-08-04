@@ -417,6 +417,15 @@ describe('actions', () => {
       /form actions belong in one buttonGroup/
     );
     assert.equal(only('R-007', reparent(form([node('text')], { dataSubmitterType: 'none' }))).skipped, true);
+
+    // MEASURED: an ABSENT submitter is not a submitting form. The predicate was
+    // `!== 'none'`, so undefined counted as "submits" and the rule demanded a Submit button on
+    // three read-only list views on this backend. Absent is not enabled.
+    for (const submitter of [undefined, '', null]) {
+      const r = only('R-007', reparent(form([node('text')], { dataSubmitterType: submitter })));
+      assert.equal(r.skipped, true, `dataSubmitterType=${JSON.stringify(submitter)} must not count as submitting`);
+    }
+    assert.equal(only('R-007', reparent(form([node('text')], { dataSubmitterType: 'gql' }))).skipped, false);
   });
 
   it('R-008 Navigate needs a target', () => {
@@ -425,6 +434,27 @@ describe('actions', () => {
     assertFails('R-008', empty, CTX, /renders <Link href=undefined>/);
     const actionCol = [{ id: 'a', itemType: 'item', columnType: 'action', description: 'Review', actionConfiguration: { actionName: 'Navigate', actionArguments: {} } }];
     assertFails('R-008', reparent(form([node('datatable', { items: actionCol })])), CTX, /action column/);
+
+    /**
+     * MEASURED: a FORM navigation carries formId, not target. Requiring `target` unconditionally
+     * flagged six valid form-navigations across the real forms on this backend as crashes.
+     */
+    const formNav = (args) => reparent(form([node('buttonGroup', {
+      isInline: true,
+      items: [{ id: nid(), itemType: 'item', label: 'Open', actionConfiguration: { actionName: 'Navigate', actionArguments: args } }],
+    })]));
+    assertPasses('R-008', formNav({ navigationType: 'form', formId: { name: 'patient-details', module: 'boxfusion.test' } }), CTX);
+    assertPasses('R-008', formNav({ navigationType: 'form', formId: 'a-guid' }), CTX);
+    assertFails('R-008', formNav({ navigationType: 'form', formId: { name: 'x' } }), CTX, /no resolvable formId/);
+    assertFails('R-008', formNav({ navigationType: 'url', target: '' }), CTX, /renders <Link href=undefined>/);
+    // An unknown navigationType is not judged — guessing its destination key is what caused the
+    // false positives in the first place.
+    {
+      const r = only('R-008', formNav({ navigationType: 'dialog' }), CTX);
+      assert.equal(r.violations.length, 1);
+      assert.equal(r.violations[0].severity, 'warn');
+      assert.match(r.violations[0].message, /not known to this rule/);
+    }
   });
 
   it('R-044 no "Delete row" and no owner "table"', () => {
@@ -541,11 +571,21 @@ describe('styling', () => {
     // appearance channels rather than only the structural props.
     assertPasses('R-058', reparent(form([node('text', { textType: 'span' })])), CTX);
     assertPasses('R-058', reparent(form([node('text', { textType: 'paragraph' })])), CTX);
-    assertFails('R-058', reparent(form([node('text', { textType: 'heading' })])), CTX, /not one of the values/);
+    // textType IS in CLOSED_ENUMS: the renderer selects a typography component from it, measured
+    // in Phase 6, so an unrecognised value is discarded and this blocks.
+    assertFails('R-058', reparent(form([node('text', { textType: 'heading' })])), CTX, /discarded/);
     // An empty string is a legal contentType in 0.45 — the harvest records it, a hand-written
     // table would have dropped it, and treating it as illegal would be a false positive.
     assertPasses('R-058', reparent(form([node('text', { contentType: '' })])), CTX);
-    assertFails('R-058', reparent(form([node('text', { dataType: 'datetime' })])), CTX, /not one of the values/);
+    // dataType is NOT in CLOSED_ENUMS — nobody has measured that an unrecognised value is
+    // discarded — so it warns rather than failing. Asserting a fail here would re-introduce the
+    // false positives that nine findings on five real forms exposed.
+    {
+      const r = only('R-058', reparent(form([node('text', { dataType: 'datetime' })])), CTX);
+      assert.equal(r.violations.length, 1, 'an unlisted value should still be reported');
+      assert.equal(r.violations[0].severity, 'warn', 'an unmeasured prop must warn, not fail');
+      assert.match(r.violations[0].message, /UI shortlist, not a contract/);
+    }
     // A JS setting is evaluated at runtime; its value is unknowable offline, so no verdict.
     assertPasses('R-058', reparent(form([node('text', { textType: { _mode: 'code', _code: 'x' } })])), CTX);
   });

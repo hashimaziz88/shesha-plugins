@@ -237,7 +237,7 @@
 
     "DataTable": {
       "sheshaType": "datatable",
-      "children": "Column",
+      "children": "Column | QuickSearch | TableFilter",
       "requiresWrapper": "datatableContext",
       "props": {
         "bind": { "kind": "binding", "required": true },
@@ -277,6 +277,45 @@
         "pager": { "paddingTop": 11, "paddingBottom": 11, "paddingLeft": 16, "paddingRight": 16, "borderTop": "1px solid @line.divider" }
       },
       "note": "NO ZEBRA STRIPING ANYWHERE in the corpus. Hover is the only row affordance."
+    },
+
+    "QuickSearch": {
+      "sheshaType": "datatable.quickSearch",
+      "requiresWrapper": "datatableContext",
+      "props": { "placeholder": { "kind": "string" }, "width": { "kind": "width", "default": "fill" } },
+      "style": {
+        "height": "@controls.inputHeight",
+        "padding": "@controls.inputPadding",
+        "border": "1px solid @line.borderStrong",
+        "borderRadius": "@radius.control",
+        "fontSize": "@type.body",
+        "background": "@surface.surface",
+        "color": "@ink.soft",
+        "display": "inline-flex",
+        "alignItems": "center"
+      },
+      "note": "The framework's own datatable.quickSearch. It reads the table's data context, so the compiler emits it INSIDE the dataContext wrapper as a sibling of the table — a quick search outside that wrapper searches nothing. placeholder is mock-only: the Shesha component takes its own placeholder."
+    },
+
+    "TableFilter": {
+      "sheshaType": "datatable.filter",
+      "requiresWrapper": "datatableContext",
+      "props": {},
+      "style": {
+        "height": "@controls.buttonHeight",
+        "padding": "@controls.buttonPadding",
+        "borderRadius": "@radius.control",
+        "border": "1px solid @line.borderStrong",
+        "background": "@surface.surface",
+        "color": "@ink.default",
+        "fontSize": "@type.body",
+        "fontWeight": "@type.weights.emphasis",
+        "display": "inline-flex",
+        "alignItems": "center",
+        "gap": 7,
+        "cursor": "pointer"
+      },
+      "note": "The framework's own datatable.filter — the column-filter affordance. Same wrapper rule as QuickSearch: it must sit inside the dataContext that owns the table."
     },
 
     "Column": {
