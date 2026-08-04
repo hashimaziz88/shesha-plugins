@@ -382,7 +382,8 @@
     },
 
     "Field": {
-      "sheshaType": "__byDataType__",
+      "sheshaType": "textField",
+      "sheshaTypeNote": "Declared, not sniffed. dataTypeSupported is a compatibility FILTER and cannot pick a default control — ranking by narrowness picks slider for every int32, ranking the other way picks radio over dropdown for every reference list. The signal that would settle it is the toolbox group, which is not derivable (the componentGroup gap). So the kit declares the type and the framework's matcher VALIDATES it; a mismatch is a compile error naming both sides. Use NumberField / DatePicker / Select / Textarea / Checkbox to be explicit about anything that is not single-line text.",
       "props": {
         "bind": { "kind": "binding", "required": true },
         "label": { "kind": "string", "required": true },
@@ -412,6 +413,33 @@
       "style": {},
       "inheritsPartsFrom": "Field",
       "note": "Reference-list identity is copied VERBATIM from the bound property's metadata [R-015]; deriving it from the property name renders a silently empty dropdown."
+    },
+
+    "NumberField": {
+      "sheshaType": "numberField",
+      "props": {
+        "bind": { "kind": "binding", "required": true },
+        "label": { "kind": "string", "required": true },
+        "width": { "kind": "width", "default": "fill" },
+        "required": { "kind": "boolean", "default": false },
+        "readOnly": { "kind": "boolean", "default": false }
+      },
+      "style": {},
+      "inheritsPartsFrom": "Field",
+      "note": "The general-purpose numeric control. `slider` also declares int32/int64 support but is a specialised control and must be opted into by name, never inferred."
+    },
+
+    "DatePicker": {
+      "sheshaType": "dateField",
+      "props": {
+        "bind": { "kind": "binding", "required": true },
+        "label": { "kind": "string", "required": true },
+        "width": { "kind": "width", "default": "fill" },
+        "required": { "kind": "boolean", "default": false },
+        "readOnly": { "kind": "boolean", "default": false }
+      },
+      "style": {},
+      "inheritsPartsFrom": "Field"
     },
 
     "Textarea": {

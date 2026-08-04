@@ -1,0 +1,726 @@
+{
+  "formSettings": {
+    "layout": "vertical",
+    "colon": false,
+    "labelCol": {
+      "span": 0
+    },
+    "wrapperCol": {
+      "span": 24
+    },
+    "version": 8,
+    "access": 3,
+    "dataLoaderType": "gql",
+    "dataSubmitterType": "none",
+    "dataLoadersSettings": {
+      "gql": {
+        "endpointType": "default"
+      }
+    },
+    "dataSubmittersSettings": {
+      "gql": {
+        "endpointType": "default"
+      }
+    },
+    "modelType": {
+      "name": "Astronaut",
+      "module": "boxfusion.test"
+    }
+  },
+  "components": [
+    {
+      "id": "YeXU9GT5v1uyDBh1Ul16dWIMtX5rrX",
+      "type": "container",
+      "parentId": "root",
+      "version": 7,
+      "componentName": "pageRoot",
+      "desktop": {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": 14,
+        "background": {
+          "type": "color",
+          "color": "#eef1f5"
+        }
+      },
+      "stylingBox": "{\"paddingTop\":\"22\",\"paddingBottom\":\"60\",\"paddingLeft\":\"26\",\"paddingRight\":\"26\"}",
+      "components": [
+        {
+          "id": "PcKKP11WS8yXAG1e6f0qBM-lj8SXO8",
+          "type": "container",
+          "parentId": "YeXU9GT5v1uyDBh1Ul16dWIMtX5rrX",
+          "version": 7,
+          "componentName": "pageHeaderr0",
+          "desktop": {
+            "display": "flex",
+            "justifyContent": "space-between",
+            "alignItems": "flex-end",
+            "gap": 10,
+            "background": {
+              "type": "color",
+              "color": "#ffffff"
+            }
+          },
+          "stylingBox": "{\"paddingTop\":\"14\",\"paddingBottom\":\"16\",\"paddingLeft\":\"28\",\"paddingRight\":\"28\"}",
+          "components": [
+            {
+              "id": "ER9ajNu5RQ-BPBNSzCbL5h4gZUVCnn",
+              "type": "text",
+              "parentId": "PcKKP11WS8yXAG1e6f0qBM-lj8SXO8",
+              "version": 5,
+              "componentName": "pageTitle",
+              "contentType": "custom",
+              "content": "Astronauts",
+              "desktop": {
+                "font": {
+                  "size": 22,
+                  "weight": "600",
+                  "color": "#1f2733"
+                }
+              }
+            },
+            {
+              "id": "zh1_GRqqmesrLPXGCKwpMiw80IJFbk",
+              "type": "text",
+              "parentId": "PcKKP11WS8yXAG1e6f0qBM-lj8SXO8",
+              "version": 5,
+              "componentName": "pageSubtitle",
+              "contentType": "custom",
+              "content": "Everyone currently on the roster, with their specialisation and flight experience.",
+              "desktop": {
+                "font": {
+                  "size": 13,
+                  "color": "#5b6675"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "vySy8eOeHjf4eSm8OPqjdVChqsIBoM",
+          "type": "container",
+          "parentId": "YeXU9GT5v1uyDBh1Ul16dWIMtX5rrX",
+          "version": 7,
+          "componentName": "keyInfoBarr1",
+          "desktop": {
+            "display": "flex",
+            "alignItems": "stretch",
+            "gap": 14,
+            "flexDirection": "row"
+          },
+          "components": [
+            {
+              "id": "gjg0IJt5WCPVtS1gcDQGjs4pf4Q3oL",
+              "type": "card",
+              "parentId": "vySy8eOeHjf4eSm8OPqjdVChqsIBoM",
+              "version": 3,
+              "componentName": "statr10",
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ffffff"
+                },
+                "border": {
+                  "borderType": "custom",
+                  "radiusType": "all",
+                  "border": {
+                    "all": {
+                      "width": 1,
+                      "style": "solid",
+                      "color": "#e2e5ea"
+                    },
+                    "left": {
+                      "width": 3,
+                      "style": "solid",
+                      "color": "#d7dbe2"
+                    }
+                  },
+                  "radius": {
+                    "all": 6
+                  }
+                }
+              },
+              "stylingBox": "{\"paddingTop\":\"18\",\"paddingBottom\":\"18\",\"paddingLeft\":\"20\",\"paddingRight\":\"20\"}",
+              "header": {
+                "id": "oYo-NIHCU-nIUsEQ3b870GxJgxnqCD",
+                "components": []
+              },
+              "content": {
+                "id": "RgyOf-uKwn2rlulgaXGTaUHjy1C5hw",
+                "components": [
+                  {
+                    "id": "TLMlkJqcPT1OMmmobyLi9tq1kFhFdo",
+                    "type": "text",
+                    "parentId": "RgyOf-uKwn2rlulgaXGTaUHjy1C5hw",
+                    "version": 5,
+                    "componentName": "statLabelr10",
+                    "contentType": "custom",
+                    "content": "Total crew",
+                    "desktop": {
+                      "font": {
+                        "size": 11,
+                        "weight": "700",
+                        "color": "#6b7785"
+                      }
+                    }
+                  },
+                  {
+                    "id": "_-kO5QBlgAXyZpKEmy1ahI54cF65Yk",
+                    "type": "text",
+                    "parentId": "RgyOf-uKwn2rlulgaXGTaUHjy1C5hw",
+                    "version": 5,
+                    "componentName": "statValuer10",
+                    "contentType": "custom",
+                    "content": "128",
+                    "desktop": {
+                      "font": {
+                        "size": 26,
+                        "weight": "600",
+                        "color": "#1f2733"
+                      }
+                    }
+                  },
+                  {
+                    "id": "8H1sXBIRO8Ms9im6bg86sxZvgQ5LPW",
+                    "type": "text",
+                    "parentId": "RgyOf-uKwn2rlulgaXGTaUHjy1C5hw",
+                    "version": 5,
+                    "componentName": "statCaptionr10",
+                    "contentType": "custom",
+                    "content": "across 9 missions",
+                    "desktop": {
+                      "font": {
+                        "size": 12,
+                        "color": "#6b7785"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "FTg2b8A7bdvtnY58qHRUtsZA7Wzwml",
+              "type": "card",
+              "parentId": "vySy8eOeHjf4eSm8OPqjdVChqsIBoM",
+              "version": 3,
+              "componentName": "statr11",
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ffffff"
+                },
+                "border": {
+                  "borderType": "custom",
+                  "radiusType": "all",
+                  "border": {
+                    "all": {
+                      "width": 1,
+                      "style": "solid",
+                      "color": "#e2e5ea"
+                    },
+                    "left": {
+                      "width": 3,
+                      "style": "solid",
+                      "color": "#1A3E6F"
+                    }
+                  },
+                  "radius": {
+                    "all": 6
+                  }
+                }
+              },
+              "stylingBox": "{\"paddingTop\":\"18\",\"paddingBottom\":\"18\",\"paddingLeft\":\"20\",\"paddingRight\":\"20\"}",
+              "header": {
+                "id": "P4vVRrDrU11pmt9xv3xr86A017JPgC",
+                "components": []
+              },
+              "content": {
+                "id": "jQQxQJ_QNfYd-BKAfv6lYna0xYU4kx",
+                "components": [
+                  {
+                    "id": "7Wb6kbuwAWDVCuiJ_mRFL1WOWybQs3",
+                    "type": "text",
+                    "parentId": "jQQxQJ_QNfYd-BKAfv6lYna0xYU4kx",
+                    "version": 5,
+                    "componentName": "statLabelr11",
+                    "contentType": "custom",
+                    "content": "Zero-g cleared",
+                    "desktop": {
+                      "font": {
+                        "size": 11,
+                        "weight": "700",
+                        "color": "#6b7785"
+                      }
+                    }
+                  },
+                  {
+                    "id": "ivcH1Uw13ckhoLCy7TBeDuFQdbt5bD",
+                    "type": "text",
+                    "parentId": "jQQxQJ_QNfYd-BKAfv6lYna0xYU4kx",
+                    "version": 5,
+                    "componentName": "statValuer11",
+                    "contentType": "custom",
+                    "content": "94",
+                    "desktop": {
+                      "font": {
+                        "size": 26,
+                        "weight": "600",
+                        "color": "#1f2733"
+                      }
+                    }
+                  },
+                  {
+                    "id": "VR-4Ldq2XZzk9vDe6GeiwcYRMqdI-4",
+                    "type": "text",
+                    "parentId": "jQQxQJ_QNfYd-BKAfv6lYna0xYU4kx",
+                    "version": 5,
+                    "componentName": "statCaptionr11",
+                    "contentType": "custom",
+                    "content": "training complete",
+                    "desktop": {
+                      "font": {
+                        "size": 12,
+                        "color": "#6b7785"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "PgALrc-b8Yx9y8Iyt7oBFWKOh2LIhG",
+              "type": "card",
+              "parentId": "vySy8eOeHjf4eSm8OPqjdVChqsIBoM",
+              "version": 3,
+              "componentName": "statr12",
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ffffff"
+                },
+                "border": {
+                  "borderType": "custom",
+                  "radiusType": "all",
+                  "border": {
+                    "all": {
+                      "width": 1,
+                      "style": "solid",
+                      "color": "#e2e5ea"
+                    },
+                    "left": {
+                      "width": 3,
+                      "style": "solid",
+                      "color": "#d99a06"
+                    }
+                  },
+                  "radius": {
+                    "all": 6
+                  }
+                }
+              },
+              "stylingBox": "{\"paddingTop\":\"18\",\"paddingBottom\":\"18\",\"paddingLeft\":\"20\",\"paddingRight\":\"20\"}",
+              "header": {
+                "id": "GbX2rFEzfRyv7Q1XdnLgEd3dhwNTUe",
+                "components": []
+              },
+              "content": {
+                "id": "iyLBIXSmhqaKNIloK5m5K0ykXvF9F3",
+                "components": [
+                  {
+                    "id": "_0WQFCm0n8P62IR4SjI3Wh4hAHc8I7",
+                    "type": "text",
+                    "parentId": "iyLBIXSmhqaKNIloK5m5K0ykXvF9F3",
+                    "version": 5,
+                    "componentName": "statLabelr12",
+                    "contentType": "custom",
+                    "content": "In training",
+                    "desktop": {
+                      "font": {
+                        "size": 11,
+                        "weight": "700",
+                        "color": "#6b7785"
+                      }
+                    }
+                  },
+                  {
+                    "id": "AilTP53muu3QOqe-kMvqC9W2ZhuDgM",
+                    "type": "text",
+                    "parentId": "iyLBIXSmhqaKNIloK5m5K0ykXvF9F3",
+                    "version": 5,
+                    "componentName": "statValuer12",
+                    "contentType": "custom",
+                    "content": "26",
+                    "desktop": {
+                      "font": {
+                        "size": 26,
+                        "weight": "600",
+                        "color": "#1f2733"
+                      }
+                    }
+                  },
+                  {
+                    "id": "7jVH-dZaJHAwwsYY8EA3i1K-Uz2CsE",
+                    "type": "text",
+                    "parentId": "iyLBIXSmhqaKNIloK5m5K0ykXvF9F3",
+                    "version": 5,
+                    "componentName": "statCaptionr12",
+                    "contentType": "custom",
+                    "content": "not yet cleared",
+                    "desktop": {
+                      "font": {
+                        "size": 12,
+                        "color": "#6b7785"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "KNcERYNPFEiflAlxl8hFE1iHVwK1E2",
+              "type": "card",
+              "parentId": "vySy8eOeHjf4eSm8OPqjdVChqsIBoM",
+              "version": 3,
+              "componentName": "statr13",
+              "desktop": {
+                "background": {
+                  "type": "color",
+                  "color": "#ffffff"
+                },
+                "border": {
+                  "borderType": "custom",
+                  "radiusType": "all",
+                  "border": {
+                    "all": {
+                      "width": 1,
+                      "style": "solid",
+                      "color": "#e2e5ea"
+                    },
+                    "left": {
+                      "width": 3,
+                      "style": "solid",
+                      "color": "#c0392b"
+                    }
+                  },
+                  "radius": {
+                    "all": 6
+                  }
+                }
+              },
+              "stylingBox": "{\"paddingTop\":\"18\",\"paddingBottom\":\"18\",\"paddingLeft\":\"20\",\"paddingRight\":\"20\"}",
+              "header": {
+                "id": "PPP1LYkr8enYPkSuDRuGVVRYm5c_fa",
+                "components": []
+              },
+              "content": {
+                "id": "0n5rWCvbbqtcyOKWaHzCOewHUFzn6j",
+                "components": [
+                  {
+                    "id": "Yu4ufeN4z5YdXyF2qO-kFQeH676vBd",
+                    "type": "text",
+                    "parentId": "0n5rWCvbbqtcyOKWaHzCOewHUFzn6j",
+                    "version": 5,
+                    "componentName": "statLabelr13",
+                    "contentType": "custom",
+                    "content": "Grounded",
+                    "desktop": {
+                      "font": {
+                        "size": 11,
+                        "weight": "700",
+                        "color": "#6b7785"
+                      }
+                    }
+                  },
+                  {
+                    "id": "YW-IaDfvZXDMpvlr1dVqqSH4B_aGkQ",
+                    "type": "text",
+                    "parentId": "0n5rWCvbbqtcyOKWaHzCOewHUFzn6j",
+                    "version": 5,
+                    "componentName": "statValuer13",
+                    "contentType": "custom",
+                    "content": "8",
+                    "desktop": {
+                      "font": {
+                        "size": 26,
+                        "weight": "600",
+                        "color": "#1f2733"
+                      }
+                    }
+                  },
+                  {
+                    "id": "9ubv8PdKrCYSibTHRjsEa4-cRwq933",
+                    "type": "text",
+                    "parentId": "0n5rWCvbbqtcyOKWaHzCOewHUFzn6j",
+                    "version": 5,
+                    "componentName": "statCaptionr13",
+                    "contentType": "custom",
+                    "content": "medical or disciplinary",
+                    "desktop": {
+                      "font": {
+                        "size": 12,
+                        "color": "#6b7785"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "Ip8-MIqS0A_u2e7q02_PKw8A_JIc6b",
+          "type": "card",
+          "parentId": "YeXU9GT5v1uyDBh1Ul16dWIMtX5rrX",
+          "version": 3,
+          "componentName": "cardr2",
+          "desktop": {
+            "background": {
+              "type": "color",
+              "color": "#ffffff"
+            },
+            "border": {
+              "borderType": "all",
+              "radiusType": "all",
+              "border": {
+                "all": {
+                  "width": 1,
+                  "style": "solid",
+                  "color": "#e2e5ea"
+                }
+              },
+              "radius": {
+                "all": 6
+              }
+            }
+          },
+          "header": {
+            "id": "hy6QhGpB0qLnl6eDtT04jBaoH5fXzD",
+            "components": [
+              {
+                "id": "4UAQLAHPVuv2fVMXw8LTfP88zYy72w",
+                "type": "text",
+                "parentId": "hy6QhGpB0qLnl6eDtT04jBaoH5fXzD",
+                "version": 5,
+                "componentName": "cardTitler2",
+                "contentType": "custom",
+                "content": "Crew register",
+                "desktop": {
+                  "font": {
+                    "size": 14,
+                    "weight": "600",
+                    "color": "#1A3E6F"
+                  }
+                }
+              },
+              {
+                "id": "nhm9i9wj47BXnSoGgBK6kFaZEblzqK",
+                "type": "text",
+                "parentId": "hy6QhGpB0qLnl6eDtT04jBaoH5fXzD",
+                "version": 5,
+                "componentName": "cardMetar2",
+                "contentType": "custom",
+                "content": "128 records",
+                "desktop": {
+                  "font": {
+                    "size": 12,
+                    "color": "#6b7785"
+                  }
+                }
+              }
+            ]
+          },
+          "content": {
+            "id": "1A6xb9NyPw9YxqjLhmiRim2j0yx56Z",
+            "components": [
+              {
+                "id": "pOb4ddqlQ3IHLpOVIll6NSXW6MaaOa",
+                "type": "container",
+                "parentId": "1A6xb9NyPw9YxqjLhmiRim2j0yx56Z",
+                "version": 7,
+                "componentName": "rowr20",
+                "desktop": {
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "justifyContent": "flex-end"
+                },
+                "components": [
+                  {
+                    "id": "vhAam2HpRsPB44yJ7y9tu6geIsokXs",
+                    "type": "buttonGroup",
+                    "parentId": "pOb4ddqlQ3IHLpOVIll6NSXW6MaaOa",
+                    "version": 15,
+                    "componentName": "actionsr200",
+                    "isInline": true,
+                    "items": [
+                      {
+                        "id": "qz8oBazih527h6j53zxBfgQcOb5ebM",
+                        "itemType": "item",
+                        "sortOrder": 0,
+                        "itemSubType": "button",
+                        "name": "btn0",
+                        "label": "refresh",
+                        "buttonType": "default",
+                        "actionConfiguration": {
+                          "actionName": "Refresh table",
+                          "actionOwner": "x4YeP9DUHX4ymJyv8b0mLbhz_czNZc",
+                          "handleSuccess": false,
+                          "handleFail": false
+                        }
+                      },
+                      {
+                        "id": "hMKfbmDRWooAXA-7KEe-iz5BsXnkUg",
+                        "itemType": "item",
+                        "sortOrder": 1,
+                        "itemSubType": "button",
+                        "name": "btn1",
+                        "label": "add",
+                        "buttonType": "primary",
+                        "actionConfiguration": {
+                          "actionName": "Show Dialog",
+                          "actionOwner": "shesha.common",
+                          "actionArguments": {
+                            "modalTitle": "New",
+                            "showModalFooter": true,
+                            "formMode": "edit"
+                          },
+                          "handleSuccess": false,
+                          "handleFail": false
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "NgCHSy8doz5a_YzGZv98EgYZLlLx6b",
+                "type": "text",
+                "parentId": "1A6xb9NyPw9YxqjLhmiRim2j0yx56Z",
+                "version": 5,
+                "componentName": "microlabelr21",
+                "contentType": "custom",
+                "content": "",
+                "desktop": {
+                  "font": {
+                    "size": 11,
+                    "weight": "700",
+                    "color": "#6b7785"
+                  }
+                }
+              },
+              {
+                "id": "nn11Kq4TlTC09OM2HMFDTL7KPymB4X",
+                "type": "datatableContext",
+                "parentId": "1A6xb9NyPw9YxqjLhmiRim2j0yx56Z",
+                "version": 8,
+                "componentName": "astronautworklistCtx",
+                "propertyName": "astronautworklistCtx",
+                "entityType": "boxfusion.test.Domain.Domain.Astronauts.Astronaut",
+                "sourceType": "Entity",
+                "dataFetchingMode": "paging",
+                "defaultPageSize": 10,
+                "components": [
+                  {
+                    "id": "2vt_2ztV527YnwCmgofJOLFBzja4rW",
+                    "type": "datatable",
+                    "parentId": "nn11Kq4TlTC09OM2HMFDTL7KPymB4X",
+                    "version": 29,
+                    "componentName": "astronautworklistTable",
+                    "propertyName": "astronautworklistTable",
+                    "items": [
+                      {
+                        "id": "6zy1M_mxIZ0Sq06ui0CWrLNkL35THZ",
+                        "itemType": "item",
+                        "sortOrder": 0,
+                        "caption": "Name",
+                        "columnType": "data",
+                        "isVisible": true,
+                        "chosen": false,
+                        "selected": false,
+                        "propertyName": "fullName",
+                        "description": null,
+                        "minWidth": null,
+                        "maxWidth": null,
+                        "allowSorting": true,
+                        "defaultSorting": null
+                      },
+                      {
+                        "id": "jnayieEAfbvvVn6WdPCa6FsOu5yZG4",
+                        "itemType": "item",
+                        "sortOrder": 1,
+                        "caption": "Nationality",
+                        "columnType": "data",
+                        "isVisible": true,
+                        "chosen": false,
+                        "selected": false,
+                        "propertyName": "nationality",
+                        "description": null,
+                        "minWidth": 160,
+                        "maxWidth": 160,
+                        "allowSorting": true,
+                        "defaultSorting": null
+                      },
+                      {
+                        "id": "JyUjBJvfZZNpxbCaoAPUpDkCliFslw",
+                        "itemType": "item",
+                        "sortOrder": 2,
+                        "caption": "Experience",
+                        "columnType": "data",
+                        "isVisible": true,
+                        "chosen": false,
+                        "selected": false,
+                        "propertyName": "yearsOfSpaceExperience",
+                        "description": null,
+                        "minWidth": 130,
+                        "maxWidth": 130,
+                        "allowSorting": true,
+                        "defaultSorting": null
+                      },
+                      {
+                        "id": "fliKmdGYDZzLaQjz_yovfSMi3pKr6y",
+                        "itemType": "item",
+                        "sortOrder": 3,
+                        "caption": "Date of birth",
+                        "columnType": "data",
+                        "isVisible": true,
+                        "chosen": false,
+                        "selected": false,
+                        "propertyName": "dateOfBirth",
+                        "description": null,
+                        "minWidth": 150,
+                        "maxWidth": 150,
+                        "allowSorting": true,
+                        "defaultSorting": null
+                      },
+                      {
+                        "id": "VTbf-_woM0lrFOJ5E_vW8E1iFDU6CB",
+                        "itemType": "item",
+                        "sortOrder": 4,
+                        "caption": "Specialisation",
+                        "columnType": "data",
+                        "isVisible": true,
+                        "chosen": false,
+                        "selected": false,
+                        "propertyName": "specialisationRole",
+                        "description": null,
+                        "minWidth": 180,
+                        "maxWidth": 180,
+                        "allowSorting": true,
+                        "defaultSorting": null
+                      }
+                    ],
+                    "flexibleHeight": true,
+                    "useMultiselect": false,
+                    "crud": false,
+                    "canEditInline": "no",
+                    "canAddInline": "no",
+                    "canDeleteInline": "no"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

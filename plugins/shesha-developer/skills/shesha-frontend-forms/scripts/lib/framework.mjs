@@ -526,6 +526,30 @@ export function readDataTypeConstants(paths) {
   return { rawTokens: Array.from(types).sort(), keys: Array.from(formats).sort(), source: dts };
 }
 
+/**
+ * Union the live pairs with the standing grid.
+ *
+ * Sampling dataTypeSupported ONLY against pairs present in the app looked honest but made
+ * the truth table useless for anything the app does not happen to have yet: in
+ * boxfusion.test no property is string:multiline, so textArea's support list came back
+ * EMPTY and the compiler could not choose a component for a multiline field the moment
+ * someone added one.
+ *
+ * Live pairs come first so the ones that actually occur are unambiguously covered, and the
+ * standing grid fills in the rest. It all happens inside one browser render either way.
+ */
+export function unionGrid(livePairs) {
+  const seen = new Set();
+  const out = [];
+  for (const p of [...(livePairs || []), ...defaultGrid()]) {
+    const key = `${p.dataType}:${p.dataFormat ?? ''}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(p);
+  }
+  return out;
+}
+
 export function defaultGrid() {
   // Minimal, honest fallback: the dataType values Shesha's own metadata emits.
   // Kept deliberately small — a large invented grid would masquerade as measurement.
@@ -615,7 +639,7 @@ export async function deriveFrameworkTruth(
   const bundleMs = Date.now() - buildStarted;
   try {
     const renderStarted = Date.now();
-    const probed = await runHarness(built, { grid: grid && grid.length ? grid : defaultGrid() });
+    const probed = await runHarness(built, { grid: unionGrid(grid) });
     return {
       paths,
       identity,

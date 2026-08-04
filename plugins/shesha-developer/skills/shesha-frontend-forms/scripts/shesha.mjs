@@ -29,6 +29,7 @@ import { loadRules, renderManifest, TRIAGE } from './lib/rules.mjs';
 import { normaliseMarkup, runGates } from './lib/gates.mjs';
 import { generateKit, KitError } from './gen-kit.mjs';
 import { PREVIEW_EXIT, PreviewError, renderPreview } from './lib/preview.mjs';
+import { COMPILE_EXIT, CompileError, compileSpec } from './lib/compile.mjs';
 
 const SKILL_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -48,7 +49,7 @@ const SUBCOMMANDS = {
   explain: 'Look up a symptom, rule or component — replaces reading documents',
   check: 'Run the offline gate chain over a form markup file',
   preview: 'Render a mirror-kit JSX spec to pixels — the forward model',
-  compile: 'Compile a mirror-kit JSX spec to Shesha form JSON                 [Phase 4]',
+  compile: 'Compile a mirror-kit JSX spec to Shesha 0.45 form JSON',
   push: 'Push a form and verify it by re-fetch diff                        [Phase 5]',
   render: 'Render a live form and run the rendered gates                     [Phase 6]',
   fidelity: 'Compare the approved mock render against the Shesha render        [Phase 7]',
@@ -138,7 +139,8 @@ Options:
                       measure a cold build.
   --keep-harness      Leave the transient esbuild bundle on disk for debugging.
   --verbose           Print esbuild output and per-entity progress to stderr.
-  --emit-kit          [Phase 3] generate the mirror kit. Not implemented yet.
+  --emit-kit [themes] Also generate the mirror kit. Comma-separate for several themes,
+                      e.g. --emit-kit shesha,wcg,cobalt. Default: shesha.
   --emit-fingerprint  [Phase 6] capture the vanilla fingerprint. Not implemented yet.
 
 Exit codes:
@@ -889,6 +891,139 @@ async function cmdPreview(flags) {
   }
 }
 
+const COMPILE_HELP = `shesha compile — mirror-kit JSX spec -> Shesha 0.45 form JSON
+
+Usage:
+  node shesha.mjs compile --spec <f.jsx> --app <path> --form <module>/<name> [options]
+
+A structural transform over a closed vocabulary. Every fact comes from derived ground
+truth, never from a table in this repo:
+
+  component type   dataTypeSupported, the framework's OWN matcher, with a specificity
+                   tie-break because it is a filter and usually matches several types
+  version          that type's own migrator chain
+  container slots  customContainerNames (card -> header/content, tabs -> tabs[])
+  reference lists  copied VERBATIM from the bound property's metadata [R-015]
+  style channels   only what the component's settings surface exposes [R-053]
+
+It self-gates before writing: a form that would fail \`check\` is not emitted.
+
+LOOK AT THE MOCK FIRST. \`preview\` exists so the design loop happens against pixels in
+under a second. Compiling without previewing throws away the point of the mirror kit.
+
+Options:
+  --spec <f.jsx>    the spec to compile.  REQUIRED
+  --app <path>      the Shesha app (ground truth + the generated kit).  REQUIRED
+  --form <m>/<n>    module/name for the form; seeds deterministic ids.  REQUIRED
+  --theme <name>    default: shesha
+  --out <f>         where to write the markup. Default: <app>/.shesha/out/<name>.json
+  --no-gate         emit even if the self-gate fails (prints the failures). For debugging.
+  --keep-tmp        leave the capture bundle on disk.
+  --json            machine-readable result
+
+Exit codes:
+  0 compiled and self-gated clean · 1 the self-gate failed
+  6 the spec is invalid · 7 the spec asks for something Shesha cannot satisfy
+  64 usage error
+`;
+
+async function cmdCompile(flags) {
+  if (flags.help) {
+    process.stdout.write(COMPILE_HELP);
+    return EXIT.OK;
+  }
+  for (const [f, why] of [['spec', '<f.jsx>'], ['app', '<path>'], ['form', '<module>/<name>']]) {
+    if (!flags[f] || flags[f] === true) {
+      process.stderr.write(`compile: --${f} ${why} is required.\n\n` + COMPILE_HELP);
+      return EXIT.USAGE;
+    }
+  }
+  if (!String(flags.form).includes('/')) {
+    process.stderr.write('compile: --form must be <module>/<name>.\n');
+    return EXIT.USAGE;
+  }
+  const [formModule, formName] = String(flags.form).split('/');
+  const appRoot = resolve(flags.app);
+  const themeName = typeof flags.theme === 'string' ? flags.theme : 'shesha';
+
+  const gt = loadGroundTruth(appRoot);
+  if (!gt) {
+    process.stderr.write(`compile: no ground truth at ${join(appRoot, '.shesha', 'ground-truth.json')} — run \`probe --app <path>\` first\n`);
+    return COMPILE_EXIT.UNSATISFIABLE;
+  }
+  let appPaths;
+  try {
+    appPaths = resolveAppPaths(appRoot);
+  } catch (e) {
+    process.stderr.write(`compile: ${e.message}\n`);
+    return e.exitCode || EXIT.NOT_045;
+  }
+
+  const multi = existsSync(join(appRoot, '.shesha', `kit-${themeName}`));
+  const kitDir = multi ? join(appRoot, '.shesha', `kit-${themeName}`) : join(appRoot, '.shesha', 'kit');
+
+  let result;
+  try {
+    result = await compileSpec({
+      specPath: flags.spec,
+      kitDir,
+      nodeModulesDir: join(appPaths.adminportal, 'node_modules'),
+      groundTruth: gt,
+      themeName,
+      formName,
+      tmpDir: join(appRoot, '.shesha', 'compile-tmp'),
+      keepTmp: !!flags['keep-tmp'],
+    });
+  } catch (e) {
+    if (!(e instanceof CompileError)) throw e;
+    process.stderr.write(`compile: ${e.message}\n`);
+    for (const d of e.detail || []) process.stderr.write(`      ${d.why}${d.at ? `  (${d.at})` : ''}\n`);
+    return e.exitCode || COMPILE_EXIT.SPEC_INVALID;
+  }
+
+  // Self-gate before writing. The whole point of a compiler over a closed vocabulary is
+  // that its output should never fail the gates; if it does, that is a compiler bug and
+  // shipping the file would hide it.
+  const ctx = buildCheckContext(gt, result.markup, { form: flags.form });
+  const gate = runGates(result.markup, ctx, { skipReason: 'compile self-gate runs offline; push runs the full chain' });
+
+  const outPath =
+    typeof flags.out === 'string'
+      ? resolve(flags.out)
+      : join(appRoot, '.shesha', 'out', `${formModule}.${formName}.json`);
+
+  if (!gate.ok && !flags['no-gate']) {
+    process.stderr.write(`compile: SELF-GATE FAILED with ${gate.failures.length} failure(s); nothing was written.\n`);
+    for (const f of gate.failures) {
+      process.stderr.write(`   ${f.ruleId ? f.ruleId + ' ' : ''}${f.message}\n`);
+      if (f.fixPointer) process.stderr.write(`      at ${f.fixPointer}\n`);
+    }
+    process.stderr.write('This is a COMPILER bug, not a spec problem. Fix the compiler.\n');
+    return EXIT.GATE;
+  }
+
+  mkdirSync(dirname(outPath), { recursive: true });
+  writeFileSync(outPath, JSON.stringify(result.markup, null, 2) + '\n', 'utf8');
+
+  const summary = {
+    ok: gate.ok,
+    out: outPath,
+    form: `${formModule}/${formName}`,
+    theme: themeName,
+    archetype: result.report.archetype,
+    modelType: result.report.modelType,
+    metadataAvailable: result.report.metadataAvailable,
+    components: Object.keys(result.report.counts).length,
+    kitNodes: result.report.counts,
+    typeChoices: result.report.typeChoices,
+    suppressedChannels: result.report.suppressedChannels.length,
+    selfGate: { failures: gate.counts.failures, warnings: gate.counts.warnings },
+    warnings: result.report.warnings,
+  };
+  process.stdout.write(JSON.stringify(summary, null, 2) + '\n');
+  return gate.ok ? EXIT.OK : EXIT.GATE;
+}
+
 function unimplemented(name, phase) {
   return async (flags) => {
     const help = `shesha ${name} — ${SUBCOMMANDS[name]}\n\nNot implemented until Phase ${phase}.\n`;
@@ -906,7 +1041,7 @@ const HANDLERS = {
   explain: cmdExplain,
   check: cmdCheck,
   preview: cmdPreview,
-  compile: unimplemented('compile', 4),
+  compile: cmdCompile,
   push: unimplemented('push', 5),
   render: unimplemented('render', 6),
   fidelity: unimplemented('fidelity', 7),

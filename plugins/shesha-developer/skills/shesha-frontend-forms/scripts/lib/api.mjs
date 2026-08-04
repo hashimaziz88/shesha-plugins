@@ -248,6 +248,33 @@ export async function deriveBackendTruth(backend, { cacheDir, user, password, ma
   const modulesRes = await call(backend, '/api/services/app/ConfigurationStudio/GetModules', { token });
   if (!modulesRes.ok) notes.push(`GetModules failed: HTTP ${modulesRes.status} ${modulesRes.error || ''}`.trim());
   else if (modulesRes.filtered) notes.push('GetModules returned 200 with a null payload (permission-filtered)');
+  // GetModules answers { modules: [{name, description, alias, isEditable}] } — an object,
+  // not an array, and the entries carry NO id. So it cannot map a moduleId to a name.
+  const moduleList = Array.isArray(modulesRes.result)
+    ? modulesRes.result
+    : modulesRes.result?.modules || modulesRes.result?.items || [];
+
+  /**
+   * The moduleId -> name map has to come from the CONFIGURATION TREE, not from GetModules.
+   * A form node in the flat tree carries moduleId (a GUID) and its parent module appears in
+   * the same tree as its own node, so fetching the tree unfiltered yields both. Without
+   * this, GetItem answers HTTP 500 "Value cannot be null. (Parameter 'moduleName')" —
+   * which reads like a server fault rather than a missing lookup.
+   */
+  say('reading the configuration tree for module ids');
+  const treeRes = await call(backend, '/api/services/app/ConfigurationStudio/GetFlatTree', { token });
+  const treeNodes = treeRes.ok ? treeRes.result?.nodes || treeRes.result || [] : [];
+  const moduleIdToName = {};
+  for (const n of Array.isArray(treeNodes) ? treeNodes : []) {
+    // A module node names itself and is the parent of its items.
+    if (n && n.id && n.name && (n.itemType === 'module' || n.nodeType === 1 || n.discriminator === 'module')) {
+      moduleIdToName[n.id] = n.name;
+    }
+  }
+  if (!treeRes.ok) notes.push(`GetFlatTree failed: HTTP ${treeRes.status} — moduleId lookups will be unavailable`);
+  else if (Object.keys(moduleIdToName).length === 0) {
+    notes.push('the configuration tree returned no module nodes, so moduleId cannot be resolved to a name');
+  }
 
   say('reading entities');
   const entitiesRes = await call(backend, '/api/services/app/EntityConfig/GetMainDataList', { token });
@@ -355,7 +382,9 @@ export async function deriveBackendTruth(backend, { cacheDir, user, password, ma
   return {
     backend,
     reachable: true,
-    modules: (modulesRes.ok && (modulesRes.result?.items || modulesRes.result)) || [],
+    modules: moduleList,
+    moduleIdToName,
+    editableModules: moduleList.filter((m) => m && m.isEditable).map((m) => m.name),
     entities,
     entitiesProbed: targets.length,
     entitiesTotal: entities.length,
