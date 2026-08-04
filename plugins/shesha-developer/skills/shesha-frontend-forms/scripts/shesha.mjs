@@ -32,6 +32,10 @@ import { PREVIEW_EXIT, PreviewError, renderPreview } from './lib/preview.mjs';
 import { COMPILE_EXIT, CompileError, compileSpec } from './lib/compile.mjs';
 import { PUSH_EXIT, PushError, pushForm } from './lib/push.mjs';
 import * as ledger from './lib/ledger.mjs';
+import { RENDER_EXIT, RenderError, renderForms, smokeForm } from './lib/render.mjs';
+import { loadTheme } from './gen-kit.mjs';
+
+const DEFAULT_FRONTEND = 'http://localhost:3000';
 
 const SKILL_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -53,9 +57,9 @@ const SUBCOMMANDS = {
   preview: 'Render a mirror-kit JSX spec to pixels — the forward model',
   compile: 'Compile a mirror-kit JSX spec to Shesha 0.45 form JSON',
   push: 'Push a form and verify it by re-fetch diff — the only write path',
-  render: 'Render a live form and run the rendered gates                     [Phase 6]',
+  render: 'Render a live form and run the rendered gates',
   fidelity: 'Compare the approved mock render against the Shesha render        [Phase 7]',
-  smoke: 'Post-push binding smoke test                                      [Phase 6]',
+  smoke: 'Post-push binding smoke test — bindings, not styling',
   ledger: 'Read or repair the persistence ledger',
   build: 'Supervised multi-screen build from a manifest                     [Phase 11]',
 };
@@ -1243,6 +1247,249 @@ async function cmdLedger(flags, positional) {
   return EXIT.USAGE;
 }
 
+const RENDER_HELP = `shesha render — render a live form and run the RENDERED gates
+
+Usage:
+  node shesha.mjs render --form <module>/<name> --app <path> [--forms a,b] [options]
+
+WHY THESE GATES CANNOT BE OFFLINE. "The palette configured in the markup is not visible in
+the rendered form" is 12% of the failure tail, and no JSON validator can detect it by
+construction. The previous stack's styledness gate ran offline, so it measured how much
+themed markup was EMITTED rather than how the form LOOKS — which is how a form scored PASS
+at 96% while the critic called the brand voice nearly absent. Seven of its nine style blocks
+were inert.
+
+Three gates, and the order matters:
+  anatomy       header band, inset surface, grouping, one action row, rhythm, stat row,
+                no empty regions. Scored FIRST and weighted ABOVE colour, because a model
+                latches onto colour when the deficit is layout. An anatomy failure CAPS the
+                critic verdict at "generic" regardless of how well the palette matches.
+  anti-vanilla  divergence from the theme-stripped baseline on every axis the theme claims,
+                plus concrete floors: >=6 font sizes, >=3 weights, >=1 uppercase micro-label,
+                the brand card radius, the wash/surface/border triplet, exactly one primary.
+  integrity     console errors, wrapped flex rows, inputs under 60px, a collapsed overflow
+                menu.
+
+One boot, one login, one batched evaluate per form, EXACTLY ONE screenshot per form. No
+screenshot is a FAIL, never "probably fine".
+
+Options:
+  --form <m>/<n>     the form to render.  REQUIRED (or --forms)
+  --forms a,b        several forms in one boot, as module/name,module/name
+  --app <path>       the Shesha app.  REQUIRED
+  --frontend <url>   the adminportal. Default: ${DEFAULT_FRONTEND}
+  --backend <url>    Default: ${DEFAULT_BACKEND}
+  --theme <name>     which brand to assert against. Default: shesha
+  --groups <n>       how many logical groups the spec declared (anatomy assertion 3)
+  --expect-stats     assert the stat tiles form one equal-width row
+  --baseline         write this render as the theme-stripped vanilla baseline instead of
+                     asserting against one
+  --show-browser     run headed
+  --json             machine-readable
+
+Exit codes:
+  0 all gates pass · 11 the render failed or integrity failed · 12 render deferred
+  16 anti-vanilla failed (the axis is named) · 17 anatomy failed
+  64 usage error
+`;
+
+function resolveVanilla(appRoot) {
+  const p = join(appRoot, '.shesha', 'vanilla-fingerprint.json');
+  if (!existsSync(p)) return null;
+  try {
+    return JSON.parse(readFileSync(p, 'utf8')).fingerprint || null;
+  } catch {
+    return null;
+  }
+}
+
+async function cmdRender(flags) {
+  if (flags.help) {
+    process.stdout.write(RENDER_HELP);
+    return EXIT.OK;
+  }
+  if (!flags.app || flags.app === true) {
+    process.stderr.write('render: --app <path> is required.\n\n' + RENDER_HELP);
+    return EXIT.USAGE;
+  }
+  const list = [];
+  if (typeof flags.forms === 'string') {
+    for (const f of flags.forms.split(',')) if (f.includes('/')) list.push(f.trim());
+  } else if (typeof flags.form === 'string' && flags.form.includes('/')) {
+    list.push(flags.form);
+  }
+  if (list.length === 0) {
+    process.stderr.write('render: --form <module>/<name> (or --forms a,b) is required.\n');
+    return EXIT.USAGE;
+  }
+
+  const appRoot = resolve(flags.app);
+  const themeName = typeof flags.theme === 'string' ? flags.theme : 'shesha';
+  let theme;
+  try {
+    theme = loadTheme(themeName);
+  } catch (e) {
+    process.stderr.write(`render: ${e.message}\n`);
+    return EXIT.USAGE;
+  }
+
+  const isBaseline = !!flags.baseline;
+  const vanilla = isBaseline ? null : resolveVanilla(appRoot);
+  if (!isBaseline && !vanilla) {
+    process.stderr.write(
+      'render: no vanilla baseline at .shesha/vanilla-fingerprint.json — the per-axis divergence\n' +
+        '        assertions will be SKIPPED (the concrete floors still run). Capture one with:\n' +
+        '          node shesha.mjs render --form <m>/<unstyled-calibration-form> --app <path> --baseline\n'
+    );
+  }
+
+  const forms = list.map((f) => {
+    const [module, name] = f.split('/');
+    return {
+      module,
+      name,
+      declaredGroups: Number(flags.groups) || 1,
+      expectStatTiles: !!flags['expect-stats'],
+      expectBand: !!flags['expect-band'],
+      expectSurface: !!flags['expect-surface'],
+      enforceRhythm: !!flags['enforce-rhythm'],
+    };
+  });
+
+  let results;
+  try {
+    results = await renderForms({
+      appRoot,
+      backend: typeof flags.backend === 'string' ? flags.backend : DEFAULT_BACKEND,
+      frontendUrl: typeof flags.frontend === 'string' ? flags.frontend : DEFAULT_FRONTEND,
+      forms,
+      theme,
+      vanilla,
+      outDir: join(appRoot, '.shesha', 'render'),
+      headless: !flags['show-browser'],
+      onProgress: (m) => process.stderr.write(`render: ${m}\n`),
+    });
+  } catch (e) {
+    if (!(e instanceof RenderError)) throw e;
+    process.stderr.write(`render: ${e.message}\n`);
+    return e.exitCode || RENDER_EXIT.RENDER_FAILED;
+  }
+
+  // --baseline records this render as the theme-stripped reference for future runs.
+  if (isBaseline) {
+    const first = results[0];
+    if (!first || !first.fingerprint) {
+      process.stderr.write('render: the baseline render produced no fingerprint; nothing was written.\n');
+      return RENDER_EXIT.RENDER_FAILED;
+    }
+    const p = join(appRoot, '.shesha', 'vanilla-fingerprint.json');
+    writeFileSync(
+      p,
+      JSON.stringify(
+        {
+          capturedAt: new Date().toISOString(),
+          form: first.form,
+          note: 'The theme-stripped baseline. Every axis the active theme claims to set must diverge from this, or the theme never reached the DOM.',
+          fingerprint: first.fingerprint,
+        },
+        null,
+        2
+      ) + '\n',
+      'utf8'
+    );
+    process.stdout.write(JSON.stringify({ ok: true, baseline: p, form: first.form, fingerprint: first.fingerprint }, null, 2) + '\n');
+    return EXIT.OK;
+  }
+
+  if (flags.json) {
+    process.stdout.write(JSON.stringify(results, null, 2) + '\n');
+  } else {
+    for (const r of results) {
+      const verdict = r.exitCode === 0 ? 'PASS' : `FAIL(${r.exitCode})`;
+      process.stdout.write(`${verdict}  ${r.form}\n`);
+      process.stdout.write(`  screenshot ${r.screenshot || 'NONE — that is a failure'}\n`);
+      process.stdout.write(`  evidence   ${r.evidencePath}\n`);
+      if (r.navError) process.stdout.write(`  navigation FAILED: ${r.navError}\n`);
+      if (r.captureError) process.stdout.write(`  capture FAILED: ${r.captureError}\n`);
+      if (r.gates) {
+        if (r.gates.capVerdict) process.stdout.write(`  critic capped at "${r.gates.capVerdict}" — ${r.gates.capReason}\n`);
+        for (const f of r.gates.failures) {
+          process.stdout.write(`  [${f.code}] ${f.axis}: ${f.message}\n`);
+        }
+        if (r.gates.pass) process.stdout.write('  all three rendered gates pass\n');
+      }
+      if (r.consoleErrors.length) process.stdout.write(`  ${r.consoleErrors.length} console error(s)\n`);
+    }
+  }
+
+  // Record `rendered` in the ledger, but only for a form that actually passed — a status is
+  // only ever a side effect of evidence.
+  for (const r of results) {
+    if (r.exitCode === 0) {
+      try {
+        ledger.record(appRoot, {
+          form: r.form,
+          status: 'rendered',
+          artefact: r.evidencePath,
+          runId: ledger.newRunId(),
+          note: 'all three rendered gates passed',
+        });
+      } catch (e) {
+        process.stderr.write(`render: could not record the ledger entry: ${(e && e.message) || e}\n`);
+      }
+    }
+  }
+
+  const worst = results.reduce((acc, r) => (r.exitCode > acc ? r.exitCode : acc), 0);
+  return worst;
+}
+
+const SMOKE_HELP = `shesha smoke — post-push binding smoke test
+
+Usage:
+  node shesha.mjs smoke --form <module>/<name> --app <path> [--expect a,b] [options]
+
+Aimed squarely at the correctness dimension rather than the visual one: BINDINGS, not
+styling, are the dominant interactive failure. A datatable can render its headers and a
+CORRECT pager count with every single cell blank — that is the camelCase binding failure
+[R-004], it looks like a styling problem, and no offline check can see it.
+
+Options:
+  --form <m>/<n>    the form to smoke.  REQUIRED
+  --app <path>      the Shesha app.  REQUIRED
+  --expect a,b      column captions that must be present
+  --frontend <url>  Default: ${DEFAULT_FRONTEND}
+  --backend <url>   Default: ${DEFAULT_BACKEND}
+  --show-browser    run headed
+
+Exit codes: 0 every bound region rendered · 13 a bound region was empty · 64 usage error
+`;
+
+async function cmdSmoke(flags) {
+  if (flags.help) {
+    process.stdout.write(SMOKE_HELP);
+    return EXIT.OK;
+  }
+  if (!flags.app || !flags.form || flags.app === true || flags.form === true || !String(flags.form).includes('/')) {
+    process.stderr.write('smoke: --form <module>/<name> and --app <path> are required.\n\n' + SMOKE_HELP);
+    return EXIT.USAGE;
+  }
+  const [module, name] = String(flags.form).split('/');
+  const appRoot = resolve(flags.app);
+  const r = await smokeForm({
+    appRoot,
+    backend: typeof flags.backend === 'string' ? flags.backend : DEFAULT_BACKEND,
+    frontendUrl: typeof flags.frontend === 'string' ? flags.frontend : DEFAULT_FRONTEND,
+    form: { module, name },
+    outDir: join(appRoot, '.shesha', 'smoke'),
+    expectedBindings: typeof flags.expect === 'string' ? flags.expect.split(',').map((s) => s.trim()) : [],
+    headless: !flags['show-browser'],
+    onProgress: (m) => process.stderr.write(`smoke: ${m}\n`),
+  });
+  process.stdout.write(JSON.stringify({ ok: r.pass, form: r.form, observed: r.observed, failures: r.failures, screenshot: r.screenshot, evidence: r.path }, null, 2) + '\n');
+  return r.pass ? EXIT.OK : RENDER_EXIT.SMOKE;
+}
+
 function unimplemented(name, phase) {
   return async (flags) => {
     const help = `shesha ${name} — ${SUBCOMMANDS[name]}\n\nNot implemented until Phase ${phase}.\n`;
@@ -1262,9 +1509,9 @@ const HANDLERS = {
   preview: cmdPreview,
   compile: cmdCompile,
   push: cmdPush,
-  render: unimplemented('render', 6),
+  render: cmdRender,
   fidelity: unimplemented('fidelity', 7),
-  smoke: unimplemented('smoke', 6),
+  smoke: cmdSmoke,
   ledger: cmdLedger,
   build: unimplemented('build', 11),
 };
