@@ -126,6 +126,22 @@ describe('ground truth: artefact', () => {
     assert.deepEqual(gt.diagnostics.consoleErrors, [], 'in-page console errors');
     assert.deepEqual(gt.diagnostics.pageErrors, [], 'in-page exceptions');
   });
+
+  it('records split bundle/render timing and the cache key', (t) => {
+    if (!gt) return t.skip('no ground-truth.json');
+    // Phase 3's `preview` shares the bundle path under a sub-10s budget, so the two
+    // costs must be separable — a single elapsedMs cannot tell you whether a regression
+    // is in bundling (cacheable) or rendering (not).
+    assert.ok(Number.isFinite(gt.timing.bundleMs), 'bundleMs missing');
+    assert.ok(Number.isFinite(gt.timing.renderMs), 'renderMs missing');
+    assert.equal(typeof gt.timing.cacheHit, 'boolean');
+    assert.match(gt.timing.cacheKey, /^[0-9a-f]{16}$/);
+    // Measured: cold bundle ~4300ms, warm ~70-120ms. A warm build above 1s means the
+    // cache key is churning and Phase 3's budget is at risk.
+    if (gt.timing.cacheHit) {
+      assert.ok(gt.timing.bundleMs < 1000, `warm bundle took ${gt.timing.bundleMs}ms — cache key churning?`);
+    }
+  });
 });
 
 describe('ground truth: registry', () => {

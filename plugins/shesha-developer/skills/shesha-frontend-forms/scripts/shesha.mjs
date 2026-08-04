@@ -124,6 +124,11 @@ Options:
   --password <pass>   Backend password. Default: \$SHESHA_PASSWORD or the Shesha dev seed.
   --max-entities <n>  Probe metadata for only the first n entities (faster smoke runs).
   --output <file>     Also write the full artefact here.
+  --no-cache          Rebuild the harness bundle instead of reusing the cached one.
+                      The cache is keyed on the installed framework version + the sha256
+                      of its dist entry + the harness source + the esbuild version, so a
+                      stale bundle is unreachable by construction; use this only to
+                      measure a cold build.
   --keep-harness      Leave the transient esbuild bundle on disk for debugging.
   --verbose           Print esbuild output and per-entity progress to stderr.
   --emit-kit          [Phase 3] generate the mirror kit. Not implemented yet.
@@ -216,6 +221,7 @@ async function cmdProbe(flags) {
     framework = await deriveFrameworkTruth(paths.appRoot, {
       grid: backend ? backend.dataTypeGrid : undefined,
       keepHarness: !!flags['keep-harness'],
+      cache: !flags['no-cache'],
       verbose,
     });
   } catch (e) {
@@ -310,6 +316,9 @@ async function cmdProbe(flags) {
     ],
     harnessWarnings: framework.harnessWarnings,
     diagnostics: framework.probed.diagnostics,
+    // Split out because Phase 3's `preview` shares the bundle path and has a sub-10s
+    // budget. bundleMs on a cache hit is the number that budget actually depends on.
+    timing: framework.timing,
     elapsedMs: Date.now() - started,
   };
 
@@ -344,6 +353,7 @@ async function cmdProbe(flags) {
             }
           : { reachable: false, url: wantBackend ? backendUrl : null },
         gaps: groundTruth.gaps.map((g) => g.id),
+        timing: framework.timing,
         elapsedMs: groundTruth.elapsedMs,
       },
       null,

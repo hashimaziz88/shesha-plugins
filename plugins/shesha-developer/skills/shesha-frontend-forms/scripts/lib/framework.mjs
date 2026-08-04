@@ -334,13 +334,43 @@ module.exports = new Proxy({ __esModule: true, default: Icon }, {
  * skill's own node_modules. That is what makes the derived truth attest to the real
  * artefact rather than to a convenient copy.
  */
-export async function buildHarness(paths, { outDir, verbose = false } = {}) {
+export async function buildHarness(paths, { outDir, verbose = false, identity, cache = true } = {}) {
   const esbuild = await import('esbuild');
   const dir = outDir || join(HERE, '..', '..', '.tmp', 'harness');
   mkdirSync(dir, { recursive: true });
 
   const bundlePath = join(dir, 'bundle.js');
   const pagePath = join(dir, 'page.html');
+
+  /**
+   * Content-addressed bundle cache.
+   *
+   * Bundling the whole Shesha package is ~7s of the probe's ~9s. Phase 3's `preview`
+   * shares this path and has a sub-10s budget it must hit repeatedly, so the bundle is
+   * cached against everything that could invalidate it:
+   *   - the installed framework version and the sha256 of its dist entry (the drift
+   *     guard) — so an app upgrade rebuilds rather than serving a stale bundle
+   *   - the harness source itself
+   *   - the esbuild version
+   * A cache written by a different framework build can never be read back.
+   */
+  const entrySrc = readFileSync(join(HARNESS_DIR, 'entry.js'), 'utf8');
+  const cacheKey = createHash('sha256')
+    .update(identity ? `${identity.version}|${identity.driftGuard.moduleSha256}` : 'no-identity')
+    .update('|')
+    .update(entrySrc)
+    .update('|')
+    .update(esbuild.version || '0')
+    .digest('hex')
+    .slice(0, 16);
+  const cacheDir = join(paths.appRoot, '.shesha', 'harness-cache');
+  const cachedBundle = join(cacheDir, `bundle.${cacheKey}.js`);
+
+  if (cache && existsSync(cachedBundle)) {
+    writeFileSync(bundlePath, readFileSync(cachedBundle));
+    writeFileSync(pagePath, readFileSync(join(HARNESS_DIR, 'page.html'), 'utf8'), 'utf8');
+    return { dir, bundlePath, pagePath, warnings: [], cacheHit: true, cacheKey };
+  }
 
   let result;
   try {
@@ -379,11 +409,23 @@ export async function buildHarness(paths, { outDir, verbose = false } = {}) {
 
   writeFileSync(pagePath, readFileSync(join(HARNESS_DIR, 'page.html'), 'utf8'), 'utf8');
 
+  if (cache) {
+    try {
+      mkdirSync(cacheDir, { recursive: true });
+      writeFileSync(cachedBundle, readFileSync(bundlePath));
+      // The cache lives inside .shesha/, which self-ignores via its own .gitignore.
+    } catch {
+      /* an unwritable cache costs speed, never correctness */
+    }
+  }
+
   return {
     dir,
     bundlePath,
     pagePath,
     warnings: (result.warnings || []).map((w) => w.text),
+    cacheHit: false,
+    cacheKey,
   };
 }
 
@@ -541,15 +583,33 @@ export function cleanHarness(built) {
  * The framework half of ground truth, end to end.
  * Deliberately independent of the backend so Phase 1 is never blocked on it.
  */
-export async function deriveFrameworkTruth(appPath, { grid, keepHarness = false, verbose = false } = {}) {
+export async function deriveFrameworkTruth(
+  appPath,
+  { grid, keepHarness = false, verbose = false, cache = true } = {}
+) {
   const paths = resolveAppPaths(appPath);
   const identity = readFrameworkIdentity(paths);
   const peers = readPeerVersions(paths);
 
-  const built = await buildHarness(paths, { verbose });
+  const buildStarted = Date.now();
+  const built = await buildHarness(paths, { verbose, identity, cache });
+  const bundleMs = Date.now() - buildStarted;
   try {
+    const renderStarted = Date.now();
     const probed = await runHarness(built, { grid: grid && grid.length ? grid : defaultGrid() });
-    return { paths, identity, peers, probed, harnessWarnings: built.warnings };
+    return {
+      paths,
+      identity,
+      peers,
+      probed,
+      harnessWarnings: built.warnings,
+      timing: {
+        bundleMs,
+        renderMs: Date.now() - renderStarted,
+        cacheHit: !!built.cacheHit,
+        cacheKey: built.cacheKey,
+      },
+    };
   } finally {
     if (!keepHarness) cleanHarness(built);
   }

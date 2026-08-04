@@ -129,7 +129,12 @@ export async function getToken(backend, { cacheDir, user, password, force = fals
     }
   }
 
-  const res = await call(backend, '/api/services/app/TokenAuth/Authenticate', {
+  // NOTE the path. TokenAuth is NOT under /api/services/app/ — it is mounted at
+  // /api/TokenAuth/Authenticate. Verified against this app's own per-service swagger
+  // (swagger/service:TokenAuth/swagger.json). Every other service used here IS under
+  // /api/services/app/. The brief had this wrong and it returns 404, which reads as
+  // "backend down" rather than "wrong route" unless you check.
+  const res = await call(backend, '/api/TokenAuth/Authenticate', {
     method: 'POST',
     body: { userNameOrEmailAddress: username, password: pass, rememberClient: true },
   });
@@ -160,14 +165,50 @@ export async function getToken(backend, { cacheDir, user, password, force = fals
 }
 
 /**
- * Reference-list items. 0.45 moved endpoints around, so rather than hard-coding one
- * guess this tries a small ordered set and RECORDS which one answered. The winning
- * endpoint is stored in ground truth so later phases stop probing.
+ * Reference-list items.
+ *
+ * There is NO ReferenceList service in a 0.45 backend — checked against all 148
+ * services this app publishes. Reference lists are configuration items, and their items
+ * are ordinary entities, so they come through the generic dynamic CRUD endpoint
+ * (Entities/GetAll over Shesha.Domain.ReferenceListItem).
+ *
+ * The candidate list is ordered by likelihood and the winner is RECORDED in ground truth
+ * so later phases stop probing. Legacy routes are kept last so an older backend still
+ * resolves rather than silently returning no items.
  */
+const REFLIST_ITEM_PROPS = 'id,item,itemValue,description,color,icon,orderIndex';
+
 const REFLIST_ENDPOINTS = [
-  (m, n) => `/api/services/app/ReferenceList/GetItems?module=${encodeURIComponent(m)}&name=${encodeURIComponent(n)}`,
-  (m, n) => `/api/services/app/ReferenceList/GetItems?id.module=${encodeURIComponent(m)}&id.name=${encodeURIComponent(n)}`,
-  (m, n) => `/api/services/app/ReferenceList/GetItemsByList?module=${encodeURIComponent(m)}&name=${encodeURIComponent(n)}`,
+  // Primary: generic dynamic CRUD, filtered by the parent list's name/module.
+  (m, n) => {
+    const filter = {
+      and: [
+        { '==': [{ var: 'referenceList.name' }, n] },
+        ...(m ? [{ '==': [{ var: 'referenceList.module.name' }, m] }] : []),
+      ],
+    };
+    const q = new URLSearchParams({
+      entityType: 'Shesha.Domain.ReferenceListItem',
+      properties: REFLIST_ITEM_PROPS,
+      maxResultCount: '1000',
+      sorting: 'orderIndex asc',
+      filter: JSON.stringify(filter),
+    });
+    return `/api/services/app/Entities/GetAll?${q}`;
+  },
+  // Same, without the module predicate — some lists have no module set.
+  (m, n) => {
+    const q = new URLSearchParams({
+      entityType: 'Shesha.Domain.ReferenceListItem',
+      properties: REFLIST_ITEM_PROPS,
+      maxResultCount: '1000',
+      sorting: 'orderIndex asc',
+      filter: JSON.stringify({ '==': [{ var: 'referenceList.name' }, n] }),
+    });
+    return `/api/services/app/Entities/GetAll?${q}`;
+  },
+  // Legacy 0.43-era routes, last.
+  (m, n) => `/api/services/app/ReferenceList/GetItems?module=${encodeURIComponent(m || '')}&name=${encodeURIComponent(n)}`,
 ];
 
 async function fetchRefList(backend, token, module, name, state) {
@@ -175,10 +216,16 @@ async function fetchRefList(backend, token, module, name, state) {
   for (const i of tryOrder) {
     const res = await call(backend, REFLIST_ENDPOINTS[i](module || '', name), { token });
     if (res.ok && !res.filtered) {
-      state.endpointIndex = i;
-      state.endpointUsed = REFLIST_ENDPOINTS[i]('<module>', '<name>');
       const items = Array.isArray(res.result) ? res.result : res.result && res.result.items;
-      return { items: Array.isArray(items) ? items : [], error: null };
+      // An endpoint that answers 200 with an empty set has not proven itself — a wrong
+      // filter shape returns exactly that. Only lock in a candidate that returned rows.
+      if (!Array.isArray(items) || items.length === 0) {
+        if (state.endpointIndex === null) continue;
+        return { items: [], error: null };
+      }
+      state.endpointIndex = i;
+      state.endpointUsed = `[candidate ${i}] ${REFLIST_ENDPOINTS[i]('<module>', '<name>').split('?')[0]}`;
+      return { items, error: null };
     }
   }
   return { items: [], error: 'no reference-list endpoint answered' };
