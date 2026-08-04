@@ -439,12 +439,18 @@ function emitRenderBody(name, spec, parts) {
     L.push(`      ))}`);
   } else if (name === 'QuickSearch') {
     // The framework paints its own antd Search box; the mock only has to show the model
-    // that a search affordance occupies this slot, at this size.
-    L.push(`      <span style={{ opacity: 0.5, marginRight: 6 }}>{'\\u2315'}</span>`);
-    L.push(`      <span style={{ opacity: 0.55 }}>{props.placeholder || 'Search'}</span>`);
+    // that a search affordance occupies this slot, at this size. Its inner flex lives in a
+    // PART, not in the component style, because the Shesha type cannot carry a layout
+    // channel and emitting one would be a dead style block [R-029].
+    L.push(`      <div data-part="control" style={PARTS.control}>`);
+    L.push(`        <span style={{ opacity: 0.5, marginRight: 6 }}>{'\\u2315'}</span>`);
+    L.push(`        <span style={{ opacity: 0.55 }}>{props.placeholder || 'Search'}</span>`);
+    L.push(`      </div>`);
   } else if (name === 'TableFilter') {
-    L.push(`      <span style={{ opacity: 0.6, marginRight: 6 }}>{'\\u2261'}</span>`);
-    L.push(`      <span>{'Filter'}</span>`);
+    L.push(`      <div data-part="control" style={PARTS.control}>`);
+    L.push(`        <span style={{ opacity: 0.6, marginRight: 6 }}>{'\\u2261'}</span>`);
+    L.push(`        <span>{'Filter'}</span>`);
+    L.push(`      </div>`);
   } else if (name === 'StatusPill') {
     L.push(`      <span style={{ padding: '4px 10px', background: E.accent, color: '#ffffff' }}>{props.bind || props.children || 'STATUS'}</span>`);
   } else if (name === 'Badge' || name === 'CountBadge') {

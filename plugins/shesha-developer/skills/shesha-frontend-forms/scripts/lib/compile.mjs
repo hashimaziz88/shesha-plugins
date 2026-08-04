@@ -378,6 +378,18 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
     const kids = desc.children || [];
     bump(name);
 
+    /**
+     * JSX text children arrive in the children ARRAY, not in props.children — the capture
+     * shim deletes props.children by design. Every text-carrying branch below reads
+     * props.children, so without this the label of `<Button>Register asset</Button>` is lost
+     * and the button silently falls back to its action name ("add"). Measured on a real
+     * render: four buttons captioned refresh / navigate / script / add.
+     */
+    if (props.children === undefined) {
+      const text = kids.filter((k) => typeof k === 'string').join('');
+      if (text) props.children = text;
+    }
+
     // ---- Column: not a component; a datatable items[] entry ------------------------
     if (name === 'Column') return [];
 

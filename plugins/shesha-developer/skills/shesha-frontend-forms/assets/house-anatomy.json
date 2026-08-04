@@ -290,9 +290,10 @@
         "borderRadius": "@radius.control",
         "fontSize": "@type.body",
         "background": "@surface.surface",
-        "color": "@ink.soft",
-        "display": "inline-flex",
-        "alignItems": "center"
+        "color": "@ink.soft"
+      },
+      "parts": {
+        "control": { "display": "inline-flex", "alignItems": "center", "width": "100%", "height": "100%" }
       },
       "note": "The framework's own datatable.quickSearch. It reads the table's data context, so the compiler emits it INSIDE the dataContext wrapper as a sibling of the table — a quick search outside that wrapper searches nothing. placeholder is mock-only: the Shesha component takes its own placeholder."
     },
@@ -310,10 +311,10 @@
         "color": "@ink.default",
         "fontSize": "@type.body",
         "fontWeight": "@type.weights.emphasis",
-        "display": "inline-flex",
-        "alignItems": "center",
-        "gap": 7,
         "cursor": "pointer"
+      },
+      "parts": {
+        "control": { "display": "inline-flex", "alignItems": "center", "gap": 7, "height": "100%" }
       },
       "note": "The framework's own datatable.filter — the column-filter affordance. Same wrapper rule as QuickSearch: it must sit inside the dataContext that owns the table."
     },

@@ -7,7 +7,7 @@
  * DESIGN NOTE — one file per rule vs the file ceiling.
  * The brief asks for scripts/rules/R-0xx.mjs, one file per rule. Triaging the 57 ported
  * rules yields ~35 enforceable ones; at one file each, plus the artefacts Phases 3-11
- * still need, the total lands near 65 files against a hard ceiling of 55. Validators are
+ * still need, the total lands near 65 files against a hard ceiling of 60 (55 at the time this was written). Validators are
  * therefore grouped into domain modules. Every rule id still resolves to exactly one
  * check() and one MANIFEST row, which is the contract that matters; only the file
  * granularity differs. This is a recorded deviation, not an oversight.

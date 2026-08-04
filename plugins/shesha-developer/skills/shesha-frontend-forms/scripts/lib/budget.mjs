@@ -19,7 +19,21 @@ export const LIMITS = {
   skillMaxLines: 250,
   skillMaxTokens: 3000,
   referenceMaxFiles: 5,
-  trackedMaxFiles: 55,
+  /**
+   * RAISED from 55 to 60, Phase 9a, with the author's explicit authorisation.
+   *
+   * The original 55 came from the build brief and did its job: it kept the toolchain from
+   * becoming another 7.8 MB of prose, and it is the reason validators are grouped into eight
+   * domain modules instead of one file per rule. At 53 files with the record-detail archetype and
+   * the supervisor still to build, the only way to stay under 55 was to merge unrelated concerns
+   * into single files purely to satisfy a count — trading real clarity for a number, which is the
+   * opposite of what the limit exists to protect.
+   *
+   * The ceiling still binds. It is raised once, deliberately, and recorded here rather than
+   * quietly edged up whenever it is inconvenient. If a later phase needs more than 60, that is a
+   * conversation, not another edit to this line.
+   */
+  trackedMaxFiles: 60,
   // Conservative: real English is nearer 4.0 chars/token, so 3.5 over-estimates the count.
   charsPerToken: 3.5,
 };

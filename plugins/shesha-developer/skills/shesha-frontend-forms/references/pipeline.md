@@ -203,5 +203,5 @@ node --test tests/budget.test.mjs
 ```
 
 Asserts the skill's own constraints: SKILL.md ≤ 250 lines and ≤ 3000 tokens, `references/` ≤ 5
-files one level deep, tracked file count under 55. Every MUST in this build maps to a validator,
+files one level deep, tracked file count under 60 (raised once from 55 in Phase 9a, with the reason recorded in budget.mjs). Every MUST in this build maps to a validator,
 including the ones about the build itself.

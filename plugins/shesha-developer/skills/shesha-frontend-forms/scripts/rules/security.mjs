@@ -5,7 +5,19 @@
 import { allComponents, allItems } from '../lib/walk.mjs';
 
 const ANONYMOUS_ACCESS = 5;
-const ANON_NAME = /(login|log-in|signin|sign-in|register|signup|sign-up|otp|forgot|reset|public|anonymous)/i;
+/**
+ * Names that read as an anonymous flow wherever they appear.
+ *
+ * "register" is deliberately NOT in this list: it matches as a substring of ordinary
+ * back-office names — an "asset-register" worklist is a register OF ASSETS, not a sign-up
+ * page, and failing it for access 3 is a false positive on correct markup. Registration
+ * wording is caught either as a whole-word user registration below, or by the exact-name
+ * pattern, so a form genuinely called "register" is still covered.
+ */
+const ANON_NAME = /(login|log-in|signin|sign-in|signup|sign-up|otp|forgot|password-reset|reset-password|public|anonymous|self-service|(user|account|member)-registration)/i;
+
+/** Bare names that are anonymous flows on their own, tested against the form name alone. */
+const ANON_EXACT = /^(register|registration|reset|forgot)$/i;
 
 export const rules = {
   'R-022': {
@@ -17,9 +29,10 @@ export const rules = {
       'symmetric risk is R-041.',
     applies(ctx) {
       const name = `${ctx.formName || ''} ${ctx.formLabel || ''}`;
-      return ANON_NAME.test(name)
+      const bare = String(ctx.formName || '').trim();
+      return ANON_NAME.test(name) || ANON_EXACT.test(bare)
         ? true
-        : { skip: true, reason: 'form name/label does not read as an anonymous form (login/register/otp/forgot/reset/public)' };
+        : { skip: true, reason: 'form name/label does not read as an anonymous form (login/signup/otp/forgot/public, or a form named exactly register/reset)' };
     },
     check(markup, ctx) {
       const access = markup?.formSettings?.access;
