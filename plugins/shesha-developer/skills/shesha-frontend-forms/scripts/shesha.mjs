@@ -269,6 +269,44 @@ async function cmdProbe(flags) {
           'be walked with the same recorder trick used for components.',
         blocks: 'Phase 4 (what to stamp on formSettings.version)',
       },
+      {
+        id: 'componentGroup',
+        what: 'which toolbox group each component belongs to',
+        why:
+          'IToolboxComponent has no `group` member — grouping lives on IToolboxComponentGroup, ' +
+          'and neither getToolboxComponents nor useFormDesignerComponentGroups is a runtime ' +
+          'export. useFormDesignerComponents flattens groups away before we can see them.',
+        blocks: 'nothing in v1.0 — recorded because the brief expected `group` to be derivable',
+      },
+    ],
+    // Findings that are only visible by executing the framework, and that contradict a
+    // reasonable reading of the source. Data, not prose: `explain` will serve these.
+    observations: [
+      {
+        id: 'devMode-does-not-gate-the-dictionary',
+        finding:
+          'The resolved component dictionary is identical with isDevMode false and true ' +
+          `(${framework.probed.counts.prod} vs ${framework.probed.counts.dev} types).`,
+        why:
+          'getToolboxComponents sets `visible: devMode` on the "Dev" GROUP, and ' +
+          'toolbarGroupsToComponents flattens every group without consulting group.visible. ' +
+          'So dev mode affects the designer palette UI only — the renderer and the upgrade ' +
+          'path resolve Dev-group components regardless.',
+        consequence:
+          'A compiler may emit any registered type and it will resolve, including types a ' +
+          'user could never drag from the toolbox in production.',
+      },
+      {
+        id: 'dataTypeSupported-mostly-ignores-dataFormat',
+        finding:
+          'Most components matching on dataType accept ANY dataFormat — e.g. checkbox ' +
+          'reports support for boolean:emailAddress. Only textField, textArea, slider and ' +
+          'passwordCombo actually discriminate on format.',
+        consequence:
+          'dataTypeSupported returns MULTIPLE candidate components per property, so it is a ' +
+          'filter, not a selector. Phase 4 needs an explicit tie-break; using the first match ' +
+          'would be arbitrary.',
+      },
     ],
     harnessWarnings: framework.harnessWarnings,
     diagnostics: framework.probed.diagnostics,
