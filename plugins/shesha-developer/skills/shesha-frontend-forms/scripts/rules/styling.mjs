@@ -341,4 +341,112 @@ export const rules = {
       return out;
     },
   },
+
+  /**
+   * R-058 — enum-valued props carry a legal value.
+   *
+   * The legal sets are HARVESTED, not listed: probe walks each type's own settings-form markup
+   * and records the choices its dropdown/radio editors offer. 700 enum props across 116 types,
+   * 697 with static values. A hand-typed table would be stale by the next release, and a
+   * compiler validating against a stale table is worse than one validating nothing.
+   *
+   * Why this is worth a rule: an illegal enum value does not throw. The renderer falls back to
+   * a default, so the form loads, looks plausible, and quietly ignores what was authored — the
+   * same dead-channel failure as the font bug, which cost a full render cycle to find. This
+   * catches it offline in milliseconds.
+   */
+  'R-058': {
+    id: 'R-058',
+    severity: 'fail',
+    statement:
+      'A prop whose settings editor is a fixed choice list carries one of that list\'s values. ' +
+      'An out-of-set value does not throw — the renderer silently substitutes a default, so the ' +
+      'authored intent vanishes without any error.',
+    applies(ctx) {
+      return ctx.registry
+        ? true
+        : { skip: true, reason: 'needs the ground-truth registry (run probe first)' };
+    },
+    check(markup, ctx) {
+      const out = [];
+      for (const { node, path } of allComponents(markup)) {
+        const def = ctx.registry[node.type];
+        // An unknown type is R-003's finding, not this one's.
+        if (!def) continue;
+        const propTypes = (def.settings && def.settings.propTypes) || null;
+        if (!propTypes) continue;
+
+        for (const [prop, spec] of Object.entries(propTypes)) {
+          if (spec.type !== 'enum' || !Array.isArray(spec.values) || spec.values.length === 0) {
+            // `dynamic` enums are bound to a reference list, so the markup cannot show us the
+            // legal set. Asserting against an unknown set is how false positives get shipped.
+            continue;
+          }
+          // Only top-level props: a dotted path like validate.required is a nested object here
+          // and resolving it would need the same path walk the compiler uses. Recorded as a gap.
+          if (prop.includes('.')) continue;
+          if (!Object.prototype.hasOwnProperty.call(node, prop)) continue;
+
+          const raw = node[prop];
+          if (raw === null || raw === undefined || raw === '') continue;
+          // A JS-setting expression is evaluated at runtime; its value is not knowable here.
+          if (typeof raw === 'object') continue;
+
+          const value = String(raw);
+          if (!spec.values.includes(value)) {
+            out.push({
+              message:
+                `${node.type} "${node.componentName || node.id}" sets ${prop}="${value}", which is ` +
+                `not one of the values its own settings editor offers (${spec.values.map((v) => v === '' ? '""' : v).join(', ')}). ` +
+                `The renderer will substitute a default rather than error, so this is authored and then ignored.`,
+              fixPointer: `${path}/${prop}`,
+            });
+          }
+        }
+      }
+      return out;
+    },
+  },
+
+  /**
+   * R-059 — the text content contract.
+   *
+   * MINED, not reasoned: `desktop.font.*` on a text component was inert until textType,
+   * contentDisplay and contentType were all present alongside content. Setting the font block
+   * alone produced a form that passed every offline gate and rendered unstyled text — the
+   * defect that took Phase 6 from FAIL to PASS once the three keys were emitted together.
+   *
+   * The compiler now always emits them, so this rule exists to catch a REGRESSION in the
+   * compiler or a hand-edited form, which is exactly what a rule is for.
+   */
+  'R-059': {
+    id: 'R-059',
+    severity: 'fail',
+    statement:
+      'A text component that carries content also carries textType, contentDisplay and ' +
+      'contentType. Without all three the font channel is inert: the text renders at framework ' +
+      'defaults and every authored typography value is discarded silently.',
+    check(markup) {
+      const out = [];
+      const REQUIRED = ['textType', 'contentDisplay', 'contentType'];
+      for (const { node, path } of allComponents(markup)) {
+        if (node.type !== 'text') continue;
+        const hasContent = typeof node.content === 'string' && node.content !== '';
+        if (!hasContent) continue;
+
+        const missing = REQUIRED.filter(
+          (k) => node[k] === undefined || node[k] === null || node[k] === ''
+        );
+        if (missing.length) {
+          out.push({
+            message:
+              `text "${node.componentName || node.id}" sets content but omits ${missing.join(', ')} — ` +
+              `the font channel stays inert and the authored typography is dropped without an error`,
+            fixPointer: `${path}/${missing[0]}`,
+          });
+        }
+      }
+      return out;
+    },
+  },
 };

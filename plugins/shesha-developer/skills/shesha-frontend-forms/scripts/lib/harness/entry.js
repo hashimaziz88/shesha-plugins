@@ -108,22 +108,88 @@ function deriveVersions(def) {
  * components[], content.components[], header.components[], columns[i].components[],
  * tabs[i].components[], panels[i].components[], and buttonGroup items[].
  */
-function collectPropertyNames(node, acc, depth = 0) {
+/**
+ * The editor component a settings form uses for a prop tells you the prop's TYPE, and for the
+ * choice editors it also carries the legal VALUES. Both are harvested here rather than
+ * hand-listed, because an enum table someone typed out goes stale on the next release and a
+ * compiler validating against a stale table is worse than one validating nothing.
+ *
+ * Deliberately conservative: the editor name is recorded verbatim so an unmapped editor shows up
+ * as `unknown` rather than being guessed into a type.
+ */
+const EDITOR_TYPES = {
+  checkbox: 'boolean',
+  switch: 'boolean',
+  numberField: 'number',
+  textField: 'string',
+  textArea: 'string',
+  codeEditor: 'string',
+  colorPicker: 'color',
+  iconPicker: 'icon',
+  dropdown: 'enum',
+  radio: 'enum',
+  customDropdown: 'enum',
+  multiColorPicker: 'color',
+};
+
+/**
+ * Static choices, if the editor carries any. A reference-list dropdown carries none.
+ *
+ * `dropdownOptions` and `buttonGroupOptions` are the real 0.45 field names
+ * (designer-components/settingsInput/interfaces.ts: IDropdownOption[] / IRadioOption[]).
+ */
+function choicesOf(node) {
+  for (const key of ['dropdownOptions', 'buttonGroupOptions', 'values', 'options', 'items']) {
+    const arr = node[key];
+    if (!Array.isArray(arr) || arr.length === 0) continue;
+    const vals = arr
+      .map((o) => (o && typeof o === 'object' ? o.value : o))
+      .filter((v) => v !== undefined && v !== null && typeof v !== 'object');
+    if (vals.length) return vals.map((v) => String(v));
+  }
+  return null;
+}
+
+function collectPropertyNames(node, acc, types, depth = 0) {
   if (!node || depth > 30) return acc;
   if (Array.isArray(node)) {
-    for (const n of node) collectPropertyNames(n, acc, depth + 1);
+    for (const n of node) collectPropertyNames(n, acc, types, depth + 1);
     return acc;
   }
   if (typeof node !== 'object') return acc;
 
   if (typeof node.propertyName === 'string' && node.propertyName) {
     acc.add(node.propertyName);
+    // 0.45 wraps nearly every settings field in a generic `settingsInput` whose REAL editor is
+    // in `inputType` (settingsInput.tsx: `isSettingsInputProps(props) ? props.inputType :
+    // props.type`). Reading `type` alone returned "settingsInput" 490 times and no enum values.
+    if (types && (typeof node.inputType === 'string' || typeof node.type === 'string')) {
+      const editor = typeof node.inputType === 'string' ? node.inputType : node.type;
+      const mapped = EDITOR_TYPES[editor] || 'unknown';
+      const values = mapped === 'enum' ? choicesOf(node) : null;
+      // First writer wins: a prop shown twice (e.g. once per settings tab) is the same prop, and
+      // the richer record is kept only if the first had no values to offer.
+      const prev = types[node.propertyName];
+      if (!prev || (values && !prev.values)) {
+        types[node.propertyName] = {
+          editor,
+          type: mapped,
+          values,
+          // A dropdown bound to a reference list has legal values the markup cannot show us.
+          dynamic: mapped === 'enum' && !values ? true : false,
+          source: 'settings-markup:' + editor,
+        };
+      }
+    }
   }
-  for (const key of ['components', 'items', 'tabs', 'columns', 'panels', 'steps']) {
-    if (node[key]) collectPropertyNames(node[key], acc, depth + 1);
+  // `inputs` is settingsInputRow's child array — the container most 0.45 settings fields
+  // actually live in. Omitting it silently hid the majority of the prop surface, including
+  // every appearance channel on `text`.
+  for (const key of ['components', 'items', 'tabs', 'columns', 'panels', 'steps', 'inputs']) {
+    if (node[key]) collectPropertyNames(node[key], acc, types, depth + 1);
   }
   for (const key of ['content', 'header', 'footer']) {
-    if (node[key] && typeof node[key] === 'object') collectPropertyNames(node[key], acc, depth + 1);
+    if (node[key] && typeof node[key] === 'object') collectPropertyNames(node[key], acc, types, depth + 1);
   }
   return acc;
 }
@@ -136,15 +202,22 @@ function deriveSettingsProps(def, fbf) {
   try {
     const markup = typeof m === 'function' ? m({ fbf }) : m;
     const acc = new Set();
+    const types = {};
     // Markup may be { formSettings, components } or a bare component array.
-    collectPropertyNames(markup && markup.components ? markup.components : markup, acc);
+    collectPropertyNames(markup && markup.components ? markup.components : markup, acc, types);
     return {
       source: typeof m === 'function' ? 'factory' : 'literal',
       propertyNames: Array.from(acc).sort(),
+      propTypes: types,
       error: null,
     };
   } catch (e) {
-    return { source: typeof m === 'function' ? 'factory' : 'literal', propertyNames: [], error: String((e && e.message) || e) };
+    return {
+      source: typeof m === 'function' ? 'factory' : 'literal',
+      propertyNames: [],
+      propTypes: {},
+      error: String((e && e.message) || e),
+    };
   }
 }
 

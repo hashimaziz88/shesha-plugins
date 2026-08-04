@@ -290,3 +290,52 @@ describe('ground truth: live half (when present)', () => {
     }
   });
 });
+
+/**
+ * The harvested prop TYPES, added Phase 8.
+ *
+ * Two bugs made this worth pinning. The walker did not recurse into `inputs`, which is
+ * settingsInputRow's child array and where most 0.45 settings fields actually live — so the
+ * harvest silently returned 34 enums instead of 700 and every appearance channel on `text` was
+ * missing. And the editor type was read from `type`, which is the generic wrapper
+ * ("settingsInput", 490 times), not from `inputType` where the real editor is.
+ *
+ * Both failures were SILENT: a smaller-but-plausible result, no error. So the numbers are
+ * asserted with floors, not just "is non-empty".
+ */
+describe('harvested prop types', () => {
+  it('reaches the appearance channels on text, with their real value sets', (t) => {
+    if (!gt) return t.skip('no ground-truth.json');
+    const pt = gt.registry.text.settings.propTypes;
+    assert.ok(pt, 'text has no harvested propTypes');
+    assert.deepEqual(pt.textType.values, ['span', 'paragraph', 'title']);
+    assert.deepEqual(pt.contentDisplay.values, ['content', 'name']);
+    // The empty string IS a legal contentType. Recording it matters: treat it as illegal and a
+    // correct form fails R-058.
+    assert.ok(pt.contentType.values.includes(''), 'contentType must include the legal empty value');
+    assert.equal(pt.textType.source, 'settings-markup:dropdown');
+  });
+
+  it('harvests the whole surface, not a plausible-looking fraction of it', (t) => {
+    if (!gt) return t.skip('no ground-truth.json');
+    let typed = 0;
+    let enums = 0;
+    let withValues = 0;
+    for (const def of Object.values(gt.registry)) {
+      const pt = (def.settings && def.settings.propTypes) || {};
+      for (const spec of Object.values(pt)) {
+        typed += 1;
+        if (spec.type === 'enum') {
+          enums += 1;
+          if (Array.isArray(spec.values) && spec.values.length) withValues += 1;
+        }
+      }
+    }
+    // Measured on 0.45.0: 4188 typed props, 700 enums, 697 with static values. The floors sit
+    // well under those so a framework upgrade does not fail the build, but far above the broken
+    // run's 34 enums so a lost recursion does.
+    assert.ok(typed > 2000, `only ${typed} typed props — the walker is probably missing a container key`);
+    assert.ok(enums > 400, `only ${enums} enum props — expected ~700; check inputType and the \`inputs\` recursion`);
+    assert.ok(withValues / enums > 0.9, `only ${withValues}/${enums} enums carry values — check dropdownOptions/buttonGroupOptions`);
+  });
+});

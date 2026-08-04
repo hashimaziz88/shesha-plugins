@@ -18,7 +18,17 @@ const RULES = new Map(loadRules().map((r) => [r.id, r]));
 /** Minimal registry standing in for derived ground truth. */
 const REGISTRY = {
   container: { type: 'container', name: 'Container', isInput: false, lastVersion: 7, migrationVersions: [0, 7], customContainerNames: null, settings: { propertyNames: [], source: 'factory', error: null }, dataTypeSupported: null },
-  text: { type: 'text', name: 'Text', isInput: false, lastVersion: 5, migrationVersions: [0, 5], customContainerNames: null, settings: { propertyNames: [], source: 'factory', error: null }, dataTypeSupported: null },
+  // text carries real propTypes because R-058 is tested against it. These four value sets are
+  // TRANSCRIBED from a live probe of 0.45, not invented — including contentType's legal empty
+  // string, which a hand-written table would have dropped and which would then have made a
+  // correct form fail.
+  text: { type: 'text', name: 'Text', isInput: false, lastVersion: 5, migrationVersions: [0, 5], customContainerNames: null, dataTypeSupported: null,
+    settings: { propertyNames: [], source: 'factory', error: null, propTypes: {
+      textType: { editor: 'dropdown', type: 'enum', values: ['span', 'paragraph', 'title'], dynamic: false, source: 'settings-markup:dropdown' },
+      contentDisplay: { editor: 'dropdown', type: 'enum', values: ['content', 'name'], dynamic: false, source: 'settings-markup:dropdown' },
+      contentType: { editor: 'dropdown', type: 'enum', values: ['', 'primary', 'secondary', 'success', 'warning', 'info', 'danger', 'custom'], dynamic: false, source: 'settings-markup:dropdown' },
+      dataType: { editor: 'dropdown', type: 'enum', values: ['string', 'date-time', 'number', 'boolean'], dynamic: false, source: 'settings-markup:dropdown' },
+    } } },
   textField: { type: 'textField', name: 'Text field', isInput: true, lastVersion: 6, migrationVersions: [0, 6], customContainerNames: null, settings: { propertyNames: [], source: 'factory', error: null }, dataTypeSupported: ['string'] },
   card: { type: 'card', name: 'Card', isInput: false, lastVersion: 3, migrationVersions: [1, 2, 3], customContainerNames: ['header', 'content'], settings: { propertyNames: [], source: 'factory', error: null }, dataTypeSupported: null },
   datatable: { type: 'datatable', name: 'Data table', isInput: false, lastVersion: 29, migrationVersions: [0, 29], customContainerNames: null, settings: { propertyNames: [], source: 'factory', error: null }, dataTypeSupported: null },
@@ -111,12 +121,27 @@ function assertFails(id, markup, ctx, matcher) {
 // =====================================================================================
 describe('rule registry integrity', () => {
   it('all 57 ported rules are dispositioned exactly once', () => {
-    assert.equal(TRIAGE.length, 57);
     const ids = TRIAGE.map((t) => t.id);
-    assert.equal(new Set(ids).size, 57, 'duplicate triage ids');
+    assert.equal(new Set(ids).size, ids.length, 'duplicate triage ids');
+    // The 57 PORTED rules are R-001..R-057 and every one must be accounted for. The total is
+    // deliberately NOT pinned: rules discovered later get new ids, and a test that forbids
+    // that would make "we learned something" fail the build. What must hold is that nothing
+    // ported was dropped, and that anything beyond R-057 is genuinely new.
     for (let i = 1; i <= 57; i += 1) {
       const id = `R-${String(i).padStart(3, '0')}`;
       assert.ok(ids.includes(id), `${id} is not dispositioned`);
+    }
+  });
+
+  it('every rule added beyond the ported 57 says where it came from', () => {
+    const added = TRIAGE.filter((t) => Number(t.id.slice(2)) > 57);
+    for (const t of added) {
+      assert.ok(t.note, `${t.id} is a new rule and must carry a note recording its evidence`);
+      assert.match(
+        t.note,
+        /NEW/,
+        `${t.id}'s note must mark it as new so the ported set stays auditable`
+      );
     }
   });
 
@@ -509,6 +534,32 @@ describe('styling', () => {
     assertPasses('R-057', reparent(form([node('buttonGroup', { items: [item('A')] })])));
     const stack = reparent(form([node('container', { components: [node('button'), node('button')] })]));
     assertFails('R-057', stack, CTX, /stack one per line/);
+  });
+
+  it('R-058 enum props against the harvested legal sets', () => {
+    // The legal sets come from the registry, so this test also proves the harvest reached the
+    // appearance channels rather than only the structural props.
+    assertPasses('R-058', reparent(form([node('text', { textType: 'span' })])), CTX);
+    assertPasses('R-058', reparent(form([node('text', { textType: 'paragraph' })])), CTX);
+    assertFails('R-058', reparent(form([node('text', { textType: 'heading' })])), CTX, /not one of the values/);
+    // An empty string is a legal contentType in 0.45 — the harvest records it, a hand-written
+    // table would have dropped it, and treating it as illegal would be a false positive.
+    assertPasses('R-058', reparent(form([node('text', { contentType: '' })])), CTX);
+    assertFails('R-058', reparent(form([node('text', { dataType: 'datetime' })])), CTX, /not one of the values/);
+    // A JS setting is evaluated at runtime; its value is unknowable offline, so no verdict.
+    assertPasses('R-058', reparent(form([node('text', { textType: { _mode: 'code', _code: 'x' } })])), CTX);
+  });
+
+  it('R-059 the text content contract that made the font channel work', () => {
+    const full = { textType: 'span', contentDisplay: 'content', contentType: 'custom', content: 'Hi' };
+    assertPasses('R-059', reparent(form([node('text', full)])));
+    for (const missing of ['textType', 'contentDisplay', 'contentType']) {
+      const partial = { ...full };
+      delete partial[missing];
+      assertFails('R-059', reparent(form([node('text', partial)])), CTX, new RegExp(missing));
+    }
+    // No content means nothing to render and nothing to drop.
+    assertPasses('R-059', reparent(form([node('text', { componentName: 'empty' })])));
   });
 });
 

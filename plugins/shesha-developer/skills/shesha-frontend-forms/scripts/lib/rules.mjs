@@ -97,10 +97,12 @@ export const TRIAGE = [
   { id: 'R-048', group: 'styling', disposition: 'stale', reason: 'A datalist row-template recipe, not an invariant.', movedTo: 'references/recipes.md' },
   { id: 'R-051', group: 'styling', disposition: 'derivable', note: 'MEASURED this session: the live Shesha.ThemeSettings carries application/sidebar/layoutBackground/text/sidebarBackground/labelSpan/componentSpan/marginPadding. No token, no components. Read it from ground-truth.backend.themeTopLevelKeys.' },
   { id: 'R-052', group: 'styling', disposition: 'enforceable' },
-  { id: 'R-053', group: 'styling', disposition: 'compile-time', note: 'GAP: enforced by construction (the kit does not generate a dead prop), but NOT checkable offline for foreign files — that needed the 586KB measured-capability-matrix, which this rebuild deliberately does not carry. Recorded in ground-truth.gaps.' },
+  { id: 'R-053', group: 'styling', disposition: 'compile-time', note: 'GAP NARROWED in Phase 8. Still enforced by construction (the kit does not generate a dead prop). What is now ALSO checkable offline for foreign files is prop VALIDITY: R-058 validates enum values against sets probe harvests from each type\'s own settings markup, so an illegal value is caught without vendoring the 586KB capability matrix. What remains uncheckable is prop EFFECT — whether a legal prop actually reaches the DOM. That still needs measurement, so the rendered gates keep it. Recorded in ground-truth.gaps.' },
   { id: 'R-054', group: 'styling', disposition: 'enforceable' },
   { id: 'R-055', group: 'styling', disposition: 'enforceable' },
   { id: 'R-057', group: 'styling', disposition: 'enforceable' },
+  { id: 'R-058', group: 'styling', disposition: 'enforceable', note: 'NEW, added Phase 8. Enum-valued props must carry a value their own settings editor offers. The legal sets are harvested by probe from each type\'s settings markup (700 enum props, 697 with static values) rather than hand-listed, so they cannot go stale against the installed package. Partially closes the R-053 gap: prop VALIDITY is now checkable offline without vendoring a capability matrix. Prop EFFECT still is not.' },
+  { id: 'R-059', group: 'styling', disposition: 'enforceable', note: 'NEW, added Phase 8. MINED: text needs textType + contentDisplay + contentType present alongside content or the whole desktop.font block is inert. This was the Phase 6 font-channel defect; the compiler now emits all three, so the rule guards the regression.' },
 
   // ---- security -----------------------------------------------------------------
   { id: 'R-022', group: 'security', disposition: 'enforceable' },

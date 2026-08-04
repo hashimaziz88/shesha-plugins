@@ -67,6 +67,12 @@ function validForm() {
     componentName: 'pageHeading',
     // R-052: a font colour renders ONLY with contentType "custom".
     contentType: 'custom',
+    // R-059: textType and contentDisplay are required alongside content, or the whole
+    // desktop.font block below is INERT. This fixture was written in Phase 2 and omitted them;
+    // Phase 6 mined the requirement by rendering, and Phase 8's rule caught the fixture. It
+    // claimed to be "a form that passes every gate" while its heading rendered unstyled.
+    textType: 'span',
+    contentDisplay: 'content',
     content: 'New employee',
     desktop: { font: { size: 24, weight: '600', color: '#1f1f1f' } },
   };
