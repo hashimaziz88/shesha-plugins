@@ -34,6 +34,12 @@ A form looks "cheap" when only one layer is done (AntD still default-blue, or no
 
 Design conventions every recipe respects: [references/shesha-design-standards.md](references/shesha-design-standards.md). The canonical brand-independent layout/component anatomy (page anatomy, tables, cards, chips, modals): [references/default-layout-patterns.md](references/default-layout-patterns.md) — every styling pass builds to these shapes; brand tokens only recolour them.
 
+## Baseline authority — never invent a value
+
+Shesha renders on **Ant Design 6.3.5**. Precedence is: **brand token file → Ant 6.3.5 default → nothing.** Anything the brand file doesn't name takes the Ant default, and the Ant default is *looked up*, never guessed — [references/ant-baseline.md](references/ant-baseline.md) for the contract (derived Cobalt ramp, the deliberate deviations from stock Ant, measured WCAG verdicts, posture rules, the theme-owns-vs-form-owns line), and [references/ant-tokens.md](references/ant-tokens.md) as the dictionary for one specific value (all 72 components; look up, don't read end to end).
+
+Two consequences that catch every pass: **`#1890FF` and `#1677FF` are always wrong** (unthemed Ant v4, and the v6 default Cobalt replaces — either one means the theme was bypassed); and **control-level appearance is theme-owned** — button fill, input border/focus ring, table header tint, control height, base radius come from `$antdTheme` and are never re-declared per component. v7 blocks carry *composition* (page ground, surfaces, header strips, rails, density, chips), which [R-042] requires — not control appearance.
+
 ## Capability authority
 
 "Does style channel X actually render on component Y?" is answered by **`shesha-form-edit/assets/measured-capability-matrix.json`** — the gym-measured 0.45 authority, regenerated per release. The local `assets/capability-matrix.json` is **annotation only**: technique key paths, cross-cutting rules, and fixes, overlaid with measured evidence by `merge-capability.js`. How to read the pair: [references/capability-matrix.md](references/capability-matrix.md). Never author a style on a channel measured as a no-op.
@@ -52,6 +58,8 @@ Design conventions every recipe respects: [references/shesha-design-standards.md
 
 | Topic | File |
 |---|---|
+| **Ant 6.3.5 baseline + WCAG + theme-vs-form line** | [references/ant-baseline.md](references/ant-baseline.md) |
+| Ant token dictionary (72 components — lookup only) | [references/ant-tokens.md](references/ant-tokens.md) |
 | App-level Ant theme | [references/app-theme.md](references/app-theme.md) |
 | Per-component recipes | [references/component-recipes.md](references/component-recipes.md) |
 | Token → prop resolution | [references/token-to-prop-mapping.md](references/token-to-prop-mapping.md) |

@@ -19,6 +19,19 @@ The appearance companion to `shesha-form-edit`'s `form-quality.md`. **Clear spli
 ## Status & semantic colour
 - Status = a `refListStatus` chip coloured from `statusLifecycle.badges` (bg/fg/border) — **never colour alone**, always with the label.
 - Semantic colours are operational status signals only — never decorative.
+- Amber cannot carry white text at any usable saturation — warning is a border/icon accent; warning *text* takes the badge `fg`, not the raw `semantic.warning`. Measured verdicts per token: [ant-baseline.md](ant-baseline.md).
+
+## Theme-owned vs form-owned (grade this first)
+- **Control-level appearance is theme-owned** — button fill/text, input border + focus ring, table header tint and row hover/selected, control height, base radius, base font, semantic colours. A per-component re-declaration of any of these is a finding, not a style: it freezes the value and breaks the App Themer. Brand primary on a button comes from `$antdTheme`, never from the button.
+- **v7 blocks are for composition** — page ground, card/panel surfaces + hairlines, header strips, rail widths and splits, density, chips, header bands. That layer is required [R-042]; skipping it is what makes a form read as default-grey.
+- Every hex in a block traces to a key in the brand token file. `#1890FF` / `#1677FF` anywhere = the theme was bypassed.
+
+## Posture & state (cheap findings, high impact)
+- **Top-aligned.** A form or table centred vertically is wrong — pages grow downward.
+- **One primary action per screen**; destructive is never primary (construction guardrail — see below).
+- **Weight never signals state.** Active/selected uses colour, background, border or an indicator bar; a weight change shifts glyph width and moves the layout.
+- **Read-only is not disabled.** Read-only is content and keeps full ink contrast; disabled is an unavailable action (`ink.faint` + non-interactive cursor). Read-only data drawn in the disabled style is a defect.
+- Placeholder is an example, never the field's only label. Nothing a person must read goes below 14px.
 
 ## Audit output
 Given a screenshot + the theme, return **prop-level fixes** (component · prop path · current vs target · one-line reason), ordered by impact — suggestions, not blockers. Route any *structural* finding back to `shesha-form-edit`; never restructure here.
