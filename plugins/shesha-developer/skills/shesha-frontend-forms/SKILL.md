@@ -49,6 +49,18 @@ Then dispatch the **`shesha-design-critic`** subagent with the composite, the fi
 the render evidence and the active token file. It never sees your spec, so it cannot grade
 intent instead of outcome.
 
+## Before you trust a change to the gates
+
+```bash
+node scripts/shesha.mjs eval --app <p>
+```
+
+Offline regression harness. Its positive half checks a valid form comes out clean; its **negative
+half asserts that a named mutation provokes a named rule id**. That second half is the one that
+matters — a gate chain returning nothing on everything would pass every positive case. It also
+reports what it does not cover, and that a zero spread means *the compiler* is deterministic, not
+that a model is consistent.
+
 ## Instead of reading documents
 
 ```bash

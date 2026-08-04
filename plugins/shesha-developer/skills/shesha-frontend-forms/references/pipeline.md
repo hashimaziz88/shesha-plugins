@@ -168,6 +168,34 @@ Stop, fail-closed. Two defects fixed there are worth remembering: it silently pa
 did not match (now tries several candidates), and it skipped entirely on an unreadable payload
 (now runs the Stop check anyway).
 
+## eval
+
+```bash
+node scripts/shesha.mjs eval --app <p> [--golden <f.json>] [--runs <n>] [--json]
+```
+
+Offline. Grades the gate chain against the chain's **own** verdicts — no judge, no rubric, no
+scoring of prose. Two halves:
+
+- **positive** — a valid form produces zero failures.
+- **negative** — a named mutation must provoke a **named rule id**. A chain that returned nothing
+  on everything would pass every positive case, so this half is what tests the gates rather than
+  trusting them. Firing a *different* rule fails the case; an inapplicable mutation is a **skip
+  with a reason**, never a pass, because "we could not break it" is not evidence.
+
+Negative cases are mutations of currently-valid markup, not fixture files: a broken fixture rots
+silently as the compiler improves.
+
+Plus compile determinism and theme invariance (structure identical, resolved values different —
+identical bytes means the theme is not reaching the output and fails).
+
+**Read a zero spread as "the compiler is deterministic", never as "the model is consistent."**
+Measuring model variance would mean driving a real agent per run and grading N independently
+authored specs; this harness deliberately does not. It prints what it does not cover.
+
+The harness has its own tests, and the load-bearing one asserts that a mutation which breaks
+nothing is graded as a **failure**. An eval harness that cannot fail is decoration.
+
 ## Budget
 
 ```bash

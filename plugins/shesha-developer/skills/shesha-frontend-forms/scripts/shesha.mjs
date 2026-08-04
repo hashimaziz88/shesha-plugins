@@ -27,6 +27,16 @@ import { deriveFrameworkTruth, FrameworkError, resolveAppPaths, runRoundTrip } f
 import { BackendError, DEFAULT_BACKEND, deriveBackendTruth } from './lib/api.mjs';
 import { loadRules, renderManifest, TRIAGE } from './lib/rules.mjs';
 import { normaliseMarkup, runGates } from './lib/gates.mjs';
+import {
+  NEGATIVE_CASES,
+  NOT_COVERED,
+  evalDeterminism,
+  evalNegative,
+  evalPositive,
+  evalThemeInvariance,
+  loadMarkup,
+  summarise,
+} from './lib/evals.mjs';
 import { generateKit, KitError } from './gen-kit.mjs';
 import { PREVIEW_EXIT, PreviewError, renderPreview } from './lib/preview.mjs';
 import { COMPILE_EXIT, CompileError, compileSpec } from './lib/compile.mjs';
@@ -62,6 +72,7 @@ const SUBCOMMANDS = {
   fidelity: 'Compare the approved mock render against the Shesha render',
   smoke: 'Post-push binding smoke test — bindings, not styling',
   ledger: 'Read or repair the persistence ledger',
+  eval: 'Run the objective regression harness over the gate chain',
   build: 'Supervised multi-screen build from a manifest                     [Phase 11]',
 };
 
@@ -1710,8 +1721,128 @@ const HANDLERS = {
   fidelity: cmdFidelity,
   smoke: cmdSmoke,
   ledger: cmdLedger,
+  eval: cmdEval,
   build: unimplemented('build', 11),
 };
+
+const EVAL_HELP = `shesha eval — the objective regression harness
+
+Usage:
+  node shesha.mjs eval --app <path> [--golden <f.json>] [--runs <n>] [--json]
+
+Grades the gate chain against the chain's OWN verdicts. There is no judge, no rubric and no
+scoring of prose — a case passes or fails mechanically.
+
+Two halves, and the second is the one that matters:
+
+  positive   a valid form must produce zero failures
+  negative   a named mutation must provoke a NAMED rule id. A gate chain that returned
+             nothing on everything would pass every positive case, so the negative half is
+             what actually tests the gates instead of trusting them.
+
+Plus compile determinism and theme invariance.
+
+Reads a golden markup document rather than a live app by default, so it runs offline.
+
+Options:
+  --app <path>      the Shesha app, for the derived registry.  REQUIRED
+  --golden <f>      markup to grade. Default: tests/golden/table-worklist.shesha.json
+  --runs <n>        determinism samples. Default: 3
+  --json            machine-readable
+
+Exit codes: 0 all cases pass · 1 a case failed · 64 usage error
+`;
+
+async function cmdEval(flags) {
+  if (flags.help) {
+    process.stdout.write(EVAL_HELP);
+    return EXIT.OK;
+  }
+  if (!flags.app || flags.app === true) {
+    process.stderr.write('eval: --app <path> is required.\n\n' + EVAL_HELP);
+    return EXIT.USAGE;
+  }
+  const appRoot = resolve(flags.app);
+  const gtPath = join(appRoot, '.shesha', 'ground-truth.json');
+  if (!existsSync(gtPath)) {
+    process.stderr.write(`eval: no ground truth at ${gtPath} — run \`probe\` first\n`);
+    return EXIT.USAGE;
+  }
+  const groundTruth = JSON.parse(readFileSync(gtPath, 'utf8'));
+
+  const goldenPath =
+    typeof flags.golden === 'string'
+      ? resolve(flags.golden)
+      : join(SKILL_ROOT, 'tests', 'golden', 'table-worklist.shesha.json');
+  if (!existsSync(goldenPath)) {
+    process.stderr.write(`eval: no golden at ${goldenPath}\n`);
+    return EXIT.USAGE;
+  }
+
+  const markup = loadMarkup(goldenPath);
+  const ctx = { registry: groundTruth.registry, formName: 'eval-golden' };
+  const results = [];
+
+  results.push(evalPositive({ id: 'golden-is-clean', markup, ctx }));
+  for (const testCase of NEGATIVE_CASES) {
+    results.push(evalNegative({ testCase, markup, ctx }));
+  }
+
+  // Determinism is graded on the golden rather than by re-running the JSX compiler, so `eval`
+  // stays offline and fast. The compiler's own determinism is covered by compile.test.mjs.
+  results.push(
+    evalDeterminism({
+      id: 'gate-verdict-stable',
+      runs: Number(flags.runs) || 3,
+      compileOnce: () => {
+        const r = runGates(JSON.parse(JSON.stringify(markup)), ctx, null);
+        // The verdict, not the report object: timestamps or ordering noise would make this look
+        // non-deterministic for reasons that have nothing to do with the gates.
+        return {
+          ok: r.ok,
+          failures: r.failures.map((f) => f.ruleId || f.message),
+          warnings: r.warnings.map((f) => f.ruleId || f.message),
+          rulesRan: [...r.rulesRan].sort(),
+        };
+      },
+    })
+  );
+
+  // Theme invariance uses the two committed goldens if both are present.
+  const wcg = join(SKILL_ROOT, 'tests', 'golden', 'table-worklist.wcg.json');
+  if (existsSync(wcg) && goldenPath.endsWith('table-worklist.shesha.json')) {
+    results.push(
+      evalThemeInvariance({
+        id: 'theme-boundary-holds',
+        byTheme: { shesha: markup, wcg: loadMarkup(wcg) },
+      })
+    );
+  }
+
+  const summary = summarise(results);
+
+  if (flags.json) {
+    process.stdout.write(JSON.stringify({ summary, results, notCovered: NOT_COVERED }, null, 2) + '\n');
+    return summary.ok ? EXIT.OK : EXIT.GATE;
+  }
+
+  process.stdout.write(`eval ${goldenPath}\n\n`);
+  for (const r of results) {
+    const mark = r.skipped ? 'skip' : r.pass ? ' ok ' : 'FAIL';
+    process.stdout.write(`[${mark}] ${r.kind.padEnd(17)} ${r.id}\n`);
+    process.stdout.write(`       ${r.detail || r.reason}\n`);
+    if (r.collateral && r.collateral.length) {
+      process.stdout.write(`       also fired: ${r.collateral.join(', ')}\n`);
+    }
+  }
+  process.stdout.write(
+    `\n${summary.passed} passed, ${summary.failed} failed, ${summary.skipped} skipped\n`
+  );
+  process.stdout.write('\nNOT covered by this harness:\n');
+  for (const n of NOT_COVERED) process.stdout.write(`   - ${n}\n`);
+
+  return summary.ok ? EXIT.OK : EXIT.GATE;
+}
 
 async function main() {
   const argv = process.argv.slice(2);
