@@ -57,6 +57,7 @@
       "props": {
         "title": { "kind": "string", "required": true },
         "subtitle": { "kind": "string" },
+        "identifier": { "kind": "string", "note": "The record's quotable reference, set in mono. Added Phase 10: the record-detail archetype's own note calls for a mono identifier while PageHeader had no prop able to carry one, so the anatomy contradicted its own archetype. Emitted only when supplied, so the worklist header is unchanged." },
         "actions": { "kind": "node" }
       },
       "style": {
@@ -73,7 +74,8 @@
       },
       "parts": {
         "title": { "fontSize": "@type.pageH1", "fontWeight": "@type.weights.emphasis", "letterSpacing": "@type.tracking.pageTitle", "color": "@ink.default" },
-        "subtitle": { "fontSize": "@type.body", "color": "@ink.muted", "marginTop": 6, "maxWidth": 720, "lineHeight": "@type.lineHeight.default" }
+        "subtitle": { "fontSize": "@type.body", "color": "@ink.muted", "marginTop": 6, "maxWidth": 720, "lineHeight": "@type.lineHeight.default" },
+        "identifier": { "fontFamily": "@type.fontMono", "fontSize": "@type.tableCell", "color": "@ink.soft", "marginTop": 6, "letterSpacing": "@type.tracking.microLabel" }
       }
     },
 
@@ -282,7 +284,7 @@
     "QuickSearch": {
       "sheshaType": "datatable.quickSearch",
       "requiresWrapper": "datatableContext",
-      "props": { "placeholder": { "kind": "string" }, "width": { "kind": "width", "default": "fill" } },
+      "props": { "width": { "kind": "width", "default": "fill" } },
       "style": {
         "height": "@controls.inputHeight",
         "padding": "@controls.inputPadding",
@@ -295,13 +297,13 @@
       "parts": {
         "control": { "display": "inline-flex", "alignItems": "center", "width": "100%", "height": "100%" }
       },
-      "note": "The framework's own datatable.quickSearch. It reads the table's data context, so the compiler emits it INSIDE the dataContext wrapper as a sibling of the table — a quick search outside that wrapper searches nothing. placeholder is mock-only: the Shesha component takes its own placeholder."
+      "note": "The framework's own datatable.quickSearch. It reads the table's data context, so the compiler emits it INSIDE the dataContext wrapper as a sibling of the table — a quick search outside that wrapper searches nothing. Its whole settings surface is block / hidden / dimensions / permissions: there is NO placeholder and no height, so the kit exposes neither. The mock therefore renders the same wordless box Shesha does; a placeholder in the mock would be the kit promising a caption the framework cannot carry."
     },
 
     "TableFilter": {
       "sheshaType": "datatable.filter",
       "requiresWrapper": "datatableContext",
-      "props": {},
+      "props": { "label": { "kind": "string", "default": "Filter" } },
       "style": {
         "height": "@controls.buttonHeight",
         "padding": "@controls.buttonPadding",
@@ -512,8 +514,10 @@
       "sheshaType": "tabs",
       "children": "Tab",
       "sheshaSlots": ["tabs"],
-      "style": { "display": "flex", "gap": 28, "borderBottom": "1px solid @line.divider" },
+      "style": { "display": "flex", "flexDirection": "column" },
       "parts": {
+        "strip": { "display": "flex", "gap": 28, "borderBottom": "1px solid @line.divider" },
+        "panel": { "paddingTop": 18 },
         "item": { "paddingTop": 13, "paddingBottom": 13, "fontSize": "@type.body", "fontWeight": "@type.weights.navItem", "color": "@ink.default", "cursor": "pointer" },
         "itemActive": { "fontWeight": "@type.weights.emphasis", "color": "@brand.primary", "borderBottom": "2px solid @brand.primary" }
       }

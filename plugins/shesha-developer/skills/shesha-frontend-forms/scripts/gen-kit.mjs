@@ -370,6 +370,11 @@ function emitRenderBody(name, spec, parts) {
     L.push(`      <div>`);
     L.push(`        <div data-part="title" style={PARTS.title}>{props.title}</div>`);
     L.push(`        {props.subtitle ? <div data-part="subtitle" style={PARTS.subtitle}>{props.subtitle}</div> : null}`);
+    // The record-detail archetype's mono identifier. Emitted only when supplied, so the
+    // worklist header is byte-identical to before this existed. Adding the prop to the anatomy
+    // was necessary but NOT sufficient — it reached __meta and allowedProps and then rendered
+    // nothing, which `preview` showed immediately and no offline gate would have.
+    L.push(`        {props.identifier ? <div data-part="identifier" style={PARTS.identifier}>{props.identifier}</div> : null}`);
     L.push(`      </div>`);
     L.push(`      {props.actions ? <div>{props.actions}</div> : null}`);
     L.push(`      {props.children}`);
@@ -432,24 +437,43 @@ function emitRenderBody(name, spec, parts) {
     L.push(`      <div data-part="title" style={PARTS.title}>{props.title}</div>`);
     L.push(`      {props.hint ? <div data-part="hint" style={PARTS.hint}>{props.hint}</div> : null}`);
   } else if (has('item') && name === 'Tabs') {
-    L.push(`      {React.Children.map(props.children, (t, i) => (`);
-    L.push(`        <div key={i} data-part="item" style={i === 0 ? { ...PARTS.item, ...PARTS.itemActive } : PARTS.item}>`);
-    L.push(`          {t && t.props ? t.props.title : ''}`);
-    L.push(`        </div>`);
-    L.push(`      ))}`);
+    /**
+     * The strip AND the active panel.
+     *
+     * This emitted the tab strip only, so a record-detail mock showed "Profile  Notes" above
+     * empty space while every Card and Field inside the tabs silently vanished. The mock is the
+     * medium the design is judged in — a panel that renders nothing makes the whole archetype
+     * unreviewable, and the compiler downstream was emitting the children all along.
+     *
+     * Only the FIRST tab's children are shown, because that is what a viewer sees on load; the
+     * others are reachable in Shesha, not in a still image.
+     */
+    L.push(`      <div data-part="strip" style={PARTS.strip || { display: 'flex' }}>`);
+    L.push(`        {React.Children.map(props.children, (t, i) => (`);
+    L.push(`          <div key={i} data-part="item" style={i === 0 ? { ...PARTS.item, ...PARTS.itemActive } : PARTS.item}>`);
+    L.push(`            {t && t.props ? t.props.title : ''}`);
+    L.push(`          </div>`);
+    L.push(`        ))}`);
+    L.push(`      </div>`);
+    L.push(`      <div data-part="panel" style={PARTS.panel || {}}>`);
+    L.push(`        {(() => {`);
+    L.push(`          const first = React.Children.toArray(props.children)[0];`);
+    L.push(`          return first && first.props ? first.props.children : null;`);
+    L.push(`        })()}`);
+    L.push(`      </div>`);
   } else if (name === 'QuickSearch') {
     // The framework paints its own antd Search box; the mock only has to show the model
     // that a search affordance occupies this slot, at this size. Its inner flex lives in a
     // PART, not in the component style, because the Shesha type cannot carry a layout
     // channel and emitting one would be a dead style block [R-029].
     L.push(`      <div data-part="control" style={PARTS.control}>`);
-    L.push(`        <span style={{ opacity: 0.5, marginRight: 6 }}>{'\\u2315'}</span>`);
-    L.push(`        <span style={{ opacity: 0.55 }}>{props.placeholder || 'Search'}</span>`);
+    L.push(`        <span style={{ flex: '1 1 0%' }} />`);
+    L.push(`        <span style={{ opacity: 0.5 }}>{'\\u2315'}</span>`);
     L.push(`      </div>`);
   } else if (name === 'TableFilter') {
     L.push(`      <div data-part="control" style={PARTS.control}>`);
     L.push(`        <span style={{ opacity: 0.6, marginRight: 6 }}>{'\\u2261'}</span>`);
-    L.push(`        <span>{'Filter'}</span>`);
+    L.push(`        <span>{props.label || 'Filter'}</span>`);
     L.push(`      </div>`);
   } else if (name === 'StatusPill') {
     L.push(`      <span style={{ padding: '4px 10px', background: E.accent, color: '#ffffff' }}>{props.bind || props.children || 'STATUS'}</span>`);

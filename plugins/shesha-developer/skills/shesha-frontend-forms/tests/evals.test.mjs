@@ -140,4 +140,80 @@ describe('eval harness', () => {
     assert.ok(existsSync(GOLDEN), 'shesha golden missing');
     assert.ok(existsSync(WCG), 'wcg golden missing');
   });
+
+  /**
+   * Every archetype gets the same treatment, so a second archetype cannot ship with weaker
+   * evidence than the first. record-detail was added in Phase 10.
+   */
+  describe('record-detail archetype', () => {
+    const RD = join(SKILL_ROOT, 'tests', 'golden', 'record-detail.shesha.json');
+    const RD_WCG = join(SKILL_ROOT, 'tests', 'golden', 'record-detail.wcg.json');
+
+    it('has a golden per theme, and the themes actually differ', () => {
+      assert.ok(existsSync(RD), 'record-detail shesha golden missing');
+      assert.ok(existsSync(RD_WCG), 'record-detail wcg golden missing');
+      assert.notEqual(
+        readFileSync(RD, 'utf8'),
+        readFileSync(RD_WCG, 'utf8'),
+        'the two themes produced identical bytes — the theme is not reaching the output'
+      );
+    });
+
+    it('grades clean and holds the token boundary', (t) => {
+      if (!ctx) return t.skip('no ground-truth.json');
+      const rd = loadMarkup(RD);
+      const r = evalPositive({ id: 'record-detail', markup: rd, ctx });
+      assert.equal(r.pass, true, `record-detail golden is not clean: ${JSON.stringify(r.failures, null, 2)}`);
+
+      const inv = evalThemeInvariance({
+        id: 'record-detail-theme',
+        byTheme: { shesha: rd, wcg: loadMarkup(RD_WCG) },
+      });
+      assert.equal(inv.pass, true, inv.detail);
+    });
+
+    it('every negative case provokes its rule here too', (t) => {
+      if (!ctx) return t.skip('no ground-truth.json');
+      const rd = loadMarkup(RD);
+      const bad = [];
+      for (const testCase of NEGATIVE_CASES) {
+        const r = evalNegative({ testCase, markup: rd, ctx });
+        // A worklist-shaped mutation (the table binding) has nothing to target here, and a skip
+        // with a reason is the honest outcome rather than a pass.
+        if (r.skipped) continue;
+        if (!r.pass) bad.push(`${testCase.id}: ${r.detail}`);
+      }
+      assert.deepEqual(bad, [], bad.join('\n'));
+    });
+
+    it('carries the typed controls its fields require, not textField for everything', (t) => {
+      if (!ctx) return t.skip('no ground-truth.json');
+      const types = new Set();
+      const walk = (a) => {
+        for (const n of a || []) {
+          types.add(n.type);
+          if (n.components) walk(n.components);
+          for (const s of ['content', 'header']) if (n[s] && n[s].components) walk(n[s].components);
+          for (const tb of n.tabs || []) if (tb.components) walk(tb.components);
+        }
+      };
+      walk(loadMarkup(RD).components);
+      // dateField and numberField are the point: Field declares textField, and the framework's
+      // own dataTypeSupported REFUSES textField for date-time — exit 7, measured. A record-detail
+      // form that compiled with textField everywhere would mean that refusal had been bypassed.
+      for (const required of ['dateField', 'numberField', 'dropdown', 'tabs', 'card']) {
+        assert.ok(types.has(required), `record-detail golden has no ${required}`);
+      }
+    });
+
+    it('emits the header identifier as a real text node', (t) => {
+      if (!ctx) return t.skip('no ground-truth.json');
+      // It rendered in the MOCK and nowhere else until the compiler was fixed: the prop reached
+      // the anatomy and the generator, and the compiler emitted no Shesha node. Neither the three
+      // rendered gates nor the fidelity geometry diff caught it.
+      const raw = readFileSync(RD, 'utf8');
+      assert.match(raw, /recordIdentifier/, 'the PageHeader identifier is not emitted as a component');
+      assert.match(raw, /AST-000481/, 'the identifier content is missing from the compiled form');
+    });
+  });
 });

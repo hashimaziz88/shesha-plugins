@@ -529,6 +529,18 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
         if (spec.style.flexDirection) node.desktop.flexDirection = spec.style.flexDirection;
         if (spec.style.display === 'grid') node.desktop.flexDirection = 'row';
       }
+      /**
+       * The mock nests title and subtitle in one block inside the header's flex row; Shesha
+       * has no such wrapper, so the two text nodes become siblings of that row and the
+       * subtitle lands hard right, level with the title. Measured on a real render. The
+       * header therefore stacks, which is what the anatomy actually depicts.
+       */
+      if (name === 'PageHeader') {
+        node.desktop.display = 'flex';
+        node.desktop.flexDirection = 'column';
+        node.desktop.alignItems = 'flex-start';
+        delete node.desktop.justifyContent;
+      }
       if (props.justify) {
         node.desktop.display = 'flex';
         node.desktop.justifyContent = { start: 'flex-start', end: 'flex-end', between: 'space-between', center: 'center' }[props.justify] || props.justify;
@@ -565,8 +577,64 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
             })
           );
         }
+        /**
+         * The record-detail archetype's mono identifier.
+         *
+         * Added in the same pass that gave PageHeader the prop, because adding it to the anatomy
+         * and the generator made it appear in the MOCK and nowhere else: the compiler emitted no
+         * Shesha node, so preview showed "AST-000481" and the real render did not. A mock that
+         * shows something the form cannot is worse than no mock, since every downstream judgement
+         * is made against it.
+         *
+         * Note what did NOT catch this: all three rendered gates passed, and the fidelity
+         * geometry diff reported agreement — it asserts on cards, tables, row membership and
+         * order, none of which a dropped text node disturbs. Recorded as a known fidelity gap.
+         */
+        if (props.identifier) {
+          children.push(
+            mk('text', `${path}/identifier`, {
+              componentName: 'recordIdentifier',
+              parentId: node.id,
+              textType: 'span',
+              contentDisplay: 'content',
+              contentType: 'custom',
+              content: props.identifier,
+              // fontFamily is NOT a per-component channel in 0.45 (measured, recorded in
+              // measured-facts), so the mono treatment cannot be carried here. Size and colour
+              // can, and they are what distinguish it from the subtitle.
+              desktop: { font: { size: theme.type.tableCell, color: theme.ink.soft } },
+            })
+          );
+        }
       }
       kids.forEach((k, i) => children.push(...emit(k, `${path}/${i}`, node.id)));
+
+      /**
+       * EQUAL-WIDTH TILES.
+       *
+       * Measured: four stat tiles in a flex row shrink-wrap to ~160px each and stop at 54% of
+       * a 1440 viewport, leaving a band of bare canvas — the mock spans the row edge to edge.
+       * The card type carries no dimensions channel (its settings surface has none), so the
+       * width cannot be set on the tile itself. A container CAN carry dimensions, and four
+       * flex children each asking for width:100% divide the row evenly by shrinking. So each
+       * tile is wrapped, and the wrapper does the arithmetic flexbox already knows.
+       */
+      if ((name === 'KeyInfoBar' || name === 'KeyFactsStrip') && children.length > 1) {
+        const wrapped = children.map((child, i) => {
+          const cellId = stableId(seed, `${path}/cell/${i}`);
+          const cell = mk('container', `${path}/cell/${i}`, {
+            componentName: `tileCell${i}${path.replace(/\W/g, '')}`.slice(0, 40),
+            parentId: node.id,
+            desktop: { display: 'flex', flexDirection: 'column', dimensions: { width: '100%' } },
+            components: [{ ...child, parentId: cellId }],
+          });
+          cell.id = cellId;
+          return cell;
+        });
+        node.components = wrapped;
+        return [node];
+      }
+
       node.components = children;
       return [node];
     }
@@ -607,7 +675,47 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
       }
       const content = [];
       kids.forEach((k, i) => content.push(...emit(k, `${path}/${i}`, contentId)));
-      node.header = { id: headerId, components: header };
+
+      /**
+       * THE SECTION BAND is built, not delegated to Ant's card head.
+       *
+       * Measured on a real render: everything placed in the card's header slot lands in
+       * `.ant-card-extra`, which Ant right-aligns and shrink-wraps — so a title and a meta
+       * count come out touching each other in the far right corner (title at x=1249, meta at
+       * x=1354 of a 1368-wide band) instead of spanning it. A width:100% child cannot fix
+       * that, because it is 100% of a box that is already only as wide as its text.
+       *
+       * So the heading is suppressed and the band is emitted as the first row of the card
+       * CONTENT: title left, meta right, divider underneath. That also keeps the brand-green
+       * 15/600 title, which Ant's own card head would overrule.
+       */
+      if (header.length) {
+        node.hideHeading = true;
+        const bandId = stableId(seed, `${path}/band`);
+        const band = mk('container', `${path}/band`, {
+          componentName: `cardBand${path.replace(/\W/g, '')}`.slice(0, 40),
+          parentId: contentId,
+          desktop: {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            dimensions: { width: '100%' },
+            border: {
+              borderType: 'custom',
+              radiusType: 'all',
+              border: { bottom: { width: 1, style: 'solid', color: theme.line.divider } },
+              radius: {},
+            },
+          },
+          stylingBox: JSON.stringify({ paddingBottom: '12', marginBottom: '16' }),
+          components: header.map((h) => ({ ...h, parentId: bandId })),
+        });
+        band.id = bandId;
+        content.unshift(band);
+      }
+
+      node.header = { id: headerId, components: [] };
       node.content = { id: contentId, components: content };
       return [node];
     }
@@ -729,6 +837,12 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
             hidden: false,
             block: false,
           });
+          // datatable.filter exposes label / buttonType; an unlabelled funnel icon reads as
+          // furniture rather than as an affordance.
+          if (k.__kit === 'TableFilter') {
+            node.label = (k.props && k.props.label) || kSpec.props.label.default;
+            node.buttonType = 'default';
+          }
           const d = styleFor(kSpec.sheshaType, kSpec.style, theme, registry, report, `${k.__kit}@${kPath}`);
           if (d) node.desktop = d;
           if (k.props && k.props.width && k.props.width !== 'fill') {
@@ -769,16 +883,36 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
         isInline: true,
         items: buttons.map((b, i) => {
           const variant = b.props.variant || 'secondary';
+          // A Button inside a group is never emit()ed, so its JSX text is still sitting in
+          // its own children array rather than in props.children.
+          const text =
+            typeof b.props.children === 'string'
+              ? b.props.children
+              : (b.children || []).filter((c) => typeof c === 'string').join('');
           const item = {
             id: stableId(seed, `${path}/btn/${i}`),
             itemType: 'item',
             sortOrder: i,
             itemSubType: 'button',
             name: `btn${i}`,
-            label: typeof b.props.children === 'string' ? b.props.children : b.props.action || 'Action',
-            buttonType: variant === 'primary' ? 'primary' : 'default',
+            label: text || b.props.action || 'Action',
+            /**
+             * The kit's five variants over antd's six buttonTypes, which are the only legal
+             * values here (framework enum: default, primary, dashed, link, text, ghost):
+             * primary is filled, neutral/outline are bordered, and secondary/danger are
+             * transparent labels distinguished by COLOUR — so the tone rides on font.color,
+             * the channel the button's own settings surface exposes.
+             */
+            buttonType:
+              variant === 'primary' ? 'primary' : variant === 'neutral' || variant === 'outline' ? 'default' : 'link',
             actionConfiguration: actionFor(b.props, stableId(seed, `${path}/ctxref`)),
           };
+          // Set the key only when there is a tone to carry: an explicit `font: undefined`
+          // survives in memory, disappears through JSON, and makes the golden compare fail
+          // against output that is byte-identical once serialised.
+          const tone =
+            variant === 'danger' ? theme.semantic.danger : variant === 'secondary' ? theme.brand.primary : null;
+          if (tone) item.font = { color: tone, weight: String(theme.type.weights.emphasis) };
           return item;
         }),
       });
@@ -927,7 +1061,20 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
   const formSettings = {
     layout: 'vertical',
     colon: false,
-    labelCol: { span: 0 },
+    /**
+     * MEASURED, and this was a silent label-killer.
+     *
+     * `labelCol: {span: 0}` looked right for a vertical layout — the label is not in a side
+     * column, so zero seemed like "no column". It is not: antd gives the label ROW that span,
+     * so span 0 collapses every field label to nothing. The markup was perfect (label set,
+     * hideLabel false) and the rendered form showed bare inputs.
+     *
+     * The worklist archetype has no labelled inputs, so nothing caught it until record-detail
+     * became the first archetype with fields. The value below is transcribed from
+     * boxfusion.test/patient-details, a real form on this backend whose labels do render: with
+     * layout vertical it carries labelCol {span: 24}, the full width of the row above the input.
+     */
+    labelCol: { span: 24 },
     wrapperCol: { span: 24 },
     /**
      * The runtime form-settings migration chain ends at .add(8). Stamping 8 avoids replaying

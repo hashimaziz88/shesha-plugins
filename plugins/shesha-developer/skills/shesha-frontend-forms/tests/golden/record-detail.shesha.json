@@ -1,0 +1,737 @@
+{
+  "formSettings": {
+    "layout": "vertical",
+    "colon": false,
+    "labelCol": {
+      "span": 24
+    },
+    "wrapperCol": {
+      "span": 24
+    },
+    "version": 8,
+    "access": 3,
+    "dataLoaderType": "gql",
+    "dataSubmitterType": "none",
+    "dataLoadersSettings": {
+      "gql": {
+        "endpointType": "default"
+      }
+    },
+    "dataSubmittersSettings": {
+      "gql": {
+        "endpointType": "default"
+      }
+    },
+    "modelType": {
+      "name": "Astronaut",
+      "module": "boxfusion.test"
+    }
+  },
+  "components": [
+    {
+      "id": "XZR240okKUDeP7Undi0Vlf6NoHCrKe",
+      "type": "container",
+      "parentId": "root",
+      "version": 7,
+      "componentName": "pageRoot",
+      "desktop": {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": 16,
+        "background": {
+          "type": "color",
+          "color": "#f0f2f5"
+        }
+      },
+      "stylingBox": "{\"paddingTop\":\"24\",\"paddingBottom\":\"48\",\"paddingLeft\":\"32\",\"paddingRight\":\"32\"}",
+      "components": [
+        {
+          "id": "Iz3cYnn5tCAn2I2sqL_sUWW8g0C2n5",
+          "type": "container",
+          "parentId": "XZR240okKUDeP7Undi0Vlf6NoHCrKe",
+          "version": 7,
+          "componentName": "pageHeaderr0",
+          "desktop": {
+            "display": "flex",
+            "alignItems": "flex-start",
+            "gap": 10,
+            "background": {
+              "type": "color",
+              "color": "#ffffff"
+            },
+            "flexDirection": "column"
+          },
+          "stylingBox": "{\"paddingTop\":\"14\",\"paddingBottom\":\"16\",\"paddingLeft\":\"28\",\"paddingRight\":\"28\"}",
+          "components": [
+            {
+              "id": "EqmCrP2IDY0kXRikb3wHNuXffJsFC3",
+              "type": "text",
+              "parentId": "Iz3cYnn5tCAn2I2sqL_sUWW8g0C2n5",
+              "version": 5,
+              "componentName": "pageTitle",
+              "textType": "span",
+              "contentDisplay": "content",
+              "contentType": "custom",
+              "content": "Neil Harrow",
+              "desktop": {
+                "font": {
+                  "size": 24,
+                  "weight": "600",
+                  "color": "#1f1f1f"
+                }
+              }
+            },
+            {
+              "id": "HUphfBrCfAyv08HvhzQHxOKxmzM34p",
+              "type": "text",
+              "parentId": "Iz3cYnn5tCAn2I2sqL_sUWW8g0C2n5",
+              "version": 5,
+              "componentName": "pageSubtitle",
+              "textType": "span",
+              "contentDisplay": "content",
+              "contentType": "custom",
+              "content": "Mission specialist, cleared for extra-vehicular activity",
+              "desktop": {
+                "font": {
+                  "size": 14,
+                  "color": "#4a4a4a"
+                }
+              }
+            },
+            {
+              "id": "bp1dYslQ5NzOCF6zwVKUmI0x3NP-BG",
+              "type": "text",
+              "parentId": "Iz3cYnn5tCAn2I2sqL_sUWW8g0C2n5",
+              "version": 5,
+              "componentName": "recordIdentifier",
+              "textType": "span",
+              "contentDisplay": "content",
+              "contentType": "custom",
+              "content": "AST-000481",
+              "desktop": {
+                "font": {
+                  "size": 13,
+                  "color": "#6b7280"
+                }
+              }
+            },
+            {
+              "id": "casyS4uZqXD8BkaQs4Hhk87CrVNdSe",
+              "type": "refListStatus",
+              "parentId": "Iz3cYnn5tCAn2I2sqL_sUWW8g0C2n5",
+              "version": 6,
+              "componentName": "statusr00",
+              "propertyName": "specialisationRole",
+              "desktop": {
+                "border": {
+                  "borderType": "all",
+                  "radiusType": "all",
+                  "radius": {
+                    "all": 12
+                  }
+                }
+              },
+              "referenceListId": {
+                "module": "boxfusion.test",
+                "name": "SpecialisationRole"
+              }
+            }
+          ]
+        },
+        {
+          "id": "JOKGtoBINr5tT0GVujxfrKcZG_GslH",
+          "type": "container",
+          "parentId": "XZR240okKUDeP7Undi0Vlf6NoHCrKe",
+          "version": 7,
+          "componentName": "keyFactsStripr1",
+          "desktop": {
+            "display": "flex",
+            "gap": 0,
+            "background": {
+              "type": "color",
+              "color": "#ffffff"
+            },
+            "border": {
+              "borderType": "all",
+              "radiusType": "all",
+              "border": {
+                "all": {
+                  "width": 1,
+                  "style": "solid",
+                  "color": "#e5e7eb"
+                }
+              },
+              "radius": {
+                "all": 8
+              }
+            }
+          },
+          "stylingBox": "{\"marginTop\":\"18\"}",
+          "components": [
+            {
+              "id": "u1UGyo8RaOsRXDkoglBxHBjOSzdzVL",
+              "type": "container",
+              "parentId": "JOKGtoBINr5tT0GVujxfrKcZG_GslH",
+              "version": 7,
+              "componentName": "tileCell0r1",
+              "desktop": {
+                "display": "flex",
+                "flexDirection": "column",
+                "dimensions": {
+                  "width": "100%"
+                }
+              },
+              "components": [
+                {
+                  "id": "WLKwAyZ2rD1jSP6elYUxpBf9fhqS50",
+                  "type": "text",
+                  "parentId": "u1UGyo8RaOsRXDkoglBxHBjOSzdzVL",
+                  "version": 5,
+                  "componentName": "factr10",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "content": "Specialisation"
+                }
+              ]
+            },
+            {
+              "id": "M3lbPI_fd1L_gjybOQ5p5EQdzvXm69",
+              "type": "container",
+              "parentId": "JOKGtoBINr5tT0GVujxfrKcZG_GslH",
+              "version": 7,
+              "componentName": "tileCell1r1",
+              "desktop": {
+                "display": "flex",
+                "flexDirection": "column",
+                "dimensions": {
+                  "width": "100%"
+                }
+              },
+              "components": [
+                {
+                  "id": "ZDRnjJqmn0cU1Tms8BBMZOs6P02YRm",
+                  "type": "text",
+                  "parentId": "M3lbPI_fd1L_gjybOQ5p5EQdzvXm69",
+                  "version": 5,
+                  "componentName": "factr11",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "content": "Nationality"
+                }
+              ]
+            },
+            {
+              "id": "VEgZiYUwCp6Sh4w62OAv9ozZsmob1-",
+              "type": "container",
+              "parentId": "JOKGtoBINr5tT0GVujxfrKcZG_GslH",
+              "version": 7,
+              "componentName": "tileCell2r1",
+              "desktop": {
+                "display": "flex",
+                "flexDirection": "column",
+                "dimensions": {
+                  "width": "100%"
+                }
+              },
+              "components": [
+                {
+                  "id": "ECzjg7USZGDg6AIwoWz6sc4bpXza0f",
+                  "type": "text",
+                  "parentId": "VEgZiYUwCp6Sh4w62OAv9ozZsmob1-",
+                  "version": 5,
+                  "componentName": "factr12",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "content": "Experience"
+                }
+              ]
+            },
+            {
+              "id": "Dj1qL2QNuPDXHN2YvdolEuUoDHfelr",
+              "type": "container",
+              "parentId": "JOKGtoBINr5tT0GVujxfrKcZG_GslH",
+              "version": 7,
+              "componentName": "tileCell3r1",
+              "desktop": {
+                "display": "flex",
+                "flexDirection": "column",
+                "dimensions": {
+                  "width": "100%"
+                }
+              },
+              "components": [
+                {
+                  "id": "Spnkxy1BVSz1-6l3fNXHAYZV0f-BSj",
+                  "type": "text",
+                  "parentId": "Dj1qL2QNuPDXHN2YvdolEuUoDHfelr",
+                  "version": 5,
+                  "componentName": "factr13",
+                  "textType": "span",
+                  "contentDisplay": "content",
+                  "contentType": "custom",
+                  "content": "Date of birth"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "VboIX8II2lyXCUYNgwTD5-gXcq29DP",
+          "type": "validationErrors",
+          "parentId": "XZR240okKUDeP7Undi0Vlf6NoHCrKe",
+          "version": 0,
+          "componentName": "validationSummaryr2"
+        },
+        {
+          "id": "mFxhE_1_RPL-P2XVjda8KAkh7m3XLT",
+          "type": "tabs",
+          "parentId": "XZR240okKUDeP7Undi0Vlf6NoHCrKe",
+          "version": 4,
+          "componentName": "tabsr3",
+          "desktop": {
+            "display": "flex",
+            "flexDirection": "column"
+          },
+          "tabs": [
+            {
+              "id": "VoKNDaCVaJOdXsSMiO6kOMt3ItgboY",
+              "key": "1",
+              "title": "Profile",
+              "components": [
+                {
+                  "id": "JzRPOxKzpovlU6VzjHQr5_6r7CBcbW",
+                  "type": "card",
+                  "parentId": "VoKNDaCVaJOdXsSMiO6kOMt3ItgboY",
+                  "version": 3,
+                  "componentName": "cardr3tab00",
+                  "desktop": {
+                    "background": {
+                      "type": "color",
+                      "color": "#ffffff"
+                    },
+                    "border": {
+                      "borderType": "all",
+                      "radiusType": "all",
+                      "border": {
+                        "all": {
+                          "width": 1,
+                          "style": "solid",
+                          "color": "#e5e7eb"
+                        }
+                      },
+                      "radius": {
+                        "all": 8
+                      }
+                    }
+                  },
+                  "hideHeading": true,
+                  "header": {
+                    "id": "WxW6ifR9HHJkIsqPUxR2W67GiKAn6z",
+                    "components": []
+                  },
+                  "content": {
+                    "id": "obR9vzNJgc696drCYUr2HngFMn_PJK",
+                    "components": [
+                      {
+                        "id": "_j0fvQiihS5-Rc_p_chP16VwHW-5MA",
+                        "type": "container",
+                        "parentId": "obR9vzNJgc696drCYUr2HngFMn_PJK",
+                        "version": 7,
+                        "componentName": "cardBandr3tab00",
+                        "desktop": {
+                          "display": "flex",
+                          "flexDirection": "row",
+                          "justifyContent": "space-between",
+                          "alignItems": "center",
+                          "dimensions": {
+                            "width": "100%"
+                          },
+                          "border": {
+                            "borderType": "custom",
+                            "radiusType": "all",
+                            "border": {
+                              "bottom": {
+                                "width": 1,
+                                "style": "solid",
+                                "color": "#f0f0f0"
+                              }
+                            },
+                            "radius": {}
+                          }
+                        },
+                        "stylingBox": "{\"paddingBottom\":\"12\",\"marginBottom\":\"16\"}",
+                        "components": [
+                          {
+                            "id": "EOuQjpZNDYjADYzcFivNNiJ48vcHrC",
+                            "type": "text",
+                            "parentId": "_j0fvQiihS5-Rc_p_chP16VwHW-5MA",
+                            "version": 5,
+                            "componentName": "cardTitler3tab00",
+                            "textType": "span",
+                            "contentDisplay": "content",
+                            "contentType": "custom",
+                            "content": "Identity",
+                            "desktop": {
+                              "font": {
+                                "size": 15,
+                                "weight": "600",
+                                "color": "#0d685a"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "uBu0ndRyWrglpywTkAFRunj0kf10Cr",
+                        "type": "text",
+                        "parentId": "obR9vzNJgc696drCYUr2HngFMn_PJK",
+                        "version": 5,
+                        "componentName": "sectionlabelr3tab000",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "PERSONAL",
+                        "desktop": {
+                          "font": {
+                            "size": 11,
+                            "weight": "600",
+                            "color": "#97a8a3"
+                          }
+                        },
+                        "stylingBox": "{\"marginBottom\":\"10\"}"
+                      },
+                      {
+                        "id": "2vuBtWM6-kaRlwOA4aVcRhDnOjTWyy",
+                        "type": "textField",
+                        "parentId": "obR9vzNJgc696drCYUr2HngFMn_PJK",
+                        "version": 6,
+                        "componentName": "fullName",
+                        "propertyName": "fullName",
+                        "label": "Full name",
+                        "editMode": "editable",
+                        "hideLabel": false
+                      },
+                      {
+                        "id": "lIXDaIMs6LnTyy3y1FERiGUgnHQEM5",
+                        "type": "dateField",
+                        "parentId": "obR9vzNJgc696drCYUr2HngFMn_PJK",
+                        "version": 7,
+                        "componentName": "dateOfBirth",
+                        "propertyName": "dateOfBirth",
+                        "label": "Date of birth",
+                        "editMode": "editable",
+                        "hideLabel": false
+                      },
+                      {
+                        "id": "3a6kC4yvxDHFBoPnbXMU26ggORxz0r",
+                        "type": "textField",
+                        "parentId": "obR9vzNJgc696drCYUr2HngFMn_PJK",
+                        "version": 6,
+                        "componentName": "nationality",
+                        "propertyName": "nationality",
+                        "label": "Nationality",
+                        "editMode": "editable",
+                        "hideLabel": false
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "R6k336cl2FPsAuMy2ROI-T37XX_Tg_",
+                  "type": "card",
+                  "parentId": "VoKNDaCVaJOdXsSMiO6kOMt3ItgboY",
+                  "version": 3,
+                  "componentName": "cardr3tab01",
+                  "desktop": {
+                    "background": {
+                      "type": "color",
+                      "color": "#ffffff"
+                    },
+                    "border": {
+                      "borderType": "all",
+                      "radiusType": "all",
+                      "border": {
+                        "all": {
+                          "width": 1,
+                          "style": "solid",
+                          "color": "#e5e7eb"
+                        }
+                      },
+                      "radius": {
+                        "all": 8
+                      }
+                    }
+                  },
+                  "hideHeading": true,
+                  "header": {
+                    "id": "_c2lBy2qb88HjjkkhUuEWs2-4KrKMN",
+                    "components": []
+                  },
+                  "content": {
+                    "id": "FKwkidYcHKbCpM2nspMzMubbevO7-E",
+                    "components": [
+                      {
+                        "id": "-_6gITwc7WZj7lghZwI-TzRLcZNvkx",
+                        "type": "container",
+                        "parentId": "FKwkidYcHKbCpM2nspMzMubbevO7-E",
+                        "version": 7,
+                        "componentName": "cardBandr3tab01",
+                        "desktop": {
+                          "display": "flex",
+                          "flexDirection": "row",
+                          "justifyContent": "space-between",
+                          "alignItems": "center",
+                          "dimensions": {
+                            "width": "100%"
+                          },
+                          "border": {
+                            "borderType": "custom",
+                            "radiusType": "all",
+                            "border": {
+                              "bottom": {
+                                "width": 1,
+                                "style": "solid",
+                                "color": "#f0f0f0"
+                              }
+                            },
+                            "radius": {}
+                          }
+                        },
+                        "stylingBox": "{\"paddingBottom\":\"12\",\"marginBottom\":\"16\"}",
+                        "components": [
+                          {
+                            "id": "nlOgLvhBWM7bPce9HWy0YvN0dryVe5",
+                            "type": "text",
+                            "parentId": "-_6gITwc7WZj7lghZwI-TzRLcZNvkx",
+                            "version": 5,
+                            "componentName": "cardTitler3tab01",
+                            "textType": "span",
+                            "contentDisplay": "content",
+                            "contentType": "custom",
+                            "content": "Flight record",
+                            "desktop": {
+                              "font": {
+                                "size": 15,
+                                "weight": "600",
+                                "color": "#0d685a"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "nQkpNExLB62eOhPG4Cbzv9Jpeiyuiq",
+                        "type": "numberField",
+                        "parentId": "FKwkidYcHKbCpM2nspMzMubbevO7-E",
+                        "version": 5,
+                        "componentName": "yearsOfSpaceExperience",
+                        "propertyName": "yearsOfSpaceExperience",
+                        "label": "Years of experience",
+                        "editMode": "editable",
+                        "hideLabel": false
+                      },
+                      {
+                        "id": "7-XnAnoe3Xgb6OLfgbzeJbkV7Rw6Io",
+                        "type": "dropdown",
+                        "parentId": "FKwkidYcHKbCpM2nspMzMubbevO7-E",
+                        "version": 11,
+                        "componentName": "specialisationRole",
+                        "propertyName": "specialisationRole",
+                        "label": "Specialisation",
+                        "editMode": "editable",
+                        "hideLabel": false,
+                        "referenceListId": {
+                          "module": "boxfusion.test",
+                          "name": "SpecialisationRole"
+                        },
+                        "dataSourceType": "referenceList"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "wN_aQprlS_I1XRjEe1XkMd832ARCgt",
+              "key": "2",
+              "title": "Notes",
+              "components": [
+                {
+                  "id": "41NL1gMgXlRKOyYRdVYs6a0xenGd6M",
+                  "type": "card",
+                  "parentId": "wN_aQprlS_I1XRjEe1XkMd832ARCgt",
+                  "version": 3,
+                  "componentName": "cardr3tab10",
+                  "desktop": {
+                    "background": {
+                      "type": "color",
+                      "color": "#ffffff"
+                    },
+                    "border": {
+                      "borderType": "all",
+                      "radiusType": "all",
+                      "border": {
+                        "all": {
+                          "width": 1,
+                          "style": "solid",
+                          "color": "#e5e7eb"
+                        }
+                      },
+                      "radius": {
+                        "all": 8
+                      }
+                    }
+                  },
+                  "hideHeading": true,
+                  "header": {
+                    "id": "wpnbn5WA4p2bB3i9CWSOa5B2osE-Cj",
+                    "components": []
+                  },
+                  "content": {
+                    "id": "4yEojntZc59G_HboERqzJaX6szn-nD",
+                    "components": [
+                      {
+                        "id": "qoxL5w3vGueIjAXWEfzrxmxWyciiUe",
+                        "type": "container",
+                        "parentId": "4yEojntZc59G_HboERqzJaX6szn-nD",
+                        "version": 7,
+                        "componentName": "cardBandr3tab10",
+                        "desktop": {
+                          "display": "flex",
+                          "flexDirection": "row",
+                          "justifyContent": "space-between",
+                          "alignItems": "center",
+                          "dimensions": {
+                            "width": "100%"
+                          },
+                          "border": {
+                            "borderType": "custom",
+                            "radiusType": "all",
+                            "border": {
+                              "bottom": {
+                                "width": 1,
+                                "style": "solid",
+                                "color": "#f0f0f0"
+                              }
+                            },
+                            "radius": {}
+                          }
+                        },
+                        "stylingBox": "{\"paddingBottom\":\"12\",\"marginBottom\":\"16\"}",
+                        "components": [
+                          {
+                            "id": "5i-aeXOWxNk4otDWXSjXRHIKeueB8d",
+                            "type": "text",
+                            "parentId": "qoxL5w3vGueIjAXWEfzrxmxWyciiUe",
+                            "version": 5,
+                            "componentName": "cardTitler3tab10",
+                            "textType": "span",
+                            "contentDisplay": "content",
+                            "contentType": "custom",
+                            "content": "Remarks",
+                            "desktop": {
+                              "font": {
+                                "size": 15,
+                                "weight": "600",
+                                "color": "#0d685a"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "id": "gHjobrT39dXQPwMZtalEoQ_vlIG0Vh",
+                        "type": "textField",
+                        "parentId": "4yEojntZc59G_HboERqzJaX6szn-nD",
+                        "version": 6,
+                        "componentName": "fullName",
+                        "propertyName": "fullName",
+                        "label": "Recorded by",
+                        "editMode": "readOnly",
+                        "hideLabel": false
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "vvUHR1vE6dSvzNnQTLpTtP56WlKvO2",
+          "type": "container",
+          "parentId": "XZR240okKUDeP7Undi0Vlf6NoHCrKe",
+          "version": 7,
+          "componentName": "actionRowr4",
+          "desktop": {
+            "display": "flex",
+            "justifyContent": "flex-end",
+            "gap": 10,
+            "background": {
+              "type": "color",
+              "color": "#fafafa"
+            }
+          },
+          "stylingBox": "{\"paddingTop\":\"14\",\"paddingBottom\":\"14\",\"paddingLeft\":\"22\",\"paddingRight\":\"22\"}",
+          "components": [
+            {
+              "id": "phEKWwFxkxEHDVZvFSMFA4wu3681mg",
+              "type": "buttonGroup",
+              "parentId": "vvUHR1vE6dSvzNnQTLpTtP56WlKvO2",
+              "version": 15,
+              "componentName": "actionsr40",
+              "isInline": true,
+              "items": [
+                {
+                  "id": "eUY4EUmshNjK3wI7Vhv_kQMwLN_Lfa",
+                  "itemType": "item",
+                  "sortOrder": 0,
+                  "itemSubType": "button",
+                  "name": "btn0",
+                  "label": "Back",
+                  "buttonType": "link",
+                  "actionConfiguration": {
+                    "_type": "action-config",
+                    "actionName": "Execute Script",
+                    "actionOwner": "shesha.common",
+                    "actionArguments": {
+                      "expression": "return true;"
+                    },
+                    "handleSuccess": false,
+                    "handleFail": false
+                  },
+                  "font": {
+                    "color": "#0d685a",
+                    "weight": "600"
+                  }
+                },
+                {
+                  "id": "m4zHZGPlhJtsdSfStdaSrpj60X2BRG",
+                  "itemType": "item",
+                  "sortOrder": 1,
+                  "itemSubType": "button",
+                  "name": "btn1",
+                  "label": "Save",
+                  "buttonType": "primary",
+                  "actionConfiguration": {
+                    "_type": "action-config",
+                    "actionName": "Execute Script",
+                    "actionOwner": "shesha.common",
+                    "actionArguments": {
+                      "expression": "return true;"
+                    },
+                    "handleSuccess": false,
+                    "handleFail": false
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

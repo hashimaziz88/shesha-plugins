@@ -3,7 +3,7 @@
     "layout": "vertical",
     "colon": false,
     "labelCol": {
-      "span": 0
+      "span": 24
     },
     "wrapperCol": {
       "span": 24
@@ -53,13 +53,13 @@
           "componentName": "pageHeaderr0",
           "desktop": {
             "display": "flex",
-            "justifyContent": "space-between",
-            "alignItems": "flex-end",
+            "alignItems": "flex-start",
             "gap": 10,
             "background": {
               "type": "color",
               "color": "#ffffff"
-            }
+            },
+            "flexDirection": "column"
           },
           "stylingBox": "{\"paddingTop\":\"14\",\"paddingBottom\":\"16\",\"paddingLeft\":\"28\",\"paddingRight\":\"28\"}",
           "components": [
@@ -114,384 +114,448 @@
           },
           "components": [
             {
-              "id": "gjg0IJt5WCPVtS1gcDQGjs4pf4Q3oL",
-              "type": "card",
+              "id": "qK3MSYzyzH_QnxT6tkQKE_p0QhoE1u",
+              "type": "container",
               "parentId": "vySy8eOeHjf4eSm8OPqjdVChqsIBoM",
-              "version": 3,
-              "componentName": "statr10",
+              "version": 7,
+              "componentName": "tileCell0r1",
               "desktop": {
-                "background": {
-                  "type": "color",
-                  "color": "#ffffff"
-                },
-                "border": {
-                  "borderType": "custom",
-                  "radiusType": "all",
-                  "border": {
-                    "all": {
-                      "width": 1,
-                      "style": "solid",
-                      "color": "#e2e5ea"
-                    },
-                    "left": {
-                      "width": 3,
-                      "style": "solid",
-                      "color": "#d7dbe2"
-                    }
-                  },
-                  "radius": {
-                    "all": 6
-                  }
+                "display": "flex",
+                "flexDirection": "column",
+                "dimensions": {
+                  "width": "100%"
                 }
               },
-              "stylingBox": "{\"paddingTop\":\"18\",\"paddingBottom\":\"18\",\"paddingLeft\":\"20\",\"paddingRight\":\"20\"}",
-              "header": {
-                "id": "oYo-NIHCU-nIUsEQ3b870GxJgxnqCD",
-                "components": []
-              },
-              "content": {
-                "id": "RgyOf-uKwn2rlulgaXGTaUHjy1C5hw",
-                "components": [
-                  {
-                    "id": "TLMlkJqcPT1OMmmobyLi9tq1kFhFdo",
-                    "type": "text",
-                    "parentId": "RgyOf-uKwn2rlulgaXGTaUHjy1C5hw",
-                    "version": 5,
-                    "componentName": "statLabelr10",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "contentType": "custom",
-                    "content": "TOTAL CREW",
-                    "desktop": {
-                      "font": {
-                        "size": 11,
-                        "weight": "700",
-                        "color": "#6b7785"
+              "components": [
+                {
+                  "id": "gjg0IJt5WCPVtS1gcDQGjs4pf4Q3oL",
+                  "type": "card",
+                  "parentId": "qK3MSYzyzH_QnxT6tkQKE_p0QhoE1u",
+                  "version": 3,
+                  "componentName": "statr10",
+                  "desktop": {
+                    "background": {
+                      "type": "color",
+                      "color": "#ffffff"
+                    },
+                    "border": {
+                      "borderType": "custom",
+                      "radiusType": "all",
+                      "border": {
+                        "all": {
+                          "width": 1,
+                          "style": "solid",
+                          "color": "#e2e5ea"
+                        },
+                        "left": {
+                          "width": 3,
+                          "style": "solid",
+                          "color": "#d7dbe2"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
                       }
                     }
                   },
-                  {
-                    "id": "_-kO5QBlgAXyZpKEmy1ahI54cF65Yk",
-                    "type": "text",
-                    "parentId": "RgyOf-uKwn2rlulgaXGTaUHjy1C5hw",
-                    "version": 5,
-                    "componentName": "statValuer10",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "contentType": "custom",
-                    "content": "128",
-                    "desktop": {
-                      "font": {
-                        "size": 26,
-                        "weight": "700",
-                        "color": "#1f2733"
-                      }
-                    }
+                  "stylingBox": "{\"paddingTop\":\"18\",\"paddingBottom\":\"18\",\"paddingLeft\":\"20\",\"paddingRight\":\"20\"}",
+                  "header": {
+                    "id": "oYo-NIHCU-nIUsEQ3b870GxJgxnqCD",
+                    "components": []
                   },
-                  {
-                    "id": "8H1sXBIRO8Ms9im6bg86sxZvgQ5LPW",
-                    "type": "text",
-                    "parentId": "RgyOf-uKwn2rlulgaXGTaUHjy1C5hw",
-                    "version": 5,
-                    "componentName": "statCaptionr10",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "contentType": "custom",
-                    "content": "across 9 missions",
-                    "desktop": {
-                      "font": {
-                        "size": 12,
-                        "color": "#6b7785"
+                  "content": {
+                    "id": "RgyOf-uKwn2rlulgaXGTaUHjy1C5hw",
+                    "components": [
+                      {
+                        "id": "TLMlkJqcPT1OMmmobyLi9tq1kFhFdo",
+                        "type": "text",
+                        "parentId": "RgyOf-uKwn2rlulgaXGTaUHjy1C5hw",
+                        "version": 5,
+                        "componentName": "statLabelr10",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "TOTAL CREW",
+                        "desktop": {
+                          "font": {
+                            "size": 11,
+                            "weight": "700",
+                            "color": "#6b7785"
+                          }
+                        }
+                      },
+                      {
+                        "id": "_-kO5QBlgAXyZpKEmy1ahI54cF65Yk",
+                        "type": "text",
+                        "parentId": "RgyOf-uKwn2rlulgaXGTaUHjy1C5hw",
+                        "version": 5,
+                        "componentName": "statValuer10",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "128",
+                        "desktop": {
+                          "font": {
+                            "size": 26,
+                            "weight": "700",
+                            "color": "#1f2733"
+                          }
+                        }
+                      },
+                      {
+                        "id": "8H1sXBIRO8Ms9im6bg86sxZvgQ5LPW",
+                        "type": "text",
+                        "parentId": "RgyOf-uKwn2rlulgaXGTaUHjy1C5hw",
+                        "version": 5,
+                        "componentName": "statCaptionr10",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "across 9 missions",
+                        "desktop": {
+                          "font": {
+                            "size": 12,
+                            "color": "#6b7785"
+                          }
+                        }
                       }
-                    }
+                    ]
                   }
-                ]
-              }
+                }
+              ]
             },
             {
-              "id": "FTg2b8A7bdvtnY58qHRUtsZA7Wzwml",
-              "type": "card",
+              "id": "dLHRH803vtlORrsKHvb5fpX0sLp8D-",
+              "type": "container",
               "parentId": "vySy8eOeHjf4eSm8OPqjdVChqsIBoM",
-              "version": 3,
-              "componentName": "statr11",
+              "version": 7,
+              "componentName": "tileCell1r1",
               "desktop": {
-                "background": {
-                  "type": "color",
-                  "color": "#ffffff"
-                },
-                "border": {
-                  "borderType": "custom",
-                  "radiusType": "all",
-                  "border": {
-                    "all": {
-                      "width": 1,
-                      "style": "solid",
-                      "color": "#e2e5ea"
-                    },
-                    "left": {
-                      "width": 3,
-                      "style": "solid",
-                      "color": "#1A3E6F"
-                    }
-                  },
-                  "radius": {
-                    "all": 6
-                  }
+                "display": "flex",
+                "flexDirection": "column",
+                "dimensions": {
+                  "width": "100%"
                 }
               },
-              "stylingBox": "{\"paddingTop\":\"18\",\"paddingBottom\":\"18\",\"paddingLeft\":\"20\",\"paddingRight\":\"20\"}",
-              "header": {
-                "id": "P4vVRrDrU11pmt9xv3xr86A017JPgC",
-                "components": []
-              },
-              "content": {
-                "id": "jQQxQJ_QNfYd-BKAfv6lYna0xYU4kx",
-                "components": [
-                  {
-                    "id": "7Wb6kbuwAWDVCuiJ_mRFL1WOWybQs3",
-                    "type": "text",
-                    "parentId": "jQQxQJ_QNfYd-BKAfv6lYna0xYU4kx",
-                    "version": 5,
-                    "componentName": "statLabelr11",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "contentType": "custom",
-                    "content": "ZERO-G CLEARED",
-                    "desktop": {
-                      "font": {
-                        "size": 11,
-                        "weight": "700",
-                        "color": "#6b7785"
+              "components": [
+                {
+                  "id": "FTg2b8A7bdvtnY58qHRUtsZA7Wzwml",
+                  "type": "card",
+                  "parentId": "dLHRH803vtlORrsKHvb5fpX0sLp8D-",
+                  "version": 3,
+                  "componentName": "statr11",
+                  "desktop": {
+                    "background": {
+                      "type": "color",
+                      "color": "#ffffff"
+                    },
+                    "border": {
+                      "borderType": "custom",
+                      "radiusType": "all",
+                      "border": {
+                        "all": {
+                          "width": 1,
+                          "style": "solid",
+                          "color": "#e2e5ea"
+                        },
+                        "left": {
+                          "width": 3,
+                          "style": "solid",
+                          "color": "#1A3E6F"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
                       }
                     }
                   },
-                  {
-                    "id": "ivcH1Uw13ckhoLCy7TBeDuFQdbt5bD",
-                    "type": "text",
-                    "parentId": "jQQxQJ_QNfYd-BKAfv6lYna0xYU4kx",
-                    "version": 5,
-                    "componentName": "statValuer11",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "contentType": "custom",
-                    "content": "94",
-                    "desktop": {
-                      "font": {
-                        "size": 26,
-                        "weight": "700",
-                        "color": "#1f2733"
-                      }
-                    }
+                  "stylingBox": "{\"paddingTop\":\"18\",\"paddingBottom\":\"18\",\"paddingLeft\":\"20\",\"paddingRight\":\"20\"}",
+                  "header": {
+                    "id": "P4vVRrDrU11pmt9xv3xr86A017JPgC",
+                    "components": []
                   },
-                  {
-                    "id": "VR-4Ldq2XZzk9vDe6GeiwcYRMqdI-4",
-                    "type": "text",
-                    "parentId": "jQQxQJ_QNfYd-BKAfv6lYna0xYU4kx",
-                    "version": 5,
-                    "componentName": "statCaptionr11",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "contentType": "custom",
-                    "content": "training complete",
-                    "desktop": {
-                      "font": {
-                        "size": 12,
-                        "color": "#6b7785"
+                  "content": {
+                    "id": "jQQxQJ_QNfYd-BKAfv6lYna0xYU4kx",
+                    "components": [
+                      {
+                        "id": "7Wb6kbuwAWDVCuiJ_mRFL1WOWybQs3",
+                        "type": "text",
+                        "parentId": "jQQxQJ_QNfYd-BKAfv6lYna0xYU4kx",
+                        "version": 5,
+                        "componentName": "statLabelr11",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "ZERO-G CLEARED",
+                        "desktop": {
+                          "font": {
+                            "size": 11,
+                            "weight": "700",
+                            "color": "#6b7785"
+                          }
+                        }
+                      },
+                      {
+                        "id": "ivcH1Uw13ckhoLCy7TBeDuFQdbt5bD",
+                        "type": "text",
+                        "parentId": "jQQxQJ_QNfYd-BKAfv6lYna0xYU4kx",
+                        "version": 5,
+                        "componentName": "statValuer11",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "94",
+                        "desktop": {
+                          "font": {
+                            "size": 26,
+                            "weight": "700",
+                            "color": "#1f2733"
+                          }
+                        }
+                      },
+                      {
+                        "id": "VR-4Ldq2XZzk9vDe6GeiwcYRMqdI-4",
+                        "type": "text",
+                        "parentId": "jQQxQJ_QNfYd-BKAfv6lYna0xYU4kx",
+                        "version": 5,
+                        "componentName": "statCaptionr11",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "training complete",
+                        "desktop": {
+                          "font": {
+                            "size": 12,
+                            "color": "#6b7785"
+                          }
+                        }
                       }
-                    }
+                    ]
                   }
-                ]
-              }
+                }
+              ]
             },
             {
-              "id": "PgALrc-b8Yx9y8Iyt7oBFWKOh2LIhG",
-              "type": "card",
+              "id": "fDhxtnP-a_mDLsMy0mR9L7BJAhuuPU",
+              "type": "container",
               "parentId": "vySy8eOeHjf4eSm8OPqjdVChqsIBoM",
-              "version": 3,
-              "componentName": "statr12",
+              "version": 7,
+              "componentName": "tileCell2r1",
               "desktop": {
-                "background": {
-                  "type": "color",
-                  "color": "#ffffff"
-                },
-                "border": {
-                  "borderType": "custom",
-                  "radiusType": "all",
-                  "border": {
-                    "all": {
-                      "width": 1,
-                      "style": "solid",
-                      "color": "#e2e5ea"
-                    },
-                    "left": {
-                      "width": 3,
-                      "style": "solid",
-                      "color": "#d99a06"
-                    }
-                  },
-                  "radius": {
-                    "all": 6
-                  }
+                "display": "flex",
+                "flexDirection": "column",
+                "dimensions": {
+                  "width": "100%"
                 }
               },
-              "stylingBox": "{\"paddingTop\":\"18\",\"paddingBottom\":\"18\",\"paddingLeft\":\"20\",\"paddingRight\":\"20\"}",
-              "header": {
-                "id": "GbX2rFEzfRyv7Q1XdnLgEd3dhwNTUe",
-                "components": []
-              },
-              "content": {
-                "id": "iyLBIXSmhqaKNIloK5m5K0ykXvF9F3",
-                "components": [
-                  {
-                    "id": "_0WQFCm0n8P62IR4SjI3Wh4hAHc8I7",
-                    "type": "text",
-                    "parentId": "iyLBIXSmhqaKNIloK5m5K0ykXvF9F3",
-                    "version": 5,
-                    "componentName": "statLabelr12",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "contentType": "custom",
-                    "content": "IN TRAINING",
-                    "desktop": {
-                      "font": {
-                        "size": 11,
-                        "weight": "700",
-                        "color": "#6b7785"
+              "components": [
+                {
+                  "id": "PgALrc-b8Yx9y8Iyt7oBFWKOh2LIhG",
+                  "type": "card",
+                  "parentId": "fDhxtnP-a_mDLsMy0mR9L7BJAhuuPU",
+                  "version": 3,
+                  "componentName": "statr12",
+                  "desktop": {
+                    "background": {
+                      "type": "color",
+                      "color": "#ffffff"
+                    },
+                    "border": {
+                      "borderType": "custom",
+                      "radiusType": "all",
+                      "border": {
+                        "all": {
+                          "width": 1,
+                          "style": "solid",
+                          "color": "#e2e5ea"
+                        },
+                        "left": {
+                          "width": 3,
+                          "style": "solid",
+                          "color": "#d99a06"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
                       }
                     }
                   },
-                  {
-                    "id": "AilTP53muu3QOqe-kMvqC9W2ZhuDgM",
-                    "type": "text",
-                    "parentId": "iyLBIXSmhqaKNIloK5m5K0ykXvF9F3",
-                    "version": 5,
-                    "componentName": "statValuer12",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "contentType": "custom",
-                    "content": "26",
-                    "desktop": {
-                      "font": {
-                        "size": 26,
-                        "weight": "700",
-                        "color": "#1f2733"
-                      }
-                    }
+                  "stylingBox": "{\"paddingTop\":\"18\",\"paddingBottom\":\"18\",\"paddingLeft\":\"20\",\"paddingRight\":\"20\"}",
+                  "header": {
+                    "id": "GbX2rFEzfRyv7Q1XdnLgEd3dhwNTUe",
+                    "components": []
                   },
-                  {
-                    "id": "7jVH-dZaJHAwwsYY8EA3i1K-Uz2CsE",
-                    "type": "text",
-                    "parentId": "iyLBIXSmhqaKNIloK5m5K0ykXvF9F3",
-                    "version": 5,
-                    "componentName": "statCaptionr12",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "contentType": "custom",
-                    "content": "not yet cleared",
-                    "desktop": {
-                      "font": {
-                        "size": 12,
-                        "color": "#6b7785"
+                  "content": {
+                    "id": "iyLBIXSmhqaKNIloK5m5K0ykXvF9F3",
+                    "components": [
+                      {
+                        "id": "_0WQFCm0n8P62IR4SjI3Wh4hAHc8I7",
+                        "type": "text",
+                        "parentId": "iyLBIXSmhqaKNIloK5m5K0ykXvF9F3",
+                        "version": 5,
+                        "componentName": "statLabelr12",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "IN TRAINING",
+                        "desktop": {
+                          "font": {
+                            "size": 11,
+                            "weight": "700",
+                            "color": "#6b7785"
+                          }
+                        }
+                      },
+                      {
+                        "id": "AilTP53muu3QOqe-kMvqC9W2ZhuDgM",
+                        "type": "text",
+                        "parentId": "iyLBIXSmhqaKNIloK5m5K0ykXvF9F3",
+                        "version": 5,
+                        "componentName": "statValuer12",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "26",
+                        "desktop": {
+                          "font": {
+                            "size": 26,
+                            "weight": "700",
+                            "color": "#1f2733"
+                          }
+                        }
+                      },
+                      {
+                        "id": "7jVH-dZaJHAwwsYY8EA3i1K-Uz2CsE",
+                        "type": "text",
+                        "parentId": "iyLBIXSmhqaKNIloK5m5K0ykXvF9F3",
+                        "version": 5,
+                        "componentName": "statCaptionr12",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "not yet cleared",
+                        "desktop": {
+                          "font": {
+                            "size": 12,
+                            "color": "#6b7785"
+                          }
+                        }
                       }
-                    }
+                    ]
                   }
-                ]
-              }
+                }
+              ]
             },
             {
-              "id": "KNcERYNPFEiflAlxl8hFE1iHVwK1E2",
-              "type": "card",
+              "id": "yZYue75GNQFCVV9IIv41dEUOwWFC5W",
+              "type": "container",
               "parentId": "vySy8eOeHjf4eSm8OPqjdVChqsIBoM",
-              "version": 3,
-              "componentName": "statr13",
+              "version": 7,
+              "componentName": "tileCell3r1",
               "desktop": {
-                "background": {
-                  "type": "color",
-                  "color": "#ffffff"
-                },
-                "border": {
-                  "borderType": "custom",
-                  "radiusType": "all",
-                  "border": {
-                    "all": {
-                      "width": 1,
-                      "style": "solid",
-                      "color": "#e2e5ea"
-                    },
-                    "left": {
-                      "width": 3,
-                      "style": "solid",
-                      "color": "#c0392b"
-                    }
-                  },
-                  "radius": {
-                    "all": 6
-                  }
+                "display": "flex",
+                "flexDirection": "column",
+                "dimensions": {
+                  "width": "100%"
                 }
               },
-              "stylingBox": "{\"paddingTop\":\"18\",\"paddingBottom\":\"18\",\"paddingLeft\":\"20\",\"paddingRight\":\"20\"}",
-              "header": {
-                "id": "PPP1LYkr8enYPkSuDRuGVVRYm5c_fa",
-                "components": []
-              },
-              "content": {
-                "id": "0n5rWCvbbqtcyOKWaHzCOewHUFzn6j",
-                "components": [
-                  {
-                    "id": "Yu4ufeN4z5YdXyF2qO-kFQeH676vBd",
-                    "type": "text",
-                    "parentId": "0n5rWCvbbqtcyOKWaHzCOewHUFzn6j",
-                    "version": 5,
-                    "componentName": "statLabelr13",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "contentType": "custom",
-                    "content": "GROUNDED",
-                    "desktop": {
-                      "font": {
-                        "size": 11,
-                        "weight": "700",
-                        "color": "#6b7785"
+              "components": [
+                {
+                  "id": "KNcERYNPFEiflAlxl8hFE1iHVwK1E2",
+                  "type": "card",
+                  "parentId": "yZYue75GNQFCVV9IIv41dEUOwWFC5W",
+                  "version": 3,
+                  "componentName": "statr13",
+                  "desktop": {
+                    "background": {
+                      "type": "color",
+                      "color": "#ffffff"
+                    },
+                    "border": {
+                      "borderType": "custom",
+                      "radiusType": "all",
+                      "border": {
+                        "all": {
+                          "width": 1,
+                          "style": "solid",
+                          "color": "#e2e5ea"
+                        },
+                        "left": {
+                          "width": 3,
+                          "style": "solid",
+                          "color": "#c0392b"
+                        }
+                      },
+                      "radius": {
+                        "all": 6
                       }
                     }
                   },
-                  {
-                    "id": "YW-IaDfvZXDMpvlr1dVqqSH4B_aGkQ",
-                    "type": "text",
-                    "parentId": "0n5rWCvbbqtcyOKWaHzCOewHUFzn6j",
-                    "version": 5,
-                    "componentName": "statValuer13",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "contentType": "custom",
-                    "content": "8",
-                    "desktop": {
-                      "font": {
-                        "size": 26,
-                        "weight": "700",
-                        "color": "#1f2733"
-                      }
-                    }
+                  "stylingBox": "{\"paddingTop\":\"18\",\"paddingBottom\":\"18\",\"paddingLeft\":\"20\",\"paddingRight\":\"20\"}",
+                  "header": {
+                    "id": "PPP1LYkr8enYPkSuDRuGVVRYm5c_fa",
+                    "components": []
                   },
-                  {
-                    "id": "9ubv8PdKrCYSibTHRjsEa4-cRwq933",
-                    "type": "text",
-                    "parentId": "0n5rWCvbbqtcyOKWaHzCOewHUFzn6j",
-                    "version": 5,
-                    "componentName": "statCaptionr13",
-                    "textType": "span",
-                    "contentDisplay": "content",
-                    "contentType": "custom",
-                    "content": "medical or disciplinary",
-                    "desktop": {
-                      "font": {
-                        "size": 12,
-                        "color": "#6b7785"
+                  "content": {
+                    "id": "0n5rWCvbbqtcyOKWaHzCOewHUFzn6j",
+                    "components": [
+                      {
+                        "id": "Yu4ufeN4z5YdXyF2qO-kFQeH676vBd",
+                        "type": "text",
+                        "parentId": "0n5rWCvbbqtcyOKWaHzCOewHUFzn6j",
+                        "version": 5,
+                        "componentName": "statLabelr13",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "GROUNDED",
+                        "desktop": {
+                          "font": {
+                            "size": 11,
+                            "weight": "700",
+                            "color": "#6b7785"
+                          }
+                        }
+                      },
+                      {
+                        "id": "YW-IaDfvZXDMpvlr1dVqqSH4B_aGkQ",
+                        "type": "text",
+                        "parentId": "0n5rWCvbbqtcyOKWaHzCOewHUFzn6j",
+                        "version": 5,
+                        "componentName": "statValuer13",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "8",
+                        "desktop": {
+                          "font": {
+                            "size": 26,
+                            "weight": "700",
+                            "color": "#1f2733"
+                          }
+                        }
+                      },
+                      {
+                        "id": "9ubv8PdKrCYSibTHRjsEa4-cRwq933",
+                        "type": "text",
+                        "parentId": "0n5rWCvbbqtcyOKWaHzCOewHUFzn6j",
+                        "version": 5,
+                        "componentName": "statCaptionr13",
+                        "textType": "span",
+                        "contentDisplay": "content",
+                        "contentType": "custom",
+                        "content": "medical or disciplinary",
+                        "desktop": {
+                          "font": {
+                            "size": 12,
+                            "color": "#6b7785"
+                          }
+                        }
                       }
-                    }
+                    ]
                   }
-                ]
-              }
+                }
+              ]
             }
           ]
         },
@@ -521,49 +585,80 @@
               }
             }
           },
+          "hideHeading": true,
           "header": {
             "id": "hy6QhGpB0qLnl6eDtT04jBaoH5fXzD",
-            "components": [
-              {
-                "id": "4UAQLAHPVuv2fVMXw8LTfP88zYy72w",
-                "type": "text",
-                "parentId": "hy6QhGpB0qLnl6eDtT04jBaoH5fXzD",
-                "version": 5,
-                "componentName": "cardTitler2",
-                "textType": "span",
-                "contentDisplay": "content",
-                "contentType": "custom",
-                "content": "Crew register",
-                "desktop": {
-                  "font": {
-                    "size": 14,
-                    "weight": "600",
-                    "color": "#1A3E6F"
-                  }
-                }
-              },
-              {
-                "id": "nhm9i9wj47BXnSoGgBK6kFaZEblzqK",
-                "type": "text",
-                "parentId": "hy6QhGpB0qLnl6eDtT04jBaoH5fXzD",
-                "version": 5,
-                "componentName": "cardMetar2",
-                "textType": "span",
-                "contentDisplay": "content",
-                "contentType": "custom",
-                "content": "128 records",
-                "desktop": {
-                  "font": {
-                    "size": 12,
-                    "color": "#6b7785"
-                  }
-                }
-              }
-            ]
+            "components": []
           },
           "content": {
             "id": "1A6xb9NyPw9YxqjLhmiRim2j0yx56Z",
             "components": [
+              {
+                "id": "HH-toTUxGtYg908m_UrY2Kz7W5KQbc",
+                "type": "container",
+                "parentId": "1A6xb9NyPw9YxqjLhmiRim2j0yx56Z",
+                "version": 7,
+                "componentName": "cardBandr2",
+                "desktop": {
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "alignItems": "center",
+                  "dimensions": {
+                    "width": "100%"
+                  },
+                  "border": {
+                    "borderType": "custom",
+                    "radiusType": "all",
+                    "border": {
+                      "bottom": {
+                        "width": 1,
+                        "style": "solid",
+                        "color": "#f0f2f5"
+                      }
+                    },
+                    "radius": {}
+                  }
+                },
+                "stylingBox": "{\"paddingBottom\":\"12\",\"marginBottom\":\"16\"}",
+                "components": [
+                  {
+                    "id": "4UAQLAHPVuv2fVMXw8LTfP88zYy72w",
+                    "type": "text",
+                    "parentId": "HH-toTUxGtYg908m_UrY2Kz7W5KQbc",
+                    "version": 5,
+                    "componentName": "cardTitler2",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "contentType": "custom",
+                    "content": "Crew register",
+                    "desktop": {
+                      "font": {
+                        "size": 14,
+                        "weight": "600",
+                        "color": "#1A3E6F"
+                      }
+                    }
+                  },
+                  {
+                    "id": "nhm9i9wj47BXnSoGgBK6kFaZEblzqK",
+                    "type": "text",
+                    "parentId": "HH-toTUxGtYg908m_UrY2Kz7W5KQbc",
+                    "version": 5,
+                    "componentName": "cardMetar2",
+                    "textType": "span",
+                    "contentDisplay": "content",
+                    "contentType": "custom",
+                    "content": "128 records",
+                    "desktop": {
+                      "font": {
+                        "size": 12,
+                        "color": "#6b7785"
+                      }
+                    }
+                  }
+                ]
+              },
               {
                 "id": "pOb4ddqlQ3IHLpOVIll6NSXW6MaaOa",
                 "type": "container",
@@ -590,14 +685,18 @@
                         "sortOrder": 0,
                         "itemSubType": "button",
                         "name": "btn0",
-                        "label": "refresh",
-                        "buttonType": "default",
+                        "label": "Refresh",
+                        "buttonType": "link",
                         "actionConfiguration": {
                           "_type": "action-config",
                           "actionName": "Refresh table",
                           "actionOwner": "x4YeP9DUHX4ymJyv8b0mLbhz_czNZc",
                           "handleSuccess": false,
                           "handleFail": false
+                        },
+                        "font": {
+                          "color": "#1A3E6F",
+                          "weight": "600"
                         }
                       },
                       {
@@ -606,7 +705,7 @@
                         "sortOrder": 1,
                         "itemSubType": "button",
                         "name": "btn1",
-                        "label": "add",
+                        "label": "New astronaut",
                         "buttonType": "primary",
                         "actionConfiguration": {
                           "actionName": "Show Dialog",
@@ -633,7 +732,7 @@
                 "textType": "span",
                 "contentDisplay": "content",
                 "contentType": "custom",
-                "content": "",
+                "content": "ACTIVE ROSTER",
                 "desktop": {
                   "font": {
                     "size": 11,

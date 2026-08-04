@@ -173,6 +173,22 @@ export async function renderForms({
             () => {
               const spinning = document.querySelectorAll('.ant-spin-spinning, .ant-skeleton-active').length;
               if (spinning > 0) return false;
+              /**
+               * A grid that is still fetching is NOT ready, even though the page around it is.
+               *
+               * Measured: this exact check passed on a screenshot whose table showed
+               * "loading…" and zero rows — the datatable's own loader is not an .ant-spin, so
+               * the spinner test above misses it. Anti-vanilla and anatomy then measured a
+               * table with headers and no body. If a grid exists it must have either rows or
+               * an explicit empty state before anything is measured.
+               */
+              const grids = [...document.querySelectorAll('[role="table"], table')];
+              for (const g of grids) {
+                if (/(^|\s)loading/i.test(g.textContent || '')) return false;
+                const rows = g.querySelectorAll('[role="cell"], tbody tr').length;
+                const empty = g.parentElement && g.parentElement.querySelector('.ant-empty');
+                if (rows === 0 && !empty) return false;
+              }
               // Real form output, not the shell: a rendered component container, a table, or
               // an input. The shell provides none of these.
               const content = document.querySelectorAll(
@@ -336,23 +352,51 @@ export async function smokeForm({
     const url = `${frontendUrl.replace(/\/+$/, '')}/dynamic/${encodeURIComponent(form.module)}/${encodeURIComponent(form.name)}`;
     say(`loading ${form.module}/${form.name} for the binding smoke`);
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 90000 });
+    /**
+     * Wait for a grid rather than for a fixed 2.5s.
+     *
+     * Measured: at 2.5s this app is still showing "Initializing…", so the smoke read an empty
+     * document, found no tables, and reported PASS with `tables: []`. A binding check that
+     * cannot see the grid must not pass — hence both the wait and the no-grid failure below.
+     */
+    await page
+      .waitForSelector('table, [role="table"], .sha-react-table', { timeout: 45000 })
+      .catch(() => null);
     await page.waitForTimeout(2500);
 
     /**
      * Read the rendered table: header captions, row count, and how many cells are non-empty.
      * A correct count with empty cells is the exact PascalCase failure, and it is invisible
      * to any offline check.
+     *
+     * Shesha's datatable is NOT an antd Table — it is a div-based react-table
+     * (.sha-react-table / .sha-table) with ARIA roles and no <table> element, so a
+     * thead/th/td query matches nothing on every worklist this skill builds.
      */
     const observed = await page.evaluate(() => {
-      const tables = [...document.querySelectorAll('table')];
       const out = [];
-      for (const t of tables) {
+
+      for (const t of [...document.querySelectorAll('table')]) {
         const headers = [...t.querySelectorAll('thead th')].map((th) => (th.textContent || '').trim()).filter(Boolean);
         const rows = [...t.querySelectorAll('tbody tr')];
         const cells = rows.flatMap((r) => [...r.querySelectorAll('td')]);
         const nonEmpty = cells.filter((c) => (c.textContent || '').trim().length > 0).length;
-        out.push({ headers, rowCount: rows.length, cellCount: cells.length, nonEmptyCells: nonEmpty });
+        out.push({ kind: 'html-table', headers, rowCount: rows.length, cellCount: cells.length, nonEmptyCells: nonEmpty });
       }
+
+      for (const t of [...document.querySelectorAll('[role="table"]')]) {
+        const headers = [...t.querySelectorAll('[role="columnheader"]')]
+          .map((h) => (h.textContent || '').trim())
+          .filter(Boolean);
+        const rows = [...t.querySelectorAll('[role="row"]')].filter(
+          (r) => !r.classList.contains('tr-head') && r.querySelector('[role="cell"]')
+        );
+        const cells = rows.flatMap((r) => [...r.querySelectorAll('[role="cell"]')]);
+        const nonEmpty = cells.filter((c) => (c.textContent || '').trim().length > 0).length;
+        out.push({ kind: 'sha-react-table', headers, rowCount: rows.length, cellCount: cells.length, nonEmptyCells: nonEmpty });
+      }
+
+      const tables = out;
       const pagerText = [...document.querySelectorAll('.ant-pagination-total-text, .sha-pager, [class*="pager"]')]
         .map((e) => (e.textContent || '').trim())
         .filter(Boolean);
@@ -376,8 +420,21 @@ export async function smokeForm({
         }
       }
     }
-    if (observed.tables.length === 0 && expectedBindings.length) {
-      failures.push(`expected a table with ${expectedBindings.length} bound column(s) but none rendered`);
+    if (observed.tables.length === 0) {
+      // No grid at all is a BLIND smoke, not a clean one. Passing here is how a worklist
+      // with every cell blank would have been reported as verified.
+      failures.push(
+        expectedBindings.length
+          ? `expected a table with ${expectedBindings.length} bound column(s) but none rendered`
+          : 'no table rendered, so no binding could be observed — the smoke saw nothing and therefore proves nothing'
+      );
+    }
+    for (const t of observed.tables) {
+      if (t.rowCount === 0) {
+        failures.push(
+          `a ${t.kind} rendered ${t.headers.length} column header(s) but ZERO rows — bindings cannot be observed against an empty result set`
+        );
+      }
     }
 
     const result = {

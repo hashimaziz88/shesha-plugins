@@ -122,6 +122,20 @@ rather than failing on a navigationType it does not recognise.
 `undefined` as submitting, which demanded a Submit button on three read-only list views. Absent is
 not enabled.
 
+## Form settings
+
+**`labelCol: {span: 0}` silently kills every field label.**
+
+It looks right for a vertical layout — the label is not in a side column, so zero reads as "no
+column". antd gives the label ROW that span, so 0 collapses every label to nothing. The markup was
+perfect (`label` set, `hideLabel: false`) and the rendered form showed bare inputs.
+
+With `layout: vertical`, use **`labelCol: {span: 24}`** — transcribed from
+`boxfusion.test/patient-details`, a real form on this backend whose labels do render.
+
+Nothing caught this for eight phases because the table-worklist archetype has no labelled inputs.
+Record-detail was the first archetype with fields.
+
 ## Structure
 
 **A slot child's `parentId` is the SLOT's id, not the owning component's.**

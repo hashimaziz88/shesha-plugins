@@ -259,14 +259,25 @@ describe('the compiled table-worklist', () => {
     }
   });
 
-  it('fills the card header band, which the shipped PBF form leaves empty', async (t) => {
+  it('builds the card section band as the first content row, not in Ant card head', async (t) => {
     if (!gt) return t.skip('no ground-truth.json');
     const { markup } = await compile();
     const cards = allComponents(markup).filter((h) => h.node.type === 'card' && h.node.componentName.startsWith('card'));
     assert.ok(cards.length >= 1);
     const card = cards[0].node;
-    assert.ok(card.header && card.header.components.length > 0, 'the card header band is empty');
-    const title = card.header.components[0];
+    /**
+     * Measured on a real render: anything in the card's header slot lands in
+     * `.ant-card-extra`, which Ant right-aligns and shrink-wraps, so a title and a meta count
+     * come out touching in the far corner instead of spanning the band. The band is therefore
+     * BUILT as the first row of card content, with the Ant heading suppressed.
+     */
+    assert.equal(card.hideHeading, true, 'the Ant card heading should be suppressed');
+    assert.equal(card.header.components.length, 0, 'nothing may sit in the right-aligned header slot');
+    const band = card.content.components[0];
+    assert.equal(band.type, 'container', 'the first content row should be the section band');
+    assert.equal(band.desktop.display, 'flex');
+    assert.equal(band.desktop.justifyContent, 'space-between', 'title left, meta right');
+    const title = band.components[0];
     assert.equal(title.desktop.font.color, '#0d685a', 'the band title should carry the brand primary');
   });
 

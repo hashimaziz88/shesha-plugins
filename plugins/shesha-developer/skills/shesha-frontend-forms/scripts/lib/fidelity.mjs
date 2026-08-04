@@ -142,6 +142,23 @@ export function compareGeometry({ mockGeometry, sheshaGeometry }) {
   if (!rolesObservable) {
     notAsserted.push('roles: this render was captured before class names were recorded — re-run `render`');
   }
+  /**
+   * A KNOWN GAP, stated rather than quietly tolerated.
+   *
+   * This diff asserts on cards, tables, row membership and vertical order. A STATIC TEXT NODE the
+   * compiler dropped disturbs none of them, so it passes. That is not hypothetical: the
+   * record-detail header's mono identifier rendered in the mock and was absent from the real form,
+   * and this diff reported agreement while all three rendered gates passed.
+   *
+   * A content-membership axis was tried and NOT shipped: the capture aggregates parent text and
+   * truncates at 80 characters, so the mock side reads "Neil HarrowMission specialist, cleared
+   * for extra-vehicular a" — matching that against the render produces false positives, and this
+   * project has spent enough of its budget removing those. Closing it properly means capturing
+   * leaf text only, which is a change to the capture, not to the comparison.
+   */
+  notAsserted.push(
+    'static text membership: a text node present in the mock and dropped by the compiler is NOT caught here — compare the composite by eye, or have the critic do it'
+  );
 
   /**
    * CARD COUNT is the load-bearing structural assertion available on both sides without
