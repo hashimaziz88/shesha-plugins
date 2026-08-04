@@ -14,10 +14,9 @@ Audit the form `$ARGUMENTS` without modifying it:
 3. `render-instrument.js --form <module>/<name>` (pass `--expect-data` through).
 4. Dispatch the `form-auditor` agent with the markup + findings, and the
    `design-critic` agent with ALL its inputs — the instrument screenshot, the
-   form's blueprint assertions, and the active theme token path. Where no
-   blueprint exists for the audited form, dispatch the critic in its
-   no-blueprint mode (judges styled-ness + layout-quality only; verdict JSON
-   carries `"mode":"no-assertions"`) and report the verdict flagged
-   "no-assertions".
+   canonical `.evidence.json`, the mechanical placement verdict (or "no blueprint,
+   no placement verdict"), the active theme token path, and `artDirection` when the
+   blueprint carries it. The critic judges design only; it never scores placement.
 5. Report: one table of findings by rule id, the instrument verdict, the
-   critic verdict, and a fix list ordered by severity. Change nothing.
+   critic verdict (`excellent | acceptable | generic | broken`) with its top-3
+   fixes, and a fix list ordered by severity. Change nothing.

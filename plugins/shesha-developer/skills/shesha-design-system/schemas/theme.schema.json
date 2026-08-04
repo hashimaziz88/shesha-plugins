@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "shesha-theme.schema.json",
+  "version": "1.0.0",
+  "title": "Shesha brand theme (token file)",
+  "description": "The contract for a brand token file in shesha-design-system/assets/themes. Validated against the RESOLVED theme — after `extends` inheritance has been flattened in memory by shesha-form-edit/scripts/compile/resolve-theme.mjs — so an override file may legally omit anything its base supplies, and a theme the compiler cannot fully resolve is a COMPILE ERROR, never a silent neutral fallback [R-042].",
+  "$comment": "FOUR TIERS live in one file, and confusing them is how design intent dies quietly:\n\n  1. DESIGN TOKENS (`palette`, `type`, `spacing`, `radius`, `shadow`, `chrome`, `statusLifecycle`) — the desired design, expressed as literal values. The single source of truth; nothing else in this file may restate a value it can reference.\n  2. COMPILE-TIME ROLES (`roles`) — the ONLY channel the compiler reads. Every `tk()` lookup in compile-node.mjs resolves a role name (or a tier-1 token path) through here, so a role the compiler reads and this file omits is a dropped value, which is why `required` below enumerates exactly that set. Role values are token REFERENCES into tier 1, not literals.\n  3. APP-THEME VALUES SHESHA CAN PERSIST (`$antdTheme`) — the 'set once' app-level layer, applied verbatim through Configuration Studio / the settings API. It is a DELIVERABLE, not a compiler input: the compiler never reads it.\n  4. UNSUPPORTED / UNDELIVERABLE (`$deliveryLimits`) — design values 0.45 cannot carry at the app level. Per R-051 the app-level theme endpoint accepts only primaryColor/errorColor/warningColor/successColor/infoColor plus layout/text roles; `processingColor`, `text.link` and the whole antd `token`/`components` block are SILENTLY DROPPED on write. That is why tier 3 is not the styling mechanism and tier 2 exists: anything tier 3 cannot deliver is compiled per-component from tier 2 instead.\n\nSemantic checks that a JSON Schema cannot express live beside it in resolve-theme.mjs: dangling token references (a `roles.*` value pointing at a tier-1 path nothing resolves) and the WCAG AA 4.5:1 body-text contrast floor.",
+  "type": "object",
+  "required": ["$brand", "palette", "type", "spacing", "radius", "shadow", "chrome", "statusLifecycle", "roles", "$antdTheme"],
+  "properties": {
+    "$brand": { "type": "string", "minLength": 1, "description": "brand id; matches the file name minus `.tokens.json` for a shipped theme" },
+    "extends": {
+      "type": "string",
+      "minLength": 1,
+      "description": "base theme this file overrides — a shipped theme NAME (resolved in assets/themes) or a path relative to this file. Inheritance is a deep merge: objects merge key-by-key, arrays and scalars are replaced wholesale. Resolution is depth-limited and cycle-safe."
+    },
+    "$comment": { "type": "string" },
+    "$source": { "type": "string", "description": "where the values were sampled from — provenance, never compiled" },
+    "$description": { "type": "string" },
+    "$weightPolicy": { "type": "string" },
+    "$deliveryLimits": {
+      "type": "array",
+      "description": "TIER 4 — design values this brand wants that 0.45 cannot persist at the app level [R-051], and the compile-time channel used instead. Documentation for the next reader; never compiled.",
+      "items": { "type": "string", "minLength": 1 }
+    },
+
+    "palette": {
+      "type": "object",
+      "description": "TIER 1 — literal brand colour values. Every colour in the theme originates here.",
+      "required": ["brand", "surfaces", "lines", "ink", "semantic"],
+      "properties": {
+        "brand": {
+          "type": "object",
+          "required": ["primary", "primaryHover", "primaryActive", "tint", "tintSoft", "focusRing"],
+          "patternProperties": { "^\\$": { "type": "string" }, "^[a-zA-Z]": { "$ref": "#/$defs/colour" } },
+          "additionalProperties": false
+        },
+        "accent": {
+          "type": "object",
+          "patternProperties": { "^\\$": { "type": "string" }, "^[a-zA-Z]": { "$ref": "#/$defs/colour" } },
+          "additionalProperties": false
+        },
+        "surfaces": {
+          "type": "object",
+          "description": "canvas is the page ground, surface the card ground — the pair the body-text contrast check measures against",
+          "required": ["canvas", "surface", "surfaceAlt", "surfaceMuted"],
+          "patternProperties": { "^\\$": { "type": "string" }, "^[a-zA-Z]": { "$ref": "#/$defs/colour" } },
+          "additionalProperties": false
+        },
+        "lines": {
+          "type": "object",
+          "required": ["border", "borderStrong", "divider"],
+          "patternProperties": { "^\\$": { "type": "string" }, "^[a-zA-Z]": { "$ref": "#/$defs/colour" } },
+          "additionalProperties": false
+        },
+        "ink": {
+          "type": "object",
+          "required": ["primary", "muted", "soft"],
+          "patternProperties": { "^\\$": { "type": "string" }, "^[a-zA-Z]": { "$ref": "#/$defs/colour" } },
+          "additionalProperties": false
+        },
+        "semantic": {
+          "type": "object",
+          "description": "status signalling only, never decorative. The compiler resolves these directly for node emphasis (EMPHASIS_TOKENS in compile-node.mjs), so the fg/bg/border triplet of each tone must be complete.",
+          "required": [
+            "success", "successBg", "successBorder",
+            "warning", "warningBg", "warningBorder",
+            "danger", "dangerBg", "dangerBorder",
+            "info", "infoBg", "infoBorder"
+          ],
+          "patternProperties": { "^\\$": { "type": "string" }, "^[a-zA-Z]": { "$ref": "#/$defs/colour" } },
+          "additionalProperties": false
+        }
+      },
+      "patternProperties": { "^\\$": { "type": "string" } },
+      "additionalProperties": false
+    },
+
+    "type": {
+      "type": "object",
+      "description": "TIER 1 — typography. `scale` steps are px NUMBERS; the compiler reads them through `type.scale.*` token paths.",
+      "required": ["family", "scale", "weights", "lineHeights"],
+      "properties": {
+        "family": { "type": "string", "minLength": 1 },
+        "familyMono": { "type": "string", "minLength": 1 },
+        "scale": {
+          "type": "object",
+          "description": "the type scale the compiler steps through: micro (captions/band labels) · body · cardHeader (h3) · subtitle (h2) · title (h1, stat-tile values)",
+          "required": ["micro", "body", "cardHeader", "subtitle", "title"],
+          "patternProperties": { "^\\$": { "type": "string" }, "^[a-zA-Z]": { "type": "number", "exclusiveMinimum": 0 } },
+          "additionalProperties": false
+        },
+        "weights": {
+          "type": "object",
+          "description": "the compiler emits `regular` and `semibold` only — a 400/600 binary. Others may exist for hand-authored recipes.",
+          "required": ["regular", "semibold"],
+          "patternProperties": { "^\\$": { "type": "string" }, "^[a-zA-Z]": { "type": "integer", "minimum": 100, "maximum": 900 } },
+          "additionalProperties": false
+        },
+        "lineHeights": {
+          "type": "object",
+          "required": ["tight", "base"],
+          "patternProperties": { "^\\$": { "type": "string" }, "^[a-zA-Z]": { "type": "number", "exclusiveMinimum": 0 } },
+          "additionalProperties": false
+        }
+      },
+      "patternProperties": { "^\\$": { "type": "string" } },
+      "additionalProperties": false
+    },
+
+    "spacing": {
+      "type": "object",
+      "description": "TIER 1 — the spacing scale in px, keyed by STEP. A numeric-string spacing key in a blueprint is a step on this scale ('4' → 16px), never a literal px value.",
+      "required": ["1", "2", "3", "4", "5", "6", "8", "10", "12"],
+      "patternProperties": { "^\\$": { "type": "string" }, "^[0-9]+$": { "type": "integer", "minimum": 0 } },
+      "additionalProperties": false
+    },
+
+    "radius": {
+      "type": "object",
+      "description": "TIER 1 — corner radii in px. `md` is the control radius (roles.baseRadius), `lg` the card radius (roles.cardRadius).",
+      "required": ["xs", "sm", "md", "lg", "pill"],
+      "patternProperties": { "^\\$": { "type": "string" }, "^[a-zA-Z0-9]": { "type": "integer", "minimum": 0 } },
+      "additionalProperties": false
+    },
+
+    "shadow": {
+      "type": "object",
+      "description": "TIER 1 — elevation. Shesha is border-forward: `card` stays barely perceptible, `overlay` is reserved for genuinely floating surfaces.",
+      "required": ["none", "card", "overlay"],
+      "patternProperties": { "^\\$": { "type": "string" }, "^[a-zA-Z]": { "type": "string", "minLength": 1 } },
+      "additionalProperties": false
+    },
+
+    "chrome": {
+      "type": "object",
+      "description": "TIER 1 — page-chrome geometry in px. `tableRowHeight` is the ONE chrome value the compiler reads directly (datatable row density), so it is required.",
+      "required": ["tableRowHeight"],
+      "patternProperties": { "^\\$": { "type": "string" }, "^[a-zA-Z]": { "type": "integer", "minimum": 0 } },
+      "additionalProperties": false
+    },
+
+    "statusLifecycle": {
+      "type": "object",
+      "description": "TIER 1 — the lifecycle vocabulary and its badge colours. Status is never colour-alone: the tone always pairs with the status name/icon. Chip FILL at runtime comes from the reference-list item's own colour [R-036]; these values are the design intent and the authority for authored chrome.",
+      "required": ["order", "badges"],
+      "properties": {
+        "$reflist": { "type": "string", "description": "the reference-list this lifecycle maps onto, or a note that the brand defines none" },
+        "order": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 },
+          "description": "lifecycle progression. An override REPLACES this wholesale (arrays never merge), but `badges` merges additively — so a brand lifecycle can coexist with the base's generic tones."
+        },
+        "badges": {
+          "type": "object",
+          "minProperties": 1,
+          "patternProperties": {
+            "^\\$": { "type": "string" },
+            "^[A-Za-z]": {
+              "type": "object",
+              "required": ["bg", "fg", "border"],
+              "additionalProperties": false,
+              "properties": {
+                "bg": { "$ref": "#/$defs/colour" },
+                "fg": { "$ref": "#/$defs/colour" },
+                "border": { "$ref": "#/$defs/colour" }
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "patternProperties": { "^\\$": { "type": "string" } },
+      "additionalProperties": false
+    },
+
+    "roles": {
+      "type": "object",
+      "description": "TIER 2 — the compile-time roles. The ONLY channel compile-node.mjs reads through tk(). `required` is not a style opinion: it is the exact set of role names the compiler asks for, so every one of them must resolve or the corresponding value is dropped from the markup and the form ships partially unstyled.",
+      "required": [
+        "pageBg", "cardBg", "hairline", "divider", "inputBorder",
+        "baseRadius", "cardRadius",
+        "bodyText", "sectionHeading",
+        "bandBg", "bandText", "bandSubtext", "bandBorder",
+        "tableHeaderBg", "statTileBg", "statTileValue"
+      ],
+      "patternProperties": {
+        "^\\$": { "type": "string" },
+        "^[a-zA-Z][A-Za-z0-9]*$": { "$ref": "#/$defs/roleValue" }
+      },
+      "additionalProperties": false
+    },
+
+    "$antdTheme": {
+      "type": "object",
+      "description": "TIER 3 — the resolved Ant Design ConfigProvider theme, applied VERBATIM at the app level. A deliverable, not a compiler input. Read $deliveryLimits and R-051 before assuming any of it survives a write.",
+      "required": ["token"],
+      "properties": {
+        "$use": { "type": "string" },
+        "token": {
+          "type": "object",
+          "required": ["colorPrimary", "colorText", "colorBgContainer", "colorBgLayout", "colorBorder", "fontFamily", "fontSize", "borderRadius"],
+          "additionalProperties": { "type": ["string", "number"] }
+        },
+        "components": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": { "type": ["string", "number"] }
+          }
+        }
+      },
+      "patternProperties": { "^\\$": { "type": "string" } },
+      "additionalProperties": false
+    }
+  },
+  "patternProperties": { "^\\$": {} },
+  "additionalProperties": false,
+
+  "$defs": {
+    "colour": {
+      "description": "a LITERAL colour value — tier 1 holds values, never references.",
+      "type": "string",
+      "pattern": "^(#[0-9a-fA-F]{3,8}|rgba?\\([^)]*\\)|hsla?\\([^)]*\\)|transparent|currentColor|inherit)$"
+    },
+    "roleValue": {
+      "description": "TOKEN-REFERENCE SYNTAX. The convention every shipped theme follows is a dotted PATH into tier 1 — `palette.*`, `type.*`, `spacing.*`, `radius.*`, `shadow.*`, `chrome.*` (or another `roles.*`, resolved one further hop). resolve-theme.mjs checks that the path actually resolves; a dangling reference is a compile error naming the path. A literal colour or number is accepted as a last resort for a value tier 1 genuinely has no home for, but it is drift by construction — the value stops being reachable from the palette and the next brand cannot restate it.",
+      "oneOf": [
+        { "type": "string", "pattern": "^(roles|palette|type|spacing|radius|shadow|chrome)\\.[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*$" },
+        { "$ref": "#/$defs/colour" },
+        { "type": "number" }
+      ]
+    }
+  }
+}

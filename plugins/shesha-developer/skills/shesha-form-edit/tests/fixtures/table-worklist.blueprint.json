@@ -18,13 +18,17 @@
       {
         "kind": "datatable",
         "name": "assets",
-        "columns": ["name", "serialNumber", "category", "location", "purchaseDate"]
+        "columns": ["name", "serialNumber", "category", "location", "status", "purchaseDate"],
+        "rowAction": { "kind": "open-record" }
       }
     ]
   },
-  "bindings": [],
+  "bindings": [
+    { "property": "status", "label": "Status", "referenceList": { "module": "boxfusion.test", "name": "AssetStatus" } }
+  ],
   "assertions": [
-    { "id": "A1", "statement": "the table is wrapped in a dataContext carrying entityType + sourceType Entity [R-005]" },
-    { "id": "A2", "statement": "toolbar hint and action row sit on one line, spread apart" }
+    {"id":"A1","kind":"exists","subject":"assets","description":"the table is wrapped in a dataContext carrying entityType + sourceType Entity [R-005]"},
+    {"id":"A2","kind":"same-row","subject":"toolbarHint","target":"formActions","description":"toolbar hint and action row sit on one line"},
+    {"id":"A3","kind":"alignment","subject":"toolbar","target":"space-between","description":"the toolbar spreads its hint and its actions apart"}
   ]
 }

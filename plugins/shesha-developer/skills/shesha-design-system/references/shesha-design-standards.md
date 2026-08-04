@@ -41,4 +41,4 @@ Map the brand tokens onto `ConfigProvider theme.token` so the whole portal inher
 
 ## How comprehension uses this
 
-When `shesha-design-comprehension` annotates a blueprint region with a `recipe:` (e.g. `card`, `section-header`, `kib-strip`, `status-chip`), that recipe resolves through these standards + the brand's tokens into concrete v7 style blocks via [component-recipes.md](component-recipes.md) and [token-to-prop-mapping.md](token-to-prop-mapping.md).
+`shesha-design-comprehension` annotates a blueprint region with `intent` (`role` / `emphasis` / `surface` / `density` / `artDirection` — never a block or recipe name; see `shesha-design-comprehension/references/blueprint-ir.md`). For page anatomy (header band, meta strip, page-level status chip) the compiler's `normalize-archetype`/`compile-node` stages resolve that `intent` through the active theme automatically. For hand-composed sub-trees the same standards apply through the matching recipe in [component-recipes.md](component-recipes.md) and [token-to-prop-mapping.md](token-to-prop-mapping.md).

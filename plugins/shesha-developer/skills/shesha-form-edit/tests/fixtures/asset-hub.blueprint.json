@@ -37,8 +37,13 @@
     }
   ],
   "assertions": [
-    { "id": "A1", "statement": "the page opens with a header band carrying the screen title, the subtitle trail and a status chip" },
-    { "id": "A2", "statement": "a KeyInformationBar meta strip sits under the band, one cell per non-status binding" },
-    { "id": "A3", "statement": "hubSplit has exactly two children; mainCol (66%) left of railCol (33%), each holding one data region" }
+    {"id":"A1","kind":"exists","subject":"pageHeaderBand","description":"the page opens with a header band carrying the screen title, the subtitle trail and a status chip"},
+    {"id":"A2","kind":"order","subject":"pageHeaderBand","target":"hubSplit","description":"the band, then the meta strip, then the split — a KeyInformationBar meta strip sits under the band"},
+    {"id":"A3","kind":"child-count","subject":"hubSplit","count":2,"description":"hubSplit has exactly two children"},
+    {"id":"A4","kind":"order","subject":"mainCol","target":"railCol","description":"mainCol left of railCol"},
+    {"id":"A5","kind":"relative-width","subject":"mainCol","ratio":0.66,"description":"mainCol takes two thirds of the split"},
+    {"id":"A6","kind":"relative-width","subject":"railCol","ratio":0.33,"description":"railCol takes one third of the split"},
+    {"id":"A7","kind":"contains","subject":"mainCol","target":"maintenanceLog","description":"the main column holds one data region"},
+    {"id":"A8","kind":"contains","subject":"railCol","target":"relatedAssets","description":"the rail holds one data region"}
   ]
 }

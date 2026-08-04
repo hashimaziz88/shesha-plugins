@@ -4,6 +4,7 @@
  *
  * Usage: node scripts/validate-styledness.js <form.json> [--generation 043|045] [--warn-only]
  *                                            [--archetype <blueprint archetype>]
+ *                                            [--metadata <entity-metadata.json>]
  *
  * Accepts raw markup ({components:[...]}), a GetJson response, or a golden wrapper.
  * Checks (FAIL unless --warn-only):
@@ -22,6 +23,14 @@
  *                     componentName is accepted as a hint, never as the only evidence.
  *   6. status-as-text — a reference-list status property rendered as text/textField instead of
  *                     refListStatus. A status is a CHIP; plain text throws the lifecycle away.
+ *                     Covers BOTH carriers: a status-bound component, AND a datatable COLUMN
+ *                     whose `displayComponent` is `[default]` / a text type (which renders the
+ *                     raw enum number — the same lifecycle loss, one level deeper). For a
+ *                     column the severity follows what the author could have KNOWN:
+ *                     FAIL when the reference-list identity is knowable (this form already
+ *                     identifies that property elsewhere, or --metadata says it is a reference
+ *                     list), WARN when it is not (an offline compile with no declared
+ *                     `bindings[].referenceList` cannot invent an identity [R-015]).
  *   7. datatable-presentation — every datatable must author the grid presentation channels the
  *                     measured matrix proves render: `rowDimensions.height` (density) plus one
  *                     of `headerBackgroundColor` / a `desktop.font` block. NOTE: the obvious
@@ -29,13 +38,6 @@
  *                     rowPaddingTop/Bottom) are all `not-measured` in
  *                     assets/measured-capability-matrix.json, so they are NOT accepted as
  *                     evidence — an unproven channel is not styling.
- *   8. declared-recipe — ONLY when a presentation manifest sits next to the form
- *                     (<form.json>.presentation.json, written by compile-blueprint.js for a
- *                     blueprint whose nodes declare `presentation.recipe`): every declared
- *                     recipe must have LANDED in the markup. The signature is the block's
- *                     componentName stem — a declared recipe that left no component with
- *                     that name (or never instantiated at all) is a design the form does not
- *                     have. No manifest → the check is silent.
  *
  * The archetype is a BLUEPRINT fact, not a component, so it cannot be read off the markup.
  * compile-blueprint.js passes --archetype from its self-gate. Without the flag check 5
@@ -46,10 +48,15 @@ import fs from 'fs';
 
 const argv = process.argv.slice(2);
 const flagVal = (name) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : undefined; };
-const file = argv.find((a, i) => !a.startsWith('--') && argv[i - 1] !== '--generation' && argv[i - 1] !== '--archetype');
+const VALUED_FLAGS = new Set(['--generation', '--archetype', '--metadata']);
+const file = argv.find((a, i) => !a.startsWith('--') && !VALUED_FLAGS.has(argv[i - 1]));
 const warnOnly = argv.includes('--warn-only');
 const generation = flagVal('--generation') ?? '045';
 const archetype = flagVal('--archetype') ?? null;
+// Optional entity metadata (the same shape validate-guardrails.js takes as arg 2). Present =
+// the reference-list identity of a property is KNOWABLE, which is what turns a status column
+// left on `[default]` from a WARN into a FAIL. Absent is the normal offline case.
+const metadataFile = flagVal('--metadata') ?? null;
 // The blueprint's own `chrome: false` opt-out, forwarded by compile-blueprint.js. A screen
 // embedded in a host page that already draws a header genuinely has no band; the check
 // reports that as a WARN so the decision stays visible instead of disappearing.
@@ -71,14 +78,34 @@ const findings = [];
 let visual = 0, styled = 0, fontDecls = 0, inlineConflicts = 0;
 const datatables = [];   // for check 7
 const statusAsText = []; // for check 6
-const componentNames = new Set(); // for check 8 (declared-recipe signatures)
-const typesPresent = new Set();   // for check 8 (structural shape fallback)
 
 // A reference-list status property name (status / state / stage, plain or suffixed) and the
 // component types that would render it as prose. `text` is included: a bound text node shows
 // the raw enum member, not the chip.
 const STATUS_PROP = /(^|[a-z])(status|state|stage)$/;
 const PLAIN_TEXT_TYPES = new Set(['text', 'textField', 'textArea']);
+// the cell carriers that DO render a lifecycle as a chip
+const CHIP_TYPES = new Set(['refListStatus', 'refListDropDown', 'statusTag']);
+// a column path is dotted (`asset.status`), so the lifecycle test reads the LAST segment
+const isStatusPath = (prop) => STATUS_PROP.test(String(prop).split('.').pop());
+// properties this form (or the supplied metadata) already IDENTIFIES as a reference list —
+// evidence that a chip was possible, keyed by the last path segment so `asset.status` and
+// `status` are the same lifecycle
+const reflistKnown = new Set();
+const noteKnown = (prop) => { if (prop) reflistKnown.add(String(prop).split('.').pop().toLowerCase()); };
+
+if (metadataFile) {
+  try {
+    let m = JSON.parse(fs.readFileSync(metadataFile, 'utf8').replace(/^﻿/, ''));
+    const rows = Array.isArray(m) ? m
+      : (Array.isArray(m?.result) ? m.result
+      : (Array.isArray(m?.result?.properties) ? m.result.properties
+      : (Array.isArray(m?.properties) ? m.properties : [])));
+    for (const p of rows) if (p?.path && p.referenceListName) noteKnown(p.path);
+  } catch {
+    findings.push(`WARN status-as-text — --metadata ${metadataFile} could not be read; column severity falls back to the offline (WARN) rule`);
+  }
+}
 
 function hasStructuredStyle(c) {
   if (generation === '045') {
@@ -90,8 +117,6 @@ function walk(node) {
   if (!node || typeof node !== 'object') return;
   if (Array.isArray(node)) return node.forEach(walk);
   if (typeof node.type === 'string') {
-    typesPresent.add(node.type);
-    if (typeof node.componentName === 'string' && node.componentName) componentNames.add(node.componentName);
     if (VISUAL.has(node.type)) {
       visual++;
       if (hasStructuredStyle(node) || node.className || node.stylingBox) styled++;
@@ -104,6 +129,15 @@ function walk(node) {
     }
     if (node.type === 'datatable') datatables.push(node);
     if (STATUS_PROP.test(String(node.propertyName || '')) && PLAIN_TEXT_TYPES.has(node.type)) statusAsText.push(node);
+    // in-form identity evidence: a component (or a column cell) that names a reference list
+    // proves the identity of that property was available to whoever authored this form
+    if (node.referenceListId && (node.referenceListId.name || typeof node.referenceListId === 'string')) noteKnown(node.propertyName);
+  }
+  // a chip CELL identifies the column's property, and the cell carries no propertyName of its own
+  if (Array.isArray(node.items)) {
+    for (const it of node.items) {
+      if (it && typeof it === 'object' && CHIP_TYPES.has(it.displayComponent?.type)) noteKnown(it.propertyName);
+    }
   }
   for (const k of Object.keys(node)) walk(node[k]);
 }
@@ -179,13 +213,37 @@ if (chromeOptOut) {
   }
 }
 
-// 6. a reference-list status must render as a chip, not as prose
+// 6. a reference-list status must render as a chip, not as prose — as a component AND as a cell
+const statusColumns = [];
+for (const t of datatables) {
+  for (const it of Array.isArray(t.items) ? t.items : []) {
+    if (!it || typeof it !== 'object' || !it.propertyName || !isStatusPath(it.propertyName)) continue;
+    const cell = it.displayComponent?.type ?? null;
+    if (CHIP_TYPES.has(cell)) continue;
+    if (cell !== null && cell !== '[default]' && !PLAIN_TEXT_TYPES.has(cell)) continue;   // some other deliberate cell
+    statusColumns.push({ table: t.componentName || t.propertyName || t.id, prop: it.propertyName, cell });
+  }
+}
+for (const c of statusColumns) {
+  // The severity rule, stated in the finding so a developer knows which case they are in:
+  // the identity was KNOWABLE (this form identifies that reference list elsewhere, or
+  // --metadata says so) ⇒ a chip was possible and was not emitted ⇒ FAIL. Nothing knows the
+  // identity ⇒ the compiler could not have invented one [R-015] ⇒ WARN.
+  const known = reflistKnown.has(String(c.prop).split('.').pop().toLowerCase());
+  findings.push(`${known ? 'FAIL' : 'WARN'} status-as-text — datatable "${c.table}" column "${c.prop}" displays as `
+    + `${c.cell === null ? 'no displayComponent' : `\`${c.cell}\``} — a reference-list column on \`[default]\` renders the raw enum NUMBER; `
+    + 'use displayComponent {type:"refListStatus", settings:{referenceListId:{module,name}}} (the lifecycle colour comes from the reference-list items [R-036]). '
+    + (known
+      ? 'FAIL because the reference-list identity for this property IS known here (another component/column in this form names it, or --metadata declares it) — a chip was possible.'
+      : 'WARN, not FAIL, because nothing available to this check knows the reference-list identity (offline compile, no `bindings[].referenceList` declared) — '
+        + 'an identity is never guessed [R-015]. Declare it on the blueprint binding, or compile against live metadata, and this becomes a FAIL.'));
+}
 if (statusAsText.length) {
   for (const n of statusAsText) {
     findings.push(`FAIL status-as-text — ${n.type} "${n.propertyName}" renders a reference-list status as plain text; use refListStatus (the lifecycle colour comes from the reference-list items [R-036])`);
   }
-} else {
-  findings.push('OK   status-as-text — no status property rendered as plain text/textField');
+} else if (!statusColumns.length) {
+  findings.push('OK   status-as-text — no status property rendered as plain text/textField, and no status column left on a default cell');
 }
 
 // 7. every datatable authors the grid presentation channels that PROVABLY render
@@ -204,39 +262,6 @@ if (!datatables.length) {
       if (!contrast) gaps.push('headerBackgroundColor or a desktop.font block (header/body contrast)');
       findings.push(`FAIL datatable-presentation — datatable "${t.componentName || t.propertyName || t.id}" is default-AntD: missing ${gaps.join(' and ')}. `
         + 'These are the channels the measured matrix records as rendering; rowHoverBackgroundColor / striped / rowDividers / rowPaddingTop-Bottom are all "not-measured" there, so they do not count as evidence.');
-    }
-  }
-}
-
-// 8. every recipe the blueprint DECLARED actually landed in the markup
-// The manifest is written by compile-blueprint.js next to its --out; it exists only for a
-// blueprint that declared at least one `presentation.recipe`. Absent → nothing to check.
-// A block whose root is a plain container/card/text has NO distinctive type signature —
-// every form is full of containers — so for those the componentName is the only evidence.
-// A distinctive carrier (refListStatus, statistic, KeyInformationBar, datalist, …) still
-// present under another name is a rename, which is worth a WARN rather than a FAIL.
-const GENERIC_CARRIERS = new Set(['container', 'card', 'text']);
-const manifestFile = `${file}.presentation.json`;
-if (fs.existsSync(manifestFile)) {
-  let manifest = null;
-  try { manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8').replace(/^﻿/, '')); }
-  catch (err) { findings.push(`FAIL declared-recipe — the presentation manifest ${manifestFile} is unreadable: ${err.message}`); }
-  const declared = Array.isArray(manifest?.declared) ? manifest.declared : [];
-  if (manifest && !declared.length) {
-    findings.push('WARN declared-recipe — a presentation manifest sits next to this form but declares no recipe');
-  }
-  for (const d of declared) {
-    const where = `"${d.recipe}"${d.node ? ` at node "${d.node}"` : ''}`;
-    if (d.landed === false || !d.componentName) {
-      findings.push(`FAIL declared-recipe — the blueprint declared recipe ${where} and the compiler could not instantiate it; `
-        + 'the form does not have the design its blueprint describes (fill the block\'s facts, or drop the recipe).');
-    } else if (componentNames.has(d.componentName)) {
-      findings.push(`OK   declared-recipe — ${where} landed as "${d.componentName}"`);
-    } else if (d.type && !GENERIC_CARRIERS.has(d.type) && typesPresent.has(d.type)) {
-      findings.push(`WARN declared-recipe — ${where} left no component named "${d.componentName}", but a ${d.type} is present — renamed, or a different carrier?`);
-    } else {
-      findings.push(`FAIL declared-recipe — ${where} is missing from the markup: no component named "${d.componentName}"`
-        + `${d.type ? ` and no ${d.type} at all` : ''}. A declared recipe that left no structural trace did not ship.`);
     }
   }
 }

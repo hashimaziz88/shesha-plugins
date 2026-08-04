@@ -26,7 +26,8 @@
     { "property": "location" }
   ],
   "assertions": [
-    { "id": "A1", "statement": "the dialog carries NO page-header band and no meta strip — a dialog has no page anatomy" },
-    { "id": "A2", "statement": "the capture floor lands: validationErrors plus a right-aligned Save/Back footer row [R-006/R-007/R-057]" }
+    {"id":"A1","kind":"exists","subject":"dialogBody","description":"the dialog body holds the capture grid — a dialog carries no page anatomy of its own"},
+    {"id":"A2","kind":"exists","subject":"formActions","description":"the capture floor lands: validationErrors plus a Save/Back pair [R-006/R-007]"},
+    {"id":"A3","kind":"alignment","subject":"formActionsRow","target":"end","description":"the appended action pair sits in its own right-aligned footer row [R-057]"}
   ]
 }

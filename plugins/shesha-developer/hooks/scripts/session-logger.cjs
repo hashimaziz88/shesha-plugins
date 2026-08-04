@@ -3,18 +3,18 @@
  * Session activity logger (permanent feature).
  * Appends one timestamped line per hook event to:
  *   <root>/.claude-designer-logs/logs/<session_id>/log.<DDMMYYYY>.txt
- * where <root> is resolved ONCE per session (git toplevel of the first-seen
- * cwd, falling back to that cwd, falling back to process.cwd()) and then
- * pinned via a pointer file in the OS tmpdir so every later event in the
- * same session — regardless of which directory a tool happened to run in —
- * lands in the same log tree.
+ * <root> and that path both come from the ONE session-root resolver,
+ * ../../skills/shesha-form-edit/scripts/lib/session-root.cjs (git toplevel of the
+ * first-seen cwd, pinned per session in a tmpdir pointer file, so every later
+ * event lands in the same tree no matter which directory a tool ran in). The
+ * require path is relative to this file and stable inside the plugin tree.
  * Fires on SessionStart, UserPromptSubmit, PostToolUse, Stop.
  * Never blocks — logging failures are swallowed and it always exits 0.
  */
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
-const { execSync } = require('child_process');
+const { resolveSessionRoot, sessionLogDir, NS_LOGS } =
+  require('../../skills/shesha-form-edit/scripts/lib/session-root.cjs');
 
 // High-frequency, low-value tools we don't want to log on every call.
 // NOTE: browser tools (playwright/chrome MCP) must NEVER be added here — the
@@ -33,34 +33,6 @@ function oneLine(s, max) {
   if (s == null) return '';
   const t = String(s).replace(/\s+/g, ' ').trim();
   return t.length > max ? `${t.slice(0, max)}…` : t;
-}
-
-function gitToplevel(cwd) {
-  try {
-    const out = execSync('git rev-parse --show-toplevel', {
-      cwd,
-      stdio: ['ignore', 'pipe', 'ignore'],
-      timeout: 5000,
-    });
-    const t = String(out).trim();
-    return t || null;
-  } catch {
-    return null;
-  }
-}
-
-function resolveRoot(sid, cwd) {
-  const pointerFile = path.join(os.tmpdir(), `claude-designer-logs-${sid}.root`);
-  try {
-    const existing = fs.readFileSync(pointerFile, 'utf8').trim();
-    if (existing) return existing;
-  } catch { /* no pointer yet */ }
-
-  let root = gitToplevel(cwd) || cwd || process.cwd();
-  try {
-    fs.writeFileSync(pointerFile, root, 'utf8');
-  } catch { /* best effort — fall through and still use computed root */ }
-  return root;
 }
 
 // Defensively pull an error/failure signal out of a tool_response payload.
@@ -167,7 +139,7 @@ function main() {
 
   let root;
   try {
-    root = resolveRoot(sid, rawCwd);
+    root = resolveSessionRoot({ sid, cwd: rawCwd, namespace: NS_LOGS });
   } catch {
     root = rawCwd;
   }
@@ -196,7 +168,7 @@ function main() {
     detail = 'SESSION STOP';
   }
 
-  const dir = path.join(root, '.claude-designer-logs', 'logs', sid);
+  const dir = sessionLogDir(root, sid);
   const file = path.join(dir, `log.${dd}${mm}${yyyy}.txt`);
   const line = `[${now.toISOString()}] ${prefix.padEnd(16)} ${detail}\n`;
   try {

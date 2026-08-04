@@ -2,6 +2,11 @@
   "$brand": "shesha",
   "$source": "Shesha Design System reference (A. Slavchov, Senior UI/UX) — Ant Design 6.x, light-mode. The framework's out-of-the-box brand; the DEFAULT theme when no app-specific brand is named.",
   "$description": "Cobalt (#003BB2) anchors every interactive affordance (buttons, links, focus rings, active states); Athens Grey (#F8F8F9) is the dominant surface (~30% of every page, not white); Navy (#000E8E) gives sidebar and top-header chrome depth; all type is Nero (#181818), never pure black. Structure is communicated by hairline borders, not shadows. The secondary palette is operational status signalling only — never decorative.",
+  "$deliveryLimits": [
+    "TIER 4 — what 0.45 cannot persist at the app level [R-051]: IConfigurableTheme carries only primaryColor/errorColor/warningColor/successColor/infoColor plus the layout/text roles. `processingColor`, `text.link`, and the ENTIRE `$antdTheme.token` / `$antdTheme.components` block are silently dropped on write.",
+    "Consequence: the `$antdTheme` block below is a DELIVERABLE for whatever channel can accept it, never the styling mechanism. Everything in it that matters to a form is compiled per-component from `roles` at compile time instead [R-042].",
+    "Channels measured as no-ops are never authored at all [R-053] — see assets/measured-capability-matrix.json in shesha-form-edit. Notably: a refListStatus chip's fill comes only from the reference-list item's own colour [R-036], so `statusLifecycle.badges` styles authored chrome, not the chip."
+  ],
   "$weightPolicy": "Shesha uses a 400/600 weight binary for body and headings (no 700 hierarchy). 500 is permitted ONLY for status-chip / micro-label text. `type.weights` carries all four so existing recipes still resolve, but prefer 400 (body/values) and 600 (labels/headings).",
   "palette": {
     "brand": {

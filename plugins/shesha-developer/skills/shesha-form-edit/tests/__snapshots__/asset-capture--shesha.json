@@ -1,10 +1,10 @@
 {
   "components": [
     {
-      "id": "0f1851ff-32ee-5224-a0e2-41a195c0d378",
+      "id": "ec82bbeb-ff30-500f-8d45-f24b913cf6c0",
       "type": "container",
       "version": 7,
-      "componentName": "page",
+      "componentName": "pageRoot",
       "direction": "vertical",
       "display": "flex",
       "flexDirection": "column",
@@ -19,7 +19,7 @@
         "alignItems": "stretch",
         "gap": "12px",
         "dimensions": {
-          "width": "auto",
+          "width": "100%",
           "height": "auto",
           "minHeight": "auto",
           "maxHeight": "auto",
@@ -34,40 +34,379 @@
       },
       "components": [
         {
-          "id": "15285a02-f18f-59c8-9465-84be6340f364",
-          "type": "text",
-          "version": 5,
-          "componentName": "pageTitle",
-          "content": "Register Asset",
-          "textType": "span",
-          "contentDisplay": "content",
-          "contentType": "custom",
-          "desktop": {
-            "font": {
-              "size": 14,
-              "color": "#181818"
-            }
-          },
-          "parentId": "0f1851ff-32ee-5224-a0e2-41a195c0d378"
-        },
-        {
-          "id": "777cf29e-708f-5795-8750-ed837fa1870a",
+          "id": "ffbe785d-230e-57c5-a436-c7ca6d0f7df7",
           "type": "container",
           "version": 7,
-          "componentName": "mainSplit",
+          "componentName": "page",
+          "direction": "vertical",
+          "display": "flex",
+          "flexDirection": "column",
+          "gap": 12,
+          "flexWrap": "nowrap",
+          "stylingBox": "{}",
+          "desktop": {
+            "display": "flex",
+            "flexDirection": "column",
+            "flexWrap": "nowrap",
+            "justifyContent": "flex-start",
+            "alignItems": "stretch",
+            "gap": "12px",
+            "dimensions": {
+              "width": "auto",
+              "height": "auto",
+              "minHeight": "auto",
+              "maxHeight": "auto",
+              "minWidth": "0px",
+              "maxWidth": "100%"
+            },
+            "stylingBox": "{}"
+          },
+          "components": [
+            {
+              "id": "3168aa94-2801-54a2-ac33-2bafce52e7c5",
+              "type": "text",
+              "version": 5,
+              "componentName": "pageTitle",
+              "content": "Register Asset",
+              "textType": "span",
+              "contentDisplay": "content",
+              "contentType": "custom",
+              "desktop": {
+                "font": {
+                  "size": 14,
+                  "color": "#181818",
+                  "align": "left"
+                }
+              },
+              "parentId": "ffbe785d-230e-57c5-a436-c7ca6d0f7df7"
+            },
+            {
+              "id": "81350f83-90fc-5ae6-94ff-8b10447f9312",
+              "type": "container",
+              "version": 7,
+              "componentName": "mainSplit",
+              "direction": "horizontal",
+              "display": "flex",
+              "flexDirection": "row",
+              "gap": 16,
+              "flexWrap": "nowrap",
+              "stylingBox": "{}",
+              "desktop": {
+                "display": "flex",
+                "flexDirection": "row",
+                "flexWrap": "nowrap",
+                "justifyContent": "flex-start",
+                "alignItems": "flex-start",
+                "gap": "16px",
+                "dimensions": {
+                  "width": "100%",
+                  "height": "auto",
+                  "minHeight": "auto",
+                  "maxHeight": "auto",
+                  "minWidth": "0px",
+                  "maxWidth": "100%"
+                },
+                "stylingBox": "{}"
+              },
+              "components": [
+                {
+                  "id": "4adb84c1-cb9b-5b33-80e9-8b23499ee519",
+                  "type": "container",
+                  "version": 7,
+                  "componentName": "mainCol",
+                  "direction": "vertical",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "gap": 12,
+                  "flexWrap": "nowrap",
+                  "stylingBox": "{}",
+                  "desktop": {
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexWrap": "nowrap",
+                    "justifyContent": "flex-start",
+                    "alignItems": "stretch",
+                    "gap": "12px",
+                    "dimensions": {
+                      "width": "66%",
+                      "height": "auto",
+                      "minHeight": "auto",
+                      "maxHeight": "auto",
+                      "minWidth": "0px",
+                      "maxWidth": "100%"
+                    },
+                    "stylingBox": "{}"
+                  },
+                  "components": [
+                    {
+                      "id": "d6949b66-4f4f-5737-ab15-d6bbcfe7b568",
+                      "type": "textField",
+                      "version": 6,
+                      "propertyName": "name",
+                      "label": "Asset Name",
+                      "labelAlign": "left",
+                      "desktop": {
+                        "dimensions": {
+                          "width": "100%",
+                          "minWidth": "0px"
+                        },
+                        "border": {
+                          "radiusType": "all",
+                          "borderType": "all",
+                          "border": {
+                            "all": {
+                              "width": "1px",
+                              "style": "solid",
+                              "color": "#D0D5E0"
+                            }
+                          },
+                          "radius": {
+                            "all": 6
+                          }
+                        }
+                      },
+                      "parentId": "4adb84c1-cb9b-5b33-80e9-8b23499ee519"
+                    },
+                    {
+                      "id": "1e014e3e-725e-5fa6-83ed-13078f6f0f6a",
+                      "type": "textField",
+                      "version": 6,
+                      "propertyName": "serialNumber",
+                      "label": "Serial Number",
+                      "labelAlign": "left",
+                      "desktop": {
+                        "dimensions": {
+                          "width": "100%",
+                          "minWidth": "0px"
+                        },
+                        "border": {
+                          "radiusType": "all",
+                          "borderType": "all",
+                          "border": {
+                            "all": {
+                              "width": "1px",
+                              "style": "solid",
+                              "color": "#D0D5E0"
+                            }
+                          },
+                          "radius": {
+                            "all": 6
+                          }
+                        }
+                      },
+                      "parentId": "4adb84c1-cb9b-5b33-80e9-8b23499ee519"
+                    },
+                    {
+                      "id": "4de82e90-1126-5281-a63f-2cfb3bc63ed3",
+                      "type": "textField",
+                      "version": 6,
+                      "propertyName": "category",
+                      "label": "Category",
+                      "labelAlign": "left",
+                      "desktop": {
+                        "dimensions": {
+                          "width": "100%",
+                          "minWidth": "0px"
+                        },
+                        "border": {
+                          "radiusType": "all",
+                          "borderType": "all",
+                          "border": {
+                            "all": {
+                              "width": "1px",
+                              "style": "solid",
+                              "color": "#D0D5E0"
+                            }
+                          },
+                          "radius": {
+                            "all": 6
+                          }
+                        }
+                      },
+                      "parentId": "4adb84c1-cb9b-5b33-80e9-8b23499ee519"
+                    },
+                    {
+                      "id": "3bc76e56-a2f4-501e-9ec0-a41b53845a6e",
+                      "type": "textField",
+                      "version": 6,
+                      "propertyName": "purchaseDate",
+                      "label": "Purchase Date",
+                      "labelAlign": "left",
+                      "desktop": {
+                        "dimensions": {
+                          "width": "100%",
+                          "minWidth": "0px"
+                        },
+                        "border": {
+                          "radiusType": "all",
+                          "borderType": "all",
+                          "border": {
+                            "all": {
+                              "width": "1px",
+                              "style": "solid",
+                              "color": "#D0D5E0"
+                            }
+                          },
+                          "radius": {
+                            "all": 6
+                          }
+                        }
+                      },
+                      "parentId": "4adb84c1-cb9b-5b33-80e9-8b23499ee519"
+                    }
+                  ],
+                  "parentId": "81350f83-90fc-5ae6-94ff-8b10447f9312"
+                },
+                {
+                  "id": "dab4b943-ca36-53eb-af13-7294b40e6f6a",
+                  "type": "container",
+                  "version": 7,
+                  "componentName": "railCol",
+                  "direction": "vertical",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "gap": 12,
+                  "flexWrap": "nowrap",
+                  "stylingBox": "{}",
+                  "desktop": {
+                    "display": "flex",
+                    "flexDirection": "column",
+                    "flexWrap": "nowrap",
+                    "justifyContent": "flex-start",
+                    "alignItems": "stretch",
+                    "gap": "12px",
+                    "dimensions": {
+                      "width": "33%",
+                      "height": "auto",
+                      "minHeight": "auto",
+                      "maxHeight": "auto",
+                      "minWidth": "0px",
+                      "maxWidth": "100%"
+                    },
+                    "stylingBox": "{}"
+                  },
+                  "components": [
+                    {
+                      "id": "891c7538-1dde-5540-a527-ac3741601c47",
+                      "type": "dropdown",
+                      "version": 11,
+                      "propertyName": "status",
+                      "label": "Status",
+                      "labelAlign": "left",
+                      "desktop": {
+                        "dimensions": {
+                          "width": "100%",
+                          "minWidth": "0px"
+                        },
+                        "border": {
+                          "radiusType": "all",
+                          "borderType": "all",
+                          "border": {
+                            "all": {
+                              "width": "1px",
+                              "style": "solid",
+                              "color": "#D0D5E0"
+                            }
+                          },
+                          "radius": {
+                            "all": 6
+                          }
+                        }
+                      },
+                      "parentId": "dab4b943-ca36-53eb-af13-7294b40e6f6a"
+                    },
+                    {
+                      "id": "17a17f95-c831-50e5-8155-fe867458c009",
+                      "type": "textField",
+                      "version": 6,
+                      "propertyName": "location",
+                      "label": "Location",
+                      "labelAlign": "left",
+                      "desktop": {
+                        "dimensions": {
+                          "width": "100%",
+                          "minWidth": "0px"
+                        },
+                        "border": {
+                          "radiusType": "all",
+                          "borderType": "all",
+                          "border": {
+                            "all": {
+                              "width": "1px",
+                              "style": "solid",
+                              "color": "#D0D5E0"
+                            }
+                          },
+                          "radius": {
+                            "all": 6
+                          }
+                        }
+                      },
+                      "parentId": "dab4b943-ca36-53eb-af13-7294b40e6f6a"
+                    },
+                    {
+                      "id": "de63696f-0e0f-57ff-9c20-a36e74906ed1",
+                      "type": "textField",
+                      "version": 6,
+                      "propertyName": "assignedEmployee",
+                      "label": "Assigned Employee",
+                      "labelAlign": "left",
+                      "desktop": {
+                        "dimensions": {
+                          "width": "100%",
+                          "minWidth": "0px"
+                        },
+                        "border": {
+                          "radiusType": "all",
+                          "borderType": "all",
+                          "border": {
+                            "all": {
+                              "width": "1px",
+                              "style": "solid",
+                              "color": "#D0D5E0"
+                            }
+                          },
+                          "radius": {
+                            "all": 6
+                          }
+                        }
+                      },
+                      "parentId": "dab4b943-ca36-53eb-af13-7294b40e6f6a"
+                    }
+                  ],
+                  "parentId": "81350f83-90fc-5ae6-94ff-8b10447f9312"
+                }
+              ],
+              "parentId": "ffbe785d-230e-57c5-a436-c7ca6d0f7df7"
+            }
+          ],
+          "parentId": "ec82bbeb-ff30-500f-8d45-f24b913cf6c0"
+        },
+        {
+          "id": "b06f1f22-451d-531e-9b78-3229a71b5f5e",
+          "type": "validationErrors",
+          "version": 0,
+          "componentName": "formValidationErrors",
+          "parentId": "ec82bbeb-ff30-500f-8d45-f24b913cf6c0"
+        },
+        {
+          "id": "a9b2b7dd-5760-5d28-82e0-74182bff1f2d",
+          "type": "container",
+          "version": 7,
+          "componentName": "formActionsRow",
           "direction": "horizontal",
           "display": "flex",
           "flexDirection": "row",
-          "gap": 16,
+          "gap": 8,
           "flexWrap": "nowrap",
           "stylingBox": "{}",
           "desktop": {
             "display": "flex",
             "flexDirection": "row",
             "flexWrap": "nowrap",
-            "justifyContent": "flex-start",
-            "alignItems": "flex-start",
-            "gap": "16px",
+            "justifyContent": "flex-end",
+            "alignItems": "center",
+            "gap": "8px",
             "dimensions": {
               "width": "100%",
               "height": "auto",
@@ -80,367 +419,61 @@
           },
           "components": [
             {
-              "id": "3bcb2240-0d2e-58ff-8bb2-bc00c7cc76ed",
-              "type": "container",
-              "version": 7,
-              "componentName": "mainCol",
-              "direction": "vertical",
-              "display": "flex",
-              "flexDirection": "column",
-              "gap": 12,
-              "flexWrap": "nowrap",
-              "stylingBox": "{}",
-              "desktop": {
-                "display": "flex",
-                "flexDirection": "column",
-                "flexWrap": "nowrap",
-                "justifyContent": "flex-start",
-                "alignItems": "stretch",
-                "gap": "12px",
-                "dimensions": {
-                  "width": "66%",
-                  "height": "auto",
-                  "minHeight": "auto",
-                  "maxHeight": "auto",
-                  "minWidth": "0px",
-                  "maxWidth": "100%"
-                },
-                "stylingBox": "{}"
-              },
-              "components": [
+              "id": "2bf5889e-8b47-54af-9f8e-5d60eda4c9eb",
+              "type": "buttonGroup",
+              "version": 15,
+              "componentName": "formActions",
+              "propertyName": "formActions",
+              "label": "Form Actions",
+              "hideLabel": true,
+              "isInline": true,
+              "editMode": "editable",
+              "items": [
                 {
-                  "id": "956c969f-d17a-553f-895d-9b46f7e2dd77",
-                  "type": "textField",
-                  "version": 6,
-                  "propertyName": "name",
-                  "label": "Asset Name",
-                  "labelAlign": "left",
-                  "desktop": {
-                    "dimensions": {
-                      "width": "100%",
-                      "minWidth": "0px"
-                    },
-                    "border": {
-                      "radiusType": "all",
-                      "borderType": "all",
-                      "border": {
-                        "all": {
-                          "width": "1px",
-                          "style": "solid",
-                          "color": "#D0D5E0"
-                        }
-                      },
-                      "radius": {
-                        "all": 6
-                      }
-                    }
-                  },
-                  "parentId": "3bcb2240-0d2e-58ff-8bb2-bc00c7cc76ed"
+                  "id": "25fcbd51-1960-55ae-8214-ae5676dea075",
+                  "itemType": "item",
+                  "itemSubType": "button",
+                  "sortOrder": 0,
+                  "name": "btnSave",
+                  "label": "Save",
+                  "buttonType": "primary",
+                  "icon": "SaveOutlined",
+                  "buttonAction": "submit",
+                  "editMode": "inherited",
+                  "actionConfiguration": {
+                    "_type": "action-config",
+                    "actionName": "Submit",
+                    "actionOwner": "shesha.form",
+                    "handleSuccess": false,
+                    "handleFail": false
+                  }
                 },
                 {
-                  "id": "8a728812-0b00-5f2c-b80f-79fa25b80469",
-                  "type": "textField",
-                  "version": 6,
-                  "propertyName": "serialNumber",
-                  "label": "Serial Number",
-                  "labelAlign": "left",
-                  "desktop": {
-                    "dimensions": {
-                      "width": "100%",
-                      "minWidth": "0px"
-                    },
-                    "border": {
-                      "radiusType": "all",
-                      "borderType": "all",
-                      "border": {
-                        "all": {
-                          "width": "1px",
-                          "style": "solid",
-                          "color": "#D0D5E0"
-                        }
-                      },
-                      "radius": {
-                        "all": 6
-                      }
+                  "id": "104acfdc-d16d-5407-af72-1f701b54d8b1",
+                  "itemType": "item",
+                  "itemSubType": "button",
+                  "sortOrder": 1,
+                  "name": "btnBack",
+                  "label": "Back",
+                  "buttonType": "default",
+                  "icon": "ArrowLeftOutlined",
+                  "buttonAction": "navigate",
+                  "editMode": "inherited",
+                  "actionConfiguration": {
+                    "_type": "action-config",
+                    "actionName": "Navigate",
+                    "actionOwner": "shesha.common",
+                    "actionArguments": {
+                      "navigationType": "url",
+                      "url": "/"
                     }
-                  },
-                  "parentId": "3bcb2240-0d2e-58ff-8bb2-bc00c7cc76ed"
-                },
-                {
-                  "id": "5d8e5055-1dec-50ae-8f88-0fe51c453834",
-                  "type": "textField",
-                  "version": 6,
-                  "propertyName": "category",
-                  "label": "Category",
-                  "labelAlign": "left",
-                  "desktop": {
-                    "dimensions": {
-                      "width": "100%",
-                      "minWidth": "0px"
-                    },
-                    "border": {
-                      "radiusType": "all",
-                      "borderType": "all",
-                      "border": {
-                        "all": {
-                          "width": "1px",
-                          "style": "solid",
-                          "color": "#D0D5E0"
-                        }
-                      },
-                      "radius": {
-                        "all": 6
-                      }
-                    }
-                  },
-                  "parentId": "3bcb2240-0d2e-58ff-8bb2-bc00c7cc76ed"
-                },
-                {
-                  "id": "993ce7b7-4478-5998-a424-693ef92bf0ac",
-                  "type": "textField",
-                  "version": 6,
-                  "propertyName": "purchaseDate",
-                  "label": "Purchase Date",
-                  "labelAlign": "left",
-                  "desktop": {
-                    "dimensions": {
-                      "width": "100%",
-                      "minWidth": "0px"
-                    },
-                    "border": {
-                      "radiusType": "all",
-                      "borderType": "all",
-                      "border": {
-                        "all": {
-                          "width": "1px",
-                          "style": "solid",
-                          "color": "#D0D5E0"
-                        }
-                      },
-                      "radius": {
-                        "all": 6
-                      }
-                    }
-                  },
-                  "parentId": "3bcb2240-0d2e-58ff-8bb2-bc00c7cc76ed"
+                  }
                 }
               ],
-              "parentId": "777cf29e-708f-5795-8750-ed837fa1870a"
-            },
-            {
-              "id": "df06aa78-4aff-591a-8e2c-87ebc4a248af",
-              "type": "container",
-              "version": 7,
-              "componentName": "railCol",
-              "direction": "vertical",
-              "display": "flex",
-              "flexDirection": "column",
-              "gap": 12,
-              "flexWrap": "nowrap",
-              "stylingBox": "{}",
-              "desktop": {
-                "display": "flex",
-                "flexDirection": "column",
-                "flexWrap": "nowrap",
-                "justifyContent": "flex-start",
-                "alignItems": "stretch",
-                "gap": "12px",
-                "dimensions": {
-                  "width": "33%",
-                  "height": "auto",
-                  "minHeight": "auto",
-                  "maxHeight": "auto",
-                  "minWidth": "0px",
-                  "maxWidth": "100%"
-                },
-                "stylingBox": "{}"
-              },
-              "components": [
-                {
-                  "id": "10ed0ad3-aa87-5587-9c6c-b4a5ae069c9f",
-                  "type": "dropdown",
-                  "version": 11,
-                  "propertyName": "status",
-                  "label": "Status",
-                  "labelAlign": "left",
-                  "desktop": {
-                    "dimensions": {
-                      "width": "100%",
-                      "minWidth": "0px"
-                    },
-                    "border": {
-                      "radiusType": "all",
-                      "borderType": "all",
-                      "border": {
-                        "all": {
-                          "width": "1px",
-                          "style": "solid",
-                          "color": "#D0D5E0"
-                        }
-                      },
-                      "radius": {
-                        "all": 6
-                      }
-                    }
-                  },
-                  "parentId": "df06aa78-4aff-591a-8e2c-87ebc4a248af"
-                },
-                {
-                  "id": "a6fd5e70-adff-5c3c-b424-130b42c9c66e",
-                  "type": "textField",
-                  "version": 6,
-                  "propertyName": "location",
-                  "label": "Location",
-                  "labelAlign": "left",
-                  "desktop": {
-                    "dimensions": {
-                      "width": "100%",
-                      "minWidth": "0px"
-                    },
-                    "border": {
-                      "radiusType": "all",
-                      "borderType": "all",
-                      "border": {
-                        "all": {
-                          "width": "1px",
-                          "style": "solid",
-                          "color": "#D0D5E0"
-                        }
-                      },
-                      "radius": {
-                        "all": 6
-                      }
-                    }
-                  },
-                  "parentId": "df06aa78-4aff-591a-8e2c-87ebc4a248af"
-                },
-                {
-                  "id": "ffc6df9c-a5e4-59f4-882d-c2b9150928ed",
-                  "type": "textField",
-                  "version": 6,
-                  "propertyName": "assignedEmployee",
-                  "label": "Assigned Employee",
-                  "labelAlign": "left",
-                  "desktop": {
-                    "dimensions": {
-                      "width": "100%",
-                      "minWidth": "0px"
-                    },
-                    "border": {
-                      "radiusType": "all",
-                      "borderType": "all",
-                      "border": {
-                        "all": {
-                          "width": "1px",
-                          "style": "solid",
-                          "color": "#D0D5E0"
-                        }
-                      },
-                      "radius": {
-                        "all": 6
-                      }
-                    }
-                  },
-                  "parentId": "df06aa78-4aff-591a-8e2c-87ebc4a248af"
-                }
-              ],
-              "parentId": "777cf29e-708f-5795-8750-ed837fa1870a"
+              "parentId": "a9b2b7dd-5760-5d28-82e0-74182bff1f2d"
             }
           ],
-          "parentId": "0f1851ff-32ee-5224-a0e2-41a195c0d378"
-        }
-      ],
-      "parentId": "root"
-    },
-    {
-      "id": "740fe70b-4d02-50a5-8cae-fbc7f390a5d8",
-      "type": "validationErrors",
-      "version": 0,
-      "componentName": "formValidationErrors",
-      "parentId": "root"
-    },
-    {
-      "id": "74925e0a-b2c7-5c68-b564-5c99ec29ac2c",
-      "type": "container",
-      "version": 7,
-      "componentName": "formActionsRow",
-      "direction": "horizontal",
-      "display": "flex",
-      "flexDirection": "row",
-      "flexWrap": "nowrap",
-      "gap": 8,
-      "stylingBox": "{}",
-      "desktop": {
-        "display": "flex",
-        "flexDirection": "row",
-        "flexWrap": "nowrap",
-        "justifyContent": "flex-end",
-        "alignItems": "center",
-        "gap": "8px",
-        "dimensions": {
-          "width": "100%",
-          "height": "auto",
-          "minHeight": "auto",
-          "maxHeight": "auto",
-          "minWidth": "0px",
-          "maxWidth": "100%"
-        },
-        "stylingBox": "{}"
-      },
-      "components": [
-        {
-          "id": "5124939f-8100-5ea3-ba64-24f62d45eb4e",
-          "type": "buttonGroup",
-          "version": 15,
-          "componentName": "formActions",
-          "propertyName": "formActions",
-          "label": "Form Actions",
-          "hideLabel": true,
-          "isInline": true,
-          "editMode": "editable",
-          "items": [
-            {
-              "id": "bcfac0f5-2e50-581e-afb5-d8c06d7c5e7d",
-              "itemType": "item",
-              "itemSubType": "button",
-              "sortOrder": 0,
-              "name": "btnSave",
-              "label": "Save",
-              "buttonType": "primary",
-              "icon": "SaveOutlined",
-              "buttonAction": "submit",
-              "editMode": "inherited",
-              "actionConfiguration": {
-                "_type": "action-config",
-                "actionName": "Submit",
-                "actionOwner": "shesha.form",
-                "handleSuccess": false,
-                "handleFail": false
-              }
-            },
-            {
-              "id": "5913e2b2-0508-568c-9add-9e730b8d060f",
-              "itemType": "item",
-              "itemSubType": "button",
-              "sortOrder": 1,
-              "name": "btnBack",
-              "label": "Back",
-              "buttonType": "default",
-              "icon": "ArrowLeftOutlined",
-              "buttonAction": "navigate",
-              "editMode": "inherited",
-              "actionConfiguration": {
-                "_type": "action-config",
-                "actionName": "Navigate",
-                "actionOwner": "shesha.common",
-                "actionArguments": {
-                  "navigationType": "url",
-                  "url": "/"
-                }
-              }
-            }
-          ],
-          "parentId": "74925e0a-b2c7-5c68-b564-5c99ec29ac2c"
+          "parentId": "ec82bbeb-ff30-500f-8d45-f24b913cf6c0"
         }
       ],
       "parentId": "root"

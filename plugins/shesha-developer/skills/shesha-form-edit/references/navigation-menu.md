@@ -2,6 +2,15 @@
 
 Read when a task ends with "add it to the menu / navigation / sidebar". Auth + API conventions: [api.md](api.md). Navigate action shape also appears in [components/actions.md](components/actions.md).
 
+## Contents
+1. Where navigation lives
+2. READ the current menu
+3. Value shape (version 2)
+4. ADD an item
+5. What it takes to see the change
+6. Manual / in-app alternative
+7. Fallback — if the API path cannot be verified on the target app
+
 ---
 
 ## Where navigation lives

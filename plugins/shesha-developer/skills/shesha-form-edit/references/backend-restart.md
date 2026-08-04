@@ -15,6 +15,13 @@ runbook instead of improvising.
 > A form built before the entity is ready won't render; a form pushed *before* a later restart can be
 > orphaned by that restart (see "re-verify forms" below).
 
+## Contents
+1. Rule 0 — never relaunch IIS Express outside Visual Studio
+2. Ephemeral / shesha-agent sandbox — check this FIRST
+3. Headless / CI / harness — take over the port with Kestrel
+4. After ANY restart — re-verify the forms you'll touch
+5. Attended / real-world (Visual Studio is running the app)
+
 ---
 
 ## Rule 0 — never relaunch IIS Express outside Visual Studio

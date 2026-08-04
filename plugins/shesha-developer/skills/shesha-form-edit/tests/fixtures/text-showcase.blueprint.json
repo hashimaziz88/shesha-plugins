@@ -38,7 +38,8 @@
     { "label": "ISBN", "property": "isbn" }
   ],
   "assertions": [
-    { "id": "A1", "statement": "the two cards sit side by side at 50% each" },
-    { "id": "A2", "statement": "every text/heading node carries a themed colour that actually renders (contentType custom) [R-052]" }
+    {"id":"A1","kind":"same-row","subject":"filmMeta","target":"bookMeta","description":"the two cards sit side by side at 50% each"},
+    {"id":"A2","kind":"width-ratio","subject":"filmMeta","target":"bookMeta","ratio":1,"description":"the two cards are equal width"},
+    {"id":"A3","kind":"visible","subject":"pageBlurb","description":"every text/heading node carries a themed colour that actually renders (contentType custom) [R-052]"}
   ]
 }

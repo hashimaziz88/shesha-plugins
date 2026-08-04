@@ -26,7 +26,10 @@ const isLocalHost = (baseUrl) => {
 export class GymApi {
   /**
    * @param {string} baseUrl backend origin
-   * @param {{tokenFile?: string, user?: string, password?: string}} [opts]
+   * @param {{tokenFile?: string, user?: string, password?: string, fetchImpl?: Function}} [opts]
+   *   fetchImpl — injection seam so a caller (apply-form.mjs's tests) can drive the
+   *   whole publish sequence against a stub transport. Defaults to global fetch;
+   *   nothing in production passes it.
    */
   constructor(baseUrl = 'http://localhost:21021', opts = {}) {
     this.baseUrl = baseUrl.replace(/\/$/, '');
@@ -34,6 +37,7 @@ export class GymApi {
     this.tokenFile = resolveTokenFile(opts.tokenFile);
     this.user = opts.user ?? null;
     this.password = opts.password ?? null;
+    this.fetch = opts.fetchImpl ?? ((...a) => fetch(...a));
   }
 
   /**
@@ -63,7 +67,7 @@ export class GymApi {
       if (cached) {
         this.token = cached;
         // validate cached token cheaply
-        const probe = await fetch(`${this.baseUrl}/api/services/app/Module/GetAll?maxResultCount=1`, {
+        const probe = await this.fetch(`${this.baseUrl}/api/services/app/Module/GetAll?maxResultCount=1`, {
           headers: this.headers(),
         });
         if (probe.ok) return this.token;
@@ -71,7 +75,7 @@ export class GymApi {
       }
     }
     const creds = this.resolveCredentials(user, password);
-    const res = await fetch(`${this.baseUrl}/api/TokenAuth/Authenticate`, {
+    const res = await this.fetch(`${this.baseUrl}/api/TokenAuth/Authenticate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userNameOrEmailAddress: creds.user, password: creds.password }),
@@ -90,7 +94,7 @@ export class GymApi {
   }
 
   async getJson(url) {
-    const res = await fetch(`${this.baseUrl}${url}`, { headers: this.headers() });
+    const res = await this.fetch(`${this.baseUrl}${url}`, { headers: this.headers() });
     const body = await res.json().catch(() => null);
     return { ok: res.ok, status: res.status, body };
   }
@@ -110,12 +114,13 @@ export class GymApi {
     return ok ? body?.result ?? null : null;
   }
 
-  /** Create-or-update. Returns backend form id. */
-  async upsertForm({ moduleName, moduleId, name, markup, modelType }) {
+  /** Create-or-update. Returns backend form id. `label`/`description` default to the
+   *  gym's own values; apply-form.mjs supplies real ones. */
+  async upsertForm({ moduleName, moduleId, name, markup, modelType, label, description }) {
     const markupStr = typeof markup === 'string' ? markup : JSON.stringify(markup);
     const existing = await this.getFormByName(moduleName, name);
     if (existing?.id) {
-      const res = await fetch(`${this.baseUrl}/api/services/Shesha/FormConfiguration/UpdateMarkup`, {
+      const res = await this.fetch(`${this.baseUrl}/api/services/Shesha/FormConfiguration/UpdateMarkup`, {
         method: 'PUT',
         headers: this.headers({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ id: existing.id, markup: markupStr }),
@@ -123,10 +128,14 @@ export class GymApi {
       if (!res.ok) throw new Error(`UpdateMarkup ${name} failed: HTTP ${res.status} ${await res.text().catch(() => '')}`);
       return { id: existing.id, action: 'updated' };
     }
-    const res = await fetch(`${this.baseUrl}/api/services/Shesha/FormConfiguration/Create`, {
+    const res = await this.fetch(`${this.baseUrl}/api/services/Shesha/FormConfiguration/Create`, {
       method: 'POST',
       headers: this.headers({ 'Content-Type': 'application/json' }),
-      body: JSON.stringify({ moduleId, name, label: name, description: 'component gym (generated)', modelType, markup: markupStr }),
+      body: JSON.stringify({
+        moduleId, name, modelType, markup: markupStr,
+        label: label ?? name,
+        description: description ?? 'component gym (generated)',
+      }),
     });
     const body = await res.json().catch(() => null);
     if (!res.ok) throw new Error(`Create ${name} failed: HTTP ${res.status} ${JSON.stringify(body?.error ?? body).slice(0, 300)}`);

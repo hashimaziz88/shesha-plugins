@@ -16,21 +16,22 @@
  *   verify                       exit 0 when every entry is verified/abandoned, else 1
  *   path                         print the resolved ledger path (diagnostics/tests)
  *
- * Root resolution mirrors hooks/scripts/session-logger.cjs: the git toplevel of
- * cwd is computed ONCE and pinned via a tmpdir pointer file keyed by
- * CLAUDE_SESSION_ID, so every later call in the same session lands on the same
- * ledger regardless of which directory it ran from. With no session id, it falls
- * back to the plain git toplevel, then to cwd. The hook duplicates this logic.
+ * Root resolution is NOT implemented here. `scripts/lib/session-root.cjs` is the
+ * one resolver (git toplevel of cwd, pinned per session in a tmpdir pointer file);
+ * this script, hook-verify-push.cjs and session-logger.cjs all call it, so the
+ * ledger the Stop hook reads is provably the ledger this writer wrote. It is a
+ * `.cjs` because the hooks cannot import ESM — reached here via createRequire.
  *
  * Writes are atomic (tmp file + rename) so a concurrent reader never sees a
  * half-written ledger — a truncated ledger is a BLOCK, not a shrug.
  */
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
-import { execSync } from 'node:child_process';
+import { createRequire } from 'node:module';
 
-const POINTER_PREFIX = 'shesha-push-ledger-';
+const require_ = createRequire(import.meta.url);
+const { resolveSessionRoot, ledgerPathFor, NS_LEDGER } = require_('./lib/session-root.cjs');
+
 const RECORD_STATUSES = new Set(['authored', 'pushed']);
 const UPDATE_STATUSES = new Set(['pushed', 'verified', 'abandoned']);
 const CLOSED_STATUSES = new Set(['verified', 'abandoned']);
@@ -41,45 +42,12 @@ const USAGE = `Usage:
   node scripts/ledger.mjs verify
   node scripts/ledger.mjs path`;
 
-function gitToplevel(cwd) {
-  try {
-    const out = execSync('git rev-parse --show-toplevel', {
-      cwd,
-      stdio: ['ignore', 'pipe', 'ignore'],
-      timeout: 5000,
-    });
-    const t = String(out).trim();
-    return t || null;
-  } catch {
-    return null;
-  }
-}
-
-function sanitizeSid(sid) {
-  return String(sid).replace(/[^A-Za-z0-9._-]/g, '_');
-}
-
-function resolveRoot(cwd = process.cwd()) {
-  const rawSid = process.env.CLAUDE_SESSION_ID;
-  const sid = rawSid ? sanitizeSid(rawSid) : null;
-  const pointerFile = sid ? path.join(os.tmpdir(), `${POINTER_PREFIX}${sid}.root`) : null;
-
-  if (pointerFile) {
-    try {
-      const existing = fs.readFileSync(pointerFile, 'utf8').trim();
-      if (existing) return existing;
-    } catch { /* no pointer yet */ }
-  }
-
-  const root = gitToplevel(cwd) || cwd || process.cwd();
-  if (pointerFile) {
-    try { fs.writeFileSync(pointerFile, root, 'utf8'); } catch { /* best effort */ }
-  }
-  return root;
-}
-
 function ledgerPath() {
-  return path.join(resolveRoot(), '.claude', 'cache', 'shesha-form-edit', 'push-ledger.json');
+  return ledgerPathFor(resolveSessionRoot({
+    sid: process.env.CLAUDE_SESSION_ID || null,
+    cwd: process.cwd(),
+    namespace: NS_LEDGER,
+  }));
 }
 
 function readLedger(file) {

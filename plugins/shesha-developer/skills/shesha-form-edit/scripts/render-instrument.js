@@ -14,21 +14,40 @@
 // ONE BROWSER BOOT PER VERIFY CYCLE. `--forms` verifies a whole set from a
 // single Chromium launch and a single login; artifacts fan out, browsers don't.
 // A green verdict CLOSES browser work for that form — the design-critic, the
-// placement diff and the report all consume the artifacts written here
-// (screenshot, verdict.json, layout-probe.json), they do not re-drive a browser.
+// placement oracle and the report all consume the artifacts written here
+// (screenshot + evidence.json), they do not re-drive a browser.
+//
+// ONE EVIDENCE FILE. The probe itself lives in
+// ../../shesha-design-comprehension/scripts/layout-probe.js — the canonical
+// probe module — and this script writes the canonical render-evidence document
+// it defines. The former layout sidecar artifact and the second copy of the
+// layout data inside the verdict were both DELETED — one probe, one evidence
+// document, one shape.
 //
 // Artifacts per form, in <out>:
 //   <module>--<name>.png                  screenshot
-//   <module>--<name>.verdict.json         full verdict (incl. probe.layout)
-//   <module>--<name>.layout-probe.json    the layout payload on its own, so
-//                                         Layer 3 (placement diff) can consume
-//                                         it instead of launching a browser
+//   <module>--<name>.evidence.json        THE canonical render evidence (geometry,
+//                                         censuses, health, console/network) —
+//                                         the single input to Layer 3
+//                                         (verify-placement.mjs) and Layer 4
+//                                         (design-critic)
+//   <module>--<name>.verdict.json         the instrument's own pass/fail summary:
+//                                         { form, verdict, reasons, evidencePath, … }
 //   .pw-state-<backend-host>.json         reusable Playwright storageState
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { createRequire } from 'node:module';
 import { GymApi } from './gym-lib/api.js';
+
+// Cross-skill require of the canonical probe module (CommonJS, so `require`
+// rather than `import` keeps it synchronous and format-explicit). Established
+// practice here — compile-blueprint.js reaches across to validate-blueprint.mjs
+// the same way.
+const require_ = createRequire(import.meta.url);
+const { PROBE_FN, computeHealth, finalizeEvidence } =
+  require_('../../shesha-design-comprehension/scripts/layout-probe.js');
 
 const BUDGET_MS = 30000;
 const STATE_MAX_AGE_MS = 8 * 60 * 60 * 1000; // 8h — a storageState older than this is not trusted
@@ -96,103 +115,78 @@ export function parseArgs(argv) {
   };
 }
 
-// ---- in-page probe (runs in the browser) -------------------------------------
-/* c8 ignore start */
-function pageProbe() {
-  const comps = [...document.querySelectorAll('[data-sha-c-id]')];
-  const bound = comps.filter((el) => el.getAttribute('data-sha-c-property-name'));
-  const nonEmpty = bound.filter((el) => {
-    const input = el.querySelector('input,textarea,select');
-    if (input && String(input.value ?? '').trim() !== '') return true;
-    const txt = (el.innerText || '').replace(/^[^:]*:\s*/, '').trim(); // strip "Label:" prefix
-    return txt.length > 0 && !/^:?$/.test(txt);
-  });
-  // ---- layout-quality metrics — scoped by the reliable data-sha-c-* markers,
-  // NOT .sha-page-content (whose first match in the app shell isn't the form body).
-  const vw = window.innerWidth;
-  const vis = (el) => { const r = el.getBoundingClientRect(); const s = getComputedStyle(el); return r.width > 0 && r.height > 0 && s.visibility !== 'hidden' && s.display !== 'none'; };
+// ---- the canonical evidence document, with fail-closed empty defaults --------
+// A probe that threw must still leave a schema-VALID document (empty, and
+// therefore reported downstream as `malformed-evidence` — nothing measured)
+// rather than a half-written file that reads as a placement pass.
+export const EMPTY_EVIDENCE = {
+  form: null,
+  url: null,
+  timestamp: null,
+  viewport: { w: 1440, h: 900 },
+  components: [],
+  rowBands: [],
+  columnClusters: [],
+  tabMembership: null,
+  controls: { total: 0, tiny: 0 },
+  boundRegions: { total: 0, nonEmpty: 0 },
+  actionButtonHealth: { groups: 0, collapsed: 0, stacked: 0, realButtons: 0, stackedContainers: [] },
+  overflow: { x: 0, y: 0 },
+  consoleErrors: [],
+  networkErrors: [],
+  settled: false,
+  screenshotPath: null,
+  health: null,
+};
 
-  // usable inputs: each bound field wrapper should hold a real-width control
-  const controlEls = bound.map((w) => w.querySelector('input,textarea,select,.ant-select,.ant-picker')).filter((el) => el && vis(el));
-  const tinyControls = controlEls.filter((el) => el.getBoundingClientRect().width < 60).length;
-
-  // action buttons: scope to buttonGroup markers; an inline row has ≥1 labelled button
-  const bgs = comps.filter((c) => c.getAttribute('data-sha-c-type') === 'buttonGroup');
-  const isEllipsis = (t) => /^(\.\.\.|···|…|⋯)$/.test((t || '').trim());
-  let realButtons = 0; let collapsedActions = 0;
-  for (const bg of bgs) {
-    const btns = [...bg.querySelectorAll('button')].filter(vis);
-    realButtons += btns.filter((b) => b.getBoundingClientRect().width >= 40 && !isEllipsis(b.innerText) && (b.innerText || '').trim().length > 0).length;
-    collapsedActions += btns.filter((b) => isEllipsis(b.innerText)).length;
-  }
-
-  // stacked action buttons [R-057]: inside one action container, two sibling
-  // buttons whose y-ranges are disjoint while their x-ranges overlap are on
-  // separate lines — the vertical-stack failure the "…" probe above cannot see.
-  // Action containers = every buttonGroup, plus any container holding ≥2 marked
-  // button/buttonGroup components.
-  const actionContainers = [...bgs];
-  for (const c of comps) {
-    if (c.getAttribute('data-sha-c-type') !== 'container') continue;
-    const btnKids = [...c.querySelectorAll('[data-sha-c-type="button"], [data-sha-c-type="buttonGroup"]')];
-    if (btnKids.length >= 2) actionContainers.push(c);
-  }
-  const stackedActionRows = [];
-  for (const ac of actionContainers) {
-    const btns = [...ac.querySelectorAll('button')].filter(vis)
-      .filter((b) => !isEllipsis(b.innerText) && (b.innerText || '').trim().length > 0);
-    if (btns.length < 2) continue;
-    const rects = btns.map((b) => b.getBoundingClientRect());
-    const stacked = rects.some((a, i) => rects.slice(i + 1).some((b) => {
-      const yDisjoint = a.bottom <= b.top + 1 || b.bottom <= a.top + 1;
-      const xOverlap = Math.min(a.right, b.right) - Math.max(a.left, b.left) > 4;
-      return yDisjoint && xOverlap;
-    }));
-    if (stacked) stackedActionRows.push(ac.getAttribute('data-sha-c-name') || ac.getAttribute('data-sha-c-id'));
-  }
-
-  // horizontal overflow: no marked component should extend past the viewport
-  let maxRight = 0;
-  for (const el of comps) { const r = el.getBoundingClientRect(); if (r.width > 0 && r.right > maxRight) maxRight = r.right; }
-  const overflowX = Math.max(0, Math.round(maxRight - vw));
-
-  // split soundness. A Shesha container is TWO divs: the marked OUTER div is
-  // never the flex box (its computed flexDirection is the default 'row'); the
-  // INNER div (.sha-components-container-inner) is. Read flex from the inner div
-  // and measure ITS direct children — otherwise every vertical stack looks like
-  // a broken row (R-032 two-div trap).
-  const rowContainers = [];
-  for (const c of comps) {
-    if (c.getAttribute('data-sha-c-type') !== 'container') continue;
-    const inner = c.querySelector(':scope > .sha-components-container-inner') || c.querySelector('.sha-components-container-inner');
-    if (!inner) continue;
-    const cs = getComputedStyle(inner);
-    if (cs.display !== 'flex' || cs.flexDirection !== 'row') continue; // only genuine flex-rows
-    const vkids = [...inner.children].filter(vis);
-    if (vkids.length < 2) continue;
-    const rects = vkids.map((k) => k.getBoundingClientRect());
-    const sideBySide = rects.some((a, i) => rects.slice(i + 1).some((b) => Math.abs(a.top - b.top) < Math.min(a.height, b.height) * 0.5 && Math.abs(a.left - b.left) > 8));
-    rowContainers.push({ name: c.getAttribute('data-sha-c-name'), children: vkids.length, sideBySide });
-  }
-
-  return {
-    componentCount: comps.length,
-    boundTotal: bound.length,
-    boundNonEmpty: nonEmpty.length,
-    spinning: !!document.querySelector('.ant-spin-spinning, .sha-page-content .ant-spin'),
-    errorToast: !!document.querySelector('[class*="error"] [class*="toast"], .ant-notification-notice-error'),
-    layout: {
-      controls: controlEls.length, tinyControls,
-      realButtons, buttonGroups: bgs.length, collapsedActions,
-      stackedActionRows,
-      overflowX,
-      rowsExpectedSideBySide: rowContainers.length,
-      rowsThatStacked: rowContainers.filter((r) => !r.sideBySide).map((r) => r.name),
-    },
-    bodySample: (document.body.innerText || '').slice(0, 200),
-  };
+/**
+ * Project the probe payload onto the canonical evidence document. The field
+ * names are written out here on purpose: this artifact is the instrument's
+ * signed output and the schema is pinned at SOURCE level against both producers
+ * (tests/contract/probe-contract.contract.test.mjs). Detection logic is NOT
+ * duplicated — measurement is PROBE_FN, metrics are computeHealth, and the
+ * shape is enforced by finalizeEvidence, all from the one probe module.
+ * @param {object} probe PROBE_FN's return value
+ * @param {object} meta  { form, url, timestamp, consoleErrors, networkErrors, settled, screenshotPath }
+ * @returns {{ doc: object, problems: string[] }}
+ */
+export function buildEvidence(probe, meta) {
+  const p = probe || {};
+  const comps = Array.isArray(p.components) ? p.components : [];
+  return finalizeEvidence({
+    form: meta.form,
+    url: meta.url,
+    timestamp: meta.timestamp,
+    viewport: p.viewport || { w: 1440, h: 900 },
+    components: comps.map((c) => ({
+      name: c.name ?? null,
+      type: c.type ?? null,
+      id: c.id ?? null,
+      parentId: c.parentId ?? null,
+      rect: { x: c.rect?.x, y: c.rect?.y, w: c.rect?.w, h: c.rect?.h },
+      columnIndex: c.columnIndex ?? 0,
+      tabMembership: c.tabMembership ?? null,
+      propertyName: c.propertyName ?? null,
+      rowBand: c.rowBand ?? null,
+      depth: c.depth ?? 0,
+    })),
+    rowBands: p.rowBands ?? EMPTY_EVIDENCE.rowBands,
+    columnClusters: p.columnClusters ?? EMPTY_EVIDENCE.columnClusters,
+    tabMembership: p.tabMembership ?? null,
+    controls: p.controls ?? EMPTY_EVIDENCE.controls,
+    boundRegions: p.boundRegions ?? EMPTY_EVIDENCE.boundRegions,
+    actionButtonHealth: p.actionButtonHealth ?? EMPTY_EVIDENCE.actionButtonHealth,
+    overflow: p.overflow ?? EMPTY_EVIDENCE.overflow,
+    consoleErrors: meta.consoleErrors ?? [],
+    networkErrors: meta.networkErrors ?? [],
+    settled: meta.settled ?? false,
+    screenshotPath: meta.screenshotPath ?? null,
+    health: computeHealth(p),
+    capturedBy: 'render-instrument',
+    multiColumnContainers: p.multiColumnContainers ?? [],
+  }, { lenient: true });
 }
-/* c8 ignore stop */
+
 
 // ---- one form, one fresh page ----------------------------------------------
 // A fresh page per form keeps the probe isolated (no leaked listeners, no
@@ -201,15 +195,16 @@ async function verifyForm(context, spec, cfg) {
   const verdict = {
     form: spec.key,
     url: `${cfg.portal}/dynamic/${spec.module}/${spec.formName}${cfg.mode === 'edit' ? '?mode=edit' : ''}`,
-    capturedAt: new Date().toISOString(),
+    timestamp: new Date().toISOString(),
     rendered: false,
     componentCount: 0,
     consoleErrors: [],
     networkErrors: [],
     boundRegions: { total: 0, nonEmpty: 0 },
-    screenshot: null,
+    screenshotPath: null,
     reasons: [],
     verdict: 'FAIL',
+    evidence: null, // the canonical document; written to <slug>.evidence.json
   };
   const page = await context.newPage();
   try {
@@ -270,41 +265,53 @@ async function verifyForm(context, spec, cfg) {
     }
     verdict.settled = spinnerGone && stable >= 2 && sawControls;
 
-    const probe = await page.evaluate(pageProbe);
-
-    verdict.componentCount = probe.componentCount;
-    verdict.boundRegions = { total: probe.boundTotal, nonEmpty: probe.boundNonEmpty };
-    verdict.layout = probe.layout;
-    // rendered = real form content present AND not still spinning
-    verdict.rendered = probe.componentCount > 3 && !probe.spinning && verdict.settled;
+    // ONE probe — the canonical page-context function from the probe module.
+    const probe = await page.evaluate(PROBE_FN, { root: 'body', mode: 'shesha', screen: spec.key });
 
     const shot = path.join(cfg.outDir, `${spec.slug}.png`);
     await page.screenshot({ path: shot, fullPage: false });
-    if (fs.existsSync(shot)) verdict.screenshot = shot;
+    if (fs.existsSync(shot)) verdict.screenshotPath = shot;
+
+    const built = buildEvidence(probe, {
+      form: spec.key,
+      url: verdict.url,
+      timestamp: verdict.timestamp,
+      consoleErrors: verdict.consoleErrors,
+      networkErrors: verdict.networkErrors,
+      settled: verdict.settled,
+      screenshotPath: verdict.screenshotPath,
+    });
+    verdict.evidence = built.doc;
+    verdict.evidenceProblems = built.problems;
+
+    const comps = built.doc.components;
+    verdict.componentCount = comps.length;
+    verdict.boundRegions = built.doc.boundRegions;
+    // rendered = real form content present AND not still spinning
+    verdict.rendered = comps.length > 3 && !probe.spinning && verdict.settled;
 
     // fail-closed judgments
     if (probe.spinning || !verdict.settled) verdict.reasons.push('page still loading (spinner visible / component count unstable at the deadline) — form did not finish rendering');
-    if (!verdict.rendered && !probe.spinning) verdict.reasons.push(`only ${probe.componentCount} components rendered — the form did not load`);
-    if (!verdict.screenshot) verdict.reasons.push('no screenshot captured');
+    if (!verdict.rendered && !probe.spinning) verdict.reasons.push(`only ${comps.length} components rendered — the form did not load`);
+    if (!verdict.screenshotPath) verdict.reasons.push('no screenshot captured');
     if (verdict.consoleErrors.length) verdict.reasons.push(`${verdict.consoleErrors.length} console error(s)`);
     const relevant404s = verdict.networkErrors.filter((e) => !/GetChecklists|notification/i.test(e));
     if (relevant404s.length) verdict.reasons.push(`${relevant404s.length} failed request(s)`);
     if (probe.errorToast) verdict.reasons.push('error toast visible on the page');
-    if (cfg.expectData && probe.boundTotal > 0 && probe.boundNonEmpty === 0) {
+    if (cfg.expectData && built.doc.boundRegions.total > 0 && built.doc.boundRegions.nonEmpty === 0) {
       verdict.reasons.push('binding smoke failed: every bound region is empty although the entity has data [R-034]');
     }
+    // A document the placement oracle cannot measure is an INFRASTRUCTURE
+    // failure of this instrument — surface it here rather than letting Layer 3
+    // report it as a design mismatch.
+    if (built.problems.length) verdict.reasons.push(`evidence not canonical: ${built.problems.slice(0, 3).join('; ')}`);
 
     // ---- layout-quality gate: RELIABLE geometry signals only, fail-closed ----
-    // Subtler visual quality (button style, spacing rhythm, professional polish)
-    // is the design-critic's job — mechanical DOM heuristics are too brittle for it.
-    const L = probe.layout;
-    if (L && verdict.settled) {
-      if (L.rowsThatStacked.length) verdict.reasons.push(`layout: ${L.rowsThatStacked.length} flex-row container(s) stacked instead of splitting side-by-side (${L.rowsThatStacked.filter(Boolean).join(', ') || 'unnamed'}) [R-029]`);
-      if (L.controls >= 3 && L.tinyControls / L.controls > 0.34) verdict.reasons.push(`layout: ${L.tinyControls}/${L.controls} inputs are <60px wide (collapsed/unusable)`);
-      if (L.overflowX > 24) verdict.reasons.push(`layout: content overflows the viewport by ${L.overflowX}px (horizontal scroll)`);
-      if (L.collapsedActions > 0) verdict.reasons.push('layout: action row shows an overflow "…" instead of inline buttons (buttonGroup needs isInline:true)');
-      if (L.buttonGroups > 0 && L.realButtons === 0) verdict.reasons.push('layout: a buttonGroup rendered no visible labelled button (collapsed/overflow)');
-      if (L.stackedActionRows?.length) verdict.reasons.push(`layout: ${L.stackedActionRows.length} action container(s) render their buttons stacked vertically instead of inline (${L.stackedActionRows.filter(Boolean).join(', ') || 'unnamed'}) — buttonGroup needs isInline:true, the container a flex row [R-057]`);
+    // The detectors live in the probe module (computeHealth); this instrument only
+    // decides that a health issue is a FAIL. Subtler visual quality (button style,
+    // spacing rhythm, professional polish) is the design-critic's job.
+    if (verdict.settled) {
+      for (const issue of built.doc.health?.issues ?? []) verdict.reasons.push(`layout: ${issue}`);
     }
     // the render-instrument proves the form LOADS + is geometrically sound; a PASS
     // here is necessary, not sufficient — the visual design-critic is the quality gate.
@@ -329,23 +336,36 @@ function looksLikeAuthFailure(verdict) {
 }
 
 function writeArtifacts(verdict, spec, outDir) {
+  // ONE evidence file. `<slug>.evidence.json` IS the canonical render evidence
+  // (see ../../shesha-design-comprehension/scripts/layout-probe.js) and the only
+  // input Layer 3 (verify-placement.mjs) and Layer 4 (design-critic) read. The
+  // former standalone layout sidecar artifact is gone.
+  const evidenceFile = path.join(outDir, `${spec.slug}.evidence.json`);
+  fs.writeFileSync(evidenceFile, JSON.stringify(verdict.evidence ?? EMPTY_EVIDENCE, null, 2) + '\n');
+
+  // The verdict is the instrument's OWN pass/fail summary and carries NO second
+  // copy of the layout data — it points at the evidence instead.
   const verdictFile = path.join(outDir, `${spec.slug}.verdict.json`);
-  fs.writeFileSync(verdictFile, JSON.stringify(verdict, null, 2) + '\n');
-  // Layer 3 (placement diff) consumes THIS file instead of booting its own
-  // browser — the probe payload must be a first-class artifact, not buried.
-  const probeFile = path.join(outDir, `${spec.slug}.layout-probe.json`);
-  fs.writeFileSync(probeFile, JSON.stringify({
+  fs.writeFileSync(verdictFile, JSON.stringify({
     form: verdict.form,
     url: verdict.url,
-    capturedAt: verdict.capturedAt,
-    viewport: { width: 1440, height: 900 },
+    finalUrl: verdict.finalUrl ?? null,
+    timestamp: verdict.timestamp,
     verdict: verdict.verdict,
+    reasons: verdict.reasons,
+    evidencePath: evidenceFile,
+    screenshotPath: verdict.screenshotPath,
     settled: verdict.settled ?? false,
+    rendered: verdict.rendered,
     componentCount: verdict.componentCount,
     boundRegions: verdict.boundRegions,
-    layout: verdict.layout ?? null,
+    consoleErrors: verdict.consoleErrors,
+    networkErrors: verdict.networkErrors,
+    cacheCleared: verdict.cacheCleared ?? null,
+    stateReused: verdict.stateReused ?? false,
+    visualCriticRequired: true,
   }, null, 2) + '\n');
-  return { verdictFile, probeFile };
+  return { verdictFile, evidenceFile };
 }
 
 async function main() {
@@ -431,7 +451,9 @@ async function main() {
         verdict.stateReused = reusedState;
         const files = writeArtifacts(verdict, spec, cfg.outDir);
         results.push({ spec, verdict, files });
-        console.log(JSON.stringify(verdict, null, 2));
+        // Print the SLIM verdict — never the evidence document, which lives in
+        // its own file and would otherwise flood the caller's context.
+        console.log(fs.readFileSync(files.verdictFile, 'utf8').trimEnd());
 
         // Save the freshly-authenticated state once, after the first form has
         // exercised the app (so localStorage is populated for the portal origin).
@@ -457,7 +479,7 @@ async function main() {
     const v = r.verdict;
     console.log(`${v.form.padEnd(nameW)}  ${v.verdict.padEnd(7)}  ${String(v.componentCount).padStart(5)}  ${v.reasons.length ? v.reasons[0].slice(0, 90) : '-'}`);
   }
-  console.log(`// artifacts in ${cfg.outDir} (.png · .verdict.json · .layout-probe.json per form)`);
+  console.log(`// artifacts in ${cfg.outDir} (.png · .evidence.json · .verdict.json per form)`);
   console.log(`// ${results.length - failures.length}/${results.length} PASS${reusedState ? ' · storageState reused' : ''}`);
   // For a HUMAN repeating this check in their own browser: the same clear, by hand [R-056].
   console.log([

@@ -22,7 +22,9 @@
   },
   "bindings": [],
   "assertions": [
-    { "id": "A1", "statement": "the page opens with a header band, then a stat-tile row of native statistic components — one per data region" },
-    { "id": "A2", "statement": "both datatables carry row density + header contrast (the measured grid presentation channels)" }
+    {"id":"A1","kind":"exists","subject":"pageHeaderBand","description":"the page opens with a header band"},
+    {"id":"A2","kind":"order","subject":"pageHeaderBand","target":"recentAssets","description":"the band precedes the data regions"},
+    {"id":"A3","kind":"exists","subject":"recentAssets","description":"a stat-tile row of native statistic components — one per data region — sits under the band"},
+    {"id":"A4","kind":"exists","subject":"unverifiedAssets","description":"both datatables carry row density + header contrast (the measured grid appearance channels)"}
   ]
 }

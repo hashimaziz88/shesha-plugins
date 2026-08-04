@@ -50,6 +50,59 @@ Common symptoms of a missing wrapper: "datalist isn't refreshing after I change 
 
 ---
 
+## Status columns are CHIPS, not `[default]` cells
+
+A column bound to a **reference-list** property and left on `displayComponent: {type: "[default]"}` renders the **raw enum NUMBER** — the same lifecycle loss as a status compiled to plain text, one level deeper inside `items[]`. The chip cell shape (live-validated) and the reflist-resolution rule live in **[junction-subtables.md § Columns](junction-subtables.md#columns)** — read it there rather than copying the block; the only difference for a main-entity table is that the `propertyName` is direct (`status`), not FK-dotted.
+
+- **Never guess the reference-list identity** [R-015]. It comes from the bound property's metadata `referenceListName`, or from an explicit `bindings[].referenceList {module, name}` on the blueprint.
+- **From a blueprint**, this is automatic: `compile/compile-node.mjs` gives every datatable column whose property resolves to a reference-list identity a `refListStatus` display cell. Declare the identity on the binding when compiling offline:
+  ```json
+  "bindings": [
+    { "property": "status", "referenceList": { "module": "<module>", "name": "<RefListName>" } }
+  ]
+  ```
+- **The gate**: `validate-styledness.js` check 6 (`status-as-text`) walks every datatable's `items[]`. A status-ish column on `[default]` or a text cell is **FAIL** when the identity was knowable (the form identifies that reference list elsewhere, or `--metadata <entity-metadata.json>` declares it) and **WARN** when nothing could have known it (offline, no declared binding — an identity is never guessed). The finding says which case you are in.
+
+---
+
+## Row-open — "click a row to open the record"
+
+**Blueprint (semantic — the IR never names the channel):**
+
+```json
+{
+  "kind": "datatable",
+  "name": "assets",
+  "columns": ["name", "serialNumber", "status"],
+  "rowAction": { "kind": "open-record" }
+}
+```
+
+`target` is optional and names the destination **form**: omit it and the compiler resolves the convention `<entity-kebab>-details` from the blueprint's entity (`Asset` → `asset-details`), in the blueprint's form module.
+
+**What the compiler emits** — the same Navigate action builder the Back button uses, on the datatable's row-activation channel:
+
+```json
+"onRowClick": {
+  "_type": "action-config",
+  "actionName": "Navigate",
+  "actionOwner": "shesha.common",
+  "actionArguments": {
+    "navigationType": "form",
+    "formId": { "name": "asset-details", "module": "<module>" },
+    "queryParameters": [{ "key": "id", "value": "{{selectedRow.id}}" }]
+  }
+}
+```
+
+> **AUTHORED, NOT MEASURED.** `datatable.onRowClick` (and its siblings `onRowDoubleClick` / the legacy `dblClickActionConfiguration`) are recorded as **`not-measured`** in `assets/measured-capability-matrix.json` — they are `configurableActionConfigurator` settings the gym cannot measure visually, so **nothing here claims the row-open fires.** The shape comes from the KB settings form; the effect is unproven.
+>
+> **How to verify** — one live click test: open the built table at `/dynamic/<module>/<form>`, click a data row once, and confirm the URL/render moves to the details form with the row's `id`. If a single click does nothing, re-author the same action config on `onRowDoubleClick` and test a double-click. Record whichever fired.
+>
+> No gate asserts row-open works, and none should: an unmeasured channel cannot be a floor. See the measurement backlog in [../gym.md](../gym.md).
+
+---
+
 ## Canonical entity-bound list (datalist — row-template mode)
 
 This is the **verified** datalist shape (matches `assets/golden/list-card--entity-datalist.json`): each row is rendered by a **separate named form** via `formSelectionMode: "name"` + `formId`.

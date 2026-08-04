@@ -1,4 +1,26 @@
-# Shesha Form API — Recipes
+# Shesha Form API — reference
+
+**Publishing is not in this file.** Creating or updating a form's markup is done by
+ONE command — `node scripts/apply-form.mjs --file <compiled.json> --form <module>/<name>
+--backend <url>` — which gates, records the ledger, pushes, re-fetches, byte-diffs and
+closes the entry (see `../SKILL.md` §6). The step-by-step push recipes that used to
+live in §5–§7 are deleted: a hand-run push is a push that skips a stage. What remains
+here are the ROUTES and DTOs — for reading, resolving, probing, and for debugging what
+`apply-form.mjs` reports.
+
+## Contents
+1. Conventions
+2. Resolve base URL
+3. Authenticate
+4. Resolve form id by name
+5. Fetch form JSON by id
+6. Publishing markup — run `apply-form.mjs`
+7. List forms in a module
+8. Common errors
+9. Fetch entity metadata
+10. Verify a reference list / combined backend probe
+11. Round-trip verify (post-push)
+12. Browser smoke via the playwright skill
 
 ## Conventions (read once, apply to every recipe below)
 
@@ -138,136 +160,32 @@ If you need the wrapping DTO (with id, name, modelType etc.) instead, use `Get` 
 
 ---
 
-## 5. Push edited markup — UpdateMarkup (preferred)
-
-`PUT /api/services/Shesha/FormConfiguration/UpdateMarkup`
-
-DTO (`FormUpdateMarkupInput`):
-
-```ts
-{
-  id: string,           // form Guid (required)
-  markup?: string,      // stringified form JSON
-  access?: number,      // RefListPermissionedAccess (optional)
-  permissions?: string[] // optional
-}
-```
-
-Build the body via Node so the markup string is properly JSON-escaped. Don't try to construct it inline in bash — escaping nested JSON-in-JSON manually is a footgun.
+## 5–7. Publishing markup — run `apply-form.mjs`
 
 ```bash
-node -e "
-const fs = require('fs');
-const dir = process.env.WORKDIR;
-const tree = JSON.parse(fs.readFileSync(dir + '/form-edited.json', 'utf8'));
-const body = JSON.stringify({
-  id: process.env.FORM_ID,
-  markup: JSON.stringify(tree)
-});
-fs.writeFileSync(dir + '/update-markup-body.json', body);
-" 
-
-curl -s -X PUT "$BASE_URL/api/services/Shesha/FormConfiguration/UpdateMarkup" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d @"$WORKDIR/update-markup-body.json"
+node scripts/apply-form.mjs --file "$WORKDIR/form-edited.json" \
+     --form "$MODULE/$FORM_NAME" --backend "$BASE_URL" \
+     [--id "$FORM_ID"] [--token-file "$WORKDIR/access-token"] [--archetype <a>] [--bindings]
 ```
 
-Successful response: HTTP 200 with `{ "result": null, "success": true, ... }`. The endpoint returns `void`.
+One command, seven stages: offline gates → ledger `authored` → Create **or**
+UpdateMarkup → ledger `pushed` → re-fetch → byte diff → ledger `verified` (or exit 1
+with the entry left `pushed`). It picks the route itself (Create when the form does not
+exist, UpdateMarkup when it does), builds the JSON-in-JSON body correctly, and prints
+one JSON result. `scripts/ledger.mjs` stays the only writer of `push-ledger.json` —
+never hand-write or hand-edit it; a malformed or hand-made ledger is a hard BLOCK at
+Stop, and so is a publish with no ledger entry at all.
 
-Immediately record the push in the ledger — the Stop hook will not let the session end otherwise:
+**Write routes, for debugging what the script reports** (do not hand-run them):
 
-```bash
-node scripts/ledger.mjs record --form "$MODULE/$FORM_NAME" --id "$FORM_ID" --status pushed
-```
+| Route | Method | DTO | Notes |
+|---|---|---|---|
+| `Shesha/FormConfiguration/UpdateMarkup` | PUT | `{ id, markup?, access?, permissions? }` | `void` endpoint — 200 with `result: null` is normal and proves nothing |
+| `Shesha/FormConfiguration/Create` | POST | `{ moduleId, name, label?, description?, modelType?, generationLogicTypeName?, templateId?, markup? }` | response carries the new form `id`; `moduleId` from `app/Module/GetAll` |
+| `Shesha/FormConfiguration/ImportJson` | POST (multipart) | `{ ItemId, file }` | mimics the designer's "upload JSON" button; field name must be lowercase `file` |
 
-`scripts/ledger.mjs` is the only writer of `push-ledger.json` — never hand-write or hand-edit that file; a malformed or hand-made ledger is a hard BLOCK at Stop.
-
-On error, ABP returns:
-
-```json
-{
-  "result": null,
-  "success": false,
-  "error": { "code": 0, "message": "...", "details": "..." },
-  "unAuthorizedRequest": false
-}
-```
-
-Surface `error.message` and `error.details` to the user and stop.
-
----
-
-## 6. Push edited markup — ImportJson (multipart upload)
-
-`POST /api/services/Shesha/FormConfiguration/ImportJson` with `multipart/form-data`. Use this when you specifically need to mimic the designer's "upload JSON" button.
-
-DTO (`ImportFormJsonInput`):
-
-```ts
-{
-  ItemId: string,    // form Guid
-  file: File         // the form JSON as a file upload, field name MUST be lowercase "file"
-}
-```
-
-```bash
-# $WORKDIR/form-edited.json contains the stringified-or-tree form JSON.
-# If your edits are an object (parsed tree), stringify first; the API expects the file content
-# to be a JSON document representing the form markup.
-
-curl -s -X POST "$BASE_URL/api/services/Shesha/FormConfiguration/ImportJson" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -F "ItemId=$FORM_ID" \
-  -F "file=@$WORKDIR/form-edited.json;type=application/json"
-```
-
-Successful response: HTTP 200 with `{ "result": { ...FormConfigurationDto... }, "success": true }`. The DTO contains the updated form record.
-
-Field name **must be `file`** (lowercase) — see `ImportFormJsonInput.File` `[BindProperty(Name = "file")]`.
-
----
-
-## 7. (Optional) Create a new form
-
-`POST /api/services/Shesha/FormConfiguration/Create`
-
-DTO (`CreateFormConfigurationRequest`):
-
-```ts
-{
-  moduleId: string,        // module Guid (required)
-  name: string,            // unique within module
-  label?: string,
-  description?: string,
-  modelType?: string,      // entity full name
-  generationLogicTypeName?: string,
-  templateId?: string,     // copy from another form
-  markup?: string          // initial markup; can be set later via UpdateMarkup
-}
-```
-
-```bash
-curl -s -X POST "$BASE_URL/api/services/Shesha/FormConfiguration/Create" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "moduleId": "...module-guid...",
-    "name": "facility-quickview",
-    "label": "Facility - Quick View",
-    "modelType": "His.Facilities.Domain.Domain.Facility"
-  }'
-```
-
-To resolve `moduleId`, query `GET /api/services/Shesha/Module/GetAll` with bearer token and pick the module by `name`.
-
-The response carries the new form's `id`. Record it before doing anything else — a form created but not tracked is a form that silently never gets verified:
-
-```bash
-node scripts/ledger.mjs record --form "$MODULE/$FORM_NAME" --id "$FORM_ID" --status pushed
-```
-
-(Use `--status authored` if you created the record but have not yet pushed markup.)
+On a failed write ABP returns `{ result: null, success: false, error: { code, message, details } }` —
+`apply-form.mjs` surfaces `error.message`/`details` and stops.
 
 ---
 
@@ -395,36 +313,24 @@ Emits ONE compact JSON summary to stdout (per entity: `modelType`, `fullClassNam
 
 ## 11. Round-trip verify (post-push)
 
-The Push + Oracle step's re-fetch diff. Re-fetch the form just pushed and diff against the markup we sent:
+`apply-form.mjs` does this — stages 5–7 — and you do not run it separately: re-fetch via
+`GetByName`, parse `result.markup`, byte-compare against what was sent, then a
+key-order-insensitive structural compare, then `ledger update --status verified`. On a
+mismatch it prints the differing paths and exits 1 with the entry still `pushed`, so the
+Stop gate keeps blocking.
 
-```bash
-curl -s -G "$BASE_URL/api/services/Shesha/FormConfiguration/GetJson" \
-  --data-urlencode "id=$FORM_ID" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  > "$WORKDIR/form-after.json"
-```
+Server normalizations it deliberately treats as equal (not bugs): re-ordered keys inside
+an object, `null` → absent on optional fields. Anything else is reported as a real diff.
 
-Then in Node:
+Two things still need a manual check:
 
-```js
-const sent = JSON.parse(fs.readFileSync(process.env.WORKDIR + '/form-sent.json', 'utf8'));
-const after = JSON.parse(JSON.parse(fs.readFileSync(process.env.WORKDIR + '/form-after.json', 'utf8')).result.markup);
-// Walk both trees in component-id order; surface any property whose value differs.
-```
+- **Anonymous forms**: re-fetch via `GetByName` and assert `result.access === 5`. `Create`
+  may not honour `access` on initial create; on mismatch re-publish once with
+  `access: 5, permissions: []` and re-verify.
+- **Genuinely dropped work**:
+  `node scripts/ledger.mjs update --form "$MODULE/$FORM_NAME" --status abandoned --note "<reason>"`.
 
-For anonymous forms, also confirm the envelope: re-fetch via `GetByName` and assert `result.access === 5`. The `Create` endpoint may not honor `access` on initial create; on mismatch, call `UpdateMarkup` once more with `access: 5, permissions: []` and re-verify.
-
-Once the diff is clean, close the ledger entry — this is what releases the Stop gate:
-
-```bash
-node scripts/ledger.mjs update --form "$MODULE/$FORM_NAME" --status verified
-# work you genuinely dropped instead:
-# node scripts/ledger.mjs update --form "$MODULE/$FORM_NAME" --status abandoned --note "<reason>"
-```
-
-Then `node scripts/ledger.mjs verify` must exit 0 before you report the task done.
-
-Common server normalizations to ignore (not bugs): re-ordered keys inside an object, whitespace inside string-encoded `stylingBox` values, `null` → `undefined` collapsing on optional fields. Anything else — surface to the user.
+`node scripts/ledger.mjs verify` must exit 0 before you report the task done.
 
 ---
 

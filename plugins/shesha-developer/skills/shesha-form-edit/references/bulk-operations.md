@@ -1,6 +1,16 @@
 # Bulk/fleet form transforms (pilot-first)
 
-Mechanics for changing many forms at once without losing fields or regressing working wiring. Fan-out threshold (canon, stated once): [orchestration.md](orchestration.md) — ≤3 forms inline, 4+ fan out. Agent dispatch lives in [orchestration.md](orchestration.md). This file is the HOW.
+Mechanics for changing many forms at once without losing fields or regressing working wiring. The fan-out threshold is stated in exactly one place — [orchestration.md](orchestration.md) — and cited, never restated, here. Agent dispatch also lives there. This file is the HOW.
+
+## Contents
+1. Trigger
+2. Pilot-first protocol
+3. Audit via GetAll
+4. The transform recipe
+5. Tree-walk correctness
+6. Structural identification
+7. Style-transplant methodology
+8. Verification at fleet scale
 
 ---
 
@@ -10,7 +20,7 @@ Read this file when:
 
 | Condition | Why it qualifies |
 |---|---|
-| The same change touches **4+ forms** (threshold: [orchestration.md](orchestration.md)) | Manual per-form editing drifts; a script is cheaper and consistent |
+| The same change touches enough forms to be past the fan-out threshold ([orchestration.md](orchestration.md)) | Manual per-form editing drifts; a script is cheaper and consistent |
 | ANY restructure where **field loss is possible** (re-layout, tab re-bucketing, header transplant) — even on 1 form | Field loss is the #1 risk of bulk re-layouts; only a transform with assertions catches it |
 
 ---

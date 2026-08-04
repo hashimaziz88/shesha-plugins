@@ -1,8 +1,15 @@
 # Component recipes (Shesha default archetypes)
 
-Per-component v7 style blocks — the second styling layer. Copy a recipe, fill it with the brand theme's resolved values (via [token-to-prop-mapping.md](token-to-prop-mapping.md)), and mirror the block across desktop/tablet/mobile unless the design is genuinely responsive. Illustrative values below reference the **default `shesha`** theme; swap for another brand's tokens (e.g. `requirements-studio`). The `recipe:`/token names are identical across brands — only the resolved values differ.
-
-Recipe names match the `recipe:` annotations the comprehension layer puts on blueprint regions, so a blueprint region maps 1:1 to a recipe here.
+Per-component v7 style blocks for **hand-composed** structure — the sub-trees the compiler's
+`normalize-archetype` stage does NOT own (page header band, meta strip, and the page's status
+chip ARE its job now, resolved automatically from blueprint `intent` through the active theme in
+`compile-node.mjs` — no manual recipe needed for those). The recipes below cover what still needs
+hand-composition: cards, section headers, rail panels, detail-attribute rows, datatables/datalists,
+and inline status chips inside them. Copy a recipe, fill it with the brand theme's resolved values
+(via [token-to-prop-mapping.md](token-to-prop-mapping.md)), and mirror the block across
+desktop/tablet/mobile unless the design is genuinely responsive. Illustrative values below
+reference the **default `shesha`** theme; swap for another brand's tokens (e.g.
+`requirements-studio`). Token names are identical across brands — only the resolved values differ.
 
 **Two rules every recipe obeys** (proven against the live app — see [capability-matrix.md](capability-matrix.md)):
 1. **Splits are flex `container` rows, never the `columns` component** (firm project rule). A row is `display:"flex"` + `flexDirection:"row"` + `gap`; size each child via `desktop.dimensions.width` (calc/%/px) — this is the only lever that reaches the child's outer div. Per-child `customStyle:{flex:…}` is **inert** for sizing (lands on the inner div).
@@ -14,14 +21,11 @@ Four token layers, back to front: page root container `background.color` = `surf
 ## card + section-header
 Card container: white `background.color`, hairline `border.all` (lines.border), `border.radius.all` = radius.lg (8 in the Shesha default), **+ the brand card shadow only if the brand defines one** — the Shesha default is border-forward (flat); a brand with a visible `shadow.card` uses `desktop.shadow {offsetX:0, offsetY:1, blurRadius:4, spreadRadius:0, color:…}` (border and shadow are complementary, never a shadow instead of a border). Header strip: child container, `background.color` = surfaceAlt, bottom hairline, padding `12 16`; header text color = **`sectionHeading` role** (Nero ink `#181818` in the Shesha default — Cobalt is reserved for interactive elements; a brand colour in brands that colour their headers), 600, fontSize cardHeader (16); optional leading icon. Count badge (e.g. "7"): small pill, neutral `surfaces.surfaceInset` bg + muted/`sectionHeading` text (or `brand.tint`/`brand.primary` in brands that colour it). Body: `stylingBox` padding 16. Sub-cards use radius `radius.md`–`radius.lg`.
 
-## page-title-band
-Header band container: `background.color` = surface (white), bottom hairline (`border.borderType:"custom"`, bottom = lines.border), `stylingBox` padding `20 24`. Title text: fontSize = title (24), fontWeight 600 (700 if the design's title is bold), color ink.primary. Subtitle text: fontSize = subtitle (14–18), color ink.soft. Actions: a right-aligned `buttonGroup` in a flex row (`display:flex`, `justifyContent:"space-between"`) — title block sized `dimensions.width:"calc(100% - <actions>px)"`, actions auto. (primary = brand fill, secondary = white + hairline border.)
-
-## status-chip  (refListStatus)
-Bind to the status property; colour each lifecycle item from `statusLifecycle.badges.<status>` (bg/fg/border). Pill radius (9999), fontSize 12, fontWeight 500–600, padding `2 8`. Never colour-only — the label text is the status name.
-
-## kib-strip / meta-strip  (Key Info Bar)
-A flex `container` row (`display:"flex"`, `flexDirection:"row"`, `gap`) of cells on the surface. **Equal cells:** size each `desktop.dimensions.width:"calc((100% - <total gap>px)/N)"` (do NOT rely on `customStyle flex` — inert). **Content-width meta strip** (e.g. MODULE · RELEASE · …): leave cells auto + `gap` + `justifyContent:"flex-start"`. Each cell: a micro-label (uppercase 11–12/600, color ink.soft/rail, letter-spacing 0.05–0.06em) above a value (13.5–14/400–500, ink.primary). `stylingBox` padding `12 16`. Flush dividers between cells = `border.borderType:"custom"` **left hairline on cells 2+** (NOT divider elements — border-only containers collapse 0×0). Optional bottom hairline under the strip.
+## status-chip  (refListStatus, inline uses only)
+For status chips OUTSIDE the auto-generated page header (e.g. an inline status cell in a
+datatable/datalist row): bind to the status property; colour each lifecycle item from
+`statusLifecycle.badges.<status>` (bg/fg/border). Pill radius (9999), fontSize 12, fontWeight
+500–600, padding `2 8`. Never colour-only — the label text is the status name.
 
 ## detail-attributes  (label-left / value-right rows)
 Inside the Details card: each attribute is a **2-cell flex `container` row** (`display:"flex"`, `flexDirection:"row"`, `gap` 8–12, `alignItems:"center"`) — label cell `desktop.dimensions.width:"96px"` (up to ~200px; 14/600, ink.muted, right-aligned) + value/control cell `desktop.dimensions.width:"calc(100% - <label+gap>px)"` (fills). Row bottom hairline (lines.divider), `stylingBox` padding `6 0`. Read mode shows the value; edit mode shows the control (input/select inheriting app-theme border/radius). Do NOT stack label-over-value; do NOT use `columns`.

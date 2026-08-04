@@ -24,7 +24,9 @@ Mechanical facts live ONCE in [references/_rules.json](references/_rules.json)
 registry wins.
 
 ```
-SPEC (blueprint IR) → COMPILE → GATES (hooks) → STYLE → PUSH → ORACLE → REPORT
+SPEC (blueprint IR) → validate → normalize → resolve → COMPILE  (compiler entry)
+  → offline GATES (self-gate)  → apply-form.mjs (publish + re-fetch + ledger)
+  → render evidence → placement verification → design-critic → ONE envelope
 ```
 
 Args: `$ARGUMENTS`. Flags: `--no-browser` (skip the render instrument),
@@ -48,11 +50,16 @@ end with a summary naming every form created or modified (module + name + id)
 - **Small edit to an existing form** (add/move/rewire a few components): skip
   the compiler; fetch → edit in place (preserve ids [R-025]) → GATES onward.
 - **New form(s) or a structural rebuild**: full pipeline below.
-- **4+ forms** → (threshold: [references/orchestration.md](references/orchestration.md))
-  (fan out `form-author` agents; ONE `fleet-transformer` for bulk mutations).
+- **Many forms** → past the fan-out threshold (the single authority:
+  [references/orchestration.md](references/orchestration.md)) fan out
+  `form-author` agents; ONE `fleet-transformer` for bulk mutations.
 - **Backend prerequisites in doubt** (new entity, missing reflist/endpoint) →
   dispatch `fullstack-prereq-checker` first; plan backend changes in one
   build + double-boot [R-040].
+- **The one-time app AntD theme** (`$antdTheme` — input/table/button chrome, set
+  once per app, not per form) or **re-styling a form you did NOT compile** (hand-
+  composed, a small edit, or a brand with no token file yet) →
+  `shesha-developer:shesha-design-system`. You still own push + verification.
 
 ## 1 · Pre-flight (once per session)
 
@@ -112,6 +119,15 @@ shapes and per-type recipes: [references/components/](references/components/)
 (routed by `scripts/lookup.js` — run it for every component type you author;
 a no-hit is a gate violation).
 
+Design is a **compile-time input**: `--theme <brand>` (default `shesha`)
+resolves brand colour, type scale, radius, spacing and borders from
+`shesha-design-system/assets/themes/<brand>.tokens.json` and bakes them into
+every node, so the first output is already on-brand [R-042] — no separate
+styling pass is needed for a compiled form. An unknown theme name FAILS the
+compile (non-zero exit, nothing written) — only explicit `--no-style` resolves
+neutral tokens. (Routing for the app-level AntD theme and for re-styling a
+form you did NOT compile: §0 Route.)
+
 ## 4 · Gates (hooks — not optional)
 
 Every markup write triggers the validate-on-write hook; run them yourself
@@ -120,7 +136,7 @@ before push in any case, cheapest first:
 ```
 node scripts/validate-schema.js <form.json>       # known types, id/version shapes
 node scripts/validate-guardrails.js <form.json> [metadata.json]   # render-killers, cites [R-xxx]
-node scripts/resolve-bindings.js <form.json>      # live: properties, dotted paths, reflists, endpoints
+node scripts/resolve-bindings.js <form.json> [metadata.json]  # properties, dotted paths, reflists, endpoints — live, or vs a cached dump; exit 2 = infra, exit 3 = BINDINGS UNVERIFIED (never a pass) [entity-binding.md §6]
 node scripts/validate-styledness.js <form.json>   # structure-only forms are defects [R-042]
 ```
 
@@ -128,53 +144,53 @@ Entity-bound forms MUST pass `resolve-bindings.js` (live backend) before push.
 Fix findings by rule id; never bypass a gate. JSON-safety for embedded scripts:
 [R-013] + [references/components/scripts.md](references/components/scripts.md).
 
-## 5 · Style — compiled in, not a second pass
+## 5 · Publish + Oracle — this skill owns completion
 
-Design is a **compile-time input**: `compile-blueprint.js --theme <brand>`
-(default `shesha`) resolves brand colour, type scale, radius, spacing and
-borders from `shesha-design-system/assets/themes/<brand>.tokens.json` and bakes
-them into every node, so the first output is already on-brand [R-042]. No
-separate styling pass is needed for a compiled form.
+One skill owns the whole run from compile to verdict; nothing is handed back for
+someone else to finish. The stages, in order:
 
-Two things still route to `Skill(shesha-developer:shesha-design-system)`:
-- **the one-time app AntD theme** (`$antdTheme` — input/table/button chrome), set
-  once per app, not per form ([app-theme.md](../shesha-design-system/references/app-theme.md));
-- **re-styling a form you did NOT compile** (a hand-composed form, a small edit,
-  or matching a brand that has no token file yet).
+**a. Publish — ONE command.** No hand-run curl, ever:
 
-Either way **you still own push + verification**. `--no-style` / an unknown
-theme falls back to neutral tokens.
+```
+node scripts/apply-form.mjs --file <workdir>/<form>.json --form <module>/<name> \
+     --backend <url> [--id <guid>] [--token-file <path>] [--archetype <a>] [--bindings]
+```
 
-## 6 · Push + Oracle
+It runs the offline gates on the very file being published, records the ledger
+(`authored` **before** touching the backend), Creates or UpdateMarkups, records
+`pushed`, re-fetches, byte-diffs, and closes the entry as `verified` — or leaves it
+`pushed` and exits 1 on a mismatch. Its stdout is one JSON object
+(`{form, id, gates, pushed, refetchDiff, ledger, status}`) that fills the `gates` and
+`persistence` slots of the envelope below. A 200 is never persistence [R-047]. The
+raw API reference (routes, DTOs, errors) stays in
+[references/api.md](references/api.md) for debugging; the push recipes are gone
+because this script is the recipe. `scripts/ledger.mjs` remains the ledger's only
+writer (`verify` runs the Stop-hook check on demand) — never hand-write that JSON.
+The Stop hook blocks session end on any open entry, on a stale/malformed/hand-made
+ledger, **and on logged publish activity with no ledger at all** [R-046].
 
-Push: `POST FormConfiguration/Create` (new) / `PUT UpdateMarkup` (existing) —
-[references/api.md](references/api.md). Record every form through the script —
-never hand-write the ledger JSON:
-`node scripts/ledger.mjs record --form <module>/<name> --id <guid> --status pushed`,
-then `update --status verified` once the re-fetch diff is clean (or
-`--status abandoned --note "<reason>"`). The Stop hook blocks session end while
-any entry is open, and also blocks on a stale/malformed/hand-made ledger
-[R-046]; `node scripts/ledger.mjs verify` is the same check on demand.
+**b. Render evidence** (objective, unless `--no-browser`):
+`node scripts/render-instrument.js --form <module>/<name>` — or, for a set,
+`--forms <module>/<a>,<module>/<b>` (ONE Chromium launch, ONE login, per-form
+artifacts). Navigate, probe, screenshot, console/network dump, binding smoke,
+layout-quality checks (stacked splits, collapsed inputs/buttons, overflow). Writes
+`<module>--<name>.{png,evidence.json,verdict.json}` — `.evidence.json` is THE
+canonical render evidence every later layer reads. Exit ≠ 0 → fix and re-run;
+diagnose via [references/debug.md](references/debug.md).
 
-The oracle judges the deliverable through four fail-closed layers — a green
-render alone never means done. Full model: [references/quality-gates.md](references/quality-gates.md).
-1. **Re-fetch + diff** — the pushed markup equals what you sent; a 200 alone
-   proves nothing [R-047] ([references/verification.md](references/verification.md)).
-2. **Render instrument** (objective, unless `--no-browser`):
-   `node scripts/render-instrument.js --form <module>/<name>` — or, for a set,
-   `--forms <module>/<a>,<module>/<b>` (ONE Chromium launch, ONE login, per-form
-   artifacts). Navigate, probe, screenshot, console/network dump, binding smoke,
-   layout-quality checks (stacked splits, collapsed inputs/buttons, overflow).
-   Writes `<module>--<name>.{png,verdict.json,layout-probe.json}`. Exit ≠ 0 →
-   fix and re-run; diagnose via [references/debug.md](references/debug.md).
-3. **Placement diff** (intent) — blueprint builds diff the blueprint's
-   `assertions` against the instrument's `layout-probe.json`; this is what
-   catches "the layout I intended didn't happen" (comprehension owns it).
-4. **Design-critic** (visual quality, MANDATORY) — dispatch the
-   `design-critic` agent with the screenshot + assertions + theme tokens; it
-   returns a strict verdict (per-assertion, styled-ness, top-3 fixes). The
-   build is NOT done until the critic PASSes (styled ≥ acceptable). A green
-   render-instrument does not substitute for it.
+**c. Placement verification** — `node ../shesha-design-comprehension/scripts/verify-placement.mjs
+--spec <blueprint.json> --evidence <out>/<module>--<name>.evidence.json`. Comprehension
+owns the SCRIPT; **this skill RUNS it** — it is part of our oracle, not a later
+hand-off. It mechanically diffs the blueprint's `assertions` against the evidence:
+"the layout I intended didn't happen".
+
+**d. Design-critic** (visual quality, MANDATORY) — dispatch the `design-critic` agent
+with the screenshot + `.evidence.json` + the **placement verdict from (c)** + the
+resolved theme (+ `artDirection` when present) + console/network warnings. Verdicts:
+`excellent | acceptable | generic | broken`. Not done below `acceptable`; on
+`generic`, apply the top-3 fixes ONCE and then re-run a–d in full — the delivered
+result must be the judged result. Rules live once in
+[references/quality-gates.md](references/quality-gates.md).
 
 **Browser budget — one boot per verify cycle.** Artifacts fan out; browsers
 don't. Full tier table: [references/quality-gates.md](references/quality-gates.md).
@@ -189,11 +205,17 @@ don't. Full tier table: [references/quality-gates.md](references/quality-gates.m
 browser over a PASSing verdict adds no evidence. The Stop hook logs
 `BROWSER: <n> instrument-boots, <m> mcp-calls`.
 
-## 7 · Report
+## 6 · Report — ONE evidence envelope per form
 
-One summary: every form (module + name + id), archetype used, gate results,
-oracle verdict, ledger state. Anything unverified is reported as UNVERIFIED,
-never as done.
+Return the envelope, not a prose recap. Its shape is defined once — the
+**evidence envelope** section of
+[references/quality-gates.md](references/quality-gates.md) — and carries
+`{form, blueprintHash, themeHash, gates, persistence, render, placement, visual,
+status}`. `blueprintHash`/`themeHash` come from `compile-blueprint.js`'s structured
+stdout; `gates`/`persistence` from `apply-form.mjs`; `render`/`placement`/`visual`
+from stages 5b–5d. `status` is `verified` only when every populated slot passed —
+anything else is reported UNVERIFIED, never as done [R-046]. A dispatching
+conductor consumes this envelope and does NOT re-run any of these layers.
 
 ## Reference map
 
@@ -201,7 +223,8 @@ never as done.
 |---|---|
 | Rule registry (single source) | [references/_rules.json](references/_rules.json) |
 | Session/shell/token contracts | [references/contracts.md](references/contracts.md) |
-| API routes + push recipes | [references/api.md](references/api.md) |
+| Publication (the one push path) | `scripts/apply-form.mjs` |
+| API routes (reference/debugging) | [references/api.md](references/api.md) |
 | Entity binding + metadata probe | [references/entity-binding.md](references/entity-binding.md) |
 | Component recipes (per type) | [references/components/](references/components/) via `scripts/lookup.js` |
 | Block library (hand-composition tier) | [references/block-library.md](references/block-library.md) |

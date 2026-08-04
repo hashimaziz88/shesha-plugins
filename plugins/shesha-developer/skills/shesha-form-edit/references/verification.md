@@ -1,8 +1,18 @@
 # Runtime verification and browser testing
 
-Workflow for proving a push actually landed and smoke-testing it in the browser. Read after any push (the Push + Oracle step) and before claiming success. Symptom→cause lookup lives in [debug.md](debug.md); API recipes in [api.md](api.md).
+Workflow for proving a push actually landed and smoke-testing it in the browser. Read after any push (the Publish + Oracle step) and before claiming success. Symptom→cause lookup lives in [debug.md](debug.md); API routes in [api.md](api.md).
+
+**Who runs the push and the diff:** `scripts/apply-form.mjs`, in one command — gates → ledger `authored` → Create/UpdateMarkup → ledger `pushed` → re-fetch → byte diff → ledger `verified`. §1 below is what that script proves and why; you do not hand-run the sequence.
 
 **How much browser you are allowed:** the tier table in [quality-gates.md](quality-gates.md) — Tier 1 (default) is ONE `render-instrument` run per form per fix cycle, batched across a set with `--forms`; the interactive recipes below (§3, §6) are Tier 2, for a FAILed instrument or explicitly requested interaction testing. A green instrument closes browser work; it needs no manual confirmation lap.
+
+## Contents
+1. API-first verification
+2. IndexedDB form cache — [R-056]
+3. Navigating for tests
+4. Measure, don't screenshot
+5. Don't misattribute
+6. Smoke-failure loop — HARD CAP: 2 cycles
 
 ---
 
@@ -16,14 +26,7 @@ Workflow for proving a push actually landed and smoke-testing it in the browser.
 | Re-fetch (`GetByName` markup or `GetJson`) shows your change | Push landed. The ONLY proof. |
 | Re-fetch shows old markup | Push did not land (wrong id, wrong version, validation drop). |
 
-**Never claim success from the 200 alone.** Always re-fetch and diff against what you sent — recipe and the list of harmless server normalizations (key reorder, stylingBox whitespace, `null`→`undefined`) are in [api.md §11](api.md). Surface anything else as a real diff.
-
-```js
-// Node diff skeleton — walk both trees in component-id order
-const sent  = JSON.parse(fs.readFileSync('form-sent.json', 'utf8'));
-const after = JSON.parse(JSON.parse(fs.readFileSync('form-after.json', 'utf8')).result.markup);
-// assert: every property you changed survived; count components before/after (no field loss)
-```
+**Never claim success from the 200 alone.** `apply-form.mjs` re-fetches and diffs every publish: byte compare first, then a key-order-insensitive structural compare, so the harmless server normalizations (key reorder, `null` → absent on optional fields) do not read as drift while anything else does. A mismatch leaves the ledger entry `pushed` and exits 1 — the Stop gate keeps blocking until it is closed honestly.
 
 ---
 
@@ -109,8 +112,8 @@ When a browser smoke test fails, run this exact cycle — no shortcuts:
 1. **Capture verbatim** — console errors and network responses with status ≥ 400, quoted exactly.
 2. **Consult [debug.md](debug.md)** — match the symptom row; if no row matches, don't guess — report "no match" and ask.
 3. **Fix markup** — apply the row's fix (or the diagnosed cause).
-4. **Re-push** — [api.md §5](api.md).
-5. **Re-fetch verify** — §1; confirm the fix persisted server-side.
+4. **Re-push** — `node scripts/apply-form.mjs --file <form.json> --form <module>/<name> --backend <url>` (it re-gates, re-pushes, re-fetches and re-diffs in one step).
+5. **Re-fetch verify** — §1; the script's `refetchDiff`/`status` is the confirmation.
 6. **Clear the IndexedDB cache** — §2, from `/favicon.ico`. Never skip this after a re-push.
 7. **Re-test** — via the correct navigation path (§3).
 

@@ -1,11 +1,17 @@
 # Block library
 
 This is the **hand-composition tier**: for when no golden archetype fits (SKILL.md §3) —
-use it as the fallback, not the default. Authored layout **blocks** — small, parented,
-version-stamped component subtrees that you **compose** into a form. A block is structure
-only; the matching **style overlay** lives in `shesha-design-system` and is applied after
-composition. Never hand-copy a 25K-line seed — map each blueprint node to a block, insert
-its subtree into a named `$slot`, re-stamp ids, fill `$bindings`, then hand off to the
+use it as the fallback, not the default. Blocks are **composition reference for
+record-detail/rail hand-composition ONLY** — they are not compiler chrome, and they
+do not build page-level structure (header band, page canvas, overall archetype
+shell); that is `compile-blueprint.js`'s `normalize-archetype` step's job. The 6
+blocks below cover only the sub-trees a golden archetype can't already supply:
+the body split, a rail panel, a details attribute row, and a wide-list row template.
+Authored layout **blocks** — small, parented, version-stamped component subtrees
+that you **compose** into a form. A block is structure only; the matching **style
+overlay** lives in `shesha-design-system` and is applied after composition. Never
+hand-copy a 25K-line seed — map each blueprint node to a block, insert its subtree
+into a named `$slot`, re-stamp ids, fill `$bindings`, then hand off to the
 design-system overlay.
 
 Blocks live in `assets/blocks/*.block.json`, one per catalogue entry below, each paired
@@ -16,7 +22,7 @@ shesha-design-system), `$slots`, `$bindings`, `$validatedAgainst` (matrix rows t
 structure relies on — checked mechanically by `scripts/validate-blocks.js` against the
 measured capability matrix; a claim that maps to a `no-op` row, or to no row at all, is a
 hard failure), and a `subtree` (the literal markup). Some also carry a `$rowTemplate` (a
-separately-published Table-type row form). All 10 blocks below have a paired overlay of
+separately-published Table-type row form). All 6 blocks below have a paired overlay of
 the same name in `shesha-design-system/assets/block-styles/`.
 
 ## Catalogue
@@ -24,13 +30,9 @@ the same name in `shesha-design-system/assets/block-styles/`.
 | Block | Archetype | Builds | Key `$slots` | Key `$bindings` |
 |---|---|---|---|---|
 | `flex-split-main-rail` | record-detail | The body split: one flex `container` (row, gap 16) with a fill `main` column + a fixed 332px `rail` column. The clean fixed/`calc` idiom — never `columns`. | `main`, `rail` | none (pure structure) |
-| `page-header-band` | record-detail | In-page detail title band: breadcrumb + title row (title text + status chip on the left, Edit/Save/Cancel buttonGroup on the right). NOT the global header form. | `titleText`, `statusChip`, `actionItems`, `breadcrumbContent` | title content, status `propertyName` + reflist id, actions width `calc` |
-| `meta-strip` | fragment | A horizontal strip of label/value meta cells (MODULE / RELEASE / VIEW TYPE …) under a header. | `cells`, `cell.label.text`, `cell.value.text` | each cell value `propertyName`/content |
 | `card-with-header-strip` | fragment | A white card (radius 12, hairline, soft shadow) with a tinted header strip (title + optional count badge) over a padded body. | `header`, `body` | header text, count badge expression |
 | `rail-panel` | list | A count-badged rail card for a linked collection: title + count + inline `+` add link over a datalist bound to its own `dataContext`. | `title.text`, `count.badge.text`, `add.button.label`, `datalist` | dataContext entityType/endpoint, datalist `formId`, add `formId`, onSuccess owner |
 | `rail-label-value-row` | fragment | One Details-card attribute row: a fixed 96px label cell + a `calc(100% - 106px)` value/control cell, bottom hairline. Repeat per attribute. | `labelText`, `control`, `labelCell`, `valueCell` | row label, value `propertyName`, control `type`+version |
-| `status-pill` | fragment | A standalone reflist status pill (per-item colours from the reflist, pill `customStyle`). | none | status `propertyName`, reflist module + name |
-| `completeness-bar` | fragment | A micro-label + line progress bar reading a 0–100 percent property (or a static percent). | `label`, `progress` | percent `propertyName` (or literal `percent`) |
 | `requirement-datalist-row` | list | The wide-column requirement list: a host (`dataContext` → `datalist`) in the parent form **plus** a separately-published row-card template (`$rowTemplate`: type + status badges, body line, meta + action row). **Carries the datalist row-template collapse/scroll FIX** — `style` overflow on every container + a `minHeight` reserve on the body text (markup-only; no global CSS). Canonical live examples: `view-requirement-card`, `view-endpoint-row`, `view-role-row`. | `host.datalist`, `row.header.left`, `row.body`, `row.meta` | host entityType/endpoint, datalist `formId`, row badge/body propertyNames + reflists |
 | `dashed-add-button` | fragment | The dashed `+ Add X` button at the foot of a rail list: full-width dashed-bordered wrapper + a single `link` button opening a create dialog. | `button`, `buttonLabel`, `buttonGroup` | create-form id, label, parent-FK `formArguments`, refresh-target id |
 
@@ -45,7 +47,7 @@ the same name in `shesha-design-system/assets/block-styles/`.
 Compose from blocks — **never** copy a 25K-line seed and edit it down.
 
 1. **Map** each blueprint `layout-tree` node to a block (use `$archetype` + the catalogue above).
-   Body split → `flex-split-main-rail`; title band → `page-header-band`; each rail collection →
+   Body split → `flex-split-main-rail`; each rail collection →
    `rail-panel` (+ `dashed-add-button`); attribute rows → `rail-label-value-row`; the wide list →
    `requirement-datalist-row` (host + row template).
 2. **Insert** the block's `subtree` into the parent's named `$slot` (the `$slots` map gives the

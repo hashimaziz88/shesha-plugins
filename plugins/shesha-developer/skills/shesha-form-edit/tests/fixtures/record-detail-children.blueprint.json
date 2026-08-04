@@ -44,7 +44,9 @@
     { "property": "location" }
   ],
   "assertions": [
-    { "id": "A1", "statement": "Identity card 66% left of Placement card 33%" },
-    { "id": "A2", "statement": "child records live in a two-tab group, each tab carrying its own dataContext" }
+    {"id":"A1","kind":"order","subject":"name","target":"location","description":"Identity card 66% left of Placement card 33%"},
+    {"id":"A2","kind":"child-count","subject":"childRecords","count":2,"description":"child records live in a two-tab group"},
+    {"id":"A3","kind":"tab-membership","subject":"movements","target":"Movements","description":"the movements table lives in its own tab, carrying its own dataContext"},
+    {"id":"A4","kind":"tab-membership","subject":"documents","target":"Documents","description":"the documents list lives in its own tab, carrying its own dataContext"}
   ]
 }

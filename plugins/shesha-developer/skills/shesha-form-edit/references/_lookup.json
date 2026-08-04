@@ -59,7 +59,7 @@
     "report-screen":   { "files": ["components/data-tables.md"], "assets": ["golden/table-worklist--employee-table.json"] },
     "versioning":      { "files": ["versioning.md"] },
     "rules":           { "files": ["_rules.json"], "rules": ["single-source rule registry; validators and docs cite [R-xxx] ids"] },
-    "compile":         { "scripts": ["compile-blueprint.js"], "files": ["blueprint-consumption.md"] },
+    "compile":         { "scripts": ["compile-blueprint.js"] },
     "schema":          { "scripts": ["validate-schema.js", "generate-schema.js"] },
     "bindings-gate":   { "scripts": ["resolve-bindings.js"], "files": ["entity-binding.md"] },
     "push":            { "files": ["api.md", "contracts.md"], "rules": ["push ledger entry required per form (see Step 7)"] },

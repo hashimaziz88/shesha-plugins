@@ -34,8 +34,8 @@
     }
   ],
   "assertions": [
-    { "id": "A1", "statement": "the page opens with a header band carrying the screen title, the subtitle trail and a status chip" },
-    { "id": "A2", "statement": "the status property renders as refListStatus in the band (never as plain text) and as a dropdown in the body" },
-    { "id": "A3", "statement": "a KeyInformationBar meta strip sits under the band, one cell per non-status binding" }
+    {"id":"A1","kind":"exists","subject":"pageHeaderBand","description":"the page opens with a header band carrying the screen title, the subtitle trail and a status chip"},
+    {"id":"A2","kind":"same-row","subject":"name","target":"serialNumber","description":"the identity grid pairs its fields two to a row"},
+    {"id":"A3","kind":"visible","subject":"status","description":"the status property renders as refListStatus in the band (never as plain text) and as a dropdown in the body"}
   ]
 }

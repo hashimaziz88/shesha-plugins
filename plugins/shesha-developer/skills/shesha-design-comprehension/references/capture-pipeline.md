@@ -42,19 +42,19 @@ Worked numbers from a pilot capture (Facility Referral Form view-detail): the pr
 
 ## Quantize the measured styling (every tier)
 
-Placement is measured; **appearance must be quantized**, or it degrades into prose ("very plain", "a bit tighter") that no compiler can build. Run this per region, right after the placement read, and record the result in that node's `presentation` block ([blueprint-ir.md](blueprint-ir.md)) — the `presentation` block **replaces** prose region descriptions.
+Placement is measured; **appearance must be quantized**, or it degrades into prose ("very plain", "a bit tighter") that no compiler can build. Run this per region, right after the placement read, and record the result in that node's `intent` object ([blueprint-ir.md](blueprint-ir.md)) — the `intent` object **replaces** prose region descriptions.
 
 Read the appearance values first. `layout-probe.js` emits geometry + flex only (`rect`, `flexDirection`, column bands), so pull the computed appearance separately: one `browser_evaluate` over the region roots returning `getComputedStyle` `backgroundColor`, `border*`, `borderRadius`, `fontSize`, `fontWeight`, `color`, `padding`, `gap` (Tier B); read them out of the CSS/tokens (Tier A); vision-read them off the screenshot (Tier C, `Confidence: low`).
 
-Then, per region, in this order — stop at the first step that fits:
+Then, per region, record what it MEANS — never which asset renders it. The blueprint has no channel for a block filename, a component type, a `desktop.*` path, a hex or a px value, so an appearance that cannot be said as meaning is not recorded at all:
 
-1. **Recipe.** Does the region's shape match a block in `shesha-form-edit/assets/blocks/`? Title strip above the content with a bottom hairline → `page-header-band`. Label/value cells in one divided row → `meta-strip`. Card with a tinted heading strip → `card-with-header-strip`. Bar + percent → `completeness-bar`. Pill → `status-pill`. Fill/fixed two-column body → `flex-split-main-rail`. Record `presentation.recipe` and stop — the recipe carries the rest.
-2. **Role.** What is the node semantically? A page title → `title`. A lifecycle pill → `status`. A big single figure → `metric`. A row of label/value pairs → `meta`. Ordinary content → `body`.
-3. **Tone.** Snap the measured foreground to the nearest theme role: within ~10% of the brand primary/tint → `accent`; a status green/amber/red → `success` / `warning` / `danger`; grey ink on a white/canvas surface → `neutral`. Never record the hex.
-4. **Surface.** Background + border → `card`; background + bottom hairline only → `band`; neither → `plain`.
-5. **Overrides — last resort, tokens only.** Something the four above cannot carry (a display type step, a wider gap) is snapped to the **nearest token** in the target theme file (`shesha-design-system/assets/themes/<theme>.tokens.json`) and recorded as its path: `28px` → `type.scale.titleLg`, `#0d685a` → `palette.brand.primary`, `16px` → `spacing.4`. A measurement between two steps snaps to the nearer step. A raw hex or px value fails `validate-blueprint.mjs`, and an invented token path fails the compile.
+1. **Role.** What is the node semantically? A page title → `title`. A lifecycle pill → `status`. A big single figure → `metric`. A row of label/value pairs → `meta`. Ordinary content → `body`.
+2. **Emphasis.** Snap the measured foreground to the nearest theme role: within ~10% of the brand primary/tint → `accent`; a status green/amber/red → `success` / `warning` / `danger`; grey ink on a white/canvas surface → `neutral`. Never record the hex.
+3. **Surface.** Background + border → `card`; background + bottom hairline only → `band`; neither → `plain`.
+4. **Density.** Visibly tighter than the theme's default rhythm → `compact`; visibly looser → `comfortable`; otherwise omit. Advisory today (carried on the IR, not yet a compile lever).
+5. **artDirection — last resort, prose for the design layers.** A look the four above cannot carry goes in `artDirection` as a free-text reference ("reads like the KPI strip on the ops dashboard"). The compiler never parses it; it is a note to the styling layers, not an instruction.
 
-Nothing measured survives as a literal: if it cannot be expressed as a recipe, role, tone, surface or token path, it is not in the design system — either add the token to the theme, or drop the intent and say so in the blueprint's confidence note.
+Nothing measured survives as a literal, and nothing survives as an asset name: if it cannot be expressed as a role, emphasis, surface or density, either add the token to the theme so the theme carries it, or drop the intent and say so in the blueprint's confidence note.
 
 ## markitdown invocation (reference)
 

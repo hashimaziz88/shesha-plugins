@@ -1,4 +1,13 @@
 {
+  "provenance": {
+    "generatedBy": "gen-registry.mjs",
+    "generatorVersion": "1.0.0-pre-provenance",
+    "mode": "live-backend",
+    "sourceHash": "sha256:be7c5a0c3475219c6ca238758dcbcb8236248a1ee0d708a7b689ae6d76d031d2",
+    "sourceHashScope": "sha256 of sorted \"<file>:sha256(content)\" over 121 non-underscore assets/components-kb/*.json",
+    "generatedAt": "2026-08-03T10:39:13.131Z",
+    "note": "Provenance stamped retrospectively onto the existing live-backend generation; generatedAt is this file own generatedAt stamp (not a commit date), generatorVersion records that the pre-provenance generator produced it. Verified: the sourceHash recomputed from components-kb still matches, so this registry is NOT stale. Not regenerated on purpose - a regeneration without a live backend would discard frameworkVersion 0.45.0 and the harvested live version stamps."
+  },
   "frameworkVersion": "0.45.0",
   "frameworkVersionSource": "live-backend:app/Module/GetAll[Shesha].version",
   "generatedFrom": "live-backend",

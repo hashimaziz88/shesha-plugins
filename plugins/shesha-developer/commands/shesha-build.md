@@ -21,9 +21,13 @@ Non-negotiable path:
    token-file path) as a compile-time input [R-042].
 3. `scripts/compile-blueprint.js --theme <brand>` → gates (`validate-schema` →
    `validate-guardrails` with the metadata arg → `resolve-bindings` →
-   `validate-styledness`) → push → ledger → re-fetch diff →
-   `scripts/render-instrument.js` → dispatch `design-critic` with the
-   screenshot + blueprint assertions + theme token path. Build not done until
-   the critic PASSes.
-4. Report module + name + id + oracle verdict + critic verdict. A form
-   without a PASS verdict is reported UNVERIFIED [R-046].
+   `validate-styledness`) → `scripts/apply-form.mjs` (publish + ledger + re-fetch
+   diff, one command) → `scripts/render-instrument.js` →
+   `../shesha-design-comprehension/scripts/verify-placement.mjs` against the
+   `.evidence.json` → dispatch `design-critic` with the screenshot, the evidence,
+   the placement verdict, and the theme token path. Build not done below
+   `acceptable`; on `generic`, apply the top-3 fixes once and re-run this whole
+   step.
+4. Report the ONE evidence envelope from
+   `skills/shesha-form-edit/references/quality-gates.md`. Anything not
+   `status: "verified"` is reported UNVERIFIED [R-046].

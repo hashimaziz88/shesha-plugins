@@ -17,14 +17,17 @@ records what each setting measurably does. Output:
 | `gym/screenshots/`, `gym/errors/` | One PNG per component; console/network errors per form (git-ignored) |
 | `assets/components-kb/` (115 types, versions, settingsFields) | `scripts/generate-component-kb.js <designer-components src> assets/components-kb` — regenerate FIRST when the release changed, settings paths downstream must match |
 | `schemas/form-config.schema.json` | `scripts/generate-schema.js` — the cheapest gate; regenerate after the KB |
-| `assets/component-registry.json` | `scripts/gen-registry.mjs` — the TYPED SHAPE registry (what exists, and of what type); regenerate after the KB + enums. Stamps `frameworkVersion` and `generatedFrom` (`live-backend` \| `offline-kb`) |
+| `assets/component-registry.json` | `scripts/gen-registry.mjs` — the TYPED SHAPE registry (what exists, and of what type); regenerate after the KB + enums. Stamps `frameworkVersion`, `generatedFrom` (`live-backend` \| `offline-kb`), and a `provenance` block |
 
-## Authority boundary — registry vs matrix
+## Authority boundary — KB, registry, matrix
 
-Two artifacts, two different questions. Never conflate them:
+Three artifacts, three different questions, one owner each. Never conflate them:
 
-- **`assets/component-registry.json` — what EXISTS.** Every component, every prop path, and the *type* of each typed prop (`enum` + members, `numeric-picker` + presets, `number`, `boolean`, `string`, `css-length`), plus `authorable` / `authorableReason` and any named `customContainerNames` slots. `validate-schema.js` enforces it as shape typing; `lookup.js` reads it to explain a non-authorable type; `compile-blueprint.js` reads its slot names for the nesting guard.
-- **`assets/measured-capability-matrix.json` — what RENDERS.** Per-setting measured `effect` with `cssDelta` evidence, gated by R-053.
+- **`assets/components-kb/` (121 per-component `*.json`) — the CANONICAL, hand-inspectable resource.** Source-derived from the renderer, committed, and the thing you open to answer "does this component exist, and what does its settings form declare". Every other artifact here is downstream of it.
+- **`assets/component-registry.json` — what EXISTS, typed.** A **GENERATED aggregate** of the KB — **never hand-edited**. Every component, every prop path, and the *type* of each typed prop (`enum` + members, `numeric-picker` + presets, `number`, `boolean`, `string`, `css-length`), plus `authorable` / `authorableReason` and any named `customContainerNames` slots. `validate-schema.js` enforces it as shape typing; `lookup.js` reads it to explain a non-authorable type; `compile/` reads its slot names for the nesting guard. It carries a `provenance` block (`generatedBy`, `generatorVersion`, `mode`, `sourceHash`, `generatedAt`), and **staleness is a test failure**: `tests/registry.test.mjs` recomputes the KB `sourceHash` and fails with *"components-kb changed since the registry was generated — regenerate via /shesha-gym"* the moment the two diverge. Fix that by regenerating, never by editing the registry or the hash.
+- **`assets/measured-capability-matrix.json` — what RENDERS.** Runtime-effect evidence **only**: per-setting measured `effect` with `cssDelta`, gated by R-053. It carries no shape or typing data — a shape/typing question goes to the registry, an existence/inspection question to the KB.
+
+`sourceHash` is a sha256 over the sorted `"<file>:sha256(content)"` list of the **non-underscore** `components-kb/*.json` — the component files only. The generated side-artifacts (`_index.json`, `_meta.json`, `_enums.json`, `_gaps.json`) are excluded because they have their own edit lifecycles and a re-index alone changes no typed prop; the trade-off is that an `_enums.json`-only refresh is not caught by the hash, which is why the rerun order below regenerates the registry immediately after `extract-enums.js`. `node scripts/gen-registry.mjs --print-source-hash` prints the current hash without generating anything.
 
 The consequence, stated once: **a registry prop with no matrix measurement is `not-measured` — never "supported".** Existing in the registry licences *authoring the shape*; only a matrix measurement licences *claiming the effect*. The reverse gap is a registry bug, not a licence: a channel the matrix measured whose path the registry does not know means the KB parse missed a prop (`tests/registry.test.mjs` cross-checks this, with an explicit exemption set).
 
@@ -80,8 +83,9 @@ On a new release:
 2. Regenerate the typed registry (`gen-registry.mjs`) from the same KB + enums. With a
    backend up it stamps that machine's real `frameworkVersion` and records live version
    drift vs the KB (R-049); `--offline` produces the same shape from the bundled KB alone
-   and stamps `generatedFrom:"offline-kb"` so a report can say which it read. Run it
-   BEFORE the gym: `validate-schema.js` types every gym form against it.
+   and stamps `generatedFrom:"offline-kb"` so a report can say which it read. Either way
+   the run refreshes `provenance.sourceHash`, which is what clears the staleness test.
+   Run it BEFORE the gym: `validate-schema.js` types every gym form against it.
 3. Regenerate + rerun. Deterministic uuids mean `git diff gym/` shows exactly what changed.
 4. Set `sheshaVersion` via the runner defaults (edit `run-gym.js` constants
    or pass `--backend`/`--portal`). Compare matrices across releases before trusting
@@ -106,6 +110,12 @@ On a new release:
   colors `#ff00aa` → `rgb(255, 0, 170)`, text `GYM-TXT-<path>`.
 - `not-registered` renderStatus = the component type does not exist in the target
   runtime; its settings are `unknown`, never `no-op`.
+
+## Measurement backlog
+
+Channels the skill AUTHORS but the matrix records as `not-measured` — measure these on the next gym run so the claim can stop being conditional:
+
+- `datatable.onRowClick` / `datatable.onRowDoubleClick` (and the legacy `dblClickActionConfiguration`) — the row-open affordance the compiler emits for a blueprint's `rowAction: {kind:"open-record"}`. `configurableActionConfigurator` settings are invisible to the current visual differ, so measuring them needs an INTERACTION probe (click / double-click a data row, then assert a navigation) rather than a computed-style diff. Until then the recipe in `references/components/data-tables.md` states plainly that the channel is authored-but-unmeasured, and no gate asserts it.
 
 ## Budget guards
 

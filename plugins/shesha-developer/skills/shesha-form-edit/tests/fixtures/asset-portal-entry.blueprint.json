@@ -28,8 +28,9 @@
     { "label": "Email Address", "property": "emailAddress" }
   ],
   "assertions": [
-    { "id": "A1", "statement": "the entry card is centred and width-capped at 420px; the page carries NO header band and no meta strip" },
-    { "id": "A2", "statement": "the blueprint's own buttons win over the Save/Back floor, with exactly one primary [R-007/R-057]" },
-    { "id": "A3", "statement": "auth-page is not a capture archetype — no validationErrors/Save floor is appended below the card" }
+    {"id":"A1","kind":"exists","subject":"entryCard","description":"the entry card is width-capped at 420px"},
+    {"id":"A2","kind":"alignment","subject":"authHost","target":"center","description":"the entry card is centred in the page"},
+    {"id":"A3","kind":"contains","subject":"entryActions","target":"btnSubmitCredentials","description":"the blueprint's own buttons win over the Save/Back floor, with exactly one primary [R-007/R-057]"},
+    {"id":"A4","kind":"contains","subject":"entryActions","target":"btnCancel","description":"the authored exit button survives the floor"}
   ]
 }

@@ -28,11 +28,13 @@ function scratchRepo() {
   const init = spawnSync('git', ['init', '-q'], { cwd: dir, encoding: 'utf8' });
   assert.equal(init.status, 0, `git init failed: ${init.stderr}`);
   const pointer = path.join(os.tmpdir(), `shesha-push-ledger-${sid}.root`);
+  const logPointer = path.join(os.tmpdir(), `claude-designer-logs-${sid}.root`);
   cleanups.push(() => {
     try { fs.rmSync(pointer, { force: true }); } catch { /* ignore */ }
+    try { fs.rmSync(logPointer, { force: true }); } catch { /* ignore */ }
     try { fs.rmSync(dir, { recursive: true, force: true }); } catch { /* ignore */ }
   });
-  return { dir, sid, pointer, env: { ...process.env, CLAUDE_SESSION_ID: sid } };
+  return { dir, sid, pointer, logPointer, env: { ...process.env, CLAUDE_SESSION_ID: sid } };
 }
 
 test.after(() => { for (const fn of cleanups) fn(); });
@@ -131,8 +133,65 @@ test('ledger.mjs rejects bad input', () => {
 
 // ------------------------------------------------------- hook-verify-push.cjs
 
-test('hook: no ledger file -> exit 0 (the one remaining fail-open)', () => {
+test('hook: no ledger file and no logged form work -> exit 0 (the one fail-open)', () => {
   const repo = scratchRepo();
+  const r = hook(repo);
+  assert.equal(r.status, 0, r.stderr);
+});
+
+// ---- the no-ledger escape, closed by the session log ------------------------
+// session-logger.cjs logs every PostToolUse with the command text, so a session that
+// published a form and never recorded it still left a trace. These cases stub that log.
+
+/** Write session-logger-shaped lines into the session's own log tree. */
+function writeSessionLog(repo, lines) {
+  const dir = path.join(repo.dir, '.claude-designer-logs', 'logs', repo.sid);
+  fs.mkdirSync(dir, { recursive: true });
+  const file = path.join(dir, 'log.01012026.txt');
+  fs.writeFileSync(file, lines.map((l) => `[2026-01-01T00:00:00.000Z] ${'PostToolUse'.padEnd(16)} ${l}\n`).join(''), 'utf8');
+  return file;
+}
+
+test('hook: no ledger but a logged apply-form publish -> BLOCK', () => {
+  const repo = scratchRepo();
+  writeSessionLog(repo, [
+    'TOOL Read C:/x/blueprint.json',
+    'TOOL Bash $ node scripts/apply-form.mjs --file out.json --form His.Facilities/asset-hub --backend http://localhost:21021',
+  ]);
+  const r = hook(repo);
+  assert.equal(r.status, 2, r.stderr);
+  assert.match(r.stderr, /never recorded it in the push ledger/);
+  assert.match(r.stderr, /apply-form\.mjs publish/);
+});
+
+test('hook: no ledger but a logged FormConfiguration write -> BLOCK', () => {
+  const repo = scratchRepo();
+  writeSessionLog(repo, [
+    `TOOL PowerShell $ Invoke-RestMethod -Method Put -Uri "$BASE/api/services/Shesha/FormConfiguration/${'Update'}Markup"`,
+  ]);
+  const r = hook(repo);
+  assert.equal(r.status, 2, r.stderr);
+  assert.match(r.stderr, /FormConfiguration write call/);
+});
+
+test('hook: a session that only SEARCHED for those strings is not blocked', () => {
+  const repo = scratchRepo();
+  writeSessionLog(repo, [
+    `TOOL Bash $ grep -rn "FormConfiguration/${'Update'}Markup" references/`,
+    'TOOL Bash $ node --test tests/apply-form.test.mjs',
+    'TOOL Bash $ node scripts/apply-form.mjs --help',
+  ]);
+  const r = hook(repo);
+  assert.equal(r.status, 0, r.stderr);
+});
+
+test('hook: logged form work WITH a closed ledger -> exit 0 (the ledger is the authority)', () => {
+  const repo = scratchRepo();
+  writeSessionLog(repo, [
+    'TOOL Bash $ node scripts/apply-form.mjs --file out.json --form m/a --backend http://localhost:21021',
+  ]);
+  ledger(repo, ['record', '--form', 'm/a', '--id', 'g1', '--status', 'pushed']);
+  ledger(repo, ['update', '--form', 'm/a', '--status', 'verified']);
   const r = hook(repo);
   assert.equal(r.status, 0, r.stderr);
 });

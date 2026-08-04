@@ -1,8 +1,9 @@
 {
   "$brand": "shesha-bold",
+  "extends": "shesha",
+  "$comment": "An OVERRIDE file, not a theme: `extends` names the base whose complete token set this file inherits, and ONLY the keys that DIFFER live here. Anything absent is not a gap — it is the shesha value, resolved in memory by shesha-form-edit/scripts/compile/resolve-theme.mjs and validated as a COMPLETE theme against shesha-design-system/schemas/theme.schema.json before a single component is emitted. Duplicating a base value here is a defect: it re-introduces the drift inheritance exists to delete.",
   "$source": "Shesha default (shesha.tokens.json) with a bolder interactive voice — same structural system (identical key names, spacing scale and radius scale), stronger brand saturation and a brand-tinted page-header band.",
   "$description": "For \"modern / professional, no specific brand\" briefs. Electric Cobalt (#0047FF) is a fully-saturated take on the Shesha primary: same hue family, more presence on buttons, links, focus rings and active states. The page-header band is BRAND-TINTED (#E0E9FF) instead of white, so page anatomy reads at a glance without touching the neutral card/canvas system. Spacing, radius and the 400/600 weight binary are identical to the default — this is a colour-voice variant, not a different layout system.",
-  "$weightPolicy": "Shesha uses a 400/600 weight binary for body and headings (no 700 hierarchy). 500 is permitted ONLY for status-chip / micro-label text. `type.weights` carries all four so existing recipes still resolve, but prefer 400 (body/values) and 600 (labels/headings).",
   "palette": {
     "brand": {
       "primary": "#0047FF",
@@ -13,140 +14,16 @@
       "focusRing": "rgba(0,71,255,0.24)"
     },
     "accent": {
-      "navy": "#001A66",
-      "$use": "sidebar + top-header chrome depth and the data-viz primary series only — never a general CTA colour (that is brand.primary). Never place Cobalt text on a Navy fill (insufficient contrast)."
-    },
-    "surfaces": {
-      "canvas": "#F8F8F9",
-      "surface": "#FFFFFF",
-      "surfaceAlt": "#F8F8F9",
-      "surfaceMuted": "#F8F8F9",
-      "surfaceInset": "#F0F2F5",
-      "surfaceHover": "#ECEDF5",
-      "surfaceStriped": "#FAFBFC"
-    },
-    "lines": {
-      "border": "#E8EAF0",
-      "borderStrong": "#D0D5E0",
-      "divider": "#F0F2F5"
-    },
-    "ink": {
-      "primary": "#181818",
-      "muted": "#333333",
-      "soft": "#9BA3B8",
-      "faint": "#C0C5D0"
+      "navy": "#001A66"
     },
     "semantic": {
-      "success": "#007E00",
-      "successIcon": "#23B414",
-      "successBg": "#E8F5E9",
-      "successBorder": "#23B414",
-      "warning": "#FF6600",
-      "warningIcon": "#FEBA00",
-      "warningBg": "#FFF8E1",
-      "warningBorder": "#FEBA00",
-      "danger": "#D61111",
-      "dangerHover": "#B50E0E",
-      "dangerBg": "#FFEBEE",
-      "dangerBorder": "#D61111",
       "info": "#0047FF",
       "infoBg": "#E0E9FF",
       "infoBorder": "#0047FF"
     }
   },
-  "type": {
-    "family": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Noto Sans\", Helvetica, Arial, sans-serif",
-    "familyMono": "ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
-    "$fontPolicy": "System-ui stack only — no web fonts. Renders instantly on any device/network (critical for government/rural deployments).",
-    "scale": {
-      "micro": 12,
-      "dense": 13,
-      "body": 14,
-      "cardHeader": 16,
-      "subtitle": 20,
-      "title": 24,
-      "titleLg": 24
-    },
-    "weights": {
-      "regular": 400,
-      "medium": 500,
-      "semibold": 600,
-      "bold": 700
-    },
-    "lineHeights": {
-      "tight": 1.25,
-      "snug": 1.375,
-      "base": 1.571
-    }
-  },
-  "spacing": {
-    "1": 4,
-    "2": 8,
-    "3": 12,
-    "4": 16,
-    "5": 20,
-    "6": 24,
-    "8": 32,
-    "10": 40,
-    "12": 48,
-    "16": 64,
-    "20": 80
-  },
-  "radius": {
-    "xs": 2,
-    "sm": 4,
-    "md": 6,
-    "lg": 8,
-    "pill": 9999
-  },
-  "shadow": {
-    "none": "none",
-    "card": "0 1px 4px rgba(0,0,0,0.08)",
-    "overlay": "0 4px 16px rgba(0,0,0,0.10)",
-    "rowHover": "0 1px 2px rgba(0,0,0,0.06)",
-    "$philosophy": "Shesha is border-forward: structure is communicated by hairline borders, and cards render essentially flat per the design system (Box-shadow: none on cards). `card` here is the whisper elevation AntD applies to raised surfaces — keep it barely-perceptible or omit it; reserve `overlay` for genuinely floating surfaces (modals, popovers, dropdown menus). Never add heavy/decorative drop shadows."
-  },
-  "chrome": {
-    "sidebarWidth": 240,
-    "sidebarCollapsed": 64,
-    "headerHeight": 52,
-    "pagePaddingX": 24,
-    "pagePaddingY": 24,
-    "contentMaxWidth": 1280,
-    "formColMax": 800,
-    "formColWide": 1100,
-    "tableRowHeight": 44
-  },
   "statusLifecycle": {
-    "$reflist": "brand-generic — the Shesha default defines no fixed lifecycle. A specific app maps its status reference-list items onto these five operational tones (see shesha-design-standards.md → status badges). Status is never colour-alone: always pair the tone with the status name/icon.",
-    "order": [
-      "draft",
-      "success",
-      "warning",
-      "error",
-      "info"
-    ],
     "badges": {
-      "draft": {
-        "bg": "#F0F2F5",
-        "fg": "#333333",
-        "border": "#D0D5E0"
-      },
-      "success": {
-        "bg": "#E8F5E9",
-        "fg": "#007E00",
-        "border": "#23B414"
-      },
-      "warning": {
-        "bg": "#FFF8E1",
-        "fg": "#E65100",
-        "border": "#FEBA00"
-      },
-      "error": {
-        "bg": "#FFEBEE",
-        "fg": "#B71C1C",
-        "border": "#D61111"
-      },
       "info": {
         "bg": "#E0E9FF",
         "fg": "#0047FF",
@@ -155,38 +32,9 @@
     }
   },
   "roles": {
-    "appPrimary": "palette.brand.primary",
-    "appPrimaryHover": "palette.brand.primaryHover",
-    "appPrimaryActive": "palette.brand.primaryActive",
-    "pageBg": "palette.surfaces.canvas",
-    "cardBg": "palette.surfaces.surface",
-    "cardHeaderBg": "palette.surfaces.surfaceAlt",
-    "readOnlyFieldBg": "palette.surfaces.surfaceMuted",
-    "inputBorder": "palette.lines.borderStrong",
-    "hairline": "palette.lines.border",
-    "divider": "palette.lines.divider",
-    "sectionHeading": "palette.ink.primary",
-    "bodyText": "palette.ink.primary",
-    "bodyInk": "palette.ink.primary",
-    "secondaryText": "palette.ink.muted",
-    "helperText": "palette.ink.muted",
-    "placeholderText": "palette.ink.soft",
-    "mutedText": "palette.ink.soft",
-    "navBg": "palette.accent.navy",
-    "headerBandBg": "palette.brand.primary",
-    "selectedBg": "palette.brand.tint",
-    "hoverBg": "palette.brand.tintSoft",
-    "baseRadius": "radius.md",
-    "cardRadius": "radius.lg",
     "bandBg": "palette.brand.tint",
-    "bandText": "palette.ink.primary",
     "bandSubtext": "palette.ink.muted",
-    "bandBorder": "palette.brand.primary",
-    "tableHeaderBg": "palette.surfaces.surfaceAlt",
-    "statTileBg": "palette.surfaces.surface",
-    "statTileValue": "palette.brand.primary",
-    "$chromeNote": "band*/statTile*/tableHeaderBg are the PAGE-CHROME roles the compiler resolves when it stamps per-archetype chrome (page-header band, meta strip, dashboard stat tiles, datatable header). Every theme must define them so tk() never misses.",
-    "$note": "sectionHeading resolves to Nero ink (not brand) — Shesha reserves Cobalt for interactive affordances, so card/section headings are near-black, not coloured. This differs from brands that colour their headings."
+    "bandBorder": "palette.brand.primary"
   },
   "$antdTheme": {
     "$use": "The resolved Ant Design 6.x ConfigProvider theme for the shesha-bold brand. Apply this OBJECT verbatim at the app level (Configuration Studio → Settings → Default UI → Frontend → Theme settings, or the settings API with the `sha-frontend-application: default-app` header) — see references/app-theme.md. This is the 'set once' layer; per-component v7 style blocks handle what it can't express.",
@@ -200,115 +48,26 @@
       "colorPrimaryBorderHover": "#5C82FF",
       "colorPrimaryText": "#0047FF",
       "colorPrimaryTextHover": "#0039D6",
-      "colorSuccess": "#007E00",
-      "colorSuccessBg": "#E8F5E9",
-      "colorSuccessBorder": "#23B414",
-      "colorWarning": "#FF6600",
-      "colorWarningBg": "#FFF8E1",
-      "colorWarningBorder": "#FEBA00",
-      "colorError": "#D61111",
-      "colorErrorBg": "#FFEBEE",
-      "colorErrorBorder": "#D61111",
       "colorInfo": "#0047FF",
       "colorInfoBg": "#E0E9FF",
       "colorInfoBorder": "#0047FF",
-      "colorTextBase": "#181818",
-      "colorText": "#181818",
-      "colorTextSecondary": "#333333",
-      "colorTextTertiary": "#9BA3B8",
-      "colorTextQuaternary": "#C0C5D0",
-      "colorBgBase": "#FFFFFF",
-      "colorBgContainer": "#FFFFFF",
-      "colorBgLayout": "#F8F8F9",
-      "colorBgElevated": "#FFFFFF",
-      "colorBgSpotlight": "#0047FF",
-      "colorBorder": "#D0D5E0",
-      "colorBorderSecondary": "#E8EAF0",
-      "colorFill": "#F0F2F5",
-      "colorFillSecondary": "#F8F8F9",
-      "colorFillTertiary": "#FAFBFC",
-      "colorFillQuaternary": "#FFFFFF",
-      "fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Noto Sans\", Helvetica, Arial, sans-serif",
-      "fontFamilyCode": "ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
-      "fontSize": 14,
-      "fontSizeSM": 12,
-      "fontSizeLG": 16,
-      "fontSizeXL": 20,
-      "fontSizeHeading1": 24,
-      "fontSizeHeading2": 20,
-      "fontSizeHeading3": 16,
-      "fontSizeHeading4": 14,
-      "fontWeightStrong": 600,
-      "lineHeight": 1.571,
-      "lineHeightSM": 1.5,
-      "lineHeightLG": 1.5,
-      "lineHeightHeading1": 1.25,
-      "lineHeightHeading2": 1.3,
-      "lineHeightHeading3": 1.375,
-      "borderRadius": 6,
-      "borderRadiusSM": 4,
-      "borderRadiusLG": 8,
-      "borderRadiusXS": 2,
-      "controlHeight": 32,
-      "controlHeightSM": 24,
-      "controlHeightLG": 40,
-      "padding": 16,
-      "paddingSM": 12,
-      "paddingXS": 8,
-      "paddingXXS": 4,
-      "paddingLG": 24,
-      "paddingXL": 32,
-      "margin": 16,
-      "marginSM": 12,
-      "marginXS": 8,
-      "marginXXS": 4,
-      "marginLG": 24,
-      "marginXL": 32,
-      "motionDurationFast": "0.1s",
-      "motionDurationMid": "0.15s",
-      "motionDurationSlow": "0.2s",
-      "motionEaseInOut": "cubic-bezier(0.4, 0, 0.2, 1)",
-      "motionEaseOut": "ease-out",
-      "motionEaseIn": "ease-in",
-      "boxShadow": "0 1px 4px rgba(0,0,0,0.08)",
-      "boxShadowSecondary": "0 4px 16px rgba(0,0,0,0.10)",
-      "boxShadowTertiary": "0 1px 2px rgba(0,0,0,0.06)"
+      "colorBgSpotlight": "#0047FF"
     },
     "components": {
-      "Button": {
-        "borderRadius": 6,
-        "fontWeight": 600,
-        "primaryColor": "#FFFFFF",
-        "defaultBorderColor": "#D0D5E0",
-        "defaultColor": "#181818"
-      },
       "Input": {
-        "borderRadius": 6,
-        "paddingInline": 12,
         "hoverBorderColor": "#0047FF",
         "activeBorderColor": "#0047FF",
-        "activeShadow": "0 0 0 4px rgba(0,71,255,0.24)",
-        "errorActiveShadow": "0 0 0 4px rgba(214,17,17,0.15)"
+        "activeShadow": "0 0 0 4px rgba(0,71,255,0.24)"
       },
       "Select": {
-        "borderRadius": 6,
         "optionSelectedBg": "#E0E9FF",
         "optionSelectedColor": "#0047FF",
-        "optionSelectedFontWeight": 600,
         "optionActiveBg": "#F0F4FF"
       },
       "Table": {
-        "headerBg": "#F8F8F9",
-        "headerColor": "#181818",
-        "headerSortActiveBg": "#ECEDF5",
         "rowHoverBg": "#F0F4FF",
         "rowSelectedBg": "#E0E9FF",
-        "rowSelectedHoverBg": "#D2DEFF",
-        "borderColor": "#F0F2F5"
-      },
-      "Card": {
-        "headerBg": "#F8F8F9",
-        "borderRadius": 8
+        "rowSelectedHoverBg": "#D2DEFF"
       },
       "Tabs": {
         "itemActiveColor": "#0047FF",
@@ -317,26 +76,10 @@
         "itemSelectedColor": "#0047FF"
       },
       "Menu": {
-        "itemBg": "transparent",
-        "itemColor": "rgba(255,255,255,0.85)",
-        "itemHoverBg": "rgba(255,255,255,0.08)",
-        "itemHoverColor": "#FFFFFF",
-        "itemSelectedBg": "rgba(255,255,255,0.15)",
-        "itemSelectedColor": "#FFFFFF",
-        "darkItemBg": "#001A66",
-        "darkItemColor": "rgba(255,255,255,0.85)",
-        "darkItemHoverBg": "rgba(255,255,255,0.08)",
-        "darkItemSelectedBg": "rgba(255,255,255,0.15)"
-      },
-      "Badge": {
-        "colorBgContainer": "#D61111"
-      },
-      "Alert": {
-        "borderRadius": 6
+        "darkItemBg": "#001A66"
       },
       "Steps": {
-        "colorPrimary": "#0047FF",
-        "colorFinish": "#007E00"
+        "colorPrimary": "#0047FF"
       }
     }
   }

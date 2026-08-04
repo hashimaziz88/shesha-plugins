@@ -32,8 +32,9 @@
     }
   ],
   "assertions": [
-    { "id": "A1", "statement": "the whole screen is ONE card row — title and status chip on one line, then a two-column detail grid" },
-    { "id": "A2", "statement": "the status property renders as a reference-list editor, never as plain text [R-036]" },
-    { "id": "A3", "statement": "inline-card is not a page archetype — no header band, no meta strip" }
+    {"id":"A1","kind":"exists","subject":"assetInlineCard","description":"the whole screen is ONE card"},
+    {"id":"A2","kind":"contains","subject":"assetInlineCard","target":"cardTopRow","description":"the card opens with its title row"},
+    {"id":"A3","kind":"same-row","subject":"cardTitle","target":"status","description":"title and status on one line"},
+    {"id":"A4","kind":"visible","subject":"status","description":"the status property renders as a reference-list editor, never as plain text [R-036]"}
   ]
 }

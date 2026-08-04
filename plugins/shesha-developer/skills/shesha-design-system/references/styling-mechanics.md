@@ -2,6 +2,15 @@
 
 The 0.45 style system this skill authors against. Block shapes + patterns first; then the channel/precedence model and the debug procedure. Capability verdicts (which channel actually renders per component) are in [capability-matrix.md](capability-matrix.md). Layout/structure idioms live in `shesha-form-edit` — this skill owns appearance only. Appearance goes through the breakpoint blocks [R-030]; rule ids cite `shesha-form-edit/references/_rules.json`.
 
+## Contents
+1. v6 vs v7
+2. Full v7 style block
+3. Common surface patterns
+4. The five style channels
+5. Channel→div mapping
+6. Stamping rules
+7. Debug checklist
+
 ## v6 vs v7
 
 | | v6 | v7 |

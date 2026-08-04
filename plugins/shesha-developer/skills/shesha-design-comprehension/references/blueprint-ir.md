@@ -2,6 +2,17 @@
 
 The intermediate representation that carries a screen's placement from design to build. One file per screen: `<workdir>/blueprints/<screen>.blueprint.md`.
 
+## Contents
+1. Why hybrid Markdown
+2. Machine twin (blueprint-json)
+3. Document structure
+4. The archetypes (target vocabulary)
+5. `layout-tree` grammar
+6. Native-width recording rules
+7. Semantic intent — what a node MEANS
+8. Worked example — `view-detail`
+9. Authoring checklist
+
 ## Why hybrid Markdown (not pure JSON/YAML)
 
 The blueprint has two audiences. A **human** reviews and approves placement at the planning gate — they read Markdown, not a 24-deep JSON tree. A **builder** (`shesha-form-edit`) consumes it as a requirements brief — archetype + layout spec + bindings is exactly the input it already takes. So the doc is human-readable Markdown **headings/prose**, with the machine-precise parts isolated in **three fenced code blocks per region**:
@@ -28,7 +39,7 @@ Archetype:  <one of the 11 — see below>  [+ variant note]
 Fidelity tier:  A | B | C        Confidence:  high | medium | low
 Viewport captured:  <w>x<h>      Source:  <probe file / source path / screenshot>
 
-## Region N — <name>  (recipe: <design-system recipe>)
+## Region N — <name>  (intent: <role / surface>)
 ```layout-tree …``` 
 (prose notes about this region if helpful)
 
@@ -66,7 +77,8 @@ Indentation = nesting (DOM depth). Each line: `<node-name>  <kind> [attributes]`
 - **kind**: `region | container | row | card | tabs | tab | datatable | datalist | field | text | buttonGroup | chip`. A `row` is a flex-row split — a `container` that builds with `display:"flex"` + `flexDirection:"row"` + `gap`; its children are split cells, each its own `container`.
 - **`row` attributes**: `row=[a,b,…]` listing each child's native size (`1fr` / `fill` for a filling cell, `<n>px` for a fixed cell, e.g. `row=[1fr, 332px]` or `row=[fill, 332px]`), plus optionally `gap=<px>`, `align=start|center|stretch`. Each child of the row maps to a `container` sized via **`desktop.dimensions.width`**: a `fill`/`1fr` cell → `width:"calc(100% - <fixed+gap>px)"` (e.g. `"calc(100% - 348px)"` for a 332px sibling + 16px gap); a fixed cell → `width:"<n>px"` with matching `minWidth`/`maxWidth`. The row container itself MUST carry `display:"flex"` (or the children stack full-width) + `flexDirection:"row"` + the `gap`.
 - **fixed-width cell**: write `row=[fill, 332px]` — keep the native fixed px so the builder sets a fixed rail width (`width:"332px"`, `minWidth`/`maxWidth` `"332px"`) and the diff can reason structurally.
-- **field/text/chip**: append `← <Entity>.<property>` for a binding, and `(recipe: <name>)` for the design-system recipe.
+- **field/text/chip**: append `← <Entity>.<property>` for a binding, and `(intent: <role>)` for the node's semantic intent — never a block or component name.
+- **`datatable` attributes**: `rowAction=open-record` when activating a row opens that record (optionally `rowAction=open-record→<form-name>` to override the default `<entity-kebab>-details` target). Semantic only — never name the renderer channel. In the `blueprint-json` twin this is `"rowAction": {"kind":"open-record","target":"<form>"}`, valid on `datatable` nodes only. A reference-list column additionally needs its identity declared on the matching `bindings[]` entry (`"referenceList": {"module","name"}`) or the column compiles to a plain cell that renders the raw enum number — identities are never guessed [R-015].
 
 ## Native-width recording rules
 
@@ -74,19 +86,21 @@ Indentation = nesting (DOM depth). Each line: `<node-name>  <kind> [attributes]`
 - A **fixed-width** cell (rail, icon column, action column) is recorded as its native px and builds to a `container` with `width:"<n>px"` (+ `minWidth`/`maxWidth`). The filling sibling builds to `width:"calc(100% - <fixed+gap>px)"`.
 - A sub-pixel/handle cell (e.g. a 16px drag handle) keeps its small fixed px (`16px`) — never collapse it to 0; the builder needs a real fixed cell.
 
-## Presentation IR — how a node LOOKS
+## Semantic intent — what a node MEANS
 
-Placement is only half a design. Every layout node MAY carry an optional `presentation` block (schema `$defs.presentation`, schema version ≥ 1.1.0). It is how **measured styling is recorded**: quantized to the design system, never as prose. "The header is a very plain white strip" is not a blueprint fact; `{"recipe": "page-header-band", "surface": "band"}` is.
+Placement is only half a design. Every layout node MAY carry an optional `intent` object (schema `$defs.intent`, schema version ≥ 2.0.0). It is how **measured styling is recorded**: as design *meaning*, never as prose and never as an implementation asset. "The header is a very plain white strip" is not a blueprint fact; `{"surface": "band"}` is.
+
+A blueprint **never names an implementation asset** — no block filenames, no component-registry types, no `desktop.*` property paths, no hex colours, no pixel literals. It says what a node means; the compiler alone decides which component renders it and which token colours it. There is deliberately **no override channel**: a node that could write a token path into `desktop.*` would be naming an implementation detail, which is exactly what `intent` exists to stop.
 
 | field | values | what the compiler does |
 |---|---|---|
-| `recipe` | a block name from `shesha-form-edit/assets/blocks/` (`page-header-band`, `meta-strip`, `status-pill`, `card-with-header-strip`, `completeness-bar`, `flex-split-main-rail`, `rail-panel`, `rail-label-value-row`, `requirement-datalist-row`, `dashed-add-button`) | instantiates that block **at this node**, through the same resolver the per-archetype chrome uses. An explicit recipe is **authoritative** for its node: the archetype chrome stands down rather than emitting the same recipe twice (declare `page-header-band` on the header region and you get exactly one band). The node's children become the block's content facts, not compiled siblings. |
-| `role` | `title` · `status` · `metric` · `meta` · `body` | the semantic carrier: `title` → the heading treatment · `status` → a `refListStatus` **chip** (never prose) · `metric` → a native `statistic` tile · `meta` → a `KeyInformationBar` strip · `body` → no-op |
-| `tone` | `accent` · `neutral` · `success` · `warning` · `danger` | a colour **role**, resolved through the ACTIVE theme — `accent` → brand primary/tint, `neutral` → surfaces + body ink, the three status tones → the theme's status palette. The same blueprint therefore resolves a different accent under `shesha` (`#003BB2`) than under `requirements-studio` (`#0d685a`). A tone the theme does not define falls back to neutral ink — add the token to the theme, never a hex here. |
-| `surface` | `card` · `band` · `plain` | `card` → the card surface (bg + hairline + radius) · `band` → the band surface (`bandBg` + bottom hairline) · `plain` → no surface |
-| `overrides` | `{"<prop>": "<token path>"}` | the one-off escape hatch. `<prop>` is a dotted path under the emitted component's `desktop` block (plus the `gap` / `padding` spacing aliases); the value is resolved against the active theme's token file. |
+| `role` | `title` · `status` · `metric` · `meta` · `body` | picks the carrier: `title` → the heading treatment · `status` → the lifecycle **chip** (never prose) · `metric` → a single-number tile · `meta` → the at-a-glance key-information strip · `body` → no-op |
+| `emphasis` | `accent` · `neutral` · `success` · `warning` · `danger` | a colour **role**, resolved through the ACTIVE theme — `accent` → the brand role, `neutral` → surfaces + body ink, the three status words → the theme's status palette. The same blueprint therefore resolves a different accent under `shesha` than under `requirements-studio`. An emphasis the theme does not define falls back to neutral ink — add the token to the theme, never a hex here. |
+| `surface` | `card` · `band` · `plain` | `card` → the card surface (bg + hairline + radius) · `band` → the band surface (band bg + bottom hairline) · `plain` → no surface |
+| `density` | `compact` · `comfortable` | how tight the node reads. **Advisory today**: carried on the IR for the design layers, not yet a compile lever. |
+| `artDirection` | free text | a reference for the design layers ("like the KPI strip on the ops dashboard"). Never parsed by the compiler, and never a source of asset names. |
 
-**Tokens only.** An `overrides` value must match `^(spacing|radius|palette|type|shadow)\.` — a raw hex (`#0d685a`) or a size literal (`12px`, `12`) is a **validation error**, because a literal cannot follow the theme [R-042]. A token path the active theme does not define is a **compile error** naming the path: an undefined token is a design defect, not something to fall back from. Every field inside `presentation` is optional, and a node without the block compiles exactly as it always did.
+Every field is optional, and a node without `intent` compiles exactly as its `kind` says.
 
 ## Worked example — `view-detail` (measured, Tier A/B, 1440×900)
 
@@ -100,19 +114,19 @@ Archetype:  record-detail — Variant B (wide capture/attributes left + count-ba
 Fidelity tier:  B (runnable design, probed)    Confidence:  high
 Viewport captured:  1440x900    Source:  blueprints/_probe/view-detail-design.layout.json
 
-## Region 1 — Header band  (recipe: page-title-band)
+## Region 1 — Header band  (intent: surface band)
 ```layout-tree
 region: header-band            container col
-  ├─ breadcrumb                text  "Project / Module / Views / {name}"        (recipe: breadcrumb)
+  ├─ breadcrumb                text  "Project / Module / Views / {name}"        (intent: body)
   ├─ title-row                 row  row=[fill, auto] gap=16 align=center   (flex: display:flex+flexDirection:row)
   │   ├─ title-block (cell 1)  container col   width:"calc(100% - <actions+gap>px)" (fill)
-  │   │   ├─ title             text  ← ViewDefinition.name                       (recipe: page-title)
-  │   │   ├─ status-chip       chip  ← ViewDefinition.status                     (recipe: status-chip)
-  │   │   └─ subtitle          text  ← ViewDefinition.description                (recipe: subtitle)
-  │   └─ actions (cell 2)      buttonGroup  [Mockup | Trace]   (fixed/auto-width cell, right-aligned)  (recipe: ghost-link-actions)
+  │   │   ├─ title             text  ← ViewDefinition.name                       (intent: title)
+  │   │   ├─ status-chip       chip  ← ViewDefinition.status                     (intent: status)
+  │   │   └─ subtitle          text  ← ViewDefinition.description                (intent: body)
+  │   └─ actions (cell 2)      buttonGroup  [Mockup | Trace]   (fixed/auto-width cell, right-aligned)  (intent: body)
 ```
 
-## Region 2 — Key Info Bar (KIB)  (recipe: kib-strip)
+## Region 2 — Key Info Bar (KIB)  (intent: role meta)
 ```layout-tree
 region: kib                    row  row=[1fr,1fr,1fr,1fr,1fr,1fr]  native=6-equal  gap=<g> align=stretch   (flex: display:flex+flexDirection:row; each cell width≈"calc((100% - 5*<g>px)/6)" or flex-basis equivalent)
   ├─ Module                    field  micro-label + value ← ViewDefinition.module
@@ -137,22 +151,21 @@ region: body                   row  row=[fill, 332px] native=[1fr,332px] gap=24 
       └─ panel: Required End-points  card + count-badge + "+"  → datalist ← ViewDefinition.requiredEndpoints
 ```
 
-## Presentation  (the measured look, quantized — machine-twin excerpt)
+## Intent  (the measured look, as meaning — machine-twin excerpt)
 ```blueprint-json
 { "layout": { "kind": "region", "name": "page", "children": [
   { "kind": "region", "name": "header-band",
-    "presentation": { "recipe": "page-header-band", "surface": "band" },
+    "intent": { "surface": "band" },
     "children": [ { "kind": "heading", "level": 1, "content": "Facility Referral Form" },
                   { "kind": "text", "content": "Project  /  Module  /  Views" } ] },
-  { "kind": "region", "name": "kib", "presentation": { "role": "meta" }, "children": [ "…6 field cells…" ] },
+  { "kind": "region", "name": "kib", "intent": { "role": "meta" }, "children": [ "…6 field cells…" ] },
   { "kind": "text", "name": "completeness", "title": "Completeness", "content": "72%",
-    "presentation": { "role": "metric", "tone": "accent",
-                      "overrides": { "font.size": "type.scale.titleLg" } } },
+    "intent": { "role": "metric", "emphasis": "accent" } },
   { "kind": "chip", "name": "viewStatus", "property": "status",
-    "presentation": { "role": "status" } }
+    "intent": { "role": "status" } }
 ] } }
 ```
-Measured → quantized: the header strip's white fill + bottom hairline became `surface: "band"` on the `page-header-band` recipe (not "plain white strip"); the 24px cobalt completeness figure became `role: "metric"` + `tone: "accent"` plus ONE token-path override (`type.scale.titleLg`, a real key in `shesha-design-system/assets/themes/shesha.tokens.json`); the pill became `role: "status"`. No hex, no px, anywhere.
+Measured → meaning: the header strip's white fill + bottom hairline became `surface: "band"` (not "plain white strip", and not a block filename either); the 24px cobalt completeness figure became `role: "metric"` + `emphasis: "accent"`, leaving the type step and the colour to the theme; the pill became `role: "status"`. No hex, no px, no asset name, anywhere.
 
 ## Bindings
 ```bindings
@@ -184,14 +197,14 @@ A7  header actions (Mockup, Trace) sit in the header band, right-aligned on the 
 ```
 ````
 
-This one document is simultaneously: the thing a reviewer signs off (prose + tree), the compiler input the builder consumes (the `blueprint-json` twin — archetype → golden fixture, splits → flex-row `container`s with per-child `desktop.dimensions.width` [R-028], bindings → component+propertyName), and the contract the verification loop measures (`assertions` A1–A7).
+This one document is simultaneously: the thing a reviewer signs off (prose + tree), the compiler input the builder consumes (the `blueprint-json` twin — archetype selects the normalize-archetype anatomy, splits → flex-row `container`s with per-child `desktop.dimensions.width` [R-028], bindings → component+propertyName, `intent` resolved through the active theme), and the contract the verification loop measures (`assertions` A1–A7).
 
 ## Authoring checklist
 
 - [ ] `Archetype` is one of the 11 values in the schema enum, with a variant note if needed.
 - [ ] Every `row` line records native cell widths (`row=[…]`, `fill`/`1fr` + fixed px) and a `gap`; no Shesha `columns` component, no `/24` normalisation. Each cell maps to a `container` sized via `desktop.dimensions.width` (fill → `calc(100% - <fixed+gap>px)`, fixed → `<n>px`); the row carries `display:"flex"`.
-- [ ] Every bound field has `← Entity.property`; every region names its design-system `recipe`.
-- [ ] Measured styling is recorded as `presentation` (`recipe` / `role` / `tone` / `surface`, plus token-path `overrides`) — never as prose, never as a hex or a px literal.
+- [ ] Every bound field has `← Entity.property`; every region records its semantic `intent`, not a block or component name.
+- [ ] Measured styling is recorded as `intent` (`role` / `emphasis` / `surface` / `density`) — never as prose, never as a hex or a px literal, and never as a block/component name.
 - [ ] `assertions` cover: split-cell membership, row grouping, nesting depth, tab assignment — the things that drift. No pixel asserts.
 - [ ] Fidelity tier + confidence + viewport stamped at the top.
 - [ ] A ` ```blueprint-json ` block is present, validates against `schemas/blueprint.schema.json`, and agrees with the Markdown blocks (regions, widths, bindings, assertion ids).

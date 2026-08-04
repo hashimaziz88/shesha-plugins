@@ -8,7 +8,7 @@ description: Use when applying our branding to a form ("apply our branding", "th
 Turn "make it look good / match the design" into **concrete Shesha style values**. This skill owns *how forms look*, never *what they contain*. It reads a brand **theme token file** and emits the exact props 0.45 components expect, in **two layers that must BOTH be applied**:
 
 1. **App-level Ant Design theme (set once):** brand primary, base font, base radius, semantic colours — the whole portal inherits them. Mechanism: [references/app-theme.md](references/app-theme.md). Don't repaint every button per form.
-2. **Per-component v7 style blocks (per form):** surfaces, cards, section headers, density, status chips, header bands, rails — what the global theme can't express. Recipes: [references/component-recipes.md](references/component-recipes.md).
+2. **Per-component v7 style blocks (per form):** surfaces, cards, section headers, density, rails, and inline status chips — the hand-composed structure the compiler's `normalize-archetype` stage doesn't already own (it auto-generates and themes the page header band, meta strip, and page-level status chip from blueprint `intent` — no manual recipe needed for those). Recipes: [references/component-recipes.md](references/component-recipes.md).
 
 A form looks "cheap" when only one layer is done (AntD still default-blue, or no surface treatment). Apply both.
 
@@ -27,7 +27,9 @@ A form looks "cheap" when only one layer is done (AntD still default-blue, or no
    | `shesha-bold` | `shesha-bold.tokens.json` | The default's bolder voice — Electric Cobalt `#0047FF` primary and a **brand-tinted page-header band** (`roles.bandBg` = `palette.brand.tint`) instead of a white one, on the same neutral card/canvas system and the identical spacing/radius scales and role keys. Offer it for "modern / professional" briefs with no named brand. |
    | `requirements-studio` | `requirements-studio.tokens.json` | Example custom brand: green primary, Inter, custom status lifecycle. |
 
-   User names a brand / hands tokens / an app `<brand>.tokens.json` exists → use it. A genuinely new brand → copy `shesha.tokens.json` → `<brand>.tokens.json`, swap the values, **keep every key name identical** so recipes, block-overlays and `roles.*` resolve unchanged. Load the file; resolve `roles.*` before authoring.
+   `shesha.tokens.json` is the one COMPLETE file; `shesha-bold` and `requirements-studio` are **override files** — `"extends": "shesha"` plus only the keys that differ. Inheritance is flattened in memory and the RESOLVED theme is validated against [schemas/theme.schema.json](schemas/theme.schema.json) before anything is emitted; an unresolvable theme is a compile error, never a neutral fallback [R-042].
+
+   User names a brand / hands tokens / an app `<brand>.tokens.json` exists → use it. A genuinely new brand → author an override: `{"$brand": "<brand>", "extends": "shesha", ...}` carrying **only what differs**, and never restate a base value (a duplicated value is the drift inheritance exists to delete). **Keep every key name identical** so recipes, block-overlays and `roles.*` resolve unchanged. Load the file; resolve `roles.*` before authoring.
 2. **Apply the app-level theme (once per project)** — [app-theme.md](references/app-theme.md). Never skip when the complaint is "buttons/links are the wrong colour".
 3. **Apply per-component v7 blocks.** Copy the matching recipe from [component-recipes.md](references/component-recipes.md), fill it with resolved token values via [token-to-prop-mapping.md](references/token-to-prop-mapping.md). Mirror blocks across desktop/tablet/mobile unless the design is genuinely responsive.
 4. **Audit (optional).** Given a screenshot + the theme, return prop-level fixes (component, prop path, current vs target, one-line reason), ordered by impact. Rubric: [references/appearance-quality.md](references/appearance-quality.md) — never override a construction guardrail.

@@ -8,13 +8,17 @@
  * mechanically kills the "validated file on disk, nothing on the backend,
  * exit 0" failure class.
  *
- * <root> is resolved with the same pinned-pointer logic as ledger.mjs and
- * session-logger.cjs (git toplevel of cwd, pinned in a tmpdir pointer file keyed
- * by session id) — duplicated here on purpose: hooks stay dependency-free, and
- * ledger.mjs is ESM.
+ * <root>, and the ledger path inside it, come from the ONE session-root resolver
+ * (../../skills/shesha-form-edit/scripts/lib/session-root.cjs), the same call
+ * ledger.mjs makes — so the file this gate reads is provably the file the writer
+ * wrote. It is `.cjs` precisely so this hook can require it.
  *
  * Semantics (only ONE fail-open remains):
- *   - no ledger file            -> exit 0. The session did no form work.
+ *   - no ledger file            -> scan this session's activity log for evidence
+ *                                  of form-publishing work (see LOG_EVIDENCE).
+ *                                  Evidence without a ledger -> BLOCK; a session
+ *                                  must not escape the gate merely by never
+ *                                  recording. No evidence (or no log) -> exit 0.
  *   - stale (>12h)              -> BLOCK. A ledger left over from an old session
  *                                  is not evidence that this one delivered.
  *   - malformed / no entries    -> BLOCK. The file is script-owned; a broken one
@@ -23,49 +27,60 @@
  * Honors stop_hook_active to avoid loops. Blocks by exit code 2 + stderr.
  */
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
-const { execSync } = require('child_process');
+const { resolveSessionRoot, ledgerPathFor, sessionLogDir, NS_LEDGER, NS_LOGS } =
+  require('../../skills/shesha-form-edit/scripts/lib/session-root.cjs');
 
-const POINTER_PREFIX = 'shesha-push-ledger-';
 const STALE_MS = 12 * 3600 * 1000;
 const CLOSED = new Set(['verified', 'abandoned']);
 
-function gitToplevel(cwd) {
+/**
+ * Form-publishing evidence in the session activity log (session-logger.cjs writes
+ * one line per PostToolUse, command text included). Deliberately narrow: each
+ * pattern matches an actual MUTATION, not a mention.
+ *   - a real apply-form.mjs publish always carries both --form and --backend;
+ *   - the three FormConfiguration write routes.
+ */
+const LOG_EVIDENCE = [
+  [/apply-form\.mjs(?=[^\n]*--form\b)(?=[^\n]*--backend\b)/, 'apply-form.mjs publish'],
+  [/FormConfiguration\/(?:Create|UpdateMarkup|ImportJson)/, 'FormConfiguration write call'],
+];
+/**
+ * A command that merely SEARCHES for those strings is not a push. Without this
+ * exclusion the gate would block any session that grepped the codebase for the
+ * endpoint names — a false BLOCK is as corrosive to the gate as a fail-open.
+ */
+const LOG_NOT_A_PUSH = /\b(?:grep|rg|ripgrep|Select-String|findstr|ack)\b|--help\b|\bnode --test\b/;
+
+/** First line of evidence, or null. Never throws — an unreadable log is no evidence. */
+function scanLogForFormWork(root, sid) {
+  if (!sid) return null;
+  const dir = sessionLogDir(root, sid);
+  let files;
   try {
-    const out = execSync('git rev-parse --show-toplevel', {
-      cwd,
-      stdio: ['ignore', 'pipe', 'ignore'],
-      timeout: 5000,
-    });
-    const t = String(out).trim();
-    return t || null;
+    files = fs.readdirSync(dir).filter((f) => /^log\.\d{8}\.txt$/.test(f));
   } catch {
     return null;
   }
-}
-
-// Mirror of ledger.mjs resolveRoot(): pointer file only when a session id exists.
-function resolveRoot(sid, cwd) {
-  const pointerFile = sid
-    ? path.join(os.tmpdir(), `${POINTER_PREFIX}${String(sid).replace(/[^A-Za-z0-9._-]/g, '_')}.root`)
-    : null;
-  if (pointerFile) {
-    try {
-      const existing = fs.readFileSync(pointerFile, 'utf8').trim();
-      if (existing) return existing;
-    } catch { /* no pointer yet */ }
+  for (const f of files) {
+    let content;
+    try { content = fs.readFileSync(path.join(dir, f), 'utf8'); } catch { continue; }
+    for (const line of content.split('\n')) {
+      if (!line || LOG_NOT_A_PUSH.test(line)) continue;
+      for (const [re, what] of LOG_EVIDENCE) {
+        if (re.test(line)) return { what, line: line.trim().slice(0, 300), file: path.join(dir, f) };
+      }
+    }
   }
-  const root = gitToplevel(cwd) || cwd || process.cwd();
-  if (pointerFile) {
-    try { fs.writeFileSync(pointerFile, root, 'utf8'); } catch { /* best effort */ }
-  }
-  return root;
+  return null;
 }
 
 const HOWTO =
-  'Close every entry through the script — never hand-edit push-ledger.json:\n' +
-  '  authored -> push it (Create/UpdateMarkup), then:\n' +
+  'Publish through the one atomic path — it records the ledger for you:\n' +
+  '      node scripts/apply-form.mjs --file <compiled.json> --form <module>/<name> --backend <url>\n' +
+  '  (gates -> record authored -> push -> record pushed -> re-fetch diff -> verified)\n' +
+  'To close entries by hand-holding the same steps — never hand-edit push-ledger.json:\n' +
+  '  authored -> push it, then:\n' +
   '      node scripts/ledger.mjs update --form <module>/<name> --status pushed\n' +
   '  pushed   -> re-fetch + diff the markup, then:\n' +
   '      node scripts/ledger.mjs update --form <module>/<name> --status verified\n' +
@@ -87,12 +102,25 @@ function main() {
   if (payload.stop_hook_active) return 0;
 
   const sid = process.env.CLAUDE_SESSION_ID || payload.session_id || null;
-  const root = resolveRoot(sid, payload.cwd || process.cwd());
-  const ledgerPath = path.join(root, '.claude', 'cache', 'shesha-form-edit', 'push-ledger.json');
+  const cwd = payload.cwd || process.cwd();
+  const root = resolveSessionRoot({ sid, cwd, namespace: NS_LEDGER });
+  const ledgerPath = ledgerPathFor(root);
 
-  // The ONE remaining fail-open: no ledger at all means this session recorded no
-  // form work, so there is nothing to gate.
-  if (!fs.existsSync(ledgerPath)) return 0;
+  // No ledger file is not automatically innocence. A session that published a form
+  // and skipped the recording would otherwise walk out through the fail-open, so
+  // look for the work itself in this session's activity log.
+  if (!fs.existsSync(ledgerPath)) {
+    const logRoot = resolveSessionRoot({ sid, cwd, namespace: NS_LOGS });
+    const evidence = scanLogForFormWork(logRoot, sid);
+    if (!evidence) return 0; // no ledger AND no logged form work — nothing to gate.
+    return block(
+      'this session published form work but never recorded it in the push ledger.',
+      `Evidence (${evidence.what}) in ${evidence.file}:\n  ${evidence.line}\n\n` +
+      'Re-publish through scripts/apply-form.mjs (it records and verifies in one path), or record ' +
+      'and close the form by hand, then confirm with: node scripts/ledger.mjs verify',
+      ledgerPath
+    );
+  }
 
   if (Date.now() - fs.statSync(ledgerPath).mtimeMs > STALE_MS) {
     return block(

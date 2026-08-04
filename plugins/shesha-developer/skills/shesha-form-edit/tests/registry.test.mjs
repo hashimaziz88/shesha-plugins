@@ -95,6 +95,47 @@ test('every prop type is a known kind with the evidence its kind requires', () =
   }
 });
 
+// ---- (a2) provenance + staleness ---------------------------------------------
+// assets/components-kb/ is canonical and hand-inspectable; component-registry.json is
+// a GENERATED aggregate of it. The provenance block records which generator produced
+// the committed file and the sourceHash of the KB it was produced from, so "the
+// registry has drifted behind the KB" is a TEST FAILURE instead of a silent lie in a
+// 14k-line artifact nobody diffs.
+//
+// The hash definition is owned by gen-registry.mjs (kbSourceHash) and asked for via
+// `--print-source-hash`, deliberately rather than reimplemented here: two copies of
+// "what counts as a KB change" would eventually disagree, and the disagreement would
+// look like drift.
+
+test('the registry carries a provenance block', () => {
+  const p = registry.provenance;
+  assert.ok(p && typeof p === 'object', 'component-registry.json has no provenance block — regenerate via /shesha-gym');
+  for (const key of ['generatedBy', 'generatorVersion', 'mode', 'sourceHash', 'generatedAt']) {
+    assert.ok(p[key], `provenance has no "${key}"`);
+  }
+  assert.equal(p.generatedBy, 'gen-registry.mjs');
+  assert.ok(['live-backend', 'offline-kb'].includes(p.mode), `unexpected provenance.mode ${p.mode}`);
+  assert.match(p.sourceHash, /^sha256:[0-9a-f]{64}$/, `provenance.sourceHash is not a sha256 stamp: ${p.sourceHash}`);
+  assert.ok(!Number.isNaN(Date.parse(p.generatedAt)), `provenance.generatedAt is not a date: ${p.generatedAt}`);
+  // the mode must not contradict the older top-level stamp
+  assert.equal(p.mode, registry.generatedFrom, 'provenance.mode disagrees with generatedFrom');
+});
+
+test('the registry is not stale — components-kb still hashes to provenance.sourceHash', () => {
+  const r = spawnSync(process.execPath, [path.join(SCRIPTS, 'gen-registry.mjs'), '--print-source-hash'], { encoding: 'utf8' });
+  assert.equal(r.status, 0, `gen-registry.mjs --print-source-hash failed:\n${r.stdout}${r.stderr}`);
+  const current = (r.stdout || '').trim();
+  assert.match(current, /^sha256:[0-9a-f]{64}$/, `unexpected hash output: ${current}`);
+  assert.equal(
+    current,
+    registry.provenance.sourceHash,
+    'components-kb changed since the registry was generated — regenerate via /shesha-gym\n' +
+    `  registry provenance.sourceHash: ${registry.provenance.sourceHash}\n` +
+    `  components-kb hashes to:        ${current}\n` +
+    `  scope: ${registry.provenance.sourceHashScope ?? 'non-underscore assets/components-kb/*.json'}`,
+  );
+});
+
 // ---- (b) cross-check: measured ⊆ registry ------------------------------------
 // Matrix setting keys are spelled `<path>=<variant>` (e.g.
 // "desktop.dimensions.width=317px"), exactly the spelling channel-map.js and
@@ -233,12 +274,12 @@ test('a type the registry does not know still gets the generic UNRESOLVED line',
   assert.match(r.out, /UNRESOLVED \(check assets\/groups\/index\.json/, r.out);
 });
 
-// ---- compile-blueprint.js's slot guard reads the registry ---------------------
+// ---- the compiler's slot guard reads the registry ------------------------------
 
 test('the compiler slot guard reads customContainerNames from the registry', () => {
   const slotted = Object.values(registry.components).filter((c) => Array.isArray(c.customContainerNames) && c.customContainerNames.length);
   assert.ok(slotted.length > 0, 'no component declares customContainerNames — the slot guard has nothing to guard');
-  const src = fs.readFileSync(path.join(SCRIPTS, 'compile-blueprint.js'), 'utf8');
-  assert.match(src, /customContainerNames/, 'compile-blueprint.js does not read customContainerNames');
-  assert.match(src, /component-registry\.json/, 'compile-blueprint.js does not load the registry');
+  const src = fs.readFileSync(path.join(SCRIPTS, 'compile', 'compile-node.mjs'), 'utf8');
+  assert.match(src, /customContainerNames/, 'compile/compile-node.mjs does not read customContainerNames');
+  assert.match(src, /component-registry\.json/, 'compile/compile-node.mjs does not load the registry');
 });

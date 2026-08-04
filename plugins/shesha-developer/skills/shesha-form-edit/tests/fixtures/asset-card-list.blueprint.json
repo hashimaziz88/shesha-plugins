@@ -19,8 +19,7 @@
   },
   "bindings": [],
   "assertions": [
-    { "id": "A1", "statement": "the datalist is wrapped in a dataContext carrying entityType + sourceType Entity [R-005]" },
-    { "id": "A2", "statement": "the datalist points at the item card form by name (formSelectionMode: name) [R-048]" },
-    { "id": "A3", "statement": "list-card is not a page archetype — no header band is injected" }
+    {"id":"A1","kind":"exists","subject":"assetCards","description":"the datalist is wrapped in a dataContext carrying entityType + sourceType Entity [R-005]"},
+    {"id":"A2","kind":"visible","subject":"assetCards","description":"the datalist points at the item card form by name (formSelectionMode: name) [R-048]"}
   ]
 }

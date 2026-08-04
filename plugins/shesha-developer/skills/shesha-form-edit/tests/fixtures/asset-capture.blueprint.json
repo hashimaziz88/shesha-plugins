@@ -51,7 +51,10 @@
     { "property": "assignedEmployee" }
   ],
   "assertions": [
-    { "id": "A1", "statement": "mainSplit has exactly two children; mainCol left of railCol" },
-    { "id": "A2", "statement": "status/location/assignedEmployee are inside railCol" }
+    {"id":"A1","kind":"child-count","subject":"mainSplit","count":2,"description":"mainSplit has exactly two children"},
+    {"id":"A2","kind":"order","subject":"mainCol","target":"railCol","description":"mainCol left of railCol"},
+    {"id":"A3","kind":"contains","subject":"railCol","target":"status","description":"status is inside railCol"},
+    {"id":"A4","kind":"contains","subject":"railCol","target":"location","description":"location is inside railCol"},
+    {"id":"A5","kind":"contains","subject":"railCol","target":"assignedEmployee","description":"assignedEmployee is inside railCol"}
   ]
 }

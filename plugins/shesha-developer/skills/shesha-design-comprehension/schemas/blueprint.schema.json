@@ -1,132 +1,247 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "shesha-blueprint.schema.json",
-  "version": "1.1.0",
-  "$comment": "Schema version (semver, this document — NOT a blueprint field and never emitted into compiled markup). 1.0.0 = the structural IR (kinds, widths, bindings, assertions). 1.1.0 = adds the optional per-node `presentation` block (recipe/role/tone/surface/overrides) — the presentation IR.",
+  "version": "2.1.0",
+  "$comment": "Schema version (semver, this document — NOT a blueprint field and never emitted into compiled markup). 1.0.0 = the structural IR (kinds, widths, bindings, prose assertions). 1.1.0 = the alpha3 presentation IR (recipe/tone/overrides) — REMOVED. 2.0.0 = strict Draft 2020-12: additionalProperties:false everywhere, per-kind requirements, TYPED assertions, and a minimal semantic `intent` object in place of the presentation IR. 2.1.0 = a datatable node may declare `rowAction` — what ACTIVATING a row means, in semantics only (the compiler owns the channel and the target convention). A blueprint NEVER names an implementation asset: no block filenames, no component-registry names, no desktop.* paths, no raw colours or pixel literals. It says what a node MEANS; the compiler decides what renders it.",
   "title": "Shesha blueprint IR (machine twin)",
   "description": "The JSON twin of a screen blueprint. Comprehension emits it alongside the Markdown blueprint (fenced ```blueprint-json block); form-edit's compile-blueprint.js accepts ONLY this as build input — no spec, no build (L2).",
   "type": "object",
   "required": ["screen", "entity", "form", "archetype", "layout"],
+  "additionalProperties": false,
   "properties": {
-    "screen": { "type": "string", "description": "human screen name" },
+    "$comment": { "type": "string", "description": "author's note about this blueprint; never compiled" },
+    "screen": { "type": "string", "minLength": 1, "description": "human screen name" },
+    "subtitle": { "type": "string", "description": "breadcrumb / context line under the screen title" },
+    "entity": { "$ref": "#/$defs/entity" },
+    "form": { "$ref": "#/$defs/form" },
+    "archetype": {
+      "type": "string",
+      "enum": ["record-detail", "hub", "list-card", "capture", "dashboard", "solution-map", "wizard", "inline-card", "table-worklist", "modal-dialog", "auth-page"],
+      "description": "golden archetype to clone (assets/golden/_index.json keys)"
+    },
+    "theme": { "type": "string", "minLength": 1, "description": "theme token file name (e.g. 'shesha'); the compiler resolves it at compile time [R-042]" },
+    "artDirection": { "$ref": "#/$defs/artDirection" },
+    "fidelity": { "type": "string", "enum": ["A", "B", "C"], "description": "how the blueprint was captured: A measured · B derived · C inferred" },
+    "viewport": { "type": "integer", "minimum": 320, "maximum": 3840, "description": "capture viewport WIDTH in CSS px (the probe pins the height); measurements taken at different viewports are never comparable" },
+    "chrome": { "type": "boolean", "description": "false opts this screen out of the archetype's page chrome (it is embedded in a host page that already draws a header)" },
+    "layout": { "$ref": "#/$defs/node" },
+    "bindings": { "type": "array", "items": { "$ref": "#/$defs/binding" } },
+    "assertions": { "type": "array", "items": { "$ref": "#/$defs/assertion" } }
+  },
+  "$defs": {
+    "artDirection": {
+      "type": "object",
+      "title": "art direction (a JUDGMENT input)",
+      "description": "The stated visual intent for this screen, in words. OPTIONAL, and deliberately not mechanical: nothing here is interpreted by the compiler. It flows through to the design critic (which judges the deliverable against it) and to the conductor's theme choice (which picks or authors the token file that expresses it). Absent artDirection is not a defect — it means the archetype defaults stand.",
+      "$comment": "AUTHORITY ORDER — the ONE place it is written down, because a screen usually has more than one thing telling it how to look, and a later stage must never quietly outrank an earlier one:\n\n  1. MEASURED DESIGN-SOURCE STRUCTURE. If a design source was measured (a wireframe, prototype, running app, screenshot set), its measured structure wins. It is evidence; everything below is intent.\n  2. EXPLICIT ART DIRECTION. This object. It decides anything the measurements do not pin, and it is what the critic holds the deliverable to.\n  3. ARCHETYPE DEFAULTS. The golden archetype's anatomy and the theme's own conventions fill whatever art direction left unsaid.\n  4. RUNTIME CONSTRAINTS, WITH A REPORTED FALLBACK. Where 0.45 cannot deliver the level above (a channel the capability matrix measured as a no-op [R-053], an app-theme field the backend drops [R-051]), the constraint wins — but the downgrade is REPORTED, never silent. An unreported fallback is a defect, not a compromise.\n\nA lower rank never overrides a higher one; it only fills a gap the higher one left. Nothing here may name an implementation: no hex colours, no px literals, no component or block names — say what the screen MEANS and let the theme and the compiler decide what renders it.",
+      "additionalProperties": false,
+      "properties": {
+        "character": { "type": "string", "minLength": 1, "description": "the screen's overall voice in a phrase — what a person should feel looking at it (e.g. 'calm institutional record-keeping', 'high-signal operations console')" },
+        "density": { "type": "string", "minLength": 1, "description": "how tightly information packs, as an intent — airy, workmanlike, dense-by-necessity. Not a spacing value." },
+        "typeVoice": { "type": "string", "minLength": 1, "description": "how type should behave — the size relationships and weight discipline, described. Never a font stack or a px size." },
+        "paletteStrategy": { "type": "string", "minLength": 1, "description": "where colour is allowed to do work and where it must stay out of the way (e.g. 'brand reserved strictly for interactive affordances; status is the only other colour')" },
+        "surfaceStrategy": { "type": "string", "minLength": 1, "description": "how ground and raised surfaces separate — border-forward, elevation-forward, tonal. Not a shadow value." },
+        "hierarchyStrategy": { "type": "string", "minLength": 1, "description": "what establishes rank on the page — position, size, weight, containment, colour — and in what order" },
+        "antiDefaults": {
+          "type": "array",
+          "description": "the templated moves this screen must NOT make. The most useful field here: it is what stops a form reading as generated.",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "intentionalDeviations": {
+          "type": "array",
+          "description": "places this screen knowingly departs from the theme or the archetype, each with its reason — so a reviewer reads them as decisions and not as drift.",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
     "entity": {
       "type": "object",
       "required": ["fullClassName"],
+      "additionalProperties": false,
       "properties": {
-        "fullClassName": { "type": "string", "description": "resolved entity type string (dataContext.entityType form)" },
+        "fullClassName": { "type": "string", "minLength": 1, "description": "resolved entity type string (dataContext.entityType form)" },
         "modelType": {
           "type": "object",
           "description": "the {name, module} object for formSettings.modelType [R-016]",
-          "properties": { "name": { "type": "string" }, "module": { "type": "string" } }
+          "required": ["name"],
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string", "minLength": 1 },
+            "module": { "type": "string", "minLength": 1 }
+          }
         }
       }
     },
     "form": {
       "type": "object",
       "required": ["module", "name"],
-      "properties": { "module": { "type": "string" }, "name": { "type": "string" }, "label": { "type": "string" } }
+      "additionalProperties": false,
+      "properties": {
+        "module": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "label": { "type": "string" }
+      }
     },
-    "archetype": {
-      "enum": ["record-detail", "hub", "list-card", "capture", "dashboard", "solution-map", "wizard", "inline-card", "table-worklist", "modal-dialog", "auth-page"],
-      "description": "golden archetype to clone (assets/golden/_index.json keys)"
-    },
-    "theme": { "type": "string", "description": "theme token file name (e.g. 'shesha'); styling pass resolves it" },
-    "fidelity": { "enum": ["A", "B", "C"] },
-    "viewport": { "type": "string" },
-    "layout": { "$ref": "#/$defs/node" },
-    "bindings": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["property"],
-        "properties": {
-          "label": { "type": "string" },
-          "property": { "type": "string", "description": "camelCase entity property or dotted nav path [R-004, R-034]" },
-          "component": { "type": "string", "description": "explicit component type; omitted = by-datatype selection" },
-          "datatype": { "type": "string" }
+    "binding": {
+      "type": "object",
+      "required": ["property"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string" },
+        "property": { "type": "string", "minLength": 1, "description": "camelCase entity property or dotted nav path [R-004, R-034]" },
+        "component": { "type": "string", "minLength": 1, "description": "explicit component type; omitted = by-datatype selection. Must be authorable per shesha-form-edit/assets/component-registry.json." },
+        "datatype": { "type": "string", "minLength": 1 },
+        "referenceList": {
+          "type": "object",
+          "description": "the reference-list identity behind a lifecycle property [R-015/R-036]",
+          "required": ["name"],
+          "additionalProperties": false,
+          "properties": {
+            "module": { "type": "string" },
+            "name": { "type": "string", "minLength": 1 }
+          }
         }
       }
     },
-    "assertions": {
-      "type": "array",
-      "description": "placement contract verified after build (stable properties, never pixels)",
-      "items": {
-        "type": "object",
-        "required": ["id", "statement"],
-        "properties": { "id": { "type": "string" }, "statement": { "type": "string" } }
+    "assertion": {
+      "description": "A TYPED placement contract, machine-checkable after the build against stable structural facts — never pixels, never prose. `description` is the human gloss; the machine reads kind/subject/target/count/ratio.",
+      "type": "object",
+      "required": ["id", "kind", "subject"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "description": "stable id (A1, A2 …) so a verdict can be keyed" },
+        "kind": {
+          "type": "string",
+          "description": "exists: subject is in the tree · parent: subject's parent is target · contains: subject holds target (any depth) · child-count: subject has `count` children · order: subject precedes target in document order · same-row / same-column: subject and target share an axis · tab-membership: subject sits inside the tab titled target · relative-width: subject is `ratio` of its parent's width · width-ratio: subject:target widths are `ratio` · alignment: subject's children align per target (start|center|end|space-between) · visible: subject renders visibly",
+          "enum": ["exists", "parent", "contains", "child-count", "order", "same-row", "same-column", "tab-membership", "relative-width", "width-ratio", "alignment", "visible"]
+        },
+        "subject": { "type": "string", "minLength": 1, "description": "the node NAME (or bound property) the assertion is about" },
+        "target": { "type": "string", "minLength": 1, "description": "the second operand: a node name, a tab title, or an alignment keyword" },
+        "count": { "type": "integer", "minimum": 0, "description": "kind=child-count: the exact child count" },
+        "ratio": { "type": "number", "exclusiveMinimum": 0, "description": "kind=relative-width: the fraction of the parent (0.66) · kind=width-ratio: subject/target (2 = twice as wide)" },
+        "required": { "type": "boolean", "default": true, "description": "false = advisory; a failure is reported but does not fail the build" },
+        "description": { "type": "string", "description": "the human gloss on this assertion" }
+      },
+      "allOf": [
+        {
+          "$comment": "the relational kinds need a target",
+          "if": { "properties": { "kind": { "enum": ["parent", "contains", "order", "same-row", "same-column", "tab-membership", "width-ratio", "alignment"] } }, "required": ["kind"] },
+          "then": { "required": ["target"] }
+        },
+        {
+          "$comment": "child-count needs its count",
+          "if": { "properties": { "kind": { "const": "child-count" } }, "required": ["kind"] },
+          "then": { "required": ["count"] }
+        },
+        {
+          "$comment": "the width kinds need their ratio",
+          "if": { "properties": { "kind": { "enum": ["relative-width", "width-ratio"] } }, "required": ["kind"] },
+          "then": { "required": ["ratio"] }
+        }
+      ]
+    },
+    "intent": {
+      "description": "What this node MEANS, in design vocabulary that names no implementation asset. Every field is optional; a node with no `intent` compiles exactly as its `kind` says. The compiler picks the carrier (role) and resolves colour through the ACTIVE theme (emphasis) — a blueprint never names a block file, a component type, a `desktop.*` path, a hex colour or a pixel value [R-042].",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "description": "what the node IS semantically: title → heading treatment · status → the lifecycle chip carrier · metric → a single-number tile · meta → the at-a-glance key-information strip · body → plain content (no-op)",
+          "type": "string",
+          "enum": ["title", "status", "metric", "meta", "body"]
+        },
+        "emphasis": {
+          "description": "the colour ROLE, never a colour: accent → the brand role · neutral → surfaces + body ink · success|warning|danger → the theme's status palette. An emphasis the active theme does not define falls back to neutral ink.",
+          "type": "string",
+          "enum": ["accent", "neutral", "success", "warning", "danger"]
+        },
+        "surface": {
+          "description": "card → a surfaced panel · band → a full-width band · plain → no surface",
+          "type": "string",
+          "enum": ["card", "band", "plain"]
+        },
+        "density": {
+          "description": "how tight the node reads. Advisory in this phase: carried on the IR, not yet a compile lever.",
+          "type": "string",
+          "enum": ["compact", "comfortable"]
+        },
+        "artDirection": {
+          "description": "free-text reference for the design layers (\"like the KPI strip on the ops dashboard\"). Never parsed by the compiler and never a source of asset names.",
+          "type": "string"
+        }
       }
-    }
-  },
-  "$defs": {
+    },
     "node": {
       "description": "A layout node — think of it as a React element. Compose the screen the way you would a React page: Stack/Row/Grid/Card for structure, Field/Text/Heading for content, Actions for buttons. The compiler maps each to the measured Shesha channel, so your flex/spacing/hierarchy instincts translate 1:1. See references/designing-like-react.md.",
       "type": "object",
       "required": ["kind"],
+      "additionalProperties": false,
       "properties": {
         "kind": {
           "description": "layout | region: page root · stack: vertical flex · row: horizontal flex · grid: equal-width columns · card: surfaced panel · section: titled group · tabs/tab · field · text · heading · datatable · datalist · actions (Submit+exit buttonGroup) · chip. (container = alias of stack.)",
+          "type": "string",
           "enum": ["region", "container", "stack", "row", "grid", "card", "section", "tabs", "tab", "datatable", "datalist", "field", "text", "heading", "buttonGroup", "actions", "chip"]
         },
-        "name": { "type": "string" },
-        "title": { "type": "string", "description": "card/section/tab heading, or a field's label override" },
-        "width": { "type": "string", "description": "flex-child width — %, px, fr or calc(); compiled to desktop.dimensions.width (the ONLY split lever [R-028])" },
+        "name": { "type": "string", "minLength": 1, "description": "stable node name — what an assertion's subject/target refers to" },
+        "title": { "type": "string", "description": "card/section/tab heading, a field's label override, or a button's caption" },
+        "width": { "type": "string", "minLength": 1, "description": "flex-child width — %, px, fr or calc(); compiled to desktop.dimensions.width (the ONLY split lever [R-028])" },
         "gap": { "description": "space between children — px number or scale token xs|sm|md|lg|xl|2xl; compiled to container gap", "type": ["string", "number"] },
         "padding": { "description": "inner padding — px number, scale token, or CSS shorthand; compiled to stylingBox", "type": ["string", "number"] },
-        "align": { "enum": ["start", "center", "end", "stretch", "baseline"], "description": "cross-axis (alignItems)" },
-        "justify": { "enum": ["start", "center", "end", "space-between", "space-around"], "description": "main-axis (justifyContent)" },
-        "columns": { "description": "kind=grid: column count (number); kind=datatable: bound column properties (string[])", "type": ["integer", "array"], "items": { "type": "string" } },
+        "align": { "type": "string", "enum": ["start", "center", "end", "stretch", "baseline"], "description": "cross-axis (alignItems)" },
+        "justify": { "type": "string", "enum": ["start", "center", "end", "space-between", "space-around"], "description": "main-axis (justifyContent)" },
+        "columns": { "description": "kind=grid: column count (integer ≥1); kind=datatable: bound column properties (string[])", "type": ["integer", "array"], "items": { "type": "string", "minLength": 1 } },
         "level": { "description": "kind=heading: 1–4 (h1=page title … h4=label)", "type": "integer", "minimum": 1, "maximum": 4 },
-        "property": { "type": "string", "description": "kind=field: the bound entity property (camelCase / dotted path)" },
-        "component": { "type": "string", "description": "kind=field: explicit component type override (else by-datatype)" },
+        "property": { "type": "string", "minLength": 1, "description": "kind=field/chip: the bound entity property (camelCase / dotted path)" },
+        "component": { "type": "string", "minLength": 1, "description": "kind=field: explicit component type override (else by-datatype). Must be authorable per shesha-form-edit/assets/component-registry.json." },
         "content": { "type": "string", "description": "kind=text/heading: literal content" },
-        "itemForm": { "type": "string", "description": "kind=datalist: item card form name" },
-        "presentation": { "$ref": "#/$defs/presentation" },
-        "children": { "type": "array", "items": { "$ref": "#/$defs/node" } }
-      }
-    },
-    "presentation": {
-      "description": "How this node LOOKS, quantized to the design system — the presentation IR. Every field is optional; a node with no `presentation` compiles exactly as before. Measured styling is never recorded as prose (\"very plain\"): it is quantized to the nearest recipe/role/tone/surface and, when nothing else fits, to a token path in `overrides`. The compiler resolves all of it against the ACTIVE theme (--theme), which stays the only styling input [R-042].",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "recipe": {
-          "$comment": "The enum IS the file list of shesha-form-edit/assets/blocks/*.block.json — the block library is the source of truth; add a block, add its name here.",
-          "description": "a block from the block library, instantiated at this node's position (authoritative for this node — archetype chrome will not emit the same recipe twice)",
-          "enum": [
-            "card-with-header-strip",
-            "completeness-bar",
-            "dashed-add-button",
-            "flex-split-main-rail",
-            "meta-strip",
-            "page-header-band",
-            "rail-label-value-row",
-            "rail-panel",
-            "requirement-datalist-row",
-            "status-pill"
-          ]
-        },
-        "role": {
-          "description": "what the node IS semantically: title → heading treatment · status → refListStatus chip · metric → statistic tile · meta → KeyInformationBar meta strip · body → no-op (plain content)",
-          "enum": ["title", "status", "metric", "meta", "body"]
-        },
-        "tone": {
-          "description": "the colour ROLE, never a colour: accent → brand primary/tint · neutral → surfaces + body ink · success|warning|danger → the theme's status palette. A tone the active theme does not define falls back to neutral ink.",
-          "enum": ["accent", "neutral", "success", "warning", "danger"]
-        },
-        "surface": {
-          "description": "card → card surface (bg + hairline + radius) · band → band surface (bandBg + bottom hairline) · plain → no surface",
-          "enum": ["card", "band", "plain"]
-        },
-        "overrides": {
-          "description": "escape hatch for one-off appearance: dotted path under the emitted component's `desktop` block (plus the `gap`/`padding` aliases) → a TOKEN PATH. Token paths ONLY — a raw hex or px value is a validation error, because a literal cannot follow the theme.",
+        "itemForm": { "type": "string", "minLength": 1, "description": "kind=datalist: the item card form name — the datalist's item-form contract [R-048]" },
+        "rowAction": {
+          "description": "kind=datatable: what ACTIVATING a row means. Semantics only — the compiler owns which renderer channel carries it and what the target resolves to; a blueprint never names a channel, a URL or a route.",
           "type": "object",
-          "additionalProperties": {
-            "type": "string",
-            "pattern": "^(spacing|radius|palette|type|shadow)\\.",
-            "description": "a path into the active theme token file, e.g. \"type.scale.titleLg\", \"palette.brand.tint\", \"spacing.4\", \"radius.lg\", \"shadow.card\""
+          "required": ["kind"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "type": "string", "enum": ["open-record"], "description": "open-record: activating a row opens that record's own screen" },
+            "target": { "type": "string", "minLength": 1, "description": "the destination FORM name; omitted = the entity's details form by convention (`<entity-kebab>-details`)" }
           }
+        },
+        "action": { "type": "string", "enum": ["submit", "navigate"], "description": "a button node's action contract; omitted = inferred from the caption" },
+        "buttonType": { "type": "string", "enum": ["primary", "default", "dashed", "link", "text"], "description": "a button node's emphasis — exactly ONE primary per action zone [R-007]" },
+        "intent": { "$ref": "#/$defs/intent" },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/node" } }
+      },
+      "allOf": [
+        {
+          "$comment": "a field binds a property",
+          "if": { "properties": { "kind": { "const": "field" } }, "required": ["kind"] },
+          "then": { "required": ["property"] }
+        },
+        {
+          "$comment": "a grid declares a positive column count",
+          "if": { "properties": { "kind": { "const": "grid" } }, "required": ["kind"] },
+          "then": { "required": ["columns"], "properties": { "columns": { "type": "integer", "minimum": 1 } } }
+        },
+        {
+          "$comment": "a datatable declares its bound columns as a non-empty string[]",
+          "if": { "properties": { "kind": { "const": "datatable" } }, "required": ["kind"] },
+          "then": { "required": ["columns"], "properties": { "columns": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } } } }
+        },
+        {
+          "$comment": "rowAction is a datatable affordance — a row is the only thing that can be activated",
+          "if": { "required": ["rowAction"] },
+          "then": { "properties": { "kind": { "const": "datatable" } } }
+        },
+        {
+          "$comment": "a datalist names its item form",
+          "if": { "properties": { "kind": { "const": "datalist" } }, "required": ["kind"] },
+          "then": { "required": ["itemForm"] }
+        },
+        {
+          "$comment": "a tab carries a title",
+          "if": { "properties": { "kind": { "const": "tab" } }, "required": ["kind"] },
+          "then": { "required": ["title"] }
         }
-      }
+      ]
     }
   }
 }

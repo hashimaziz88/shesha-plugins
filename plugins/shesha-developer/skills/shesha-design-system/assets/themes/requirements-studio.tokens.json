@@ -1,6 +1,9 @@
 {
   "$brand": "requirements-studio",
+  "extends": "shesha",
+  "$comment": "An OVERRIDE file, not a theme: `extends` names the base whose complete token set this file inherits, and ONLY the keys that DIFFER live here. Anything absent is not a gap — it is the shesha value, resolved in memory by shesha-form-edit/scripts/compile/resolve-theme.mjs and validated as a COMPLETE theme against shesha-design-system/schemas/theme.schema.json before a single component is emitted. Duplicating a base value here is a defect: it re-introduces the drift inheritance exists to delete.",
   "$source": "LandBank Desktop Web design tokens (colors_and_type.css), sampled 1:1 from the Claude-designed Requirements Studio app",
+  "$description": "Deep teal (#0d685a) is the interactive anchor and — unlike the Shesha default — it also COLOURS section headings (roles.sectionHeading resolves to brand, not ink). Warm accents (orange #f3a127 / #e28030) are logo + restricted-UI only. Type is Inter with a tighter line-height set and a larger 28px display step; cards carry a 12px radius. `statusLifecycle` is a REAL lifecycle (Shesha.RequirementsStudio.RsStatus), so its six named badges are the ones to map; the base's five generic tones remain resolvable underneath because badges merge additively.",
   "palette": {
     "brand": {
       "primary": "#0d685a",
@@ -45,19 +48,8 @@
     "family": "\"Inter\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, system-ui, sans-serif",
     "familyMono": "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace",
     "scale": {
-      "micro": 12,
-      "dense": 13,
-      "body": 14,
-      "cardHeader": 16,
       "subtitle": 18,
-      "title": 24,
       "titleLg": 28
-    },
-    "weights": {
-      "regular": 400,
-      "medium": 500,
-      "semibold": 600,
-      "bold": 700
     },
     "lineHeights": {
       "tight": 1.2,
@@ -65,35 +57,17 @@
       "base": 1.5
     }
   },
-  "spacing": {
-    "1": 4,
-    "2": 8,
-    "3": 12,
-    "4": 16,
-    "5": 20,
-    "6": 24,
-    "8": 32,
-    "10": 40,
-    "12": 48
-  },
   "radius": {
-    "xs": 2,
-    "sm": 4,
-    "md": 6,
-    "lg": 12,
-    "pill": 9999
+    "lg": 12
   },
   "shadow": {
-    "none": "none",
     "card": "0 1px 4px rgba(0, 0, 0, 0.06)",
     "overlay": "0 8px 24px rgba(15, 23, 42, 0.08)",
     "rowHover": "0 1px 2px rgba(15, 23, 42, 0.04)"
   },
   "chrome": {
     "railWidth": 56,
-    "headerHeight": 52,
-    "recordBarHeight": 96,
-    "tableRowHeight": 44
+    "recordBarHeight": 96
   },
   "statusLifecycle": {
     "$reflist": "Shesha.RequirementsStudio.RsStatus",
@@ -139,29 +113,92 @@
     }
   },
   "roles": {
-    "appPrimary": "palette.brand.primary",
-    "appPrimaryHover": "palette.brand.primaryHover",
-    "pageBg": "palette.surfaces.canvas",
-    "cardBg": "palette.surfaces.surface",
-    "cardHeaderBg": "palette.surfaces.surfaceAlt",
-    "readOnlyFieldBg": "palette.surfaces.surfaceMuted",
-    "inputBorder": "palette.lines.borderStrong",
-    "hairline": "palette.lines.border",
     "sectionHeading": "palette.brand.primary",
-    "bodyText": "palette.ink.primary",
-    "helperText": "palette.ink.soft",
-    "baseRadius": "radius.md",
-    "cardRadius": "radius.lg",
-    "bodyInk": "palette.ink.primary",
-    "mutedText": "palette.ink.soft",
-    "divider": "palette.lines.divider",
-    "bandBg": "palette.surfaces.surface",
-    "bandText": "palette.ink.primary",
-    "bandSubtext": "palette.ink.soft",
-    "bandBorder": "palette.lines.border",
-    "tableHeaderBg": "palette.surfaces.surfaceAlt",
-    "statTileBg": "palette.surfaces.surface",
-    "statTileValue": "palette.brand.primary",
-    "$chromeNote": "band*/statTile*/tableHeaderBg are the PAGE-CHROME roles the compiler resolves when it stamps per-archetype chrome (page-header band, meta strip, dashboard stat tiles, datatable header). Every theme must define them so tk() never misses."
+    "helperText": "palette.ink.soft"
+  },
+  "$deliveryLimits": [
+    "TIER 4, brand-specific. Inherited from shesha unless listed here.",
+    "roles.navBg still resolves to the shesha palette.accent.navy (#000E8E) because this brand defines no navy of its own — the sidebar chrome is NOT branded teal. Add palette.accent.navy here to brand it; do not colour it from brand.primary by accident.",
+    "statusLifecycle.badges merges additively over the base, so the shesha generic tones (draft/success/warning/error/info) remain resolvable alongside the six RsStatus names. Map RsStatus items to the NAMED six; the lowercase five are the fallback vocabulary, not this lifecycle."
+  ],
+  "$antdTheme": {
+    "$use": "The resolved Ant Design 6.x ConfigProvider theme for the requirements-studio brand. Only the keys whose value DIFFERS from the shesha base live here; the rest is inherited. Each one was derived by PATH from this brand own tier-1 tokens (colorPrimary <- palette.brand.primary, Card.borderRadius <- radius.lg, ...), not by find-and-replace — see references/app-theme.md, and R-051 for how little of this block a 0.45 backend actually persists.",
+    "token": {
+      "colorPrimary": "#0d685a",
+      "colorPrimaryHover": "#0a5547",
+      "colorPrimaryActive": "#053a30",
+      "colorPrimaryBg": "#e8f2ef",
+      "colorPrimaryText": "#0d685a",
+      "colorPrimaryTextHover": "#0a5547",
+      "colorWarning": "#d97706",
+      "colorWarningBg": "#fef3c7",
+      "colorError": "#c0392b",
+      "colorErrorBg": "#fdecea",
+      "colorInfo": "#2563eb",
+      "colorInfoBg": "#e8f6ff",
+      "colorTextBase": "#1f1f1f",
+      "colorText": "#1f1f1f",
+      "colorTextSecondary": "#4a4a4a",
+      "colorTextTertiary": "#6b7280",
+      "colorBgBase": "#ffffff",
+      "colorBgContainer": "#ffffff",
+      "colorBgLayout": "#f0f2f5",
+      "colorBgElevated": "#ffffff",
+      "colorBgSpotlight": "#0d685a",
+      "colorBorder": "#d6d6d6",
+      "colorBorderSecondary": "#e5e7eb",
+      "colorFill": "#f0f0f0",
+      "colorFillSecondary": "#fafafa",
+      "fontFamily": "\"Inter\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, system-ui, sans-serif",
+      "fontFamilyCode": "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace",
+      "fontSizeXL": 18,
+      "fontSizeHeading2": 18,
+      "lineHeight": 1.5,
+      "lineHeightHeading1": 1.2,
+      "lineHeightHeading3": 1.35,
+      "borderRadiusLG": 12,
+      "boxShadow": "0 1px 4px rgba(0, 0, 0, 0.06)",
+      "boxShadowSecondary": "0 8px 24px rgba(15, 23, 42, 0.08)",
+      "boxShadowTertiary": "0 1px 2px rgba(15, 23, 42, 0.04)"
+    },
+    "components": {
+      "Button": {
+        "primaryColor": "#ffffff",
+        "defaultBorderColor": "#d6d6d6",
+        "defaultColor": "#1f1f1f"
+      },
+      "Input": {
+        "hoverBorderColor": "#0d685a",
+        "activeBorderColor": "#0d685a"
+      },
+      "Select": {
+        "optionSelectedBg": "#e8f2ef",
+        "optionSelectedColor": "#0d685a",
+        "optionActiveBg": "#f3f8f6"
+      },
+      "Table": {
+        "headerBg": "#fafafa",
+        "headerColor": "#1f1f1f",
+        "rowHoverBg": "#f3f8f6",
+        "rowSelectedBg": "#e8f2ef",
+        "borderColor": "#f0f0f0"
+      },
+      "Card": {
+        "headerBg": "#fafafa",
+        "borderRadius": 12
+      },
+      "Tabs": {
+        "itemActiveColor": "#0d685a",
+        "itemHoverColor": "#0d685a",
+        "inkBarColor": "#0d685a",
+        "itemSelectedColor": "#0d685a"
+      },
+      "Badge": {
+        "colorBgContainer": "#c0392b"
+      },
+      "Steps": {
+        "colorPrimary": "#0d685a"
+      }
+    }
   }
 }

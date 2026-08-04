@@ -35,7 +35,8 @@
     { "property": "assignedEmployee" }
   ],
   "assertions": [
-    { "id": "A1", "statement": "top row has two children; Details card left (66%), Status section right (33%)" },
-    { "id": "A2", "statement": "category and purchaseDate sit side by side in a 2-col grid inside the Details card" }
+    {"id":"A1","kind":"same-row","subject":"category","target":"purchaseDate","description":"category and purchaseDate sit side by side in a 2-col grid inside the Details card"},
+    {"id":"A2","kind":"same-column","subject":"name","target":"serialNumber","description":"the Details card stacks its identity fields"},
+    {"id":"A3","kind":"same-column","subject":"status","target":"location","description":"the Status section stacks its fields in the right-hand rail"}
   ]
 }
