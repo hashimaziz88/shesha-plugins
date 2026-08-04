@@ -9,10 +9,14 @@ const ROOT = 'root';
 export const rules = {
   'R-001': {
     id: 'R-001',
-    severity: 'fail',
+    severity: 'warn',
     statement:
-      'Every component carries parentId set to its direct parent id; root components carry "root". ' +
-      'A missing parentId crashes the renderer with no useful error.',
+      'Every component carries parentId set to its direct parent id — the SLOT id for a slot ' +
+      'child, "root" at the top. The old rule rated a missing parentId as fatal ("crashes the ' +
+      'renderer"); that is contradicted by evidence — componentsTreeToFlatStructure RECOMPUTES ' +
+      'parentId from tree position, and a shipped production form carries three null parentIds ' +
+      'and renders. So this is a hygiene warning for tree-shaped markup, not a render-killer. ' +
+      'It stays because flat-structure consumers and diff-based tooling do trust the stored value.',
     check(markup) {
       const out = [];
       const parents = parentMap(markup);
@@ -20,10 +24,13 @@ export const rules = {
         const parent = parents.get(node);
         const expected = parent ? parent.id : ROOT;
         if (node.parentId === undefined || node.parentId === null || node.parentId === '') {
-          out.push({ message: `${node.type} "${node.componentName || node.id}" has no parentId (expected ${expected})`, fixPointer: `${path}/parentId` });
+          out.push({
+            message: `${node.type} "${node.componentName || node.id}" has no parentId (the framework will recompute it to "${expected}", so this is hygiene rather than breakage)`,
+            fixPointer: `${path}/parentId`,
+          });
         } else if (node.parentId !== expected) {
           out.push({
-            message: `${node.type} "${node.componentName || node.id}" has parentId "${node.parentId}" but its direct parent is "${expected}"`,
+            message: `${node.type} "${node.componentName || node.id}" has parentId "${node.parentId}" but its position makes the parent "${expected}"`,
             fixPointer: `${path}/parentId`,
           });
         }
@@ -125,21 +132,27 @@ export const rules = {
       'editMode "inherited" on a form that can never enter edit mode renders every input as a ' +
       'blank read-only span. The original rule also said "never blanket-stamp editMode", which ' +
       'is judgment and was dropped; this is the checkable half.',
-    applies(_ctx, markup) {
+    applies(ctx, markup) {
       const loader = markup?.formSettings?.dataLoaderType;
-      return loader === 'none'
+      if (loader !== 'none') {
+        return { skip: true, reason: `dataLoaderType is "${loader ?? '(unset)'}", so the form can enter edit mode` };
+      }
+      return ctx.registry
         ? true
-        : { skip: true, reason: `dataLoaderType is "${loader ?? '(unset)'}", so the form can enter edit mode` };
+        : { skip: true, reason: 'needs the derived registry to tell inputs from layout components' };
     },
-    check(markup) {
+    check(markup, ctx) {
       const out = [];
       for (const { node, path } of allComponents(markup)) {
-        if (node.editMode === 'inherited') {
-          out.push({
-            message: `${node.type} "${node.componentName || node.id}" uses editMode "inherited" on a form with dataLoaderType "none" — it will render blank`,
-            fixPointer: `${path}/editMode`,
-          });
-        }
+        if (node.editMode !== 'inherited') continue;
+        // Only INPUTS render blank. editMode on a container is inert, and the shipped PBF
+        // form sets "inherited" on six containers — flagging those was a false positive.
+        const def = ctx.registry[node.type];
+        if (!def || def.isInput !== true) continue;
+        out.push({
+          message: `input ${node.type} "${node.componentName || node.id}" uses editMode "inherited" on a form with dataLoaderType "none" — it will render blank`,
+          fixPointer: `${path}/editMode`,
+        });
       }
       return out;
     },
@@ -157,8 +170,10 @@ export const rules = {
     check(markup, ctx) {
       const out = [];
       for (const { node, path } of allComponents(markup)) {
+        // dataTypeSupported rather than isInput: isInput is true for datatable and
+        // datatableContext, which do not need a user-facing field label.
         const def = ctx.registry[node.type];
-        if (!def || def.isInput !== true) continue;
+        if (!def || def.dataTypeSupported === null) continue;
         if (node.hideLabel === true) continue;
         const label = node.label;
         if (typeof label !== 'string' || label.trim() === '') {

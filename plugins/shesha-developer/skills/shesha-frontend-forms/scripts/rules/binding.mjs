@@ -29,10 +29,24 @@ export const rules = {
       'Every propertyName is camelCase, INCLUDING datatable column propertyNames. Metadata ' +
       'returns PascalCase paths but GQL row keys are camelCase, so a PascalCase column fetches ' +
       'rows and a correct pager count, then renders every cell blank.',
-    check(markup) {
+    check(markup, ctx) {
       const out = [];
       for (const { node, path } of allComponents(markup)) {
-        if (typeof node.propertyName === 'string' && node.propertyName && !camelish(node.propertyName)) {
+        // Only a DATA BINDING has to be camelCase. A dataContext's propertyName is a
+        // context identifier (referenced as contexts.<name>) and a datatable's is a table
+        // name — neither is a property path, and the shipped PBF form names a context
+        // "Application_Table" deliberately.
+        //
+        // `isInput` does NOT discriminate: it is true for datatableContext and datatable
+        // as well as textField, because in Shesha it means "participates in form data
+        // flow". The framework's own discriminator for "binds an entity property" is
+        // dataTypeSupported — the matcher it uses for exactly that decision. Components
+        // that bind without declaring one (subForm, entityPicker) are therefore not
+        // covered here; that is a deliberate narrowing, because a fail-severity rule must
+        // not produce false positives.
+        const def = ctx.registry ? ctx.registry[node.type] : null;
+        const isBinding = def ? def.dataTypeSupported !== null : !/[Cc]ontext$/.test(node.type);
+        if (isBinding && typeof node.propertyName === 'string' && node.propertyName && !camelish(node.propertyName)) {
           out.push({
             message: `${node.type} propertyName "${node.propertyName}" is not camelCase — bindings resolve against camelCase keys`,
             fixPointer: `${path}/propertyName`,
@@ -193,8 +207,11 @@ export const rules = {
         return idx.has(first);
       };
       for (const { node, path } of allComponents(markup)) {
+        // Same discriminator as R-004: dataTypeSupported, not isInput, because isInput is
+        // true for datatableContext and datatable whose propertyName is an identifier
+        // rather than an entity property path.
         const def = ctx.registry && ctx.registry[node.type];
-        if (def && def.isInput !== true) continue;
+        if (def && def.dataTypeSupported === null) continue;
         const name = node.propertyName;
         if (typeof name !== 'string' || !name) continue;
         if (!known(name)) {

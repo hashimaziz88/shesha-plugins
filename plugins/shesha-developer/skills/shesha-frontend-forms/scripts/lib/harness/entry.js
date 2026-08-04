@@ -20,7 +20,13 @@
  */
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { useFormDesignerComponents, useFormBuilderFactory } from '@shesha-io/reactjs';
+import {
+  useFormDesignerComponents,
+  useFormBuilderFactory,
+  componentsTreeToFlatStructure,
+  componentsFlatStructureToTree,
+  upgradeComponents,
+} from '@shesha-io/reactjs';
 
 /** Bounded, JSON-safe stringify. Registry values contain React elements and cycles. */
 const MAX_DEPTH = 6;
@@ -236,22 +242,66 @@ function Probe({ grid, onDone }) {
 }
 
 /**
- * Runs the probe twice — devMode off then on — because getToolboxComponents(isDevMode, ...)
- * gates which components the toolbox exposes. The delta is recorded as devOnly.
+ * The round-trip gate, run with the FRAMEWORK'S OWN functions:
+ *   componentsTreeToFlatStructure -> upgradeComponents -> componentsFlatStructureToTree
+ *
+ * This is the strongest structural check available, because it is not our opinion of what
+ * valid markup is — it is what Shesha itself does to the markup before rendering. If the
+ * tree does not survive its own framework's normalisation, the form is broken in a way no
+ * hand-written schema would catch. (There is no JSON Schema for form markup anywhere in
+ * the framework repo; the TypeScript types are the schema.)
+ *
+ * Every one of these functions takes an IToolboxComponents dictionary as its first
+ * argument, which is exactly what is unreachable outside a React render — hence a browser.
  */
-async function runOnce(grid, devMode) {
-  window.localStorage.setItem('application.isDevMode', JSON.stringify(!!devMode));
+function RoundTrip({ markup, onDone }) {
+  const components = useFormDesignerComponents();
+  React.useEffect(() => {
+    try {
+      const formSettings = markup.formSettings || {};
+      const input = markup.components || [];
+
+      const flat = componentsTreeToFlatStructure(components, JSON.parse(JSON.stringify(input)));
+
+      // upgradeComponents mutates the flat structure in place and returns void.
+      let upgradeError = null;
+      try {
+        upgradeComponents(components, formSettings, flat, false);
+      } catch (e) {
+        upgradeError = String((e && e.message) || e);
+      }
+
+      const tree = componentsFlatStructureToTree(components, flat);
+
+      onDone({
+        ok: true,
+        upgradeError,
+        // Ids the flat structure knows about — a count mismatch means components were
+        // dropped or collided (the flat structure is keyed by id).
+        flatIds: Object.keys(flat.allComponents || {}),
+        componentRelations: flat.componentRelations ? Object.keys(flat.componentRelations).length : null,
+        tree,
+      });
+    } catch (e) {
+      onDone({ ok: false, error: String((e && e.stack) || e) });
+    }
+  }, [components, markup, onDone]);
+  return null;
+}
+
+/** Mount a component that resolves once, then tear it down. */
+async function renderOnce(Component, props, label) {
   const host = document.createElement('div');
   document.body.appendChild(host);
   const root = createRoot(host);
   const result = await new Promise((resolve) => {
     const timer = setTimeout(
-      () => resolve({ ok: false, error: 'probe timed out after 60s without rendering' }),
+      () => resolve({ ok: false, error: `${label} timed out after 60s without rendering` }),
       60000
     );
     root.render(
-      React.createElement(Probe, {
-        grid,
+      React.createElement(Component, {
+        ...props,
         onDone: (payload) => {
           clearTimeout(timer);
           resolve(payload);
@@ -262,6 +312,15 @@ async function runOnce(grid, devMode) {
   root.unmount();
   host.remove();
   return result;
+}
+
+/**
+ * Runs the probe twice — devMode off then on — because getToolboxComponents(isDevMode, ...)
+ * gates which components the toolbox exposes. The delta is recorded as devOnly.
+ */
+async function runOnce(grid, devMode) {
+  window.localStorage.setItem('application.isDevMode', JSON.stringify(!!devMode));
+  return renderOnce(Probe, { grid }, 'probe');
 }
 
 export async function probe(grid) {
@@ -293,9 +352,25 @@ export async function probe(grid) {
   };
 }
 
-// The page driver calls this. Exposed on the esbuild global.
-export function start(grid) {
-  probe(grid)
+export async function roundTrip(markup) {
+  // Dev mode is irrelevant here (the dictionary is dev-mode-independent), but the hook
+  // reads localStorage, so seed it to avoid a first-render surprise.
+  window.localStorage.setItem('application.isDevMode', 'false');
+  return renderOnce(RoundTrip, { markup }, 'round-trip');
+}
+
+/**
+ * The page driver calls this with an operation. One bundle serves every browser-side
+ * operation so the esbuild cache stays hot — bundling the whole Shesha package is ~4.3s
+ * cold and ~0.1s warm, and a second entry point would halve the hit rate for no gain.
+ */
+export function start(op) {
+  const operation = op && op.kind ? op : { kind: 'probe', grid: op || [] };
+  const run =
+    operation.kind === 'roundtrip'
+      ? roundTrip(operation.markup)
+      : probe(operation.grid || []);
+  run
     .then((r) => {
       window.__shesha_ground_truth = r;
     })

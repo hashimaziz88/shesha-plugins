@@ -435,7 +435,7 @@ export async function buildHarness(paths, { outDir, verbose = false, identity, c
  * A silent harness failure is the single thing that would make this whole approach
  * untrustworthy, so every console message and page error is captured and surfaced.
  */
-export async function runHarness(built, { grid = [], timeoutMs = 120000, headless = true } = {}) {
+export async function runHarness(built, { grid = [], op = null, timeoutMs = 120000, headless = true } = {}) {
   const { chromium } = await import('playwright');
 
   const consoleMessages = [];
@@ -461,10 +461,11 @@ export async function runHarness(built, { grid = [], timeoutMs = 120000, headles
       pageErrors.push(String((err && err.stack) || err));
     });
 
-    // Inject the sampling grid before any script on the page runs.
-    await page.addInitScript((g) => {
-      window.__shesha_grid = g;
-    }, grid);
+    // Inject the operation before any script on the page runs.
+    const operation = op || { kind: 'probe', grid };
+    await page.addInitScript((o) => {
+      window.__shesha_op = o;
+    }, operation);
 
     await page.goto(pathToFileURL(built.pagePath).href, { waitUntil: 'load', timeout: timeoutMs });
 
@@ -477,7 +478,7 @@ export async function runHarness(built, { grid = [], timeoutMs = 120000, headles
     const errors = consoleMessages.filter((m) => m.type === 'error');
     if (!payload || !payload.ok) {
       throw new FrameworkError(
-        `The ground-truth harness rendered but did not produce a registry.\n` +
+        `The ${operation.kind} harness rendered but did not produce a result.\n` +
           `  in-page error: ${(payload && payload.error) || '(none reported)'}\n` +
           (pageErrors.length ? `  page errors:\n${pageErrors.map((e) => '    ' + e).join('\n')}\n` : '') +
           (errors.length ? `  console errors:\n${errors.map((e) => '    ' + e.text).join('\n')}\n` : ''),
@@ -567,6 +568,24 @@ export function defaultGrid() {
   const grid = [];
   for (const dataType of t) for (const dataFormat of f) grid.push({ dataType, dataFormat });
   return grid;
+}
+
+/**
+ * Run the framework's own tree -> flat -> upgrade -> tree cycle over a markup document.
+ *
+ * Returns the framework's output so the caller can diff it against the input. This is not
+ * our opinion of valid markup; it is what Shesha itself does before rendering.
+ */
+export async function runRoundTrip(appPath, markup, { verbose = false, cache = true } = {}) {
+  const paths = resolveAppPaths(appPath);
+  const identity = readFrameworkIdentity(paths);
+  const built = await buildHarness(paths, { verbose, identity, cache });
+  try {
+    const result = await runHarness(built, { op: { kind: 'roundtrip', markup } });
+    return { identity, result, timing: { cacheHit: !!built.cacheHit } };
+  } finally {
+    cleanHarness(built);
+  }
 }
 
 /** Best-effort cleanup of the transient bundle directory. */

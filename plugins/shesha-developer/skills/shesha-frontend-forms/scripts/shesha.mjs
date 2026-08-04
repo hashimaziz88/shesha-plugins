@@ -23,9 +23,10 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { deriveFrameworkTruth, FrameworkError, resolveAppPaths } from './lib/framework.mjs';
+import { deriveFrameworkTruth, FrameworkError, resolveAppPaths, runRoundTrip } from './lib/framework.mjs';
 import { BackendError, DEFAULT_BACKEND, deriveBackendTruth } from './lib/api.mjs';
 import { loadRules, renderManifest, TRIAGE } from './lib/rules.mjs';
+import { normaliseMarkup, runGates } from './lib/gates.mjs';
 
 const SKILL_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -43,7 +44,7 @@ const EXIT = {
 const SUBCOMMANDS = {
   probe: 'Derive Shesha 0.45 ground truth from the target app and write .shesha/ground-truth.json',
   explain: 'Look up a symptom, rule or component — replaces reading documents',
-  check: 'Run the offline gates over a form markup file                       [Phase 2]',
+  check: 'Run the offline gate chain over a form markup file',
   preview: 'Render a mirror-kit JSX spec to mock.png                           [Phase 3]',
   compile: 'Compile a mirror-kit JSX spec to Shesha form JSON                 [Phase 4]',
   push: 'Push a form and verify it by re-fetch diff                        [Phase 5]',
@@ -567,6 +568,191 @@ async function cmdExplain(flags) {
   return EXIT.USAGE;
 }
 
+const CHECK_HELP = `shesha check — the offline gate chain over a form markup file
+
+Usage:
+  node shesha.mjs check --file <f.json> [--app <path>] [options]
+
+Five gates, in order, ALL of them run:
+  1 structural    is this a form? required formSettings, ids, types, deprecated fields
+  2 round-trip    the framework's OWN componentsTreeToFlatStructure -> upgradeComponents
+                  -> componentsFlatStructureToTree, diffed against the input. Needs --app
+                  because those functions require a toolbox dictionary only reachable in a
+                  browser render.
+  3 rules         the 41 enforceable validators (see \`explain --manifest\`)
+  4 bindings      every bound propertyName against live metadata; LOUD when metadata is
+                  absent, because a binding check that did not run looks like one that passed
+  5 dead-channel  narrow, derived: a style channel the component's own settings form does
+                  not expose
+
+Every failure is reported together. This command does NOT judge whether the form looks
+styled — that is a rendered gate in Phase 6. A pass here means "structurally sound and
+correctly wired", never "looks right".
+
+Options:
+  --file <f>       the markup file to check.  REQUIRED
+                   Accepts raw {formSettings, components}, an UpdateMarkup wrapper with a
+                   stringified \`markup\` blob, or an ABP {result} envelope.
+  --app <path>     the Shesha app, for the derived registry and the round-trip gate
+  --form <m>/<n>   the form's module/name, used by rules that key off the form name (R-022)
+  --baseline <f>   a previously fetched version, to enforce id preservation (R-025)
+  --fast           skip the round-trip gate (no browser). Use in hooks where 5s per write
+                   matters; \`push\` always runs the full chain.
+  --json           machine-readable report
+  --output <f>     write the full report here
+
+Exit codes:
+  0 no failures (warnings may still be present) · 1 one or more failures · 64 usage error
+`;
+
+/** Resolve the check context from derived ground truth, when available. */
+function buildCheckContext(gt, markup, flags) {
+  const ctx = {};
+  if (gt) {
+    ctx.registry = gt.registry;
+    if (gt.backend && gt.backend.reachable) {
+      ctx.referenceLists = gt.backend.referenceLists;
+      ctx.metadata = gt.backend.metadata;
+
+      // Resolve the form's model to its property list. modelType is either the
+      // {name, module} object 0.45 expects or a fullClassName string (which the shipped
+      // PBF form uses), so both shapes have to resolve.
+      const mt = markup?.formSettings?.modelType;
+      let fullClassName = null;
+      if (typeof mt === 'string') fullClassName = mt;
+      else if (mt && mt.name) {
+        const hit = (gt.backend.entities || []).find(
+          (e) => e.name === mt.name && (!mt.module || e.module === mt.module)
+        );
+        fullClassName = hit ? hit.fullClassName : null;
+      }
+      if (fullClassName && gt.backend.metadata[fullClassName]) {
+        ctx.modelTypeName = fullClassName;
+        ctx.modelProperties = gt.backend.metadata[fullClassName].properties;
+      } else if (fullClassName) {
+        ctx.modelTypeName = fullClassName;
+      }
+    }
+  }
+  if (typeof flags.form === 'string' && flags.form.includes('/')) {
+    const [mod, name] = flags.form.split('/');
+    ctx.formModule = mod;
+    ctx.formName = name;
+  } else if (typeof flags.file === 'string') {
+    ctx.formName = flags.file.split(/[\\/]/).pop().replace(/\.json$/i, '');
+  }
+  if (typeof flags.baseline === 'string') {
+    const { doc } = normaliseMarkup(JSON.parse(readFileSync(resolve(flags.baseline), 'utf8')));
+    if (doc) ctx.baseline = doc;
+  }
+  return ctx;
+}
+
+function formatReport(report, meta) {
+  const lines = [];
+  const icon = { fail: 'FAIL', warn: 'warn' };
+  lines.push(`check ${meta.file}`);
+  if (meta.notes.length) for (const n of meta.notes) lines.push(`  (${n})`);
+  lines.push('');
+
+  const order = ['structural', 'round-trip', 'rules', 'bindings', 'dead-channel'];
+  for (const gate of order) {
+    const vs = report.violations.filter((v) => v.gate === gate);
+    const fails = vs.filter((v) => v.severity === 'fail').length;
+    const warns = vs.length - fails;
+    const status = fails > 0 ? 'FAIL' : warns > 0 ? 'warn' : ' ok ';
+    lines.push(`[${status}] ${gate}${vs.length ? `  (${fails} fail, ${warns} warn)` : ''}`);
+    for (const v of vs) {
+      lines.push(`   ${icon[v.severity]}${v.ruleId ? ` ${v.ruleId}` : ''}  ${v.message}`);
+      if (v.fixPointer) lines.push(`         at ${v.fixPointer}`);
+    }
+  }
+
+  lines.push('');
+  lines.push(`${report.counts.failures} failure(s), ${report.counts.warnings} warning(s); ${report.rulesRan.length} rules ran, ${report.rulesSkipped.length} skipped`);
+  if (report.rulesSkipped.length) {
+    lines.push('skipped rules (each with a reason, so nothing passes silently):');
+    for (const s of report.rulesSkipped) lines.push(`   ${s.ruleId}  ${s.reason}`);
+  }
+  lines.push('');
+  lines.push('NOT checked here:');
+  for (const n of report.notChecked) lines.push(`   - ${n}`);
+  return lines.join('\n') + '\n';
+}
+
+async function cmdCheck(flags) {
+  if (flags.help) {
+    process.stdout.write(CHECK_HELP);
+    return EXIT.OK;
+  }
+  if (!flags.file || flags.file === true) {
+    process.stderr.write('check: --file <f.json> is required.\n\n' + CHECK_HELP);
+    return EXIT.USAGE;
+  }
+  const filePath = resolve(flags.file);
+  if (!existsSync(filePath)) {
+    process.stderr.write(`check: no such file: ${filePath}\n`);
+    return EXIT.USAGE;
+  }
+
+  let raw;
+  try {
+    raw = readFileSync(filePath, 'utf8');
+  } catch (e) {
+    process.stderr.write(`check: cannot read ${filePath}: ${(e && e.message) || e}\n`);
+    return EXIT.USAGE;
+  }
+
+  let parsed;
+  try {
+    parsed = JSON.parse(raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw);
+  } catch (e) {
+    process.stderr.write(`check: ${filePath} is not valid JSON: ${(e && e.message) || e}\n`);
+    return EXIT.GATE;
+  }
+
+  const { doc: markup, notes, error } = normaliseMarkup(parsed);
+  if (error || !markup) {
+    process.stderr.write(`check: ${filePath} is not a form markup document — ${error}\n`);
+    return EXIT.GATE;
+  }
+
+  const gt = loadGroundTruth(flags.app);
+  if (flags.app && !gt) {
+    process.stderr.write(
+      `check: no ground truth at ${join(resolve(flags.app), '.shesha', 'ground-truth.json')}\n` +
+        '       run `probe --app <path>` first; continuing without the registry.\n'
+    );
+  }
+  const ctx = buildCheckContext(gt, markup, flags);
+
+  // Gate 2 needs the framework itself. Without --app, or with --fast, it degrades to a
+  // warning rather than silently passing.
+  let roundTripResult = null;
+  if (flags.app && !flags.fast) {
+    try {
+      const rt = await runRoundTrip(flags.app, markup, { verbose: !!flags.verbose });
+      roundTripResult = rt.result;
+    } catch (e) {
+      roundTripResult = { error: (e && e.message) || String(e) };
+    }
+  }
+
+  const report = runGates(markup, ctx, roundTripResult);
+  const meta = { file: filePath, notes };
+
+  if (flags.json) {
+    process.stdout.write(JSON.stringify({ ...report, file: filePath, notes }, null, 2) + '\n');
+  } else {
+    process.stdout.write(formatReport(report, meta));
+  }
+  if (typeof flags.output === 'string') {
+    writeFileSync(resolve(flags.output), JSON.stringify({ ...report, file: filePath, notes }, null, 2) + '\n', 'utf8');
+  }
+
+  return report.ok ? EXIT.OK : EXIT.GATE;
+}
+
 function unimplemented(name, phase) {
   return async (flags) => {
     const help = `shesha ${name} — ${SUBCOMMANDS[name]}\n\nNot implemented until Phase ${phase}.\n`;
@@ -582,7 +768,7 @@ function unimplemented(name, phase) {
 const HANDLERS = {
   probe: cmdProbe,
   explain: cmdExplain,
-  check: unimplemented('check', 2),
+  check: cmdCheck,
   preview: unimplemented('preview', 3),
   compile: unimplemented('compile', 4),
   push: unimplemented('push', 5),

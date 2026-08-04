@@ -63,11 +63,17 @@ export function* walkComponents(components, { parent = null, path = 'components'
     }
 
     // Object slots: card.content, card.header, collapsiblePanel.customHeader, ...
+    //
+    // The SLOT is the parent, not the owning component. A slot carries its own id and a
+    // child's parentId points at that, verified against the shipped
+    // PBF.MembershipManagement.application-table form: card.content.components[0].parentId
+    // equals card.content.id, NOT card.id. Treating the component as the parent produced a
+    // false positive on correct markup, which is worse than having no gate at all.
     for (const key of OBJECT_SLOTS) {
       const s = node[key];
       if (s && typeof s === 'object' && !Array.isArray(s) && Array.isArray(s.components)) {
         yield* walkComponents(s.components, {
-          parent: node,
+          parent: s.id ? s : node,
           path: `${nodePath}/${key}/components`,
           depth: depth + 1,
           slot: key,
@@ -82,8 +88,10 @@ export function* walkComponents(components, { parent = null, path = 'components'
       for (let j = 0; j < arr.length; j += 1) {
         const entry = arr[j];
         if (entry && typeof entry === 'object' && Array.isArray(entry.components)) {
+          // Same slot-is-the-parent rule as OBJECT_SLOTS: a tab/column/step entry carries
+          // its own id and is what its children's parentId points at.
           yield* walkComponents(entry.components, {
-            parent: node,
+            parent: entry.id ? entry : node,
             path: `${nodePath}/${key}/${j}/components`,
             depth: depth + 1,
             slot: key,
