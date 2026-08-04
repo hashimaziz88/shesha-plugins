@@ -269,6 +269,7 @@ export async function renderForms({
               capVerdict: gates.capVerdict,
               capReason: gates.capReason,
               checked: gates.checked,
+              notAsserted: gates.notAsserted,
               failures: gates.failures,
             }
           : null,

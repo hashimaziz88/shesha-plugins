@@ -194,8 +194,19 @@ describe('the compiled table-worklist', () => {
   it('wraps the datatable in a dataContext carrying an explicit entityType [R-005]', async (t) => {
     if (!gt) return t.skip('no ground-truth.json');
     const { markup } = await compile();
-    const ctx = allComponents(markup).find((h) => h.node.type === 'datatableContext');
-    assert.ok(ctx, 'no datatableContext was emitted');
+    /**
+     * The wrapper type is `dataContext`, not `datatableContext`.
+     *
+     * Two independent pieces of evidence: the framework's own round-trip RENAMES
+     * datatableContext -> dataContext during migration, and all six working forms mined from
+     * this app use dataContext. datatableContext is the legacy alias.
+     */
+    const ctx = allComponents(markup).find((h) => h.node.type === 'dataContext');
+    assert.ok(ctx, 'no dataContext was emitted');
+    assert.ok(
+      !allComponents(markup).some((h) => h.node.type === 'datatableContext'),
+      'datatableContext is the legacy alias and must not be emitted'
+    );
     assert.equal(typeof ctx.node.entityType, 'string');
     assert.equal(ctx.node.entityType, 'boxfusion.test.Domain.Domain.Astronauts.Astronaut');
     assert.equal(ctx.node.sourceType, 'Entity');

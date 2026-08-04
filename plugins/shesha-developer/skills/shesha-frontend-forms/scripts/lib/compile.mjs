@@ -397,11 +397,31 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
     if (['MicroLabel', 'SectionLabel', 'Text', 'Badge', 'CountBadge', 'Fact'].includes(name)) {
       const roleStyle = name === 'Text' && spec.roles ? spec.roles[props.role || 'body'] : null;
       const merged = { ...spec.style, ...(roleStyle || {}) };
+      /**
+       * THE TEXT STYLING CONTRACT, established by mining six working forms on this app.
+       *
+       * contentType:"custom" alone is NOT enough. A controlled experiment proved it: a form
+       * asking for sizes 11/24/14/12/28/13 and weights 600/600/400/500/700/600 rendered
+       * sizes 14/12/18 and weight 400, with zero console errors. So desktop.font was inert.
+       *
+       * Every one of the 55 text components in the working forms carries FOUR keys together:
+       *   textType         "span" | "paragraph"  — selects the Typography variant
+       *   contentDisplay   "content" | "name"    — literal text vs a bound value
+       *   contentType      "custom"              — lets the font block win over antd presets
+       *   desktop.font     {size, weight, color, align}
+       *
+       * Omitting textType or contentDisplay is what made the font block a no-op. This is
+       * exactly the class of defect the rendered gate exists to catch, and no offline check
+       * could have seen it.
+       */
+      const isBound = !!props.bind && props.value === undefined && typeof props.children !== 'string';
       const node = mk(spec.sheshaType, path, {
         componentName: `${name.toLowerCase()}${path.replace(/\W/g, '')}`.slice(0, 40),
         parentId,
-        // contentType "custom" is forced: a text component's font colour renders ONLY with
-        // it, and otherwise antd presets win and the colour is a pure no-op [R-052].
+        textType: name === 'Text' && props.role === 'body' ? 'paragraph' : 'span',
+        contentDisplay: isBound ? 'name' : 'content',
+        textType: 'span',
+        contentDisplay: 'content',
         contentType: 'custom',
         content: typeof props.children === 'string' ? props.children : props.value ?? props.label ?? '',
       });
@@ -410,6 +430,9 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
       const sb = stylingBox(merged, theme);
       if (sb) node.stylingBox = sb;
       if (name === 'MicroLabel' || name === 'SectionLabel') {
+        // Uppercase is achieved by CONTENT, not textTransform: all 55 text components in the
+        // mined working forms carry literal capitals ("DATE OF BIRTH") and no transform prop.
+        node.content = String(node.content || '').toUpperCase();
         node.desktop = node.desktop || {};
         node.desktop.font = node.desktop.font || {};
         // The uppercase micro-label: 11px/600/.04em. 153 instances in the reference corpus
@@ -435,8 +458,10 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
       const label = mk('text', `${path}/label`, {
         componentName: `statLabel${path.replace(/\W/g, '')}`.slice(0, 40),
         parentId: contentId,
+        textType: 'span',
+        contentDisplay: 'content',
         contentType: 'custom',
-        content: props.label || '',
+        content: String(props.label || '').toUpperCase(),
         desktop: {
           font: {
             size: theme.microLabel.size,
@@ -448,9 +473,13 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
       const value = mk('text', `${path}/value`, {
         componentName: `statValue${path.replace(/\W/g, '')}`.slice(0, 40),
         parentId: contentId,
+        textType: 'span',
+        contentDisplay: 'content',
         contentType: 'custom',
         content: props.value !== undefined ? String(props.value) : props.bind ? `{{${camelCasePath(props.bind)}}}` : '',
-        desktop: { font: { size: theme.type.kpiNumeral, weight: String(theme.type.weights.emphasis), color: theme.ink.default } },
+        // The numeral weight, not the emphasis weight — the theme distinguishes them and a
+        // form that only ever emits 600 renders a flat two-weight hierarchy.
+        desktop: { font: { size: theme.type.kpiNumeral, weight: String(theme.type.weights.numeral), color: theme.ink.default } },
       });
       const parts = [label, value];
       if (props.caption) {
@@ -458,6 +487,8 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
           mk('text', `${path}/caption`, {
             componentName: `statCaption${path.replace(/\W/g, '')}`.slice(0, 40),
             parentId: contentId,
+            textType: 'span',
+            contentDisplay: 'content',
             contentType: 'custom',
             content: props.caption,
             desktop: { font: { size: 12, color: theme.ink.soft } },
@@ -501,6 +532,8 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
             mk('text', `${path}/title`, {
               componentName: 'pageTitle',
               parentId: node.id,
+              textType: 'span',
+              contentDisplay: 'content',
               contentType: 'custom',
               content: props.title,
               desktop: { font: { size: theme.type.pageH1, weight: String(theme.type.weights.emphasis), color: theme.ink.default } },
@@ -512,6 +545,8 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
             mk('text', `${path}/subtitle`, {
               componentName: 'pageSubtitle',
               parentId: node.id,
+              textType: 'span',
+              contentDisplay: 'content',
               contentType: 'custom',
               content: props.subtitle,
               desktop: { font: { size: theme.type.body, color: theme.ink.muted } },
@@ -535,6 +570,8 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
           mk('text', `${path}/title`, {
             componentName: `cardTitle${path.replace(/\W/g, '')}`.slice(0, 40),
             parentId: headerId,
+            textType: 'span',
+            contentDisplay: 'content',
             contentType: 'custom',
             content: props.title,
             // THE SECTION BAND title: 15px/600 in the brand primary. 52 occurrences in the
@@ -548,6 +585,8 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
           mk('text', `${path}/meta`, {
             componentName: `cardMeta${path.replace(/\W/g, '')}`.slice(0, 40),
             parentId: headerId,
+            textType: 'span',
+            contentDisplay: 'content',
             contentType: 'custom',
             content: String(props.meta),
             desktop: { font: { size: 12, color: theme.ink.soft } },
@@ -573,7 +612,7 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
       // R-005: the wrapper is required and carries an explicit entityType string; it does
       // not inherit formSettings.modelType and a bare table 500s on page load.
       const ctxId = stableId(seed, `${path}/ctx`);
-      const ctx = mk('datatableContext', `${path}/ctx`, {
+      const ctx = mk('dataContext', `${path}/ctx`, {
         componentName: `${formName.replace(/\W/g, '')}Ctx`.slice(0, 40),
         propertyName: `${formName.replace(/\W/g, '')}Ctx`.slice(0, 40),
         parentId,
@@ -771,10 +810,10 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
 
   function actionFor(props, ctxId) {
     const action = props.action;
-    if (action === 'submit') return { actionName: 'Submit', actionOwner: 'shesha.form', handleSuccess: false, handleFail: false };
+    if (action === 'submit') return { _type: 'action-config', actionName: 'Submit', actionOwner: 'shesha.form', handleSuccess: false, handleFail: false };
     if (action === 'refresh') {
       // R-044: a refresh targets the dataContext component by id; there is no owner "table".
-      return { actionName: 'Refresh table', actionOwner: ctxId, handleSuccess: false, handleFail: false };
+      return { _type: 'action-config', actionName: 'Refresh table', actionOwner: ctxId, handleSuccess: false, handleFail: false };
     }
     if (action === 'navigate' || action === 'cancel') {
       return {
@@ -794,7 +833,7 @@ export function transform({ tree, anatomy, theme, groundTruth, formName, modelTy
         handleFail: false,
       };
     }
-    return { actionName: 'Execute Script', actionOwner: 'shesha.common', actionArguments: { expression: 'return true;' }, handleSuccess: false, handleFail: false };
+    return { _type: 'action-config', actionName: 'Execute Script', actionOwner: 'shesha.common', actionArguments: { expression: 'return true;' }, handleSuccess: false, handleFail: false };
   }
 
   const roots = emit(tree, 'r', 'root');
