@@ -27,6 +27,8 @@ import { deriveFrameworkTruth, FrameworkError, resolveAppPaths, runRoundTrip } f
 import { BackendError, DEFAULT_BACKEND, deriveBackendTruth } from './lib/api.mjs';
 import { loadRules, renderManifest, TRIAGE } from './lib/rules.mjs';
 import { normaliseMarkup, runGates } from './lib/gates.mjs';
+import { generateKit, KitError } from './gen-kit.mjs';
+import { PREVIEW_EXIT, PreviewError, renderPreview } from './lib/preview.mjs';
 
 const SKILL_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -45,7 +47,7 @@ const SUBCOMMANDS = {
   probe: 'Derive Shesha 0.45 ground truth from the target app and write .shesha/ground-truth.json',
   explain: 'Look up a symptom, rule or component — replaces reading documents',
   check: 'Run the offline gate chain over a form markup file',
-  preview: 'Render a mirror-kit JSX spec to mock.png                           [Phase 3]',
+  preview: 'Render a mirror-kit JSX spec to pixels — the forward model',
   compile: 'Compile a mirror-kit JSX spec to Shesha form JSON                 [Phase 4]',
   push: 'Push a form and verify it by re-fetch diff                        [Phase 5]',
   render: 'Render a live form and run the rendered gates                     [Phase 6]',
@@ -156,14 +158,11 @@ async function cmdProbe(flags) {
     process.stderr.write('probe: --app <path> is required.\n\n' + PROBE_HELP);
     return EXIT.USAGE;
   }
-  for (const [flag, phase] of [['emit-kit', 3], ['emit-fingerprint', 6]]) {
-    if (flags[flag]) {
-      process.stderr.write(
-        `probe: --${flag} is not implemented until Phase ${phase}. ` +
-          `Refusing to pretend it ran.\n`
-      );
-      return EXIT.UNIMPLEMENTED;
-    }
+  if (flags['emit-fingerprint']) {
+    process.stderr.write(
+      'probe: --emit-fingerprint is not implemented until Phase 6. Refusing to pretend it ran.\n'
+    );
+    return EXIT.UNIMPLEMENTED;
   }
 
   const verbose = !!flags.verbose;
@@ -329,6 +328,35 @@ async function cmdProbe(flags) {
 
   const outPath = join(shesha, 'ground-truth.json');
   writeFileSync(outPath, JSON.stringify(groundTruth, null, 2) + '\n', 'utf8');
+
+  // The mirror kit is generated FROM the ground truth just written, so it can only be
+  // emitted after it. Every line of it is generated; nothing here is hand-maintained.
+  let kit = null;
+  if (flags['emit-kit']) {
+    const themes = typeof flags['emit-kit'] === 'string' ? flags['emit-kit'].split(',') : ['shesha'];
+    kit = [];
+    for (const themeName of themes) {
+      try {
+        const report = generateKit({
+          groundTruthPath: outPath,
+          outDir: join(shesha, themes.length > 1 ? `kit-${themeName}` : 'kit'),
+          themeName: themeName.trim(),
+        });
+        kit.push({
+          theme: themeName.trim(),
+          dir: join(shesha, themes.length > 1 ? `kit-${themeName}` : 'kit'),
+          components: report.components.length,
+          droppedProps: report.droppedProps.length,
+          compileConstraints: report.compileConstraints.length,
+          excluded: report.excluded.length,
+        });
+      } catch (e) {
+        process.stderr.write(`probe: kit generation failed for theme "${themeName}": ${(e && e.message) || e}\n`);
+        return e instanceof KitError ? e.exitCode || EXIT.GATE : EXIT.GATE;
+      }
+    }
+    process.stderr.write(`probe: generated ${kit.length} kit(s): ${kit.map((k) => `${k.theme} (${k.components} components)`).join(', ')}\n`);
+  }
   if (typeof flags.output === 'string') {
     writeFileSync(resolve(flags.output), JSON.stringify(groundTruth, null, 2) + '\n', 'utf8');
   }
@@ -358,6 +386,7 @@ async function cmdProbe(flags) {
             }
           : { reachable: false, url: wantBackend ? backendUrl : null },
         gaps: groundTruth.gaps.map((g) => g.id),
+        kit,
         timing: framework.timing,
         elapsedMs: groundTruth.elapsedMs,
       },
@@ -757,6 +786,109 @@ async function cmdCheck(flags) {
   return report.ok ? EXIT.OK : EXIT.GATE;
 }
 
+const PREVIEW_HELP = `shesha preview — render a mirror-kit spec to pixels
+
+Usage:
+  node shesha.mjs preview --spec <f.jsx> --app <path> [--theme <name>] [--out <dir>]
+
+THIS IS THE FORWARD MODEL. A model can write JSX and predict what it looks like; it cannot
+do that with Shesha JSON. preview closes that loop in seconds so the design iteration
+happens against pixels, before any form JSON exists. Compiling without previewing throws
+away the entire point of the mirror kit.
+
+What a spec may contain:
+  - kit components imported from '@shesha-mirror/kit', and nothing else
+  - appearance via emphasis / surface / role / density only
+  - widths as 'fill' or '<n>px'
+  - a required <Page archetype="...">
+
+What it may NOT contain, and why:
+  raw div/span/p/img, htmlRender, markdown, dangerouslySetInnerHTML  — these PAINT a page
+  instead of BUILDING it, and a page faked out of html blocks is the failure the kit exists
+  to prevent. style/className/hex literals bypass the theme. The Shesha columns component is
+  absent by design [R-028].
+
+Options:
+  --spec <f.jsx>   the spec to render.  REQUIRED
+  --app <path>     the Shesha app holding the generated kit.  REQUIRED
+  --theme <name>   which kit to render against. Default: shesha
+  --out <dir>      output directory. Default: <app>/.shesha/preview
+  --json           machine-readable result
+  --show-browser   run headed, for debugging
+
+Outputs mock.png and mock-geometry.json.
+
+Exit codes:
+  0 rendered · 14 the spec is invalid or threw · 15 it used something outside the kit
+  64 usage error
+
+An exit 15 names the component. That error log is the v1.1 backlog — a kit gap is
+something to log, never something to work around by painting.
+`;
+
+async function cmdPreview(flags) {
+  if (flags.help) {
+    process.stdout.write(PREVIEW_HELP);
+    return EXIT.OK;
+  }
+  if (!flags.spec || flags.spec === true) {
+    process.stderr.write('preview: --spec <f.jsx> is required.\n\n' + PREVIEW_HELP);
+    return EXIT.USAGE;
+  }
+  if (!flags.app || flags.app === true) {
+    process.stderr.write('preview: --app <path> is required (it holds the generated kit).\n');
+    return EXIT.USAGE;
+  }
+
+  const appRoot = resolve(flags.app);
+  const themeName = typeof flags.theme === 'string' ? flags.theme : 'shesha';
+  const multi = existsSync(join(appRoot, '.shesha', `kit-${themeName}`));
+  const kitDir = multi ? join(appRoot, '.shesha', `kit-${themeName}`) : join(appRoot, '.shesha', 'kit');
+  const outDir = typeof flags.out === 'string' ? resolve(flags.out) : join(appRoot, '.shesha', 'preview');
+
+  let appPaths;
+  try {
+    appPaths = resolveAppPaths(appRoot);
+  } catch (e) {
+    process.stderr.write(`preview: ${e.message}\n`);
+    return e.exitCode || EXIT.NOT_045;
+  }
+
+  try {
+    const r = await renderPreview({
+      specPath: flags.spec,
+      kitDir,
+      outDir,
+      nodeModulesDir: join(appPaths.adminportal, 'node_modules'),
+      headless: !flags['show-browser'],
+    });
+    const summary = {
+      ok: true,
+      mock: r.pngPath,
+      geometry: r.geometryPath,
+      theme: r.geometry.theme,
+      nodes: r.geometry.nodes.length,
+      fingerprint: r.geometry.fingerprint,
+      elapsedMs: r.elapsedMs,
+    };
+    process.stdout.write(JSON.stringify(summary, null, 2) + '\n');
+    if (r.elapsedMs > 10000) {
+      process.stderr.write(
+        `preview: took ${r.elapsedMs}ms, over the 10s budget for the inner loop — investigate before this becomes the norm.\n`
+      );
+    }
+    return EXIT.OK;
+  } catch (e) {
+    if (!(e instanceof PreviewError)) throw e;
+    process.stderr.write(`preview: ${e.message}\n`);
+    for (const p of e.detail || []) {
+      process.stderr.write(`  [${p.kind}]${p.component ? ` <${p.component}>` : ''}${p.found ? ` "${p.found}"` : ''}\n`);
+      process.stderr.write(`      ${p.why}${p.at ? `  (${p.at})` : ''}\n`);
+    }
+    return e.exitCode || PREVIEW_EXIT.JSX_INVALID;
+  }
+}
+
 function unimplemented(name, phase) {
   return async (flags) => {
     const help = `shesha ${name} — ${SUBCOMMANDS[name]}\n\nNot implemented until Phase ${phase}.\n`;
@@ -773,7 +905,7 @@ const HANDLERS = {
   probe: cmdProbe,
   explain: cmdExplain,
   check: cmdCheck,
-  preview: unimplemented('preview', 3),
+  preview: cmdPreview,
   compile: unimplemented('compile', 4),
   push: unimplemented('push', 5),
   render: unimplemented('render', 6),

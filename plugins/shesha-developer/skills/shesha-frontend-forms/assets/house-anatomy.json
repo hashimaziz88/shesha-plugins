@@ -1,0 +1,629 @@
+{
+  "$schema": "shesha-frontend-forms/anatomy/1",
+  "purpose": "The FIXED anatomy of the house design system, transcribed from measured values. Brand-invariant by construction: every colour, size and radius here is a @token reference, never a literal, so switching themes cannot change structure. This is the input gen-kit.mjs compiles into the mirror kit.",
+  "provenance": "shesha-house-design-standard.md sections 2.x (anatomy), 3.x (type/geometry/spacing), 4.x (component inventory). Transcribed, not chosen.",
+  "whyJsonNotMarkdown": "The build brief specifies assets/house-anatomy.md. A generator cannot read prose, and a Markdown copy alongside this data would be a second place for the anatomy to drift. Recorded as a deliberate deviation.",
+
+  "tokenRefSyntax": "A string starting with @ is a path into the active theme token file. @spacing.declared[2] indexes an array. A null token resolves to the documented fallback for that role, never to an invented colour.",
+
+  "specVocabulary": {
+    "emphasis": ["default", "primary", "success", "warning", "danger", "info", "muted"],
+    "surface": ["page", "card", "alt", "readOnly"],
+    "density": ["default", "compact"],
+    "width": "the literal string 'fill', or '<n>px'. No 24-unit grid.",
+    "forbiddenInSpecs": [
+      "style",
+      "className",
+      "css",
+      "hex colour literals",
+      "px font sizes",
+      "desktop.*  / tablet.*  / mobile.*",
+      "htmlRender",
+      "markdown",
+      "raw div / span / p",
+      "dangerouslySetInnerHTML"
+    ],
+    "forbiddenNote": "Layout can only be BUILT from kit components, never PAINTED. This is the one defence against faking a page out of html blocks, which no rule in the previous stack forbade."
+  },
+
+  "components": {
+    "Page": {
+      "sheshaType": "container",
+      "slot": "root",
+      "children": "any",
+      "props": {
+        "archetype": { "kind": "enum", "required": true, "values": ["table-worklist", "record-detail"], "note": "Required so the stock-config-form fallback has nowhere to hide. capture/dashboard/modal-dialog/wizard/auth-page/hub are v1.1." },
+        "entity": { "kind": "string", "required": false }
+      },
+      "style": {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": "@spacing.module",
+        "background": "@surface.canvas",
+        "minHeight": "100vh",
+        "paddingTop": "@spacing.pageGutters.top",
+        "paddingLeft": "@spacing.pageGutters.sides",
+        "paddingRight": "@spacing.pageGutters.sides",
+        "paddingBottom": "@spacing.pageGutters.bottom",
+        "fontFamily": "@type.fontFamily",
+        "fontSize": "@type.body",
+        "color": "@ink.default"
+      }
+    },
+
+    "PageHeader": {
+      "sheshaType": "container",
+      "children": "any",
+      "props": {
+        "title": { "kind": "string", "required": true },
+        "subtitle": { "kind": "string" },
+        "actions": { "kind": "node" }
+      },
+      "style": {
+        "background": "@surface.surface",
+        "borderBottom": "1px solid @line.border",
+        "paddingTop": 14,
+        "paddingBottom": 16,
+        "paddingLeft": 28,
+        "paddingRight": 28,
+        "display": "flex",
+        "justifyContent": "space-between",
+        "alignItems": "flex-end",
+        "gap": 10
+      },
+      "parts": {
+        "title": { "fontSize": "@type.pageH1", "fontWeight": "@type.weights.emphasis", "letterSpacing": "@type.tracking.pageTitle", "color": "@ink.default" },
+        "subtitle": { "fontSize": "@type.body", "color": "@ink.muted", "marginTop": 6, "maxWidth": 720, "lineHeight": "@type.lineHeight.default" }
+      }
+    },
+
+    "Breadcrumbs": {
+      "sheshaType": "text",
+      "props": { "items": { "kind": "stringArray", "required": true } },
+      "style": { "display": "flex", "gap": 8, "alignItems": "center", "fontSize": 13, "marginBottom": 10 },
+      "parts": {
+        "crumb": { "color": "@ink.soft", "fontWeight": "@type.weights.navItem" },
+        "last": { "color": "@ink.default", "fontWeight": "@type.weights.emphasis" },
+        "chevron": { "color": "@ink.faint", "fontSize": 13 }
+      }
+    },
+
+    "MicroLabel": {
+      "sheshaType": "text",
+      "props": { "children": { "kind": "string", "required": true } },
+      "style": {
+        "fontSize": "@microLabel.size",
+        "fontWeight": "@microLabel.weight",
+        "letterSpacing": "@microLabel.tracking",
+        "textTransform": "@microLabel.transform",
+        "color": "@microLabel.color"
+      },
+      "note": "153 instances in the reference corpus, zero in the current Shesha output. Highest signal per unit of effort of anything in the kit."
+    },
+
+    "SectionLabel": {
+      "sheshaType": "text",
+      "props": { "children": { "kind": "string", "required": true } },
+      "style": {
+        "fontSize": 11.5,
+        "fontWeight": "700",
+        "letterSpacing": ".07em",
+        "textTransform": "uppercase",
+        "color": "@ink.faint",
+        "marginBottom": 10
+      }
+    },
+
+    "Card": {
+      "sheshaType": "card",
+      "children": "any",
+      "sheshaSlots": ["header", "content"],
+      "props": {
+        "title": { "kind": "string" },
+        "meta": { "kind": "node" },
+        "surface": { "kind": "enum", "values": ["card", "alt"], "default": "card" }
+      },
+      "style": {
+        "background": "@surface.surface",
+        "border": "1px solid @line.border",
+        "borderRadius": "@radius.card",
+        "boxShadow": "@elevation.shadowCard",
+        "overflow": "hidden"
+      },
+      "parts": {
+        "headerBand": {
+          "background": "@surface.surfaceAlt",
+          "paddingTop": 13,
+          "paddingBottom": 13,
+          "paddingLeft": 20,
+          "paddingRight": 20,
+          "borderBottom": "1px solid @line.divider",
+          "display": "flex",
+          "justifyContent": "space-between",
+          "alignItems": "center"
+        },
+        "headerTitle": { "fontSize": "@type.cardTitle", "fontWeight": "@type.weights.emphasis", "color": "@brand.primary" },
+        "body": { "paddingTop": 16, "paddingBottom": 16, "paddingLeft": 20, "paddingRight": 20 }
+      },
+      "note": "THE SECTION BAND: 44 occurrences in the corpus, and the single cheapest way to stop looking generic. The PBF form has the slot and leaves it empty."
+    },
+
+    "StatCard": {
+      "sheshaType": "card",
+      "props": {
+        "label": { "kind": "string", "required": true },
+        "bind": { "kind": "binding" },
+        "value": { "kind": "string" },
+        "caption": { "kind": "string" },
+        "emphasis": { "kind": "emphasis", "default": "default" }
+      },
+      "style": {
+        "background": "@surface.surface",
+        "border": "1px solid @line.border",
+        "borderRadius": "@radius.card",
+        "boxShadow": "@elevation.shadowCard",
+        "borderLeft": "3px solid @emphasis",
+        "paddingTop": 18,
+        "paddingBottom": 18,
+        "paddingLeft": 20,
+        "paddingRight": 20,
+        "minWidth": 0
+      },
+      "parts": {
+        "label": {
+          "fontSize": "@microLabel.size",
+          "fontWeight": "@microLabel.weight",
+          "letterSpacing": "@microLabel.tracking",
+          "textTransform": "uppercase",
+          "color": "@ink.soft"
+        },
+        "value": { "fontSize": "@type.kpiNumeral", "fontWeight": "@type.weights.emphasis", "color": "@ink.default", "marginTop": 6, "letterSpacing": "@type.tracking.kpiNumeral" },
+        "caption": { "fontSize": 12, "color": "@ink.soft", "marginTop": 4 }
+      },
+      "note": "Variant (d) from the standard — the PBF composite of left accent + uppercase micro-label + numeral + caption. It does NOT exist in LB, WCG or RS; it is the Shesha default because it reads correctly at Shesha's densities."
+    },
+
+    "KeyInfoBar": {
+      "sheshaType": "container",
+      "children": "StatCard",
+      "props": { "columns": { "kind": "number", "default": 4 } },
+      "style": { "display": "grid", "gridTemplateColumns": "@@repeatColumns", "gap": "@spacing.kpiGap", "alignItems": "stretch" },
+      "note": "Stat tiles occupy ONE ROW of EQUAL columns — grid-template-columns: repeat(N, 1fr) per the standard's dashboard spec. A flex row without grow sizes each tile to its content, which is visibly ragged; that was caught by looking at the mock."
+    },
+
+    "KeyFactsStrip": {
+      "sheshaType": "container",
+      "children": "Fact",
+      "style": {
+        "display": "flex",
+        "gap": 0,
+        "background": "@surface.surface",
+        "border": "1px solid @line.border",
+        "borderRadius": "@radius.card",
+        "overflow": "hidden",
+        "marginTop": 18
+      },
+      "parts": {
+        "tile": { "flex": 1, "paddingTop": 14, "paddingBottom": 14, "paddingLeft": 18, "paddingRight": 18, "borderRight": "1px solid @line.divider" },
+        "label": { "fontSize": "@microLabel.size", "fontWeight": "@microLabel.weight", "letterSpacing": "@microLabel.tracking", "textTransform": "uppercase", "color": "@ink.faint" },
+        "value": { "fontSize": 14.5, "fontWeight": "@type.weights.emphasis", "color": "@ink.default", "marginTop": 5 }
+      }
+    },
+
+    "Fact": {
+      "sheshaType": "text",
+      "props": { "label": { "kind": "string", "required": true }, "bind": { "kind": "binding" }, "value": { "kind": "string" } },
+      "style": {}
+    },
+
+    "Row": {
+      "sheshaType": "container",
+      "children": "any",
+      "props": {
+        "justify": { "kind": "enum", "values": ["start", "end", "between", "center"], "default": "start" },
+        "align": { "kind": "enum", "values": ["start", "end", "center", "stretch"], "default": "center" },
+        "gap": { "kind": "spacing", "default": "@spacing.declared[4]" }
+      },
+      "style": { "display": "flex", "flexDirection": "row" },
+      "note": "A flex container MUST declare display:flex explicitly [R-029]; the compiler emits it into the desktop block, never at root."
+    },
+
+    "Stack": {
+      "sheshaType": "container",
+      "children": "any",
+      "props": { "gap": { "kind": "spacing", "default": "@spacing.module" } },
+      "style": { "display": "flex", "flexDirection": "column" }
+    },
+
+    "DataTable": {
+      "sheshaType": "datatable",
+      "children": "Column",
+      "requiresWrapper": "datatableContext",
+      "props": {
+        "bind": { "kind": "binding", "required": true },
+        "entity": { "kind": "string" },
+        "pageSize": { "kind": "number", "default": 10 },
+        "flexibleHeight": { "kind": "boolean", "default": true }
+      },
+      "style": { "background": "@surface.surface", "border": "1px solid @line.border", "borderRadius": "@radius.card", "overflow": "hidden" },
+      "parts": {
+        "head": {
+          "background": "@surface.surfaceAlt",
+          "borderBottom": "1px solid @line.border",
+          "fontSize": 11,
+          "fontWeight": "700",
+          "color": "@ink.soft",
+          "textTransform": "uppercase",
+          "letterSpacing": ".04em",
+          "paddingTop": 10,
+          "paddingBottom": 10,
+          "paddingLeft": 14,
+          "paddingRight": 14,
+          "textAlign": "left",
+          "whiteSpace": "nowrap"
+        },
+        "cell": {
+          "paddingTop": 11,
+          "paddingBottom": 11,
+          "paddingLeft": 14,
+          "paddingRight": 14,
+          "borderBottom": "1px solid @line.divider",
+          "color": "@ink.default",
+          "fontSize": "@type.tableCell",
+          "verticalAlign": "middle"
+        },
+        "rowHover": { "background": "@brand.wash" },
+        "toolbar": { "paddingTop": 12, "paddingBottom": 12, "paddingLeft": 14, "paddingRight": 14, "borderBottom": "1px solid @line.divider" },
+        "pager": { "paddingTop": 11, "paddingBottom": 11, "paddingLeft": 16, "paddingRight": 16, "borderTop": "1px solid @line.divider" }
+      },
+      "note": "NO ZEBRA STRIPING ANYWHERE in the corpus. Hover is the only row affordance."
+    },
+
+    "Column": {
+      "sheshaType": "__column__",
+      "props": {
+        "bind": { "kind": "binding", "required": true },
+        "caption": { "kind": "string" },
+        "width": { "kind": "width", "default": "fill" },
+        "align": { "kind": "enum", "values": ["left", "right", "center"], "default": "left" },
+        "numeric": { "kind": "boolean", "default": false },
+        "sortable": { "kind": "boolean", "default": true }
+      },
+      "style": {},
+      "note": "Compiles into a datatable items[] entry, not a component. Column propertyNames must be camelCase or the pager count is right and every cell is blank [R-004]."
+    },
+
+    "StatusPill": {
+      "sheshaType": "refListStatus",
+      "props": { "bind": { "kind": "binding" }, "tone": { "kind": "emphasis" } },
+      "style": {
+        "display": "inline-flex",
+        "alignItems": "center",
+        "paddingTop": "@statusPill.padding",
+        "borderRadius": "@statusPill.radius",
+        "fontSize": "@statusPill.size",
+        "fontWeight": "@statusPill.weight",
+        "letterSpacing": "@statusPill.tracking",
+        "textTransform": "@statusPill.transform"
+      },
+      "note": "Honours statusModel. Under 'solid' the fill carries the colour and text is white; under 'tint' the background is tinted and text is dark. Shesha's refListStatus takes its fill ONLY from the reference-list item's own colour [R-036]."
+    },
+
+    "Badge": {
+      "sheshaType": "text",
+      "props": { "children": { "kind": "string", "required": true }, "emphasis": { "kind": "emphasis", "default": "default" } },
+      "style": { "padding": "4px 10px", "borderRadius": "@radius.pill", "fontSize": 10.5, "fontWeight": "600", "letterSpacing": ".06em", "textTransform": "uppercase", "lineHeight": 1.3 }
+    },
+
+    "CountBadge": {
+      "sheshaType": "text",
+      "props": { "children": { "kind": "string", "required": true }, "emphasis": { "kind": "emphasis", "default": "default" } },
+      "style": { "minWidth": 22, "height": 20, "padding": "0 7px", "borderRadius": 10, "fontSize": 12, "fontWeight": "600", "display": "inline-flex", "alignItems": "center", "justifyContent": "center" }
+    },
+
+    "Button": {
+      "sheshaType": "button",
+      "props": {
+        "children": { "kind": "string" },
+        "action": { "kind": "enum", "values": ["submit", "navigate", "add", "refresh", "cancel", "script"] },
+        "target": { "kind": "string" },
+        "variant": { "kind": "enum", "values": ["primary", "secondary", "danger", "outline", "neutral"], "default": "secondary" },
+        "density": { "kind": "density", "default": "default" }
+      },
+      "style": {
+        "height": "@controls.buttonHeight",
+        "padding": "@controls.buttonPadding",
+        "borderRadius": "@radius.control",
+        "border": "none",
+        "fontSize": "@type.body",
+        "fontWeight": "@type.weights.emphasis",
+        "gap": 7,
+        "display": "inline-flex",
+        "alignItems": "center",
+        "justifyContent": "center",
+        "boxShadow": "@elevation.shadowButton",
+        "cursor": "pointer",
+        "transition": "background @motion.fast ease-out, color @motion.fast ease-out"
+      },
+      "variants": {
+        "primary": { "background": "@brand.primary", "color": "@surface.surface" },
+        "secondary": { "background": "transparent", "color": "@brand.primary" },
+        "danger": { "background": "transparent", "color": "@semantic.danger" },
+        "outline": { "background": "transparent", "color": "@brand.primary", "border": "1px solid @brand.primary" },
+        "neutral": { "background": "@surface.surface", "color": "@ink.default", "border": "1px solid @line.borderStrong" }
+      },
+      "note": "Across 235 buttons in the reference build: 65 primary, 111 transparent, 6 disabled — roughly 1 primary to 2 secondary. Exactly one primary per action row."
+    },
+
+    "ButtonGroup": {
+      "sheshaType": "buttonGroup",
+      "children": "Button",
+      "props": { "justify": { "kind": "enum", "values": ["start", "end"], "default": "end" } },
+      "style": { "display": "flex", "flexDirection": "row", "gap": "@spacing.declared[4]" },
+      "compileFlags": { "isInline": true },
+      "note": "isInline is forced true by the compiler: 2+ adjacent items without it collapse the whole group into an overflow menu [R-057]. Secondary THEN primary, right-aligned."
+    },
+
+    "ActionRow": {
+      "sheshaType": "container",
+      "children": "ButtonGroup",
+      "style": {
+        "paddingTop": 14,
+        "paddingBottom": 14,
+        "paddingLeft": 22,
+        "paddingRight": 22,
+        "borderTop": "1px solid @line.divider",
+        "background": "@surface.surfaceAlt",
+        "display": "flex",
+        "justifyContent": "flex-end",
+        "gap": "@spacing.declared[4]"
+      },
+      "note": "Alignment lives on the CONTAINER — a buttonGroup's own dimensions are measured no-ops, so it has no alignment lever of its own [R-057]."
+    },
+
+    "Field": {
+      "sheshaType": "__byDataType__",
+      "props": {
+        "bind": { "kind": "binding", "required": true },
+        "label": { "kind": "string", "required": true },
+        "width": { "kind": "width", "default": "fill" },
+        "required": { "kind": "boolean", "default": false },
+        "readOnly": { "kind": "boolean", "default": false },
+        "hint": { "kind": "string" }
+      },
+      "style": {},
+      "parts": {
+        "label": { "fontSize": "@type.tableCell", "fontWeight": "@type.weights.emphasis", "color": "@ink.default", "display": "block", "marginBottom": 6 },
+        "input": { "width": "100%", "height": "@controls.inputHeight", "padding": "@controls.inputPadding", "border": "1px solid @line.borderStrong", "borderRadius": "@radius.control", "fontSize": "@type.body", "background": "@surface.surface", "color": "@ink.default" },
+        "readOnly": { "background": "@surface.readOnly" },
+        "focus": { "borderColor": "@brand.primary" }
+      },
+      "note": "LABEL ABOVE is the dominant pattern, 84 uses. The right-aligned 200px label column is for READ-ONLY DETAIL VIEWS only. The Shesha component type is chosen by dataTypeSupported against live metadata, never by a hand-written mapping table."
+    },
+
+    "Select": {
+      "sheshaType": "dropdown",
+      "props": {
+        "bind": { "kind": "binding", "required": true },
+        "label": { "kind": "string", "required": true },
+        "width": { "kind": "width", "default": "fill" },
+        "required": { "kind": "boolean", "default": false }
+      },
+      "style": {},
+      "inheritsPartsFrom": "Field",
+      "note": "Reference-list identity is copied VERBATIM from the bound property's metadata [R-015]; deriving it from the property name renders a silently empty dropdown."
+    },
+
+    "Textarea": {
+      "sheshaType": "textArea",
+      "props": { "bind": { "kind": "binding", "required": true }, "label": { "kind": "string", "required": true }, "rows": { "kind": "number", "default": 3 } },
+      "style": {},
+      "inheritsPartsFrom": "Field",
+      "parts": { "input": { "height": "@controls.textareaHeight", "padding": "8px 10px", "resize": "none" } }
+    },
+
+    "Checkbox": {
+      "sheshaType": "checkbox",
+      "props": { "bind": { "kind": "binding", "required": true }, "label": { "kind": "string", "required": true } },
+      "style": { "display": "flex", "alignItems": "center", "gap": 8 },
+      "parts": { "box": { "width": "@controls.checkbox", "height": "@controls.checkbox", "borderRadius": "@radius.control", "border": "1.5px solid @line.borderStrong" } }
+    },
+
+    "Switch": {
+      "sheshaType": "switch",
+      "props": { "bind": { "kind": "binding", "required": true }, "label": { "kind": "string", "required": true } },
+      "style": { "display": "flex", "alignItems": "center", "gap": 8 },
+      "parts": {
+        "track": { "width": 40, "height": 22, "borderRadius": 9999, "background": "@line.borderStrong", "transition": "@motion.base" },
+        "trackOn": { "background": "@brand.primary" },
+        "knob": { "width": 18, "height": 18, "borderRadius": "50%", "boxShadow": "0 1px 2px rgba(0,0,0,.15)" }
+      }
+    },
+
+    "Tabs": {
+      "sheshaType": "tabs",
+      "children": "Tab",
+      "sheshaSlots": ["tabs"],
+      "style": { "display": "flex", "gap": 28, "borderBottom": "1px solid @line.divider" },
+      "parts": {
+        "item": { "paddingTop": 13, "paddingBottom": 13, "fontSize": "@type.body", "fontWeight": "@type.weights.navItem", "color": "@ink.default", "cursor": "pointer" },
+        "itemActive": { "fontWeight": "@type.weights.emphasis", "color": "@brand.primary", "borderBottom": "2px solid @brand.primary" }
+      }
+    },
+
+    "Tab": {
+      "sheshaType": "__tab__",
+      "children": "any",
+      "props": { "title": { "kind": "string", "required": true } },
+      "style": {}
+    },
+
+    "SegmentedControl": {
+      "sheshaType": "radio",
+      "props": { "bind": { "kind": "binding", "required": true }, "label": { "kind": "string" } },
+      "style": { "display": "inline-flex", "border": "1px solid @line.border", "borderRadius": "@radius.control", "overflow": "hidden" },
+      "parts": { "segment": { "padding": "0 12px", "height": 30, "fontSize": "@type.tableCell", "fontWeight": "@type.weights.emphasis" }, "segmentActive": { "background": "@brand.tint", "color": "@brand.primary" } }
+    },
+
+    "InfoCallout": {
+      "sheshaType": "alert",
+      "props": { "children": { "kind": "string", "required": true }, "emphasis": { "kind": "emphasis", "default": "info" } },
+      "style": {
+        "display": "flex",
+        "gap": 10,
+        "paddingTop": 11,
+        "paddingBottom": 11,
+        "paddingLeft": 13,
+        "paddingRight": 13,
+        "background": "@emphasisBg",
+        "borderLeft": "3px solid @emphasis",
+        "borderRadius": "0 @radius.control @radius.control 0",
+        "fontSize": "@type.tableCell",
+        "lineHeight": "@type.lineHeight.default"
+      }
+    },
+
+    "EmptyState": {
+      "sheshaType": "container",
+      "props": { "title": { "kind": "string", "required": true }, "hint": { "kind": "string" } },
+      "style": {
+        "background": "@surface.surface",
+        "border": "1px dashed @line.border",
+        "borderRadius": "@radius.card",
+        "paddingTop": 40,
+        "paddingBottom": 40,
+        "paddingLeft": 24,
+        "paddingRight": 24,
+        "textAlign": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "alignItems": "center",
+        "gap": 10
+      },
+      "parts": {
+        "title": { "fontSize": "@type.cardTitle", "fontWeight": "@type.weights.emphasis", "color": "@ink.muted" },
+        "hint": { "fontSize": "@type.tableCell", "color": "@ink.faint", "maxWidth": 380, "lineHeight": "@type.lineHeight.default" }
+      }
+    },
+
+    "ProgressBar": {
+      "sheshaType": "progress",
+      "props": { "bind": { "kind": "binding" }, "label": { "kind": "string" }, "emphasis": { "kind": "emphasis", "default": "primary" } },
+      "style": {},
+      "parts": {
+        "labelRow": { "display": "flex", "justifyContent": "space-between", "fontSize": "@type.tableCell", "marginBottom": 5 },
+        "track": { "height": 10, "background": "@surface.canvas", "borderRadius": 6, "overflow": "hidden" },
+        "fill": { "height": 10, "background": "@emphasis" }
+      }
+    },
+
+    "Modal": {
+      "sheshaType": "container",
+      "children": "any",
+      "props": { "title": { "kind": "string", "required": true }, "width": { "kind": "width", "default": "560px" } },
+      "style": {
+        "background": "@surface.surface",
+        "borderRadius": "@radius.modal",
+        "boxShadow": "@elevation.shadowOverlay",
+        "maxWidth": "92vw",
+        "maxHeight": "90vh",
+        "overflow": "hidden"
+      },
+      "parts": {
+        "scrim": { "background": "rgba(15,23,42,.40)" },
+        "header": { "padding": "15px 20px", "fontSize": "@type.sectionHeading", "fontWeight": "@type.weights.emphasis", "borderBottom": "1px solid @line.divider" },
+        "body": { "padding": 22 },
+        "footer": { "padding": "13px 20px", "background": "@surface.surfaceAlt", "borderTop": "1px solid @line.divider", "display": "flex", "justifyContent": "flex-end", "gap": "@spacing.declared[4]" }
+      }
+    },
+
+    "Toast": {
+      "sheshaType": "alert",
+      "props": { "children": { "kind": "string", "required": true }, "emphasis": { "kind": "emphasis", "default": "info" } },
+      "style": { "padding": "10px 14px", "borderRadius": "@radius.control", "background": "@emphasisBg", "borderLeft": "3px solid @emphasis", "fontSize": "@type.tableCell" }
+    },
+
+    "Text": {
+      "sheshaType": "text",
+      "props": {
+        "children": { "kind": "string" },
+        "bind": { "kind": "binding" },
+        "role": { "kind": "enum", "values": ["body", "caption", "heading", "mono"], "default": "body" },
+        "emphasis": { "kind": "emphasis", "default": "default" }
+      },
+      "style": {},
+      "roles": {
+        "body": { "fontSize": "@type.body", "color": "@ink.default" },
+        "caption": { "fontSize": 12, "color": "@ink.soft" },
+        "heading": { "fontSize": "@type.sectionHeading", "fontWeight": "@type.weights.emphasis", "color": "@ink.default" },
+        "mono": { "fontFamily": "@type.fontMono", "fontSize": "@type.tableCell", "color": "@ink.soft" }
+      },
+      "compileFlags": { "contentType": "custom" },
+      "note": "contentType custom is forced by the compiler: a text component's font colour renders ONLY with it, and otherwise antd presets win and the colour is a pure no-op [R-052]."
+    },
+
+    "ValidationSummary": {
+      "sheshaType": "validationErrors",
+      "props": {},
+      "style": {},
+      "note": "Required whenever any input is required, or a failed submit renders nothing at all [R-006]. The compiler inserts it; the spec author does not have to remember."
+    }
+  },
+
+  "postureRules": {
+    "provenance": "Adopted from an externally supplied Shesha design-system handover (Ant Design v6.3.5 / Shesha Cobalt). These specific rules are BRAND-AGNOSTIC and orthogonal to palette, so they hold for every theme here. The handover's palette, its antd v6 token dictionary and its 'never write appearance into form JSON' rule were NOT adopted — see notAdopted below.",
+    "rules": [
+      { "id": "P-01", "rule": "Content is top-aligned. Never centre a form or table vertically — pages grow downward as data grows.", "enforcedBy": "anatomy gate (Phase 6)" },
+      { "id": "P-02", "rule": "State never shifts font weight. Active and selected states use colour, background, border or an indicator bar, because changing weight changes width and shifts the layout.", "enforcedBy": "anatomy gate (Phase 6)" },
+      { "id": "P-03", "rule": "Read-only is content and keeps full text contrast. Disabled is an unavailable action and uses the disabled ramp. Never render read-only data in the disabled style.", "enforcedBy": "R-018 and the anatomy gate" },
+      { "id": "P-04", "rule": "Exactly one primary action per screen; secondary actions stay visually quieter.", "enforcedBy": "R-007 (one primary per group) and the anatomy gate" },
+      { "id": "P-05", "rule": "Colour is never the only carrier of meaning. Every semantic colour is paired with an icon or a text label.", "enforcedBy": "design critic (Phase 7)" },
+      { "id": "P-06", "rule": "Placeholder text is never the only label for a field.", "enforcedBy": "R-021" },
+      { "id": "P-07", "rule": "Focus is always visible and never removed.", "enforcedBy": "tokens carry focusRing; anatomy gate" },
+      { "id": "P-08", "rule": "Numeric columns use tabular figures so digits align.", "enforcedBy": "Column numeric prop; theme type.tabularNumerals" },
+      { "id": "P-09", "rule": "Compact density reduces padding and row height, never type size.", "enforcedBy": "density prop resolves padding only" },
+      { "id": "P-10", "rule": "Whitespace separates sections before borders do.", "enforcedBy": "judgment; not mechanically checkable" }
+    ],
+    "notAdopted": [
+      {
+        "claim": "Never write appearance values into form JSON; the theme is applied once at the application root and every component inherits from it.",
+        "verdict": "REJECTED — measured false for Shesha 0.45.",
+        "evidence": "The live Shesha.ThemeSettings for the reference app carries exactly application, sidebar, layoutBackground, text, sidebarBackground, labelSpan, componentSpan, marginPadding. There is NO antd `token` channel and no `components` channel, so an antd ThemeConfig with a token block is silently dropped on write. Following this rule in 0.45 produces the default-grey structural form the rebuild exists to fix: the measured baseline is 5 colours, 3 font sizes, 2 weights, 0 non-zero shadows and 0 uppercase micro-labels."
+      },
+      {
+        "claim": "Ant Design v6.3.5 token values for all 72 components.",
+        "verdict": "REJECTED — wrong antd major for this app.",
+        "evidence": "The reference app has antd 5.27.6 installed. Every value in that dictionary was generated by executing antd 6.3.5's own getDesignToken(), so it describes a package this app does not have."
+      },
+      {
+        "claim": "Shesha Cobalt #003BB2 is the brand primary.",
+        "verdict": "NOT the default — offered as a third theme instead.",
+        "evidence": "The house design system is the LandBank kit (#0d685a), and the live app theme is currently #2197dc. Three different primaries cannot all be the default, and choosing between them is a brand decision, not a generator's. Cobalt is transcribed into assets/tokens/cobalt.tokens.json so --theme cobalt selects it explicitly."
+      },
+      {
+        "claim": "No type below 14px for anything a person has to read.",
+        "verdict": "REJECTED for this kit — contradicted by the measured corpus.",
+        "evidence": "The dominant uppercase micro-label across the reference designs is 11px with 153 instances, and the dominant table cell is 13px. A 14px floor would delete the single highest-signal design element available. Kept as a rule only for BODY prose."
+      },
+      {
+        "claim": "The 88-component Shesha inventory.",
+        "verdict": "REJECTED — superseded by derived ground truth.",
+        "evidence": "That file is a directory listing of designer-components with type, name, group and icon all null, extracted from 0.43.36. probe derives 116 registered types from the installed 0.45.0 package with real names, versions from each migrator chain, container slots, settings surfaces and dataTypeSupported matrices."
+      }
+    ],
+    "adoptedSeparately": {
+      "wcagContrastFailures": "The handover's WCAG 2.2 AA analysis is the one thing neither the build brief nor the house design standard covers, and it is measured rather than asserted. Five antd defaults fail AA on white: colorTextQuaternary 1.73:1, colorBorder 1.41:1, colorSuccess 2.27:1, colorWarning 1.90:1, colorError 3.27:1. Carried into the Phase 6 rendered gates as accessibility assertions, where a contrast ratio can actually be computed from the DOM."
+    }
+  },
+
+  "archetypes": {
+    "table-worklist": {
+      "shape": ["PageHeader", "KeyInfoBar?", "Card>DataTable"],
+      "note": "title + subtitle -> primary action right -> search and filters -> table card -> pagination"
+    },
+    "record-detail": {
+      "shape": ["PageHeader", "KeyFactsStrip", "Tabs>Card"],
+      "note": "band with back-link, H1 plus up to three pills, mono identifier, key-facts strip, then tabs over two-column label|value rows"
+    }
+  }
+}

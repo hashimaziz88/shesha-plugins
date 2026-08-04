@@ -1,0 +1,192 @@
+{
+  "$schema": "shesha-frontend-forms/tokens/1",
+  "name": "shesha",
+  "label": "Shesha house kit (LandBank / Requirements Studio)",
+  "provenance": {
+    "source": "Requirements Studio (offline).html :root block, 76 tokens, header comment 'LandBank Desktop Web — Design Tokens'; cross-checked against shesha-house-design-standard.md sections 1.1-1.3, 3.1-3.5",
+    "note": "This IS the house kit. Requirements Studio is branded Boxfusion in its header yet every colour in it is a --lb-* variable and its own module comment says it was forked from the LandBank kit — there is no separate Boxfusion palette. The LandBank and WCG HTML exports contain ZERO :root blocks and zero CSS custom properties, so nothing here was extracted from them; the measured literals come from the design standard.",
+    "transcribedNotChosen": true
+  },
+
+  "brand": {
+    "primary": "#0d685a",
+    "hover": "#0a5547",
+    "pressed": "#053a30",
+    "tint": "#e8f2ef",
+    "wash": "#f3f8f6",
+    "onBrandCaption": "#bfe0d6",
+    "disabled": "#cdd6d3"
+  },
+
+  "surface": {
+    "canvas": "#f0f2f5",
+    "surface": "#ffffff",
+    "surfaceAlt": "#fafafa",
+    "readOnly": "#f7f7f7"
+  },
+
+  "line": {
+    "border": "#e5e7eb",
+    "borderStrong": "#d6d6d6",
+    "divider": "#f0f0f0"
+  },
+
+  "ink": {
+    "default": "#1f1f1f",
+    "muted": "#4a4a4a",
+    "soft": "#6b7280",
+    "faint": "#97a8a3"
+  },
+
+  "semantic": {
+    "sage": "#629e97",
+    "purple": "#7f00cd",
+    "accentBlue": "#3442d7",
+    "accentTeal": "#20a89d",
+    "orange": "#f3a127",
+    "orangePill": "#e28030",
+    "warning": "#d97706",
+    "warningFg": "#b45309",
+    "warningBg": "#fef3c7",
+    "danger": "#c0392b",
+    "dangerBg": "#fdecea",
+    "dangerBorder": "#f5cfc9",
+    "info": "#2563eb",
+    "infoBg": "#e8f6ff"
+  },
+
+  "conditionRamp": ["#0d685a", "#629e97", "#20a89d", "#d97706", "#c0392b"],
+
+  "type": {
+    "fontFamily": "\"Inter\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, system-ui, sans-serif",
+    "fontMono": "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace",
+    "webfont": true,
+    "scale": [11, 12, 13, 14, 15, 16, 22, 24, 28],
+    "body": 14,
+    "tableCell": 13,
+    "cardTitle": 15,
+    "sectionHeading": 16,
+    "pageH1": 24,
+    "recordH1": 24,
+    "kpiNumeral": 28,
+    "microLabel": 11,
+    "weights": {
+      "emphasis": "600",
+      "numeral": "700",
+      "navItem": "500",
+      "kpiLabel": "500",
+      "body": "400"
+    },
+    "lineHeight": { "default": 1.5, "prose": 1.55, "tableCell": 1.4, "heading": 1.25, "numeral": 1 },
+    "tracking": { "microLabel": ".04em", "pageTitle": "-.01em", "kpiNumeral": "-.02em" },
+    "tabularNumerals": false
+  },
+
+  "microLabel": {
+    "size": 11,
+    "weight": "600",
+    "tracking": ".04em",
+    "transform": "uppercase",
+    "color": "#97a8a3",
+    "note": "153 instances across the reference corpus, zero in the current Shesha output. The single highest-signal, lowest-cost design element available."
+  },
+
+  "radius": {
+    "control": 4,
+    "card": 8,
+    "chip": 6,
+    "pill": 12,
+    "modal": 8,
+    "progressTrack": 9999,
+    "dot": "50%"
+  },
+
+  "border": {
+    "default": 1,
+    "ring": 1.5,
+    "tabUnderline": 2,
+    "leftAccent": 3
+  },
+
+  "spacing": {
+    "declared": [2, 4, 6, 8, 10, 12, 14, 16, 20, 22, 24, 32, 48],
+    "module": 16,
+    "mostUsed": 10,
+    "grid": "2px, even-biased",
+    "note": "The kit's own --lb-sp-* 4px scale is ASPIRATIONAL and the shipped build does not honour it. Gaps are validated against this declared set, never against 'multiples of 4' — a 4px rule rejects the reference design itself.",
+    "pageGutters": { "top": 24, "sides": 32, "bottom": 48 },
+    "kpiGap": 16
+  },
+
+  "elevation": {
+    "shadowCard": "none",
+    "shadowCardNote": "LB CARDS ARE FLAT and the markup never emits a card shadow property at all. This is a philosophy, not a value — every surface consumes shadowCard.",
+    "shadowButton": "none",
+    "shadowOverlay": "0 8px 24px rgba(15, 23, 42, 0.18)",
+    "shadowOverlayNote": ":root declares this at 0.08, but the shipped markup uses 0.18 (28 occurrences). Declared vs measured; the measured value wins.",
+    "shadowRowHover": "0 1px 2px rgba(15, 23, 42, 0.04)",
+    "focusRing": "0 0 0 4px rgba(13, 104, 90, 0.14)"
+  },
+
+  "chrome": {
+    "railWidth": 56,
+    "headerHeight": 52,
+    "recordBarHeight": 96,
+    "minPageWidth": 1080,
+    "navModel": "icon-rail"
+  },
+
+  "motion": {
+    "easeOut": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+    "easeIn": "cubic-bezier(0.4, 0, 1, 1)",
+    "fast": "120ms",
+    "base": "160ms",
+    "slow": "240ms"
+  },
+
+  "controls": {
+    "buttonHeight": 36,
+    "buttonHeightSm": 30,
+    "buttonPadding": "0 16px",
+    "inputHeight": 38,
+    "inputPadding": "0 11px",
+    "textareaHeight": 74,
+    "iconButton": 28,
+    "switchTrack": [40, 22],
+    "switchKnob": 18,
+    "checkbox": 18
+  },
+
+  "statusModel": "solid",
+  "statusModelNote": "Solid fill carries the colour, text is #ffffff, over the 16-value referenceListRamp below. NOT interchangeable with WCG's tint model, where the background is tinted and the text is dark — migrating between them changes which end of the pair carries the colour, which a token cannot express.",
+
+  "statusPill": {
+    "padding": "4px 10px",
+    "radius": 12,
+    "size": 10,
+    "weight": "600",
+    "tracking": ".04em",
+    "transform": "uppercase",
+    "fg": "#ffffff"
+  },
+
+  "referenceListRamp": {
+    "On Order": "#8a94a6",
+    "Received": "#629e97",
+    "Quarantine/Hold": "#d97706",
+    "Tagged": "#20a89d",
+    "In Store": "#7c8aa0",
+    "Allocated": "#629e97",
+    "Commissioning": "#3442d7",
+    "In Service": "#0d685a",
+    "In Transit": "#2563eb",
+    "Under Repair": "#d97706",
+    "Idle": "#94794a",
+    "Lost/Stolen/Missing": "#c0392b",
+    "Decommissioned": "#7f00cd",
+    "Disposal Pending": "#e28030",
+    "Disposed": "#5b6470",
+    "Archived": "#9aa3af"
+  },
+  "referenceListRampNote": "Seed a Shesha reference list's item colours from this. refListStatus takes its fill ONLY from the item's own colour [R-036] — measured: all 5 reference lists in boxfusion.test have empty colours on all 26 items, so refListStatus renders grey there today."
+}

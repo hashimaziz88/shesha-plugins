@@ -1,0 +1,186 @@
+{
+  "$schema": "shesha-frontend-forms/tokens/1",
+  "name": "wcg",
+  "label": "Western Cape Government (navy)",
+  "provenance": {
+    "source": "shesha-house-design-standard.md section 1.2 role table, plus sections 3.1-3.5 for type, radius, spacing and elevation. Every colour here was spot-verified present in that document.",
+    "note": "WCG SD Asset Management.html contains ZERO :root blocks, zero CSS custom properties and zero var() references — its CSS is hand-written literals, so these values are MEASURED from the shipped build rather than extracted from a declaration. It is also not a React app: it ships a custom dc-runtime using <x-dc>/<sc-for>/<sc-if> custom elements.",
+    "whyThisBrand": "Chosen deliberately as the harder test. WCG is the same app as LandBank under a second brand and is byte-identical in structure, so any structural leak shows immediately. It also exercises three DELETED accent roles, lifted elevation, an odd-biased spacing grid, a tint status model, and no webfont.",
+    "transcribedNotChosen": true
+  },
+
+  "brand": {
+    "primary": "#1A3E6F",
+    "hover": "#12305c",
+    "pressed": "#0f1c30",
+    "tint": "#e9eff8",
+    "wash": "#f3f6fb",
+    "onBrandCaption": "#bcd0ec",
+    "disabled": "#c3cbd8"
+  },
+
+  "surface": {
+    "canvas": "#eef1f5",
+    "surface": "#ffffff",
+    "surfaceAlt": "#f5f5f5",
+    "readOnly": "#f5f6f8"
+  },
+
+  "line": {
+    "border": "#e2e5ea",
+    "borderStrong": "#d7dbe2",
+    "divider": "#f0f2f5"
+  },
+
+  "ink": {
+    "default": "#1f2733",
+    "muted": "#5b6675",
+    "soft": "#6b7785",
+    "faint": "#8a94a3"
+  },
+
+  "semantic": {
+    "sage": null,
+    "purple": "#6b3fa0",
+    "accentBlue": null,
+    "accentTeal": null,
+    "orange": "#e2680f",
+    "orangePill": "#e2680f",
+    "warning": "#d99a06",
+    "warningFg": "#b06f04",
+    "warningBg": "#fbf0db",
+    "danger": "#c0392b",
+    "dangerBg": "#fdecea",
+    "dangerBorder": "#e8c4c0",
+    "info": "#2f7fe6",
+    "infoBg": "#eef3fb"
+  },
+  "semanticNote": "sage, accentBlue and accentTeal are NULL, not recoloured — WCG deletes those roles outright. accentBlue is folded into primary. A consumer must treat a null role as absent and fall back to primary or ink, never substitute a colour of its own. #ffffff and #c0392b are identical across every brand and are hard-coded.",
+
+  "conditionRamp": ["#2563eb", "#1A3E6F", "#d99a06", "#e2680f", "#c0392b"],
+
+  "type": {
+    "fontFamily": "'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, system-ui, sans-serif",
+    "fontMono": "ui-monospace, 'SF Mono', Menlo, Consolas, monospace",
+    "webfont": false,
+    "webfontNote": "Zero @font-face declarations. LandBank self-hosts Inter across 28 @font-face rules; WCG uses the system stack outright.",
+    "scale": [11, 12.5, 13, 13.5, 14, 17, 22, 26],
+    "body": 13,
+    "tableCell": 13,
+    "cardTitle": 14,
+    "sectionHeading": 17,
+    "pageH1": 22,
+    "recordH1": 21,
+    "kpiNumeral": 26,
+    "microLabel": 11,
+    "weights": {
+      "emphasis": "600",
+      "numeral": "700",
+      "navItem": "500",
+      "kpiLabel": "500",
+      "body": "400"
+    },
+    "lineHeight": { "default": 1.5, "prose": 1.55, "tableCell": 1.4, "heading": 1.25, "numeral": 1 },
+    "tracking": { "microLabel": ".04em", "pageTitle": "-.01em", "kpiNumeral": "-.02em" },
+    "tabularNumerals": true,
+    "tabularNumeralsNote": "font-variant-numeric: tabular-nums, 26 occurrences. LandBank has zero."
+  },
+
+  "microLabel": {
+    "size": 11,
+    "weight": "700",
+    "tracking": ".04em",
+    "transform": "uppercase",
+    "color": "#6b7785",
+    "note": "Weight 700 here versus 600 in the house kit — the one typographic role where the brands genuinely differ in weight, not just colour."
+  },
+
+  "radius": {
+    "control": 5,
+    "card": 6,
+    "chip": 6,
+    "pill": 12,
+    "modal": 10,
+    "progressTrack": 9999,
+    "dot": "50%",
+    "asymmetricCallout": "0 4px 4px 0"
+  },
+
+  "border": {
+    "default": 1,
+    "ring": 1.5,
+    "tabUnderline": 2,
+    "leftAccent": 3
+  },
+
+  "spacing": {
+    "declared": [3, 7, 9, 11, 14, 18, 22, 26],
+    "module": 14,
+    "mostUsed": 14,
+    "grid": "2px, odd-biased, centred on 14",
+    "note": "Measured from 1,479 padding/margin/gap literals. The most-used values are 14 (10.3%), 11 (9.0%), 8 (8.4%), 9 (8.0%) and 18 (8.0%) — an odd-biased grid that a 'multiples of 4' rule would reject wholesale.",
+    "pageGutters": { "top": 22, "sides": 26, "bottom": 60 },
+    "kpiGap": 14
+  },
+
+  "elevation": {
+    "shadowCard": "0 1px 3px rgba(20, 40, 70, 0.06)",
+    "shadowCardNote": "WCG surfaces are LIFTED where the house kit's are flat. This is a philosophy switch, not a value swap, and it is why shadowCard is a token every surface consumes rather than a per-component decision.",
+    "shadowButton": "0 1px 2px rgba(26, 62, 111, 0.2)",
+    "shadowOverlay": "0 24px 70px rgba(8, 20, 40, 0.4)",
+    "shadowRowHover": "none",
+    "focusRing": "0 0 0 4px rgba(26, 62, 111, 0.14)"
+  },
+
+  "chrome": {
+    "railWidth": 232,
+    "railWidthCollapsed": 60,
+    "headerHeight": 52,
+    "recordBarHeight": 96,
+    "minPageWidth": 1080,
+    "navModel": "labelled-sidebar",
+    "navModelNote": "A 232px collapsible labelled sidebar with 9 destinations, against the house kit's 56px icon rail with 21. This is app configuration, NOT a token — see the design standard section 5.3. Recorded here so a consumer can read it, never so a token file can change page anatomy."
+  },
+
+  "motion": {
+    "easeOut": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+    "easeIn": "cubic-bezier(0.4, 0, 1, 1)",
+    "fast": "120ms",
+    "base": "160ms",
+    "slow": "240ms"
+  },
+
+  "controls": {
+    "buttonHeight": 38,
+    "buttonHeightSm": 30,
+    "buttonPadding": "0 16px",
+    "inputHeight": 38,
+    "inputPadding": "0 11px",
+    "textareaHeight": 74,
+    "iconButton": 34,
+    "switchTrack": [40, 22],
+    "switchKnob": 18,
+    "checkbox": 18
+  },
+
+  "statusModel": "tint",
+  "statusModelNote": "Background is tinted and text is dark, over a 3-value map — the inverse of the house kit's solid+white over 16 values. The two models are NOT interchangeable.",
+
+  "statusPill": {
+    "padding": "3px 11px",
+    "radius": 12,
+    "size": 11,
+    "weight": "700",
+    "tracking": ".04em",
+    "transform": "uppercase",
+    "fg": null,
+    "fgNote": "null because the tint model derives the foreground from the tone rather than using a fixed white."
+  },
+
+  "referenceListRamp": {
+    "Allocated": "#e9eff8",
+    "On Suspense": "#fbf0db",
+    "Draft": "#eef0f2"
+  },
+  "referenceListRampNote": "Only three tones are in evidence, and under the tint model these are BACKGROUND colours whose foregrounds are #1A3E6F, #b06f04 and #6b7280 respectively. Do not seed a Shesha reference list from these as if they were fills — refListStatus paints the item colour as the fill, which would produce a pale chip with pale text."
+}

@@ -1,0 +1,188 @@
+{
+  "$schema": "shesha-frontend-forms/tokens/1",
+  "name": "cobalt",
+  "label": "Shesha Cobalt (Ant Design stock + one brand override)",
+  "provenance": {
+    "source": "Externally supplied Shesha design-system handover: design-system.md and shesha-theme.ts. Values transcribed, not chosen.",
+    "note": "Offered as a THIRD theme, not as the default. The house design system is the LandBank kit (#0d685a) and the reference app's live theme is currently #2197dc; three different primaries cannot all be the default, and picking between them is a brand decision rather than a generator's.",
+    "whyItIsStillWorthHaving": "It is the strongest test of the token boundary in the set. Where LandBank and WCG share one anatomy under two brands, Cobalt comes from a different design lineage entirely — stock Ant Design with a single seed override, a 4px spacing grid, 6px control radius and Ant's own semantic colours. If switching to it changes anything STRUCTURAL, the boundary leaks.",
+    "versionCaveat": "The handover targets Ant Design v6.3.5, but the reference app has antd 5.27.6 installed. Only the values that are brand decisions rather than antd-major-specific derivations are transcribed here. The v6 per-component token dictionary was deliberately NOT carried over, because it describes a package this app does not have.",
+    "transcribedNotChosen": true
+  },
+
+  "brand": {
+    "primary": "#003BB2",
+    "hover": "#1F5ABF",
+    "pressed": "#002A8C",
+    "tint": "#DAE6F2",
+    "wash": "#DAE6F2",
+    "onBrandCaption": "#6899D9",
+    "disabled": "#D9D9D9"
+  },
+
+  "surface": {
+    "canvas": "#F5F5F5",
+    "surface": "#FFFFFF",
+    "surfaceAlt": "#FAFAFA",
+    "readOnly": "#F5F5F5"
+  },
+
+  "line": {
+    "border": "#D9D9D9",
+    "borderStrong": "#D9D9D9",
+    "divider": "#F0F0F0"
+  },
+
+  "ink": {
+    "default": "rgba(24,24,24,0.88)",
+    "muted": "rgba(24,24,24,0.65)",
+    "soft": "rgba(24,24,24,0.45)",
+    "faint": "rgba(24,24,24,0.45)"
+  },
+  "inkNote": "Derived by Ant from the colorTextBase seed #181818 (Shesha Nero). The quaternary ramp value rgba(24,24,24,0.25) is deliberately NOT used as inkFaint: it measures 1.73:1 on white and fails WCAG AA, so the tertiary value carries that role instead.",
+
+  "semantic": {
+    "sage": null,
+    "purple": null,
+    "accentBlue": null,
+    "accentTeal": null,
+    "orange": "#FAAD14",
+    "orangePill": "#FAAD14",
+    "warning": "#FAAD14",
+    "warningFg": "#613400",
+    "warningBg": "#FFFBE6",
+    "danger": "#FF4D4F",
+    "dangerBg": "#FFF2F0",
+    "dangerBorder": "#FFCCC7",
+    "info": "#003BB2",
+    "infoBg": "#DAE6F2"
+  },
+  "semanticNote": "sage, purple, accentBlue and accentTeal are ALL null — this lineage has no decorative accent roles at all, only Ant's four semantic colours. That makes Cobalt the strictest test of nullable-role handling: a consumer that substitutes its own colour for a null role will be visibly wrong here.",
+
+  "conditionRamp": ["#003BB2", "#52C41A", "#FAAD14", "#FF4D4F", "#FF4D4F"],
+
+  "type": {
+    "fontFamily": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif",
+    "fontMono": "SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace",
+    "webfont": true,
+    "scale": [12, 14, 16, 20, 24, 30, 38],
+    "body": 14,
+    "tableCell": 14,
+    "cardTitle": 16,
+    "sectionHeading": 16,
+    "pageH1": 24,
+    "recordH1": 24,
+    "kpiNumeral": 30,
+    "microLabel": 12,
+    "microLabelNote": "12px, not 11px. This lineage floors readable type at 14px and reserves 12px for help text, timestamps, metadata and tags — so its micro-label is one notch larger than the LandBank kit's measured 11px.",
+    "weights": {
+      "emphasis": "600",
+      "numeral": "500",
+      "navItem": "500",
+      "kpiLabel": "400",
+      "body": "400"
+    },
+    "lineHeight": { "default": 1.5714, "prose": 1.5714, "tableCell": 1.5714, "heading": 1.21, "numeral": 1 },
+    "tracking": { "microLabel": "0", "pageTitle": "0", "kpiNumeral": "0" },
+    "trackingNote": "Zero tracking throughout. This lineage does not use letter-spacing as a design device, where the house kit uses .04em on 116 elements.",
+    "tabularNumerals": true
+  },
+
+  "microLabel": {
+    "size": 12,
+    "weight": "500",
+    "tracking": "0",
+    "transform": "none",
+    "color": "rgba(24,24,24,0.65)",
+    "note": "Sentence case, not uppercase, and no tracking. The uppercase micro-label is a LandBank/WCG device, not an Ant one."
+  },
+
+  "radius": {
+    "control": 6,
+    "card": 8,
+    "chip": 4,
+    "pill": 4,
+    "modal": 8,
+    "progressTrack": 9999,
+    "dot": "50%"
+  },
+
+  "border": { "default": 1, "ring": 2, "tabUnderline": 2, "leftAccent": 3 },
+
+  "spacing": {
+    "declared": [4, 8, 12, 16, 20, 24, 32, 48],
+    "module": 16,
+    "mostUsed": 16,
+    "grid": "4px, strict",
+    "note": "A genuinely strict 4px grid, unlike LandBank's measured 2px grid and WCG's odd-biased one. This is the theme where a 'multiples of 4' rule would actually hold — which is exactly why that rule must live in the token file rather than in a validator.",
+    "pageGutters": { "top": 24, "sides": 24, "bottom": 24 },
+    "kpiGap": 16
+  },
+
+  "elevation": {
+    "shadowCard": "none",
+    "shadowCardNote": "Flat by default; a 1px border does the work. Same philosophy as the house kit, reached independently.",
+    "shadowButton": "none",
+    "shadowOverlay": "0 6px 16px 0 rgba(0,0,0,0.08), 0 3px 6px -4px rgba(0,0,0,0.12), 0 9px 28px 8px rgba(0,0,0,0.05)",
+    "shadowRowHover": "0 1px 2px 0 rgba(0,0,0,0.03), 0 1px 6px -1px rgba(0,0,0,0.02), 0 2px 4px 0 rgba(0,0,0,0.02)",
+    "focusRing": "0 0 0 2px #003BB2"
+  },
+
+  "chrome": {
+    "railWidth": 56,
+    "headerHeight": 56,
+    "recordBarHeight": 96,
+    "minPageWidth": 1080,
+    "navModel": "icon-rail"
+  },
+
+  "motion": {
+    "easeOut": "cubic-bezier(0.645, 0.045, 0.355, 1)",
+    "easeIn": "cubic-bezier(0.645, 0.045, 0.355, 1)",
+    "fast": "100ms",
+    "base": "200ms",
+    "slow": "300ms"
+  },
+
+  "controls": {
+    "buttonHeight": 32,
+    "buttonHeightSm": 24,
+    "buttonPadding": "0 16px",
+    "inputHeight": 32,
+    "inputPadding": "0 11px",
+    "textareaHeight": 74,
+    "iconButton": 32,
+    "switchTrack": [44, 22],
+    "switchKnob": 18,
+    "checkbox": 16
+  },
+
+  "statusModel": "tint",
+  "statusModelNote": "Ant tags are a tinted background with a semantic border and dark text, so this lineage is tint rather than solid.",
+
+  "statusPill": {
+    "padding": "0 8px",
+    "radius": 4,
+    "size": 12,
+    "weight": "400",
+    "tracking": "0",
+    "transform": "none",
+    "fg": null
+  },
+
+  "referenceListRamp": {},
+  "referenceListRampNote": "Empty deliberately. This lineage has no lifecycle colour ramp — status colour comes from Ant's four semantic colours only. Seeding a Shesha reference list under this theme means choosing among those four, not painting a 16-value ramp.",
+
+  "accessibility": {
+    "note": "The one thing this handover contributes that neither the build brief nor the house design standard covers: measured WCAG 2.2 AA failures in Ant's own defaults. Carried here as data so the Phase 6 rendered gates can compute contrast from the DOM rather than assert it.",
+    "primaryContrastOnWhite": "9.26:1",
+    "textContrastOnWhite": "12.45:1",
+    "antDefaultsFailingAA": [
+      { "token": "colorTextQuaternary", "value": "rgba(24,24,24,0.25)", "ratio": "1.73:1", "role": "placeholder and disabled text", "accessibleAlternative": "rgba(24,24,24,0.55)" },
+      { "token": "colorBorder", "value": "#D9D9D9", "ratio": "1.41:1", "role": "control boundaries need 3:1", "accessibleAlternative": "#8C8C8C" },
+      { "token": "colorSuccess", "value": "#52C41A", "ratio": "2.27:1", "role": "fails as text and as fill", "accessibleAlternative": "#12793C" },
+      { "token": "colorWarning", "value": "#FAAD14", "ratio": "1.90:1", "role": "amber cannot carry white text at any usable saturation", "accessibleAlternative": "#C77F09" },
+      { "token": "colorError", "value": "#FF4D4F", "ratio": "3.27:1", "role": "fails as text", "accessibleAlternative": "#C3232B" }
+    ]
+  }
+}
