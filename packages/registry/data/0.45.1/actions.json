@@ -1,0 +1,82 @@
+{
+  "_provenance": "the six seed intents of section 2.1.7. `Show Dialog` and `Navigate` are measured from docs/rebuild-brief/artifacts/bookings-table.revision2.json; `Refresh table` is measured from the same file's onSuccess. The remaining three carry their debug.md row as evidence and are marked measured:false until WP-2 generates this file from the framework's registered action list at the pinned ref.",
+  "_ownerRefSentinel": "ownerRef",
+  "intents": {
+    "openDialog": {
+      "actionName": "Show Dialog",
+      "actionOwner": "shesha.common",
+      "with": ["form", "title", "width", "mode", "footer", "args"],
+      "argMap": {
+        "form": "formId",
+        "title": "modalTitle",
+        "width": "modalWidth",
+        "mode": "formMode",
+        "footer": "footerButtons",
+        "args": "formArguments"
+      },
+      "argDefaults": { "footerButtons": "default", "showModalFooter": true, "version": 0 },
+      "buttonAction": "dialogue",
+      "measured": true,
+      "evidence": "production form"
+    },
+    "navigate": {
+      "actionName": "Navigate",
+      "actionOwner": "shesha.common",
+      "with": ["form", "args"],
+      "argMap": { "form": "formId", "args": "queryParameters" },
+      "argDefaults": { "navigationType": "form" },
+      "buttonAction": "navigate",
+      "measured": true,
+      "evidence": "production form"
+    },
+    "refresh": {
+      "actionName": "Refresh table",
+      "actionOwner": "ownerRef",
+      "with": ["target"],
+      "argMap": {},
+      "argDefaults": {},
+      "buttonAction": "executeAction",
+      "measured": true,
+      "evidence": "production form onSuccess"
+    },
+    "exportExcel": {
+      "actionName": "Export to Excel",
+      "actionOwner": "ownerRef",
+      "with": ["target"],
+      "argMap": {},
+      "argDefaults": {},
+      "buttonAction": "executeAction",
+      "measured": false,
+      "evidence": "debug.md row 6"
+    },
+    "script": {
+      "actionName": "Execute Script",
+      "actionOwner": "shesha.common",
+      "with": ["code"],
+      "argMap": { "code": "expression" },
+      "argDefaults": {},
+      "buttonAction": "executeScript",
+      "measured": false,
+      "evidence": "debug.md rows 17, 29"
+    },
+    "submit": {
+      "actionName": "Submit",
+      "actionOwner": "shesha.common",
+      "with": [],
+      "argMap": {},
+      "argDefaults": {},
+      "buttonAction": "submit",
+      "measured": false,
+      "evidence": "debug.md row 17"
+    }
+  },
+  "_actionConfigVersion": 2,
+  "_buttonStyleMap": {
+    "primary": "primary",
+    "default": "default",
+    "dashed": "dashed",
+    "link": "link",
+    "text": "text",
+    "ghost": "ghost"
+  }
+}

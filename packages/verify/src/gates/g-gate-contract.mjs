@@ -37,6 +37,10 @@ export const inputPaths = [
   'tsconfig.json',
   'package-lock.json',
   'docs/rebuild-brief/CONTROL.md',
+  // This gate asserts that every OTHER gate's declared inputPaths exist, so its own
+  // staged tree has to be a superset of theirs. A path declared by any gate and
+  // missing here reads as "that gate declares a path that does not exist".
+  'docs/decisions-archive.md',
   '.githooks',
   '.gitattributes',
   '.gitignore',

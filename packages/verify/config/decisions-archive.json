@@ -1,0 +1,7 @@
+{
+  "note": "D-075. DECISIONS.md is prompt payload, so it is capped; the archive is the audit trail and is not loaded into any prompt. The registry that g-decisions enforces is the UNION of both files, so archiving moves bytes out of the context window and never a rule out of the gate.",
+  "liveTargetBytes": 16384,
+  "keepMinLive": 30,
+  "archivable": "status=decided AND no Enforced by entry starts with pending: — a pending-probe row is open risk and a pending: enforcer is deferred work, so both stay where they will be read",
+  "direction": "liveTargetBytes ratchets down only, exactly like every other cap in prose-budget.json"
+}

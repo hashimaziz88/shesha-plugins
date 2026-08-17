@@ -1,0 +1,63 @@
+{
+  "sfs": "1.0",
+  "form": "bookings-table",
+  "module": "boxfusion.test",
+  "kind": "list",
+  "entity": "boxfusion.test.Domain.Domain.Bookings.Booking",
+  "label": "Bookings",
+  "description": "All flight bookings. Row opens the detail page; Add opens the create dialog.",
+  "access": "authenticated",
+  "brand": "shesha",
+  "page": { "title": "Bookings", "subtitle": "All flight bookings" },
+  "body": [
+    {
+      "node": "data",
+      "name": "bookings",
+      "pageSize": 10,
+      "children": [
+        {
+          "node": "row",
+          "name": "toolbar",
+          "responsive": { "stack": "at:tablet", "fill": "searchCell", "fixed": { "addCell": "180px" }, "gap": 16 },
+          "style": { "pad": { "top": 0, "bottom": 16 } },
+          "children": [
+            { "node": "col", "name": "searchCell", "children": [
+              { "node": "search", "name": "quickSearch", "label": "Search" }
+            ]},
+            { "node": "col", "name": "addCell", "align": "end", "children": [
+              { "node": "actions", "name": "tableActions", "label": "Table actions", "items": [
+                {
+                  "name": "btnAddBooking", "label": "Add booking",
+                  "style": "primary", "icon": "PlusOutlined",
+                  "do": "openDialog",
+                  "with": { "form": "boxfusion.test/booking-create", "title": "New booking", "width": "60%", "mode": "edit" },
+                  "onSuccess": { "do": "refresh", "with": { "target": "bookings" } }
+                }
+              ]}
+            ]}
+          ]
+        },
+        {
+          "node": "table",
+          "name": "bookingsTable",
+          "label": "Bookings",
+          "freezeHeaders": true,
+          "inline": "none",
+          "style": { "surface": "card" },
+          "onRowClick": { "do": "navigate", "with": { "form": "boxfusion.test/booking-details", "args": { "id": "{{selectedRow.id}}" } } },
+          "columns": [
+            { "bind": "bookingReference", "caption": "Reference",  "width": 140, "min": 130 },
+            { "bind": "passengerName",    "caption": "Passenger",                "min": 180 },
+            { "bind": "origin",           "caption": "From",       "width": 150, "min": 120 },
+            { "bind": "destination",      "caption": "To",         "width": 150, "min": 120 },
+            { "bind": "departureDate",    "caption": "Departure",  "width": 150, "min": 130 },
+            { "bind": "cabinClass",       "caption": "Cabin",      "width": 150, "min": 130 },
+            { "bind": "status",           "caption": "Status",     "width": 150, "min": 130,
+              "render": { "kind": "statusBadge", "refList": "boxfusion.test/BookingStatus", "solid": true, "showName": true } }
+          ]
+        },
+        { "node": "pager", "name": "bookingsPager", "style": { "pad": { "top": 14 } } }
+      ]
+    }
+  ]
+}

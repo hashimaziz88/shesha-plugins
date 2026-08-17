@@ -1,0 +1,101 @@
+{
+  "_provenance": "measured from docs/rebuild-brief/artifacts/bookings-table.revision2.json (the base block) plus the per-kind deltas of section 2.1.3. D-101, D-102, D-103, D-104.",
+  "_keyOrder": [
+    "layout", "colon", "labelCol", "wrapperCol", "modelType", "dataLoaderType", "dataSubmitterType",
+    "access", "permissions", "version",
+    "onBeforeDataLoad", "onAfterDataLoad", "onPrepareSubmitData", "onBeforeSubmit", "onSubmitSuccess", "onSubmitFailed",
+    "dataLoadersSettings", "dataSubmittersSettings"
+  ],
+  "base": {
+    "layout": "vertical",
+    "colon": false,
+    "labelCol": { "span": 24 },
+    "wrapperCol": { "span": 24 },
+    "modelType": null,
+    "access": 4,
+    "permissions": [],
+    "version": 8,
+    "onBeforeDataLoad": null,
+    "onAfterDataLoad": null,
+    "onPrepareSubmitData": null,
+    "onBeforeSubmit": null,
+    "onSubmitSuccess": null,
+    "onSubmitFailed": null
+  },
+  "_hookKeys": ["onBeforeDataLoad", "onAfterDataLoad", "onPrepareSubmitData", "onBeforeSubmit", "onSubmitSuccess", "onSubmitFailed"],
+  "_defaultLoaderSettings": { "gql": { "endpointType": "default" }, "custom": {} },
+  "_defaultSubmitterSettings": { "gql": { "endpointType": "default" } },
+  "_editSubmitterSettings": {
+    "gql": {
+      "endpointType": "default",
+      "dynamicEndpoint": "    return data?.id ? form.defaultApiEndpoints.update : form.defaultApiEndpoints.create"
+    }
+  },
+  "kinds": {
+    "list": {
+      "dataLoaderType": "gql",
+      "dataSubmitterType": "none",
+      "dataLoadersSettings": "_defaultLoaderSettings",
+      "dataSubmittersSettings": null,
+      "hooks": [],
+      "page": "pageShell",
+      "editMode": { "container": "inherited", "actionsItem": "editable", "input": "inherited" }
+    },
+    "detail": {
+      "dataLoaderType": "gql",
+      "dataSubmitterType": "none",
+      "dataLoadersSettings": "_defaultLoaderSettings",
+      "dataSubmittersSettings": null,
+      "hooks": ["onAfterDataLoad"],
+      "page": "pageShell",
+      "editMode": { "container": "inherited", "actionsItem": "editable", "input": "inherited" }
+    },
+    "create": {
+      "dataLoaderType": "none",
+      "dataSubmitterType": "gql",
+      "dataLoadersSettings": "_defaultLoaderSettings",
+      "dataSubmittersSettings": "_defaultSubmitterSettings",
+      "hooks": ["onAfterDataLoad", "onPrepareSubmitData", "onBeforeSubmit", "onSubmitSuccess", "onSubmitFailed"],
+      "page": "pageShell",
+      "editMode": { "container": "inherited", "actionsItem": "editable", "input": "editable" }
+    },
+    "edit": {
+      "dataLoaderType": "gql",
+      "dataSubmitterType": "gql",
+      "dataLoadersSettings": "_defaultLoaderSettings",
+      "dataSubmittersSettings": "_editSubmitterSettings",
+      "hooks": ["onAfterDataLoad", "onPrepareSubmitData", "onBeforeSubmit", "onSubmitSuccess", "onSubmitFailed"],
+      "page": "pageShell",
+      "editMode": { "container": "inherited", "actionsItem": "editable", "input": "editable" }
+    },
+    "modal": {
+      "dataLoaderType": "none",
+      "dataSubmitterType": "none",
+      "dataSubmitterTypeWhenSubmits": "gql",
+      "dataLoadersSettings": "_defaultLoaderSettings",
+      "dataSubmittersSettings": null,
+      "dataSubmittersSettingsWhenSubmits": "_defaultSubmitterSettings",
+      "hooks": ["onAfterDataLoad", "onPrepareSubmitData", "onBeforeSubmit", "onSubmitSuccess", "onSubmitFailed"],
+      "page": null,
+      "editMode": { "container": "inherited", "actionsItem": "editable", "input": "editable" }
+    },
+    "dashboard": {
+      "dataLoaderType": "none",
+      "dataSubmitterType": "none",
+      "dataLoadersSettings": { "custom": {} },
+      "dataSubmittersSettings": null,
+      "hooks": [],
+      "page": "pageShell",
+      "editMode": { "container": "inherited", "actionsItem": "editable", "input": "inherited" }
+    },
+    "custom": {
+      "dataLoaderType": "none",
+      "dataSubmitterType": "none",
+      "dataLoadersSettings": { "custom": {} },
+      "dataSubmittersSettings": null,
+      "hooks": ["onAfterDataLoad", "onPrepareSubmitData", "onBeforeSubmit", "onSubmitSuccess", "onSubmitFailed"],
+      "page": "pageShellIfPage",
+      "editMode": { "container": "inherited", "actionsItem": "editable", "input": "inherited" }
+    }
+  }
+}

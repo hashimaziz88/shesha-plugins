@@ -59,6 +59,8 @@ Useful single programs:
 ```
 node packages/verify/src/run-gates.mjs            run every gate, exit with the worst verdict
 node packages/registry/src/gen-decisions.mjs      regenerate decisions.json from DECISIONS.md
+node packages/registry/src/gen-decisions.mjs --archive   move closed rows to docs/decisions-archive.md
+node packages/verify/src/gates/g-decisions.mjs    prove every row's enforcer resolves across both files
 node packages/sfs/bin/sfs.mjs --version           prove the single entrypoint starts
 ```
 

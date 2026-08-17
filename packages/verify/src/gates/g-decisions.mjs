@@ -15,6 +15,7 @@ import {
 } from '@shesha/registry/coverage';
 import {
   parseDecisions, enforcerEntries, COLUMNS, STATUSES, LEGAL_HEADINGS,
+  readRegistry, isArchivable, ARCHIVE_PATH, ARCHIVE_HEADINGS,
 } from '@shesha/registry/decisions';
 import { generate, GENERATED_PATH } from '@shesha/registry/gen-decisions';
 import { readText, normalisedByteSize, repoRoot } from '../lib/fsx.mjs';
@@ -24,6 +25,8 @@ export const id = 'g-decisions';
 export const describe = 'eight cells, contiguous ids, legal statuses, every enforcer resolves, no-theatre block, generated json identical';
 export const inputPaths = [
   'DECISIONS.md',
+  'docs/decisions-archive.md',
+  'packages/verify/config/decisions-archive.json',
   'packages/verify/config/pending-budget.json',
   'packages/verify/config/wp-table.json',
   'BACKLOG.md',
@@ -130,6 +133,7 @@ export async function run(ctx) {
     { name: 'generated-json', unit: 'file' },
     { name: 'file-shape', unit: 'assertion' },
     { name: 'pending-budget', unit: 'assertion' },
+    { name: 'archive', unit: 'assertion' },
   ]);
 
   const shapeFam = fams.get('file-shape');
@@ -138,13 +142,20 @@ export async function run(ctx) {
     shapeFam.pointer('DECISIONS.md').fail('DECISIONS.md does not exist — there is no decision registry');
     return fams.list;
   }
-  const parsed = parseDecisions(text);
+
+  // The registry is the union of the live file and the archive (D-075). Every
+  // family below that reasons about the REGISTRY walks `parsed`; only the byte cap
+  // and the stray-prose shape are per-file, so archiving cannot weaken a check.
+  const registry = readRegistry((rel) => readText(path.join(root, rel)));
+  const parsed = { ...registry.live, rows: registry.rows };
 
   // ---- rows: eight cells each ----------------------------------------------
   const rowFam = fams.get('rows');
-  for (const bad of parsed.malformed) {
-    rowFam.pointer(`DECISIONS.md:${bad.line}`)
-      .fail(`row "${bad.text}" has ${bad.cellCount} cells; all ${COLUMNS.length} columns are mandatory`);
+  for (const [file, p] of [['DECISIONS.md', registry.live], [ARCHIVE_PATH, registry.archive]]) {
+    for (const bad of /** @type {{malformed:{line:number,text:string,cellCount:number}[]}|null} */ (p)?.malformed || []) {
+      rowFam.pointer(`${file}:${bad.line}`)
+        .fail(`row "${bad.text}" has ${bad.cellCount} cells; all ${COLUMNS.length} columns are mandatory`);
+    }
   }
   for (const r of parsed.rows) {
     const p = rowFam.pointer(r.id);
@@ -296,18 +307,49 @@ export async function run(ctx) {
       `the block is ${bytes} B, over its ${NO_THEATRE_BYTES} B cap`);
   }
 
-  // ---- file shape: no prose outside the table and the two headings ---------
-  for (const stray of parsed.strayProse) {
-    shapeFam.pointer(`DECISIONS.md:${stray.line}`)
-      .fail(`prose outside the table: "${stray.text}". Only ${LEGAL_HEADINGS.join(' and ')} are legal (D-028)`);
-  }
-  for (const h of parsed.headings) {
-    shapeFam.pointer(`heading "${h}"`).assert(LEGAL_HEADINGS.includes(h),
-      `heading "${h}" is not one of ${LEGAL_HEADINGS.join(', ')}`);
+  // ---- file shape: no prose outside the table, and only legal headings -----
+  for (const [file, p, legal] of /** @type {[string, typeof registry.live|null, string[]][]} */ ([
+    ['DECISIONS.md', registry.live, LEGAL_HEADINGS],
+    [ARCHIVE_PATH, registry.archive, ARCHIVE_HEADINGS],
+  ])) {
+    if (p === null) continue;
+    for (const stray of p.strayProse) {
+      shapeFam.pointer(`${file}:${stray.line}`)
+        .fail(`prose outside the table: "${stray.text}". Only ${legal.join(' and ')} are legal (D-028)`);
+    }
+    for (const h of p.headings) {
+      shapeFam.pointer(`${file} heading "${h}"`).assert(legal.includes(h),
+        `heading "${h}" in ${file} is not one of ${legal.join(', ')}`);
+    }
   }
   const capPointer = shapeFam.pointer('DECISIONS.md#bytes');
   const size = normalisedByteSize(path.join(root, 'DECISIONS.md'));
   capPointer.assert(size <= 24576, `DECISIONS.md is ${size} B, over its 24576 B cap`);
+
+  // ---- archive: a move, never a rewrite, and never an open row -------------
+  // The target is asserted whether or not an archive exists: an absent archive is
+  // legitimate only while the live file is already under budget, so this family
+  // always carries at least one real assertion and can never walk 0.
+  const archFam = fams.get('archive');
+  const archCfg = readJsonGuarded(path.join(root, 'packages/verify/config/decisions-archive.json'), archFam,
+    'decisions-archive.json');
+  if (archCfg.ok) {
+    const target = /** @type {{liveTargetBytes:number}} */ (archCfg.value).liveTargetBytes;
+    archFam.pointer('archive#target').assert(size <= target,
+      `DECISIONS.md is ${size} B, over the ${target} B archive target — run `
+      + 'node packages/registry/src/gen-decisions.mjs --archive');
+  }
+  const liveIds = new Set(registry.live.rows.map((r) => r.id));
+  for (const r of registry.archive === null ? [] : registry.archive.rows) {
+    const p = archFam.pointer(`${ARCHIVE_PATH} ${r.id}`);
+    if (liveIds.has(r.id)) {
+      p.fail(`${r.id} is in BOTH DECISIONS.md and ${ARCHIVE_PATH}; a row is archived by moving it, not copying it`);
+      continue;
+    }
+    p.assert(isArchivable(r),
+      `${r.id} is archived but not closed (status "${r.status}", enforced by "${r.enforcedBy}"). `
+      + 'A pending-probe row is open risk and a pending: enforcer is deferred work: both must stay in DECISIONS.md');
+  }
 
   // ---- the generated json is byte-identical --------------------------------
   const genFam = fams.get('generated-json');
@@ -324,15 +366,44 @@ export async function run(ctx) {
   return fams.list;
 }
 
+/**
+ * A row lives in DECISIONS.md or in the archive; the mutations must not care
+ * which, or archiving a row would silently disarm one of them.
+ * @param {string} tmp
+ * @param {string} rowId
+ * @returns {{file:string, lines:string[], index:number}}
+ */
+function locateRow(tmp, rowId) {
+  for (const rel of ['DECISIONS.md', ARCHIVE_PATH]) {
+    const file = path.join(tmp, rel);
+    if (!fs.existsSync(file)) continue;
+    const lines = fs.readFileSync(file, 'utf8').split('\n');
+    const index = lines.findIndex((l) => l.trim().startsWith(`| ${rowId} |`));
+    if (index >= 0) return { file, lines, index };
+  }
+  throw new Error(`mutation cannot proceed: ${rowId} is in neither DECISIONS.md nor ${ARCHIVE_PATH}`);
+}
+
 export const mutations = [
   {
     name: 'a row names a gate that does not exist',
     kind: 'file',
     /** @param {string} tmp */
     apply: async (tmp) => {
-      const f = path.join(tmp, 'DECISIONS.md');
-      const text = fs.readFileSync(f, 'utf8');
-      fs.writeFileSync(f, text.replace('| g-workspace-hygiene | n/a |', '| g-does-not-exist | n/a |'));
+      // Find a row whose Enforced by cell IS a bare gate id rather than pinning a
+      // row number: pinning breaks the moment that row is archived or its enforcer
+      // is rewritten, and a mutation that silently no-ops proves nothing.
+      for (const rel of ['DECISIONS.md', ARCHIVE_PATH]) {
+        const file = path.join(tmp, rel);
+        if (!fs.existsSync(file)) continue;
+        const lines = fs.readFileSync(file, 'utf8').split('\n');
+        const i = lines.findIndex((l) => /^\| D-\d{3} \|.*\| g-[a-z-]+ \| [^|]+ \|\s*$/.test(l.trim()));
+        if (i < 0) continue;
+        lines[i] = lines[i].replace(/\| g-[a-z-]+ \| ([^|]+) \|(\s*)$/, '| g-does-not-exist | $1 |$2');
+        fs.writeFileSync(file, lines.join('\n'));
+        return;
+      }
+      throw new Error('mutation cannot proceed: no row names a bare gate id as its enforcer');
     },
     expect: 'fail',
   },
@@ -341,11 +412,9 @@ export const mutations = [
     kind: 'file',
     /** @param {string} tmp */
     apply: async (tmp) => {
-      const f = path.join(tmp, 'DECISIONS.md');
-      const lines = fs.readFileSync(f, 'utf8').split('\n');
-      const i = lines.findIndex((l) => l.startsWith('| D-002 |'));
-      lines[i] = lines[i].replace(' | n/a |', ' |');
-      fs.writeFileSync(f, lines.join('\n'));
+      const at = locateRow(tmp, 'D-002');
+      at.lines[at.index] = at.lines[at.index].replace(' | n/a |', ' |');
+      fs.writeFileSync(at.file, at.lines.join('\n'));
     },
     expect: 'fail',
   },
@@ -354,9 +423,40 @@ export const mutations = [
     kind: 'file',
     /** @param {string} tmp */
     apply: async (tmp) => {
-      const f = path.join(tmp, 'DECISIONS.md');
-      const lines = fs.readFileSync(f, 'utf8').split('\n').filter((l) => !l.startsWith('| D-025 |'));
-      fs.writeFileSync(f, lines.join('\n'));
+      const at = locateRow(tmp, 'D-025');
+      at.lines.splice(at.index, 1);
+      fs.writeFileSync(at.file, at.lines.join('\n'));
+    },
+    expect: 'fail',
+  },
+  {
+    name: 'an archived row is copied back into DECISIONS.md instead of moved',
+    kind: 'file',
+    /** @param {string} tmp */
+    apply: async (tmp) => {
+      const at = locateRow(tmp, 'D-002');
+      if (!at.file.endsWith('decisions-archive.md')) {
+        throw new Error('mutation cannot proceed: D-002 is not archived, so a duplicate cannot be planted');
+      }
+      const live = path.join(tmp, 'DECISIONS.md');
+      const lines = fs.readFileSync(live, 'utf8').split('\n');
+      const last = lines.reduce((acc, l, i) => (l.trim().startsWith('| D-') ? i : acc), -1);
+      lines.splice(last + 1, 0, at.lines[at.index]);
+      fs.writeFileSync(live, lines.join('\n'));
+    },
+    expect: 'fail',
+  },
+  {
+    name: 'an open row is archived, moving deferred work out of the prompt',
+    kind: 'file',
+    /** @param {string} tmp */
+    apply: async (tmp) => {
+      const at = locateRow(tmp, 'D-002');
+      if (!at.file.endsWith('decisions-archive.md')) {
+        throw new Error('mutation cannot proceed: D-002 is not archived');
+      }
+      at.lines[at.index] = at.lines[at.index].replace('| decided |', '| pending-probe |');
+      fs.writeFileSync(at.file, at.lines.join('\n'));
     },
     expect: 'fail',
   },
@@ -392,12 +492,14 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     const byName = new Map(fams.map((f) => [f.name, f]));
     const rowsFam = byName.get('rows');
     const enfFam = byName.get('enforcers');
-    const rows = parseDecisions(readText(path.join(root, 'DECISIONS.md')) || '').rows;
+    const reg = readRegistry((rel) => readText(path.join(root, rel)));
+    const rows = reg.rows;
     const entries = enforcerEntries(rows);
     const unresolved = enfFam ? enfFam.failures.length : entries.length;
     const pendingOwnerIds = new Set(entries.filter((e) => e.entry.startsWith('pending:')).map((e) => e.entry.slice(8)));
     void rowsFam;
-    console.log(`\nrows=${rows.length} enforcers=${entries.length - unresolved}/${entries.length} resolved · pending owners=${pendingOwnerIds.size} · unresolved=${unresolved}`);
+    console.log(`\nrows=${rows.length} (live=${reg.live.rows.length} archived=${reg.archive ? reg.archive.rows.length : 0})`
+      + ` enforcers=${entries.length - unresolved}/${entries.length} resolved · pending owners=${pendingOwnerIds.size} · unresolved=${unresolved}`);
 
     const ids = new Set(rows.map((r) => r.id));
     let reconciliationComplete = true;

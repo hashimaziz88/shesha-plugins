@@ -17,6 +17,7 @@ import { execFileSync } from 'node:child_process';
 import {
   families, readJsonGuarded, verdictOf, report, exitFor, runGuarded,
 } from '@shesha/registry/coverage';
+import { ARCHIVE_PATH } from '@shesha/registry/decisions';
 import { listFiles, readText, rel, repoRoot } from '../lib/fsx.mjs';
 import { completedWps } from '../lib/session-state.mjs';
 
@@ -27,6 +28,7 @@ export const inputPaths = [
   'CLAUDE.md',
   'BACKLOG.md',
   'DECISIONS.md',
+  'docs/decisions-archive.md',
   'package.json',
   'plugins',
   // Targets that documented commands resolve against.
@@ -41,13 +43,19 @@ export const inputPaths = [
  * The files that are prompt payload. `docs/**` is explicitly outside scope
  * (D-043): the brief is not instruction payload and its command examples are
  * illustrative.
+ *
+ * `docs/decisions-archive.md` is the one exception, and it is not an exception to
+ * D-043 at all: it is the decision registry's other half (D-075), not the brief.
+ * Archiving a row moves it out of the prompt, so it must not also move that row's
+ * acceptance command out of this gate's reach — that would let the floor drain by
+ * archiving rather than by deleting a command.
  * @param {string} root
  * @returns {string[]} repo-relative paths
  */
 function scanSet(root) {
   /** @type {string[]} */
   const out = [];
-  for (const name of ['CLAUDE.md', 'DECISIONS.md', 'BACKLOG.md']) {
+  for (const name of ['CLAUDE.md', 'DECISIONS.md', 'BACKLOG.md', ARCHIVE_PATH]) {
     if (fs.existsSync(path.join(root, name))) out.push(name);
   }
   const plugins = path.join(root, 'plugins');

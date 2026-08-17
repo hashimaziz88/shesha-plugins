@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 74,
+  "count": 75,
   "decisions": [
     {
       "id": "D-001",
@@ -890,6 +890,18 @@
       "consequence": "Q2 is falsifiable, not unachievable; `normalForm` also drops `componentName` per §2.5 step 7",
       "enforcedBy": [
         "pending:WP-1.a"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-075",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "The registry is the UNION of `/DECISIONS.md` and `docs/decisions-archive.md`; `gen-decisions --archive` moves only closed rows (`decided`, no `pending:` enforcer) until the live file is under `decisions-archive.json`'s target",
+      "why": "the live file is prompt payload and capped, and the cap was being paid for by trimming rows' own prose; the backlogged superseded-by selector frees nothing, because no row is superseded",
+      "consequence": "Archiving moves bytes out of the prompt, never a rule out of a gate: `g-decisions` walks the union, and the archive stays in `g-commands-executable`'s scan set so a floor cannot drain by archiving",
+      "enforcedBy": [
+        "g-decisions"
       ],
       "confirmation": "n/a"
     }
