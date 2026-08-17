@@ -92,3 +92,47 @@ would have produced a false green:
 | `g-workspace-hygiene` failed six pre-existing skill helper scripts, a purity rule `g-skill-purity` owns at WP-7a | Removed from this gate's subject (D-068) |
 | `--baseline` silently dropped the carried-debt waivers it was not adjudicating | Three dated debts reverted to failures |
 
+
+## WP-1.a — stage 1 and its inputs
+
+Status: in progress. The registry split (D-075) unblocked the decision registry: it
+sat at 24,512 of 24,576 B, so every new rule was being paid for by trimming an
+existing row. The registry is now the union of two files and `g-decisions` walks
+both, which cost 27 rows of prompt payload and no enforcement at all.
+
+Two conflicts in the brief were resolved before any compiler code was written,
+because both would have cost repair rounds later:
+
+| Conflict | Resolution |
+|---|---|
+| §5.2's Q1 and `.build/state.json` disagreed about Q1's subject | §2.4.5 P1 is authoritative: `compile(decompile(compile(x))).Markup === compile(x).Markup` over the clean fixture, not a property of the legacy corpus form |
+| O1 says the golden reference exists; the earlier session had recorded it as absent | It exists at `docs/rebuild-brief/artifacts/bookings-table.revision2.json`, 23,252 B, and carries all eight defect classes. It is Q2's first subject; `inline-editable-table` is the second |
+
+Q2's real constraint, stated once because it governs every remaining stage:
+`normaliseLegacy` changes the golden by exactly N1..N12, so `compile(decompile(m))`
+must differ from `m` by exactly N1..N12 as well. The decompiler is therefore lossless
+by construction, and every normalisation the compiler performs has to be in the
+oracle's contract. Both are pending write-up as D-076 and D-077 in `.build/state.json`.
+
+```
+node --test packages/sfs/test/s1-parse.test.mjs           -> exit 0, 19/19
+npm run green:fast                                        -> exit 0
+  typecheck 0 errors · tests 57 pass 0 fail
+  gates: 11 run, 11 pass, 0 fail, 0 partial · ratchet 11 >= 11
+npm run gates:mutate                                      -> mutations=41 caught=41 seconds=36.3
+node packages/registry/src/gen-decisions.mjs --archive     -> 46 live, 29 archived, 75 in the union
+```
+
+Three gate defects found this session, all the same class and all caught by the
+D-067 unmutated-baseline assertion rather than by inspection:
+
+| Defect | How it was caught |
+|---|---|
+| Archiving 27 rows moved their acceptance commands out of `g-commands-executable`'s scan set, draining the floor from 41 to 39 | The gate failed on the real tree. Archiving must never be a way to drain a floor, so the archive is now in its scan set |
+| `g-gate-contract` validates every other gate's `inputPaths`, so a path declared by any gate and missing from its own staged tree reads as "declares a path that does not exist" | Baseline fail on three mutations |
+| Staging runs through `git ls-files`, so a new-but-untracked input path stages nothing | Baseline fail; `scratchpad/why-baseline.mjs` now reproduces this class in one command |
+
+One correctness defect in stage 1 itself, found by running it rather than reasoning
+about it: the forbidden-key scan treated `navigate`'s `args: {id: ...}` as a forged
+`id`, which made the canonical fixture unparseable. Query-parameter names are data,
+so the scan now stops at `props`, `args`, `relay` and `const`. Pinned by a test.

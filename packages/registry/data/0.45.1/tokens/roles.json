@@ -1,0 +1,22 @@
+{
+  "_provenance": "the role -> token-path indirection of section 2.1.8. A `$role:` reference never names a colour; it names a ROLE, which this file maps to a path inside the brand token file. That indirection is the whole mechanism: a form references `cardBg`, and which hex that is depends only on which brand file is loaded.",
+  "roles": {
+    "cardBg": "palette.surfaces.surface",
+    "pageBg": "palette.surfaces.page",
+    "sunkenBg": "palette.surfaces.sunken",
+    "hairline": "palette.lines.hairline",
+    "strongLine": "palette.lines.strong",
+    "bodyText": "palette.text.primary",
+    "secondaryText": "palette.text.secondary",
+    "mutedText": "palette.text.muted",
+    "sectionHeading": "palette.text.primary",
+    "brandPrimary": "palette.brand.primary",
+    "brandPrimaryHover": "palette.brand.primaryHover"
+  },
+  "surfaces": {
+    "card": { "bg": "$role:cardBg", "border": "$role:hairline", "radius": "$radius:lg", "shadow": "$shadow:card" },
+    "panel": { "bg": "$role:sunkenBg", "border": "$role:hairline", "radius": "$radius:md", "shadow": "$shadow:none" },
+    "flat": { "bg": "$role:pageBg", "radius": "$radius:none", "shadow": "$shadow:none" },
+    "none": {}
+  }
+}

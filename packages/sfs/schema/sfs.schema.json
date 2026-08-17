@@ -1,0 +1,493 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boxfusion.io/schema/sfs/1.0/sfs.schema.json",
+  "title": "Shesha Form Spec 1.0",
+  "$comment": "WP-1.a ships the region variants the bookings-table fixture and the declared corpus subset reach; WP-4 adds the remaining kinds and the fourteen negative cases. No `pattern` here is case-insensitive: ECMA-262 has no inline (?i) group, so ajv would throw at compile() time. Literal colours are rejected STRUCTURALLY, by making every colour channel a tokenRef whose pattern cannot match a hex.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["sfs", "form", "module", "kind", "label", "body"],
+  "properties": {
+    "sfs": { "const": "1.0" },
+    "form": { "$ref": "#/$defs/slug" },
+    "module": { "$ref": "#/$defs/moduleName" },
+    "kind": { "enum": ["list", "detail", "create", "edit", "modal", "dashboard", "custom"] },
+    "entity": { "$ref": "#/$defs/clrType" },
+    "label": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "access": { "enum": ["inherited", "authenticated", "anonymous"], "default": "authenticated" },
+    "permissions": { "type": "array", "items": { "type": "string" }, "default": [] },
+    "brand": { "$ref": "#/$defs/slug", "default": "shesha" },
+    "submits": { "type": "boolean", "default": false },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title"],
+      "properties": { "title": { "type": "string" }, "subtitle": { "type": "string" } }
+    },
+    "hooks": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "onAfterDataLoad": { "$ref": "#/$defs/script" },
+        "onPrepareSubmitData": { "$ref": "#/$defs/script" },
+        "onBeforeSubmit": { "$ref": "#/$defs/script" },
+        "onSubmitSuccess": { "$ref": "#/$defs/script" },
+        "onSubmitFailed": { "$ref": "#/$defs/script" }
+      }
+    },
+    "body": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/region" } },
+    "raw": { "$ref": "#/$defs/rawBlock" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "enum": ["list", "detail", "create", "edit"] } }, "required": ["kind"] },
+      "then": { "required": ["entity"] }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "modal" } }, "required": ["kind"] },
+      "then": { "not": { "required": ["page"] } }
+    }
+  ],
+
+  "$defs": {
+    "slug": { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,63}$" },
+    "moduleName": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_.-]{0,127}$" },
+    "clrType": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)+$" },
+    "ident": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]{0,39}$" },
+    "formRef": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_.-]*/[a-z][a-z0-9-]*$" },
+    "refListRef": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_.-]*/[A-Za-z][A-Za-z0-9_]*$" },
+    "entityPath": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)*$" },
+    "script": { "type": "string", "minLength": 1 },
+    "px": { "type": "string", "pattern": "^[0-9]+px$" },
+    "tokenRef": { "type": "string", "pattern": "^\\$(role|type|space|radius|shadow):[A-Za-z0-9_.-]+$" },
+
+    "binding": {
+      "oneOf": [
+        { "$ref": "#/$defs/entityPath" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path"],
+          "properties": {
+            "path": { "$ref": "#/$defs/entityPath" },
+            "required": { "type": "boolean" },
+            "editMode": { "enum": ["editable", "readOnly", "inherited"] },
+            "label": { "type": "string" },
+            "component": { "type": "string" }
+          }
+        },
+        { "type": "object", "additionalProperties": false, "required": ["code"], "properties": { "code": { "$ref": "#/$defs/script" } } },
+        { "type": "object", "additionalProperties": false, "required": ["const"], "properties": { "const": { "$comment": "any JSON value" } } }
+      ]
+    },
+
+    "responsive": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stack": { "enum": ["at:tablet", "at:mobile", "never"] },
+        "fill": { "$ref": "#/$defs/ident" },
+        "fixed": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "$ref": "#/$defs/ident" },
+          "additionalProperties": { "$ref": "#/$defs/px" }
+        },
+        "gap": { "type": "integer", "minimum": 0, "maximum": 64 },
+        "hide": { "type": "array", "items": { "enum": ["desktop", "tablet", "mobile"] }, "uniqueItems": true },
+        "width": { "type": "string" }
+      },
+      "dependentRequired": { "fixed": ["fill"] }
+    },
+
+    "boxSides": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "top": { "type": "integer" },
+        "bottom": { "type": "integer" },
+        "left": { "type": "integer" },
+        "right": { "type": "integer" }
+      }
+    },
+
+    "style": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "surface": { "enum": ["card", "flat", "panel", "none"] },
+        "bg": { "allOf": [{ "$ref": "#/$defs/tokenRef" }] },
+        "border": { "allOf": [{ "$ref": "#/$defs/tokenRef" }] },
+        "radius": { "allOf": [{ "$ref": "#/$defs/tokenRef" }] },
+        "shadow": { "allOf": [{ "$ref": "#/$defs/tokenRef" }] },
+        "pad": { "$ref": "#/$defs/boxSides" },
+        "margin": { "$ref": "#/$defs/boxSides" },
+        "text": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "size": { "oneOf": [{ "$ref": "#/$defs/tokenRef" }, { "type": "integer" }] },
+            "weight": { "enum": ["regular", "medium", "semibold", "bold"] },
+            "color": { "$ref": "#/$defs/tokenRef" },
+            "align": { "enum": ["left", "center", "right"] }
+          }
+        },
+        "width": { "type": "string" },
+        "height": { "type": "string" }
+      }
+    },
+
+    "argMap": {
+      "$comment": "action arguments are static scalars or a single framework mustache reference; a {code:...} here is EXP-4402",
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [
+          { "type": "string", "pattern": "^(\\{\\{[A-Za-z0-9_.\\[\\]]+\\}\\}|[^{}]*)$" },
+          { "type": "number" },
+          { "type": "boolean" },
+          { "type": "null" }
+        ]
+      }
+    },
+
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "do"],
+      "properties": {
+        "name": { "$ref": "#/$defs/ident" },
+        "label": { "type": "string" },
+        "style": { "enum": ["primary", "default", "dashed", "link", "text", "ghost"] },
+        "icon": { "type": "string", "pattern": "^[A-Z][A-Za-z0-9]+$" },
+        "do": { "enum": ["openDialog", "navigate", "refresh", "exportExcel", "script", "submit"] },
+        "with": { "type": "object" },
+        "onSuccess": { "$ref": "#/$defs/action0" },
+        "onFail": { "$ref": "#/$defs/action0" },
+        "when": { "$ref": "#/$defs/binding" }
+      },
+      "allOf": [{ "$ref": "#/$defs/actionWithShapes" }]
+    },
+
+    "actionWithShapes": {
+      "allOf": [
+        {
+          "if": { "properties": { "do": { "const": "openDialog" } }, "required": ["do"] },
+          "then": {
+            "required": ["with"],
+            "properties": {
+              "with": {
+                "type": "object",
+                "required": ["form"],
+                "additionalProperties": false,
+                "properties": {
+                  "form": { "$ref": "#/$defs/formRef" },
+                  "title": { "type": "string" },
+                  "width": { "type": "string" },
+                  "mode": { "enum": ["edit", "readonly"] },
+                  "footer": { "enum": ["default", "none", "custom"] },
+                  "args": { "type": "object" },
+                  "relay": { "type": "object" }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "do": { "const": "navigate" } }, "required": ["do"] },
+          "then": {
+            "required": ["with"],
+            "properties": {
+              "with": {
+                "type": "object",
+                "required": ["form"],
+                "additionalProperties": false,
+                "properties": { "form": { "$ref": "#/$defs/formRef" }, "args": { "$ref": "#/$defs/argMap" } }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "do": { "enum": ["refresh", "exportExcel"] } }, "required": ["do"] },
+          "then": {
+            "required": ["with"],
+            "properties": {
+              "with": { "type": "object", "required": ["target"], "additionalProperties": false, "properties": { "target": { "$ref": "#/$defs/ident" } } }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "do": { "const": "script" } }, "required": ["do"] },
+          "then": {
+            "required": ["with"],
+            "properties": {
+              "with": { "type": "object", "required": ["code"], "additionalProperties": false, "properties": { "code": { "$ref": "#/$defs/script" } } }
+            }
+          }
+        }
+      ]
+    },
+
+    "action0": {
+      "$comment": "same as action but name/label optional — a chained action has no button",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["do"],
+      "properties": {
+        "do": { "enum": ["openDialog", "navigate", "refresh", "exportExcel", "script", "submit"] },
+        "with": { "type": "object" },
+        "onSuccess": { "$ref": "#/$defs/action0" }
+      },
+      "allOf": [{ "$ref": "#/$defs/actionWithShapes" }]
+    },
+
+    "render": {
+      "type": "object",
+      "required": ["kind"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "enum": ["text", "number", "date", "boolean", "link", "statusBadge", "custom"] },
+        "refList": { "$ref": "#/$defs/refListRef" },
+        "solid": { "type": "boolean" },
+        "showName": { "type": "boolean" },
+        "showIcon": { "type": "boolean" },
+        "format": { "type": "string" },
+        "type": { "type": "string" },
+        "props": { "type": "object" }
+      },
+      "allOf": [
+        { "if": { "properties": { "kind": { "const": "statusBadge" } }, "required": ["kind"] }, "then": { "required": ["refList"] } },
+        { "if": { "properties": { "kind": { "const": "custom" } }, "required": ["kind"] }, "then": { "required": ["type"] } }
+      ]
+    },
+
+    "column": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "bind": { "$ref": "#/$defs/entityPath" },
+        "caption": { "type": "string", "minLength": 1 },
+        "width": { "type": "integer", "minimum": 24 },
+        "min": { "type": "integer", "minimum": 24 },
+        "sortable": { "type": "boolean", "default": true },
+        "visible": { "type": "boolean", "default": true },
+        "render": { "$ref": "#/$defs/render" },
+        "editor": { "type": "object" },
+        "do": { "$ref": "#/$defs/action0" },
+        "raw": { "$ref": "#/$defs/rawBlock" }
+      },
+      "anyOf": [{ "required": ["bind"] }, { "required": ["do"] }]
+    },
+
+    "rawBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason"],
+      "properties": {
+        "at": { "enum": ["base", "desktop", "tablet", "mobile", "formSettings", "items", "envelope"], "default": "base" },
+        "reason": { "type": "string", "minLength": 12 },
+        "props": { "type": "object", "propertyNames": { "not": { "enum": ["id", "parentId", "version"] } } },
+        "type": { "type": "string" },
+        "childrenKey": { "type": "string" }
+      }
+    },
+
+    "regionCommon": {
+      "type": "object",
+      "required": ["node", "name"],
+      "properties": {
+        "node": { "type": "string" },
+        "name": { "$ref": "#/$defs/ident" },
+        "label": { "type": "string" },
+        "responsive": { "$ref": "#/$defs/responsive" },
+        "style": { "$ref": "#/$defs/style" },
+        "when": { "$ref": "#/$defs/binding" },
+        "raw": { "$ref": "#/$defs/rawBlock" },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/region" } }
+      }
+    },
+
+    "region": {
+      "allOf": [{ "$ref": "#/$defs/regionCommon" }],
+      "unevaluatedProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "node": { "enum": ["row", "col"] },
+            "align": { "enum": ["start", "center", "end", "stretch"] },
+            "justify": { "enum": ["start", "center", "end", "between", "around"] }
+          }
+        },
+        {
+          "properties": {
+            "node": { "const": "card" },
+            "headerChildren": { "type": "array", "items": { "$ref": "#/$defs/region" } },
+            "title": { "type": "string" }
+          }
+        },
+        {
+          "properties": {
+            "node": { "const": "data" },
+            "entityType": { "$ref": "#/$defs/clrType" },
+            "pageSize": { "type": "integer", "minimum": 1, "maximum": 200, "default": 10 },
+            "mode": { "enum": ["paging", "all"], "default": "paging" },
+            "filter": { "$ref": "#/$defs/binding" }
+          }
+        },
+        {
+          "properties": {
+            "node": { "const": "table" },
+            "columns": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/column" } },
+            "freezeHeaders": { "type": "boolean", "default": false },
+            "inline": { "enum": ["none", "onRowSave", "oneByOne", "all"], "default": "none" },
+            "onRowClick": { "$ref": "#/$defs/action0" },
+            "onRowDoubleClick": { "$ref": "#/$defs/action0" }
+          },
+          "required": ["columns"]
+        },
+        {
+          "properties": {
+            "node": { "const": "list" },
+            "rowTemplate": { "$ref": "#/$defs/formRef" },
+            "onItemClick": { "$ref": "#/$defs/action0" }
+          },
+          "required": ["rowTemplate"]
+        },
+        { "properties": { "node": { "enum": ["pager", "search", "errors"] } } },
+        {
+          "properties": {
+            "node": { "const": "kib" },
+            "bands": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name", "children"],
+                "properties": {
+                  "name": { "$ref": "#/$defs/ident" },
+                  "title": { "type": "string" },
+                  "width": { "type": "string" },
+                  "children": { "type": "array", "items": { "$ref": "#/$defs/region" } }
+                }
+              }
+            }
+          },
+          "required": ["bands"]
+        },
+        {
+          "properties": {
+            "node": { "const": "childTable" },
+            "bind": { "$ref": "#/$defs/entityPath" },
+            "columns": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/column" } },
+            "inline": { "enum": ["none", "onRowSave", "oneByOne", "all"], "default": "none" }
+          },
+          "required": ["bind"]
+        },
+        {
+          "properties": {
+            "node": { "const": "status" },
+            "bind": { "$ref": "#/$defs/binding" },
+            "refList": { "$ref": "#/$defs/refListRef" },
+            "solid": { "type": "boolean" },
+            "showName": { "type": "boolean" },
+            "showIcon": { "type": "boolean" }
+          },
+          "required": ["refList"]
+        },
+        {
+          "properties": {
+            "node": { "const": "select" },
+            "bind": { "$ref": "#/$defs/binding" },
+            "source": { "enum": ["refList", "entity"], "default": "refList" },
+            "refList": { "$ref": "#/$defs/refListRef" },
+            "entityType": { "$ref": "#/$defs/clrType" },
+            "multiple": { "type": "boolean" },
+            "placeholder": { "type": "string" }
+          },
+          "required": ["bind"]
+        },
+        {
+          "properties": {
+            "node": { "const": "actions" },
+            "items": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/action" } }
+          },
+          "required": ["items"]
+        },
+        {
+          "properties": {
+            "node": { "const": "text" },
+            "content": { "type": "string" },
+            "bind": { "$ref": "#/$defs/binding" },
+            "as": { "enum": ["span", "paragraph", "title"] }
+          }
+        },
+        {
+          "properties": {
+            "node": { "const": "field" },
+            "bind": { "$ref": "#/$defs/binding" },
+            "component": { "type": "string" },
+            "placeholder": { "type": "string" }
+          },
+          "required": ["bind"]
+        },
+        {
+          "properties": {
+            "node": { "const": "panel" },
+            "title": { "type": "string" },
+            "collapsedByDefault": { "type": "boolean", "default": false },
+            "headerChildren": { "type": "array", "items": { "$ref": "#/$defs/region" } }
+          }
+        },
+        {
+          "properties": {
+            "node": { "const": "tabs" },
+            "tabs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name", "title", "children"],
+                "properties": {
+                  "name": { "$ref": "#/$defs/ident" },
+                  "title": { "type": "string" },
+                  "children": { "type": "array", "items": { "$ref": "#/$defs/region" } }
+                }
+              }
+            }
+          },
+          "required": ["tabs"]
+        },
+        {
+          "properties": {
+            "node": { "enum": ["tags", "attachments"] },
+            "bind": { "$ref": "#/$defs/binding" }
+          }
+        },
+        {
+          "properties": {
+            "node": { "const": "picker" },
+            "bind": { "$ref": "#/$defs/binding" },
+            "entityType": { "$ref": "#/$defs/clrType" },
+            "columns": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/column" } }
+          },
+          "required": ["bind", "entityType"]
+        },
+        {
+          "properties": {
+            "node": { "const": "alert" },
+            "text": { "type": "string" },
+            "severity": { "enum": ["info", "success", "warning", "error"], "default": "info" }
+          }
+        },
+        {
+          "properties": {
+            "node": { "const": "raw" },
+            "raw": { "$ref": "#/$defs/rawBlock" }
+          },
+          "required": ["raw"]
+        }
+      ]
+    }
+  }
+}

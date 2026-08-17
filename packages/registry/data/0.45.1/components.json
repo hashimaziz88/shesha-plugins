@@ -1,0 +1,218 @@
+{
+  "_provenance": "WP-1.a subset. Every `version`, every `defaults` value and every `breakpointChannels` list below is MEASURED from docs/rebuild-brief/artifacts/bookings-table.revision2.json, the real boxfusion.test/bookings-table revision 2 envelope (O1). Nine of the 121 authorable types: exactly the ones the bookings-table fixture and the inline-editable-table corpus form reach. WP-2 regenerates this file from the framework TypeScript at the pinned ref and widens it; nothing here is hand-guessed, and no version integer appears in any instruction file.",
+  "_registryRef": "0.45.1@3418e292",
+  "_datatypeMap": {
+    "string": { "component": "textField", "props": {} },
+    "number": { "component": "numberField", "props": {} },
+    "boolean": { "component": "checkbox", "props": {} },
+    "date": { "component": "dateField", "props": {} },
+    "date-time": { "component": "dateField", "props": { "showTime": true } },
+    "reference-list-item": { "component": "dropdown", "props": {} },
+    "entity": { "component": "autocomplete", "props": {} },
+    "object": { "component": "textField", "props": {} },
+    "array": { "component": "childEntitiesTagGroup", "props": {} }
+  },
+  "components": {
+    "card": {
+      "version": 3,
+      "sfsNode": "card",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": "content.components",
+      "slots": ["header", "content"],
+      "breakpointBlocks": true,
+      "breakpointChannels": ["border", "background", "font", "dimensions", "shadow", "stylingBox", "enableStyleOnReadonly", "className"],
+      "legacyStyleProps": ["customStyle", "style", "borderRadius", "boxShadow", "backgroundColor"],
+      "defaults": {
+        "hidden": false,
+        "isDynamic": false,
+        "enableStyleOnReadonly": false,
+        "stylingBox": "{}"
+      },
+      "dimensionDefaults": { "width": "100%", "height": "auto", "minHeight": "0px", "maxHeight": "auto", "minWidth": "0px", "maxWidth": "auto" }
+    },
+    "container": {
+      "version": 7,
+      "sfsNode": "col",
+      "sfsNodeAlso": ["row"],
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": "components",
+      "breakpointBlocks": true,
+      "breakpointChannels": ["display", "flexDirection", "justifyContent", "alignItems", "flexWrap", "gap", "font", "background", "border", "shadow", "dimensions", "stylingBox"],
+      "legacyStyleProps": ["customStyle", "style", "backgroundColor", "borderRadius", "boxShadow"],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "enableStyleOnReadonly": false,
+        "display": "flex",
+        "justifyContent": "flex-start",
+        "alignItems": "stretch",
+        "flexWrap": "nowrap",
+        "stylingBox": "{}"
+      },
+      "dimensionDefaults": { "width": "100%", "height": "auto", "minHeight": "fit-content", "maxHeight": "auto", "minWidth": "0px", "maxWidth": "auto" }
+    },
+    "text": {
+      "version": 5,
+      "sfsNode": "text",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "breakpointBlocks": true,
+      "breakpointChannels": ["font", "stylingBox"],
+      "legacyStyleProps": ["fontSize", "fontWeight", "customStyle", "style", "color", "backgroundColor"],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "textType": "span",
+        "contentDisplay": "content",
+        "dataType": "string"
+      }
+    },
+    "dataContext": {
+      "version": 8,
+      "sfsNode": "data",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": "components",
+      "breakpointBlocks": false,
+      "breakpointChannels": [],
+      "legacyStyleProps": [],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "items": [],
+        "sourceType": "Entity",
+        "dataFetchingMode": "paging",
+        "sortMode": "standard",
+        "allowReordering": "no"
+      }
+    },
+    "datatable": {
+      "version": 29,
+      "sfsNode": "table",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "itemsKey": "items",
+      "breakpointBlocks": true,
+      "breakpointChannels": ["dimensions", "background", "border", "shadow"],
+      "legacyStyleProps": ["customStyle", "style", "backgroundColor", "borderRadius", "boxShadow"],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "canEditInline": "no",
+        "canAddInline": "no",
+        "canDeleteInline": "no"
+      },
+      "dimensionDefaults": { "width": "100%", "height": "auto", "minHeight": "fit-content" }
+    },
+    "datatable.quickSearch": {
+      "version": 3,
+      "sfsNode": "search",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "breakpointBlocks": true,
+      "breakpointChannels": ["dimensions", "stylingBox"],
+      "legacyStyleProps": [],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "enableStyleOnReadonly": false
+      },
+      "dimensionDefaults": { "width": "100%" }
+    },
+    "datatable.pager": {
+      "version": 4,
+      "sfsNode": "pager",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "breakpointBlocks": true,
+      "breakpointChannels": ["stylingBox", "dimensions"],
+      "legacyStyleProps": [],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "enableStyleOnReadonly": false
+      }
+    },
+    "buttonGroup": {
+      "version": 15,
+      "sfsNode": "actions",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "itemsKey": "items",
+      "breakpointBlocks": true,
+      "breakpointChannels": [],
+      "legacyStyleProps": [],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "isInline": true,
+        "enableStyleOnReadonly": false
+      }
+    },
+    "refListStatus": {
+      "version": 6,
+      "sfsNode": "status",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "breakpointBlocks": false,
+      "breakpointChannels": [],
+      "legacyStyleProps": [],
+      "defaults": {
+        "hideLabel": true,
+        "showIcon": false
+      }
+    },
+    "validationErrors": {
+      "version": 0,
+      "sfsNode": "errors",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "breakpointBlocks": false,
+      "breakpointChannels": [],
+      "legacyStyleProps": [],
+      "defaults": { "hideLabel": true, "hidden": false, "isDynamic": false }
+    },
+    "columns": {
+      "version": 5,
+      "sfsNode": null,
+      "authorable": false,
+      "isInput": false,
+      "reason": "a legacy 24-column grid container whose flex/offset/push per-column props have no sound deterministic lift; section 2.1.5's reserve arithmetic replaces it",
+      "decision": "D-112",
+      "childrenKey": "columns",
+      "breakpointBlocks": false,
+      "breakpointChannels": [],
+      "legacyStyleProps": [],
+      "defaults": {}
+    },
+    "sizableColumns": {
+      "version": 5,
+      "sfsNode": null,
+      "authorable": false,
+      "isInput": false,
+      "reason": "same 24-column grid model as `columns`, with a resize handle that carries no deterministic lift either",
+      "decision": "D-112",
+      "childrenKey": "columns",
+      "breakpointBlocks": false,
+      "breakpointChannels": [],
+      "legacyStyleProps": [],
+      "defaults": {}
+    }
+  }
+}
