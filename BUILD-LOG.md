@@ -92,21 +92,3 @@ would have produced a false green:
 | `g-workspace-hygiene` failed six pre-existing skill helper scripts, a purity rule `g-skill-purity` owns at WP-7a | Removed from this gate's subject (D-068) |
 | `--baseline` silently dropped the carried-debt waivers it was not adjudicating | Three dated debts reverted to failures |
 
-Still outstanding before WP-0 can be recorded complete: `write-evidence.mjs` and
-`packages/verify/evidence/WP-0.json`, `.githooks/{pre-commit,commit-msg}` plus
-`npm run hooks:install`, the two CI workflows, `plugin.json` 1.8.4 -> 1.8.5, and
-the single WP-0 commit. **No completion claim is made and no `Status: complete`
-line is written**, because the `scheduled:` ratchets and the 34 prose waivers are
-keyed to WP-0 completion and would expire the moment one appeared.
-
-Remaining before WP-0 can claim complete: the three outstanding gates, the mutation
-harness (`mutation-meta.test.mjs`), `write-evidence.mjs`, `prove.mjs`, the `sfs` CLI
-entrypoint and tools, `DECISIONS.md` (64 rows + the 15-line `## No theatre` block),
-`gen-decisions.mjs`, `CLAUDE.md`, the eight probe scripts, `.githooks/*` +
-`hooks:install`, the two CI workflows, deletion of the ~15 dangling documented
-invocations of the moved/deleted scripts, one test per remaining package, and the
-`plugin.json` bump 1.8.4 -> 1.8.5.
-
-Blocked: B11, B12, B13 (see `BLOCKED.md`).
-Decisions pending write-up: D-038, D-039, D-059..D-064 (see `.build/state.json`).
-Next: finish WP-0's remaining artifacts. Do not begin WP-1 — CONTROL §3 order is fixed.
