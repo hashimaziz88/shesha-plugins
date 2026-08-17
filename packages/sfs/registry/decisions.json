@@ -1,0 +1,825 @@
+{
+  "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
+  "count": 68,
+  "decisions": [
+    {
+      "id": "D-001",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Adopt the compiler-first re-architecture on the PR #39 base; reject prose iteration and a clean-sheet rebuild",
+      "why": "§3",
+      "consequence": "Empirical assets are moved, not re-earned",
+      "enforcedBy": [
+        "scheduled:WP-7a:g-disposition"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-002",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "The toolchain lives in this repo as npm workspace packages under `packages/`",
+      "why": "§9 q4",
+      "consequence": "One `npm ci` serves every consumer; skills hold no logic",
+      "enforcedBy": [
+        "g-workspace-hygiene"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-003",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "The compiler is the only writer of form markup; direct writes are blocked, not discouraged",
+      "why": "§4 L4",
+      "consequence": "No agent, skill or human hand-edits form JSON",
+      "enforcedBy": [
+        "scheduled:BL-008:block-form-writes"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-004",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "The registry is generated from a pinned `shesha-framework` `releases/0.45` commit SHA; the framework is never modified",
+      "why": "§4 L0",
+      "consequence": "Registry data is reproducible from a ref",
+      "enforcedBy": [
+        "scheduled:WP-2:g-registry-provenance"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-005",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Coverage accounting exists once, in `packages/registry/src/coverage.mjs`; family sets are module constants; `walkComponents` lives once in `packages/verify/src/walk.mjs`",
+      "why": "§1.4 five walkers, three unwrappers",
+      "consequence": "Two implementations cannot disagree about a verdict",
+      "enforcedBy": [
+        "g-coverage-single-impl"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-006",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Zero coverage is a hard fail: `walked === 0` fails, `walked > 0 && checked === 0` fails, any `uninspectable` yields exit 3 `partial`",
+      "why": "§1.4",
+      "consequence": "No green signal over unvisited territory",
+      "enforcedBy": [
+        "structural:packages/registry/src/coverage.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-007",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Every gate exports `mutations[]` with >= 2 entries and `gates:mutate` proves each flips the verdict",
+      "why": "§5",
+      "consequence": "Stub gates are unrepresentable",
+      "enforcedBy": [
+        "g-gate-contract"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-008",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "A missing backend degrades to `uninspectable` + exit 3, never pass; exits are 0 pass / 1 fail / 2 usage / 3 partial; the verdict union is exactly `{pass,fail,partial,notRun}` with no `warn`",
+      "why": "§1.4",
+      "consequence": "No code path treats backend-absent as pass",
+      "enforcedBy": [
+        "scheduled:WP-3a:g-exit-codes"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-009",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Contradictions are resolved by deleting the losing side, never by adding a note explaining which side wins",
+      "why": "§1.2#2",
+      "consequence": "No \"which one wins\" annotations survive",
+      "enforcedBy": [
+        "g-prose-budget"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-010",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`bake-overlays.mjs` is deleted; `$role:` tokens resolve at compile time, per run, per brand",
+      "why": "§1.2",
+      "consequence": "There is no separate styling pass to forget",
+      "enforcedBy": [
+        "scheduled:WP-5:g-markup-provenance"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-011",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`validate-blocks.js` is deleted; its checks become T2 hard failures with exact registry matching",
+      "why": "§1.4",
+      "consequence": "No fuzzy matcher with a downgrade path",
+      "enforcedBy": [
+        "scheduled:WP-7a:g-disposition"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-012",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`summarize.js` and both of its invocations are deleted; no documented command in the repo is unexecutable",
+      "why": "§1.4",
+      "consequence": "Every documented command resolves to a runnable file",
+      "enforcedBy": [
+        "g-commands-executable"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-013",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Raw seed JSON under `assets/examples/` is deleted only after decompilation into `packages/sfs/corpus/`; `raw:` escapes are counted per compile",
+      "why": "§5",
+      "consequence": "Seeds cannot vanish unconverted",
+      "enforcedBy": [
+        "scheduled:WP-5:g-escape-budget"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-014",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Placement assertions are executable predicates over the compiled tree, not English sentences judged by a model",
+      "why": "§4 L3",
+      "consequence": "The DOM probe covers emergent residue only",
+      "enforcedBy": [
+        "scheduled:BL-003:t3-semantic"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-015",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "T5 visual is advisory: `verdict.result` is computed from T1-T4 only and is byte-identical whichever score T5 reports",
+      "why": "§4 L3",
+      "consequence": "No actor may downgrade a result from a T5 finding",
+      "enforcedBy": [
+        "scheduled:BL-005:t4-live"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-016",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "The judge never sees the builder's self-report or reasoning",
+      "why": "§4 L3",
+      "consequence": "The Evaluator has no Bash tool and cannot read run logs",
+      "enforcedBy": [
+        "scheduled:BL-008:evaluator-lock"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-017",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Fan out across screens only; never run parallel agents within one form",
+      "why": "§4 L4",
+      "consequence": "Fan-out is a declared write-glob partition per WP",
+      "enforcedBy": [
+        "scheduled:BL-008:g-fanout-screens"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-018",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Styling is a compile-time concern; there is no separate styling pass and no styling sub-skill invocation",
+      "why": "§1.2#5",
+      "consequence": "One pass produces styled output or none does",
+      "enforcedBy": [
+        "scheduled:WP-7a:g-skill-purity"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-019",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Literal hex colours are banned in recipes, SFS and compiler input; output carries resolved colours each with a `resolvedFrom` entry",
+      "why": "§1.2#13 48 hexes vs 10 role refs",
+      "consequence": "Colour provenance is traceable to a role",
+      "enforcedBy": [
+        "scheduled:WP-5:g-no-literal-hex"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-020",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "One commit per work package; the numeric record of a commit is `packages/verify/evidence/<WP>.json`, written by the gate runner",
+      "why": "§1.4, §5",
+      "consequence": "No number in a commit body is typed by an author",
+      "enforcedBy": [
+        "g-commit-format"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-021",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Compilation is deterministic: no clock, no randomness; ids are `uuidv5(NS, \"<module>/<form>|<path>\")`",
+      "why": "§4 L2",
+      "consequence": "Recompiling identical input yields identical bytes",
+      "enforcedBy": [
+        "scheduled:WP-5:g-determinism"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-022",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Ambiguity in headless mode is resolved by an archetype default recorded in `plan.json`",
+      "why": "§1.2#12",
+      "consequence": "Never ask the user, never silently pick",
+      "enforcedBy": [
+        "scheduled:BL-008:g-archetype-default"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-023",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "No TypeScript build step; types are JSDoc checked by `tsc --noEmit` with `checkJs` and `strict`",
+      "why": "model-agnostic constraint",
+      "consequence": "Every program runs under bare `node <file>`",
+      "enforcedBy": [
+        "g-workspace-hygiene"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-024",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`noUncheckedIndexedAccess` is off; re-enabling it is BL-010",
+      "why": "measured cost over ~200 tree-walking modules exceeds one session",
+      "consequence": "`strict` remains a real gate",
+      "enforcedBy": [
+        "g-workspace-hygiene"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-025",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "No `import` of a `.json` file in `packages/**` or `.claude/hooks/**`; all JSON is read through `readJsonGuarded`",
+      "why": "D-006 requires guarded reads",
+      "consequence": "The registry is hot-swappable in tests",
+      "enforcedBy": [
+        "g-workspace-hygiene"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-026",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`green` splits into `green:quick`, `green:fast` (pre-commit) and `green` (+mutations, CI and `prove`); the mutation suite finishes in <= 180 s",
+      "why": "a gate slow enough to bypass with `--no-verify` is not a gate",
+      "consequence": "Pre-commit stays affordable",
+      "enforcedBy": [
+        "structural:package.json"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-027",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`test.todo(` is legal only in files under `packages/sfs/test/fixtures/gaps/` or matching `*.gap.test.mjs` whose todo name starts with a `GAP-0NN` id present in BACKLOG.md",
+      "why": "§5.5 B4 needs a visible failing fixture per compiler gap",
+      "consequence": "Compiler gaps stay visible as failures",
+      "enforcedBy": [
+        "scheduled:WP-10:g-no-gate-tampering"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-028",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Fifteen banned behaviours are recorded as one line each in the `## No theatre` block; all evidence prose lives in `docs/rebuild-brief/evidence.md`",
+      "why": "prose whose only function is to explain a fixed defect is T10",
+      "consequence": "The enforcer on each line is the enforcement",
+      "enforcedBy": [
+        "g-decisions"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-029",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`packages/sfs/registry/decisions.json` is generated from this file and byte-compared; there is no second registry and no `OPEN-QUESTIONS.md`",
+      "why": "two registries with two id namespaces drift",
+      "consequence": "One decision namespace",
+      "enforcedBy": [
+        "g-decisions"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-030",
+      "date": "2026-08-17",
+      "status": "pending-probe",
+      "decision": "`referenceListId` is always `{module, name}`; a module prefix inside `name` is illegal everywhere",
+      "why": "§1.2#1 three-way split; observed `ConfigurationLoadingError` blocks the whole form",
+      "consequence": "The flat and prefixed shapes hard-fail",
+      "enforcedBy": [
+        "scheduled:WP-3a:t2-registry"
+      ],
+      "confirmation": "pending-probe:reflist-name-format"
+    },
+    {
+      "id": "D-031",
+      "date": "2026-08-17",
+      "status": "pending-probe",
+      "decision": "`refListStatus` carries `referenceListId: {module,name}` and nothing else; flat `module` / `referenceListName` keys hard-fail",
+      "why": "§1.2#2 settled in one file while the routed-to file shipped the flat keys with a warning not to correct it",
+      "consequence": "Two parallel authors cannot ship two shapes",
+      "enforcedBy": [
+        "scheduled:WP-3a:t2-registry"
+      ],
+      "confirmation": "pending-probe:reflist-status-shape"
+    },
+    {
+      "id": "D-032",
+      "date": "2026-08-17",
+      "status": "pending-probe",
+      "decision": "`editMode` is emitted only at form level, derived from `kind`: list/details -> `readOnly`, create/edit -> `editable`; no component carries it",
+      "why": "§1.2#7 three answers to one question",
+      "consequence": "SFS has no component-level field for it",
+      "enforcedBy": [
+        "scheduled:WP-3a:t2-registry"
+      ],
+      "confirmation": "pending-probe:editmode-create-edit"
+    },
+    {
+      "id": "D-033",
+      "date": "2026-08-17",
+      "status": "pending-probe",
+      "decision": "The only legal `formArguments` hydration hook is `onAfterDataLoad`; `onDataLoaded` is illegal in compiler output",
+      "why": "§1.2#8 three files, three hooks; the observed modal failure outranks prose",
+      "consequence": "A `forbidden` key fails only when present and non-null",
+      "enforcedBy": [
+        "scheduled:WP-3a:t2-registry"
+      ],
+      "confirmation": "pending-probe:form-arguments-hook"
+    },
+    {
+      "id": "D-034",
+      "date": "2026-08-17",
+      "status": "pending-probe",
+      "decision": "`actionOwner` is lowercase dotted or a compiler-resolved component id; `actionName` is the spaced form; SFS never names an owner",
+      "why": "§1.2#9 the documented strings are the ones blamed for silent no-op buttons",
+      "consequence": "The compiler derives the pair from the intent verb",
+      "enforcedBy": [
+        "scheduled:WP-3a:t2-registry"
+      ],
+      "confirmation": "pending-probe:action-owner-casing"
+    },
+    {
+      "id": "D-035",
+      "date": "2026-08-17",
+      "status": "pending-probe",
+      "decision": "The `columns` component is banned unconditionally; multi-column layout is a flex `container` row sized by `desktop.dimensions.width`",
+      "why": "§1.2#4 banned in five places, mandated in a sixth 52 lines earlier",
+      "consequence": "No recipe, corpus form or output may contain one",
+      "enforcedBy": [
+        "scheduled:WP-3a:t2-registry"
+      ],
+      "confirmation": "pending-probe:columns-alternative"
+    },
+    {
+      "id": "D-036",
+      "date": "2026-08-17",
+      "status": "pending-probe",
+      "decision": "Entity metadata is read from `Get` and unwrapped as `result.properties[]`; paths are PascalCase in metadata and camelCased when emitted",
+      "why": "§1.2#10 wrong casing renders every cell blank",
+      "consequence": "One unwrapper, one casing rule",
+      "enforcedBy": [
+        "scheduled:BL-003:t3-semantic"
+      ],
+      "confirmation": "pending-probe:metadata-endpoint"
+    },
+    {
+      "id": "D-037",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Component versions, prop names and enum domains come from `packages/registry` only; no version integer or prop name appears in any instruction file",
+      "why": "§1.2#11 `collapsiblePanel` documented 8/`accent`/`isDefaultExpanded` against reality 9/`accentStyle`/`collapsedByDefault` with inverted polarity",
+      "consequence": "Instruction prose cannot drift from the framework",
+      "enforcedBy": [
+        "g-prose-budget"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-038",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "The two holed gates and the DOM probe move to repo-root `quarantine/`, outside `packages/**` and outside the typecheck include, declared in `quarantine.json`",
+      "why": "each defines a second `verdictOf` and walked/checked pair, which D-005 forbids inside the live toolchain; an exemption list inside `g-coverage-single-impl` would be the tampering pattern",
+      "consequence": "Their 15 tests still run; only the suite's script path constant changed",
+      "enforcedBy": [
+        "g-coverage-single-impl"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-039",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "The work branch is `hashim/sfs-rebuild-scope-a` cut from `8a2d2f4`; `upstream` is never pushed to",
+      "why": "override O3; the repo was 13 commits ahead of `origin` on a local branch",
+      "consequence": "P2 asserts the commit, not the branch name",
+      "enforcedBy": [
+        "g-commit-format"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-040",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "§5.1's conflicts 1, 2, 4, 5, 6, 7, 9 and 11 resolve as stated; the losing spelling is a typo wherever it appears in the brief",
+      "why": "two authors of one brief disagreed on thirteen paths; choosing at the point of use is how the three-way reflist split was created",
+      "consequence": "`packages/sfs/bin/sfs.mjs`, `npm run sfs -- <args>`, no alias",
+      "enforcedBy": [
+        "g-decisions",
+        "g-workspace-hygiene"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-041",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "All of §3.1.2 is defined once in `packages/registry/src/coverage.mjs`; `verify` and `sfs` re-export it with one `export *` line; `walkComponents` lives only in `packages/verify/src/walk.mjs` and is exempt from the re-export rule",
+      "why": "§1.4's five walkers; the arrow registry <- sfs <- verify forbids the compiler importing the verifier",
+      "consequence": "A compiler cannot be audited by a verifier it calls",
+      "enforcedBy": [
+        "g-coverage-single-impl",
+        "g-workspace-hygiene"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-042",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "WP-0 writes the whole coverage API with >= 21 named tests; WP-3a adds `walk.mjs` and unit-typed families, not a second copy",
+      "why": "a partial API written twice is the drift generator this rebuild removes",
+      "consequence": "23 tests ship at WP-0 against a floor of 21",
+      "enforcedBy": [
+        "structural:packages/registry/test/coverage.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-043",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "The brief is committed under `docs/rebuild-brief/`, outside `g-prose-budget` and `g-commands-executable`, inside `g-brief-budget`",
+      "why": "a session that loses the brief to a reset has no source of truth; `docs/**` is not prompt payload",
+      "consequence": "Skill gates never scan the brief",
+      "enforcedBy": [
+        "g-brief-budget"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-044",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Exactly four artifact names: `<screen>.form.json`, `<screen>.compile.json`, `<screen>.form.meta.json`, `<screen>.sfs.meta.json`; blessed fixtures are `<screen>.expected.form.json`; `.compiled.json` is banned",
+      "why": "three names for two artifacts were embedded in command lines the session would paste",
+      "consequence": "No path may match `\\.compiled(\\.meta)?\\.json$`",
+      "enforcedBy": [
+        "scheduled:WP-5:g-artifact-naming"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-045",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`Enforced by` has four legal forms: a gate id, `structural:`/`hook:` path, `check:<tier>:<id>`, and `scheduled:<WP|BL>:<id>` while its WP is incomplete",
+      "why": "a row naming a gate that cannot yet exist forced WP-0 to ship gates that check nothing",
+      "consequence": "`scheduled:` is the ratchet that forces the rewrite",
+      "enforcedBy": [
+        "g-decisions"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-046",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "The brief is split by reader: `CONTROL.md` <= 25,600 B is the only turn-zero read; every >8-row table becomes `data/*.json`; every literal file becomes `artifacts/<file>`",
+      "why": "322,816 B of prose against a ~100-150 constraint ceiling is RC2; a 450 KB brief reproduces it one level up",
+      "consequence": "The bundle target is enforced by BL-011 per D-060",
+      "enforcedBy": [
+        "g-brief-budget"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-047",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "A mutation copies only that gate's declared `inputPaths[]` to a temp dir and junction-links the root `node_modules`; the suite asserts a 180 s ceiling",
+      "why": "110+ full-repo copies on NTFS with Defender is tens of GB per commit",
+      "consequence": "`junction` is required on Windows; `dir` needs admin",
+      "enforcedBy": [
+        "structural:packages/verify/test/mutation/mutation-meta.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-048",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`npm run green` writes `packages/verify/evidence/<WP>.json`; `g-commit-format` regenerates it and fails on staleness or on any commit-body number that disagrees",
+      "why": "a commit body a gate blesses is a self-report, the over-praise failure the plan cites twice",
+      "consequence": "No criterion is satisfied by a typed number",
+      "enforcedBy": [
+        "g-commit-format"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-049",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`verify-artifact.mjs` and `check-references.mjs` move unchanged, are referenced by nothing, and are registered in `quarantine.json` with `liftedBy: BL-003`",
+      "why": "Phase 0 wants the bleeding stopped now, but the correct fixes need T2/T3",
+      "consequence": "A holed gate must not emit a green signal meanwhile",
+      "enforcedBy": [
+        "scheduled:BL-003:g-quarantine"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-050",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`cost-delta` gates exactly two recomputable byte counts, `emittedBytes` (floor 10x) and `preloadBytes` (floor 5x); steps, tokens and tool calls move to BL-001",
+      "why": "a ratio derived from prose the session is deleting is T15",
+      "consequence": "`prove` prints `token cost: unmeasured in this session`",
+      "enforcedBy": [
+        "scheduled:WP-10:g-cost-delta"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-051",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Scope is `packages/verify/config/session-scope.json`, eight WP ids; narrowing needs a `Scope change:` row; everything else is a BACKLOG row with its acceptance command verbatim",
+      "why": "the alternative is discovering at 100% of budget that the compiler was never reachable",
+      "consequence": "Scope cannot expand mid-session",
+      "enforcedBy": [
+        "structural:packages/verify/config/session-scope.json"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-052",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Repairs on one gate in one WP are capped at 3 rounds; at round 3 the choice is block the WP or fix the gate with its mutation, never silence it",
+      "why": "UI2Code^N saturation at N=3-5; more iterations sometimes amplify reward hacking",
+      "consequence": "A fourth round is where the test starts adapting to the code",
+      "enforcedBy": [
+        "scheduled:WP-10:g-no-gate-tampering"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-053",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "SFS gains the node kinds `childTable`, `kib`, `tags`, `attachments`, `picker`, `select`, and `field` as the catch-all for every registry type with `isInput: true`",
+      "why": "§2.1.4's 17 kinds cover none of what the corpus is made of",
+      "consequence": "Without these every real form is structural `raw:`",
+      "enforcedBy": [
+        "scheduled:WP-5:g-escape-budget"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-054",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Round-trip is gated at >= 0.90 over the six declared forms in `roundtrip-scope.json`; the other six are decompiled, triaged and reported `uninspectable` with a B8 row",
+      "why": "a 0.90 gate over 12 forms whose kinds do not exist yet is unachievable, and an unachievable gate is lowered under pressure",
+      "consequence": "The full-corpus gate is BL-002",
+      "enforcedBy": [
+        "scheduled:WP-5:g-corpus-immutable"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-055",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`forbidden` in `form-settings.json` means forbidden with a non-null value: fail iff the key is present and not `null`; fail on any key outside `allowed` union `forbidden`",
+      "why": "§2.1.3 emits `onBeforeDataLoad: null` for every kind, which a literal reading would fail on the one artifact everything is measured against",
+      "consequence": "A null forbidden key is legal",
+      "enforcedBy": [
+        "scheduled:WP-3a:t1-schema"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-056",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "A pointer is `uninspectable` only when its type is in the artifact, its registry entry is incomplete, and the type is non-priority; a priority type with an incomplete entry is a fail",
+      "why": "otherwise every screen containing a `datatable` is permanently partial and the only release valve is widening the gate",
+      "consequence": "The predicate lives in `coverage.mjs`",
+      "enforcedBy": [
+        "g-coverage-single-impl"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-057",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "After any context reset the session runs the five recovery commands and reads `CONTROL.md` before acting; `green:fast` outranks any recorded claim of completion",
+      "why": "memory after compaction is the least reliable input available",
+      "consequence": "A WP is resumed, never restarted",
+      "enforcedBy": [
+        "structural:docs/rebuild-brief/CONTROL.md"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-058",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Fan-out only for disjoint-write, no-shared-invariant, program-verifiable, enumerable slices, max 4 agents; subagents never commit and never mutate `node_modules` or the index",
+      "why": "§4/L4 excludes shared-context coding from multi-agent gains; two parallel authors already shipped two incompatible `refListStatus` shapes",
+      "consequence": "A subagent's self-report is not evidence",
+      "enforcedBy": [
+        "scheduled:WP-10:g-fanout-partition"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-059",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Gate removal: `g-fanout-discipline`'s two-directory rule",
+      "why": "it failed every commit shipping an implementation together with the gate policing it, i.e. WP-1, WP-5, WP-7a and WP-3a",
+      "consequence": "The declared-glob partition proof already covers the anti-pattern",
+      "enforcedBy": [
+        "scheduled:WP-10:g-no-gate-tampering"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-060",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`g-brief-budget`'s enforced subject in Scope A is `CONTROL.md` (<= 25,600 B, 0 fences > 40 lines); the 61,440 B whole-bundle cap and the table and fence extractions are BL-011",
+      "why": "the bundle measures 594,452 B, 9.7x the cap; enforcing it now either fails every commit or deletes the detail sections WP-1..WP-10 must still read",
+      "consequence": "The gate fails if BL-011 or its target leaves BACKLOG.md",
+      "enforcedBy": [
+        "g-brief-budget"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-061",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Test discovery is a Node glob pattern over `packages/*/test/**/*.test.mjs` plus `quarantine/*.test.mjs`",
+      "why": "on Node >= 22 a positional argument to `--test` is a file pattern, not a directory to scan, and cmd.exe does not expand globs",
+      "consequence": "The documented `npm test` actually runs",
+      "enforcedBy": [
+        "structural:package.json"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-062",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Legal skill frontmatter keys are `name`, `description`, `allowed-tools` and `argument-hint`, read from config",
+      "why": "`allowed-tools` and `argument-hint` are real Claude Code keys; stripping `allowed-tools` widens a skill's tool access",
+      "consequence": "Smuggled config is still blocked",
+      "enforcedBy": [
+        "g-prose-budget"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-063",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Pre-existing prose debt is carried as measured waivers, each naming its path, allowance, the WP or BL id that removes it, and this row; `--baseline` refuses to raise one",
+      "why": "a rule that fires 34 times on day one is waived wholesale unless the debt is quantified and dated",
+      "consequence": "A waiver outliving its WP is a hard failure",
+      "enforcedBy": [
+        "g-prose-budget"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-064",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Every gate reads through `readText`, which strips a BOM and normalises CRLF to LF, and caps are measured against normalised bytes",
+      "why": "`core.autocrlf=true` gives the Windows tree CRLF while git stores LF, so a line-anchored regex silently matched nothing locally and everything in CI",
+      "consequence": "A rule cannot mean two things on two platforms",
+      "enforcedBy": [
+        "structural:packages/verify/src/lib/fsx.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-065",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "A `pending-probe` Confirmation carries its probe name as `pending-probe:<name>`, and `packages/registry/probes/<name>.mjs` must exist",
+      "why": "a bare `pending-probe` gives the gate no way to resolve which script must exist, making the rule unenforceable",
+      "consequence": "Every empirical row has a committed probe",
+      "enforcedBy": [
+        "g-decisions"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-066",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Source-scanning patterns live in `packages/verify/config/source-patterns.json`, never as literals in gate source",
+      "why": "a detector carrying its own patterns inline matches its own file: `g-coverage-single-impl` reported itself as a second `verdictOf` and `g-workspace-hygiene` reported itself as importing a `.json`",
+      "consequence": "The scan needs no self-exemption, and an exemption list is the tampering shape",
+      "enforcedBy": [
+        "g-coverage-single-impl",
+        "g-workspace-hygiene"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-067",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "Every mutation first asserts the gate PASSES on an unmutated copy of its own declared `inputPaths`, before applying the mutation",
+      "why": "without it a gate that already fails on its own staged inputs \"catches\" every mutation for the wrong reason; this caught 9 such cases, all of them gates whose inputPaths did not cover what they read",
+      "consequence": "A gate must declare every path it reads",
+      "enforcedBy": [
+        "structural:packages/verify/test/mutation/mutation-meta.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-068",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "A gate asserts only over its own declared subject; a rule about a neighbouring concern belongs to the gate that owns that concern",
+      "why": "`g-workspace-hygiene` failing six pre-existing skill helper scripts would have deleted working behaviour in unrelated skills to satisfy a purity rule that `g-skill-purity` owns at WP-7a",
+      "consequence": "Skill-script purity is adjudicated once, at WP-7a",
+      "enforcedBy": [
+        "scheduled:WP-7a:g-skill-purity"
+      ],
+      "confirmation": "n/a"
+    }
+  ]
+}

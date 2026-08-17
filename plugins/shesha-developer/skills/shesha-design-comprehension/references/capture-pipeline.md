@@ -28,7 +28,7 @@ Render each screen and measure the rendered DOM.
 
 1. **Serve & open.** A `file://` bundle is blocked in the browser MCP and a minified single-file bundle can't be parsed statically — serve the folder over HTTP (`python -m http.server <port>`) and `mcp__playwright__browser_navigate` to it. Pin the viewport first (`browser_resize` 1440×900).
 2. **Navigate** to each screen (hash routes like `#/views`, then click a row into the detail).
-3. **Probe.** `node scripts/layout-probe.js --emit-eval --screen <name>` prints the `browser_evaluate` payload; run it via `mcp__playwright__browser_evaluate` with `filename: "<screen>.layout.json"` so the result is saved, not dumped into context.
+3. **Probe.** The layout probe's `--emit-eval --screen <name>` mode prints the `browser_evaluate` payload; run that via `mcp__playwright__browser_evaluate` with `filename: "<screen>.layout.json"` so the result is saved, not dumped into context.
 4. **Read the signal.** The probe's `multiColumnContainers` array gives, per container: `columnCount`, `columnEdges`, `childWidths`. Record widths in native units (px / `fill` / `1fr`) for `row=[…]` — do NOT normalise to `/24`. One screenshot per screen (`browser_take_screenshot`) for a visual cross-check — never one per element.
 5. **markitdown role (B):** optionally caption that single screenshot for a prose content/section outline that labels the measured boxes — secondary to the measurement.
 

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Runs the FULL green, not green:fast (D-069).
+#
+# green:fast is the fast local signal; this hook is where the evidence file is
+# produced, and evidence without mutation numbers would be a self-report about the
+# one property that makes a gate falsifiable. One commit per work package means
+# this runs once per package, not once per file.
+set -euo pipefail
+
+npm run green
+
+node packages/verify/src/write-evidence.mjs
+git add packages/verify/evidence
+
+if git diff --cached --name-only | grep -qx '\.claude/settings\.local\.json'; then
+  echo "pre-commit: REFUSED - .claude/settings.local.json is staged" >&2
+  exit 1
+fi
+
+# plugins/** may not change without a version bump, because the marketplace
+# resolves plugins by version and a silent change ships as the previous release.
+if git diff --cached --name-only | grep -q '^plugins/'; then
+  if ! git diff --cached --name-only | grep -qx 'plugins/shesha-developer/\.claude-plugin/plugin\.json'; then
+    echo "pre-commit: REFUSED - plugins/** changed without a plugin.json version bump" >&2
+    exit 1
+  fi
+fi

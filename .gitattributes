@@ -1,0 +1,5 @@
+# Shell scripts must keep LF endings. core.autocrlf=true would hand a fresh clone
+# CRLF, and a `#!/usr/bin/env bash` script with CRLF fails to execute at all — the
+# hooks would silently stop enforcing anything on the next person's machine.
+.githooks/** text eol=lf
+*.sh text eol=lf

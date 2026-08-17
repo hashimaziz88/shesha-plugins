@@ -1,0 +1,14 @@
+{
+  "_comment": "g-brief-budget's limits. Scope A's enforced subject is CONTROL.md itself (D-060, override O2): it is the only file read at turn zero and after every context reset, so it is the only one whose size can silently reproduce the pre-rebuild prose failure inside this session. The 61,440 B whole-bundle cap and the table/fence extractions of D-046 are BL-011, which carries this file's `bundleTargetBytes` as its acceptance number.",
+  "control": {
+    "path": "docs/rebuild-brief/CONTROL.md",
+    "maxBytes": 25600,
+    "maxFenceLines": 40
+  },
+  "bundle": {
+    "glob": "docs/rebuild-brief/*.md",
+    "bundleTargetBytes": 61440,
+    "enforced": false,
+    "deferredTo": "BL-011"
+  }
+}

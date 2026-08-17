@@ -24,17 +24,16 @@ The rules that follow from it:
 - **Don't assert what the codebase hasn't settled.** Ids are the standing example: `SKILL.md` says UUID, but shipped seeds and exported forms are full of nanoid (`8jJ1tFFwhdXB8tGQn7xbB2cwTvcPLe`) and truncated hex that render fine. Reporting those as defects yields ~110 confident findings against a canonical seed that is not wrong — and a gate that cries wolf gets ignored, which is how the previous validators lost trust. Report the count as coverage, not as a failure.
 - **Transport failures are uninspectable, not passes.** A timeout, a 401, or an unreachable backend means the check did not run.
 
-`scripts/verify-artifact.mjs` implements this contract and is the reference shape for anything added later; its suite in `tests/verify-artifact.test.mjs` pins each rule above to a test.
+The verifier package implements this contract and is the reference shape for anything added later; its
+suite pins each rule above to a test.
 
-**`scripts/check-references.mjs` applies the same contract to the docs themselves.** Run it after editing any skill file:
+**The same contract applies to the docs themselves**, and is checked by the repository's gate suite
+rather than by a script inside this skill: every pointer must resolve — markdown links, backticked file
+paths, `Skill(...)` ids, dispatched agent names, `$role:` tokens (in **every** shipped brand, not just
+the default), block `$styleOverlay` files, component versions quoted in docs against the registry, and
+the component index's type-to-group routing. Exit `0` pass · `1` failures · `3` partial.
 
-```bash
-node scripts/check-references.mjs
-```
-
-It proves that every pointer resolves — markdown links, backticked file paths, `Skill(...)` ids, dispatched agent names, `$role:` tokens (in **every** shipped brand, not just the default), block `$styleOverlay` files, component versions quoted in docs vs `components-kb/_index.json`, and the component index's type→group routing. Exit `0` pass · `1` failures · `3` partial.
-
-It exists because this bug class kept recurring invisibly: 12 dead links, an `archetypes.md` eight files referenced that did not exist, `$role` tokens defined in no theme, six sites invoking a playwright *skill* that nobody ships, and four hand-maintained version lists that had drifted three ways — one telling you to use `numberField` v3, which silently discards a component's whole style block. Three careful manual passes still missed five of these; the script found them in one run. `tests/check-references.negative.mjs` injects one bug per family into a throwaway copy and asserts each is caught, so the gate is proven to fail when it should.
+It exists because this bug class kept recurring invisibly: 12 dead links, an `archetypes.md` eight files referenced that did not exist, `$role` tokens defined in no theme, six sites invoking a playwright *skill* that nobody ships, and four hand-maintained version lists that had drifted three ways — one telling you to use `numberField` v3, which silently discards a component's whole style block. Three careful manual passes still missed five of these; a program found them in one run. A paired negative suite injects one bug per family into a throwaway copy and asserts each is caught, so the gate is proven to fail when it should.
 
 ---
 

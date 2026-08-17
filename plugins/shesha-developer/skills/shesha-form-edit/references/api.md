@@ -301,14 +301,9 @@ Expected response (ABP envelope; relevant fields):
 }
 ```
 
-Save raw response to `.claude/cache/shesha-form-edit/metadata/<entity>.raw.json`, then distill:
-
-```bash
-node .claude/skills/shesha-form-edit/scripts/summarize.js \
-  .claude/cache/shesha-form-edit/metadata/Member.raw.json \
-  --type metadata \
-  --out .claude/cache/shesha-form-edit/metadata/Member.summary.md
-```
+Save raw response to `.claude/cache/shesha-form-edit/metadata/<entity>.raw.json`, then read the
+`result.properties[]` array from it directly — each entry's `path` and `dataType` are the two fields
+the edit needs.
 
 Validation pass: for every input component in the edit, confirm `propertyName` matches a `properties[].path` (top-level only — nested-path validation is out of scope). Mismatches must be surfaced to the user before push.
 

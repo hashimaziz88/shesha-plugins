@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shesha/registry": ["packages/registry/src/index.mjs"],
+      "@shesha/registry/coverage": ["packages/registry/src/coverage.mjs"],
+      "@shesha/registry/decisions": ["packages/registry/src/decisions.mjs"],
+      "@shesha/registry/gen-decisions": ["packages/registry/src/gen-decisions.mjs"],
+      "@shesha/sfs": ["packages/sfs/src/index.mjs"],
+      "@shesha/verify": ["packages/verify/src/index.mjs"],
+      "@shesha/mcp": ["packages/mcp/src/index.mjs"],
+      "@shesha/precedent": ["packages/precedent/src/index.mjs"]
+    },
+    "types": ["node"]
+  },
+  "include": [
+    "packages/*/src/**/*.mjs",
+    "packages/*/bin/**/*.mjs",
+    "packages/*/tools/**/*.mjs",
+    "packages/*/test/**/*.mjs",
+    ".claude/hooks/**/*.mjs"
+  ]
+}

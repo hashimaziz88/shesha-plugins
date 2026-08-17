@@ -1,0 +1,7 @@
+{
+  "_comment": "D-050. g-cost-delta (WP-10) gates exactly two RECOMPUTABLE byte counts. Steps, tokens and tool calls are deleted from the gate and moved to BL-001, because a ratio derived from prose this session is deleting is not a measurement. `prove` prints `token cost: unmeasured in this session (BL-001)`.",
+  "emittedBytes": { "baseline": 12032, "floorRatio": 10, "source": "hand-authored markup for the reference screen before the rebuild" },
+  "preloadBytes": { "baseline": 322816, "floorRatio": 5, "source": "measured total of instruction prose loaded before the rebuild" },
+  "deletedFromGate": ["steps", "tokens", "toolCalls"],
+  "deletedTo": "BL-001"
+}

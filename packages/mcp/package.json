@@ -1,0 +1,23 @@
+{
+  "name": "@shesha/mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.mjs",
+      "default": "./src/index.mjs"
+    }
+  },
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "dependencies": {
+    "@shesha/registry": "*",
+    "@shesha/sfs": "*",
+    "@shesha/verify": "*"
+  }
+}

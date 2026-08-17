@@ -53,16 +53,12 @@ not exist; if you add a new dispatch site, match the agents.
 
 ## Never accept an agent's word for an artifact — check the disk
 
-**MUST, after every `form-author` dispatch, before the returned verdict counts for anything:**
+**MUST, after every `form-author` dispatch, before the returned verdict counts for anything:** read the
+artifact off disk yourself and resolve every form it references. Exit codes are `0` pass · `1` fail ·
+`2` the artifact could not be read · `3` partial, meaning something was not inspected — and a partial
+is never a pass ([verification.md §0](verification.md)).
 
-```bash
-node <SKILL_ROOT>/scripts/verify-artifact.mjs <outputPath> \
-  --backend <url> --token <token-file> --json
-```
-
-Exit `0` pass · `1` fail · `2` the artifact could not be read · `3` partial (something was not inspected — [verification.md §0](verification.md)).
-
-This is not belt-and-braces. Two build retrospectives recorded the same failure independently: once an agent spent 50 tool calls and **never wrote the file**, then reported completion; once it reported *"53 components... everything checks out"* for a form whose datalist pointed at a **row-template form that did not exist**, so the list would have rendered empty. Both were caught by a human reading JSON, neither by any gate. An agent's self-report is a claim; the file on disk is the evidence. `verify-artifact.mjs` resolves every referenced form against the backend, which is the specific check that would have caught the second case before the push.
+This is not belt-and-braces. Two build retrospectives recorded the same failure independently: once an agent spent 50 tool calls and **never wrote the file**, then reported completion; once it reported *"53 components... everything checks out"* for a form whose datalist pointed at a **row-template form that did not exist**, so the list would have rendered empty. Both were caught by a human reading JSON, neither by any gate. An agent's self-report is a claim; the file on disk is the evidence. Resolving every referenced form against the backend is the specific check that would have caught the second case before the push.
 
 Treat exit `2` as "the dispatch did not complete" and re-dispatch with *"you stopped before writing the file — finish and write it now"*, rather than re-running the whole build.
 

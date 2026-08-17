@@ -24,11 +24,7 @@ You draft ONE Shesha form's markup from a canonical seed. You never push to a ba
 4. Honor the form-quality contract (`SKILL_ROOT/references/form-quality.md`): validationErrors component, human-readable labels, dropdown `referenceListId` objects resolved from metadata `referenceListName`, one primary action, consistent labelCol/wrapperCol.
 5. Run the `stampTree` parentId pass (SKILL.md Step 5 snippet — includes `content.components`/`header.components`) and the JSON round-trip safety check (SKILL.md Step 5.5) in Node.
 6. Write the markup to the given output path as UTF-8 **without BOM**.
-7. **Verify your own output on disk before reporting** — you are not finished until this runs:
-   ```bash
-   node SKILL_ROOT/scripts/verify-artifact.mjs <outputPath> --backend <url> --token <token-file> --json
-   ```
-   Exit `0` pass · `1` fail · `2` unreadable · `3` partial. **Fix any exit-`1` failure and re-run before you return.** Put the resulting verdict in `selfCheck`; the orchestrator runs the same command independently, so a false claim here is caught immediately.
+7. **Verify your own output on disk before reporting** — you are not finished until you have re-read the file you claim to have written and confirmed it parses and contains the components you report. Put that result in `selfCheck`. The orchestrator verifies the artifact independently through the verifier package, so a false claim here is caught immediately: your report is a claim, the file on disk is the evidence.
 
 ## Two rules that come from real failures, not theory
 

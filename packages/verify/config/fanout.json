@@ -1,0 +1,56 @@
+{
+  "_comment": "D-058. Fan out across independent artifacts; never within one. All four conditions must hold: a disjoint write set declared HERE IN ADVANCE, no shared invariant, a named program that decides correctness without a model, and a bounded enumerable slice. g-fanout-partition (WP-10) asserts `git diff --name-only` after each merge is a subset of the union of that WP's globs and that the globs are pairwise disjoint. Max 4 concurrent subagents; no subagent commits, installs, or touches the git index.",
+  "maxConcurrentAgents": 4,
+  "sequentialOnly": [
+    "WP-0", "WP-1", "WP-4:schema", "WP-5:stages", "WP-5:decompiler",
+    "t2-registry.mjs", "walk.mjs", "coverage.mjs", "WP-7a", "WP-10"
+  ],
+  "slices": [
+    {
+      "wp": "WP-2",
+      "slice": "121 registry records",
+      "agents": 4,
+      "writeGlobs": [
+        "packages/registry/data/0.45.1/components/a-f/*.json",
+        "packages/registry/data/0.45.1/components/g-m/*.json",
+        "packages/registry/data/0.45.1/components/n-s/*.json",
+        "packages/registry/data/0.45.1/components/t-z/*.json"
+      ],
+      "acceptingProgram": "node packages/registry/src/validate.mjs --records <dir>"
+    },
+    {
+      "wp": "WP-5",
+      "slice": "31 debug.md rows to error-catalogue entries",
+      "agents": 3,
+      "writeGlobs": [
+        "packages/sfs/src/errors/entries/parse/*.json",
+        "packages/sfs/src/errors/entries/resolve/*.json",
+        "packages/sfs/src/errors/entries/stamp/*.json"
+      ],
+      "acceptingProgram": "node --test packages/sfs/test/errors.test.mjs"
+    },
+    {
+      "wp": "WP-5",
+      "slice": "round-trip failure triage (read-only)",
+      "agents": 3,
+      "writeGlobs": [
+        "packages/sfs/reports/triage/a.json",
+        "packages/sfs/reports/triage/b.json",
+        "packages/sfs/reports/triage/c.json"
+      ],
+      "acceptingProgram": "node --test packages/sfs/test/roundtrip.test.mjs"
+    },
+    {
+      "wp": "WP-3a",
+      "slice": "42 T1/T2/coverage/envelope fixtures",
+      "agents": 4,
+      "writeGlobs": [
+        "packages/sfs/test/fixtures/envelope/*",
+        "packages/sfs/test/fixtures/coverage/*",
+        "packages/sfs/test/fixtures/t1/*",
+        "packages/sfs/test/fixtures/t2/*"
+      ],
+      "acceptingProgram": "node --test packages/verify/test/fixtures.contract.test.mjs"
+    }
+  ]
+}

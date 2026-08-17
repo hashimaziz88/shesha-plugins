@@ -233,7 +233,7 @@ If validation surfaces a REAL issue, fix it before pushing. **Never push a confi
 
 Default: **UpdateMarkup** — `PUT $BASE_URL/api/services/Shesha/FormConfiguration/UpdateMarkup`, body `{ "id": "$FORM_ID", "markup": "<stringified form JSON>" }`. Build the body in Node to avoid escaping pain. See [api.md §5](references/api.md).
 
-**Scratch-script hygiene (avoids a recurring time-sink):** write build/push scripts and staged JSON into **`$RUN_DIR/staged/`** (the run directory — `.claude/shesha/runs/<slug>/`, created in `shesha-claude-designer` SKILL.md Step 0; when this skill runs standalone, create one the same way), NOT `/tmp` — git-bash `/tmp` maps to `%TEMP%` (e.g. `C:\Users\…\AppData\Local\Temp`), which is a *different* path than Windows `C:\tmp` and from PowerShell `$env:TEMP`, so a file written by `bash` is frequently "not found" by `node`/PowerShell. The same trap catches **native Windows Python**, which cannot open a git-bash `/c/...` path at all and reports a plain `FileNotFoundError` that looks exactly like a missing file — pass absolute Windows paths with forward slashes, or `cd` into the directory and use bare filenames. Pass values into Node via **env vars** (`VAR=x node script.js`), not positional argv that the shell may not forward. Prefer **one combined fetch→mutate→push script** over many small probe commands (each round-trip is cost).
+**Scratch-script hygiene (avoids a recurring time-sink):** write build/push scripts and staged JSON into **`$RUN_DIR/staged/`** (the run directory — `.claude/shesha/runs/<slug>/`, created in `shesha-claude-designer` SKILL.md Step 0; when this skill runs standalone, create one the same way), NOT `/tmp` — git-bash `/tmp` maps to `%TEMP%` (e.g. `C:\Users\…\AppData\Local\Temp`), which is a *different* path than Windows `C:\tmp` and from PowerShell `$env:TEMP`, so a file written by `bash` is frequently "not found" by `node`/PowerShell. The same trap catches **native Windows Python**, which cannot open a git-bash `/c/...` path at all and reports a plain `FileNotFoundError` that looks exactly like a missing file — pass absolute Windows paths with forward slashes, or `cd` into the directory and use bare filenames. Pass values into Node via **env vars** (`VAR=x` before the interpreter), not positional argv that the shell may not forward. Prefer **one combined fetch→mutate→push script** over many small probe commands (each round-trip is cost).
 
 Alternative: **ImportJson** — multipart upload (`ItemId` + `file`). See [api.md §6](references/api.md). Both write `Markup` on the form configuration.
 
@@ -294,7 +294,7 @@ Tell the user: form `$FORM_ID` updated. Authenticated forms render at `/dynamic/
 
 ## Cache (`.claude/cache/shesha-form-edit/`)
 
-Project-scoped learning state. **Skill reads `.summary.md` by default; opens raw `.raw.json` only when summary is insufficient.** Layout: `metadata/`, `seeds/`, `docs/`, `_archive/` — see `.claude/cache/shesha-form-edit/README.md`. Populate via `node .claude/skills/shesha-form-edit/scripts/summarize.js <input.json> [--out <out.summary.md>]`. TTLs: metadata 24h; seeds invalidate on `versionNo` change. `--refresh-cache` ignores TTL.
+Project-scoped learning state. **Skill reads `.summary.md` by default; opens raw `.raw.json` only when summary is insufficient.** Layout: `metadata/`, `seeds/`, `docs/`, `_archive/` — see `.claude/cache/shesha-form-edit/README.md`. Populate it by writing the distilled summary beside the raw response as you fetch each one. TTLs: metadata 24h; seeds invalidate on `versionNo` change. `--refresh-cache` ignores TTL.
 
 ## Non-negotiables
 
@@ -357,7 +357,7 @@ whole reason for the split.
 | >3 forms changed (Step 6) | `shesha-developer:form-auditor` fan-out | MUST before pushing |
 | Any bulk mutation | `shesha-developer:fleet-transformer` agent (exactly one) | MUST |
 | 2+ distinct new forms | `shesha-developer:form-author` per form | SHOULD (parallel) |
-| After ANY `form-author` dispatch, before trusting its verdict | `node scripts/verify-artifact.mjs <outputPath> --backend <url> --token $RUN_DIR/access-token` | MUST — the file on disk is the evidence, not the agent's report ([orchestration.md](references/orchestration.md)) |
+| After ANY `form-author` dispatch, before trusting its verdict | Read the artifact off disk and resolve every form it references | MUST — the file on disk is the evidence, not the agent's report ([orchestration.md](references/orchestration.md)) |
 | Form renders and placement is settled, before reporting done | `shesha-developer:design-critic` agent | SHOULD — apply its ranked fixes or report the verdict verbatim; never overrule it silently |
 | Any runtime error / failed smoke (Step 8.5/9) | Reproduce before theorising: capture the error verbatim, match it in [debug.md](references/debug.md), change one thing at a time | MUST before proposing fixes |
 | Before claiming done (Step 10) | Evidence first — re-fetch diff + smoke output ([verification.md](references/verification.md)) | MUST |

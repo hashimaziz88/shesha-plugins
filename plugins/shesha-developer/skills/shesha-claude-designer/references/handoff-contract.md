@@ -22,7 +22,7 @@ The conductor (`shesha-claude-designer`) coordinates three specialists. This is 
 **Designer → shesha-form-edit (Step 4a, per screen) — "Contract A"**
 - Parent provides: `$RUN_DIR`, the screen's **`blueprint.md` path**, the entity modelType (or "resolve from module"), the form identity (module + name), and the target backend context (if headless).
 - shesha-form-edit returns: form created/edited (module + name + id), the detected version-profile facts, the resolved modelType, pushed/published state, the staged markup path under `$RUN_DIR/staged/`, **and a structural-integrity confirmation** — plus enough to run the placement probe (it builds the form `shesha-design-comprehension` will re-measure).
-- **The conductor verifies the disk before accepting any of it:** `node <FORM_EDIT_SKILL_ROOT>/scripts/verify-artifact.mjs <staged-path> --backend <url> --token $RUN_DIR/access-token --json`. Exit `0` pass · `1` fail · `2` unreadable · `3` partial. Agents in this pipeline have twice reported a completed form that was absent or referenced forms that did not exist; a returned verdict is a claim, the file is the evidence.
+- **The conductor verifies the disk before accepting any of it:** read the staged path back and resolve every referenced form against the backend. Exit `0` pass · `1` fail · `2` unreadable · `3` partial. Agents in this pipeline have twice reported a completed form that was absent or referenced forms that did not exist; a returned verdict is a claim, the file is the evidence.
 
 **Designer → shesha-design-system (Step 3 theme + Step 4b style)**
 - Parent provides: `$RUN_DIR`, token set / theme name, the **path** to the built form under `$RUN_DIR/staged/`, version-profile facts, recipe list.

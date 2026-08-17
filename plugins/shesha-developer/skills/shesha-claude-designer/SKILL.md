@@ -68,7 +68,7 @@ Rules that make this worth doing:
 - **Artifact names carry their own identity.** A screenshot called `screenshot-3.png` caused a wasted design-critic round-trip when the wrong scroll position was handed over; `<screen>.<viewport>.<scroll>.png` cannot make that mistake. Same for probes and staged markup — the stage is in the filename.
 - **Handoffs pass paths, not blobs.** Return `staged/x.styled.form.json`, not its contents. Large JSON crossing an agent boundary is context spent on transport.
 - **`manifest.json` is the run's memory.** The plan, build order and per-screen status live there, so a run survives compaction and can be resumed instead of re-derived. Update it at each phase boundary.
-- **Absolute path, forward slashes.** On Windows write `C:/Users/.../.claude/shesha/runs/<slug>`, never a git-bash `/c/...` path: native Python and Node cannot open those, and the resulting `FileNotFoundError` looks exactly like a missing file. If a tool insists on relative paths, `cd` into `$RUN_DIR` first and use bare filenames.
+- **Absolute path, forward slashes.** On Windows write `<DRIVE>:/Users/.../.claude/shesha/runs/<slug>`, never a git-bash `/c/...` path: native Python and Node cannot open those, and the resulting `FileNotFoundError` looks exactly like a missing file. If a tool insists on relative paths, `cd` into `$RUN_DIR` first and use bare filenames.
 - Add `.claude/shesha/runs/` to the project's `.gitignore`.
 
 **This is not the cache.** `.claude/cache/shesha-form-edit/` is durable, cross-run and TTL'd (entity metadata, seeds, doc distillates); `$RUN_DIR` is one run and disposable. Keep them separate.
@@ -105,7 +105,7 @@ Per screen, in order:
 
   **This step is not optional, and it is emphatically not optional when there was no design source.** A form that only ever gets structure is default AntD, and that is exactly the reported failure: *"the dialogs are unstyled AntD defaults… the 'warm' aesthetic is really just one cream background colour and doesn't extend into typography, spacing, or button colour."* On the Tier D path the brand file **is** the design — if it isn't applied, nothing else in the run makes the screen look designed. Every screen gets the pass, dialogs included; a dialog is a screen.
 
-- **(c) Verify the artifact on disk before believing any of it** — `node <FORM_EDIT_SKILL_ROOT>/scripts/verify-artifact.mjs <staged-path> --backend <url> --token $RUN_DIR/access-token`. Exit `0` pass · `1` fail · `2` unreadable · `3` partial. Cross-form references are resolved here, which is what stops a screen going live pointing at a sibling that was never created.
+- **(c) Verify the artifact on disk before believing any of it** — read the staged file back and resolve every form it references against the backend. Exit `0` pass · `1` fail · `2` unreadable · `3` partial, and a partial is never a pass. Resolving cross-form references is what stops a screen going live pointing at a sibling that was never created.
 
 ### Step 5 — Verify (four gates, in order)
 - **5a — Structural integrity:** archetype built, native components only, layout fully flexed, fields bound. Failures route back to `shesha-form-edit`, not on to styling.

@@ -1,0 +1,14 @@
+{
+  "_comment": "Source-scanning patterns as DATA, not literals in gate source. A detector that carries its own patterns inline necessarily matches its own file: g-coverage-single-impl reported itself as a second definition of verdictOf, and g-workspace-hygiene reported itself as importing a .json. Holding the patterns here means no gate contains the text it looks for, so the scan needs no self-exemption — an exemption list is the tampering shape this repo removes.",
+  "singleImpl": {
+    "verdictOfDefinition": ["(?:export\\s+)?function\\s+verdictOf\\s*\\(", "(?:const|let|var)\\s+verdictOf\\s*="],
+    "counterPairFields": ["\\bwalked\\s*:\\s*0\\b", "\\bchecked\\s*:\\s*0\\b"],
+    "counterPairMutations": ["\\.walked\\s*(?:\\+\\+|\\+=|=)", "\\.checked\\s*(?:\\+\\+|\\+=|=)"],
+    "walkComponentsDefinition": ["(?:export\\s+)?function\\s+walkComponents\\s*\\(", "(?:const|let|var)\\s+walkComponents\\s*="],
+    "reExportLine": "^export\\s+\\*\\s+from\\s+'@shesha/registry/coverage';$"
+  },
+  "workspace": {
+    "jsonImport": "from\\s+['\"][^'\"]*\\.json['\"]",
+    "verifyImport": ["from\\s+['\"]@shesha/verify", "packages/verify/"]
+  }
+}

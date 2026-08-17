@@ -1,0 +1,28 @@
+{
+  "name": "@shesha/sfs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.mjs",
+      "default": "./src/index.mjs"
+    },
+    "./schema": "./schema/sfs.schema.json",
+    "./test/fixtures/*": "./test/fixtures/*"
+  },
+  "bin": {
+    "sfs": "./bin/sfs.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "dependencies": {
+    "@shesha/registry": "*",
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1"
+  }
+}

@@ -1,0 +1,308 @@
+{
+  "_comment": "g-prose-budget reads every literal from this file and carries none of its own. Caps ratchet DOWN only; raising one is g-no-gate-tampering (S7). Waivers are written by `g-prose-budget.mjs --baseline` from measured sizes, never by hand.",
+  "tierA": {
+    "paths": [
+      "plugins/shesha-developer/skills/shesha-claude-designer",
+      "plugins/shesha-developer/skills/shesha-design-comprehension",
+      "plugins/shesha-developer/skills/shesha-design-system"
+    ],
+    "expectedCount": 3,
+    "cap": {
+      "lines": 500,
+      "bytes": 8192
+    }
+  },
+  "tierB": {
+    "globs": [
+      "plugins/shesha-developer/skills/*",
+      "plugins/framework-dev/skills/*"
+    ],
+    "cap": {
+      "lines": 500,
+      "bytes": 24576
+    }
+  },
+  "files": {
+    "CLAUDE.md": {
+      "lines": 250,
+      "bytes": 12288
+    },
+    "DECISIONS.md": {
+      "lines": 400,
+      "bytes": 24576
+    },
+    "BACKLOG.md": {
+      "lines": 200,
+      "bytes": 8192
+    }
+  },
+  "skip": [
+    "plugins/shesha-developer-0-43/**",
+    "docs/**"
+  ],
+  "archaeologyPatterns": [
+    "used to",
+    "previously",
+    "no longer",
+    "has been (fixed|corrected|removed)",
+    "in an earlier version",
+    "as of v?\\d",
+    "do not (correct|fix) (this|the above)",
+    "TODO|FIXME|XXX"
+  ],
+  "bannedSkillFiles": [
+    "README.md",
+    "CHANGELOG.md",
+    "INSTALLATION_GUIDE.md"
+  ],
+  "allowedFrontmatterKeys": [
+    "name",
+    "description",
+    "allowed-tools",
+    "argument-hint"
+  ],
+  "waiverUntilByPathClass": [
+    {
+      "match": "plugins/shesha-developer/skills/shesha-form-edit",
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "match": "plugins/shesha-developer/skills/shesha-claude-designer",
+      "until": "BL-007",
+      "decision": "D-063"
+    },
+    {
+      "match": "plugins/shesha-developer/skills/shesha-design-comprehension",
+      "until": "BL-007",
+      "decision": "D-063"
+    },
+    {
+      "match": "plugins/shesha-developer/skills/shesha-design-system",
+      "until": "BL-007",
+      "decision": "D-063"
+    },
+    {
+      "match": "components-kb",
+      "until": "WP-2",
+      "decision": "D-063"
+    }
+  ],
+  "waiverUntilDefault": {
+    "until": "BL-012",
+    "decision": "D-063"
+  },
+  "waivers": [
+    {
+      "path": "plugins/shesha-developer/skills/add-public-portal/SKILL.md",
+      "frontmatterNameMismatch": true,
+      "until": "BL-012",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/clean-form-config/analysis.md",
+      "archaeology": 1,
+      "until": "BL-012",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/domain-model/reference/DomainModelling.md",
+      "archaeology": 2,
+      "until": "BL-012",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-claude-designer/references/design-ingestion.md",
+      "archaeology": 1,
+      "until": "BL-007",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-claude-designer/SKILL.md",
+      "bytes": 16468,
+      "archaeology": 1,
+      "until": "BL-007",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-design-comprehension/references/capture-pipeline.md",
+      "archaeology": 1,
+      "until": "BL-007",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-design-comprehension/SKILL.md",
+      "bytes": 9849,
+      "archaeology": 1,
+      "until": "BL-007",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-design-system/references/capability-matrix.md",
+      "archaeology": 3,
+      "until": "BL-007",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/components-kb/_enums.json",
+      "absolutePath": true,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/components-kb/_meta.json",
+      "absolutePath": true,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/api.md",
+      "archaeology": 3,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/archetypes.md",
+      "archaeology": 1,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/backend-restart.md",
+      "archaeology": 1,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/block-library.md",
+      "archaeology": 3,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/actions.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/add-dialogs.md",
+      "deepReferences": 2,
+      "archaeology": 1,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/by-datatype.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/child-tables.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/containers.md",
+      "deepReferences": 2,
+      "archaeology": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/data-tables.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/detail-page-pattern.md",
+      "deepReferences": 2,
+      "archaeology": 1,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/dropdowns.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/edit-mode.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/form-shape.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/inline-editable-tables.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/inputs.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/junction-subtables.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/layout.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/scripts.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/selectors.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/components/shared-state.md",
+      "deepReferences": 2,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/references/full-stack-prereqs.md",
+      "archaeology": 1,
+      "until": "WP-7a",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/SKILL.md",
+      "bytes": 46926,
+      "archaeology": 4,
+      "until": "WP-7a",
+      "decision": "D-063",
+      "absolutePath": true
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-sms-gateway/gateway-artifacts.md",
+      "archaeology": 1,
+      "until": "BL-012",
+      "decision": "D-063"
+    }
+  ]
+}

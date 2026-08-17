@@ -1,0 +1,30 @@
+{
+  "_comment": "The floor for g-commands-executable, plus its carried debt. The floor is measured by `--baseline` and ratchets UP, so the family cannot drain to zero and report pass over nothing. `waivers` carry documented commands that are dead for a reason this session did not create and cannot honestly fix by inventing skill content; each names the path, the command, the WP or BL id that removes it, and its authorising decision (D-063). A waiver whose `until` is recorded complete in BUILD-LOG.md while the command is still dead is a hard failure. `externalMcpServers` lists the third-party MCP servers this repo's skills depend on: their tool surfaces cannot be verified here, but the server name can, which is what catches a typo.",
+  "floor": 38,
+  "measuredAt": "WP-0",
+  "byForm": {
+    "node": 14,
+    "npm": 18,
+    "mcp": 6
+  },
+  "externalMcpServers": [
+    "playwright",
+    "markitdown"
+  ],
+  "waivers": [
+    {
+      "path": "plugins/shesha-developer/skills/clean-form-config/generate-index.md",
+      "command": "node .claude/shesha/generate-component-props.mjs",
+      "reason": "Pre-existing dead command: the script ships nowhere in this repo and predates the rebuild. Its replacement is the generated registry, which WP-2 produces; inventing a substitute path now would document a second command that does not run.",
+      "until": "BL-012",
+      "decision": "D-063"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/SKILL.md",
+      "command": "mcp__shesha__search_forms",
+      "reason": "References the MCP surface that BL-008 ships; packages/mcp exports an empty tool list until then. The whole skill is deleted at WP-7a, whichever lands first.",
+      "until": "BL-008",
+      "decision": "D-063"
+    }
+  ]
+}

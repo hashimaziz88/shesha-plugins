@@ -1,0 +1,29 @@
+{
+  "name": "shesha-plugins",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test \"packages/*/test/*.test.mjs\" \"quarantine/*.test.mjs\"",
+    "gates": "node packages/verify/src/run-gates.mjs",
+    "gates:mutate": "node --test packages/verify/test/mutation/mutation-meta.test.mjs",
+    "green:quick": "npm run typecheck && npm run gates",
+    "green:fast": "npm run typecheck && npm run test && npm run gates",
+    "green": "npm run green:fast && npm run gates:mutate",
+    "sfs": "node packages/sfs/bin/sfs.mjs",
+    "bless": "node packages/sfs/tools/bless.mjs",
+    "prove": "node packages/verify/src/prove.mjs",
+    "hooks:install": "git config core.hooksPath .githooks"
+  },
+  "devDependencies": {
+    "@types/node": "22.14.0",
+    "typescript": "5.9.2"
+  }
+}

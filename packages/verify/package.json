@@ -1,0 +1,28 @@
+{
+  "name": "@shesha/verify",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.mjs",
+      "default": "./src/index.mjs"
+    },
+    "./coverage": {
+      "types": "./src/coverage.mjs",
+      "default": "./src/coverage.mjs"
+    }
+  },
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "dependencies": {
+    "@shesha/registry": "*",
+    "@shesha/sfs": "*",
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1"
+  }
+}

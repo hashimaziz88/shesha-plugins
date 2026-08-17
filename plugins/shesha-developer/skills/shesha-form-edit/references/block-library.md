@@ -27,14 +27,11 @@ Three silent defects surfaced while baking, all pre-existing:
   says it applies to text components the *form* adds at compose time. Advisory targets like this
   stay overlay-only and cannot be baked.
 
-The overlays remain on disk as the record of what a block's styling *means*, and as the input to
-the transform. They are no longer needed at build time. Re-run the transform after editing one:
+The overlays remain on disk as the record of what a block's styling *means*. There is no separate
+baking step: `$role:` tokens resolve at compile time, per run and per brand, so a block and its
+styling are produced in one pass rather than two (D-010).
 
-```bash
-node scripts/bake-overlays.mjs assets/blocks ../shesha-design-system/assets/block-styles ../shesha-design-system/assets/themes/shesha.tokens.json --apply
-```
-
-It is idempotent, refuses to write unless every target resolves and node counts are unchanged,
+The compiler is idempotent, refuses to write unless every target resolves and node counts are unchanged,
 and fails loudly on an unresolvable `$role`. Literal hexes in blocks make `validate-blocks.js`
 emit colour WARNs — that is the recorded trade, not a defect to re-tokenise.
 

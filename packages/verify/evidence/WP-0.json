@@ -1,0 +1,59 @@
+{
+  "wp": "WP-0",
+  "gitSha": "8a2d2f432b3475fc48fec1db2baf57a8bc2a15b9",
+  "at": "2026-08-17T12:57:45.018Z",
+  "verdict": "pass",
+  "tests": 38,
+  "gates": 8,
+  "mutations": 29,
+  "mutationSeconds": 27.4,
+  "greenSeconds": null,
+  "perGateCoverage": {
+    "g-brief-budget": {
+      "walked": 12,
+      "checked": 12,
+      "uninspectable": 0
+    },
+    "g-commands-executable": {
+      "walked": 43,
+      "checked": 28,
+      "uninspectable": 0
+    },
+    "g-commit-format": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-coverage-single-impl": {
+      "walked": 106,
+      "checked": 106,
+      "uninspectable": 0
+    },
+    "g-decisions": {
+      "walked": 370,
+      "checked": 370,
+      "uninspectable": 0
+    },
+    "g-gate-contract": {
+      "walked": 83,
+      "checked": 83,
+      "uninspectable": 0
+    },
+    "g-prose-budget": {
+      "walked": 572,
+      "checked": 572,
+      "uninspectable": 0
+    },
+    "g-workspace-hygiene": {
+      "walked": 79,
+      "checked": 79,
+      "uninspectable": 0
+    }
+  },
+  "exitCodes": {
+    "typecheck": 0,
+    "test": 0,
+    "gates": 0,
+    "mutations": 0
+  }
+}

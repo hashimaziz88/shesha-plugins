@@ -1,0 +1,30 @@
+{
+  "name": "@shesha/registry",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.mjs",
+      "default": "./src/index.mjs"
+    },
+    "./coverage": {
+      "types": "./src/coverage.mjs",
+      "default": "./src/coverage.mjs"
+    },
+    "./decisions": {
+      "types": "./src/decisions.mjs",
+      "default": "./src/decisions.mjs"
+    },
+    "./gen-decisions": {
+      "types": "./src/gen-decisions.mjs",
+      "default": "./src/gen-decisions.mjs"
+    }
+  },
+  "scripts": {
+    "test": "node --test test/"
+  }
+}
