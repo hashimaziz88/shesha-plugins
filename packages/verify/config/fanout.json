@@ -2,10 +2,28 @@
   "_comment": "D-058. Fan out across independent artifacts; never within one. All four conditions must hold: a disjoint write set declared HERE IN ADVANCE, no shared invariant, a named program that decides correctness without a model, and a bounded enumerable slice. g-fanout-partition (WP-10) asserts `git diff --name-only` after each merge is a subset of the union of that WP's globs and that the globs are pairwise disjoint. Max 4 concurrent subagents; no subagent commits, installs, or touches the git index.",
   "maxConcurrentAgents": 4,
   "sequentialOnly": [
-    "WP-0", "WP-1", "WP-4:schema", "WP-5:stages", "WP-5:decompiler",
-    "t2-registry.mjs", "walk.mjs", "coverage.mjs", "WP-7a", "WP-10"
+    "WP-0",
+    "WP-4:schema",
+    "WP-5:stages",
+    "WP-5:decompiler",
+    "t2-registry.mjs",
+    "walk.mjs",
+    "coverage.mjs",
+    "WP-7a",
+    "WP-10",
+    "WP-1.a:compiler",
+    "WP-1.b"
   ],
   "slices": [
+    {
+      "wp": "WP-1.a",
+      "slice": "the Q2 oracle second arm, written without sight of the compiler (D-071)",
+      "agents": 1,
+      "writeGlobs": [
+        "packages/sfs/tools/normalise-legacy.mjs"
+      ],
+      "acceptingProgram": "node packages/verify/src/gates/g-oracle-independence.mjs"
+    },
     {
       "wp": "WP-2",
       "slice": "121 registry records",

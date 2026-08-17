@@ -56,20 +56,21 @@ Run in order. Record all results in the first `BUILD-LOG.md` entry. A failing ha
 
 ---
 
-## 3. Scope A — eight work packages
+## 3. Scope A — nine work packages
 
-Scope is **data**: `packages/verify/config/session-scope.json` lists exactly these eight ids and `prove.mjs` reads it. Narrowing requires a `DECISIONS.md` row beginning `Scope change:`. Everything else any section specifies is a `BACKLOG.md` row carrying its acceptance command verbatim. Nothing is "dropped later under budget pressure" — it is out of scope now, in writing.
+Scope is **data**: `packages/verify/config/session-scope.json` lists exactly these nine ids and `prove.mjs` reads it. Narrowing requires a `DECISIONS.md` row beginning `Scope change:`. Everything else any section specifies is a `BACKLOG.md` row carrying its acceptance command verbatim. Nothing is "dropped later under budget pressure" — it is out of scope now, in writing.
 
 | Order | WP | Goal | Detail | Acceptance command → expected |
 |---|---|---|---|---|
 | 1 | **WP-0** | Workspace, coverage primitives, eight gates, mutation harness, git hooks, brief commit, the deletions needing no new code | §1 all, §5.2 | `npm run green:fast && node packages/verify/src/gates/g-decisions.mjs` → exit 0, `D-040..D-058 present` |
-| 2 | **WP-1** | **GO/NO-GO.** Two independently written programs agree on the markup of a real form | §2.0–2.5, §5.2 | `node packages/verify/src/prove.mjs --only Q1,Q2` → exit 0, `BYTE-EQUAL` on both |
-| 3 | **WP-2** | `components-kb` → machine registry: names-only for all 121, value types for the 13 priority types, honest provenance | §2.8 | `node packages/registry/src/validate.mjs` → exit 0, `names-only 121/121 · priority full 13/13` |
-| 4 | **WP-4** | SFS JSON Schema v1 + the ten `clean/` fixtures | §2.1, §2.2 | `node packages/verify/src/tiers/t1-schema.mjs packages/sfs/test/fixtures/clean` → exit 0, `10/10 valid` |
-| 5 | **WP-5** | Compiler v1 (six stages, all node kinds, seven recipes, error catalogue) + decompiler over the six declared corpus forms | §2.3–2.7 | `npm run sfs -- roundtrip --scope roundtrip-scope.json` → exit 0, `rate >= 0.90 · untriaged 0` |
-| 6 | **WP-7a** | Delete `shesha-form-edit/**` and the 2.5 MB of seeds; ship one thin `shesha-spec` skill | §4.4.2, §5.2 | `node packages/verify/src/gates/g-disposition.mjs && node packages/verify/src/gates/g-prose-budget.mjs` → exit 0 |
-| 7 | **WP-3a** | Coverage full API + `walk.mjs`, T1 schema tier, T2 registry tier (22 checks) | §3.1, §3.2.2, §3.2.3 | `node packages/verify/src/verify.mjs .build/wp3a --screen inline-editable-table --tiers t1,t2` → exit 0 |
-| 8 | **WP-10** | The integration proof and the anti-drift checklist | §5.3, §5.9 | `npm run prove` → exit 0, last line `SESSION COMPLETE — SCOPE A` |
+| 2 | **WP-1.a** | **GO/NO-GO.** Two independently written programs agree on the markup of a real form. Split from WP-1 by D-070 | §2.0–2.5, §5.2 | `node packages/verify/src/prove.mjs --only Q1,Q2` → exit 0, `BYTE-EQUAL` on both |
+| 3 | **WP-1.b** | Q5 id determinism, the golden-defect classes, `cost-delta`, `g-artifact-naming`. Split from WP-1 by D-070 | §2.0–2.5, §5.2 | `node --test packages/sfs/tests/ && node packages/sfs/tools/cost-delta.mjs --json` → exit 0, `GATE PASS` |
+| 4 | **WP-2** | `components-kb` → machine registry: names-only for all 121, value types for the 13 priority types, honest provenance | §2.8 | `node packages/registry/src/validate.mjs` → exit 0, `names-only 121/121 · priority full 13/13` |
+| 5 | **WP-4** | SFS JSON Schema v1 + the ten `clean/` fixtures | §2.1, §2.2 | `node packages/verify/src/tiers/t1-schema.mjs packages/sfs/test/fixtures/clean` → exit 0, `10/10 valid` |
+| 6 | **WP-5** | Compiler v1 (six stages, all node kinds, seven recipes, error catalogue) + decompiler over the six declared corpus forms | §2.3–2.7 | `npm run sfs -- roundtrip --scope roundtrip-scope.json` → exit 0, `rate >= 0.90 · untriaged 0` |
+| 7 | **WP-7a** | Delete `shesha-form-edit/**` and the 2.5 MB of seeds; ship one thin `shesha-spec` skill | §4.4.2, §5.2 | `node packages/verify/src/gates/g-disposition.mjs && node packages/verify/src/gates/g-prose-budget.mjs` → exit 0 |
+| 8 | **WP-3a** | Coverage full API + `walk.mjs`, T1 schema tier, T2 registry tier (22 checks) | §3.1, §3.2.2, §3.2.3 | `node packages/verify/src/verify.mjs .build/wp3a --screen inline-editable-table --tiers t1,t2` → exit 0 |
+| 9 | **WP-10** | The integration proof and the anti-drift checklist | §5.3, §5.9 | `npm run prove` → exit 0, last line `SESSION COMPLETE — SCOPE A` |
 
 **Envelope: 1,200 steps / 3.0 M tokens.** Per-WP artifact and step allocations are in §5.2's table; they are derived from the `Creates` lists, not asserted.
 

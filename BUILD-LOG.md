@@ -24,8 +24,8 @@ is `shesha-io/shesha-plugins` and was never pushed to.
 
 ## WP-0 — Workspace, coverage primitives, eight gates — 2026-08-17
 
-Status: complete
-Commit: pending
+Status: partial-blocked
+Commit: 6299020 (pushed to origin/hashim/sfs-rebuild-scope-a)
 Created: the npm workspace and five packages, `packages/registry/src/coverage.mjs` (the one
 coverage implementation) with 23 tests, all eight gates with 29 verdict-flipping mutations, the
 mutation harness, `DECISIONS.md` (68 rows + the No-theatre block), `gen-decisions.mjs` and its
@@ -34,8 +34,10 @@ byte-compared `decisions.json`, 7 probe scripts, `CLAUDE.md`, the `sfs` entrypoi
 Gate: `npm run green:fast && node packages/verify/src/gates/g-decisions.mjs` -> exit 0
 Evidence: packages/verify/evidence/WP-0.json
 Decisions added: D-001..D-068
-Blocked: B11, B12, B13
-Next: WP-1
+Blocked: B11, B12, B13, **B14 — CONTROL.md gained O6 and O7 after this package was
+built and committed. Both supersede what shipped, so the `Status: complete` recorded
+at 6299020 is withdrawn to `partial-blocked` until the reconciliation lands.**
+Next: WP-0 reconciliation (O6 + O7), then WP-1.a
 
 What is proven by a program, with the command that proved it:
 

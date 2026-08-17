@@ -1,20 +1,108 @@
 {
   "_comment": "The work-package table. g-decisions resolves scheduled:<WP-id>:<enforcer> against this file and against BUILD-LOG.md completion (D-045). Section 3's WP-3a..WP-3d ids are kept verbatim (D-040 conflict 11).",
   "wps": [
-    { "id": "WP-0",  "order": 1, "inScope": true,  "goal": "Workspace, coverage primitives, eight gates, mutation harness, git hooks, brief commit" },
-    { "id": "WP-1",  "order": 2, "inScope": true,  "goal": "GO/NO-GO: two independently written programs agree on the markup of a real form" },
-    { "id": "WP-2",  "order": 3, "inScope": true,  "goal": "components-kb to machine registry with honest provenance" },
-    { "id": "WP-4",  "order": 4, "inScope": true,  "goal": "SFS JSON Schema v1 and the ten clean fixtures" },
-    { "id": "WP-5",  "order": 5, "inScope": true,  "goal": "Compiler v1 and the bounded decompiler" },
-    { "id": "WP-7a", "order": 6, "inScope": true,  "goal": "The great deletion and one thin shesha-spec skill" },
-    { "id": "WP-3a", "order": 7, "inScope": true,  "goal": "Coverage full API, walk.mjs, T1 schema tier, T2 registry tier" },
-    { "id": "WP-10", "order": 8, "inScope": true,  "goal": "The integration proof and the anti-drift checklist" },
-    { "id": "WP-3b", "order": null, "inScope": false, "goal": "T3 semantic tier and placement predicates", "backlog": "BL-003" },
-    { "id": "WP-3c", "order": null, "inScope": false, "goal": "T4 live smoke and DOM residue", "backlog": "BL-005" },
-    { "id": "WP-3d", "order": null, "inScope": false, "goal": "T5 advisory visual", "backlog": "BL-005" },
-    { "id": "WP-6",  "order": null, "inScope": false, "goal": "Seed corpus decompilation beyond the six scoped forms", "backlog": "BL-002" },
-    { "id": "WP-7",  "order": null, "inScope": false, "goal": "Rewrite the three design skills thin", "backlog": "BL-007" },
-    { "id": "WP-8",  "order": null, "inScope": false, "goal": "Hooks, MCP wiring and the three agent roles", "backlog": "BL-008" },
-    { "id": "WP-9",  "order": null, "inScope": false, "goal": "Precedent retrieval, shape-indexed", "backlog": "BL-009" }
+    {
+      "id": "WP-0",
+      "order": 1,
+      "inScope": true,
+      "goal": "Workspace, coverage primitives, eight gates, mutation harness, git hooks, brief commit"
+    },
+    {
+      "id": "WP-1.a",
+      "order": 2,
+      "inScope": true,
+      "goal": "GO/NO-GO: two independently written programs agree on the markup of a real form"
+    },
+    {
+      "id": "WP-1.b",
+      "order": 3,
+      "inScope": true,
+      "goal": "Q5 id determinism, golden-defect classes, cost-delta, g-artifact-naming"
+    },
+    {
+      "id": "WP-2",
+      "order": 4,
+      "inScope": true,
+      "goal": "components-kb to machine registry with honest provenance"
+    },
+    {
+      "id": "WP-4",
+      "order": 5,
+      "inScope": true,
+      "goal": "SFS JSON Schema v1 and the ten clean fixtures"
+    },
+    {
+      "id": "WP-5",
+      "order": 6,
+      "inScope": true,
+      "goal": "Compiler v1 and the bounded decompiler"
+    },
+    {
+      "id": "WP-7a",
+      "order": 7,
+      "inScope": true,
+      "goal": "The great deletion and one thin shesha-spec skill"
+    },
+    {
+      "id": "WP-3a",
+      "order": 8,
+      "inScope": true,
+      "goal": "Coverage full API, walk.mjs, T1 schema tier, T2 registry tier"
+    },
+    {
+      "id": "WP-10",
+      "order": 9,
+      "inScope": true,
+      "goal": "The integration proof and the anti-drift checklist"
+    },
+    {
+      "id": "WP-3b",
+      "order": null,
+      "inScope": false,
+      "goal": "T3 semantic tier and placement predicates",
+      "backlog": "BL-003"
+    },
+    {
+      "id": "WP-3c",
+      "order": null,
+      "inScope": false,
+      "goal": "T4 live smoke and DOM residue",
+      "backlog": "BL-005"
+    },
+    {
+      "id": "WP-3d",
+      "order": null,
+      "inScope": false,
+      "goal": "T5 advisory visual",
+      "backlog": "BL-005"
+    },
+    {
+      "id": "WP-6",
+      "order": null,
+      "inScope": false,
+      "goal": "Seed corpus decompilation beyond the six scoped forms",
+      "backlog": "BL-002"
+    },
+    {
+      "id": "WP-7",
+      "order": null,
+      "inScope": false,
+      "goal": "Rewrite the three design skills thin",
+      "backlog": "BL-007"
+    },
+    {
+      "id": "WP-8",
+      "order": null,
+      "inScope": false,
+      "goal": "Hooks, MCP wiring and the three agent roles",
+      "backlog": "BL-008"
+    },
+    {
+      "id": "WP-9",
+      "order": null,
+      "inScope": false,
+      "goal": "Precedent retrieval, shape-indexed",
+      "backlog": "BL-009"
+    }
   ]
 }
