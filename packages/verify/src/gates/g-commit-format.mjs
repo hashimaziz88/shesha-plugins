@@ -91,6 +91,16 @@ export async function run(ctx) {
     return fams.list;
   }
 
+  // The gate reads through readText, which strips a BOM — but git stores the bytes
+// it was given, so a BOM-prefixed message commits a subject beginning with an
+  // invisible U+FEFF that no `[type]-` parser will match. Windows tooling writes
+  // these constantly (PowerShell's `Set-Content -Encoding utf8` does), so the raw
+  // bytes are checked here rather than the normalised text.
+  const rawBytes = fs.readFileSync(messageFile);
+  subjFam.pointer('message#encoding').assert(
+    !(rawBytes[0] === 0xEF && rawBytes[1] === 0xBB && rawBytes[2] === 0xBF),
+    'the message file begins with a UTF-8 BOM, which git stores verbatim; the committed subject would start with an invisible U+FEFF');
+
   const { subject, keys } = parseMessage(message);
 
   // ---- subject: [type]- WP-NN <summary> ------------------------------------
@@ -182,6 +192,17 @@ export const mutations = [
     /** @param {string} tmp */
     apply: async (tmp) => {
       fs.writeFileSync(path.join(tmp, '.commit-msg-under-test'), '[chore]- WP-0 establish the workspace\n\nWhy: x\n');
+    },
+    expect: 'fail',
+  },
+  {
+    name: 'the message file carries a UTF-8 BOM',
+    kind: 'file',
+    /** @param {string} tmp */
+    apply: async (tmp) => {
+      fs.writeFileSync(path.join(tmp, '.commit-msg-under-test'),
+        `﻿[chore]- WP-0 establish the workspace\n\nWhy: x\nEvidence: packages/verify/evidence/WP-0.json\nDecisions: none\nDeletes: none\nPlugin: unchanged\n`,
+        'utf8');
     },
     expect: 'fail',
   },

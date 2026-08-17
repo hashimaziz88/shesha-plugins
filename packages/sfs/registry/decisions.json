@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 68,
+  "count": 69,
   "decisions": [
     {
       "id": "D-001",
@@ -818,6 +818,18 @@
       "consequence": "Skill-script purity is adjudicated once, at WP-7a",
       "enforcedBy": [
         "scheduled:WP-7a:g-skill-purity"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-069",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "`.githooks/pre-commit` runs the full `npm run green`, not `green:fast`; `green:fast` remains the fast local signal",
+      "why": "the hook is where `evidence/<WP>.json` is produced, and evidence without mutation numbers is a self-report about the one property that makes a gate falsifiable; one commit per work package means this runs once per package",
+      "consequence": "Pre-commit costs ~45 s once per WP instead of ~12 s per attempt",
+      "enforcedBy": [
+        "hook:.githooks/pre-commit"
       ],
       "confirmation": "n/a"
     }

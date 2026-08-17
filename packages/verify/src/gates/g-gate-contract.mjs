@@ -35,6 +35,7 @@ export const inputPaths = [
   'tsconfig.json',
   'package-lock.json',
   'docs/rebuild-brief/CONTROL.md',
+  '.githooks',
 ];
 
 /** The verdicts a mutation may legally expect. A mutation expecting pass is a contract violation. */

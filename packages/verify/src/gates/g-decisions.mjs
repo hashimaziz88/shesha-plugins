@@ -39,6 +39,7 @@ export const inputPaths = [
   'packages/verify/src/lib/fsx.mjs',
   'docs/rebuild-brief/CONTROL.md',
   'packages/verify/config/session-scope.json',
+  '.githooks',
 ];
 
 /** The `## No theatre` block is fifteen lines and at most 1536 bytes. */
