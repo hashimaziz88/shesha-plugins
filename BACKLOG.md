@@ -18,6 +18,7 @@ A row whose `Blocks` is not `No` means the item is either in scope or the sessio
 | BL-010 | Re-enable `noUncheckedIndexedAccess` across the tree-walking modules | D-024 | WP-0 | No | `npm run typecheck` -> exit 0 with `noUncheckedIndexedAccess: true` in tsconfig.json |
 | BL-011 | Split the brief bundle to <= 61440 B total: every >8-row table to `docs/rebuild-brief/data/*.json`, every literal file to `artifacts/`, 0 fenced blocks > 40 lines | §5.2 D-046 | WP-0 | No | `node packages/verify/src/gates/g-brief-budget.mjs` -> exit 0 with `bundle.enforced: true` and total <= 61440 |
 | BL-012 | Clear the carried prose debt in the nine non-design skills: archaeology matches, and the `add-public-portal` folder/frontmatter-name mismatch | §1.1 | WP-0 | No | `node packages/verify/src/gates/g-prose-budget.mjs` -> exit 0 with 0 waivers whose `until` is BL-012 |
+| BL-013 | `DECISIONS.md` is at 24512 of its 24,576 B cap. Implement `gen-decisions.mjs --archive`, which moves `superseded-by-D-0NN` rows to `docs/decisions-archive.md` so the registry stays under budget as rows accrue | §1.4 | WP-1.a | No | `node packages/registry/src/gen-decisions.mjs --archive && node packages/verify/src/gates/g-decisions.mjs` -> exit 0 with DECISIONS.md under 24576 B |
 | GAP-nnn | Compiler gaps discovered in WP-5 triage | §2.5 | WP-5 | No | Each carries a `test.todo` fixture under `packages/sfs/test/fixtures/gaps/` naming its id |
 | PROM-nnn | SFS promotions discovered in WP-5 triage | §2.5 | WP-5 | No | Each carries prop names and the count of forms needing it |
 

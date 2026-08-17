@@ -1,12 +1,12 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 73,
+  "count": 74,
   "decisions": [
     {
       "id": "D-001",
       "date": "2026-08-17",
       "status": "decided",
-      "decision": "Adopt the compiler-first re-architecture on the PR #39 base; reject prose iteration and a clean-sheet rebuild",
+      "decision": "Adopt the compiler-first re-architecture on the PR #39 base; reject prose iteration and clean-sheet",
       "why": "§3",
       "consequence": "Assets are moved, not re-earned",
       "enforcedBy": [
@@ -42,7 +42,7 @@
       "id": "D-004",
       "date": "2026-08-17",
       "status": "decided",
-      "decision": "The registry is generated from a pinned `shesha-framework` `releases/0.45` commit SHA; the framework is never modified",
+      "decision": "The registry is generated from a pinned `shesha-framework` `releases/0.45` SHA; the framework is never modified",
       "why": "§4 L0",
       "consequence": "Registry data is reproducible",
       "enforcedBy": [
@@ -54,7 +54,7 @@
       "id": "D-005",
       "date": "2026-08-17",
       "status": "decided",
-      "decision": "Coverage accounting exists once, in `packages/registry/src/coverage.mjs`; family sets are module constants; `walkComponents` lives once in `packages/verify/src/walk.mjs`",
+      "decision": "Coverage accounting exists once in `packages/registry/src/coverage.mjs`; family sets are module constants; `walkComponents` lives once in `packages/verify/src/walk.mjs`",
       "why": "§1.4 five walkers, three unwrappers",
       "consequence": "Two implementations cannot disagree",
       "enforcedBy": [
@@ -90,7 +90,7 @@
       "id": "D-008",
       "date": "2026-08-17",
       "status": "decided",
-      "decision": "A missing backend degrades to `uninspectable` + exit 3, never pass; exits are 0 pass / 1 fail / 2 usage / 3 partial; the verdict union is exactly `{pass,fail,partial,notRun}` with no `warn`",
+      "decision": "A missing backend degrades to `uninspectable` + exit 3, never pass; exits are 0/1/2/3; the verdict union is exactly `{pass,fail,partial,notRun}`, no `warn`",
       "why": "§1.4",
       "consequence": "backend-absent is never a pass",
       "enforcedBy": [
@@ -318,7 +318,7 @@
       "id": "D-027",
       "date": "2026-08-17",
       "status": "decided",
-      "decision": "`test.todo(` is legal only in files under `packages/sfs/test/fixtures/gaps/` or matching `*.gap.test.mjs` whose todo name starts with a `GAP-0NN` id present in BACKLOG.md",
+      "decision": "`test.todo(` is legal only under `packages/sfs/test/fixtures/gaps/` or in `*.gap.test.mjs`, with a `GAP-0NN` id present in BACKLOG.md",
       "why": "§5.5 B4 needs a visible failing fixture per compiler gap",
       "consequence": "Compiler gaps stay visible",
       "enforcedBy": [
@@ -330,7 +330,7 @@
       "id": "D-028",
       "date": "2026-08-17",
       "status": "decided",
-      "decision": "Fifteen banned behaviours are recorded as one line each in the `## No theatre` block; all evidence prose lives in `docs/rebuild-brief/evidence.md`",
+      "decision": "Fifteen banned behaviours are one line each in `## No theatre`; evidence prose lives in `docs/rebuild-brief/evidence.md`",
       "why": "prose whose only function is to explain a fixed defect is T10",
       "consequence": "The enforcer is the enforcement",
       "enforcedBy": [
@@ -878,6 +878,18 @@
       "consequence": "8 distinct owners against a cap of 20",
       "enforcedBy": [
         "g-decisions"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-074",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "The name-independent oracle comparison is `packages/sfs/src/lib/normalForm.mjs`, and Q2 compares `normalForm(compile(decompile(m)))` against `normalForm(normaliseLegacy(m))` over the same envelope `m`; `tools/pnf.mjs` and the hand-written-fixture form of Q2 are the losing spellings",
+      "why": "§2.4.5 voids the unsound form: ids derive from author-chosen names, so a hand-written fixture and a decompiled legacy form cannot agree. Both arms must start from one source",
+      "consequence": "Q2 is falsifiable, not unachievable; `normalForm` also drops `componentName` per §2.5 step 7",
+      "enforcedBy": [
+        "pending:WP-1.a"
       ],
       "confirmation": "n/a"
     }

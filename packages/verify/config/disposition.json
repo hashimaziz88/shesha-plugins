@@ -101,6 +101,13 @@
       "reason": "Converted into the seven recipes, then _legacy is deleted in the same WP. Must move before WP-7a"
     },
     {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/inline-editable-table.json",
+      "action": "move",
+      "to": "packages/sfs/test/fixtures/legacy/inline-editable-table.seed.json",
+      "wp": "WP-1.a",
+      "reason": "WP-1.a's target form. It leaves assets/examples ahead of that folder's WP-7a deletion because the GO/NO-GO proof compiles against it; the bulk row below still covers the remaining seeds."
+    },
+    {
       "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples",
       "action": "delete",
       "wp": "WP-7a",
