@@ -2,8 +2,8 @@
 //
 // This is invariant 2 made executable. A rule expressed only in markdown is
 // deleted, not annotated; a rule whose enforcer does not exist yet is registered
-// as `scheduled:<WP>:<id>` and forced to become real in the work package that
-// creates its subject. A `scheduled:` row surviving its WP's completion is a hard
+// as `pending:<WP-id>` (O6) and forced to become real in the work package that
+// creates its subject. A `pending:` row surviving its WP's completion is a hard
 // failure, which is the ratchet: the alternative is a registry full of rules that
 // were going to be enforced later.
 
@@ -24,7 +24,7 @@ export const id = 'g-decisions';
 export const describe = 'eight cells, contiguous ids, legal statuses, every enforcer resolves, no-theatre block, generated json identical';
 export const inputPaths = [
   'DECISIONS.md',
-  'packages/verify/config/scheduled-enforcers.json',
+  'packages/verify/config/pending-budget.json',
   'packages/verify/config/wp-table.json',
   'BACKLOG.md',
   // Every path an Enforced by entry can resolve against has to be in the staged
@@ -51,9 +51,9 @@ const RECONCILIATION_FIRST = 40;
 const RECONCILIATION_LAST = 58;
 
 /**
- * Resolve one `Enforced by` entry against the four legal forms (D-045).
+ * Resolve one `Enforced by` entry against the five legal forms (O6, D-045).
  * @param {string} entry
- * @param {{root:string, gateIds:Set<string>, scheduled:Map<string,Set<string>>, done:Set<string>, knownIds:Set<string>}} ctx
+ * @param {{root:string, gateIds:Set<string>, pendingOwners:Set<string>, done:Set<string>, knownIds:Set<string>}} ctx
  * @returns {{ok:true, form:string} | {ok:false, form:string, reason:string}}
  */
 export function resolveEnforcer(entry, ctx) {
@@ -83,7 +83,7 @@ export function resolveEnforcer(entry, ctx) {
     const [, tier, checkId] = check;
     const tierPath = path.join(ctx.root, 'packages/verify/src/tiers', `${tier}.mjs`);
     if (!fs.existsSync(tierPath)) {
-      return { ok: false, form: 'check', reason: `check: tier module "${tier}" does not exist; use scheduled: until it does` };
+      return { ok: false, form: 'check', reason: `check: tier module "${tier}" does not exist; use pending:<WP-id> until it does` };
     }
     const text = readText(tierPath) || '';
     return text.includes(checkId)
@@ -91,28 +91,27 @@ export function resolveEnforcer(entry, ctx) {
       : { ok: false, form: 'check', reason: `check: "${checkId}" is not in ${tier}'s exported checks[]` };
   }
 
-  // Form 4: scheduled:<WP-or-BL-id>:<enforcer-id>, legal only while its WP is open.
-  const scheduled = /^scheduled:([A-Za-z0-9.-]+):([a-z0-9-]+)$/.exec(entry);
-  if (scheduled) {
-    const [, owner, enforcer] = scheduled;
+  // Form 5 (O6): pending:<WP-id>, legal only while that WP has no complete block.
+  const pending = /^pending:([A-Za-z0-9.-]+)$/.exec(entry);
+  if (pending) {
+    const owner = pending[1];
     if (!ctx.knownIds.has(owner)) {
-      return { ok: false, form: 'scheduled', reason: `scheduled: "${owner}" is neither a WP in wp-table.json nor a row in BACKLOG.md` };
+      return { ok: false, form: 'pending', reason: `pending: "${owner}" is neither a WP in wp-table.json nor a row in BACKLOG.md` };
     }
-    const declared = ctx.scheduled.get(owner);
-    if (!declared || !declared.has(enforcer)) {
-      return { ok: false, form: 'scheduled', reason: `scheduled: no row in scheduled-enforcers.json for ${owner}:${enforcer}` };
+    if (!ctx.pendingOwners.has(owner)) {
+      return { ok: false, form: 'pending', reason: `pending: no owner row in pending-budget.json for ${owner}` };
     }
     if (ctx.done.has(owner)) {
       return {
         ok: false,
-        form: 'scheduled',
-        reason: `scheduled: ${owner} is recorded complete in BUILD-LOG.md, so "${enforcer}" must now be a real enforcer — rewrite this row`,
+        form: 'pending',
+        reason: `pending: ${owner} is recorded complete in BUILD-LOG.md, so this row must now name a real enforcer — rewrite it`,
       };
     }
-    return { ok: true, form: 'scheduled' };
+    return { ok: true, form: 'pending' };
   }
 
-  return { ok: false, form: 'unknown', reason: `"${entry}" matches none of the four legal Enforced by forms (D-045)` };
+  return { ok: false, form: 'unknown', reason: `"${entry}" matches none of the five legal Enforced by forms (O6)` };
 }
 
 /**
@@ -130,7 +129,7 @@ export async function run(ctx) {
     { name: 'no-theatre', unit: 'line' },
     { name: 'generated-json', unit: 'file' },
     { name: 'file-shape', unit: 'assertion' },
-    { name: 'scheduled-budget', unit: 'assertion' },
+    { name: 'pending-budget', unit: 'assertion' },
   ]);
 
   const shapeFam = fams.get('file-shape');
@@ -214,22 +213,19 @@ export async function run(ctx) {
     }
   }
 
-  const schedGot = readJsonGuarded(path.join(root, 'packages/verify/config/scheduled-enforcers.json'),
-    fams.get('scheduled-budget'), 'scheduled-enforcers.json');
-  /** @type {Map<string, Set<string>>} */
-  const scheduledMap = new Map();
-  let scheduledMax = Number.POSITIVE_INFINITY;
-  if (schedGot.ok) {
-    const cfg = /** @type {{max:number, rows:{wp:string, enforcer:string}[]}} */ (schedGot.value);
-    scheduledMax = cfg.max;
-    for (const row of cfg.rows || []) {
-      if (!scheduledMap.has(row.wp)) scheduledMap.set(row.wp, new Set());
-      scheduledMap.get(row.wp)?.add(row.enforcer);
-    }
+  const pendGot = readJsonGuarded(path.join(root, 'packages/verify/config/pending-budget.json'),
+    fams.get('pending-budget'), 'pending-budget.json');
+  /** @type {Set<string>} */
+  const pendingOwners = new Set();
+  let pendingMax = Number.POSITIVE_INFINITY;
+  if (pendGot.ok) {
+    const cfg = /** @type {{max:number, owners:{wp:string, enforcers:string[]}[]}} */ (pendGot.value);
+    pendingMax = cfg.max;
+    for (const row of cfg.owners || []) pendingOwners.add(row.wp);
   }
 
   const wpGot = readJsonGuarded(path.join(root, 'packages/verify/config/wp-table.json'),
-    fams.get('scheduled-budget'), 'wp-table.json');
+    fams.get('pending-budget'), 'wp-table.json');
   /** @type {Set<string>} */
   const knownIds = new Set(backlogIds(root));
   if (wpGot.ok) {
@@ -238,18 +234,22 @@ export async function run(ctx) {
   }
 
   const done = completedWps(root);
-  const resolverCtx = { root, gateIds, scheduled: scheduledMap, done, knownIds };
-  let scheduledCount = 0;
+  const resolverCtx = { root, gateIds, pendingOwners, done, knownIds };
+  /** @type {Set<string>} */
+  const pendingSeen = new Set();
   for (const { id: rowId, entry } of enforcerEntries(parsed.rows)) {
     const p = enfFam.pointer(`${rowId}: ${entry}`);
     const got = resolveEnforcer(entry, resolverCtx);
-    if (got.form === 'scheduled') scheduledCount++;
+    if (got.form === 'pending') pendingSeen.add(entry.slice('pending:'.length));
     p.assert(got.ok, got.ok ? '' : `${rowId} — ${got.reason}`);
   }
 
-  const budget = fams.get('scheduled-budget');
-  budget.pointer('scheduled#budget').assert(scheduledCount <= scheduledMax,
-    `${scheduledCount} scheduled: entries against a budget of ${scheduledMax}; the budget ratchets down only`);
+  // D-073: the budget counts DISTINCT OWNER IDS, not rows. A row count can never
+  // reach 20 while the deferred work genuinely exists, so counting rows would make
+  // the cap unreachable and the only release valve would be widening it.
+  const budget = fams.get('pending-budget');
+  budget.pointer('pending#budget').assert(pendingSeen.size <= pendingMax,
+    `${pendingSeen.size} distinct pending owner(s) against a budget of ${pendingMax}; the budget ratchets down only`);
 
   // ---- confirmations -------------------------------------------------------
   const confFam = fams.get('confirmations');
@@ -395,9 +395,9 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     const rows = parseDecisions(readText(path.join(root, 'DECISIONS.md')) || '').rows;
     const entries = enforcerEntries(rows);
     const unresolved = enfFam ? enfFam.failures.length : entries.length;
-    const scheduled = entries.filter((e) => e.entry.startsWith('scheduled:')).length;
+    const pendingOwnerIds = new Set(entries.filter((e) => e.entry.startsWith('pending:')).map((e) => e.entry.slice(8)));
     void rowsFam;
-    console.log(`\nrows=${rows.length} enforcers=${entries.length - unresolved}/${entries.length} resolved · scheduled=${scheduled} · unresolved=${unresolved}`);
+    console.log(`\nrows=${rows.length} enforcers=${entries.length - unresolved}/${entries.length} resolved · pending owners=${pendingOwnerIds.size} · unresolved=${unresolved}`);
 
     const ids = new Set(rows.map((r) => r.id));
     let reconciliationComplete = true;

@@ -1,12 +1,12 @@
 {
   "wp": "WP-1.a",
-  "gitSha": "6299020dfade97c2693ef1cd5e8a2be57004a209",
-  "at": "2026-08-17T13:20:25.878Z",
+  "gitSha": "f53d51aff704094039442c50abbf70ddea2c0b6d",
+  "at": "2026-08-17T13:35:40.516Z",
   "verdict": "pass",
   "tests": 38,
-  "gates": 8,
-  "mutations": 30,
-  "mutationSeconds": 27.6,
+  "gates": 11,
+  "mutations": 39,
+  "mutationSeconds": 30.5,
   "greenSeconds": null,
   "perGateCoverage": {
     "g-brief-budget": {
@@ -25,18 +25,33 @@
       "uninspectable": 0
     },
     "g-coverage-single-impl": {
-      "walked": 106,
-      "checked": 106,
+      "walked": 115,
+      "checked": 115,
       "uninspectable": 0
     },
     "g-decisions": {
-      "walked": 390,
-      "checked": 390,
+      "walked": 395,
+      "checked": 395,
+      "uninspectable": 0
+    },
+    "g-disposition": {
+      "walked": 44,
+      "checked": 38,
       "uninspectable": 0
     },
     "g-gate-contract": {
-      "walked": 85,
-      "checked": 85,
+      "walked": 107,
+      "checked": 107,
+      "uninspectable": 0
+    },
+    "g-githook-contract": {
+      "walked": 7,
+      "checked": 7,
+      "uninspectable": 0
+    },
+    "g-no-secrets-or-scratch": {
+      "walked": 8,
+      "checked": 8,
       "uninspectable": 0
     },
     "g-prose-budget": {
@@ -45,8 +60,8 @@
       "uninspectable": 0
     },
     "g-workspace-hygiene": {
-      "walked": 79,
-      "checked": 79,
+      "walked": 82,
+      "checked": 82,
       "uninspectable": 0
     }
   },

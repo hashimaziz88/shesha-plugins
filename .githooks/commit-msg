@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# commit-msg is the ONLY hook git passes the message file to, which is why the
-# format gate lives here rather than in pre-commit. At pre-commit time
-# .git/COMMIT_EDITMSG still holds the PREVIOUS message, so a gate reading it there
-# would validate the wrong text and pass.
+# commit-msg is the ONLY hook git passes the message file to, which is why the format
+# gate lives here rather than in pre-commit. At pre-commit time git's stored message
+# file still holds the PREVIOUS message, so a gate reading it there would validate the
+# wrong text and pass. That is why this hook forwards $1 and the gate refuses to guess.
 set -euo pipefail
 
 node packages/verify/src/gates/g-commit-format.mjs --message-file "$1"

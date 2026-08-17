@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 72,
+  "count": 73,
   "decisions": [
     {
       "id": "D-001",
@@ -10,7 +10,7 @@
       "why": "§3",
       "consequence": "Assets are moved, not re-earned",
       "enforcedBy": [
-        "scheduled:WP-7a:g-disposition"
+        "pending:WP-7a"
       ],
       "confirmation": "n/a"
     },
@@ -34,7 +34,7 @@
       "why": "§4 L4",
       "consequence": "No hand-edited form JSON",
       "enforcedBy": [
-        "scheduled:BL-008:block-form-writes"
+        "pending:BL-008"
       ],
       "confirmation": "n/a"
     },
@@ -46,7 +46,7 @@
       "why": "§4 L0",
       "consequence": "Registry data is reproducible",
       "enforcedBy": [
-        "scheduled:WP-2:g-registry-provenance"
+        "pending:WP-2"
       ],
       "confirmation": "n/a"
     },
@@ -94,7 +94,7 @@
       "why": "§1.4",
       "consequence": "backend-absent is never a pass",
       "enforcedBy": [
-        "scheduled:WP-3a:g-exit-codes"
+        "pending:WP-3a"
       ],
       "confirmation": "n/a"
     },
@@ -118,7 +118,7 @@
       "why": "§1.2",
       "consequence": "No separate styling pass to forget",
       "enforcedBy": [
-        "scheduled:WP-5:g-markup-provenance"
+        "pending:WP-5"
       ],
       "confirmation": "n/a"
     },
@@ -130,7 +130,7 @@
       "why": "§1.4",
       "consequence": "No fuzzy matcher with a downgrade",
       "enforcedBy": [
-        "scheduled:WP-7a:g-disposition"
+        "pending:WP-7a"
       ],
       "confirmation": "n/a"
     },
@@ -154,7 +154,7 @@
       "why": "§5",
       "consequence": "Seeds cannot vanish unconverted",
       "enforcedBy": [
-        "scheduled:WP-5:g-escape-budget"
+        "pending:WP-5"
       ],
       "confirmation": "n/a"
     },
@@ -166,7 +166,7 @@
       "why": "§4 L3",
       "consequence": "The DOM probe covers residue only",
       "enforcedBy": [
-        "scheduled:BL-003:t3-semantic"
+        "pending:BL-003"
       ],
       "confirmation": "n/a"
     },
@@ -178,7 +178,7 @@
       "why": "§4 L3",
       "consequence": "No T5 finding downgrades a result",
       "enforcedBy": [
-        "scheduled:BL-005:t4-live"
+        "pending:BL-005"
       ],
       "confirmation": "n/a"
     },
@@ -190,7 +190,7 @@
       "why": "§4 L3",
       "consequence": "The Evaluator cannot read run logs",
       "enforcedBy": [
-        "scheduled:BL-008:evaluator-lock"
+        "pending:BL-008"
       ],
       "confirmation": "n/a"
     },
@@ -202,7 +202,7 @@
       "why": "§4 L4",
       "consequence": "Fan-out is a declared glob partition",
       "enforcedBy": [
-        "scheduled:BL-008:g-fanout-screens"
+        "pending:BL-008"
       ],
       "confirmation": "n/a"
     },
@@ -214,7 +214,7 @@
       "why": "§1.2#5",
       "consequence": "One pass produces styled output",
       "enforcedBy": [
-        "scheduled:WP-7a:g-skill-purity"
+        "pending:WP-7a"
       ],
       "confirmation": "n/a"
     },
@@ -226,7 +226,7 @@
       "why": "§1.2#13 48 hexes vs 10 role refs",
       "consequence": "Colour provenance is traceable",
       "enforcedBy": [
-        "scheduled:WP-5:g-no-literal-hex"
+        "pending:WP-5"
       ],
       "confirmation": "n/a"
     },
@@ -250,7 +250,7 @@
       "why": "§4 L2",
       "consequence": "Identical input, identical bytes",
       "enforcedBy": [
-        "scheduled:WP-5:g-determinism"
+        "pending:WP-5"
       ],
       "confirmation": "n/a"
     },
@@ -262,7 +262,7 @@
       "why": "§1.2#12",
       "consequence": "Never ask, never silently pick",
       "enforcedBy": [
-        "scheduled:BL-008:g-archetype-default"
+        "pending:BL-008"
       ],
       "confirmation": "n/a"
     },
@@ -322,7 +322,7 @@
       "why": "§5.5 B4 needs a visible failing fixture per compiler gap",
       "consequence": "Compiler gaps stay visible",
       "enforcedBy": [
-        "scheduled:WP-10:g-no-gate-tampering"
+        "pending:WP-10"
       ],
       "confirmation": "n/a"
     },
@@ -358,7 +358,7 @@
       "why": "§1.2#1 three-way split; observed `ConfigurationLoadingError` blocks the whole form",
       "consequence": "Flat and prefixed shapes hard-fail",
       "enforcedBy": [
-        "scheduled:WP-3a:t2-registry"
+        "pending:WP-3a"
       ],
       "confirmation": "pending-probe:reflist-name-format"
     },
@@ -370,7 +370,7 @@
       "why": "§1.2#2 settled in one file while the routed-to file shipped the flat keys with a warning not to correct it",
       "consequence": "Two authors cannot ship two shapes",
       "enforcedBy": [
-        "scheduled:WP-3a:t2-registry"
+        "pending:WP-3a"
       ],
       "confirmation": "pending-probe:reflist-status-shape"
     },
@@ -382,7 +382,7 @@
       "why": "§1.2#7 three answers to one question",
       "consequence": "SFS has no component-level field",
       "enforcedBy": [
-        "scheduled:WP-3a:t2-registry"
+        "pending:WP-3a"
       ],
       "confirmation": "pending-probe:editmode-create-edit"
     },
@@ -394,7 +394,7 @@
       "why": "§1.2#8 three files, three hooks; the observed modal failure outranks prose",
       "consequence": "`forbidden` fails only when non-null",
       "enforcedBy": [
-        "scheduled:WP-3a:t2-registry"
+        "pending:WP-3a"
       ],
       "confirmation": "pending-probe:form-arguments-hook"
     },
@@ -406,7 +406,7 @@
       "why": "§1.2#9 the documented strings are the ones blamed for silent no-op buttons",
       "consequence": "The compiler derives it from the verb",
       "enforcedBy": [
-        "scheduled:WP-3a:t2-registry"
+        "pending:WP-3a"
       ],
       "confirmation": "pending-probe:action-owner-casing"
     },
@@ -418,7 +418,7 @@
       "why": "§1.2#4 banned in five places, mandated in a sixth 52 lines earlier",
       "consequence": "No recipe, form or output contains one",
       "enforcedBy": [
-        "scheduled:WP-3a:t2-registry"
+        "pending:WP-3a"
       ],
       "confirmation": "pending-probe:columns-alternative"
     },
@@ -430,7 +430,7 @@
       "why": "§1.2#10 wrong casing renders every cell blank",
       "consequence": "One unwrapper, one casing rule",
       "enforcedBy": [
-        "scheduled:BL-003:t3-semantic"
+        "pending:BL-003"
       ],
       "confirmation": "pending-probe:metadata-endpoint"
     },
@@ -528,7 +528,7 @@
       "why": "three names for two artifacts were embedded in command lines the session would paste",
       "consequence": "No path may match `\\.compiled(\\.meta)?\\.json$`",
       "enforcedBy": [
-        "scheduled:WP-5:g-artifact-naming"
+        "pending:WP-5"
       ],
       "confirmation": "n/a"
     },
@@ -588,7 +588,7 @@
       "why": "Phase 0 wants the bleeding stopped now, but the correct fixes need T2/T3",
       "consequence": "A holed gate emits no green signal",
       "enforcedBy": [
-        "scheduled:BL-003:g-quarantine"
+        "pending:BL-003"
       ],
       "confirmation": "n/a"
     },
@@ -600,7 +600,7 @@
       "why": "a ratio derived from prose the session is deleting is T15",
       "consequence": "`prove` prints `token cost: unmeasured in this session`",
       "enforcedBy": [
-        "scheduled:WP-10:g-cost-delta"
+        "pending:WP-10"
       ],
       "confirmation": "n/a"
     },
@@ -624,7 +624,7 @@
       "why": "UI2Code^N saturation at N=3-5; more iterations sometimes amplify reward hacking",
       "consequence": "Round four adapts the test to the code",
       "enforcedBy": [
-        "scheduled:WP-10:g-no-gate-tampering"
+        "pending:WP-10"
       ],
       "confirmation": "n/a"
     },
@@ -636,7 +636,7 @@
       "why": "§2.1.4's 17 kinds cover none of what the corpus is made of",
       "consequence": "Without these every form is `raw:`",
       "enforcedBy": [
-        "scheduled:WP-5:g-escape-budget"
+        "pending:WP-5"
       ],
       "confirmation": "n/a"
     },
@@ -648,7 +648,7 @@
       "why": "a 0.90 gate over 12 forms whose kinds do not exist yet is unachievable, and an unachievable gate is lowered under pressure",
       "consequence": "BL-002 gates the full corpus",
       "enforcedBy": [
-        "scheduled:WP-5:g-corpus-immutable"
+        "pending:WP-5"
       ],
       "confirmation": "n/a"
     },
@@ -660,7 +660,7 @@
       "why": "§2.1.3 emits `onBeforeDataLoad: null` for every kind, which a literal reading would fail on the one artifact everything is measured against",
       "consequence": "A null forbidden key is legal",
       "enforcedBy": [
-        "scheduled:WP-3a:t1-schema"
+        "pending:WP-3a"
       ],
       "confirmation": "n/a"
     },
@@ -696,7 +696,7 @@
       "why": "§4/L4 excludes shared-context coding from multi-agent gains; two parallel authors already shipped two incompatible `refListStatus` shapes",
       "consequence": "A self-report is not evidence",
       "enforcedBy": [
-        "scheduled:WP-10:g-fanout-partition"
+        "pending:WP-10"
       ],
       "confirmation": "n/a"
     },
@@ -708,7 +708,7 @@
       "why": "it failed every commit shipping an implementation together with the gate policing it, i.e. WP-1, WP-5, WP-7a and WP-3a",
       "consequence": "The declared-glob partition proof already covers the anti-pattern",
       "enforcedBy": [
-        "scheduled:WP-10:g-no-gate-tampering"
+        "pending:WP-10"
       ],
       "confirmation": "n/a"
     },
@@ -817,7 +817,7 @@
       "why": "`g-workspace-hygiene` failing six pre-existing skill helpers would delete working behaviour to satisfy a rule `g-skill-purity` owns",
       "consequence": "Skill purity is adjudicated once, at WP-7a",
       "enforcedBy": [
-        "scheduled:WP-7a:g-skill-purity"
+        "pending:WP-7a"
       ],
       "confirmation": "n/a"
     },
@@ -853,7 +853,7 @@
       "why": "the gate proves import independence, not authorial: one author writing both arms lets a shared misconception about N1-N10 agree with itself",
       "consequence": "Overrides §7 for one declared slice, accepted by a program",
       "enforcedBy": [
-        "scheduled:WP-1.a:g-oracle-independence"
+        "pending:WP-1.a"
       ],
       "confirmation": "n/a"
     },
@@ -865,7 +865,19 @@
       "why": "`g-plugin-version` must prove the version strictly increases and a semver parser rejects an unseparated prerelease suffix",
       "consequence": "Marketplace and gate order it the same way",
       "enforcedBy": [
-        "scheduled:WP-10:g-plugin-version"
+        "pending:WP-10"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-073",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "The `pending:` budget counts DISTINCT owner ids, not rows; `pending-budget.json` `max` is 20 and ratchets down",
+      "why": "O6 fixes max at 20, a figure §1.4 derived from a 37-row seed set; the registry now holds 72 rows and 35 defer, so a row count can never reach 20 while the deferred work genuinely exists",
+      "consequence": "8 distinct owners against a cap of 20",
+      "enforcedBy": [
+        "g-decisions"
       ],
       "confirmation": "n/a"
     }

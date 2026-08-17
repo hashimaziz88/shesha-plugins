@@ -12,8 +12,11 @@ npm run green
 node packages/verify/src/write-evidence.mjs
 git add packages/verify/evidence
 
-if git diff --cached --name-only | grep -qx '\.claude/settings\.local\.json'; then
-  echo "pre-commit: REFUSED - .claude/settings.local.json is staged" >&2
+# --diff-filter=ACMR excludes deletions on purpose. The rule is "never commit this
+# file's CONTENTS"; untracking it is the fix for having committed it, and a check
+# that also blocks the deletion blocks the only way out of the problem it guards.
+if git diff --cached --name-only --diff-filter=ACMR | grep -qx '\.claude/settings\.local\.json'; then
+  echo "pre-commit: REFUSED - .claude/settings.local.json is staged for commit" >&2
   exit 1
 fi
 

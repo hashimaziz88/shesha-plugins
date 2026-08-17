@@ -1,0 +1,75 @@
+{
+  "_comment": "O6 form 5: `pending:<WP-id>`. g-decisions accepts the entry only while that WP has no `complete` block in BUILD-LOG.md; a pending: row surviving its WP's completion is a HARD FAILURE, which is the ratchet forcing the rewrite to a real enforcer in the commit that creates its subject. `max` counts DISTINCT OWNER IDS (D-073), not rows, and ratchets down only. `enforcers` is traceability: it records which programs each owner will ship, information the `pending:<WP-id>` form itself cannot carry.",
+  "max": 20,
+  "owners": [
+    {
+      "wp": "BL-003",
+      "enforcers": [
+        "g-quarantine",
+        "t3-semantic"
+      ]
+    },
+    {
+      "wp": "BL-005",
+      "enforcers": [
+        "t4-live"
+      ]
+    },
+    {
+      "wp": "BL-008",
+      "enforcers": [
+        "block-form-writes",
+        "evaluator-lock",
+        "g-archetype-default",
+        "g-fanout-screens"
+      ]
+    },
+    {
+      "wp": "WP-1.a",
+      "enforcers": [
+        "g-oracle-independence"
+      ]
+    },
+    {
+      "wp": "WP-10",
+      "enforcers": [
+        "g-cost-delta",
+        "g-fanout-partition",
+        "g-no-gate-tampering",
+        "g-plugin-version"
+      ]
+    },
+    {
+      "wp": "WP-2",
+      "enforcers": [
+        "g-registry-provenance"
+      ]
+    },
+    {
+      "wp": "WP-3a",
+      "enforcers": [
+        "g-exit-codes",
+        "t1-schema",
+        "t2-registry"
+      ]
+    },
+    {
+      "wp": "WP-5",
+      "enforcers": [
+        "g-artifact-naming",
+        "g-corpus-immutable",
+        "g-determinism",
+        "g-escape-budget",
+        "g-markup-provenance",
+        "g-no-literal-hex"
+      ]
+    },
+    {
+      "wp": "WP-7a",
+      "enforcers": [
+        "g-disposition",
+        "g-skill-purity"
+      ]
+    }
+  ]
+}
