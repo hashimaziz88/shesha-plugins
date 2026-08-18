@@ -9,12 +9,13 @@
 //   2. every `id` becomes its tree position ("0.2.1", slots "0.2.1#content", items "0.2.1#item:3")
 //   3. every `parentId` becomes the position of the node it points at, or "root"
 //   4. `componentName` is deleted (section 2.5 step 7 drops it)
-//   5. re-serialise through orderedStringify
+//   5. re-serialise with recursively SORTED keys (D-078): key order is the
+//
+//      emitter's property and Q1 pins it; the comparator asserts content only
 //
 // What survives is structure, types, versions, bindings and appearance — which is
 // precisely what the two programs are being asked to agree about.
 
-import { orderedStringify } from './orderedJson.mjs';
 
 /** Arrays whose entries are positioned children. */
 const CHILD_ARRAYS = ['components', 'items', 'tabs', 'columns'];
@@ -49,10 +50,35 @@ function collect(node, position, positions) {
   for (const key of CHILD_WRAPPERS) {
     const wrap = node[key];
     if (!isObj(wrap)) continue;
+    // The slot wrapper's own id is positional too: production slots carry nanoid
+    // ids and the compiler stamps v5, so a raw comparison could never agree.
+    if (typeof wrap.id === 'string') positions.set(wrap.id, `${position}#${key}`);
     const arr = wrap.components;
     if (!Array.isArray(arr)) continue;
     arr.forEach((child, i) => collect(child, `${position}#${key}.${i}`, positions));
   }
+}
+
+
+/**
+ * An ownerRef action carries a node id as a VALUE, nested inside an action
+ * config. It is name-derived on one arm and a nanoid on the other, so it too is
+ * compared by position, at any depth.
+ * @param {unknown} value
+ * @param {Map<string, string>} positions
+ * @returns {unknown}
+ */
+function deepOwner(value, positions) {
+  if (Array.isArray(value)) return value.map((v) => deepOwner(v, positions));
+  if (!isObj(value)) return value;
+  /** @type {Record<string, unknown>} */
+  const out = {};
+  for (const [k, v] of Object.entries(value)) {
+    out[k] = k === 'actionOwner' && typeof v === 'string' && positions.has(v)
+      ? /** @type {string} */ (positions.get(v))
+      : deepOwner(v, positions);
+  }
+  return out;
 }
 
 /**
@@ -76,7 +102,7 @@ function rewrite(node, position, positions) {
         : 'root';
       continue;
     }
-    out[key] = value;
+    out[key] = deepOwner(value, positions);
   }
 
   for (const key of CHILD_ARRAYS) {
@@ -91,6 +117,7 @@ function rewrite(node, position, positions) {
     if (!isObj(wrap)) continue;
     /** @type {Record<string, unknown>} */
     const w = { ...wrap };
+    if (typeof wrap.id === 'string') w.id = `${position}#${key}`;
     if (Array.isArray(wrap.components)) {
       w.components = wrap.components.map((child, i) => rewrite(child, `${position}#${key}.${i}`, positions));
     }
@@ -119,11 +146,29 @@ export function normalFormOf(markup) {
 }
 
 /**
+ * Recursively sorted keys: the comparator's total order (D-078). Key ORDER inside
+ * markup is the emitter's property, and Q1 already pins the emitter's bytes; two
+ * independent programs cannot be asked to agree on insertion order, only on
+ * content. Sorting every object's keys makes byte equality of the normal form
+ * exactly content equality, with no order escape hatch.
+ * @param {unknown} value
+ * @returns {unknown}
+ */
+function sortKeysDeep(value) {
+  if (Array.isArray(value)) return value.map(sortKeysDeep);
+  if (!isObj(value)) return value;
+  /** @type {Record<string, unknown>} */
+  const out = {};
+  for (const key of Object.keys(value).sort()) out[key] = sortKeysDeep(value[key]);
+  return out;
+}
+
+/**
  * Normal form of a `Markup` STRING, re-serialised canonically. This is the value
  * Q2 compares byte-for-byte.
  * @param {string} markupString
  * @returns {string}
  */
 export function normalForm(markupString) {
-  return orderedStringify(normalFormOf(JSON.parse(markupString)));
+  return JSON.stringify(sortKeysDeep(normalFormOf(JSON.parse(markupString))));
 }

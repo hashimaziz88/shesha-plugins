@@ -38,7 +38,9 @@ function stripInternal(value) {
   /** @type {Record<string, unknown>} */
   const out = {};
   for (const [key, v] of Object.entries(/** @type {Record<string, unknown>} */ (value))) {
-    if (INTERNAL.test(key)) continue;
+    // '_type' is a MEASURED production key on every action config, not a
+    // compiler-internal marker; it is the one underscore key that ships.
+    if (INTERNAL.test(key) && key !== '_type') continue;
     out[key] = stripInternal(v);
   }
   return out;

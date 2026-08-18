@@ -15,6 +15,7 @@
 // blocks rather than of the canonical tree.
 
 import { SfsError } from './s1-parse.mjs';
+import { resolveStyle } from '../lib/tokens.mjs';
 
 /** @typedef {import('./s2-resolve.mjs').Node} Node */
 /** @typedef {import('./s2-resolve.mjs').Diagnostic} Diagnostic */
@@ -122,7 +123,11 @@ function pageShell(reg, doc, body) {
     // N1: no label, and no labelAlign. `hideHeading` is the card's own prop.
     label: undefined,
     props: { hideHeading: true, _pageShell: true },
-    style: { bg: '$role:pageBg', _noBorder: true },
+    // The shell is built AFTER s2's token pass, so its own tokens must be resolved
+    // here. Leaving "$role:pageBg" literal in the markup was a real defect: Q2's
+    // oracle arm carries the measured literal, and the bytes could never agree.
+    style: /** @type {Record<string, unknown>} */ (
+      resolveStyle(reg, { bg: '$role:pageBg', _noBorder: true }, '/pageShell.style')),
     responsive: null,
     // N10: the body is a SIBLING of the title band.
     children: [titleBand, ...body],

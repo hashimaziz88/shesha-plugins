@@ -135,7 +135,16 @@ export function childWidths(parent) {
   /** @type {Record<string, Record<string, string>>} */
   const out = { desktop: {}, tablet: {}, mobile: {} };
   const r = parent.responsive;
-  if (r === null) return out;
+  if (r === null) {
+    // A row with no responsive declaration still cannot give every child the
+    // 100% dimension default: two 100% children in a row block is exactly the
+    // incoherent geometry N9 exists to kill. Children of an undeclared row are
+    // auto at every breakpoint.
+    if (parent.props._flexDirection === 'row') {
+      for (const bp of LADDER) for (const c of parent.children) out[bp][c.name] = 'auto';
+    }
+    return out;
+  }
 
   const fixed = /** @type {Record<string, string>} */ (r.fixed || {});
   const fill = typeof r.fill === 'string' ? r.fill : null;
@@ -306,9 +315,18 @@ function columnComponents(reg, col, inline) {
     display = { type: String(render.type), settings: { ...(/** @type {Record<string, unknown>} */ (render.props || {})) } };
   }
 
-  return inline
-    ? { displayComponent: display }
-    : { displayComponent: display, editComponent: { type: '[not-editable]' }, createComponent: { type: '[not-editable]' } };
+  if (!inline) {
+    return { displayComponent: display, editComponent: { type: '[not-editable]' }, createComponent: { type: '[not-editable]' } };
+  }
+  // Inline columns carry a REAL editor or none at all. `[default]` on edit/create is
+  // EXP-4302 by construction: the only reachable shapes are the declared editor's
+  // {type, settings} wrapper (EXP-4301's guarantee) or absence.
+  const editor = /** @type {Record<string, unknown>|undefined} */ (col.editor);
+  if (editor !== undefined && typeof editor.type === 'string') {
+    const wrapped = { type: editor.type, settings: { ...(/** @type {Record<string, unknown>} */ (editor.props || {})) } };
+    return { displayComponent: display, editComponent: wrapped, createComponent: wrapped };
+  }
+  return { displayComponent: display };
 }
 
 /**
@@ -433,6 +451,8 @@ function expandNode(n, ctx, widths) {
       if (col.bind !== null) emitted.propertyName = col.bind;
       if (col.min !== undefined) emitted.minWidth = col.min;
       if (col.width !== undefined) emitted.width = col.width;
+      // `max: null` is a measured production shape; it is carried, not invented.
+      if (col.max !== undefined) emitted.maxWidth = col.max;
       if (col.do !== undefined) emitted.actionConfiguration = col.do;
       emitted._sfsPath = col.sfsPath;
       return emitted;
@@ -440,7 +460,12 @@ function expandNode(n, ctx, widths) {
     if (inline) {
       // Auto-inserted at sortOrder -1, which is what makes `debug.md` row 22
       // (inline enabled with no CRUD column) unreachable.
-      items.unshift({ itemType: 'item', sortOrder: -1, columnType: 'crud-operations', _sfsPath: `${n.sfsPath}#col:crud` });
+      // caption "" and isVisible true are the measured production shape of the
+      // crud-operations column, not decoration.
+      items.unshift({
+        itemType: 'item', sortOrder: -1, columnType: 'crud-operations',
+        caption: '', isVisible: true, _sfsPath: `${n.sfsPath}#col:crud`,
+      });
       out.canEditInline = 'yes';
     }
     out.items = items;

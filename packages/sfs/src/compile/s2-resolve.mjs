@@ -117,8 +117,10 @@ export function resolveAction(reg, action, where) {
     _type: 'action-config',
     actionName: spec.actionName,
     actionOwner: spec.actionOwner,
-    actionArguments: args,
   };
+  // The measured production shape omits actionArguments when there are none:
+  // the golden's refresh onSuccess is {_type, actionName, actionOwner} exactly.
+  if (Object.keys(args).length > 0) out.actionArguments = args;
   if (spec.actionOwner === reg.actions._ownerRefSentinel) {
     if (typeof withArgs.target !== 'string') {
       throw new SfsError('SFS-1601', `SFS-1601 intent "${intent}" at ${where} needs a with.target naming a data region`, where);

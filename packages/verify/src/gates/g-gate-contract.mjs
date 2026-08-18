@@ -41,6 +41,7 @@ export const inputPaths = [
   // staged tree has to be a superset of theirs. A path declared by any gate and
   // missing here reads as "that gate declares a path that does not exist".
   'docs/decisions-archive.md',
+  'docs/rebuild-brief/artifacts',
   '.githooks',
   '.gitattributes',
   '.gitignore',

@@ -180,3 +180,44 @@ Two defects the tooling found that review would not have:
 |---|---|
 | The forbidden-key scan read `navigate`'s `args: {id: ...}` as a forged `id`, making the canonical fixture unparseable | Running stage 1 on the fixture. Query-parameter names are data, so the scan stops at `props`, `args`, `relay`, `const` |
 | A `[default]`-on-edit/create check in `predicates.mjs` was unreachable — the triplet guard above it already required both to be `[not-editable]` | `tsc` reported the comparison as having no overlap. The dead branch was removed rather than kept as coverage it never provided |
+
+## WP-1.a — GO: two independent programs agree on the markup of a real form — 2026-08-18
+
+Status: complete
+Gate: `node packages/verify/src/prove.mjs --only Q1,Q2` -> exit 0
+Evidence: packages/verify/evidence/WP-1.a.json
+Decisions added: D-076..D-079 (D-071, D-074, D-076, D-077 rewritten from `pending:WP-1.a`
+to their live enforcers in this commit — the O6 ratchet demands it before this block may exist)
+Blocked: none new
+Next: WP-1.b
+
+The observed output, verbatim:
+
+```
+Q1 selfconsist   Q1 BYTE-EQUAL bookings-table.sfs.json 16936 bytes sha256=973e10c75b68
+Q2 oracle        Q2 BYTE-EQUAL bookings-table.revision2.json 15966 bytes sha256=b11b0a84506c
+Q2 oracle        Q2 BYTE-EQUAL inline-editable-table.envelope.json 15144 bytes sha256=f8663051c664
+```
+
+Created: `src/decompile/{detect,index}.mjs` (lossless per D-076 — the residue pass carries
+every prop the compiler does not regenerate in a typed `raw` block, so losslessness is
+measured, not maintained); `tools/normalise-legacy.mjs` (the second arm, authored by a
+fresh-context subagent per D-071 over three contract rounds, 12,214 B against the
+12,288 B cap, importing nothing under `src/compile/` or `src/decompile/`);
+`test/{selfconsistency,oracle}.test.mjs`; `g-oracle-independence` (4 verdict-flipping
+mutations; the roster is now twelve and `gate-ratchet.json`'s floor rose 11 -> 12);
+prove's Q1/Q2 steps.
+
+Effort raised to high for this stretch (the Q2 oracle contract and N1..N12), per the
+session plan's effort ladder. The three contract rounds were driven by a measured
+arm-vs-arm diff, not by guesswork; each round's amendments are in the subagent transcript.
+
+Five real defects Q2 found that no prior test had:
+
+| Defect | Resolution |
+|---|---|
+| The page shell's `$role:pageBg` token leaked unresolved into markup — s3 builds the shell after s2's token pass | s3 resolves the shell's own style through the token resolver |
+| `normalForm` left slot wrapper ids and `actionOwner` values raw, so the two arms could never byte-agree on production input | both are positional now (D-078), and the comparator's key order is total |
+| Inline-editable columns carry REAL editors; the column grammar could not express them and the decompiler dropped them — data loss under D-076 | the column grammar gained `editor:{type,props}` and nullable `max` (D-079) |
+| `_type:"action-config"` is a measured production key on every action config; the serialiser stripped it as compiler-internal | stripInternal carves it out; empty `actionArguments` is omitted, matching the measured onSuccess shape |
+| A row container with no `responsive` gave every child the 100% dimension default — two 100% children in a row block is exactly the N9 geometry | children of an undeclared row are width `auto` in both arms (D-079) |

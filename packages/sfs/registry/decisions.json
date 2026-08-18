@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 77,
+  "count": 79,
   "decisions": [
     {
       "id": "D-001",
@@ -853,7 +853,7 @@
       "why": "the gate proves import independence, not authorial: one author writing both arms lets a shared misconception about N1-N10 agree with itself",
       "consequence": "Overrides §7 for one declared slice, accepted by a program",
       "enforcedBy": [
-        "pending:WP-1.a"
+        "g-oracle-independence"
       ],
       "confirmation": "n/a"
     },
@@ -889,7 +889,7 @@
       "why": "§2.4.5 voids the unsound form: ids derive from author-chosen names, so a hand-written fixture and a decompiled legacy form cannot agree. Both arms must start from one source",
       "consequence": "Q2 is falsifiable, not unachievable; `normalForm` also drops `componentName` per §2.5 step 7",
       "enforcedBy": [
-        "pending:WP-1.a"
+        "structural:packages/sfs/src/lib/normalForm.mjs"
       ],
       "confirmation": "n/a"
     },
@@ -913,7 +913,7 @@
       "why": "Q2 requires `compile(decompile(m))` to differ from `m` by exactly N1..N12; a lossy decompiler adds a thirteenth difference no oracle rule accounts for",
       "consequence": "Q2 is achievable; every drop is justified by a regeneration proof, not by convenience",
       "enforcedBy": [
-        "pending:WP-1.a"
+        "g-oracle-independence"
       ],
       "confirmation": "n/a"
     },
@@ -925,7 +925,31 @@
       "why": "§2.1.7 requires it (an inherited button renders disabled, debug.md row 31) while the golden carries `inherited` on the item, so without N12 the two Q2 arms diverge on that one key",
       "consequence": "The oracle's contract is N1..N12, not N1..N11; both arms rewrite the item's editMode",
       "enforcedBy": [
-        "pending:WP-1.a"
+        "g-oracle-independence"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-078",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "`normalForm` is a TOTAL order: it re-serialises with recursively sorted keys, positionalises slot wrapper ids (`0#content`) and `actionOwner` values at any depth, alongside node ids and parentIds",
+      "why": "key insertion order and id spelling are emitter properties Q1 already pins byte-for-byte; two independent programs can only be asked to agree on content, and production slot ids are nanoids while the compiler stamps v5",
+      "consequence": "Q2's byte equality is exactly content equality with no serialisation escape hatch",
+      "enforcedBy": [
+        "structural:packages/sfs/src/lib/normalForm.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-079",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "Measured production shapes are emitted, never normalised away: `_type:\"action-config\"` on every action config, `caption:\"\"`/`isVisible:true` on the crud-operations column, `maxWidth:null` carried via column `max`, real inline editors via column `editor:{type,props}`; `actionArguments` is omitted when empty; a child of a row with no `responsive` is width `auto`, never the 100% dimension default",
+      "why": "the golden and the corpus form carry these bytes; dropping an inline table's editors is data loss (D-076), and two 100% children in a row block is the N9 geometry",
+      "consequence": "the SFS column grammar gains `editor` and `max`; both Q2 arms agree on the measured shapes",
+      "enforcedBy": [
+        "g-oracle-independence"
       ],
       "confirmation": "n/a"
     }
