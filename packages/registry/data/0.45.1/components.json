@@ -2,15 +2,44 @@
   "_provenance": "WP-1.a subset. Every `version`, every `defaults` value and every `breakpointChannels` list below is MEASURED from docs/rebuild-brief/artifacts/bookings-table.revision2.json, the real boxfusion.test/bookings-table revision 2 envelope (O1). Nine of the 121 authorable types: exactly the ones the bookings-table fixture and the inline-editable-table corpus form reach. WP-2 regenerates this file from the framework TypeScript at the pinned ref and widens it; nothing here is hand-guessed, and no version integer appears in any instruction file.",
   "_registryRef": "0.45.1@3418e292",
   "_datatypeMap": {
-    "string": { "component": "textField", "props": {} },
-    "number": { "component": "numberField", "props": {} },
-    "boolean": { "component": "checkbox", "props": {} },
-    "date": { "component": "dateField", "props": {} },
-    "date-time": { "component": "dateField", "props": { "showTime": true } },
-    "reference-list-item": { "component": "dropdown", "props": {} },
-    "entity": { "component": "autocomplete", "props": {} },
-    "object": { "component": "textField", "props": {} },
-    "array": { "component": "childEntitiesTagGroup", "props": {} }
+    "string": {
+      "component": "textField",
+      "props": {}
+    },
+    "number": {
+      "component": "numberField",
+      "props": {}
+    },
+    "boolean": {
+      "component": "checkbox",
+      "props": {}
+    },
+    "date": {
+      "component": "dateField",
+      "props": {}
+    },
+    "date-time": {
+      "component": "dateField",
+      "props": {
+        "showTime": true
+      }
+    },
+    "reference-list-item": {
+      "component": "dropdown",
+      "props": {}
+    },
+    "entity": {
+      "component": "autocomplete",
+      "props": {}
+    },
+    "object": {
+      "component": "textField",
+      "props": {}
+    },
+    "array": {
+      "component": "childEntitiesTagGroup",
+      "props": {}
+    }
   },
   "components": {
     "card": {
@@ -19,28 +48,75 @@
       "authorable": true,
       "isInput": false,
       "childrenKey": "content.components",
-      "slots": ["header", "content"],
+      "slots": [
+        "header",
+        "content"
+      ],
       "breakpointBlocks": true,
-      "breakpointChannels": ["border", "background", "font", "dimensions", "shadow", "stylingBox", "enableStyleOnReadonly", "className"],
-      "legacyStyleProps": ["customStyle", "style", "borderRadius", "boxShadow", "backgroundColor"],
+      "breakpointChannels": [
+        "border",
+        "background",
+        "font",
+        "dimensions",
+        "shadow",
+        "stylingBox",
+        "enableStyleOnReadonly",
+        "className"
+      ],
+      "legacyStyleProps": [
+        "customStyle",
+        "style",
+        "borderRadius",
+        "boxShadow",
+        "backgroundColor"
+      ],
       "defaults": {
         "hidden": false,
         "isDynamic": false,
         "enableStyleOnReadonly": false,
         "stylingBox": "{}"
       },
-      "dimensionDefaults": { "width": "100%", "height": "auto", "minHeight": "0px", "maxHeight": "auto", "minWidth": "0px", "maxWidth": "auto" }
+      "dimensionDefaults": {
+        "width": "100%",
+        "height": "auto",
+        "minHeight": "0px",
+        "maxHeight": "auto",
+        "minWidth": "0px",
+        "maxWidth": "auto"
+      },
+      "editModeChannel": null
     },
     "container": {
       "version": 7,
       "sfsNode": "col",
-      "sfsNodeAlso": ["row"],
+      "sfsNodeAlso": [
+        "row"
+      ],
       "authorable": true,
       "isInput": false,
       "childrenKey": "components",
       "breakpointBlocks": true,
-      "breakpointChannels": ["display", "flexDirection", "justifyContent", "alignItems", "flexWrap", "gap", "font", "background", "border", "shadow", "dimensions", "stylingBox"],
-      "legacyStyleProps": ["customStyle", "style", "backgroundColor", "borderRadius", "boxShadow"],
+      "breakpointChannels": [
+        "display",
+        "flexDirection",
+        "justifyContent",
+        "alignItems",
+        "flexWrap",
+        "gap",
+        "font",
+        "background",
+        "border",
+        "shadow",
+        "dimensions",
+        "stylingBox"
+      ],
+      "legacyStyleProps": [
+        "customStyle",
+        "style",
+        "backgroundColor",
+        "borderRadius",
+        "boxShadow"
+      ],
       "defaults": {
         "hideLabel": true,
         "hidden": false,
@@ -52,7 +128,15 @@
         "flexWrap": "nowrap",
         "stylingBox": "{}"
       },
-      "dimensionDefaults": { "width": "100%", "height": "auto", "minHeight": "fit-content", "maxHeight": "auto", "minWidth": "0px", "maxWidth": "auto" }
+      "dimensionDefaults": {
+        "width": "100%",
+        "height": "auto",
+        "minHeight": "fit-content",
+        "maxHeight": "auto",
+        "minWidth": "0px",
+        "maxWidth": "auto"
+      },
+      "editModeChannel": "container"
     },
     "text": {
       "version": 5,
@@ -61,8 +145,18 @@
       "isInput": false,
       "childrenKey": null,
       "breakpointBlocks": true,
-      "breakpointChannels": ["font", "stylingBox"],
-      "legacyStyleProps": ["fontSize", "fontWeight", "customStyle", "style", "color", "backgroundColor"],
+      "breakpointChannels": [
+        "font",
+        "stylingBox"
+      ],
+      "legacyStyleProps": [
+        "fontSize",
+        "fontWeight",
+        "customStyle",
+        "style",
+        "color",
+        "backgroundColor"
+      ],
       "defaults": {
         "hideLabel": true,
         "hidden": false,
@@ -70,7 +164,8 @@
         "textType": "span",
         "contentDisplay": "content",
         "dataType": "string"
-      }
+      },
+      "editModeChannel": null
     },
     "dataContext": {
       "version": 8,
@@ -90,7 +185,8 @@
         "dataFetchingMode": "paging",
         "sortMode": "standard",
         "allowReordering": "no"
-      }
+      },
+      "editModeChannel": null
     },
     "datatable": {
       "version": 29,
@@ -100,8 +196,19 @@
       "childrenKey": null,
       "itemsKey": "items",
       "breakpointBlocks": true,
-      "breakpointChannels": ["dimensions", "background", "border", "shadow"],
-      "legacyStyleProps": ["customStyle", "style", "backgroundColor", "borderRadius", "boxShadow"],
+      "breakpointChannels": [
+        "dimensions",
+        "background",
+        "border",
+        "shadow"
+      ],
+      "legacyStyleProps": [
+        "customStyle",
+        "style",
+        "backgroundColor",
+        "borderRadius",
+        "boxShadow"
+      ],
       "defaults": {
         "hideLabel": true,
         "hidden": false,
@@ -110,7 +217,12 @@
         "canAddInline": "no",
         "canDeleteInline": "no"
       },
-      "dimensionDefaults": { "width": "100%", "height": "auto", "minHeight": "fit-content" }
+      "dimensionDefaults": {
+        "width": "100%",
+        "height": "auto",
+        "minHeight": "fit-content"
+      },
+      "editModeChannel": null
     },
     "datatable.quickSearch": {
       "version": 3,
@@ -119,7 +231,10 @@
       "isInput": false,
       "childrenKey": null,
       "breakpointBlocks": true,
-      "breakpointChannels": ["dimensions", "stylingBox"],
+      "breakpointChannels": [
+        "dimensions",
+        "stylingBox"
+      ],
       "legacyStyleProps": [],
       "defaults": {
         "hideLabel": true,
@@ -127,7 +242,10 @@
         "isDynamic": false,
         "enableStyleOnReadonly": false
       },
-      "dimensionDefaults": { "width": "100%" }
+      "dimensionDefaults": {
+        "width": "100%"
+      },
+      "editModeChannel": null
     },
     "datatable.pager": {
       "version": 4,
@@ -136,14 +254,18 @@
       "isInput": false,
       "childrenKey": null,
       "breakpointBlocks": true,
-      "breakpointChannels": ["stylingBox", "dimensions"],
+      "breakpointChannels": [
+        "stylingBox",
+        "dimensions"
+      ],
       "legacyStyleProps": [],
       "defaults": {
         "hideLabel": true,
         "hidden": false,
         "isDynamic": false,
         "enableStyleOnReadonly": false
-      }
+      },
+      "editModeChannel": null
     },
     "buttonGroup": {
       "version": 15,
@@ -161,7 +283,8 @@
         "isDynamic": false,
         "isInline": true,
         "enableStyleOnReadonly": false
-      }
+      },
+      "editModeChannel": "actionsItem"
     },
     "refListStatus": {
       "version": 6,
@@ -175,7 +298,8 @@
       "defaults": {
         "hideLabel": true,
         "showIcon": false
-      }
+      },
+      "editModeChannel": null
     },
     "validationErrors": {
       "version": 0,
@@ -186,7 +310,12 @@
       "breakpointBlocks": false,
       "breakpointChannels": [],
       "legacyStyleProps": [],
-      "defaults": { "hideLabel": true, "hidden": false, "isDynamic": false }
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false
+      },
+      "editModeChannel": null
     },
     "columns": {
       "version": 5,
@@ -199,7 +328,8 @@
       "breakpointBlocks": false,
       "breakpointChannels": [],
       "legacyStyleProps": [],
-      "defaults": {}
+      "defaults": {},
+      "editModeChannel": null
     },
     "sizableColumns": {
       "version": 5,
@@ -212,7 +342,8 @@
       "breakpointBlocks": false,
       "breakpointChannels": [],
       "legacyStyleProps": [],
-      "defaults": {}
+      "defaults": {},
+      "editModeChannel": null
     }
   }
 }

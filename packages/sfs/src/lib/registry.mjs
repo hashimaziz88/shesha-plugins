@@ -43,6 +43,7 @@ function readData(rel) {
  *            isInput:boolean, childrenKey:string|null, itemsKey?:string, slots?:string[],
  *            breakpointBlocks:boolean, breakpointChannels:string[], legacyStyleProps:string[],
  *            defaults:Record<string, unknown>, dimensionDefaults?:Record<string, string>,
+ *            editModeChannel?:string|null,
  *            reason?:string, decision?:string}} ComponentRecord
  * @typedef {{ref:string, components:Record<string, ComponentRecord>, datatypeMap:Record<string, {component:string, props:Record<string, unknown>}>,
  *            nodeToType:Map<string, string>, formSettings:any, actions:any, tokens:any, roles:any,

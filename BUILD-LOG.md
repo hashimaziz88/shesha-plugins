@@ -136,3 +136,46 @@ One correctness defect in stage 1 itself, found by running it rather than reason
 about it: the forbidden-key scan treated `navigate`'s `args: {id: ...}` as a forged
 `id`, which made the canonical fixture unparseable. Query-parameter names are data,
 so the scan now stops at `props`, `args`, `relay` and `const`. Pinned by a test.
+
+## WP-1.a — the six stages
+
+Status: in progress. `compile()` is complete and is the only function in the repository
+that produces form markup. The clean fixture compiles, and the numbers landed on the
+reference form's own values without being aimed at them:
+
+| Measure | Compiled fixture | Reference form |
+|---|---|---|
+| components | 12 | 12 |
+| breakpoint blocks | 33 | 33 |
+| markup bytes | 16,900 | 19,170 |
+
+The reference form is larger because it carries the eight defects: a duplicated
+`dblClickActionConfiguration`, a `stylingBox` at base *and* in all three blocks, and two
+styling channels on every `text` node. Producing fewer bytes for the same twelve
+components is the normalisation, not a shortfall.
+
+`section 2.6`'s predicates live in `packages/sfs/test/predicates.mjs` as ONE
+implementation with two callers, so `g-sfs-invariants` imports them rather than
+restating them. All eleven rules, the column triplet, the identities A1..A5, A7 and Q5
+determinism pass:
+
+```
+node --test packages/sfs/test/golden-defects.test.mjs   -> exit 0, 21/21
+npm run sfs -- compile packages/sfs/test/fixtures/clean/bookings-table.sfs.json --out .build/wp1a
+  -> exit 3, verdict partial, 7 binding(s) uninspectable (no backend), markup written
+npm run green:fast                                       -> exit 0
+  typecheck 0 errors - tests 78 pass 0 fail
+  gates: 11 run, 11 pass, 0 fail, 0 partial - ratchet 11 >= 11
+```
+
+Exit 3 on a successful compile is the design, not a fault: with no backend, every
+binding is `uninspectable` and the verdict is `partial`. Markup is still produced,
+because determinism and oracle agreement are properties of the bytes and are provable
+with no backend in the room.
+
+Two defects the tooling found that review would not have:
+
+| Defect | How it was caught |
+|---|---|
+| The forbidden-key scan read `navigate`'s `args: {id: ...}` as a forged `id`, making the canonical fixture unparseable | Running stage 1 on the fixture. Query-parameter names are data, so the scan stops at `props`, `args`, `relay`, `const` |
+| A `[default]`-on-edit/create check in `predicates.mjs` was unreachable — the triplet guard above it already required both to be `[not-editable]` | `tsc` reported the comparison as having no overlap. The dead branch was removed rather than kept as coverage it never provided |
