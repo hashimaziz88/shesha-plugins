@@ -1519,12 +1519,12 @@ Each row is a fact another section must build against. A contradiction elsewhere
 
 ### 2.11 Section 2's rows in `/DECISIONS.md` and `/BACKLOG.md`
 
-Write these rows in the work package named in the last column. `Enforced by` uses only the legal forms: a gate id under `packages/verify/src/gates/`, `structural:<path>`, `hook:<file>`, `check:<tier-id>:<check-id>`, or `scheduled:<WP-id>:<gate-id>` for an enforcer that lands later. `g-decisions` resolves `scheduled:` against `packages/verify/config/scheduled-enforcers.json` and hard-fails once `BUILD-LOG.md` records that WP complete with the row still scheduled.
+Write these rows in the work package named in the last column. `Enforced by` uses only the five legal forms: a gate id under `packages/verify/src/gates/`, `structural:<path>`, `hook:<file>`, `check:<tier-module>:<check-id>`, or `pending:<WP-id>` for an enforcer that lands later. `g-decisions` resolves `pending:` against `packages/verify/config/pending-budget.json` and hard-fails once `BUILD-LOG.md` records that WP complete with the row still pending.
 
 | id | Decision | Conf. | Enforced by | WP |
 |---|---|---|---|---|
 | D-100 | SFS ships as npm workspaces in `shesha-plugins`; arrow `registry <- sfs <- verify` | verified | `structural:package.json` | WP-0 |
-| D-101 | `kind:list` keeps `dataLoaderType:"gql"` | assumed | `scheduled:WP-3a:g-t2-registry` → `check:t2-registry:T2.20` | WP-2 |
+| D-101 | `kind:list` keeps `dataLoaderType:"gql"` | assumed | `pending:WP-3a` → `check:t2-registry:T2.20` | WP-2 |
 | D-102 | the form-arguments hook is `onAfterDataLoad`; `onDataLoaded`/`onBeforeDataLoad` deleted | verified | `g-sfs-schema` | WP-4 |
 | D-103 | `list`/`detail` never emit non-null `dataSubmittersSettings`/`onBeforeDataLoad`/`dynamicEndpoint` | verified | `g-sfs-invariants` | WP-5 |
 | D-104 | `forbidden` means "present with a non-null value" | verified | `check:t2-registry:T2.20` | WP-2 |

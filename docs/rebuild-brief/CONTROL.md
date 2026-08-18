@@ -45,7 +45,7 @@ Run in order. Record all results in the first `BUILD-LOG.md` entry. A failing ha
 
 | # | Command | Expect | On failure |
 |---|---|---|---|
-| P1 | `node --version` | `v22.` or higher | **S0** |
+| P1 | `fnm use 22 \|\| fnm use v22.23.2` then `node --version` | `v22.` or higher | **S0** — B13: a bare `node` resolves in no non-interactive shell on this machine, so P1 must activate `fnm` first. Unactivated, every later measurement reports "command not found" instead of a real value, and P1 cannot fail correctly. Every command in §3 inherits this activation |
 | P2 | `git log --oneline -1` | `8a2d2f4 [chore]- Remove accidentally committed .tmp-negtest scratch file` | **S0** — you are on the wrong commit |
 | P3 | O4 first, then `git status --porcelain` | empty, or a genuine diff you have stashed | — |
 | P4 | `ls docs/rebuild-brief/*.md \| wc -l` | `>= 6` (CONTROL + 5 sections) | **S0** — bundle missing |
@@ -62,7 +62,7 @@ Scope is **data**: `packages/verify/config/session-scope.json` lists exactly the
 
 | Order | WP | Goal | Detail | Acceptance command → expected |
 |---|---|---|---|---|
-| 1 | **WP-0** | Workspace, coverage primitives, eight gates, mutation harness, git hooks, brief commit, the deletions needing no new code | §1 all, §5.2 | `npm run green:fast && node packages/verify/src/gates/g-decisions.mjs` → exit 0, `D-040..D-058 present` |
+| 1 | **WP-0** | Workspace, coverage primitives, eleven gates (O7), mutation harness, git hooks, brief commit, the deletions needing no new code | §1 all, §5.2 | `npm run green:fast && node packages/verify/src/gates/g-decisions.mjs` → exit 0, `D-040..D-058 present` |
 | 2 | **WP-1.a** | **GO/NO-GO.** Two independently written programs agree on the markup of a real form. Split from WP-1 by D-070 | §2.0–2.5, §5.2 | `node packages/verify/src/prove.mjs --only Q1,Q2` → exit 0, `BYTE-EQUAL` on both |
 | 3 | **WP-1.b** | Q5 id determinism, the golden-defect classes, `cost-delta`, `g-artifact-naming`. Split from WP-1 by D-070 | §2.0–2.5, §5.2 | `node --test packages/sfs/tests/ && node packages/sfs/tools/cost-delta.mjs --json` → exit 0, `GATE PASS` |
 | 4 | **WP-2** | `components-kb` → machine registry: names-only for all 121, value types for the 13 priority types, honest provenance | §2.8 | `node packages/registry/src/validate.mjs` → exit 0, `names-only 121/121 · priority full 13/13` |
@@ -76,7 +76,7 @@ Scope is **data**: `packages/verify/config/session-scope.json` lists exactly the
 
 **Order rationale, stated once so it is not re-litigated.** WP-1 second because it is the go/no-go and there is no published head-to-head for the claim `[§6 Phase 1]`. WP-2 third because the compiler cannot stamp a version it cannot look up. WP-7a before WP-3a because the `preloadBytes` ratio is only real once the 322,816 B of prose is gone, and the deletion is mechanical. WP-3a last of the build WPs because T2 needs both the registry and real compiler output.
 
-**A gate ships in the work package that creates its subject.** WP-0 therefore ships exactly eight: `g-decisions`, `g-brief-budget`, `g-prose-budget`, `g-commit-format`, `g-gate-contract`, `g-coverage-single-impl`, `g-commands-executable`, `g-workspace-hygiene`. Every other gate named anywhere in the brief lands with its subject, or is a BACKLOG row. A gate written before its subject exists is a gate that checks nothing — the exact pattern this rebuild exists to remove.
+**A gate ships in the work package that creates its subject.** WP-0 therefore ships the eleven of O7: `g-decisions`, `g-brief-budget`, `g-prose-budget`, `g-commit-format`, `g-gate-contract`, `g-coverage-single-impl`, `g-commands-executable`, `g-workspace-hygiene`, `g-githook-contract`, `g-no-secrets-or-scratch`, `g-disposition`. Every other gate named anywhere in the brief lands with its subject, or is a BACKLOG row. A gate written before its subject exists is a gate that checks nothing — the exact pattern this rebuild exists to remove.
 
 ---
 
@@ -145,7 +145,7 @@ All four must hold: disjoint write set declared in advance in `packages/verify/c
 
 **Budget checkpoints at 25 / 50 / 75 / 90%** of either envelope: print WP progress, steps, tokens and burn ratio (§5.6's one-liner), then `green:fast`. Burn ≤1.15 continue; 1.15–1.40 continue while dropping optional scope in §5.6's stated order only, each drop a BACKLOG row; >1.40 → **S4**. At 90% of either, S4 fires unconditionally. The session's last act is always a commit plus `prove` (or `--partial`) — never an in-flight WP.
 
-**Never dropped at any burn ratio:** WP-0's eight gates, WP-1's Q1/Q2, the mutation on any gate, the coverage rules, `BUILD-LOG.md`/`BLOCKED.md` upkeep, and the anti-drift checklist.
+**Never dropped at any burn ratio:** WP-0's eleven gates, WP-1's Q1/Q2, the mutation on any gate, the coverage rules, `BUILD-LOG.md`/`BLOCKED.md` upkeep, and the anti-drift checklist.
 
 ---
 

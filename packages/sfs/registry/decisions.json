@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 75,
+  "count": 77,
   "decisions": [
     {
       "id": "D-001",
@@ -536,9 +536,9 @@
       "id": "D-045",
       "date": "2026-08-17",
       "status": "decided",
-      "decision": "`Enforced by` has four legal forms: a gate id, `structural:`/`hook:` path, `check:<tier>:<id>`, and `scheduled:<WP|BL>:<id>` while its WP is incomplete",
+      "decision": "`Enforced by` has five legal forms: a gate id, `structural:` path, `hook:` path, `check:<tier>:<id>`, and `pending:<WP-id>` while its WP is incomplete",
       "why": "a row naming a gate that cannot yet exist forced WP-0 to ship gates that check nothing",
-      "consequence": "`scheduled:` forces the rewrite",
+      "consequence": "`pending:` forces the rewrite",
       "enforcedBy": [
         "g-decisions"
       ],
@@ -902,6 +902,30 @@
       "consequence": "Archiving moves bytes out of the prompt, never a rule out of a gate: `g-decisions` walks the union, and the archive stays in `g-commands-executable`'s scan set so a floor cannot drain by archiving",
       "enforcedBy": [
         "g-decisions"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-076",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "The decompiler is lossless by default: step 7 drops a prop only where the compiler provably regenerates it byte-identically; every other non-default prop is preserved, in a typed `raw` block when SFS cannot express it",
+      "why": "Q2 requires `compile(decompile(m))` to differ from `m` by exactly N1..N12; a lossy decompiler adds a thirteenth difference no oracle rule accounts for",
+      "consequence": "Q2 is achievable; every drop is justified by a regeneration proof, not by convenience",
+      "enforcedBy": [
+        "pending:WP-1.a"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-077",
+      "date": "2026-08-17",
+      "status": "decided",
+      "decision": "N12: the compiler stamps `editMode:\"editable\"` on the `actions` group AND on every item; the oracle contract states this as a normalisation rule",
+      "why": "§2.1.7 requires it (an inherited button renders disabled, debug.md row 31) while the golden carries `inherited` on the item, so without N12 the two Q2 arms diverge on that one key",
+      "consequence": "The oracle's contract is N1..N12, not N1..N11; both arms rewrite the item's editMode",
+      "enforcedBy": [
+        "pending:WP-1.a"
       ],
       "confirmation": "n/a"
     }

@@ -22,12 +22,13 @@ Run in CONTROL §2 order, with override O4 applied before P3.
 Branch created per override O3: `hashim/sfs-rebuild-scope-a` from `8a2d2f4`. `upstream`
 is `shesha-io/shesha-plugins` and was never pushed to.
 
-## WP-0 — Workspace, coverage primitives, eight gates — 2026-08-17
+## WP-0 — Workspace, coverage primitives, eleven gates — 2026-08-17
 
 Status: complete
 Commit: 6299020 (pushed to origin/hashim/sfs-rebuild-scope-a)
 Created: the npm workspace and five packages, `packages/registry/src/coverage.mjs` (the one
-coverage implementation) with 23 tests, all eight gates with 29 verdict-flipping mutations, the
+coverage implementation) with 23 tests, all eleven gates of override O7 with 39
+verdict-flipping mutations, the
 mutation harness, `DECISIONS.md` (68 rows + the No-theatre block), `gen-decisions.mjs` and its
 byte-compared `decisions.json`, 7 probe scripts, `CLAUDE.md`, the `sfs` entrypoint, `prove.mjs`,
 `write-evidence.mjs`, 16 config files, both git hooks, and two CI workflows

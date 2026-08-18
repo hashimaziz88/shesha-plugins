@@ -16,7 +16,7 @@ bug in the gate, not a loophole.
    fails on any byte difference — scheduled at WP-5; a write-blocking hook is BL-008]
 2. **No prose rule without a program enforcing it.** A constraint expressed only in markdown is
    deleted, not annotated. [`g-decisions` requires every DECISIONS.md row to name a live enforcer or
-   a `scheduled:<id>` one; `g-prose-budget` bans annotation and archaeology patterns]
+   a `pending:<WP-id>` one; `g-prose-budget` bans annotation and archaeology patterns]
 3. **Zero coverage is a hard fail.** Every gate reports `walked / checked / notApplicable /
    uninspectable / failures` per declared family. A family that walked 0 fails. A family that walked
    more than 0 and checked 0 fails. Any `uninspectable` entry yields `partial` (exit 3), never a pass.
@@ -73,7 +73,7 @@ All of these hold, and all are machine-checked. No number in a commit body is ty
 
 1. `npm run green` exits 0 on a clean checkout after `npm ci`.
 2. Every rule the WP introduces has a DECISIONS.md row naming a live enforcer, or a
-   `scheduled:<id>` whose owner is later than this WP. [`g-decisions`]
+   `pending:<WP-id>` whose owner is later than this WP. [`g-decisions`]
 3. Every gate the WP adds or touches exports `mutations[]` with at least 2 entries, and
    `npm run gates:mutate` proves each flips the verdict. [`g-gate-contract`]
 4. Every gate and tier imports coverage accounting from `coverage.mjs`, with zero local

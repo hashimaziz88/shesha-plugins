@@ -64,7 +64,7 @@ Everything else that Sections 1–4 specify is a `BACKLOG.md` row (§5.11) carry
 
 | Order | WP | Goal | Depends on | Artifacts | Steps |
 |---|---|---|---|---|---|
-| 1 | **WP-0** | Workspace, coverage primitives, eight gates, the mutation harness, git hooks, the brief split, the deletions that need no new code | P1–P7 | 61 | 244 |
+| 1 | **WP-0** | Workspace, coverage primitives, eleven gates, the mutation harness, git hooks, the brief split, the deletions that need no new code | P1–P7 | 61 | 244 |
 | 2 | **WP-1** | **GO/NO-GO.** Two independently written programs agree on the markup of a real production form | WP-0 | 25 | 100 |
 | 3 | **WP-2** | `components-kb` → machine registry: names-only completeness for all 121, value types for the 13 priority types, honest provenance | WP-1 | 34 | 136 |
 | 4 | **WP-4** | SFS JSON Schema v1 and the ten `clean/` fixtures | WP-2 | 18 | 72 |
@@ -96,7 +96,7 @@ Everything else that Sections 1–4 specify is a `BACKLOG.md` row (§5.11) carry
 - `packages/sfs/tools/measure-form.mjs`, `packages/sfs/tools/synthesise-envelope.mjs`.
 - Deletions: `summarize.js`, `validate-blocks.js`, `bake-overlays.mjs`, `shesha-form-edit/package.json` (D-010…D-012).
 
-**The eight gates, and why exactly eight.** *A gate ships in the work package that creates its subject.* At WP-0 the only subjects that exist are the workspace, the brief, the decision registry, the commit log, `coverage.mjs`, documented commands and the gate runner itself. Therefore WP-0 ships exactly: `g-decisions`, `g-brief-budget`, `g-prose-budget`, `g-commit-format`, `g-gate-contract`, `g-coverage-single-impl`, `g-commands-executable`, `g-workspace-hygiene`. Every other gate named anywhere in the brief lands in the WP that creates its subject, or in a BACKLOG row.
+**The eleven gates, and why eleven.** *A gate ships in the work package that creates its subject.* At WP-0 the subjects that exist are the workspace, the brief, the decision registry, the commit log, `coverage.mjs`, documented commands, the git hooks, the ignore rules, the declared deletions, and the gate runner itself. Therefore WP-0 ships: `g-decisions`, `g-brief-budget`, `g-prose-budget`, `g-commit-format`, `g-gate-contract`, `g-coverage-single-impl`, `g-commands-executable`, `g-workspace-hygiene`, `g-githook-contract`, `g-no-secrets-or-scratch`, `g-disposition`. Every other gate named anywhere in the brief lands in the WP that creates its subject, or in a BACKLOG row.
 
 `g-gate-ratchet` (part of `run-gates.mjs`, not a gate) counts only gates whose declared `inputPaths[]` all exist and are non-empty **and** that have ≥ 1 verdict-flipping mutation. A gate that cannot fail was never in the count, so deleting it under S6 does not lower a floor. A deletion for any other reason lowers the floor only in a commit citing a `DECISIONS.md` row beginning `Gate removal:`.
 
@@ -104,7 +104,7 @@ Everything else that Sections 1–4 specify is a `BACKLOG.md` row (§5.11) carry
 1. a gate id with a file under `packages/verify/src/gates/`;
 2. `structural:<path>` or `hook:<file>` — the path must exist;
 3. `check:<tier-module>:<check-id>` — `g-decisions` imports the tier module and asserts the id is in its exported `checks[]`;
-4. `scheduled:<WP-or-BL-id>:<enforcer-id>` — accepted only when `packages/verify/config/scheduled-enforcers.json` has a matching row, the id appears in `session-scope.json` or `BACKLOG.md`, and `BUILD-LOG.md` does not record that WP complete. A `scheduled:` row surviving its WP's completion is a hard failure.
+4. `pending:<WP-id>` — accepted only when `packages/verify/config/pending-budget.json` has a matching owner row, the id appears in `session-scope.json` or `BACKLOG.md`, and `BUILD-LOG.md` does not record that WP complete. A `pending:` row surviving its WP's completion is a hard failure.
 
 **Brief split (D-046), enforced by `g-brief-budget`.** The pre-rebuild failure was 322,816 B of prose against a ~100–150 constraint adherence ceiling [§0, §1.2]. A 450 KB brief reproduces it. WP-0 therefore splits the bundle by reader and the gate holds the shape:
 - `docs/rebuild-brief/CONTROL.md` ≤ 25,600 B — this section, verbatim. The only file read at turn zero and after every reset.
@@ -544,7 +544,7 @@ npm run green:fast ; echo "green:fast exit=$?"
 
 **At 90% of either budget, S4 fires unconditionally.** The session's last act is always a commit plus `npm run prove` (or `--partial`) — never an in-flight WP.
 
-**Never dropped, at any burn ratio:** WP-0's eight gates, WP-1's Q1/Q2, the mutation on any gate, the coverage rules, `BUILD-LOG.md` / `BLOCKED.md` upkeep, §5.10.
+**Never dropped, at any burn ratio:** WP-0's eleven gates, WP-1's Q1/Q2, the mutation on any gate, the coverage rules, `BUILD-LOG.md` / `BLOCKED.md` upkeep, §5.10.
 
 ---
 
@@ -687,11 +687,11 @@ Eight-cell format per §1.4. Ids **D-040 … D-058**. Every `Enforced by` uses o
 | D-042 | WP-0 writes the whole coverage API with ≥ 14 tests; WP-3a adds `walk.mjs` and unit-typed families, not a second copy | A partial API written twice is the drift generator this rebuild removes | `check:coverage.test:count-ratchet` |
 | D-043 | The brief is committed under `docs/rebuild-brief/`, outside `g-prose-budget` and `g-commands-executable`, inside `g-brief-budget` | A session that loses the brief to a reset has no source of truth; `docs/**` is not prompt payload | `g-brief-budget` |
 | D-044 | Exactly four artifact names: `<screen>.form.json`, `<screen>.compile.json`, `<screen>.form.meta.json`, `<screen>.sfs.meta.json`; blessed fixtures are `<screen>.expected.form.json`; `.compiled.json` is banned | Three names for two artifacts were embedded in command lines the session would paste | `g-artifact-naming` |
-| D-045 | `Enforced by` has four legal forms: gate id, `structural:`/`hook:` path, `check:<tier>:<id>`, `scheduled:<WP\|BL>:<id>` — the last only while its WP is incomplete | A row naming a gate that cannot yet exist forced WP-0 to ship gates that check nothing — the exact pattern the brief exists to eliminate | `g-decisions` |
+| D-045 | `Enforced by` has five legal forms: gate id, `structural:` path, `hook:` path, `check:<tier>:<id>`, `pending:<WP-id>` — the last only while its WP is incomplete | A row naming a gate that cannot yet exist forced WP-0 to ship gates that check nothing — the exact pattern the brief exists to eliminate | `g-decisions` |
 | D-046 | The brief is split by reader: `CONTROL.md` ≤ 25,600 B is the only turn-zero read; the bundle ≤ 61,440 B; every > 8-row table becomes `data/*.json`; every literal file becomes `artifacts/<file>`; 0 fenced blocks > 40 lines | 322,816 B of prose against a ~100–150 constraint ceiling is RC2; a 450 KB brief reproduces it one level up | `g-brief-budget` |
 | D-047 | A mutation copies only that gate's declared `inputPaths[]` to a temp dir and junction-links the root `node_modules`; the suite has a 180 s asserted ceiling; `green:fast` (no mutations) runs in pre-commit, full `green` in `prove` and CI | 110+ full-repo copies on NTFS with Defender is tens of GB per commit; a slow gate is a gate bypassed with `--no-verify` | `check:mutation-meta:budget`, `g-gate-contract` |
 | D-048 | `npm run green` writes `packages/verify/evidence/<WP>.json`; `g-commit-format` regenerates it in `commit-msg` and fails on staleness or on any commit-body number that disagrees. No criterion is satisfied by a typed number | A commit body a gate blesses is a self-report, which is the "agents over-praise their own outputs" failure the plan cites twice | `g-commit-format` |
-| D-049 | `verify-artifact.mjs` and `check-references.mjs` move unchanged, are referenced by nothing, and are registered in `quarantine.json` with `liftedBy: BL-003` | §6 Phase 0 wants the bleeding stopped now, but the correct fixes need T2/T3; a holed gate must not emit a green signal meanwhile | `scheduled:BL-003:g-quarantine`, §5.9 item 15 |
+| D-049 | `verify-artifact.mjs` and `check-references.mjs` move unchanged, are referenced by nothing, and are registered in `quarantine.json` with `liftedBy: BL-003` | §6 Phase 0 wants the bleeding stopped now, but the correct fixes need T2/T3; a holed gate must not emit a green signal meanwhile | `pending:BL-003`, §5.9 item 15 |
 | D-050 | `cost-delta` gates exactly two recomputable byte counts — `emittedBytes` (floor 10×) and `preloadBytes` (floor 5×). `steps`, tokens and tool calls are deleted from the gate and moved to BL-001; `prove` prints `token cost: unmeasured in this session` | §7's savings are hypotheses the harness will grade; a ratio derived from prose the session is deleting is §1.7 T15 | `g-cost-delta`, `g-backlog` (BL-001 exists) |
 | D-051 | Scope is `packages/verify/config/session-scope.json`, eight WP ids; narrowing needs a `Scope change:` row; everything else is a `BACKLOG.md` row with its acceptance command copied verbatim | The alternative is discovering at 100% of budget that the compiler was never reachable — the maximal-theatre outcome: more green signals than the pre-rebuild repo and less working code | `g-backlog`, `g-no-gate-tampering`, `structural:packages/verify/src/prove.mjs` |
 | D-052 | Repairs on one gate in one WP are capped at 3 rounds; at round 3 the choice is block the WP or fix the gate **with its mutation** — never silence it | UI2Code^N saturation at N=3–5; SpecBench found more iterations sometimes amplify reward hacking | `g-no-gate-tampering`; `repairRounds` in `BUILD-LOG.md` |
