@@ -1,0 +1,45 @@
+{
+  "sfs": "1.0",
+  "form": "booking-detail",
+  "module": "boxfusion.test",
+  "kind": "detail",
+  "entity": "boxfusion.test.Domain.Bookings.Booking",
+  "label": "Booking",
+  "page": {
+    "title": "Booking",
+    "subtitle": "Flight booking detail"
+  },
+  "body": [
+    {
+      "node": "col",
+      "name": "summary",
+      "children": [
+        {
+          "node": "field",
+          "name": "reference",
+          "bind": "bookingReference",
+          "component": "textField"
+        },
+        {
+          "node": "field",
+          "name": "passenger",
+          "bind": "passengerName",
+          "component": "textField"
+        },
+        {
+          "node": "field",
+          "name": "cabin",
+          "bind": "cabinClass",
+          "component": "textField"
+        },
+        {
+          "node": "status",
+          "name": "state",
+          "bind": "status",
+          "refList": "boxfusion.test/BookingStatus",
+          "solid": true
+        }
+      ]
+    }
+  ]
+}

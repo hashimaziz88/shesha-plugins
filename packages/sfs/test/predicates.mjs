@@ -6,6 +6,25 @@
 // Every predicate takes the PARSED markup and returns {ok, detail}. None of them takes
 // a number from the brief: the count rules are arithmetic identities over the tree, so
 // they hold for any form rather than for one measured artifact.
+//
+// The predicates are KIND-AWARE (D-091): the golden is a list, but the same rules hold
+// for create/detail/datalist forms. N1 exempts labelled INPUT types (the registry's
+// editModeChannel:"input" records), and N8 checks the emitted formSettings against the
+// kind profile inferred from its own loader/submitter signature, rather than hardcoding
+// the list's dataSubmitterType:"none".
+
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const DATA = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'registry', 'data', '0.45.1');
+/** @param {string} f @returns {any} */
+const readData = (f) => JSON.parse(fs.readFileSync(path.join(DATA, f), 'utf8').replace(/^﻿/, ''));
+const REG = readData('components.json');
+const FORM_SETTINGS = readData('form-settings.json');
+/** Component types whose emitted `hideLabel` is legitimately false — labelled inputs. */
+const INPUT_LABEL_TYPES = new Set(
+  Object.entries(REG.components).filter(([, r]) => /** @type {any} */ (r).editModeChannel === 'input').map(([t]) => t));
 
 /** A `label` no designer wrote: the framework's auto-name shape (N1). */
 export const AUTO_LABEL = /^[A-Z][a-z]+\d+$/;
@@ -59,8 +78,10 @@ export function n1LabelDefaults(m) {
   const nodes = allNodes(m);
   const auto = nodes.filter((n) => typeof n.label === 'string' && AUTO_LABEL.test(n.label));
   if (auto.length > 0) return v(false, `${auto.length} node(s) carry an auto-shaped label, e.g. "${String(auto[0].label)}"`);
-  const shown = nodes.filter((n) => n.type !== 'field' && n.hideLabel !== true);
-  if (shown.length > 0) return v(false, `${shown.length} non-field node(s) do not set hideLabel:true, e.g. ${String(shown[0].componentName)}`);
+  // A labelled input (registry editModeChannel:"input") legitimately shows its label;
+  // every other node hides it. `field`/`select` compile to those input types.
+  const shown = nodes.filter((n) => !INPUT_LABEL_TYPES.has(String(n.type)) && n.hideLabel !== true);
+  if (shown.length > 0) return v(false, `${shown.length} non-input node(s) do not set hideLabel:true, e.g. ${String(shown[0].componentName)}`);
   const orphanAlign = nodes.filter((n) => n.labelAlign !== undefined && n.label === undefined);
   if (orphanAlign.length > 0) return v(false, `${orphanAlign.length} node(s) carry labelAlign with no label`);
   return v(true, `${nodes.length} node(s): no auto-label, every non-field hides its label, no orphan labelAlign`);
@@ -161,12 +182,35 @@ export function n7OneWiringPerEvent(m) {
 /** @param {Markup} m @returns {Verdict} */
 export function n8FormSettingsByKind(m) {
   const f = m.formSettings;
-  if (f.dataSubmitterType !== 'none') return v(false, `dataSubmitterType is ${j(f.dataSubmitterType)} on a read-only list`);
-  if (f.dataSubmittersSettings !== undefined) return v(false, 'dataSubmittersSettings is present on a read-only list');
-  // D-104: present-and-null is the LEGAL shape; a non-null value is the defect.
-  if (f.onBeforeDataLoad !== null) return v(false, `onBeforeDataLoad is ${j(f.onBeforeDataLoad)}; it is legal for no kind (D-102)`);
-  if (f.version !== 8) return v(false, `formSettings.version is ${j(f.version)}, not 8`);
-  return v(true, 'dataSubmitterType none, no dataSubmittersSettings, onBeforeDataLoad null, version 8');
+  if (f.version !== FORM_SETTINGS.base.version) return v(false, `formSettings.version is ${j(f.version)}, not ${FORM_SETTINGS.base.version}`);
+
+  // Infer the kind from the emitted loader/submitter signature (§2.1.3), the same
+  // inversion the decompiler uses — a table wins over the submitter (a list with a
+  // submitter is the N8 defect, not an edit form).
+  let hasTable = false;
+  for (const n of allNodes(m)) if (n.type === 'datatable' || n.type === 'datalist') hasTable = true;
+  const loader = f.dataLoaderType;
+  const submitter = f.dataSubmitterType;
+  const kind = hasTable && loader === 'gql' ? 'list'
+    : loader === 'gql' && submitter === 'none' ? 'detail'
+      : loader === 'none' && submitter === 'gql' ? 'create'
+        : loader === 'gql' && submitter === 'gql' ? 'edit' : 'custom';
+  const profile = FORM_SETTINGS.kinds[kind];
+  if (profile === undefined) return v(false, `no kind profile for inferred kind ${j(kind)}`);
+
+  // Every hook key must be PRESENT (D-104: present-and-null is legal); a NON-null
+  // hook must be legal for this kind. onBeforeDataLoad is legal for no kind (D-102).
+  for (const key of FORM_SETTINGS._hookKeys) {
+    if (!(key in f)) return v(false, `hook "${key}" is absent; present-and-null is the legal shape (D-104)`);
+    if (f[key] !== null && !profile.hooks.includes(key)) {
+      return v(false, `${key} is ${j(f[key])} but not legal for kind ${j(kind)} (D-102/N8)`);
+    }
+  }
+  // A read-only kind (no submitter) never carries submitter settings — the golden's defect.
+  if (submitter === 'none' && f.dataSubmittersSettings !== undefined) {
+    return v(false, `dataSubmittersSettings present with dataSubmitterType none (kind ${j(kind)})`);
+  }
+  return v(true, `formSettings consistent with inferred kind ${kind}: version ${f.version}, hooks gated, submitter ${j(submitter)}`);
 }
 
 /** @param {Markup} m @returns {Verdict} */
@@ -260,16 +304,15 @@ export function notEditableTriplet(m) {
 export function identities(counts, sfsBytes, markupBytes) {
   const ratio = markupBytes / sfsBytes;
   return {
-    // The identity itself is total. The non-vacuity guard is per-fixture on the
-    // summands a form necessarily has (components, and items once it has a table
-    // or an action group); `slots` exists only where a slotted type does, so
-    // demanding it per fixture would silently require every fixture to carry a
-    // page shell — a design constraint no rule states. Non-vacuity of `slots` is
-    // asserted across the fixture SET by golden-defects.test.mjs (D-080).
-    A1: counts.ids === counts.components + counts.slots + counts.items
-      && counts.components > 0 && counts.items > 0
+    // The identity itself is total. The per-fixture non-vacuity guard is on
+    // `components` alone — every form has components. `slots` exists only where a
+    // slotted type does, and `items` only where a table/action group does; demanding
+    // either per fixture would silently require every fixture to be a page-shell list.
+    // Non-vacuity of `slots` AND `items` is asserted across the fixture SET by
+    // golden-defects.test.mjs (D-080, D-091).
+    A1: counts.ids === counts.components + counts.slots + counts.items && counts.components > 0
       ? v(true, `ids ${counts.ids} = components ${counts.components} + slots ${counts.slots} + items ${counts.items}`)
-      : v(false, `ids ${counts.ids} != components ${counts.components} + slots ${counts.slots} + items ${counts.items} (components and items must be > 0)`),
+      : v(false, `ids ${counts.ids} != components ${counts.components} + slots ${counts.slots} + items ${counts.items} (components must be > 0)`),
     A2: counts.breakpointBlocks === 3 * counts.styledComponents
       ? v(true, `breakpointBlocks ${counts.breakpointBlocks} = 3 x ${counts.styledComponents}`)
       : v(false, `breakpointBlocks ${counts.breakpointBlocks} != 3 x ${counts.styledComponents}`),

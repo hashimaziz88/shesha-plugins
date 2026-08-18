@@ -1,0 +1,33 @@
+{
+  "sfs": "1.0",
+  "form": "flights-datalist",
+  "module": "boxfusion.test",
+  "kind": "list",
+  "entity": "boxfusion.test.Domain.Flights.Flight",
+  "label": "Flights",
+  "page": {
+    "title": "Flights",
+    "subtitle": "Scheduled flights"
+  },
+  "body": [
+    {
+      "node": "data",
+      "name": "flights",
+      "children": [
+        {
+          "node": "search",
+          "name": "quickSearch"
+        },
+        {
+          "node": "list",
+          "name": "flightList",
+          "rowTemplate": "boxfusion.test/flight-row"
+        },
+        {
+          "node": "pager",
+          "name": "pager"
+        }
+      ]
+    }
+  ]
+}

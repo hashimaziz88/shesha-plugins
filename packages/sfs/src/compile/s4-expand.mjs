@@ -394,6 +394,16 @@ function expandNode(n, ctx, widths) {
     out[key] = value;
   }
 
+  // Input-ish leaves (field/select/status/list): s2 left the framework shapes on
+  // `_`-prefixed hints; lift them into the real keys. `propertyName` is the bound
+  // property, not the region name, for these nodes.
+  if (typeof n.props._propertyName === 'string') out.propertyName = n.props._propertyName;
+  if (n.props._referenceListId !== undefined) out.referenceListId = n.props._referenceListId;
+  if (n.props._dataSourceType !== undefined) out.dataSourceType = n.props._dataSourceType;
+  if (n.props._solidBackground !== undefined) out.solidBackground = n.props._solidBackground;
+  if (n.props._showReflistName !== undefined) out.showReflistName = n.props._showReflistName;
+  if (n.props._formId !== undefined) { out.formId = n.props._formId; out.formSelectionMode = 'name'; }
+
   // The container's base-level flex mirror, which production carries alongside the
   // three blocks.
   if (rec.breakpointChannels.includes('display')) {

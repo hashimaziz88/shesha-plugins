@@ -240,7 +240,9 @@ export function entityToModelType(clrType, moduleName) {
 function normaliseNode(n, diagnostics) {
   // N1. Every non-field node hides its label. `labelAlign` is emitted only when a
   // label is present, so the golden's labelAlign-without-hideLabel cannot recur.
-  const isField = n.node === 'field';
+  // A labelled input shows its label; `field` and `select` are the two input nodes
+  // (a decompiled dropdown/autocomplete lifts to `field`, so the two must agree).
+  const isField = n.node === 'field' || n.node === 'select';
   n.props._hideLabel = !isField;
   if (n.label !== undefined && AUTO_LABEL.test(n.label)) {
     throw new SfsError('NRM-3101',

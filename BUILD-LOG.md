@@ -348,3 +348,43 @@ half-committing a WP, so the work is split into WP-5.a (the compiler surface) an
 (the corpus round-trip + the five WP-5 gates), both in scope. Mirrors D-070's WP-1 split.
 session-scope.json now lists ten ids; CONTROL section 3 and prove's step `needs` updated
 in the same commit.
+
+## WP-5.a — Compiler v1: all node kinds, recipes, error catalogue, decompiler lifts — 2026-08-18
+
+Status: complete
+Gate: `node --test packages/sfs/test/*.test.mjs` -> exit 0; every clean/ fixture round-trips (Q1)
+Evidence: packages/verify/evidence/WP-5.a.json
+Decisions added: D-091 (Test change: kind-aware predicates), D-092 (generated error catalogue), D-093 (field/select node-kind resolution)
+Blocked: none new
+Next: WP-5.b
+
+The compiler and decompiler now cover ALL SFS node kinds, each proven to round-trip:
+`field` (resolves its type from `component`; `_datatypeMap` needs a backend — MET-2203),
+`select` (-> dropdown|autocomplete by `source`), `list` (datalist + rowTemplate),
+standalone `text` (content), `status` (refListStatus), `errors` (validationErrors), on top
+of the WP-1 set. The decompiler lifts each back, inferring the form kind from the emitted
+loader/submitter signature (a table wins over the submitter — a list carrying a submitter
+is the N8 defect, not an edit form) and lifting dropdown/autocomplete to `select` so the
+emit path — and the type-specific key order — is identical on round-trip.
+
+Created/changed: s2 `resolveNodeRecord` + input-ish prop hints; s3 N1 labelled-input rule;
+s4 hint emission; decompile kind-inference + per-kind lifts + componentName-based naming;
+six input/list registry contracts in `_authored.json` (regenerated, Q1/Q2 still 12
+BYTE-EQUAL, registry still `priority full 13/13`); three new clean fixtures (booking-create
+with fields+select+errors, booking-detail with fields+status, flights-datalist with a
+datalist) bringing the clean set to thirteen, all round-tripping; `tools/gen-catalogue.mjs`
++ `config/error-catalogue.json` (34 codes, generated from every raise site) + a
+byte-identity+coverage test.
+
+The golden-defect predicates were generalised to be KIND-AWARE (D-091, a Test change):
+N1 exempts labelled input TYPES (registry `editModeChannel:"input"`), N8 infers the kind
+from the emitted formSettings and checks its profile instead of hardcoding the list's
+`dataSubmitterType:"none"`, and A1's `items` non-vacuity became SET-level (like `slots`).
+The N1..N11 rules and A1..A5 identities now hold for list, create, detail and datalist forms
+alike; the golden's list assertions are unchanged.
+
+Note: standalone `text` with a bound value (contentDisplay) and a default text-style recipe
+are not exercised by WP-5.a's fixtures; entity-card in WP-5.b's corpus needs them and is
+where that lands. The seven recipes (§2.6) are embodied in s3/s4 (pageShell, dataRegion,
+flexRow, statusBadge, actionsGroup, the [not-editable] triplet, validationErrors), not yet
+factored into named recipe functions.

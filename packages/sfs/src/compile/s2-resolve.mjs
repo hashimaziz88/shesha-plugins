@@ -151,6 +151,45 @@ const STRUCTURAL = new Set([
 const NEEDS_DATA = new Set(['table', 'list', 'pager', 'search']);
 
 /**
+ * Resolve a region's SFS node to its component type + record. Most kinds map through
+ * the registry's `sfsNode` (D-083), but three resolve dynamically:
+ *   field  — `component` names the input type directly (offline; a backend-resolved
+ *            datatype via `_datatypeMap` is MET-2203 until a backend is in the room)
+ *   select — `source:"entity"` -> autocomplete, else dropdown (§2.1.4)
+ *   raw    — the type is on `raw.type`; s4 owns the structural escape
+ * @param {Registry} reg
+ * @param {string} node
+ * @param {Record<string, unknown>} region
+ * @param {string} where
+ * @returns {{type:string, record:import('../lib/registry.mjs').ComponentRecord}}
+ */
+function resolveNodeRecord(reg, node, region, where) {
+  if (node === 'field') {
+    const comp = typeof region.component === 'string' ? region.component : null;
+    if (comp === null) {
+      throw new SfsError('MET-2203',
+        `MET-2203 field "${String(region.name)}" at ${where} has no component and no backend to resolve `
+        + 'its datatype through _datatypeMap; write component:"<inputType>" offline', where);
+    }
+    const record = reg.components[comp];
+    if (record === undefined || record.isInput !== true || record.authorable === false) {
+      throw new SfsError('SFS-1004',
+        `SFS-1004 field component "${comp}" at ${where} is not an authorable input type`, where);
+    }
+    return { type: comp, record };
+  }
+  if (node === 'select') {
+    const type = region.source === 'entity' ? 'autocomplete' : 'dropdown';
+    const record = reg.components[type];
+    if (record === undefined) {
+      throw new SfsError('REG-2101', `REG-2101 select at ${where} resolves to "${type}", which the registry lacks`, where);
+    }
+    return { type, record };
+  }
+  return recordForNode(reg, node);
+}
+
+/**
  * @param {Registry} reg
  * @param {Record<string, unknown>} region
  * @param {string} parentPath
@@ -161,7 +200,7 @@ function resolveRegion(reg, region, parentPath, diagnostics) {
   const node = String(region.node);
   const name = String(region.name);
   const sfsPath = `${parentPath}/${name}`;
-  const { type, record } = recordForNode(reg, node);
+  const { type, record } = resolveNodeRecord(reg, node, region, sfsPath);
 
   /** @type {Record<string, unknown>} */
   const props = {};
@@ -177,6 +216,35 @@ function resolveRegion(reg, region, parentPath, diagnostics) {
     props._flexDirection = node === 'row' ? 'row' : 'column';
     if (typeof region.align === 'string') props._align = region.align;
     if (typeof region.justify === 'string') props._justify = region.justify;
+  }
+
+  // Input-ish leaves bind to an entity property: `bind` becomes `propertyName` (the
+  // region `name` stays the componentName), and `refList`/`rowTemplate`/`source`
+  // resolve to their framework shapes. The `_`-prefixed hints are consumed by s4 and
+  // never emitted as props; s4 lifts them into the real framework keys.
+  if (node === 'field' || node === 'select' || node === 'status') {
+    if (typeof props.bind === 'string') { props._propertyName = camelPath(String(props.bind)); delete props.bind; }
+    // `component` selected the field's type in resolveNodeRecord; it is not a
+    // framework prop and must not reach the markup.
+    delete props.component;
+  }
+  if ((node === 'select' || node === 'status') && typeof props.refList === 'string') {
+    props._referenceListId = splitRefListRef(String(props.refList), `${sfsPath}.refList`);
+    delete props.refList;
+  }
+  if (node === 'status') {
+    // The SFS status sugar (solid, showName) maps to the framework's refListStatus
+    // prop names; carry them as hints so s4 emits the framework shape.
+    if (props.solid !== undefined) { props._solidBackground = props.solid === true; delete props.solid; }
+    if (props.showName !== undefined) { props._showReflistName = props.showName !== false; delete props.showName; }
+  }
+  if (node === 'select') {
+    props._dataSourceType = region.source === 'entity' ? 'entitiesList' : 'referenceList';
+    delete props.source;
+  }
+  if (node === 'list' && typeof props.rowTemplate === 'string') {
+    props._formId = splitFormRef(String(props.rowTemplate), `${sfsPath}.rowTemplate`);
+    delete props.rowTemplate;
   }
 
   const styleIn = /** @type {Record<string, unknown>} */ (region.style || {});

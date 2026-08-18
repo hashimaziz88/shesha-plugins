@@ -1,0 +1,61 @@
+{
+  "sfs": "1.0",
+  "form": "booking-create",
+  "module": "boxfusion.test",
+  "kind": "create",
+  "entity": "boxfusion.test.Domain.Bookings.Booking",
+  "label": "New booking",
+  "submits": true,
+  "page": {
+    "title": "New booking",
+    "subtitle": "Capture a flight booking"
+  },
+  "body": [
+    {
+      "node": "col",
+      "name": "formBody",
+      "children": [
+        {
+          "node": "errors",
+          "name": "validation"
+        },
+        {
+          "node": "field",
+          "name": "reference",
+          "bind": "bookingReference",
+          "component": "textField"
+        },
+        {
+          "node": "field",
+          "name": "passenger",
+          "bind": "passengerName",
+          "component": "textField"
+        },
+        {
+          "node": "field",
+          "name": "seats",
+          "bind": "seatCount",
+          "component": "numberField"
+        },
+        {
+          "node": "field",
+          "name": "departure",
+          "bind": "departureDate",
+          "component": "dateField"
+        },
+        {
+          "node": "select",
+          "name": "cabin",
+          "bind": "cabinClass",
+          "refList": "boxfusion.test/CabinClass"
+        },
+        {
+          "node": "select",
+          "name": "agent",
+          "bind": "agentId",
+          "source": "entity"
+        }
+      ]
+    }
+  ]
+}
