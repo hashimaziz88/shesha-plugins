@@ -221,3 +221,43 @@ Five real defects Q2 found that no prior test had:
 | Inline-editable columns carry REAL editors; the column grammar could not express them and the decompiler dropped them — data loss under D-076 | the column grammar gained `editor:{type,props}` and nullable `max` (D-079) |
 | `_type:"action-config"` is a measured production key on every action config; the serialiser stripped it as compiler-internal | stripInternal carves it out; empty `actionArguments` is omitted, matching the measured onSuccess shape |
 | A row container with no `responsive` gave every child the 100% dimension default — two 100% children in a row block is exactly the N9 geometry | children of an undeclared row are width `auto` in both arms (D-079) |
+
+## WP-1.b — Q5 determinism, the defect ratchet, cost-delta, artifact naming — 2026-08-18
+
+Status: complete
+Gate: `node --test packages/sfs/test/*.test.mjs && node packages/sfs/tools/cost-delta.mjs --json` -> exit 0
+Evidence: packages/verify/evidence/WP-1.b.json
+Decisions added: D-080, D-081, D-082
+Blocked: none new
+Next: WP-2
+
+The observed output, verbatim:
+
+```
+Q5 bookings-table.sfs.json · 50 in-process identical · 3 subprocess identical · ids v5-recomputed 22/22 · banned identifiers 0
+Q5 inline-editable-table.sfs.json · 50 in-process identical · 3 subprocess identical · ids v5-recomputed 19/19 · banned identifiers 0
+defect classes present in bookings-table.revision2.json: 11 · all 11 absent from compiled output
+defect classes present in inline-editable-table.envelope.json: 0 · all 0 absent from compiled output (already clean)
+emitted 12032 -> 802 B (15.0x, floor 10) · preload deferred:WP-7a (uninspectable — never a pass) · GATE PASS
+```
+
+Created: `test/fixtures/clean/inline-editable-table.sfs.json` (802 B compact, a faithful
+thin respec of the production inventory screen — no invented Add button, since the seed
+has none; emitted ratio 15.0x, A5 13.6x, Q1 byte-equal); `tools/measure-form.mjs` (the
+N1..N12 defect census, run over legacy markup); `tools/cost-delta.mjs` +
+`packages/sfs/config/cost-baseline.json`; `test/determinism.test.mjs` (Q5: 50 in-process
++ 3 subprocess compiles byte-identical, every id recomputed as uuidv5 of its sfsPath, 0
+clock/randomness identifiers); `test/defect-ratchet.test.mjs` + the two generated
+`*.defects.json` censuses; `g-artifact-naming` (2 verdict-flipping mutations; roster 12
+-> 13, floor raised to match).
+
+Two real defects the tooling forced out, that a hand-authored fixture would have hidden:
+
+| Defect | How it was caught |
+|---|---|
+| The first fixture invented a toolbar with an Add button and dialog action the production inventory seed does not have | `measure-form.mjs` on the seed showed 7 nodes, no buttonGroup. The fixture was rewritten to mirror what exists |
+| `cost-delta.mjs` (in `packages/sfs`) read `packages/verify/config/cost-baseline.json` — an sfs->verify layer inversion | `g-workspace-hygiene` dep-direction. The baseline moved to `packages/sfs/config/` (D-082); verify's WP-10 gate reads it across the allowed L3->L1 direction |
+
+Two documents corrected to the tree, both because a command must be runnable:
+`CONTROL.md` §3's WP-1.b acceptance path `packages/sfs/tests/` -> `packages/sfs/test/*.test.mjs`
+(the dir form is not a valid `node --test` argument on Node 22.23.2; `tests/` never existed).

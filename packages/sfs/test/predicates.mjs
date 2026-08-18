@@ -260,10 +260,16 @@ export function notEditableTriplet(m) {
 export function identities(counts, sfsBytes, markupBytes) {
   const ratio = markupBytes / sfsBytes;
   return {
+    // The identity itself is total. The non-vacuity guard is per-fixture on the
+    // summands a form necessarily has (components, and items once it has a table
+    // or an action group); `slots` exists only where a slotted type does, so
+    // demanding it per fixture would silently require every fixture to carry a
+    // page shell — a design constraint no rule states. Non-vacuity of `slots` is
+    // asserted across the fixture SET by golden-defects.test.mjs (D-080).
     A1: counts.ids === counts.components + counts.slots + counts.items
-      && counts.components > 0 && counts.slots > 0 && counts.items > 0
+      && counts.components > 0 && counts.items > 0
       ? v(true, `ids ${counts.ids} = components ${counts.components} + slots ${counts.slots} + items ${counts.items}`)
-      : v(false, `ids ${counts.ids} != components ${counts.components} + slots ${counts.slots} + items ${counts.items} (each summand must be > 0)`),
+      : v(false, `ids ${counts.ids} != components ${counts.components} + slots ${counts.slots} + items ${counts.items} (components and items must be > 0)`),
     A2: counts.breakpointBlocks === 3 * counts.styledComponents
       ? v(true, `breakpointBlocks ${counts.breakpointBlocks} = 3 x ${counts.styledComponents}`)
       : v(false, `breakpointBlocks ${counts.breakpointBlocks} != 3 x ${counts.styledComponents}`),

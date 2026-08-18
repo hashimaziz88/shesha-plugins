@@ -130,3 +130,18 @@ for (const file of FIXTURES) {
     }
   });
 }
+
+test('every A1 summand is exercised across the fixture SET (D-080)', () => {
+  // A1's per-fixture guard covers `components` and `items`. `slots` exists only
+  // where a slotted type does, so its non-vacuity is a property of the SET: at
+  // least one clean fixture must stamp a slot id, or the slot arithmetic would
+  // never be tested by anything.
+  const totals = FIXTURES.map((file) => {
+    const counts = /** @type {Record<string, number>} */ (
+      compile(fs.readFileSync(path.join(CLEAN, file), 'utf8'), { source: file }).report.counts);
+    return counts.slots;
+  });
+  const withSlots = totals.filter((n) => n > 0);
+  assert.ok(withSlots.length > 0,
+    `no clean fixture produces a slot, so A1's slots term is never exercised (per-fixture slots: ${totals.join(', ')})`);
+});

@@ -89,7 +89,7 @@ Everything else that Sections 1–4 specify is a `BACKLOG.md` row (§5.11) carry
 - `packages/verify/src/coverage.mjs`, `packages/sfs/src/lib/coverage.mjs` — one line each.
 - `packages/verify/src/run-gates.mjs`, `packages/verify/test/mutation-meta.test.mjs`.
 - **Eight gates** (below) with their declared mutations.
-- `packages/verify/config/{prose-budget,disposition,fanout,cost-baseline,session-scope,scheduled-enforcers,quarantine,gate-ratchet,fixture-floors,command-floor}.json`.
+- `packages/verify/config/{prose-budget,disposition,fanout,cost-baseline,session-scope,scheduled-enforcers,quarantine,gate-ratchet,fixture-floors,command-floor}.json` (cost-baseline lives under `packages/sfs/config/` — D-082).
 - `/DECISIONS.md`, `/BUILD-LOG.md`, `/BLOCKED.md`, `/BACKLOG.md`.
 - `docs/rebuild-brief/**` — the five sections, `CONTROL.md` (a copy of this section), `data/*.json`, `artifacts/*`.
 - `git mv` of `verify-artifact.mjs`, `check-references.mjs` and their tests into `packages/verify/src/` + `packages/verify/test/`.
@@ -192,7 +192,7 @@ mutations: <S> seconds (ceiling 180)
 | Q4 | Clean under T2 | not asserted in WP-1 (T2 is WP-3a); asserted in `prove` step 6 |
 | Q5 | Id determinism | `determinism.test.mjs`: 50 in-process + 3 subprocess compiles byte-identical; every id equals `uuidv5(NS, "<module>/<form>|<sfsPath>")` recomputed from the meta sidecar; 0 banned identifiers |
 
-**Creates (25 artifacts).** `packages/sfs/schema/sfs.schema.json` (v0, fixture-scoped); `test/fixtures/clean/inline-editable-table.sfs.json` (≤ 1,400 B); `test/fixtures/legacy/inline-editable-table.seed.json` (`git mv` of the example) and `.envelope.json` (synthesised, committed); `src/compile/{index,s1-parse,s2-resolve,s3-normalise,s4-expand,s5-stamp,s6-serialise}.mjs`; `src/decompile/{index,detect}.mjs`; `src/lib/{ids,orderedJson,tokens}.mjs`; `bin/sfs.mjs`; `tools/{normalise-legacy,pnf,cost-delta}.mjs`; `tests/{oracle,golden-defects,determinism,selfconsistency}.test.mjs`; `packages/verify/src/gates/{g-oracle-independence,g-determinism,g-artifact-naming}.mjs`; `packages/verify/config/cost-baseline.json`.
+**Creates (25 artifacts).** `packages/sfs/schema/sfs.schema.json` (v0, fixture-scoped); `test/fixtures/clean/inline-editable-table.sfs.json` (≤ 1,400 B); `test/fixtures/legacy/inline-editable-table.seed.json` (`git mv` of the example) and `.envelope.json` (synthesised, committed); `src/compile/{index,s1-parse,s2-resolve,s3-normalise,s4-expand,s5-stamp,s6-serialise}.mjs`; `src/decompile/{index,detect}.mjs`; `src/lib/{ids,orderedJson,tokens}.mjs`; `bin/sfs.mjs`; `tools/{normalise-legacy,pnf,cost-delta}.mjs`; `tests/{oracle,golden-defects,determinism,selfconsistency}.test.mjs`; `packages/verify/src/gates/{g-oracle-independence,g-determinism,g-artifact-naming}.mjs`; `packages/sfs/config/cost-baseline.json`.
 
 **Golden defects, re-derived.** The eight defects of §1.1 belong to `bookings-table`, which is not in the tree. `golden-defects.test.mjs` asserts the **normalisation classes** N1–N10 against the target's own measured defect set, produced by `node packages/sfs/tools/measure-form.mjs <target> --defects --json` and committed as `test/fixtures/legacy/inline-editable-table.defects.json`. The count is discovered, printed, and ratcheted; it is never a literal copied from the strategy doc.
 

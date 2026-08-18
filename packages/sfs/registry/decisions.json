@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 79,
+  "count": 82,
   "decisions": [
     {
       "id": "D-001",
@@ -528,7 +528,7 @@
       "why": "three names for two artifacts were embedded in command lines the session would paste",
       "consequence": "No path may match `\\.compiled(\\.meta)?\\.json$`",
       "enforcedBy": [
-        "pending:WP-5"
+        "g-artifact-naming"
       ],
       "confirmation": "n/a"
     },
@@ -950,6 +950,42 @@
       "consequence": "the SFS column grammar gains `editor` and `max`; both Q2 arms agree on the measured shapes",
       "enforcedBy": [
         "g-oracle-independence"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-080",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "Test change: A1's non-vacuity guard is per-fixture on `components` and `items` and SET-level on `slots`; the identity `ids = components + slots + items` is unchanged and still total",
+      "why": "`slots` is only produced by a slotted type, so a per-fixture `slots > 0` silently requires every clean fixture to carry a page shell — a design constraint no rule states, and fixture-fitting to satisfy it would be the defect this rebuild removes",
+      "consequence": "a fixture may faithfully mirror a shell-less production form; at least one fixture must still stamp a slot, asserted over the set",
+      "enforcedBy": [
+        "structural:packages/sfs/test/golden-defects.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-081",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "The golden-defect ratchet asserts, over both legacy subjects, that every class `measure-form.mjs` finds PRESENT is ABSENT from `compile(decompile(subject))`; the count is discovered and printed, never a literal; at least one subject must carry a defect",
+      "why": "\"the compiler fixes the defects\" is only evidence when measured on the same artifact in both directions by one predicate vocabulary; a hand-copied count is theatre",
+      "consequence": "the census files are generated (`measure-form.mjs --defects --json`) and byte-checked by the test",
+      "enforcedBy": [
+        "structural:packages/sfs/test/defect-ratchet.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-082",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "`cost-baseline.json` lives at `packages/sfs/config/`, not `packages/verify/config/`: `packages/sfs/tools/cost-delta.mjs` reads it and D-041 forbids an sfs module depending on verify; the WP-10 `g-cost-delta` gate reads it across the allowed L3->L1 direction",
+      "why": "§5.2's `packages/verify/config/cost-baseline.json` path inverts the layer the moment a compiler-side tool reads it, which `g-workspace-hygiene` dep-direction catches",
+      "consequence": "one config, read down-layer only",
+      "enforcedBy": [
+        "g-workspace-hygiene"
       ],
       "confirmation": "n/a"
     }

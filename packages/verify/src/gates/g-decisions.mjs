@@ -37,6 +37,7 @@ export const inputPaths = [
   'packages/registry/probes',
   'packages/sfs/registry/decisions.json',
   'packages/sfs/src/lib/normalForm.mjs',
+  'packages/sfs/test',
   'BUILD-LOG.md',
   'packages/verify/src/lib/session-state.mjs',
   'package.json',

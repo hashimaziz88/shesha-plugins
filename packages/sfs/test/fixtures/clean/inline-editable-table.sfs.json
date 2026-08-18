@@ -1,0 +1,74 @@
+{
+  "sfs": "1.0",
+  "form": "inline-editable-table",
+  "module": "boxfusion.test",
+  "kind": "list",
+  "entity": "boxfusion.test.Domain.InventoryItems.InventoryItem",
+  "label": "Inventory items",
+  "page": {
+    "title": "Inventory",
+    "subtitle": "Stock on hand"
+  },
+  "body": [
+    {
+      "node": "data",
+      "name": "inventory",
+      "children": [
+        {
+          "node": "search",
+          "name": "quickSearch"
+        },
+        {
+          "node": "table",
+          "name": "inventoryTable",
+          "inline": "all",
+          "style": {
+            "surface": "card"
+          },
+          "columns": [
+            {
+              "bind": "name",
+              "caption": "Name"
+            },
+            {
+              "bind": "code",
+              "caption": "Code"
+            },
+            {
+              "bind": "category",
+              "caption": "Category"
+            },
+            {
+              "bind": "quantity",
+              "caption": "Qty"
+            },
+            {
+              "bind": "unitPrice",
+              "caption": "Price"
+            },
+            {
+              "bind": "supplier",
+              "caption": "Supplier"
+            },
+            {
+              "bind": "reorderLevel",
+              "caption": "Reorder"
+            },
+            {
+              "bind": "lastRestocked",
+              "caption": "Restocked"
+            },
+            {
+              "bind": "status",
+              "caption": "Status"
+            }
+          ]
+        },
+        {
+          "node": "pager",
+          "name": "pager"
+        }
+      ]
+    }
+  ]
+}
