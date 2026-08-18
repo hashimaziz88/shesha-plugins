@@ -1,0 +1,40 @@
+{
+  "_comment": "§2.8.4 demands + measured floors. demands are absolute; measured floors move only in the declared direction (up for coverage, down for deferred). --ratchet rewrites measured from a fresh generation. priorityAtLeast is value-typed per §2.8.4; with the framework clone the priority set reaches full, reported separately.",
+  "ref": "0.45.1",
+  "priority": [
+    "datatable",
+    "datalist",
+    "dropdown",
+    "button",
+    "buttonGroup",
+    "datatable.pager",
+    "checkbox",
+    "checkboxGroup",
+    "radio",
+    "timePicker",
+    "section",
+    "formAutocomplete",
+    "referenceListAutocomplete"
+  ],
+  "demands": {
+    "records": 121,
+    "authorableImpliesVersion": true,
+    "priorityAtLeast": "value-typed",
+    "priorityValueTypeUnknown": 0,
+    "itemSchemas": 5,
+    "namesOnlyOrBetter": 121,
+    "propsCompletenessFullRequired": false
+  },
+  "measured": {
+    "authorable": 97,
+    "namesOnlyOrBetter": 121,
+    "valueTyped": 13,
+    "deferredAuthorable": 8
+  },
+  "direction": {
+    "authorable": "up",
+    "namesOnlyOrBetter": "up",
+    "valueTyped": "up",
+    "deferredAuthorable": "down"
+  }
+}

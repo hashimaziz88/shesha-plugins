@@ -261,3 +261,49 @@ Two real defects the tooling forced out, that a hand-authored fixture would have
 Two documents corrected to the tree, both because a command must be runnable:
 `CONTROL.md` §3's WP-1.b acceptance path `packages/sfs/tests/` -> `packages/sfs/test/*.test.mjs`
 (the dir form is not a valid `node --test` argument on Node 22.23.2; `tests/` never existed).
+
+## WP-2 — components-kb -> the machine registry, honest provenance — 2026-08-18
+
+Status: complete
+Gate: `node packages/registry/src/validate.mjs` -> exit 0
+Evidence: packages/verify/evidence/WP-2.json
+Decisions added: D-083, D-084, D-085, D-086, D-087, D-088 (D-004 enforcer promoted pending:WP-2 -> g-registry-completeness)
+Blocked: none new
+Next: WP-4
+
+The observed output, verbatim:
+
+```
+registry records=121 authorable=97 namesOnlyOrBetter=121 valueTyped=13 deferredAuthorable=8 priorityValueTyped=13/13
+names-only 121/121 · priority full 13/13 (value-typed 13/13) · frameworkPresent true
+```
+
+The value-typing was a measured GO/NO-GO of its own. 7 of the 13 priority types
+(`button`, `checkboxGroup`, `radio`, `timePicker`, `section`, `formAutocomplete`,
+`referenceListAutocomplete`) have empty `initModel`, zero corpus instances, and only
+designer-meta `settingsFields` — so `initModel + observed` alone CANNOT value-type them,
+and faking a type would be the exact defect this rebuild removes. On that finding the
+framework was cloned (blobless) at the pinned commit `3418e292`, and a fresh-context
+subagent parsed the TS interfaces for the 13 priority types + the shared
+`IConfigurableFormComponent` base, emitting `_framework-props.json` with 15 of the 16
+legal valueTypes exercised and every unresolvable field OMITTED rather than guessed.
+
+Created: `packages/registry/tools/gen-registry.mjs` (KB names-only base ⊕ framework
+source-parsed value types ⊕ authored compiler overlay -> `components.json`, deterministic,
+no clock, `--check` byte-stable); `packages/registry/src/validate.mjs`;
+`packages/registry/config/registry-ratchet.json`; `_authored.json` (the compiler overlay,
+so the 12 compiler records' bytes never move — Q1/Q2 stayed byte-identical throughout);
+`_framework-props.json`, `_meta.json` (records the pinned commit, `frameworkPresent:true`,
+content hashes); `_itemSchemas` (5); `g-registry-completeness` (3 verdict-flipping
+mutations; roster 13 -> 14); `packages/registry/test/registry.test.mjs` (the D-115 version-map
+drift guard + `gen-registry --check`).
+
+D-115: `capability-matrix.json`'s `versions` map deleted (it carried `dataContext:7`
+against the registry's `8`); the registry is the sole version authority, enforced by a
+test that makes a second component->version map anywhere outside `packages/registry/data/**`
+a failure. D-113/D-114 dispose the 22 version-null records: 14 designer-internal, 8
+version-unknown (BL-022), so `authorable:true ⇒ version!==null` holds by construction.
+
+Full `propsCompleteness: full` for all 121 (>=93) remains BL-004/BL-020: it needs every
+component's interface parsed, not only the 13 priority types. The framework clone lives
+under gitignored `.build/`; only its parsed output is committed.

@@ -1,0 +1,348 @@
+{
+  "_provenance": "Authored compiler overlay for the records the compiler emits. gen-registry.mjs merges the KB-derived 121-record base UNDER this; these fields win. The KB cannot supply sfsNode, editModeChannel, breakpointChannels, dimensionDefaults or the measured defaults — those are the compiler contract and live here.",
+  "components": {
+    "card": {
+      "version": 3,
+      "sfsNode": "card",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": "content.components",
+      "slots": [
+        "header",
+        "content"
+      ],
+      "breakpointBlocks": true,
+      "breakpointChannels": [
+        "border",
+        "background",
+        "font",
+        "dimensions",
+        "shadow",
+        "stylingBox",
+        "enableStyleOnReadonly",
+        "className"
+      ],
+      "legacyStyleProps": [
+        "customStyle",
+        "style",
+        "borderRadius",
+        "boxShadow",
+        "backgroundColor"
+      ],
+      "defaults": {
+        "hidden": false,
+        "isDynamic": false,
+        "enableStyleOnReadonly": false,
+        "stylingBox": "{}"
+      },
+      "dimensionDefaults": {
+        "width": "100%",
+        "height": "auto",
+        "minHeight": "0px",
+        "maxHeight": "auto",
+        "minWidth": "0px",
+        "maxWidth": "auto"
+      },
+      "editModeChannel": null
+    },
+    "container": {
+      "version": 7,
+      "sfsNode": "col",
+      "sfsNodeAlso": [
+        "row"
+      ],
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": "components",
+      "breakpointBlocks": true,
+      "breakpointChannels": [
+        "display",
+        "flexDirection",
+        "justifyContent",
+        "alignItems",
+        "flexWrap",
+        "gap",
+        "font",
+        "background",
+        "border",
+        "shadow",
+        "dimensions",
+        "stylingBox"
+      ],
+      "legacyStyleProps": [
+        "customStyle",
+        "style",
+        "backgroundColor",
+        "borderRadius",
+        "boxShadow"
+      ],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "enableStyleOnReadonly": false,
+        "display": "flex",
+        "justifyContent": "flex-start",
+        "alignItems": "stretch",
+        "flexWrap": "nowrap",
+        "stylingBox": "{}"
+      },
+      "dimensionDefaults": {
+        "width": "100%",
+        "height": "auto",
+        "minHeight": "fit-content",
+        "maxHeight": "auto",
+        "minWidth": "0px",
+        "maxWidth": "auto"
+      },
+      "editModeChannel": "container"
+    },
+    "text": {
+      "version": 5,
+      "sfsNode": "text",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "breakpointBlocks": true,
+      "breakpointChannels": [
+        "font",
+        "stylingBox"
+      ],
+      "legacyStyleProps": [
+        "fontSize",
+        "fontWeight",
+        "customStyle",
+        "style",
+        "color",
+        "backgroundColor"
+      ],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "textType": "span",
+        "contentDisplay": "content",
+        "dataType": "string"
+      },
+      "editModeChannel": null
+    },
+    "dataContext": {
+      "version": 8,
+      "sfsNode": "data",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": "components",
+      "breakpointBlocks": false,
+      "breakpointChannels": [],
+      "legacyStyleProps": [],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "items": [],
+        "sourceType": "Entity",
+        "dataFetchingMode": "paging",
+        "sortMode": "standard",
+        "allowReordering": "no"
+      },
+      "editModeChannel": null
+    },
+    "datatable": {
+      "version": 29,
+      "sfsNode": "table",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "itemsKey": "items",
+      "breakpointBlocks": true,
+      "breakpointChannels": [
+        "dimensions",
+        "background",
+        "border",
+        "shadow"
+      ],
+      "legacyStyleProps": [
+        "customStyle",
+        "style",
+        "backgroundColor",
+        "borderRadius",
+        "boxShadow"
+      ],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "canEditInline": "no",
+        "canAddInline": "no",
+        "canDeleteInline": "no"
+      },
+      "dimensionDefaults": {
+        "width": "100%",
+        "height": "auto",
+        "minHeight": "fit-content"
+      },
+      "editModeChannel": null
+    },
+    "datatable.quickSearch": {
+      "version": 3,
+      "sfsNode": "search",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "breakpointBlocks": true,
+      "breakpointChannels": [
+        "dimensions",
+        "stylingBox"
+      ],
+      "legacyStyleProps": [],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "enableStyleOnReadonly": false
+      },
+      "dimensionDefaults": {
+        "width": "100%"
+      },
+      "editModeChannel": null
+    },
+    "datatable.pager": {
+      "version": 4,
+      "sfsNode": "pager",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "breakpointBlocks": true,
+      "breakpointChannels": [
+        "stylingBox",
+        "dimensions"
+      ],
+      "legacyStyleProps": [],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "enableStyleOnReadonly": false
+      },
+      "editModeChannel": null
+    },
+    "buttonGroup": {
+      "version": 15,
+      "sfsNode": "actions",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "itemsKey": "items",
+      "breakpointBlocks": true,
+      "breakpointChannels": [],
+      "legacyStyleProps": [],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false,
+        "isInline": true,
+        "enableStyleOnReadonly": false
+      },
+      "editModeChannel": "actionsItem"
+    },
+    "refListStatus": {
+      "version": 6,
+      "sfsNode": "status",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "breakpointBlocks": false,
+      "breakpointChannels": [],
+      "legacyStyleProps": [],
+      "defaults": {
+        "hideLabel": true,
+        "showIcon": false
+      },
+      "editModeChannel": null
+    },
+    "validationErrors": {
+      "version": 0,
+      "sfsNode": "errors",
+      "authorable": true,
+      "isInput": false,
+      "childrenKey": null,
+      "breakpointBlocks": false,
+      "breakpointChannels": [],
+      "legacyStyleProps": [],
+      "defaults": {
+        "hideLabel": true,
+        "hidden": false,
+        "isDynamic": false
+      },
+      "editModeChannel": null
+    },
+    "columns": {
+      "version": 5,
+      "sfsNode": null,
+      "authorable": false,
+      "isInput": false,
+      "reason": "a legacy 24-column grid container whose flex/offset/push per-column props have no sound deterministic lift; section 2.1.5's reserve arithmetic replaces it",
+      "decision": "D-084",
+      "childrenKey": "columns",
+      "breakpointBlocks": false,
+      "breakpointChannels": [],
+      "legacyStyleProps": [],
+      "defaults": {},
+      "editModeChannel": null
+    },
+    "sizableColumns": {
+      "version": 5,
+      "sfsNode": null,
+      "authorable": false,
+      "isInput": false,
+      "reason": "same 24-column grid model as `columns`, with a resize handle that carries no deterministic lift either",
+      "decision": "D-084",
+      "childrenKey": "columns",
+      "breakpointBlocks": false,
+      "breakpointChannels": [],
+      "legacyStyleProps": [],
+      "defaults": {},
+      "editModeChannel": null
+    }
+  },
+  "_datatypeMap": {
+    "string": {
+      "component": "textField",
+      "props": {}
+    },
+    "number": {
+      "component": "numberField",
+      "props": {}
+    },
+    "boolean": {
+      "component": "checkbox",
+      "props": {}
+    },
+    "date": {
+      "component": "dateField",
+      "props": {}
+    },
+    "date-time": {
+      "component": "dateField",
+      "props": {
+        "showTime": true
+      }
+    },
+    "reference-list-item": {
+      "component": "dropdown",
+      "props": {}
+    },
+    "entity": {
+      "component": "autocomplete",
+      "props": {}
+    },
+    "object": {
+      "component": "textField",
+      "props": {}
+    },
+    "array": {
+      "component": "childEntitiesTagGroup",
+      "props": {}
+    }
+  }
+}

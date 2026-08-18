@@ -62,7 +62,7 @@ export function loadRegistry(brand = 'shesha') {
   const tokens = readData(`tokens/${brand}.json`);
   const roles = readData('tokens/roles.json');
 
-  // The reverse map is GENERATED, never a second hand-written table (D-111): a
+  // The reverse map is GENERATED, never a second hand-written table (D-083): a
   // hand-written reverse map is the standard way two directions drift apart.
   /** @type {Map<string, string>} */
   const nodeToType = new Map();

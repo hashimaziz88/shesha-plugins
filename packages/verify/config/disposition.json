@@ -5,31 +5,31 @@
       "path": "plugins/shesha-developer/skills/shesha-form-edit/scripts/summarize.js",
       "action": "delete",
       "wp": "WP-0",
-      "reason": "D-012 \u2014 died at line 15 on every call; no documented command in the repo may be unexecutable. Both documented invocations are deleted in the same commit"
+      "reason": "D-012 — died at line 15 on every call; no documented command in the repo may be unexecutable. Both documented invocations are deleted in the same commit"
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-form-edit/scripts/validate-blocks.js",
       "action": "delete",
       "wp": "WP-0",
-      "reason": "D-011 \u2014 its checks become T2 hard failures with exact registry matching"
+      "reason": "D-011 — its checks become T2 hard failures with exact registry matching"
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-form-edit/scripts/bake-overlays.mjs",
       "action": "delete",
       "wp": "WP-0",
-      "reason": "D-010 \u2014 $role: tokens resolve at compile time, per run, per brand; a separate styling pass is a pass that gets skipped"
+      "reason": "D-010 — $role: tokens resolve at compile time, per run, per brand; a separate styling pass is a pass that gets skipped"
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-form-edit/package.json",
       "action": "delete",
       "wp": "WP-0",
-      "reason": "D-040 conflict 6 \u2014 plugins/** contains no package.json after WP-0; its script+test pairs moved to packages/verify"
+      "reason": "D-040 conflict 6 — plugins/** contains no package.json after WP-0; its script+test pairs moved to packages/verify"
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-design-comprehension/package.json",
       "action": "delete",
       "wp": "WP-0",
-      "reason": "D-040 conflict 6 \u2014 plugins/** contains no package.json after WP-0"
+      "reason": "D-040 conflict 6 — plugins/** contains no package.json after WP-0"
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-claude-designer/README.md",
@@ -42,7 +42,7 @@
       "action": "move",
       "to": "quarantine/t3-semantic.mjs",
       "wp": "WP-0",
-      "reason": "D-049 \u2014 moves unchanged, referenced by nothing, quarantined with liftedBy BL-003. D-038 puts it outside packages/** because it defines a second verdictOf and walked/checked pair, which D-005 forbids inside the live toolchain"
+      "reason": "D-049 — moves unchanged, referenced by nothing, quarantined with liftedBy BL-003. D-038 puts it outside packages/** because it defines a second verdictOf and walked/checked pair, which D-005 forbids inside the live toolchain"
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-form-edit/tests/verify-artifact.test.mjs",
@@ -56,14 +56,14 @@
       "action": "move",
       "to": "quarantine/g-check-references.mjs",
       "wp": "WP-0",
-      "reason": "D-049 \u2014 created families lazily, so it is quarantined until BL-003 closes that hole. Defines its own walked/checked pair (D-038)"
+      "reason": "D-049 — created families lazily, so it is quarantined until BL-003 closes that hole. Defines its own walked/checked pair (D-038)"
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-form-edit/tests/check-references.negative.mjs",
       "action": "move",
       "to": "quarantine/g-check-references.mutation.mjs",
       "wp": "WP-0",
-      "reason": "D-049 \u2014 a standalone script, not a node:test file; converting it into a real mutation test needs the path surgery BL-003 owns"
+      "reason": "D-049 — a standalone script, not a node:test file; converting it into a real mutation test needs the path surgery BL-003 owns"
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-design-comprehension/scripts/layout-probe.js",
@@ -71,20 +71,6 @@
       "to": "quarantine/layout-probe.js",
       "wp": "WP-0",
       "reason": "The DOM probe is T4b's instrument (BL-005). Moved out of plugins/*/skills/*/scripts/ now; the CJS-to-ESM port and relocation to packages/verify/src/probe/ belong to BL-005"
-    },
-    {
-      "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/components-kb",
-      "action": "move",
-      "to": "packages/registry/data/components-kb",
-      "wp": "WP-2",
-      "reason": "D-040 conflict 2 \u2014 the registry's source data. Must move before WP-7a deletes shesha-form-edit/**"
-    },
-    {
-      "path": "plugins/shesha-developer/skills/shesha-design-system/assets/capability-matrix.json",
-      "action": "move",
-      "to": "packages/registry/data/capability-matrix.json",
-      "wp": "WP-2",
-      "reason": "D-040 conflict 2 \u2014 empirically measured render behaviour; the asset Option B refuses to re-earn"
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/blocks",
@@ -111,7 +97,7 @@
       "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples",
       "action": "delete",
       "wp": "WP-7a",
-      "reason": "D-013 \u2014 2.5 MB of raw seed JSON, deleted only after decompilation into packages/sfs/corpus/ in WP-5"
+      "reason": "D-013 — 2.5 MB of raw seed JSON, deleted only after decompilation into packages/sfs/corpus/ in WP-5"
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-form-edit",

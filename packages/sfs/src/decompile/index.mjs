@@ -58,7 +58,7 @@ function isObj(v) { return typeof v === 'object' && v !== null && !Array.isArray
 function deepEqual(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
 
 /**
- * type -> SFS node kind, generated from the registry's sfsNode column (D-111).
+ * type -> SFS node kind, generated from the registry's sfsNode column (D-083).
  * `container` resolves to row/col by the node's own flexDirection.
  * @param {Registry} reg
  * @param {Record<string, unknown>} mk

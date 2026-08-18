@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 82,
+  "count": 89,
   "decisions": [
     {
       "id": "D-001",
@@ -46,7 +46,7 @@
       "why": "§4 L0",
       "consequence": "Registry data is reproducible",
       "enforcedBy": [
-        "pending:WP-2"
+        "g-registry-completeness"
       ],
       "confirmation": "n/a"
     },
@@ -986,6 +986,90 @@
       "consequence": "one config, read down-layer only",
       "enforcedBy": [
         "g-workspace-hygiene"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-083",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "The SFS-node -> component-type reverse map is GENERATED in `loadRegistry` from each record's `sfsNode`/`sfsNodeAlso`, never hand-written",
+      "why": "a hand-kept reverse map is the standard way two directions of the same table drift apart",
+      "consequence": "one direction is authored, the other derived",
+      "enforcedBy": [
+        "structural:packages/sfs/src/lib/registry.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-084",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "`columns` and `sizableColumns` are `authorable:false`: a table's columns are authored as `columns[]` on the table node and expanded to `items[]`, never as standalone components",
+      "why": "two ways to author the same structure is the ambiguity the SFS grammar removes",
+      "consequence": "`recordForNode` throws SFS-1004 on either",
+      "enforcedBy": [
+        "g-registry-completeness"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-085",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "The 14 designer-internal widgets (`settingsInput`, `settingsInputRow`, `labelConfigurator`, `editModeSelector`, `searchableTabs`, `themeEditor`, `metadataEditor`, `mainMenuEditor`, `columnsEditorComponent`, `dynamicItemsConfigurator`, `propertyRouter`, `headerAppControl`, `datatable_template`, `dataContextSelector`) are `authorable:false, reason:\"designer-internal\"` and need only `type`+`displayName`",
+      "why": "they have `version:null` and are never authored into a form, so demanding a version or props of them would invent data",
+      "consequence": "14 of the 22 version-null records disposed without a number",
+      "enforcedBy": [
+        "g-registry-completeness"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-086",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "The remaining 8 version-null types (`buttons`, `dynamicView`, `imagePicker`, `logViewer`, `paragraph`, `permissionTagGroup`, `processMonitor`, `threeStateSwitch`) are `authorable:false, reason:\"version unknown offline\", decision:\"D-086\", backlog:\"BL-022\"`; using one raises REG-2902",
+      "why": "authorable in principle but their version cannot be established without the framework; `authorable:true ⇒ version!==null` holds by construction",
+      "consequence": "deferredAuthorable starts at 8 and only decreases",
+      "enforcedBy": [
+        "g-registry-completeness"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-087",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "The registry is the ONLY version authority; `capability-matrix.json`'s `versions` map is DELETED (it carried `dataContext:7` against the registry's `8`)",
+      "why": "a second version map drifts the first time the wrong one is edited; a note saying which wins does not stop it",
+      "consequence": "no file outside `packages/registry/data/**` carries a component->version map",
+      "enforcedBy": [
+        "structural:packages/registry/test/registry.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-088",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "The 13 priority types reach `value-typed`/`full` from the framework TypeScript interfaces cloned at the pinned commit `3418e292`; a value type is `source-parsed` only when actually read from an interface, else the prop stays null. Full completeness for all 121 (>=93) is BL-004/BL-020",
+      "why": "7 of the 13 priority types have no offline value-type evidence (empty initModel, zero corpus instances, designer-meta-only settingsFields — measured), so the framework source is the only honest path; §2.8.4's \"value-typed offline: yes\" is false for them",
+      "consequence": "the clone is an intermediate under gitignored `.build/`; `_meta.json` records its commit; `frameworkPresent:true`",
+      "enforcedBy": [
+        "g-registry-completeness"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-089",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "The `components-kb` and `capability-matrix.json` are NOT moved into `packages/registry/data`: WP-0's two disposition move rows are void per §2.8.1 (\"the KB stays as the extractor's intermediate\") and §2.8.5 (the matrix is a design-skill asset; only its `versions` map is deleted, D-087)",
+      "why": "`gen-registry.mjs` reads the KB in place under `plugins/**`; relocating a 920 KB read-only input or a design-skill asset into L0 data would invert ownership",
+      "consequence": "disposition.json carries no WP-2 move row; the KB and matrix keep their plugins paths",
+      "enforcedBy": [
+        "g-disposition"
       ],
       "confirmation": "n/a"
     }
