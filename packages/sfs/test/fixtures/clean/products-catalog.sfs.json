@@ -1,0 +1,59 @@
+{
+  "sfs": "1.0",
+  "form": "products-catalog",
+  "module": "boxfusion.test",
+  "kind": "list",
+  "entity": "boxfusion.test.Domain.Catalog.Product",
+  "label": "Products",
+  "brand": "shesha",
+  "page": { "title": "Product catalogue" },
+  "body": [
+    {
+      "node": "data",
+      "name": "products",
+      "children": [
+        {
+          "node": "row",
+          "name": "toolbar",
+          "responsive": { "stack": "at:tablet", "fill": "searchCell", "fixed": { "addCell": "190px" }, "gap": 16 },
+          "style": { "pad": { "top": 0, "bottom": 16 } },
+          "children": [
+            { "node": "col", "name": "searchCell", "children": [
+              { "node": "search", "name": "quickSearch" }
+            ]},
+            { "node": "col", "name": "addCell", "align": "end", "children": [
+              { "node": "actions", "name": "tableActions", "label": "Table actions", "items": [
+                {
+                  "name": "btnAddProduct", "label": "Add product",
+                  "style": "primary", "icon": "PlusOutlined",
+                  "do": "openDialog",
+                  "with": { "form": "boxfusion.test/product-create", "title": "New product", "width": "60%" }
+                }
+              ]}
+            ]}
+          ]
+        },
+        {
+          "node": "table",
+          "name": "productsTable",
+          "label": "Products",
+          "freezeHeaders": true,
+          "inline": "all",
+          "style": { "surface": "card" },
+          "columns": [
+            { "bind": "sku",          "caption": "SKU",        "width": 130, "min": 110, "sortable": true },
+            { "bind": "productName",  "caption": "Name",                    "min": 200, "sortable": true },
+            { "bind": "category",     "caption": "Category",   "width": 160, "min": 140 },
+            { "bind": "vendor",       "caption": "Vendor",     "width": 170, "min": 150 },
+            { "bind": "unitPrice",    "caption": "Price",      "width": 130, "min": 110 },
+            { "bind": "costPrice",    "caption": "Cost",       "width": 130, "min": 110 },
+            { "bind": "stockOnHand",  "caption": "In stock",   "width": 120, "min": 100 },
+            { "bind": "reorderLevel", "caption": "Reorder at", "width": 130, "min": 110 },
+            { "bind": "isActive",     "caption": "Active",     "width": 110, "min": 90 }
+          ]
+        },
+        { "node": "pager", "name": "productsPager", "style": { "pad": { "top": 14 } } }
+      ]
+    }
+  ]
+}

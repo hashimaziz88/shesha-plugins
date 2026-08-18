@@ -307,3 +307,33 @@ version-unknown (BL-022), so `authorable:true ⇒ version!==null` holds by const
 Full `propsCompleteness: full` for all 121 (>=93) remains BL-004/BL-020: it needs every
 component's interface parsed, not only the 13 priority types. The framework clone lives
 under gitignored `.build/`; only its parsed output is committed.
+
+## WP-4 — SFS JSON Schema v1 and the ten clean fixtures — 2026-08-18
+
+Status: complete
+Gate: `node packages/verify/src/tiers/t1-schema.mjs packages/sfs/test/fixtures/clean` -> exit 0, 10/10 valid
+Evidence: packages/verify/evidence/WP-4.json
+Decisions added: none
+Blocked: none new
+Next: WP-5
+
+Created: `packages/verify/src/tiers/t1-schema.mjs` (the schema tier — one `schema` family,
+a fixture per pointer, ajv 2020 against `sfs.schema.json`, an empty directory fails rather
+than passes vacuously); eight new `test/fixtures/clean/*.sfs.json` (employees-table,
+orders-list, products-catalog, invoices-table, customers-table, assets-register,
+suppliers-table, projects-table) bringing the clean set to ten. The schema itself shipped
+in WP-1.a and was extended in WP-1.b (column `editor`/`max`); WP-4 proves ten documents
+against it.
+
+Every clean fixture must ALSO round-trip (Q1) and satisfy the N1..N11 predicates and the
+A1..A5 identities, because `selfconsistency.test.mjs` and `golden-defects.test.mjs` glob
+the whole directory. So the ten are all list/table archetypes — the node kinds the compiler
+supports after WP-1 (card/page, row, col, data, table, search, pager, actions, and status as
+a column render). They vary meaningfully across page shell presence, subtitle, column count
+and renders, inline mode, row-click navigation, action groups with onSuccess, responsive
+stack points, and surface style — exercising §2.1.4-2.1.9. Input/tab/kib/picker forms need
+`field`/`select`/`tabs`/`kib` nodes, which the compiler does not yet emit; those fixtures
+land in WP-5 with "all node kinds". Two fixtures initially failed A5 (markup/sfs < 8) as
+bare no-shell lists; a page shell — which A5 effectively requires — fixed both. A ternary
+`fam ? fam.checked : 0` in the tier tripped g-coverage-single-impl's `checked:0` pattern
+and was rewritten to `fam?.checked ?? 0`.

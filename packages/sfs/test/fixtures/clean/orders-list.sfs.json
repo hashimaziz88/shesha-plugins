@@ -1,0 +1,69 @@
+{
+  "sfs": "1.0",
+  "form": "orders-list",
+  "module": "boxfusion.test",
+  "kind": "list",
+  "entity": "boxfusion.test.Domain.Sales.Order",
+  "label": "Orders",
+  "description": "Sales orders across all channels. Add creates one; Import loads a batch.",
+  "access": "authenticated",
+  "page": { "title": "Orders", "subtitle": "Every sales order" },
+  "body": [
+    {
+      "node": "data",
+      "name": "orders",
+      "pageSize": 15,
+      "children": [
+        {
+          "node": "row",
+          "name": "toolbar",
+          "responsive": { "stack": "at:mobile", "fill": "searchCell", "fixed": { "addCell": "300px" }, "gap": 12 },
+          "style": { "pad": { "top": 0, "bottom": 16 } },
+          "children": [
+            { "node": "col", "name": "searchCell", "children": [
+              { "node": "search", "name": "quickSearch", "label": "Search orders" }
+            ]},
+            { "node": "col", "name": "addCell", "align": "end", "children": [
+              { "node": "actions", "name": "tableActions", "label": "Table actions", "items": [
+                {
+                  "name": "btnImportOrders", "label": "Import",
+                  "icon": "UploadOutlined",
+                  "do": "openDialog",
+                  "with": { "form": "boxfusion.test/order-import", "title": "Import orders" },
+                  "onSuccess": { "do": "refresh", "with": { "target": "orders" } }
+                },
+                {
+                  "name": "btnAddOrder", "label": "New order",
+                  "style": "primary", "icon": "PlusOutlined",
+                  "do": "openDialog",
+                  "with": { "form": "boxfusion.test/order-create", "title": "New order", "width": "70%", "mode": "edit" },
+                  "onSuccess": { "do": "refresh", "with": { "target": "orders" } }
+                }
+              ]}
+            ]}
+          ]
+        },
+        {
+          "node": "table",
+          "name": "ordersTable",
+          "label": "Orders",
+          "freezeHeaders": true,
+          "inline": "none",
+          "style": { "surface": "card" },
+          "onRowClick": { "do": "navigate", "with": { "form": "boxfusion.test/order-details", "args": { "id": "{{selectedRow.id}}" } } },
+          "columns": [
+            { "bind": "orderNumber",   "caption": "Order #",     "width": 140, "min": 120, "sortable": true },
+            { "bind": "customerName",  "caption": "Customer",                  "min": 180 },
+            { "bind": "orderDate",     "caption": "Ordered",     "width": 150, "min": 130, "sortable": true },
+            { "bind": "itemCount",     "caption": "Items",       "width": 110, "min": 90 },
+            { "bind": "totalAmount",   "caption": "Total",       "width": 150, "min": 120, "sortable": true },
+            { "bind": "paymentMethod", "caption": "Payment",     "width": 150, "min": 130 },
+            { "bind": "status",        "caption": "Status",      "width": 150, "min": 130,
+              "render": { "kind": "statusBadge", "refList": "boxfusion.test/OrderStatus", "solid": true, "showName": true, "showIcon": true } }
+          ]
+        },
+        { "node": "pager", "name": "ordersPager", "style": { "pad": { "top": 14 } } }
+      ]
+    }
+  ]
+}

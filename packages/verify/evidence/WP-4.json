@@ -1,0 +1,89 @@
+{
+  "wp": "WP-4",
+  "gitSha": "1f138e449f368220819da9713e03c5adb31fc65a",
+  "at": "2026-08-18T13:39:12.294Z",
+  "verdict": "pass",
+  "tests": 294,
+  "gates": 14,
+  "mutations": 50,
+  "mutationSeconds": 47.3,
+  "greenSeconds": null,
+  "perGateCoverage": {
+    "g-artifact-naming": {
+      "walked": 516,
+      "checked": 516,
+      "uninspectable": 0
+    },
+    "g-brief-budget": {
+      "walked": 19,
+      "checked": 19,
+      "uninspectable": 0
+    },
+    "g-commands-executable": {
+      "walked": 50,
+      "checked": 31,
+      "uninspectable": 0
+    },
+    "g-commit-format": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-coverage-single-impl": {
+      "walked": 190,
+      "checked": 190,
+      "uninspectable": 0
+    },
+    "g-decisions": {
+      "walked": 525,
+      "checked": 525,
+      "uninspectable": 0
+    },
+    "g-disposition": {
+      "walked": 42,
+      "checked": 38,
+      "uninspectable": 0
+    },
+    "g-gate-contract": {
+      "walked": 145,
+      "checked": 145,
+      "uninspectable": 0
+    },
+    "g-githook-contract": {
+      "walked": 7,
+      "checked": 7,
+      "uninspectable": 0
+    },
+    "g-no-secrets-or-scratch": {
+      "walked": 8,
+      "checked": 8,
+      "uninspectable": 0
+    },
+    "g-oracle-independence": {
+      "walked": 121,
+      "checked": 121,
+      "uninspectable": 0
+    },
+    "g-prose-budget": {
+      "walked": 571,
+      "checked": 571,
+      "uninspectable": 0
+    },
+    "g-registry-completeness": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-workspace-hygiene": {
+      "walked": 140,
+      "checked": 140,
+      "uninspectable": 0
+    }
+  },
+  "exitCodes": {
+    "typecheck": 0,
+    "test": 0,
+    "gates": 0,
+    "mutations": 0
+  }
+}

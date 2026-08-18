@@ -1,0 +1,136 @@
+{
+  "sfs": "1.0",
+  "form": "assets-register",
+  "module": "boxfusion.test",
+  "kind": "list",
+  "entity": "boxfusion.test.Domain.Assets.Asset",
+  "label": "Asset register",
+  "description": "Fixed-asset register. No page shell; the table stands on its own.",
+  "page": {
+    "title": "Assets",
+    "subtitle": "Fixed asset register"
+  },
+  "body": [
+    {
+      "node": "data",
+      "name": "assets",
+      "pageSize": 50,
+      "children": [
+        {
+          "node": "row",
+          "name": "toolbar",
+          "responsive": {
+            "stack": "at:mobile",
+            "fill": "searchCell",
+            "fixed": {
+              "addCell": "300px"
+            },
+            "gap": 12
+          },
+          "children": [
+            {
+              "node": "col",
+              "name": "searchCell",
+              "children": [
+                {
+                  "node": "search",
+                  "name": "quickSearch",
+                  "label": "Search assets"
+                }
+              ]
+            },
+            {
+              "node": "col",
+              "name": "addCell",
+              "align": "end",
+              "children": [
+                {
+                  "node": "actions",
+                  "name": "tableActions",
+                  "label": "Table actions",
+                  "items": [
+                    {
+                      "name": "btnRegisterAsset",
+                      "label": "Register",
+                      "style": "primary",
+                      "icon": "PlusOutlined",
+                      "do": "openDialog",
+                      "with": {
+                        "form": "boxfusion.test/asset-create",
+                        "title": "Register asset"
+                      }
+                    },
+                    {
+                      "name": "btnExportAssets",
+                      "label": "Export",
+                      "icon": "DownloadOutlined",
+                      "do": "openDialog",
+                      "with": {
+                        "form": "boxfusion.test/asset-export",
+                        "title": "Export register"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "node": "table",
+          "name": "assetsTable",
+          "label": "Assets",
+          "freezeHeaders": true,
+          "inline": "none",
+          "style": {
+            "surface": "card"
+          },
+          "columns": [
+            {
+              "bind": "assetTag",
+              "caption": "Tag",
+              "width": 130,
+              "min": 110,
+              "sortable": true
+            },
+            {
+              "bind": "assetName",
+              "caption": "Asset",
+              "min": 200
+            },
+            {
+              "bind": "category",
+              "caption": "Category",
+              "width": 160,
+              "min": 140
+            },
+            {
+              "bind": "acquisitionDate",
+              "caption": "Acquired",
+              "width": 150,
+              "min": 130,
+              "sortable": true
+            },
+            {
+              "bind": "status",
+              "caption": "Condition",
+              "width": 150,
+              "min": 130,
+              "render": {
+                "kind": "statusBadge",
+                "refList": "boxfusion.test/AssetCondition",
+                "solid": true,
+                "showName": true,
+                "showIcon": true
+              }
+            }
+          ]
+        },
+        {
+          "node": "pager",
+          "name": "assetsPager"
+        }
+      ]
+    }
+  ]
+}

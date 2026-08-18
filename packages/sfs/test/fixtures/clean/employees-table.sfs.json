@@ -1,0 +1,64 @@
+{
+  "sfs": "1.0",
+  "form": "employees-table",
+  "module": "boxfusion.test",
+  "kind": "list",
+  "entity": "boxfusion.test.Domain.HR.Employee",
+  "label": "Employees",
+  "description": "Directory of active employees. Row opens the profile; Add opens the onboarding dialog.",
+  "access": "authenticated",
+  "brand": "shesha",
+  "page": { "title": "Employees", "subtitle": "Everyone on the payroll" },
+  "body": [
+    {
+      "node": "data",
+      "name": "employees",
+      "pageSize": 10,
+      "children": [
+        {
+          "node": "row",
+          "name": "toolbar",
+          "responsive": { "stack": "at:tablet", "fill": "searchCell", "fixed": { "addCell": "200px" }, "gap": 16 },
+          "style": { "pad": { "top": 0, "bottom": 16 } },
+          "children": [
+            { "node": "col", "name": "searchCell", "children": [
+              { "node": "search", "name": "quickSearch", "label": "Search" }
+            ]},
+            { "node": "col", "name": "addCell", "align": "end", "children": [
+              { "node": "actions", "name": "tableActions", "label": "Table actions", "items": [
+                {
+                  "name": "btnAddEmployee", "label": "Add employee",
+                  "style": "primary", "icon": "PlusOutlined",
+                  "do": "openDialog",
+                  "with": { "form": "boxfusion.test/employee-create", "title": "New employee", "width": "60%", "mode": "edit" },
+                  "onSuccess": { "do": "refresh", "with": { "target": "employees" } }
+                }
+              ]}
+            ]}
+          ]
+        },
+        {
+          "node": "table",
+          "name": "employeesTable",
+          "label": "Employees",
+          "freezeHeaders": true,
+          "inline": "none",
+          "style": { "surface": "card" },
+          "onRowClick": { "do": "navigate", "with": { "form": "boxfusion.test/employee-details", "args": { "id": "{{selectedRow.id}}" } } },
+          "columns": [
+            { "bind": "employeeNumber", "caption": "Number",     "width": 130, "min": 120, "sortable": true },
+            { "bind": "fullName",       "caption": "Name",                     "min": 180, "sortable": true },
+            { "bind": "department",     "caption": "Department", "width": 160, "min": 140 },
+            { "bind": "jobTitle",       "caption": "Job title",  "width": 170, "min": 150 },
+            { "bind": "email",          "caption": "Email",      "width": 220, "min": 180 },
+            { "bind": "hireDate",       "caption": "Hired",      "width": 140, "min": 120, "sortable": true },
+            { "bind": "location",       "caption": "Location",   "width": 150, "min": 130 },
+            { "bind": "status",         "caption": "Status",     "width": 150, "min": 130,
+              "render": { "kind": "statusBadge", "refList": "boxfusion.test/EmployeeStatus", "solid": true, "showName": true } }
+          ]
+        },
+        { "node": "pager", "name": "employeesPager", "style": { "pad": { "top": 14 } } }
+      ]
+    }
+  ]
+}

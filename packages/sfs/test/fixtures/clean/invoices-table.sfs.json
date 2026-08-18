@@ -1,0 +1,39 @@
+{
+  "sfs": "1.0",
+  "form": "invoices-table",
+  "module": "boxfusion.test",
+  "kind": "list",
+  "entity": "boxfusion.test.Domain.Finance.Invoice",
+  "label": "Invoices",
+  "description": "Issued invoices. Row opens the invoice; there is no create action here.",
+  "access": "authenticated",
+  "page": { "title": "Invoices", "subtitle": "Issued and outstanding" },
+  "body": [
+    {
+      "node": "data",
+      "name": "invoices",
+      "pageSize": 25,
+      "children": [
+        { "node": "search", "name": "quickSearch", "label": "Search invoices" },
+        {
+          "node": "table",
+          "name": "invoicesTable",
+          "label": "Invoices",
+          "freezeHeaders": true,
+          "inline": "none",
+          "onRowClick": { "do": "navigate", "with": { "form": "boxfusion.test/invoice-details", "args": { "id": "{{selectedRow.id}}" } } },
+          "columns": [
+            { "bind": "invoiceNumber", "caption": "Invoice #",  "width": 150, "min": 130, "sortable": true },
+            { "bind": "customerName",  "caption": "Customer",                 "min": 180 },
+            { "bind": "issueDate",     "caption": "Issued",     "width": 150, "min": 130, "sortable": true },
+            { "bind": "dueDate",       "caption": "Due",        "width": 150, "min": 130, "sortable": true },
+            { "bind": "amountDue",     "caption": "Amount due", "width": 160, "min": 130 },
+            { "bind": "status",        "caption": "Status",     "width": 150, "min": 130,
+              "render": { "kind": "statusBadge", "refList": "boxfusion.test/InvoiceStatus", "showName": true } }
+          ]
+        },
+        { "node": "pager", "name": "invoicesPager" }
+      ]
+    }
+  ]
+}

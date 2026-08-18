@@ -1,0 +1,55 @@
+{
+  "sfs": "1.0",
+  "form": "customers-table",
+  "module": "boxfusion.test",
+  "kind": "list",
+  "entity": "boxfusion.test.Domain.CRM.Customer",
+  "label": "Customers",
+  "access": "authenticated",
+  "page": { "title": "Customers", "subtitle": "Accounts and contacts" },
+  "body": [
+    {
+      "node": "data",
+      "name": "customers",
+      "pageSize": 20,
+      "children": [
+        {
+          "node": "row",
+          "name": "toolbar",
+          "responsive": { "stack": "at:mobile", "fill": "searchCell", "fixed": { "addCell": "180px" }, "gap": 16 },
+          "children": [
+            { "node": "col", "name": "searchCell", "children": [
+              { "node": "search", "name": "quickSearch", "label": "Search" }
+            ]},
+            { "node": "col", "name": "addCell", "align": "end", "children": [
+              { "node": "actions", "name": "tableActions", "label": "Table actions", "items": [
+                {
+                  "name": "btnAddCustomer", "label": "Add customer",
+                  "style": "primary", "icon": "PlusOutlined",
+                  "do": "openDialog",
+                  "with": { "form": "boxfusion.test/customer-create", "title": "New customer" },
+                  "onSuccess": { "do": "refresh", "with": { "target": "customers" } }
+                }
+              ]}
+            ]}
+          ]
+        },
+        {
+          "node": "table",
+          "name": "customersTable",
+          "label": "Customers",
+          "inline": "none",
+          "onRowClick": { "do": "navigate", "with": { "form": "boxfusion.test/customer-details", "args": { "id": "{{selectedRow.id}}" } } },
+          "columns": [
+            { "bind": "accountNumber", "caption": "Account #", "width": 140, "min": 120, "sortable": true },
+            { "bind": "companyName",   "caption": "Company",                 "min": 200, "sortable": true },
+            { "bind": "contactName",   "caption": "Contact",   "width": 180, "min": 150 },
+            { "bind": "phoneNumber",   "caption": "Phone",     "width": 160, "min": 130 },
+            { "bind": "city",          "caption": "City",      "width": 150, "min": 120 }
+          ]
+        },
+        { "node": "pager", "name": "customersPager", "style": { "pad": { "top": 14 } } }
+      ]
+    }
+  ]
+}
