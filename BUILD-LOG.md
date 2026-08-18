@@ -337,3 +337,14 @@ land in WP-5 with "all node kinds". Two fixtures initially failed A5 (markup/sfs
 bare no-shell lists; a page shell — which A5 effectively requires — fixed both. A ternary
 `fam ? fam.checked : 0` in the tier tripped g-coverage-single-impl's `checked:0` pattern
 and was rewritten to `fam?.checked ?? 0`.
+
+## WP-5 split — Scope change to WP-5.a / WP-5.b — 2026-08-18
+
+Status: scope-change only (no work package completed)
+Decisions added: D-090 (Scope change)
+Why: WP-5's "compiler, all node kinds, seven recipes, error catalogue, decompiler lifts"
+plus the six-form corpus round-trip exceeds one context window; CONTROL section 6 forbids
+half-committing a WP, so the work is split into WP-5.a (the compiler surface) and WP-5.b
+(the corpus round-trip + the five WP-5 gates), both in scope. Mirrors D-070's WP-1 split.
+session-scope.json now lists ten ids; CONTROL section 3 and prove's step `needs` updated
+in the same commit.

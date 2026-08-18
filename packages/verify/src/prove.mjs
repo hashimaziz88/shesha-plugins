@@ -97,14 +97,14 @@ async function runQ2(root) {
  *  implemented ones carry their runner. */
 const STEPS = [
   { id: 'green', label: 'green', needs: 'WP-0', impl: null },
-  { id: 'compile', label: 'compile', needs: 'WP-5', impl: null },
+  { id: 'compile', label: 'compile', needs: 'WP-5.a', impl: null },
   { id: 'Q1', label: 'Q1 selfconsist', needs: 'WP-1.a', impl: runQ1 },
   { id: 'Q2', label: 'Q2 oracle', needs: 'WP-1.a', impl: runQ2 },
-  { id: 'Q3', label: 'Q3 escapes', needs: 'WP-5', impl: null },
-  { id: 'Q4', label: 'Q4 defects', needs: 'WP-5', impl: null },
+  { id: 'Q3', label: 'Q3 escapes', needs: 'WP-5.b', impl: null },
+  { id: 'Q4', label: 'Q4 defects', needs: 'WP-5.b', impl: null },
   { id: 'tiers', label: 'tiers', needs: 'WP-3a', impl: null },
   { id: 'uninspectable', label: 'uninspectable', needs: 'WP-3a', impl: null },
-  { id: 'roundtrip', label: 'roundtrip', needs: 'WP-5', impl: null },
+  { id: 'roundtrip', label: 'roundtrip', needs: 'WP-5.b', impl: null },
   { id: 'cost', label: 'cost delta', needs: 'WP-10', impl: null },
 ];
 

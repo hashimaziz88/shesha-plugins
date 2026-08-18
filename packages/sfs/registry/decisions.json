@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 89,
+  "count": 90,
   "decisions": [
     {
       "id": "D-001",
@@ -1070,6 +1070,18 @@
       "consequence": "disposition.json carries no WP-2 move row; the KB and matrix keep their plugins paths",
       "enforcedBy": [
         "g-disposition"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-090",
+      "date": "2026-08-18",
+      "status": "decided",
+      "decision": "Scope change: WP-5 splits into WP-5.a (compiler v1 — six stages, all node kinds, seven recipes, error catalogue, decompiler lifts) and WP-5.b (decompiler over the six declared corpus forms, round-trip >= 0.90, the five WP-5 gates); both stay in scope",
+      "why": "WP-5's compiler-all-kinds surface plus the corpus round-trip exceeds one context window and CONTROL section 6 forbids half-committing, so the split is data declared before the work, mirroring D-070",
+      "consequence": "ten ids in scope; no work leaves the session",
+      "enforcedBy": [
+        "structural:packages/verify/config/session-scope.json"
       ],
       "confirmation": "n/a"
     }

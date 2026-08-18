@@ -67,7 +67,8 @@ Scope is **data**: `packages/verify/config/session-scope.json` lists exactly the
 | 3 | **WP-1.b** | Q5 id determinism, the golden-defect classes, `cost-delta`, `g-artifact-naming`. Split from WP-1 by D-070 | §2.0–2.5, §5.2 | `node --test packages/sfs/test/*.test.mjs && node packages/sfs/tools/cost-delta.mjs --json` → exit 0, `GATE PASS` |
 | 4 | **WP-2** | `components-kb` → machine registry: names-only for all 121, value types for the 13 priority types, honest provenance | §2.8 | `node packages/registry/src/validate.mjs` → exit 0, `names-only 121/121 · priority full 13/13` |
 | 5 | **WP-4** | SFS JSON Schema v1 + the ten `clean/` fixtures | §2.1, §2.2 | `node packages/verify/src/tiers/t1-schema.mjs packages/sfs/test/fixtures/clean` → exit 0, `10/10 valid` |
-| 6 | **WP-5** | Compiler v1 (six stages, all node kinds, seven recipes, error catalogue) + decompiler over the six declared corpus forms | §2.3–2.7 | `npm run sfs -- roundtrip --scope roundtrip-scope.json` → exit 0, `rate >= 0.90 · untriaged 0` |
+| 6 | **WP-5.a** | Compiler v1: six stages, ALL node kinds, seven recipes, the error catalogue + decompiler lifts for every kind (D-090 split) | §2.3–2.7 | `node --test packages/sfs/test/*.test.mjs` → exit 0, and every `clean/` fixture (input/select/list variants included) round-trips |
+| 6b | **WP-5.b** | Decompiler over the six declared corpus forms, the round-trip gate, and the five WP-5 gates (D-090 split) | §2.5, §2.7 | `npm run sfs -- roundtrip --scope roundtrip-scope.json` → exit 0, `rate >= 0.90 · untriaged 0` |
 | 7 | **WP-7a** | Delete `shesha-form-edit/**` and the 2.5 MB of seeds; ship one thin `shesha-spec` skill | §4.4.2, §5.2 | `node packages/verify/src/gates/g-disposition.mjs && node packages/verify/src/gates/g-prose-budget.mjs` → exit 0 |
 | 8 | **WP-3a** | Coverage full API + `walk.mjs`, T1 schema tier, T2 registry tier (22 checks) | §3.1, §3.2.2, §3.2.3 | `node packages/verify/src/verify.mjs .build/wp3a --screen inline-editable-table --tiers t1,t2` → exit 0 |
 | 9 | **WP-10** | The integration proof and the anti-drift checklist | §5.3, §5.9 | `npm run prove` → exit 0, last line `SESSION COMPLETE — SCOPE A` |
@@ -131,7 +132,7 @@ Then read this file whole, and only the one named detail section for the current
 
 All four must hold: disjoint write set declared in advance in `packages/verify/config/fanout.json`; no shared invariant; a **named program** decides correctness without a model; bounded and enumerable. The four legal slices (registry records ×4, error-catalogue entries ×3, round-trip triage ×3 read-only, T1/T2 fixtures ×4) and their accepting programs are §5.5's table.
 
-**Strictly sequential, one agent:** WP-0, WP-1, WP-4's schema, WP-5's stage code and decompiler, `t2-registry.mjs`, `walk.mjs`, `coverage.mjs`, WP-7a, WP-10.
+**Strictly sequential, one agent:** WP-0, WP-1, WP-4's schema, WP-5.a's stage code and WP-5.b's decompiler, `t2-registry.mjs`, `walk.mjs`, `coverage.mjs`, WP-7a, WP-10.
 
 **Hard rules.** Max 4 concurrent subagents. No subagent commits — subagents write files, you run the accepting program and commit. No subagent runs `npm install`, `npm ci`, `git checkout`, `git commit`, `git reset`, or anything mutating `node_modules/` or the index. Every subagent prompt carries exactly four things: its exclusive write globs, the schema or manifest contract, the acceptance command, and "return the list of paths you wrote and nothing else" — never the brief. A failed slice is redone by you and counts as a repair round.
 
