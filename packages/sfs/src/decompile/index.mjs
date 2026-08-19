@@ -136,6 +136,24 @@ function surfaceFor(reg, block) {
 }
 
 /**
+ * Coerce any production form name into the SFS `slug` shape ^[a-z][a-z0-9-]{0,63}$.
+ * Real names carry capitals, dots, spaces and version suffixes; the decompiler passed
+ * them through unchanged (WP-5d, MINING-REPORT.md §5 SFS-1101 /form, 232 forms).
+ * @param {string} name @returns {string}
+ */
+function toSlug(name) {
+  const s = String(name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  if (s === '') return 'form';
+  const started = /^[a-z]/.test(s) ? s : `f-${s}`;
+  return started.slice(0, 64).replace(/-+$/g, '') || 'form';
+}
+
+/** SFS `clrType`: a dotted CLR name with at least two segments. */
+const CLR_TYPE = /^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)+$/;
+/** SFS `moduleName`. */
+const MODULE_NAME = /^[A-Za-z][A-Za-z0-9_.-]{0,127}$/;
+
+/**
  * pad/margin lift from the desktop block's stylingBox string.
  * @param {Record<string, unknown>} block
  * @returns {{pad?:Record<string, number>, margin?:Record<string, number>}}
@@ -153,9 +171,12 @@ function boxFor(block) {
     const m = /^(margin|padding)(Top|Right|Bottom|Left)$/.exec(key);
     if (m === null) continue;
     const side = m[2].toLowerCase();
-    const n = Number(value);
-    if (!Number.isFinite(n)) continue;
-    (m[1] === 'padding' ? pad : margin)[side] = n;
+    const raw = Number(value);
+    if (!Number.isFinite(raw)) continue;
+    // The schema requires INTEGER pad/margin; production stylingBox strings carry
+    // fractional pixel values, which decompiled straight through as non-integers
+    // (WP-5d, MINING-REPORT.md §5 SFS-1101 /style/pad). Round to the nearest pixel.
+    (m[1] === 'padding' ? pad : margin)[side] = Math.round(raw);
   }
   /** @type {{pad?:Record<string, number>, margin?:Record<string, number>}} */
   const out = {};
@@ -341,9 +362,10 @@ export function decompile(input, options = {}) {
   // the split {module, name} shape; both appear across the corpus.
   const modelType = isObj(formSettings.modelType) ? formSettings.modelType : undefined;
   const modelTypeStr = typeof formSettings.modelType === 'string' ? formSettings.modelType : undefined;
-  const module = typeof envelope.ModuleName === 'string' ? envelope.ModuleName
+  const moduleRaw = typeof envelope.ModuleName === 'string' ? envelope.ModuleName
     : modelType !== undefined && typeof modelType.module === 'string' ? modelType.module : 'app';
-  const form = typeof envelope.Name === 'string' ? envelope.Name : 'form';
+  const module = MODULE_NAME.test(moduleRaw) ? moduleRaw : 'app';
+  const form = toSlug(typeof envelope.Name === 'string' ? envelope.Name : 'form');
 
   /** @type {Record<string, unknown>} */
   const sfs = {
@@ -352,17 +374,19 @@ export function decompile(input, options = {}) {
     module,
     kind,
   };
-  // entity: the envelope's ModelType when present (a real CLR string), else
-  // reconstructed from formSettings.modelType {module, name}. The reconstruction is
-  // round-trip-stable — compile splits it back to the same {module, name} — even
-  // though the original middle namespace is not recoverable from a synthesised
-  // envelope. A form with neither carries no entity (custom forms).
-  if (typeof envelope.ModelType === 'string') sfs.entity = envelope.ModelType;
-  else if (modelTypeStr !== undefined) sfs.entity = modelTypeStr;
-  else if (modelType !== undefined && typeof modelType.module === 'string' && typeof modelType.name === 'string') {
-    sfs.entity = `${modelType.module}.${modelType.name}`;
-  }
-  sfs.label = typeof envelope.Label === 'string' ? envelope.Label : form;
+  // entity: emit ONLY a value matching the clrType pattern. Real ModelType strings that
+  // are single-segment or carry invalid characters are omitted rather than emitted
+  // invalid (WP-5d, MINING-REPORT.md §5 SFS-1101 /entity, 259 forms) — a form with no
+  // valid entity is a custom form, which is legal. The reconstruction from a split
+  // {module, name} stays round-trip-stable when it is valid.
+  const entityCandidate = typeof envelope.ModelType === 'string' ? envelope.ModelType
+    : modelTypeStr !== undefined ? modelTypeStr
+      : (modelType !== undefined && typeof modelType.module === 'string' && typeof modelType.name === 'string')
+        ? `${modelType.module}.${modelType.name}` : undefined;
+  if (entityCandidate !== undefined && CLR_TYPE.test(entityCandidate)) sfs.entity = entityCandidate;
+  // label: fall back to the form slug when Label is absent OR empty/whitespace, which
+  // the schema (minLength 1) forbids (WP-5d, MINING-REPORT.md §5 SFS-1101 /label, 225).
+  sfs.label = (typeof envelope.Label === 'string' && envelope.Label.trim() !== '') ? envelope.Label : form;
   if (typeof envelope.Description === 'string') sfs.description = envelope.Description;
   const access = ACCESS_NAMES[/** @type {1|2|4} */ (formSettings.access ?? envelope.Access)];
   if (access !== undefined) sfs.access = access;
@@ -374,7 +398,10 @@ export function decompile(input, options = {}) {
   const hooks = {};
   for (const key of reg.formSettings._hookKeys) {
     const value = formSettings[key];
-    if (value === null || value === undefined) continue;
+    // Skip empty/whitespace hook bodies as well as null/undefined: production forms
+    // carry `onAfterDataLoad: ""`, which decompiled to a zero-length string the schema
+    // forbids (WP-5d, MINING-REPORT.md §5 SFS-1101 /hooks).
+    if (value === null || value === undefined || (typeof value === 'string' && value.trim() === '')) continue;
     if (profile !== undefined && Array.isArray(profile.hooks) && profile.hooks.includes(key)) {
       hooks[key] = value;
     } else {

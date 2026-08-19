@@ -42,6 +42,25 @@ async function runRobustness(/** @type {string} */ root) {
     : { ok: false, lines: failures.map((f) => `FAIL ${f}`) };
 }
 
+/** WP-5d: a hostile production header decompiles to schema-valid SFS, not SFS-1101. */
+async function runHygiene(/** @type {string} */ root) {
+  const { compile } = await import(pathToFileURL(path.join(root, 'packages/sfs/src/compile/index.mjs')).href);
+  const { decompile } = await import(pathToFileURL(path.join(root, 'packages/sfs/src/decompile/index.mjs')).href);
+  const base = JSON.parse(fs.readFileSync(path.join(root, 'packages/sfs/test/fixtures/legacy/inline-editable-table.envelope.json'), 'utf8'));
+  const env = { ...base, Name: 'My Form.V2! (Draft)', Label: '   ', ModelType: 'SingleSegment', ModuleName: '123 bad' };
+  try {
+    const { sfs } = decompile(env);
+    compile(JSON.stringify(sfs));
+    const ok = /^[a-z][a-z0-9-]{0,63}$/.test(String(sfs.form)) && sfs.entity === undefined
+      && typeof sfs.label === 'string' && sfs.label.trim() !== '';
+    return ok
+      ? { ok: true, lines: [`hostile header lifts clean: form=${sfs.form}, entity omitted, label non-empty (SFS-1101 /form /entity /label)`] }
+      : { ok: false, lines: [`decompiled SFS is not sanitised: form=${JSON.stringify(sfs.form)} entity=${JSON.stringify(sfs.entity)} label=${JSON.stringify(sfs.label)}`] };
+  } catch (e) {
+    return { ok: false, lines: [`FAIL: ${(/** @type {Error} */ (e)).message.split('\n')[0]}`] };
+  }
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -49,6 +68,7 @@ async function runRobustness(/** @type {string} */ root) {
  */
 const STEPS = [
   { id: 'robustness', label: 'compiler robust', needs: 'WP-5c', impl: runRobustness },
+  { id: 'hygiene', label: 'decompiler hygiene', needs: 'WP-5d', impl: runHygiene },
 ];
 
 /**

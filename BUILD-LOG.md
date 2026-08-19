@@ -653,3 +653,31 @@ guards are inert for the rich types (`card` still uses its array; `container`/`t
 representations in the registry data are latent tech debt worth normalising in a later pass; the
 compiler now tolerates both.
 
+## WP-5d — Decompiler output hygiene — 2026-08-19
+
+Status: complete
+Gate: `node --test packages/sfs/test/decompile-hygiene.test.mjs` -> exit 0 (3 pass)
+Evidence: packages/verify/evidence/WP-5d.json
+Decisions added: none
+Blocked: none new
+Next: WP-5e (IR nodes for the escaping constructs)
+
+The second mining front (~700 forms): the decompiler emitted SFS that failed its OWN schema, so
+those forms never even reached escape-counting. The lift passed the envelope header through
+unchanged, so real names, labels and CLR types decompiled straight into SFS-1101 violations —
+/entity (259 forms), /form (232), /label (225), plus the smaller /hooks and /style/pad classes
+(MINING-REPORT.md §5). Six sanitisers in `packages/sfs/src/decompile/index.mjs`: `form` is coerced
+to a slug (`toSlug`), `module` guarded against `moduleName`, `entity` emitted only when it matches
+`clrType` (a single-segment or malformed CLR name is omitted — a custom form legally has none),
+`label` falls back to the form slug when the envelope's Label is absent or blank, pad/margin are
+rounded to integers, and empty/whitespace hook bodies are skipped like nulls.
+
+`packages/sfs/test/decompile-hygiene.test.mjs` (3 pass) decompiles a deliberately hostile header
+(`Name:"My Form.V2! (Draft)"`, whitespace `Label`, single-segment `ModelType`, `ModuleName:"123
+bad"`) and asserts the result recompiles; pre-fix that threw `DEC-7001 … SFS-1101 … in 3 place(s)`
+(reproduced by `git stash` of the fix). The 18 existing round-trip/oracle/self-consistency tests
+still pass, Q1 stays BYTE-EQUAL on all 14 clean fixtures, and the corpus round-trip stays `rate
+1.00` — the sanitisers are inert for already-clean headers. `prove-b` gains its `decompiler hygiene`
+step. The node-enum class (SFS-1101 /body/**/node, 126 forms — a child node kind the schema forbids
+at that position) is structural, not scalar, and is scoped to WP-5e with the IR-node work.
+
