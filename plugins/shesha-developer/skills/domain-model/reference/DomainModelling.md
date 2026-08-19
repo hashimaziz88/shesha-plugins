@@ -83,11 +83,11 @@ The following class level attributes should be added to entity classes where rel
 | **Attribute** | **Description**  |
 | --- | --- |
 | `[Audited]` | Add to any entity class to enable auditing. When applied at the class level, all properties on the entity will be audited, meaning that any changes to their values will be logged. |
-| `[Discriminator]` | Add to any entity that you expect to inherit from so that a Discriminator column can be added at the database layer. By default, Shesha uses a 'Table per Hierarchy' inheritance strategy. This means that all entity subclasses will be stored in the same table as the base class, and a discriminator column will be used to identify the type of entity being stored. |
+| `[Discriminator]` | Add to any entity that you expect to inherit from so that a Discriminator column can be added at the database layer. By default, Shesha uses a 'Table per Hierarchy' inheritance strategy. This means that all entity subclasses will be stored in the same table as the base class, and a discriminator column identifies the type of entity being stored. |
 | `[DiscriminatorValue("DiscriminatorName")]` | Add this attribute to entities that inherit from another entity class and where you want to explicitly specify your own discriminator value. If omitted, Shesha will use the entity class's namespace and name, e.g., `MyOrg.MyApp.` |
 | `[Entity]` | Provides parameters to add additional metadata to the entity and control additional aspects of the behavior of the entity: <br/> **`GenerateApplicationService`** - Specifies whether CRUD APIs for this entity should be generated. <br/> **`ApplicationServiceName`** - The name of the application service to be generated for the entity. This will be reflected in the URL of the dynamically generated CRUD API. If not specified, the name of the entity will be used. <br/> **`FriendlyName`** - A more user-friendly name for the entity to be used in the UI. If not specified, the name of the entity will be used. <br/> |
 | `[Table("TableName")]` | Add this attribute if the Database table the entity maps to deviates from standard naming conventions. |
-| `[AddToMetadata]` | This attribute can mainly be used to forcibly add a DTO that has not been utilized on any service in the application to the list of models available to be used on the frontend. |
+| `[AddToMetadata]` | This attribute can mainly be applied to forcibly add a DTO that has not been utilized on any service in the application to the list of models available to be used on the frontend. |
 
 ### Entity Class Property Attributes
 The following property level attributes should be added to entity class properties where relevant.

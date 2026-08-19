@@ -15,7 +15,7 @@ This step answers *where the design is and how to read it*, and extracts the **t
 
 ## markitdown's role here (content only)
 
-markitdown (`mcp__markitdown__convert_to_markdown`) normalises mixed inputs (a PDF/`.docx`/`.pptx` spec, a domain-model `.md`) into a clean content/label/section outline used to name screens and fields. It **flattens layout** — never read its output as placement. Spatial layout is measured later by `shesha-design-comprehension`.
+markitdown (`mcp__markitdown__convert_to_markdown`) normalises mixed inputs (a PDF/`.docx`/`.pptx` spec, a domain-model `.md`) into a clean content/label/section outline for naming screens and fields. It **flattens layout** — never read its output as placement. Spatial layout is measured later by `shesha-design-comprehension`.
 
 ## Output of this step
 

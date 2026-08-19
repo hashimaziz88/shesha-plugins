@@ -734,3 +734,33 @@ trimmed back under. BL-001 (3-arm SAA token/step cost) is unmeasurable from insi
 the very reason D-050 deferred it — and BL-006/BL-014 are their own efforts, so D-102 keeps all
 three as visible BACKLOG rows rather than block WP-1c forever. `prove-b` gains its `strict index` step.
 
+## WP-7 — Thin the design skills, clear the prose debt — 2026-08-19
+
+Status: complete
+Gate: `node packages/verify/src/gates/g-prose-budget.mjs` -> exit 0 with 0 waivers whose `until` is BL-007 or BL-012
+Evidence: packages/verify/evidence/WP-7.json
+Decisions added: none
+Blocked: none new
+Next: WP-3b (T3 semantic tier)
+
+BL-007 + BL-012: the nine D-063 prose waivers are gone, and the underlying debt with them. A
+three-agent fan-out (disjoint skill files, D-058-clean) thinned `shesha-claude-designer/SKILL.md`
+(16449 -> 7937 B) and `shesha-design-comprehension/SKILL.md` (9806 -> 7922 B) under the Tier-A 8192 B
+cap, each kept a working ROUTER — frontmatter, the routing table, the Step 0-6 pipeline, the REQUIRED
+sub-skill delegations, and the load-bearing rules and worked examples (the flex-container-vs-columns
+width rule, `$RUN_DIR` layout, verify exit codes, the four gates in order, the design-critic verdict
+enum). Cuts were duplication, restated rules, dot-graph diagrams and history. I read both thinned
+skills back to confirm the routing, gates and examples survived and every referenced file still
+exists — the gate checks size and archaeology, not usefulness, so a human read is the quality proof.
+Archaeology was stripped from seven files (design-ingestion, capture-pipeline, capability-matrix x3,
+clean-form-config/analysis, DomainModelling x2, gateway-artifacts) and `add-public-portal`'s
+frontmatter `name` was fixed to equal its folder. The nine waivers were then removed from
+`prose-budget.json`; the gate's `waivers#none-declared` path keeps the waiver-expiry family covered
+at zero. The commit touches `plugins/**`, so `plugin.json` is bumped 1.9.0 -> 1.9.1 and
+`g-plugin-version`'s floor raised to match. `prove-b` gains its `prose thin` step.
+
+BL-007's description also floated renaming `shesha-claude-designer` -> `shesha-designer`. That is not
+part of the waiver acceptance (the skill is thin and clean under its current name), and a rename
+churns the marketplace id and every cross-skill reference, so it is left as a separate concern rather
+than bundled here.
+

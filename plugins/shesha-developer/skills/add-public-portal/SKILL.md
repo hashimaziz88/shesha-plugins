@@ -1,5 +1,5 @@
 ---
-name: shesha-public-portal
+name: add-public-portal
 description: >-
   Add a new public portal (public-facing / unauthenticated front-end app) to an existing Shesha
   framework project. Trigger for "add/create a public portal", "spin up a customer/vendor/citizen

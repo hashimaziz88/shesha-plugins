@@ -699,9 +699,9 @@ API calls using .then() — manual review recommended (not changed):
   • "Submit" (button) [onFinish]: axios.post(...).then(result => {
   • "Load Data" (customComponent) [getData]: getHttp(...).then(data => {
 
-Original size:  XX,XXX chars
-Cleaned size:   YY,YYY chars
-Reduction:      ZZZ chars (P%)
+Original size:  18,432 chars
+Cleaned size:   17,905 chars
+Reduction:      527 chars (2.9%)
 ```
 
 Omit whichever sections have no entries.

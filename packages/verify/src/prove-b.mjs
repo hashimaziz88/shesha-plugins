@@ -92,6 +92,15 @@ async function runStrictIndex(/** @type {string} */ root) {
     : { ok: false, lines: ['noUncheckedIndexedAccess is not true in tsconfig.json'] };
 }
 
+/** WP-7: the design skills are thin — no BL-007/BL-012 prose-budget waiver survives. */
+async function runProseThin(/** @type {string} */ root) {
+  const cfg = JSON.parse(fs.readFileSync(path.join(root, 'packages/verify/config/prose-budget.json'), 'utf8'));
+  const stragglers = (cfg.waivers || []).filter((/** @type {any} */ w) => w.until === 'BL-007' || w.until === 'BL-012');
+  return stragglers.length === 0
+    ? { ok: true, lines: ['design skills thinned; no BL-007/BL-012 prose waiver remains'] }
+    : { ok: false, lines: [`${stragglers.length} BL-007/BL-012 prose waiver(s) still present`] };
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -102,6 +111,7 @@ const STEPS = [
   { id: 'hygiene', label: 'decompiler hygiene', needs: 'WP-5d', impl: runHygiene },
   { id: 'columns', label: 'columns lift', needs: 'WP-5e', impl: runColumns },
   { id: 'strict-index', label: 'strict index', needs: 'WP-1c', impl: runStrictIndex },
+  { id: 'prose-thin', label: 'prose thin', needs: 'WP-7', impl: runProseThin },
 ];
 
 /**

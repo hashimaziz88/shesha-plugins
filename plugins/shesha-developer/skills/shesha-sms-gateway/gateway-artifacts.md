@@ -224,7 +224,7 @@ namespace {Publisher}.Sms.{GatewayName}
             try
             {
                 using var httpClient = _httpClientFactory.CreateClient();
-                // TODO: implement provider-specific HTTP call
+                // implement the provider-specific HTTP call here
                 // Return SendStatus.Success() on success or SendStatus.Failed(message) on failure.
                 throw new NotImplementedException("Implement SMS sending logic here.");
             }

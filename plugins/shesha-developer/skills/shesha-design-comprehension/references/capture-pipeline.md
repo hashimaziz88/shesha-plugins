@@ -20,7 +20,7 @@ The placement is explicit in the source; read it, don't infer it.
 - **flex props** (`flex:1`, `display:'grid'`, `flexDirection`) → row vs column, fill behaviour.
 - **component shapes** (`<Card title icon>` + `<CountBadge>`; `EditableText`/paste handlers) → which archetype (related-panel rail, capture table).
 - **bindings** from props (`view.realisesUseCases`, `view.requiredApis`).
-- **markitdown role (A):** convert any mixed spec docs alongside the source — a domain-model `.md`, a requirements `.docx`/`.pdf` — into a content/label outline used to *name* fields and cross-check the bindings table. It does not read layout here; the source does.
+- **markitdown role (A):** convert any mixed spec docs alongside the source — a domain-model `.md`, a requirements `.docx`/`.pdf` — into a content/label outline that *names* fields and cross-checks the bindings table. It does not read layout here; the source does.
 
 ## Tier B — runnable prototype (the offline RS app is Tier B)
 
