@@ -1,0 +1,4 @@
+{
+  "_comment": "D-072. g-plugin-version proves the shesha-developer plugin version is valid semver with dot-separated prerelease identifiers (so 1.8.5-alpha.1 and never 1.8.5alpha1) and never regresses below this recorded floor. The floor is a ratchet: a WP that changes plugins/** raises it in the SAME commit, and the gate proves current >= floor. Lowering it is inert (a lower floor cannot admit a lower current), and a floor above current fails the gate — so the version can only move forward.",
+  "floor": "1.9.0"
+}

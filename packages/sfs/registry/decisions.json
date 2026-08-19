@@ -322,7 +322,7 @@
       "why": "§5.5 B4 needs a visible failing fixture per compiler gap",
       "consequence": "Compiler gaps stay visible",
       "enforcedBy": [
-        "pending:WP-10"
+        "g-gap-visibility"
       ],
       "confirmation": "n/a"
     },
@@ -600,7 +600,7 @@
       "why": "a ratio derived from prose the session is deleting is T15",
       "consequence": "`prove` prints `token cost: unmeasured in this session`",
       "enforcedBy": [
-        "pending:WP-10"
+        "g-cost-delta"
       ],
       "confirmation": "n/a"
     },
@@ -624,7 +624,7 @@
       "why": "UI2Code^N saturation at N=3-5; more iterations sometimes amplify reward hacking",
       "consequence": "Round four adapts the test to the code",
       "enforcedBy": [
-        "pending:WP-10"
+        "structural:packages/verify/test/mutation/mutation-meta.test.mjs"
       ],
       "confirmation": "n/a"
     },
@@ -696,7 +696,7 @@
       "why": "§4/L4 excludes shared-context coding from multi-agent gains; two parallel authors already shipped two incompatible `refListStatus` shapes",
       "consequence": "A self-report is not evidence",
       "enforcedBy": [
-        "pending:WP-10"
+        "g-fanout-partition"
       ],
       "confirmation": "n/a"
     },
@@ -708,7 +708,7 @@
       "why": "it failed every commit shipping an implementation together with the gate policing it, i.e. WP-1, WP-5, WP-7a and WP-3a",
       "consequence": "The declared-glob partition proof already covers the anti-pattern",
       "enforcedBy": [
-        "pending:WP-10"
+        "g-fanout-partition"
       ],
       "confirmation": "n/a"
     },
@@ -865,7 +865,7 @@
       "why": "`g-plugin-version` must prove the version strictly increases and a semver parser rejects an unseparated prerelease suffix",
       "consequence": "Marketplace and gate order it the same way",
       "enforcedBy": [
-        "pending:WP-10"
+        "g-plugin-version"
       ],
       "confirmation": "n/a"
     },

@@ -1,0 +1,25 @@
+=== SHESHA SFS REBUILD — INTEGRATION PROOF (SCOPE A) ===
+scope            WP-0 WP-1.a WP-1.b WP-2 WP-4 WP-5.a WP-5.b WP-7a WP-3a.1 WP-3a.2 WP-3a.3 WP-10   12/12 complete
+green            PASS — typecheck + tests + gates + mutations all exit 0
+compile          inline-editable-table markup 10929 bytes sha256=9390d7f9e5a1
+Q1 selfconsist   Q1 BYTE-EQUAL assets-register.sfs.json 15989 bytes sha256=44489b13380f
+Q1 selfconsist   Q1 BYTE-EQUAL booking-create.sfs.json 9816 bytes sha256=dc443235b23c
+Q1 selfconsist   Q1 BYTE-EQUAL booking-detail.sfs.json 8436 bytes sha256=6c71b93d9e43
+Q1 selfconsist   Q1 BYTE-EQUAL bookings-table.sfs.json 16936 bytes sha256=973e10c75b68
+Q1 selfconsist   Q1 BYTE-EQUAL customers-table.sfs.json 14282 bytes sha256=54248b1eec88
+Q1 selfconsist   Q1 BYTE-EQUAL employees-table.sfs.json 17264 bytes sha256=e7f2192104bf
+Q1 selfconsist   Q1 BYTE-EQUAL flights-datalist.sfs.json 7227 bytes sha256=e9647c59c7a8
+Q1 selfconsist   Q1 BYTE-EQUAL inline-editable-table.sfs.json 10929 bytes sha256=9390d7f9e5a1
+Q1 selfconsist   Q1 BYTE-EQUAL invoices-table.sfs.json 9945 bytes sha256=2d5b3789edaa
+Q1 selfconsist   Q1 BYTE-EQUAL orders-list.sfs.json 17576 bytes sha256=74703a8577f2
+Q1 selfconsist   Q1 BYTE-EQUAL products-catalog.sfs.json 15452 bytes sha256=3fdd5b83f3ab
+Q1 selfconsist   Q1 BYTE-EQUAL projects-table.sfs.json 17604 bytes sha256=582fa8c729de
+Q1 selfconsist   Q1 BYTE-EQUAL suppliers-table.sfs.json 13202 bytes sha256=0db2ab7fb559
+Q2 oracle        Q2 BYTE-EQUAL bookings-table.revision2.json 15966 bytes sha256=b11b0a84506c
+Q2 oracle        Q2 BYTE-EQUAL inline-editable-table.envelope.json 15144 bytes sha256=f8663051c664
+Q3 escapes       structuralEscapes 0
+Q4 defects       T2 over recompiled inline-editable-table: pass (defect classes absent)
+tiers            t1 pass · t2 pass · exit 0
+uninspectable    synthesised t1 partial · exit 3 · A partial verdict is NOT a pass
+roundtrip        rate 1.00 · untriaged 0 · ok
+cost delta       emitted 15.002493765586035x (floor 10) · preload 76.44233956902676x (floor 5)

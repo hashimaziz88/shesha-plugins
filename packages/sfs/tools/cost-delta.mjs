@@ -38,18 +38,20 @@ function skillBytes(dir) {
 }
 
 /**
+ * @param {string} [root] repo root to measure against; defaults to this file's repo,
+ *   overridden by g-cost-delta so the mutation harness measures its STAGED copy.
  * @returns {{emitted:{baseline:number, sfs:number, ratio:number, floor:number, ok:boolean},
  *            preload:{baseline:number, shipped:number, ratio:number, floor:number, ok:boolean, measurable:boolean, deferredTo:string|null},
  *            gate:boolean}}
  */
-export function costDelta() {
-  const baselineCfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'packages/sfs/config/cost-baseline.json'), 'utf8'));
+export function costDelta(root = ROOT) {
+  const baselineCfg = JSON.parse(fs.readFileSync(path.join(root, 'packages/sfs/config/cost-baseline.json'), 'utf8'));
   const emittedBaseline = baselineCfg.emittedBytes.value;
   const preloadBaseline = baselineCfg.preloadBytes.value;
 
   // Emitted: the SFS the author writes vs the markup a production form of the same
   // shape carries. Measured live from the clean fixture.
-  const fixture = path.join(ROOT, 'packages/sfs/test/fixtures/clean/inline-editable-table.sfs.json');
+  const fixture = path.join(root, 'packages/sfs/test/fixtures/clean/inline-editable-table.sfs.json');
   const sfsText = fs.readFileSync(fixture, 'utf8');
   const sfsBytes = Buffer.byteLength(JSON.stringify(JSON.parse(sfsText)), 'utf8');
   compile(sfsText); // proves the fixture still compiles; the ratio is baseline/authored
@@ -58,7 +60,7 @@ export function costDelta() {
   // Preload: the strategy's measured preload mass vs the one skill shipped. When the
   // skill does not exist yet (before WP-7a) the ratio is not measurable, and an
   // unmeasurable ratio is reported as such, never as a pass.
-  const shipped = skillBytes(path.join(ROOT, SHIPPED_SKILL));
+  const shipped = skillBytes(path.join(root, SHIPPED_SKILL));
   const preloadMeasurable = shipped > 0;
   const preloadRatio = preloadMeasurable ? preloadBaseline / shipped : 0;
 

@@ -118,11 +118,14 @@ export function t2Registry(doc, meta, opts = {}) {
 
   for (const { node, where, slot, parentNode } of walkComponents(doc)) {
     const type = node.type;
-    // A datatable column definition (columnType, no component `type`) and a
-    // `[default]`/`[...]` renderer sentinel in a column triplet are SCHEMA, not
-    // components — T2.11 checks the column schema on the parent datatable. The
-    // component checks (T2.01–T2.13) apply only to nodes that name a real type.
+    // A datatable column definition (columnType, no component `type`), a
+    // `[default]`/`[...]` renderer sentinel, and a column triplet node
+    // (displayComponent/editComponent/createComponent — `{type, settings:{version,…}}`,
+    // whose fields live under `.settings`, not at top level) are all column SCHEMA,
+    // checked by T2.11 on the parent datatable, not standalone components. The
+    // component checks (T2.01–T2.13) apply only to nodes that name a real top-level type.
     if (!type || String(type).startsWith('[') || node.columnType !== undefined) continue;
+    if (slot === 'displayComponent' || slot === 'editComponent' || slot === 'createComponent') continue;
     if (node.canEditInline === true || node.canEditInline === 'yes') hasInlineEdit = true;
     const rec = reg.components[type];
     const w = `${where}<${type}>`;
@@ -466,7 +469,7 @@ export const mutations = [
   { name: 'a fixed height on the page-shell root', covers: ['T2.22'], expect: 'fail', expectFamily: 'styling', apply: (/** @type {any} */ c) => { c.doc.components[0].dimensions = { ...(c.doc.components[0].dimensions || {}), height: '30px' }; } },
 ];
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const root = repoRoot();
   process.exit(await runGuarded(async () => {
     const args = process.argv.slice(2);

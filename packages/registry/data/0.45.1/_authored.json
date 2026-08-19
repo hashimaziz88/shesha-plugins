@@ -209,7 +209,15 @@
         "height": "auto",
         "minHeight": "fit-content"
       },
-      "editModeChannel": null
+      "editModeChannel": null,
+      "props": {
+        "crud": {
+          "valueType": "boolean",
+          "valueTypeSource": "framework-verified",
+          "required": false,
+          "requiredSource": "framework-verified"
+        }
+      }
     },
     "datatable.quickSearch": {
       "version": 3,

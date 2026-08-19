@@ -579,3 +579,48 @@ Three gates ship, each with >= 2 verdict-flipping mutations (63 caught / 63 acro
 
 Gate roster 18 -> 20 (`gate-ratchet.json` minGates 20). green:fast 20/20; npm run green 63/63
 mutations caught.
+
+## WP-10 — Integration proof and the anti-drift gate suite — 2026-08-19
+
+Status: complete
+Gate: `node packages/verify/src/prove.mjs` -> exit 0, final line `SESSION COMPLETE — SCOPE A`
+Evidence: packages/verify/evidence/WP-10.json
+Decisions resolved: D-027 -> g-gap-visibility; D-050 -> g-cost-delta; D-052 -> structural:packages/verify/test/mutation/mutation-meta.test.mjs; D-058 and D-059 -> g-fanout-partition; D-072 -> g-plugin-version
+Blocked: none new
+Next: Scope A complete — Phase 2 (scope extension) opens only through a `Scope change:` DECISIONS row
+
+The proof closes the loop. `prove.mjs` runs ten ordered steps, each naming the WP that makes it
+runnable, and only prints `SESSION COMPLETE — SCOPE A` when every one of the twelve scoped WPs is
+recorded complete AND every step passes AND its stdout is byte-identical to the frozen
+`prove.expected.txt` (the second and last permitted `--bless`, CONTROL §5). The steps: `npm run
+green`; compile the clean screen; Q1 self-consistency and Q2 independent-oracle agreement over two
+real forms; Q3 escape budget and Q4 defect census on a legacy envelope; the T1/T2 tier ladder and
+its uninspectable-is-partial degrade; the corpus round-trip at rate 1.00; and the two cost-delta
+ratios above their floors.
+
+Four file-driven anti-drift gates ship, each with >= 2 verdict-flipping mutations (roster 20 -> 24,
+`gate-ratchet.json` minGates 24; npm run green 74/74 mutations caught, 417 tests, 24/24 gates). All
+four are file-driven, not git-driven, because the mutation harness stages inputs with no `.git`:
+
+- `g-cost-delta` (D-050) — both recomputable ratios clear their floors and neither is unmeasurable.
+  It reads the baseline/fixture/skill from `ctx.repoRoot` (via a root parameter added to
+  `cost-delta.mjs`), so a staged mutation of the baseline flips the verdict. The preload arm, which
+  `cost-delta.mjs` alone reports as `deferred:WP-7a`, is now a hard requirement — an unmeasurable
+  preload fails here.
+- `g-fanout-partition` (D-058, D-059) — the fan-out write globs are pairwise disjoint per work
+  package and every slice is well formed inside the four-agent cap. D-059 removed
+  `g-fanout-discipline` on the record that "the declared-glob partition proof already covers the
+  anti-pattern"; this gate is that proof.
+- `g-plugin-version` (D-072) — a semver parser accepts the version and rejects an unseparated
+  prerelease suffix (`1.8.5-alpha.1`, never `1.8.5alpha1`), and the version never regresses below a
+  recorded floor. The floor is the file-driven ratchet standing in for "strictly increases", since
+  the harness has no commit history to read.
+- `g-gap-visibility` (D-027) — every `.todo()` is fenced to a gap fixture and carries a
+  BACKLOG-registered `GAP-0NN` id; the gate walks every test module, so the denominator is all of
+  them, not only those with a todo today.
+
+D-052 ("round four adapts the test to the code") resolves to the mutation harness itself
+(`structural:packages/verify/test/mutation/mutation-meta.test.mjs`) — the program that re-proves,
+every run, that each gate's declared mutations still flip its verdict, which is exactly the
+silencing D-052 forbids.
+

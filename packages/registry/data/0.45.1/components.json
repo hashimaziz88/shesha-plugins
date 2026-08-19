@@ -15319,6 +15319,12 @@
           "required": false,
           "valueTypeSource": "source-parsed",
           "requiredSource": "source-parsed"
+        },
+        "crud": {
+          "valueType": "boolean",
+          "valueTypeSource": "framework-verified",
+          "required": false,
+          "requiredSource": "framework-verified"
         }
       },
       "breakpointChannels": [
@@ -15338,7 +15344,7 @@
       "provenance": {
         "confidence": "source-parsed"
       },
-      "propsCompleteness": "full",
+      "propsCompleteness": "value-typed",
       "sfsNode": "table",
       "childrenKey": null,
       "itemsKey": "items",

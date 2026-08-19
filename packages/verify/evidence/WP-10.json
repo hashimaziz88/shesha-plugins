@@ -1,0 +1,139 @@
+{
+  "wp": "WP-10",
+  "gitSha": "982629cc78365690be8cfe6ac58f724a936b8a3d",
+  "at": "2026-08-19T11:29:21.802Z",
+  "verdict": "pass",
+  "tests": 417,
+  "gates": 24,
+  "mutations": 74,
+  "mutationSeconds": 48.4,
+  "greenSeconds": null,
+  "perGateCoverage": {
+    "g-artifact-naming": {
+      "walked": 575,
+      "checked": 575,
+      "uninspectable": 0
+    },
+    "g-brief-budget": {
+      "walked": 20,
+      "checked": 20,
+      "uninspectable": 0
+    },
+    "g-commands-executable": {
+      "walked": 52,
+      "checked": 32,
+      "uninspectable": 0
+    },
+    "g-commit-format": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-corpus-immutable": {
+      "walked": 13,
+      "checked": 13,
+      "uninspectable": 0
+    },
+    "g-cost-delta": {
+      "walked": 4,
+      "checked": 4,
+      "uninspectable": 0
+    },
+    "g-coverage-single-impl": {
+      "walked": 238,
+      "checked": 238,
+      "uninspectable": 0
+    },
+    "g-decisions": {
+      "walked": 594,
+      "checked": 594,
+      "uninspectable": 0
+    },
+    "g-defect-class-coverage": {
+      "walked": 14,
+      "checked": 13,
+      "uninspectable": 0
+    },
+    "g-disposition": {
+      "walked": 45,
+      "checked": 45,
+      "uninspectable": 0
+    },
+    "g-escape-budget": {
+      "walked": 4,
+      "checked": 4,
+      "uninspectable": 0
+    },
+    "g-exit-codes": {
+      "walked": 90,
+      "checked": 90,
+      "uninspectable": 0
+    },
+    "g-fanout-partition": {
+      "walked": 11,
+      "checked": 11,
+      "uninspectable": 0
+    },
+    "g-gap-visibility": {
+      "walked": 15,
+      "checked": 15,
+      "uninspectable": 0
+    },
+    "g-gate-contract": {
+      "walked": 205,
+      "checked": 205,
+      "uninspectable": 0
+    },
+    "g-githook-contract": {
+      "walked": 7,
+      "checked": 7,
+      "uninspectable": 0
+    },
+    "g-mutation-coverage": {
+      "walked": 33,
+      "checked": 31,
+      "uninspectable": 0
+    },
+    "g-no-secrets-or-scratch": {
+      "walked": 8,
+      "checked": 8,
+      "uninspectable": 0
+    },
+    "g-oracle-independence": {
+      "walked": 121,
+      "checked": 121,
+      "uninspectable": 0
+    },
+    "g-plugin-version": {
+      "walked": 3,
+      "checked": 3,
+      "uninspectable": 0
+    },
+    "g-prose-budget": {
+      "walked": 302,
+      "checked": 302,
+      "uninspectable": 0
+    },
+    "g-registry-completeness": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-skill-purity": {
+      "walked": 18,
+      "checked": 17,
+      "uninspectable": 0
+    },
+    "g-workspace-hygiene": {
+      "walked": 164,
+      "checked": 164,
+      "uninspectable": 0
+    }
+  },
+  "exitCodes": {
+    "typecheck": 0,
+    "test": 0,
+    "gates": 0,
+    "mutations": 0
+  }
+}
