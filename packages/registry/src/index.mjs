@@ -5,6 +5,7 @@
 // dependency arrow registry <- sfs <- verify is never reversed (D-041).
 
 export * from './coverage.mjs';
+export * from './load.mjs';
 
 /** Semantic version of the registry package surface. */
 export const REGISTRY_API_VERSION = '0.1.0';

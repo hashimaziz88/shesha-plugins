@@ -45,13 +45,25 @@
     },
     {
       "id": "WP-3a",
+      "order": null,
+      "inScope": false,
+      "goal": "Verifier ladder — realized as WP-3a.1 + WP-3a.2 (D-096 Scope change); kept as the owner of the pending:WP-3a T2/verify decisions until WP-3a.2 ships their enforcers"
+    },
+    {
+      "id": "WP-3a.1",
       "order": 8,
       "inScope": true,
-      "goal": "Coverage full API, walk.mjs, T1 schema tier, T2 registry tier"
+      "goal": "The verifier registry read-API (load) and the single tree walker (walk.mjs)"
+    },
+    {
+      "id": "WP-3a.2",
+      "order": 9,
+      "inScope": true,
+      "goal": "T1 schema tier, T2 registry tier (22 checks), verify.mjs driver, and the coverage gates"
     },
     {
       "id": "WP-10",
-      "order": 9,
+      "order": 10,
       "inScope": true,
       "goal": "The integration proof and the anti-drift checklist"
     },

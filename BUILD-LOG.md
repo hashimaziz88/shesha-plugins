@@ -477,3 +477,40 @@ asset-bytes     walked    4   checked    3   n/a   1   failures   0
 waiver-expiry   walked    1   checked    1   failures   0
 skills 4 · codeFiles 0 · scripts 0 · readmes 0 · assetBytes 0 (non-waived)
 ```
+
+## WP-3a.1 — The verifier registry read-API and the single tree walker — 2026-08-19
+
+Status: complete
+Gate: `node --test packages/verify/test/walk.test.mjs` -> exit 0, `tests 5 pass 5`
+Evidence: packages/verify/evidence/WP-3a.1.json
+Decisions added: D-096 (Scope change: WP-3a -> WP-3a.1 + WP-3a.2, CONTROL §6 blesses the split; session-scope.json + CONTROL §3 updated in this commit)
+Blocked: none new
+Next: WP-3a.2
+
+D-096 splits WP-3a because its read-layer+walker is green and committable now while T2's 22
+checks + `verify.mjs` + the coverage gates + ~42 fixtures exceed one context; CONTROL §6 forbids
+half-committing and blesses the WP-N.a/WP-N.b split with a `Scope change:` row (mirrors D-070 for
+WP-1 and D-090 for WP-5). `WP-3a` is kept in wp-table.json as an `inScope:false` umbrella so the
+eight `pending:WP-3a` T2/verify decisions (D-008, D-030..D-035, D-055) still resolve until WP-3a.2
+ships their `check:t2-registry:` enforcers.
+
+Created the read layer the whole verifier ladder stands on:
+
+- `packages/registry/data/0.45.1/slots.json` — the 10 container channels as DATA (components,
+  content.components, header.components, items, columns, tabs, panels, and the datatable column
+  triplet displayComponent/editComponent/createComponent). The walker reads this; it never
+  hard-codes the literal key `components`, which is what let §1.7 T5's three broken nodes under
+  items/columns report `structure walked 3, checked 6, failures 0`.
+- `packages/registry/src/load.mjs` (+ exported from index.mjs) — `load(ref)` returning
+  `{ref, components, slots, priorityTypes, requiredProps, deny, formSettings, actions, itemSchemas}`.
+  The L0 read-view the tiers stand on; the compiler keeps its own L1 reader (the DATA is
+  single-source, two readers of it are not two sources of truth).
+- `packages/registry/data/0.45.1/required-props.json` (T2.07 structural required props, mined from
+  the corpus, 6 types with instances; the 7 with none are `na`) and `deny.json` (T2.12 decided
+  denials: component-level editMode D-032, flat referenceListName D-031, customStyle.flex, and the
+  single-styling-channel rule).
+- `packages/verify/src/walk.mjs` — `walkComponents(doc)`, the ONE tree walker (§3.2.2), a plain
+  function (not a generator: source-patterns.json matches `function walkComponents(` and
+  g-coverage-single-impl enforces exactly-one-definition-in-walk.mjs) returning `Visit[]`.
+- `packages/verify/test/walk.test.mjs` — 5 tests: every channel reached, slot attribution,
+  parent/where location, cycle-safety, and non-vacuity/descent on a real corpus form.

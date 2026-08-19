@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 95,
+  "count": 96,
   "decisions": [
     {
       "id": "D-001",
@@ -1142,6 +1142,18 @@
       "consequence": "gen-registry.mjs reads the KB at its new path; the registry regenerates byte-identical; disposition carries WP-7a move rows for both",
       "enforcedBy": [
         "g-disposition"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-096",
+      "date": "2026-08-19",
+      "status": "decided",
+      "decision": "Scope change: WP-3a splits into WP-3a.1 (the verifier registry read-API `load()` + `slots.json`/`required-props.json`/`deny.json` and the single tree walker `walk.mjs`) and WP-3a.2 (T1 schema tier, T2 registry 22 checks, `verify.mjs`, the coverage gates); both stay in scope. `WP-3a` is kept in wp-table as an inScope:false umbrella so the eight pending:WP-3a T2/verify decisions still resolve until WP-3a.2 ships their enforcers",
+      "why": "WP-3a.1 read-layer+walker is green and committable now, but T2 22 checks + verify + gates + 42 fixtures exceed one context; CONTROL §6 forbids half-committing and blesses the WP-N.a/.b split with a Scope change row (mirrors D-070, D-090)",
+      "consequence": "eleven ids in session-scope; no work leaves the session; prove.mjs requires WP-3a.1 and WP-3a.2",
+      "enforcedBy": [
+        "structural:packages/verify/config/session-scope.json"
       ],
       "confirmation": "n/a"
     }

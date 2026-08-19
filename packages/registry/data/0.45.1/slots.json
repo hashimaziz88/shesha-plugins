@@ -1,0 +1,15 @@
+{
+  "_provenance": "The container channels of §3.2.2. The ONE tree walker (packages/verify/src/walk.mjs) reads this list — it never hard-codes the literal key `components`. Every crash class in §1.7 T5 was a node reached through a channel the walker did not know: three broken nodes under `items`/`columns` produced `structure walked 3, checked 6, failures 0`. `content.components` is the single most-cited crash in the corpus (card / collapsiblePanel). The datatable column triplet (`displayComponent`/`editComponent`/`createComponent`) is a single `{type, settings}` object, not an array.",
+  "channels": [
+    { "key": "components", "shape": "array", "note": "any object" },
+    { "key": "content.components", "shape": "array", "note": "card, collapsiblePanel" },
+    { "key": "header.components", "shape": "array", "note": "card" },
+    { "key": "items", "shape": "array", "note": "buttonGroup, datatable columns, KeyInformationBar, tabs (items-shaped)" },
+    { "key": "columns", "shape": "array", "note": "datatable, KeyInformationBar" },
+    { "key": "tabs", "shape": "array", "note": "tabs" },
+    { "key": "panels", "shape": "array", "note": "collapsiblePanel groups" },
+    { "key": "displayComponent", "shape": "single", "note": "datatable column triplet" },
+    { "key": "editComponent", "shape": "single", "note": "datatable column triplet" },
+    { "key": "createComponent", "shape": "single", "note": "datatable column triplet" }
+  ]
+}

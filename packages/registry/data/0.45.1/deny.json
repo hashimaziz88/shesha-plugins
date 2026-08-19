@@ -1,0 +1,11 @@
+{
+  "_provenance": "§3.2.3 T2.12 (and T2.06's authorable:false is read from components.json, not here). These are DECIDED denials, not mined: each is a documented defect class with a decision. `props` are keys denied outright at the stated scope; `conditional` are keys denied only when a sibling key is present (the single-styling-channel rule, DC-05).",
+  "props": [
+    { "key": "editMode", "scope": "component", "decision": "D-032", "reason": "editMode is emitted at form level only; a component-level editMode is the §1.2#7 three-way split" },
+    { "key": "referenceListName", "scope": "any", "decision": "D-031", "reason": "flat referenceListName; the only legal shape is referenceListId {module,name}" },
+    { "key": "customStyle.flex", "scope": "any", "decision": "D-037", "reason": "inert in the renderer (§1.1)" }
+  ],
+  "conditional": [
+    { "keys": ["fontSize", "fontWeight"], "forbiddenWhenSiblingPresent": "desktop.font", "decision": "D-037", "reason": "single styling channel: legacy and v7 font channels on the same property is DC-05" }
+  ]
+}

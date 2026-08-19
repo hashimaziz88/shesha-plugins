@@ -58,7 +58,7 @@ Run in order. Record all results in the first `BUILD-LOG.md` entry. A failing ha
 
 ## 3. Scope A — nine work packages
 
-Scope is **data**: `packages/verify/config/session-scope.json` lists exactly these nine ids and `prove.mjs` reads it. Narrowing requires a `DECISIONS.md` row beginning `Scope change:`. Everything else any section specifies is a `BACKLOG.md` row carrying its acceptance command verbatim. Nothing is "dropped later under budget pressure" — it is out of scope now, in writing.
+Scope is **data**: `packages/verify/config/session-scope.json` lists exactly these ids and `prove.mjs` reads it. Narrowing requires a `DECISIONS.md` row beginning `Scope change:`. Everything else any section specifies is a `BACKLOG.md` row carrying its acceptance command verbatim. Nothing is "dropped later under budget pressure" — it is out of scope now, in writing.
 
 | Order | WP | Goal | Detail | Acceptance command → expected |
 |---|---|---|---|---|
@@ -70,7 +70,8 @@ Scope is **data**: `packages/verify/config/session-scope.json` lists exactly the
 | 6 | **WP-5.a** | Compiler v1: six stages, ALL node kinds, seven recipes, the error catalogue + decompiler lifts for every kind (D-090 split) | §2.3–2.7 | `node --test packages/sfs/test/*.test.mjs` → exit 0, and every `clean/` fixture (input/select/list variants included) round-trips |
 | 6b | **WP-5.b** | Decompiler over the six declared corpus forms, the round-trip gate, and the five WP-5 gates (D-090 split) | §2.5, §2.7 | `npm run sfs -- roundtrip --scope roundtrip-scope.json` → exit 0, `rate >= 0.90 · untriaged 0` |
 | 7 | **WP-7a** | Delete `shesha-form-edit/**` and the 2.5 MB of seeds; ship one thin `shesha-spec` skill | §4.4.2, §5.2 | `node packages/verify/src/gates/g-disposition.mjs && node packages/verify/src/gates/g-prose-budget.mjs` → exit 0 |
-| 8 | **WP-3a** | Coverage full API + `walk.mjs`, T1 schema tier, T2 registry tier (22 checks) | §3.1, §3.2.2, §3.2.3 | `node packages/verify/src/verify.mjs .build/wp3a --screen inline-editable-table --tiers t1,t2` → exit 0 |
+| 8 | **WP-3a.1** | The verifier registry read-API (`load`) + `slots.json`/`required-props.json`/`deny.json`, and the single tree walker `walk.mjs` (D-096 split) | §3.1, §3.2.2 | `node --test packages/verify/test/walk.test.mjs` → exit 0 |
+| 8b | **WP-3a.2** | T1 schema tier, T2 registry tier (22 checks), `verify.mjs` driver, and the coverage gates (D-096 split) | §3.2.2, §3.2.3 | `node packages/verify/src/verify.mjs .build/wp3a --screen inline-editable-table --tiers t1,t2` → exit 0 |
 | 9 | **WP-10** | The integration proof and the anti-drift checklist | §5.3, §5.9 | `npm run prove` → exit 0, last line `SESSION COMPLETE — SCOPE A` |
 
 **Envelope: 1,200 steps / 3.0 M tokens.** Per-WP artifact and step allocations are in §5.2's table; they are derived from the `Creates` lists, not asserted.

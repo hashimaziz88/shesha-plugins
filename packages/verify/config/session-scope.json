@@ -1,4 +1,16 @@
 {
-  "_comment": "Scope A is DATA (D-051). prove.mjs reads this file. Narrowing it requires a DECISIONS.md row beginning 'Scope change:'. Anything not listed here is a BACKLOG.md row carrying its acceptance command verbatim, and nowhere else. WP-1 is split into WP-1.a and WP-1.b by D-070; both remain in scope, so the split moves no work out of the session.",
-  "wps": ["WP-0", "WP-1.a", "WP-1.b", "WP-2", "WP-4", "WP-5.a", "WP-5.b", "WP-7a", "WP-3a", "WP-10"]
+  "_comment": "Scope A is DATA (D-051). prove.mjs reads this file. Narrowing it requires a DECISIONS.md row beginning 'Scope change:'. Anything not listed here is a BACKLOG.md row carrying its acceptance command verbatim, and nowhere else. WP-1 is split into WP-1.a/WP-1.b (D-070) and WP-3a into WP-3a.1/WP-3a.2 (D-096); both remain in scope, so the split moves no work out of the session.",
+  "wps": [
+    "WP-0",
+    "WP-1.a",
+    "WP-1.b",
+    "WP-2",
+    "WP-4",
+    "WP-5.a",
+    "WP-5.b",
+    "WP-7a",
+    "WP-3a.1",
+    "WP-3a.2",
+    "WP-10"
+  ]
 }
