@@ -1,0 +1,20 @@
+{
+  "_comment": "§2.5 declared round-trip subset. The CLEAN set must match exactly (setMustMatchExactly): a form expected clean that is not is a fail, and an escape that comes out clean is also a fail. Byte-equality with the ORIGINAL is deliberately NOT required — the corpus carries defects. triageOnly forms are decompiled, reported uninspectable, and never contribute to pass/fail. inline-editable-table is the legacy seed's synthesised envelope (git-mv'd out of examples in WP-1).",
+  "declaredSubset": [
+    { "form": "entity-datalist",       "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/entity-datalist.json",   "expect": "clean" },
+    { "form": "entity-card",           "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/entity-card.json",       "expect": "clean" },
+    { "form": "rs-link-add-dialog",    "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/rs-link-add-dialog.json", "expect": "clean" },
+    { "form": "inline-editable-table", "path": "packages/sfs/test/fixtures/legacy/inline-editable-table.envelope.json",                   "expect": "clean" },
+    { "form": "standalone-create",     "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/standalone-create.json", "expect": "structural-escape", "cause": "columns (D-112) and a Submit action config the intent grammar cannot express", "backlog": "BL-021" }
+  ],
+  "triageOnly": [
+    { "form": "employee-table",                        "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/employee-table.json",                        "note": "Show Dialog action config exceeds the 6-intent grammar; escapes. compiler-gap", "backlog": "GAP-001" },
+    { "form": "rs-detail-with-header",                 "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/rs-detail-with-header.json" },
+    { "form": "employee-detail-with-child-tables",     "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/employee-detail-with-child-tables.json" },
+    { "form": "employee-detail-without-child-tables",  "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/employee-detail-without-child-tables.json" },
+    { "form": "employee-create",                       "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/employee-create.json" },
+    { "form": "rs-create-dialog",                      "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/rs-create-dialog.json" },
+    { "form": "rs-table",                              "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/rs-table.json" }
+  ],
+  "gate": { "validates": 5, "clean": 4, "setMustMatchExactly": true, "minRate": 0.90 }
+}

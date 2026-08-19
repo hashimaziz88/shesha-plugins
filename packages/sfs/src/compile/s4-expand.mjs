@@ -375,6 +375,27 @@ function expandNode(n, ctx, widths) {
   }
   if (n.props._textNode === true) n.props._fontFamily = reg.tokens.type.family;
 
+  // The typed escape hatch (§2.1.9): a node:"raw" region emits raw.props VERBATIM
+  // under type+version+name, is recorded as a structural escape, and is marked
+  // `_rawEscape` so s5 stamps only its own id/parentId and never descends into the
+  // opaque payload (its items/components keep their production ids). This is what
+  // lets an un-expressible production node round-trip: it re-decompiles to the same
+  // escape because its emitted payload still fails to lift.
+  if (n.node === 'raw') {
+    const raw = /** @type {Record<string, unknown>} */ (n.raw || {});
+    const props = /** @type {Record<string, unknown>} */ (raw.props || {});
+    /** @type {Record<string, unknown>} */
+    const escaped = { type: n.type, version: n.version, propertyName: n.name, componentName: n.name };
+    for (const [key, value] of Object.entries(props)) escaped[key] = value;
+    escaped._rawEscape = true;
+    escaped._sfsPath = n.sfsPath;
+    ctx.escapes.push({
+      path: n.sfsPath, at: 'node', reason: String(raw.reason || 'raw escape'),
+      props: Object.keys(props), structural: true,
+    });
+    return escaped;
+  }
+
   /** @type {Record<string, unknown>} */
   const out = { type: n.type, version: n.version, propertyName: n.name, componentName: n.name };
 

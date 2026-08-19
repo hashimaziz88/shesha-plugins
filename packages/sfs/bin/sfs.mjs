@@ -10,20 +10,42 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 import { SFS_LANGUAGE_VERSION } from '../src/index.mjs';
 import { compile } from '../src/compile/index.mjs';
+import { roundtrip } from '../src/roundtrip.mjs';
 
 const EXIT = { pass: 0, fail: 1, usage: 2, partial: 3 };
 
 /** Subcommand -> the work package that implements it. `null` means it is live now. */
 const VERBS = {
   compile: null,
-  decompile: 'WP-5',
-  roundtrip: 'WP-5',
+  decompile: 'WP-6',
+  roundtrip: null,
   normalise: 'WP-1',
   push: 'WP-6',
 };
+
+/**
+ * `sfs roundtrip --scope <scope.json>` — decompile the declared corpus subset and
+ * assert the clean set matches exactly (§2.5). The measurement lives in
+ * packages/sfs/src/roundtrip.mjs; this is the CLI shell.
+ * @param {string[]} args
+ * @returns {number}
+ */
+function runRoundtrip(args) {
+  const i = args.indexOf('--scope');
+  const scope = i >= 0 && args[i + 1] ? args[i + 1] : 'packages/sfs/config/roundtrip-expected.json';
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
+  let result;
+  try { result = roundtrip(root, scope); } catch (e) {
+    console.error(`sfs roundtrip: ${/** @type {Error} */ (e).message}`);
+    return EXIT.fail;
+  }
+  console.log('=== SFS round-trip over the declared corpus subset ===');
+  for (const line of result.lines) console.log(line);
+  return result.ok ? EXIT.pass : EXIT.fail;
+}
 
 /**
  * The four legal artifact names (D-044). `.compiled.json` is banned: three names for
@@ -132,6 +154,7 @@ export function main(argv) {
     return EXIT.usage;
   }
   if (verb === 'compile') return runCompile(args);
+  if (verb === 'roundtrip') return runRoundtrip(args);
 
   const wp = VERBS[/** @type {keyof typeof VERBS} */ (verb)];
   console.error(`sfs ${verb}: not implemented in this build — ${wp} ships it.`);

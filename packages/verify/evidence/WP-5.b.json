@@ -1,0 +1,99 @@
+{
+  "wp": "WP-5.b",
+  "gitSha": "8e5293eb9a4b23cf155930266315aebca053cac2",
+  "at": "2026-08-19T06:35:47.306Z",
+  "verdict": "pass",
+  "tests": 363,
+  "gates": 16,
+  "mutations": 54,
+  "mutationSeconds": 83.7,
+  "greenSeconds": null,
+  "perGateCoverage": {
+    "g-artifact-naming": {
+      "walked": 525,
+      "checked": 525,
+      "uninspectable": 0
+    },
+    "g-brief-budget": {
+      "walked": 19,
+      "checked": 19,
+      "uninspectable": 0
+    },
+    "g-commands-executable": {
+      "walked": 51,
+      "checked": 31,
+      "uninspectable": 0
+    },
+    "g-commit-format": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-corpus-immutable": {
+      "walked": 13,
+      "checked": 13,
+      "uninspectable": 0
+    },
+    "g-coverage-single-impl": {
+      "walked": 202,
+      "checked": 202,
+      "uninspectable": 0
+    },
+    "g-decisions": {
+      "walked": 558,
+      "checked": 558,
+      "uninspectable": 0
+    },
+    "g-disposition": {
+      "walked": 42,
+      "checked": 38,
+      "uninspectable": 0
+    },
+    "g-escape-budget": {
+      "walked": 4,
+      "checked": 4,
+      "uninspectable": 0
+    },
+    "g-gate-contract": {
+      "walked": 162,
+      "checked": 162,
+      "uninspectable": 0
+    },
+    "g-githook-contract": {
+      "walked": 7,
+      "checked": 7,
+      "uninspectable": 0
+    },
+    "g-no-secrets-or-scratch": {
+      "walked": 8,
+      "checked": 8,
+      "uninspectable": 0
+    },
+    "g-oracle-independence": {
+      "walked": 121,
+      "checked": 121,
+      "uninspectable": 0
+    },
+    "g-prose-budget": {
+      "walked": 571,
+      "checked": 571,
+      "uninspectable": 0
+    },
+    "g-registry-completeness": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-workspace-hygiene": {
+      "walked": 148,
+      "checked": 148,
+      "uninspectable": 0
+    }
+  },
+  "exitCodes": {
+    "typecheck": 0,
+    "test": 0,
+    "gates": 0,
+    "mutations": 0
+  }
+}

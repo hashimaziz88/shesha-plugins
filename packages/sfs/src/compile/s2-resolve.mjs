@@ -186,6 +186,17 @@ function resolveNodeRecord(reg, node, region, where) {
     }
     return { type, record };
   }
+  if (node === 'raw') {
+    // The typed escape hatch (§2.1.9): the component type is on raw.type, and s4
+    // emits raw.props verbatim. The version still comes from the registry so an
+    // escape cannot forge one.
+    const raw = /** @type {Record<string, unknown>} */ (region.raw || {});
+    const t = typeof raw.type === 'string' ? raw.type : null;
+    if (t === null) throw new SfsError('SFS-1802', `SFS-1802 node:"raw" at ${where} needs raw.type naming the component`, where);
+    const record = reg.components[t];
+    if (record === undefined) throw new SfsError('REG-2101', `REG-2101 raw.type "${t}" at ${where} is not a registry component`, where);
+    return { type: t, record };
+  }
   return recordForNode(reg, node);
 }
 

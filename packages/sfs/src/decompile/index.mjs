@@ -337,7 +337,10 @@ export function decompile(input, options = {}) {
   const profile = reg.formSettings.kinds[kind];
 
   // --- document header, from the envelope -------------------------------------
+  // formSettings.modelType is EITHER a bare CLR string ("Shesha.Domain.Person") OR
+  // the split {module, name} shape; both appear across the corpus.
   const modelType = isObj(formSettings.modelType) ? formSettings.modelType : undefined;
+  const modelTypeStr = typeof formSettings.modelType === 'string' ? formSettings.modelType : undefined;
   const module = typeof envelope.ModuleName === 'string' ? envelope.ModuleName
     : modelType !== undefined && typeof modelType.module === 'string' ? modelType.module : 'app';
   const form = typeof envelope.Name === 'string' ? envelope.Name : 'form';
@@ -349,7 +352,16 @@ export function decompile(input, options = {}) {
     module,
     kind,
   };
+  // entity: the envelope's ModelType when present (a real CLR string), else
+  // reconstructed from formSettings.modelType {module, name}. The reconstruction is
+  // round-trip-stable — compile splits it back to the same {module, name} — even
+  // though the original middle namespace is not recoverable from a synthesised
+  // envelope. A form with neither carries no entity (custom forms).
   if (typeof envelope.ModelType === 'string') sfs.entity = envelope.ModelType;
+  else if (modelTypeStr !== undefined) sfs.entity = modelTypeStr;
+  else if (modelType !== undefined && typeof modelType.module === 'string' && typeof modelType.name === 'string') {
+    sfs.entity = `${modelType.module}.${modelType.name}`;
+  }
   sfs.label = typeof envelope.Label === 'string' ? envelope.Label : form;
   if (typeof envelope.Description === 'string') sfs.description = envelope.Description;
   const access = ACCESS_NAMES[/** @type {1|2|4} */ (formSettings.access ?? envelope.Access)];
@@ -473,7 +485,17 @@ export function decompile(input, options = {}) {
       region.columns = liftColumns(reg, mk, regionNameById, diagnostics);
     }
     if (String(mk.type) === 'buttonGroup' && Array.isArray(mk.items)) {
-      region.items = liftButtons(reg, /** @type {Record<string, unknown>[]} */ (mk.items), regionNameById, diagnostics);
+      const lifted = liftButtons(reg, /** @type {Record<string, unknown>[]} */ (mk.items), regionNameById, diagnostics);
+      if (lifted === null) {
+        // One button's action config is not expressible by the intent grammar; the
+        // whole group is a STRUCTURAL escape (§2.5 step 6, §2.1.9). decompile still
+        // succeeds — the form is triaged, never crashed.
+        structuralEscapes += 1;
+        diagnostics.push({ severity: 'info', code: 'DEC-7305', message: `buttonGroup "${name}" carries an action config the intent grammar cannot express; emitted as a structural raw escape` });
+        sources.delete(path);
+        return { node: 'raw', name, raw: { reason: 'decompiled: buttonGroup action config not expressible by the intent grammar', type: 'buttonGroup', props: escapeProps(mk) } };
+      }
+      region.items = lifted;
     }
     if (kindOf === 'text') {
       // The text variant allows content/bind/as; the rest (font, alignment) is
@@ -582,6 +604,24 @@ function baseProps(mk) {
   const out = {};
   for (const [key, value] of Object.entries(mk)) {
     if (EXCLUDED.has(key) || key === 'type') continue;
+    out[key] = value;
+  }
+  return out;
+}
+
+/**
+ * The VERBATIM payload of a structural escape: every key except identity/version/type
+ * (which the compiler re-derives). Unlike baseProps, this KEEPS items/components and
+ * the breakpoint blocks, so the recompiled escape still fails to lift and thus
+ * re-decompiles to the same escape — the property that makes an escape round-trip.
+ * @param {Record<string, unknown>} mk
+ * @returns {Record<string, unknown>}
+ */
+function escapeProps(mk) {
+  /** @type {Record<string, unknown>} */
+  const out = {};
+  for (const [key, value] of Object.entries(mk)) {
+    if (key === 'id' || key === 'parentId' || key === 'version' || key === 'type' || key === 'componentName') continue;
     out[key] = value;
   }
   return out;
@@ -708,7 +748,7 @@ function liftColumns(reg, mk, regionNameById, diagnostics) {
  * @param {Record<string, unknown>[]} items
  * @param {Map<string, string>} regionNameById
  * @param {Diagnostic[]} diagnostics
- * @returns {Record<string, unknown>[]}
+ * @returns {Record<string, unknown>[]|null} null when a button's action is not liftable
  */
 function liftButtons(reg, items, regionNameById, diagnostics) {
   /** @type {Record<string, string>} */
@@ -718,7 +758,8 @@ function liftButtons(reg, items, regionNameById, diagnostics) {
   }
   /** @type {Record<string, unknown>[]} */
   const out = [];
-  items.forEach((item, i) => {
+  for (let i = 0; i < items.length; i += 1) {
+    const item = items[i];
     /** @type {Record<string, unknown>} */
     const entry = {
       name: typeof item.name === 'string' ? item.name : `item${i + 1}`,
@@ -727,12 +768,16 @@ function liftButtons(reg, items, regionNameById, diagnostics) {
     const style = styleByButtonType[String(item.buttonType)];
     if (style !== undefined && style !== 'default') entry.style = style;
     if (typeof item.icon === 'string') entry.icon = item.icon;
-    if (isObj(item.actionConfiguration)) {
-      const lifted = liftAction(reg, item.actionConfiguration, regionNameById, diagnostics);
-      if (lifted !== null) Object.assign(entry, lifted);
-    }
+    // Every action item requires a `do`. A production action config the intent
+    // grammar cannot express (extra framework args) makes the WHOLE group
+    // unliftable — the caller turns it into a structural raw escape (§2.5 step 6),
+    // rather than emitting an item with no `do`.
+    if (!isObj(item.actionConfiguration)) return null;
+    const lifted = liftAction(reg, item.actionConfiguration, regionNameById, diagnostics);
+    if (lifted === null) return null;
+    Object.assign(entry, lifted);
     out.push(entry);
-  });
+  }
   return out;
 }
 

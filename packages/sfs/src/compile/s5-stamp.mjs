@@ -39,6 +39,12 @@ function stampNode(node, parentId, ctx) {
   ctx.nodes.push({ id, sfsPath, name: String(node.componentName), type: String(node.type) });
   if (node.type === 'dataContext') ctx.dataRegions.set(String(node.componentName), id);
 
+  // A raw escape (§2.1.9) is opaque: stamp its own id and parentId, but never
+  // descend into its verbatim payload — those items/components carry production ids
+  // the compiler must not re-stamp, and re-stamping would break the escape's
+  // round-trip stability.
+  if (node._rawEscape === true) return;
+
   // A pending ownerRef can sit on the node itself or on any item's action config.
   collectPending(node, ctx.pending);
 

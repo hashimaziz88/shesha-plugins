@@ -37,6 +37,7 @@ export const inputPaths = [
   'packages/registry/probes',
   'packages/sfs/registry/decisions.json',
   'packages/sfs/src',
+  'packages/sfs/schema',
   'packages/sfs/test',
   'packages/registry/test',
   'BUILD-LOG.md',

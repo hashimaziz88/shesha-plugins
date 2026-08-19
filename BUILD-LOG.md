@@ -388,3 +388,47 @@ are not exercised by WP-5.a's fixtures; entity-card in WP-5.b's corpus needs the
 where that lands. The seven recipes (§2.6) are embodied in s3/s4 (pageShell, dataRegion,
 flexRow, statusBadge, actionsGroup, the [not-editable] triplet, validationErrors), not yet
 factored into named recipe functions.
+
+## WP-5.b — Decompiler over the corpus, round-trip gate, escape + immutability gates — 2026-08-19
+
+Status: complete
+Gate: `npm run sfs -- roundtrip --scope packages/sfs/config/roundtrip-expected.json` -> exit 0, `rate 1.00 (clean 4/4) · untriaged 0`
+Evidence: packages/verify/evidence/WP-5.b.json
+Decisions added: D-094 (gate mapping); D-010/D-013/D-019/D-021/D-053/D-054 repointed from pending:WP-5 to live enforcers
+Blocked: none new
+Next: WP-7a
+
+The observed output, verbatim:
+
+```
+entity-datalist       clean   escapes=0 CLEAN
+entity-card           clean   escapes=0 CLEAN
+rs-link-add-dialog    clean   escapes=0 CLEAN
+inline-editable-table clean   escapes=0 CLEAN
+standalone-create     structural-escape escapes=2 escape
+employee-table        triageOnly escapes=1 uninspectable  (+ 6 more triaged)
+rate 1.00 (clean 4/4) · validated 5/5 · triaged 7 · untriaged 0
+```
+
+The decompiler now round-trips the corpus. The §2.1.9 `node:"raw"` escape-hatch compile
+path was added (s2 resolves raw.type, s4 emits raw.props verbatim + records the escape,
+s5 marks it `_rawEscape` and does not descend so the opaque payload keeps its production
+ids), which is what lets an un-expressible node round-trip STABLY: it re-decompiles to the
+same escape because its emitted payload still fails to lift. Four forms are clean; two
+escape stably (standalone-create — columns D-112 + a Submit action; and — the §8 finding —
+employee-table, whose production `Show Dialog` config carries framework args the 6-intent
+grammar cannot express). employee-table is TRIAGED with GAP-001, not forced clean and not
+hidden.
+
+Created: `src/roundtrip.mjs` (roundTrips(f) = validates + structuralEscapes 0 + compile↔
+decompile fixed point; setMustMatchExactly the clean set) + the `sfs roundtrip` verb;
+`config/roundtrip-expected.json`; `config/escape-ratchet.json` + `g-escape-budget` (the
+§2.1.9 rate ratchet, 2 mutations); `config/corpus-manifest.json` + `g-corpus-immutable`
+(the corpus is never edited to fake a round-trip, 2 mutations). Gate roster 14 -> 16.
+
+Gate mapping (D-094, a Gate removal row): the five planned WP-5 gates resolve as — two shipped
+(g-corpus-immutable, g-escape-budget); g-determinism's enforcement IS `determinism.test.mjs`
+(D-021) and g-no-literal-hex's IS `tokens.mjs` TOK-2010 (D-010/D-019), both live programs not
+duplicated as gates (INV-2 asks for a program, not a new gate); g-markup-provenance is deferred
+to BL-008 (no committed `*.form.json` artifacts exist in Scope A to recompile). Every
+pending:WP-5 decision now names a live enforcer, and the pending-budget WP-5 owner is retired.
