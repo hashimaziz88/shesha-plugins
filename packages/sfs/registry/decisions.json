@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 100,
+  "count": 101,
   "decisions": [
     {
       "id": "D-001",
@@ -1202,6 +1202,18 @@
       "consequence": "Scope A's frozen proof and bless budget are untouched; Scope B carries its own",
       "enforcedBy": [
         "structural:packages/verify/test/prove-b.contract.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-101",
+      "date": "2026-08-19",
+      "status": "decided",
+      "decision": "A production `columns` grid with EQUAL flex spans decompiles to a flex `row` of equal-width `col`s (WP-5e); unequal spans stay a structural raw escape because SFS layout widths are px-fixed/fill, not 24-grid ratios, so an unequal grid is not faithfully expressible. Refines D-035 with the decompiler's lift rule and its honest boundary",
+      "why": "MINING-REPORT.md §5 ranks columns the #1 IR gap (241 forms); the common case is equal halves/thirds, which a flex row expresses exactly",
+      "consequence": "an unequal grid escapes rather than lifting to an invented width the round-trip gate could not catch as wrong",
+      "enforcedBy": [
+        "structural:packages/sfs/test/columns-lift.test.mjs"
       ],
       "confirmation": "n/a"
     }

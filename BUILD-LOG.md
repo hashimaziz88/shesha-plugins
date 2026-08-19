@@ -681,3 +681,33 @@ still pass, Q1 stays BYTE-EQUAL on all 14 clean fixtures, and the corpus round-t
 step. The node-enum class (SFS-1101 /body/**/node, 126 forms — a child node kind the schema forbids
 at that position) is structural, not scalar, and is scoped to WP-5e with the IR-node work.
 
+## WP-5e — Lift the columns grid to a flex row — 2026-08-19
+
+Status: complete
+Gate: `node --test packages/sfs/test/columns-lift.test.mjs` -> exit 0 (2 pass)
+Evidence: packages/verify/evidence/WP-5e.json
+Decisions added: D-101 (the columns->row lift rule and its equal-spans boundary)
+Blocked: none new
+Next: WP-2b (registry completeness)
+
+The #1 IR gap in the mining run: the `columns` layout component (an AntD 24-grid) escaped on 241
+real forms (MINING-REPORT.md §5). D-035 already decided multi-column layout is a flex row, but the
+mapping was undefined because SFS `col`s carry no width — layout widths come from the row's
+`responsive` (px `fixed`/`fill`), which cannot express a 24-grid RATIO. D-101 resolves this with an
+honest boundary: a `columns` grid whose flex spans are all EQUAL (the common halves/thirds case)
+lifts to a flex `row` of equal-width `col`s (auto-distributed); an UNEQUAL grid stays a structural
+escape rather than lift to an invented width the round-trip gate could not catch as wrong.
+
+The lift is a special case in the decompiler's null-kind branch (`columns` has `sfsNode: null`),
+before the raw escape: it builds a `row` whose `col` children carry each grid column's components.
+`packages/sfs/test/columns-lift.test.mjs` (2 pass) proves an equal grid lifts to `row -> col,col`
+with `structuralEscapes === 0` and round-trips (markup stable after one compile cycle), and an
+unequal grid still escapes (`structuralEscapes === 1`, counted not hidden). The corpus round-trip
+stays `rate 1.00` and Q1 stays BYTE-EQUAL — the clean fixtures use no `columns`, and no triaged
+corpus form flipped status. `prove-b` gains its `columns lift` step.
+
+One commit per WP means WP-5e ships the columns lift; the remaining escaping constructs (buttonGroup
+and its action grammar per GAP-001, collapsiblePanel, tabs, statusTag, title, button, alert, wizard,
+sectionSeparator, htmlRender) plus unequal-span `columns` are filed as BL-024, still graceful
+escapes today. `wp-table.json`'s WP-5e goal is updated to match what shipped.
+

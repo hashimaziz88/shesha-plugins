@@ -61,6 +61,28 @@ async function runHygiene(/** @type {string} */ root) {
   }
 }
 
+/** WP-5e: an equal-span `columns` grid lifts to a flex row of cols instead of escaping. */
+async function runColumns(/** @type {string} */ root) {
+  const { compile } = await import(pathToFileURL(path.join(root, 'packages/sfs/src/compile/index.mjs')).href);
+  const { decompile } = await import(pathToFileURL(path.join(root, 'packages/sfs/src/decompile/index.mjs')).href);
+  const grid = [{
+    id: 'c1', type: 'columns', name: 'grid', columns: [
+      { id: 'ca', flex: 12, components: [{ id: 't1', type: 'text', name: 'a', content: 'L' }] },
+      { id: 'cb', flex: 12, components: [{ id: 't2', type: 'text', name: 'b', content: 'R' }] },
+    ], components: [],
+  }];
+  try {
+    const { sfs, structuralEscapes } = /** @type {any} */ (decompile(grid));
+    compile(JSON.stringify(sfs));
+    const ok = sfs.body[0].node === 'row' && structuralEscapes === 0;
+    return ok
+      ? { ok: true, lines: ['equal columns grid lifts to a flex row (was the #1 IR escape, 241 forms)'] }
+      : { ok: false, lines: [`columns grid did not lift: node=${sfs.body[0].node} escapes=${structuralEscapes}`] };
+  } catch (e) {
+    return { ok: false, lines: [`FAIL: ${(/** @type {Error} */ (e)).message.split('\n')[0]}`] };
+  }
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -69,6 +91,7 @@ async function runHygiene(/** @type {string} */ root) {
 const STEPS = [
   { id: 'robustness', label: 'compiler robust', needs: 'WP-5c', impl: runRobustness },
   { id: 'hygiene', label: 'decompiler hygiene', needs: 'WP-5d', impl: runHygiene },
+  { id: 'columns', label: 'columns lift', needs: 'WP-5e', impl: runColumns },
 ];
 
 /**

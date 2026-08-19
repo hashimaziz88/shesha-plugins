@@ -26,6 +26,7 @@ A row whose `Blocks` is not `No` means the item is either in scope or the sessio
 | GAP-nnn | Compiler gaps discovered in WP-5 triage | §2.5 | WP-5 | No | Each carries a `test.todo` fixture under `packages/sfs/test/fixtures/gaps/` naming its id |
 | PROM-nnn | SFS promotions discovered in WP-5 triage | §2.5 | WP-5 | No | Each carries prop names and the count of forms needing it |
 | BL-023 | Compiler emits `resolvedFrom` colour provenance on every resolved colour, so T2.17 verifies at the output tier that each hex is a resolved brand token (not a hardcoded literal) rather than disposing na | §2.3 | WP-3a.2 | No | `node packages/verify/src/tiers/t2-registry.mjs` with a hardcoded-hex fixture -> T2.17 fails |
+| BL-024 | Lift the remaining escaping constructs to SFS — `buttonGroup` (action grammar, GAP-001), `collapsiblePanel`, `tabs`, `statusTag`, `title`, `button`, `alert`, `wizard`, `sectionSeparator`, `htmlRender`; and lift UNEQUAL-span `columns` grids once a ratio-width SFS representation exists (D-101 lifts only equal spans) | §2.5 MINING-REPORT.md §5 | WP-5e | No | `npm run sfs -- roundtrip` over a form using each construct -> that construct lifts and contributes zero structural escapes |
 
 ## Notes
 

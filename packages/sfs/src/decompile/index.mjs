@@ -447,6 +447,31 @@ export function decompile(input, options = {}) {
     const rec = reg.components[String(mk.type)];
 
     if (kindOf === null) {
+      // WP-5e / D-101: a `columns` grid whose flex spans are all equal lifts to a
+      // flex `row` of equal-width `col`s — the #1 IR gap in MINING-REPORT.md §5 (241
+      // forms). SFS widths are px-fixed/fill, not 24-grid ratios, so an UNEQUAL grid
+      // is not faithfully expressible and stays a structural escape below.
+      if (String(mk.type) === 'columns' && Array.isArray(mk.columns) && mk.columns.length > 0) {
+        const cols = /** @type {Record<string, unknown>[]} */ (mk.columns);
+        const flexes = cols.map((c) => (typeof c.flex === 'number' ? c.flex : 24));
+        if (flexes.every((f) => f === flexes[0])) {
+          const rowName = uniq(liftedName(mk, 'row', i), taken);
+          const rowPath = `${parentPath}/${rowName}`;
+          sources.set(rowPath, mk);
+          /** @type {Set<string>} */
+          const colTaken = new Set();
+          const children = cols.map((c, k) => {
+            const colKids = Array.isArray(c.components) ? /** @type {Record<string, unknown>[]} */ (c.components) : [];
+            const colName = uniq(`col${k + 1}`, colTaken);
+            return {
+              node: 'col',
+              name: colName,
+              children: colKids.map((cc, j) => lift(/** @type {Record<string, unknown>} */ (cc), j, `${rowPath}/${colName}`, new Set())),
+            };
+          });
+          return { node: 'row', name: rowName, children };
+        }
+      }
       // Section 2.5 step 3: an input with no SFS container is a field, anything
       // else is a structural raw escape.
       const name = uniq(liftedName(mk, 'raw', i), taken);
