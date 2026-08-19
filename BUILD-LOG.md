@@ -624,3 +624,32 @@ D-052 ("round four adapts the test to the code") resolves to the mutation harnes
 every run, that each gate's declared mutations still flip its verdict, which is exactly the
 silencing D-052 forbids.
 
+## WP-5c — Compiler robustness: the leaf-record crash — 2026-08-19
+
+Status: complete
+Gate: `node --test packages/sfs/test/compile-robustness.test.mjs` -> exit 0 (3 pass)
+Evidence: packages/verify/evidence/WP-5c.json
+Decisions added: none
+Blocked: none new
+Next: WP-5d (decompiler output hygiene)
+
+The first Scope-B WP, and the single largest round-trip blocker the mining run found: the
+`compile-npe: reading 'hidden'` on 498 of 2,071 real forms (MINING-REPORT.md §5). Root cause: only
+18 of 121 registry records carry a `defaults` block and only one (`card`) stores `slots` as an
+array — the other 103 have no `defaults` and store `slots` as an object `{kind, names, …}`. The
+compiler's s4-expand assumed the rich shape, so a field of any leaf input type (checkbox, switch,
+radio, and 100 others) crashed twice in sequence: `rec.defaults.hidden` (defaults undefined), then
+`(rec.record.slots || []).includes` (slots an object). The clean fixtures use only the 18 rich
+types, which is why Scope A stayed green while real forms did not.
+
+Two guards in `s4-expand.mjs::expandNode`: `rec.defaults || {}` (a missing defaults block means "no
+defaults to apply", not a crash), and a `slots` normaliser that reads `slots.names` when `slots` is
+the object shape and the array directly for `card`. `packages/sfs/test/compile-robustness.test.mjs`
+compiles a one-field form for checkbox/switch/radio and asserts each yields markup with
+`hidden:false` rather than throwing; the pre-fix crash was reproduced (`git stash` of the fix →
+`reading 'hidden'`) before the guard was written. Q1 stays BYTE-EQUAL on all 14 clean fixtures — the
+guards are inert for the rich types (`card` still uses its array; `container`/`text` stay
+`undefined → []`). `prove-b` gains its first step (`compiler robust`). The two divergent `slots`
+representations in the registry data are latent tech debt worth normalising in a later pass; the
+compiler now tolerates both.
+

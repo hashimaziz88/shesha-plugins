@@ -21,12 +21,35 @@ import { EXIT, readJsonGuarded, families, runGuarded } from '@shesha/registry/co
 import { repoRoot } from './lib/fsx.mjs';
 import { completedWps } from './lib/session-state.mjs';
 
+/** A minimal create form whose one field is `component`. @param {string} component */
+const leafForm = (component) => JSON.stringify({
+  sfs: '1.0', form: `robust-${component}`, module: 'boxfusion.test', kind: 'create',
+  entity: 'boxfusion.test.Domain.Test.Thing', label: 'R', submits: true, page: { title: 'R' },
+  body: [{ node: 'col', name: 'formBody', children: [{ node: 'field', name: 'x', bind: 'xValue', component }] }],
+});
+
+/** WP-5c: leaf input types (no registry defaults, object-shaped slots) compile, not crash. */
+async function runRobustness(/** @type {string} */ root) {
+  const { compile } = await import(pathToFileURL(path.join(root, 'packages/sfs/src/compile/index.mjs')).href);
+  const types = ['checkbox', 'switch', 'radio'];
+  /** @type {string[]} */
+  const failures = [];
+  for (const c of types) {
+    try { compile(leafForm(c)); } catch (e) { failures.push(`${c}: ${(/** @type {Error} */ (e)).message}`); }
+  }
+  return failures.length === 0
+    ? { ok: true, lines: [`leaf input types compile: ${types.join(', ')} (was the 498-form compile-npe)`] }
+    : { ok: false, lines: failures.map((f) => `FAIL ${f}`) };
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
- * is added in that WP's commit. Empty until WP-5c lands the first one.
+ * is added in that WP's commit.
  * @type {{id:string, label:string, needs:string, impl:(root:string)=>Promise<{ok:boolean, lines:string[]}>}[]}
  */
-const STEPS = [];
+const STEPS = [
+  { id: 'robustness', label: 'compiler robust', needs: 'WP-5c', impl: runRobustness },
+];
 
 /**
  * @param {{repoRoot:string}} ctx

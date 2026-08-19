@@ -402,11 +402,18 @@ function expandNode(n, ctx, widths) {
   // N1: a label is emitted only when SFS declared one; hideLabel is always explicit.
   if (n.label !== undefined) out.label = n.label;
   out.hideLabel = n.props._hideLabel !== false;
-  out.hidden = rec.defaults.hidden === undefined ? false : rec.defaults.hidden;
+  // Most registry records (103 of 121) carry no `defaults` block — only the 18 with
+  // authored default props do. A node of any other type (a button, an alert, a
+  // checkbox field …) reaching here with `rec.defaults` undefined was the
+  // `reading 'hidden'` TypeError the mining run hit on 498 real forms
+  // (MINING-REPORT.md §5). A missing defaults block means "no defaults to apply",
+  // not a crash and not an error.
+  const recDefaults = rec.defaults || {};
+  out.hidden = recDefaults.hidden === undefined ? false : recDefaults.hidden;
   out.isDynamic = false;
 
   // Registry defaults for every unstated prop, then the node's own props on top.
-  for (const [key, value] of Object.entries(rec.defaults)) {
+  for (const [key, value] of Object.entries(recDefaults)) {
     if (key === 'hidden' || key === 'hideLabel') continue;
     out[key] = value;
   }
@@ -538,7 +545,18 @@ function expandNode(n, ctx, widths) {
   // A slot the registry declares is emitted whether or not it has children: production
   // carries `header: {id, components: []}` on every card, and a slot that appears only
   // when occupied would make the decompiler's round trip depend on occupancy.
-  if ((n.record.slots || []).includes('header')) {
+  // `slots` is recorded two ways across the registry: an array of slot names (card
+  // alone), or an object {kind, names, …} on the 103 leaf records. Normalising before
+  // asking for a slot is the second half of the WP-5c robustness fix: without it a
+  // leaf field crashed here on `(object).includes` right after clearing the `hidden`
+  // TypeError above.
+  // The ComponentRecord type declares `slots` as string[]; the data also carries the
+  // object shape on leaf records, so read through `unknown` into the union.
+  const rawSlots = /** @type {string[] | {names?: string[]} | undefined} */ (/** @type {unknown} */ (rec.slots));
+  const slotNames = Array.isArray(rawSlots)
+    ? rawSlots
+    : (rawSlots && Array.isArray(rawSlots.names) ? rawSlots.names : []);
+  if (slotNames.includes('header')) {
     out.header = { components: n.headerChildren.map((c) => expandNode(c, ctx, { desktop: null, tablet: null, mobile: null })) };
   }
 
