@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 98,
+  "count": 99,
   "decisions": [
     {
       "id": "D-001",
@@ -94,7 +94,7 @@
       "why": "§1.4",
       "consequence": "backend-absent is never a pass",
       "enforcedBy": [
-        "pending:WP-3a"
+        "g-exit-codes"
       ],
       "confirmation": "n/a"
     },
@@ -1178,6 +1178,18 @@
       "consequence": "twelve ids in session-scope; no work leaves the session; prove.mjs requires WP-3a.2 and WP-3a.3",
       "enforcedBy": [
         "structural:packages/verify/config/session-scope.json"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-099",
+      "date": "2026-08-19",
+      "status": "decided",
+      "decision": "The verifier tiers ship a coverage-proof layer: every tier `checks[]` id is covered by a verdict-flipping `mutations[].covers` entry or is explicitly `subsumed` (g-mutation-coverage, proven flipping by tier-mutations.test); the >=90% defect-class claim is falsifiable via `defect-classes.json`, each class named to the check that catches it (g-defect-class-coverage); exit codes and the verdict union {pass,fail,partial,notRun} are single-sourced, no `warn` (g-exit-codes)",
+      "why": "§3.5.1 a check class with no mutation does not exist; a defect-class claim with no covering check is unfalsifiable; a fifth verdict is a fail that stays green",
+      "consequence": "31 tier mutations all flipping; three coverage gates live; roster 20",
+      "enforcedBy": [
+        "g-mutation-coverage"
       ],
       "confirmation": "n/a"
     }

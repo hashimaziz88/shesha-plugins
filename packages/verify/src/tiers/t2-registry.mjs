@@ -37,7 +37,7 @@ export const checks = [
   { id: 'T2.14', family: 'styling', describe: 'a single styling channel per property' },
   { id: 'T2.15', family: 'styling', describe: 'no stylingBox duplicated across base and breakpoint' },
   { id: 'T2.16', family: 'breakpoints', describe: 'breakpoint keys present in all three or none' },
-  { id: 'T2.17', family: 'styling', describe: 'no literal hex colour in compiler output' },
+  { id: 'T2.17', family: 'styling', describe: 'no literal hex colour in compiler output', subsumed: 'BL-023' },
   { id: 'T2.18', family: 'styling', describe: 'no unresolved $role token' },
   { id: 'T2.19', family: 'styling', describe: 'flex containers declare display' },
   { id: 'T2.20', family: 'formSettings', describe: 'formSettings key set legal for the form kind' },
@@ -116,7 +116,7 @@ export function t2Registry(doc, meta, opts = {}) {
     styling: fams.get('styling'), breakpoints: fams.get('breakpoints'), formSettings: fams.get('formSettings'),
   };
 
-  for (const { node, where, slot } of walkComponents(doc)) {
+  for (const { node, where, slot, parentNode } of walkComponents(doc)) {
     const type = node.type;
     // A datatable column definition (columnType, no component `type`) and a
     // `[default]`/`[...]` renderer sentinel in a column triplet are SCHEMA, not
@@ -308,11 +308,13 @@ export function t2Registry(doc, meta, opts = {}) {
       F.styling.pointer(`${w}#T2.19`).assert(node.display === 'flex',
         `T2.19 "${type}" at ${where} sets flexDirection/gap without display:"flex"`);
     }
-    // T2.22 no fixed height on a page-shell card
+    // T2.22 no fixed height on the page-shell (a root component wrapping the page).
+    // The sidecar carries no `region`, so the page shell is the root node itself
+    // (parentNode === null); a fixed height there is DC-04.
     const region = metaByPath[node.id] ? metaByPath[node.id].region : undefined;
-    if (region === 'page') {
+    if (parentNode === null || region === 'page') {
       const h = node.dimensions && node.dimensions.height;
-      F.styling.pointer(`${w}#T2.22`).assert(h === undefined || h === 'auto',
+      F.styling.pointer(`${w}#T2.22`).assert(h === undefined || h === null || h === 'auto',
         `T2.22 page-shell node at ${where} carries a fixed height ${JSON.stringify(h)} (DC-04)`);
     }
 
@@ -424,23 +426,44 @@ export async function run(ctx) {
   return t2Registry(doc, meta, {});
 }
 
+/**
+ * First component in `doc` (through every channel) matching `pred`. Used by the
+ * mutations to target one node; the tier-mutation test clones the doc first.
+ * @param {any} doc @param {(n:any)=>boolean} pred @returns {any|null}
+ */
+function findNode(doc, pred) {
+  for (const { node } of walkComponents(doc)) { if (node && node.type && !String(node.type).startsWith('[') && node.columnType === undefined && pred(node)) return node; }
+  return null;
+}
+
+/**
+ * Tier mutations (§3.5.2, kind 'compiled'): each injects ONE real defect into the
+ * compiled clean doc and asserts T2 flips in the named family. Every non-subsumed
+ * check id is covered; T2.17 is subsumed (na, BL-023) and is not mutated.
+ * The tier-mutation runner is packages/verify/test/tier-mutations.test.mjs.
+ */
 export const mutations = [
-  {
-    name: 'a component declares an unknown type',
-    kind: 'repo',
-    covers: ['T2.01'],
-    expect: 'fail',
-    expectFamily: 'types',
-    apply: async () => { /* exercised via g-mutation-coverage in WP-3a.2; harness support is §3.5.3 */ },
-  },
-  {
-    name: 'a component version is a string',
-    kind: 'repo',
-    covers: ['T2.03'],
-    expect: 'fail',
-    expectFamily: 'versions',
-    apply: async () => { /* exercised via g-mutation-coverage in WP-3a.2 */ },
-  },
+  { name: 'unknown component type', covers: ['T2.01'], expect: 'fail', expectFamily: 'types', apply: (/** @type {any} */ c) => { c.doc.components[0].type = 'ghostType'; } },
+  { name: 'version not the registry current version', covers: ['T2.02'], expect: 'fail', expectFamily: 'versions', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.type === 'datatable'); if (n) n.version = 9999; } },
+  { name: 'version is a string, not an integer', covers: ['T2.03'], expect: 'fail', expectFamily: 'versions', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => typeof x.version === 'number'); if (n) n.version = String(n.version); } },
+  { name: 'an illegal prop key for the type', covers: ['T2.04'], expect: 'fail', expectFamily: 'props', apply: (/** @type {any} */ c) => { c.doc.components[0].zzIllegalKey = true; } },
+  { name: 'referenceListId with a dotted name', covers: ['T2.05'], expect: 'fail', expectFamily: 'props', apply: (/** @type {any} */ c) => { c.doc.components[0].referenceListId = { module: 'm', name: 'a.b' }; } },
+  { name: 'an authorable:false component appears', covers: ['T2.06'], expect: 'fail', expectFamily: 'types', apply: (/** @type {any} */ c) => { c.doc.components[0].type = 'columns'; } },
+  { name: 'a declared required prop is missing', covers: ['T2.07'], expect: 'fail', expectFamily: 'required', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.type === 'datatable'); if (n) delete n.propertyName; } },
+  { name: 'a boolean prop carries a string', covers: ['T2.08'], expect: 'fail', expectFamily: 'valueTypes', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.type === 'datatable.pager' && 'hideLabel' in x) || findNode(c.doc, (x) => x.type === 'datatable'); if (n) n.hideLabel = 'nope'; } },
+  { name: 'an enum prop out of domain', covers: ['T2.09'], expect: 'fail', expectFamily: 'enums', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.type === 'datatable'); if (n) n.labelAlign = 'sideways'; } },
+  { name: 'children in a slot the type does not declare', covers: ['T2.10'], expect: 'fail', expectFamily: 'slots', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.type === 'datatable'); if (n) n.tabs = [{ type: 'text', id: 'x', version: 1 }]; } },
+  { name: 'a datatable item missing its columnType', covers: ['T2.11'], expect: 'fail', expectFamily: 'nested', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => Array.isArray(x.items) && x.type === 'datatable'); if (n && n.items[0]) delete n.items[0].columnType; } },
+  { name: 'a denied prop key (flat referenceListName)', covers: ['T2.12'], expect: 'fail', expectFamily: 'deny', apply: (/** @type {any} */ c) => { c.doc.components[0].referenceListName = 'x'; } },
+  { name: 'an illegal actionOwner', covers: ['T2.13'], expect: 'fail', expectFamily: 'deny', apply: (/** @type {any} */ c) => { c.doc.components[0].actionConfiguration = { actionOwner: 'Shesha.Common', actionName: 'ExecuteScript' }; } },
+  { name: 'two styling channels for one property', covers: ['T2.14'], expect: 'fail', expectFamily: 'styling', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.desktop && x.desktop.font); if (n) n.fontSize = 12; } },
+  { name: 'stylingBox duplicated base + breakpoint', covers: ['T2.15'], expect: 'fail', expectFamily: 'styling', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.desktop && typeof x.desktop === 'object'); if (n) { n.stylingBox = { paddingTop: '9' }; n.desktop.stylingBox = { paddingTop: '9' }; } } },
+  { name: 'a breakpoint key present in only one breakpoint', covers: ['T2.16'], expect: 'fail', expectFamily: 'breakpoints', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.desktop && typeof x.desktop === 'object'); if (n) n.desktop.zzOnlyHere = '1'; } },
+  { name: 'an unresolved $role token in output', covers: ['T2.18'], expect: 'fail', expectFamily: 'styling', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.desktop && x.desktop.background); if (n) n.desktop.background.color = '$role:doesNotExist'; } },
+  { name: 'a flex container without display:flex', covers: ['T2.19'], expect: 'fail', expectFamily: 'styling', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.type === 'container'); if (n) { n.flexDirection = 'row'; delete n.display; } } },
+  { name: 'an active submit pipeline on a list form', covers: ['T2.20'], expect: 'fail', expectFamily: 'formSettings', apply: (/** @type {any} */ c) => { c.doc.formSettings = { ...c.doc.formSettings, dataSubmitterType: 'gql' }; for (const { node } of walkComponents(c.doc)) if (node && node.canEditInline) node.canEditInline = 'no'; } },
+  { name: 'a stray label on a container', covers: ['T2.21'], expect: 'fail', expectFamily: 'props', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => Array.isArray(x.components) || (x.content && x.content.components)); if (n) { n.label = 'Card1'; delete n.hideLabel; } } },
+  { name: 'a fixed height on the page-shell root', covers: ['T2.22'], expect: 'fail', expectFamily: 'styling', apply: (/** @type {any} */ c) => { c.doc.components[0].dimensions = { ...(c.doc.components[0].dimensions || {}), height: '30px' }; } },
 ];
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {

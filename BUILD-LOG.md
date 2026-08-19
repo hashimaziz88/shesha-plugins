@@ -549,3 +549,33 @@ T2.15 flags only non-empty-base stylingBox dup, T2.20 treats none/null/empty as 
 The registry `load()` view gained priorityTypes/requiredProps/deny/formSettings/actions/itemSchemas.
 validate.mjs stays 121/121, priority full 13/13. The coverage gates that PROVE the tiers stay
 honest (g-mutation-coverage etc.) + the fixtures are WP-3a.3.
+
+## WP-3a.3 — The tier coverage-proof layer — 2026-08-19
+
+Status: complete
+Gate: `node .../g-mutation-coverage.mjs && node .../g-exit-codes.mjs && node .../g-defect-class-coverage.mjs` -> exit 0
+Evidence: packages/verify/evidence/WP-3a.3.json
+Decisions added: D-099 (the coverage-proof layer's rule); D-008 resolved pending:WP-3a -> g-exit-codes (its verdict-union/exit rule is now a live gate)
+Blocked: none new
+Next: WP-10
+
+The layer that makes the T1/T2 tiers falsifiable. Each tier now exports `checks[]` and
+`mutations[]`; `packages/verify/test/tier-mutations.test.mjs` compiles the clean baseline and
+runs all 31 tier mutations (10 T1 + 21 T2), asserting each injects a real defect that flips the
+tier's verdict in the NAMED family (T1.01b flips to partial via the ENVELOPE-SYNTHESISED
+uninspectable; the rest to fail). T1.01 and T2.17 are `subsumed` (readArtifact throws; TOK-2010
+owns colour resolution, BL-023) and carry no mutation by declaration.
+
+Three gates ship, each with >= 2 verdict-flipping mutations (63 caught / 63 across the suite):
+- `g-exit-codes` — the verdict vocabulary is coverage.mjs's frozen {pass,fail,partial,notRun}
+  (no fifth verdict) and every verify/src process.exit passes EXIT.*/exitFor, never a raw literal.
+  Reads source (comment-stripped) so a staged edit is seen; its own trigger tokens are assembled
+  from parts (D-066) so the detector does not find itself.
+- `g-mutation-coverage` — every tier `checks[]` id is in the union of `mutations[].covers`, or is
+  `subsumed`. Static ledger; the test proves the flips.
+- `g-defect-class-coverage` — `defect-classes.json` names each class to the check that catches it;
+  a class is covered iff that check has a mutation. Scope-A (t1/t2) coverage stays at/above
+  ceil(0.9*N); t3-only classes are excluded and printed separately.
+
+Gate roster 18 -> 20 (`gate-ratchet.json` minGates 20). green:fast 20/20; npm run green 63/63
+mutations caught.

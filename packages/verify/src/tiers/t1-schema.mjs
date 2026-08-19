@@ -22,6 +22,22 @@ const Ajv2020 = /** @type {any} */ (/** @type {any} */ (ajv2020).default ?? ajv2
 const UUID_V5 = /^[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 const TOKEN = /\{\{[^}]+\}\}/;
 
+/** The T1 check registry (§3.5.2). T1.01 is subsumed — readArtifact throws on an
+ *  unparseable artifact before any family runs, and the readArtifact test proves it. */
+export const checks = [
+  { id: 'T1.01', family: 'file', describe: 'artifact exists and parses', subsumed: 'readArtifact throws before the families run; proven by the readArtifact test' },
+  { id: 'T1.01b', family: 'file', describe: 'ENVELOPE-SYNTHESISED provenance is uninspectable, never a pass' },
+  { id: 'T1.02', family: 'sfsSchema', describe: 'the SFS validates against sfs.schema.json' },
+  { id: 'T1.03', family: 'markupSchema', describe: 'envelope contract: 23 fields, Id===OriginId, Markup is a JSON string' },
+  { id: 'T1.04', family: 'structure', describe: 'every component has a non-empty id' },
+  { id: 'T1.05', family: 'structure', describe: 'no id is an unreplaced {{token}}' },
+  { id: 'T1.06', family: 'structure', describe: 'component ids are unique' },
+  { id: 'T1.07', family: 'structure', describe: 'every parentId resolves to a component, a sidecar node, or root' },
+  { id: 'T1.08', family: 'structure', describe: 'ids are the recomputed uuidv5' },
+  { id: 'T1.09', family: 'structure', describe: 'at least one component' },
+  { id: 'T1.10', family: 'meta', describe: 'the sidecar covers every component' },
+];
+
 /**
  * Unwrap an ABP envelope / double-stringified Markup / bare {components} / bare
  * array to `{envelope, doc}` — at most four hops (T1.01, the existing readArtifact
@@ -65,7 +81,7 @@ export function t1Full(root, art, opts = {}) {
   const fams = families([
     { name: 'file', unit: 'artifact' },
     { name: 'sfsSchema', unit: 'node', required: false },
-    { name: 'markupSchema', unit: 'component' },
+    { name: 'markupSchema', unit: 'component', required: false },
     { name: 'structure', unit: 'component' },
     { name: 'meta', unit: 'node', required: false },
   ]);
@@ -75,13 +91,18 @@ export function t1Full(root, art, opts = {}) {
   const metaFam = fams.get('meta');
 
   // ---- T1.01 / T1.01b: the artifact parsed; provenance honesty ------------
+  // The parse always succeeded (readArtifact threw otherwise), so `file` always
+  // carries a checked pointer; a synthesised envelope ADDS an uninspectable one, so
+  // the family is partial (uninspectable), never fail (an uninspectable-only family
+  // would trip zero-coverage) and never a pass.
+  fileFam.pointer('file#parsed').check();
   if (opts.provenance === 'ENVELOPE-SYNTHESISED') {
     fileFam.pointer('file#provenance').cannot('envelope was synthesised by detect.mjs; the 23 envelope fields are defaults, not observed', 'T1.01b');
-  } else {
-    fileFam.pointer('file#parsed').check();
   }
 
   // ---- T1.03 markup/envelope contract ------------------------------------
+  // Skipped entirely on a synthesised envelope (its fields are defaults, not
+  // observed) — markupSchema is optional, so walking nothing there is correct.
   if (envelope && opts.provenance !== 'ENVELOPE-SYNTHESISED') {
     const mp = compFam.pointer('envelope#contract');
     const problems = [];
@@ -89,8 +110,6 @@ export function t1Full(root, art, opts = {}) {
     if (envelope.Id !== envelope.OriginId) problems.push('Id !== OriginId');
     if (typeof envelope.Markup !== 'string') problems.push('Markup is not a JSON string');
     mp.assert(problems.length === 0, `T1.03 envelope contract: ${problems.join('; ')}`);
-  } else if (opts.provenance === 'ENVELOPE-SYNTHESISED') {
-    compFam.pointer('envelope#contract').na('provenance ENVELOPE-SYNTHESISED (T1.03)');
   }
 
   // ---- structure: T1.04-T1.09 over every component -----------------------
@@ -192,6 +211,24 @@ export function t1Schema(root, dir) {
   }
   return fams.list;
 }
+
+/**
+ * Tier mutations (§3.5.2): each injects one defect into the compiled clean form and
+ * asserts T1 flips in the named family. T1.01 is subsumed (readArtifact throws).
+ * Run by packages/verify/test/tier-mutations.test.mjs over ctx {envelope,doc,sfs,meta,provenance}.
+ */
+export const mutations = [
+  { name: 'a synthesised envelope is uninspectable, not a pass', covers: ['T1.01b'], expect: 'partial', expectFamily: 'file', apply: (/** @type {any} */ c) => { c.provenance = 'ENVELOPE-SYNTHESISED'; } },
+  { name: 'the SFS fails its schema', covers: ['T1.02'], expect: 'fail', expectFamily: 'sfsSchema', apply: (/** @type {any} */ c) => { c.sfs = { not: 'an sfs document' }; } },
+  { name: 'the envelope drops a required field', covers: ['T1.03'], expect: 'fail', expectFamily: 'markupSchema', apply: (/** @type {any} */ c) => { if (c.envelope) delete c.envelope.OriginId; } },
+  { name: 'a component has no id', covers: ['T1.04'], expect: 'fail', expectFamily: 'structure', apply: (/** @type {any} */ c) => { delete c.doc.components[0].id; } },
+  { name: 'an id is an unreplaced token', covers: ['T1.05'], expect: 'fail', expectFamily: 'structure', apply: (/** @type {any} */ c) => { c.doc.components[0].id = '{{TOKEN}}'; } },
+  { name: 'two components share an id', covers: ['T1.06'], expect: 'fail', expectFamily: 'structure', apply: (/** @type {any} */ c) => { const ch = c.doc.components[0].content && c.doc.components[0].content.components; if (ch && ch[0]) ch[0].id = c.doc.components[0].id; } },
+  { name: 'a parentId resolves to nothing', covers: ['T1.07'], expect: 'fail', expectFamily: 'structure', apply: (/** @type {any} */ c) => { const ch = c.doc.components[0].content && c.doc.components[0].content.components; if (ch && ch[0]) ch[0].parentId = 'no-such-parent-id'; } },
+  { name: 'an id is a v4-shaped uuid', covers: ['T1.08'], expect: 'fail', expectFamily: 'structure', apply: (/** @type {any} */ c) => { c.doc.components[0].id = '11111111-2222-4333-8444-555555555555'; } },
+  { name: 'the form has zero components', covers: ['T1.09'], expect: 'fail', expectFamily: 'structure', apply: (/** @type {any} */ c) => { c.doc.components = []; } },
+  { name: 'the sidecar drops a component node', covers: ['T1.10'], expect: 'fail', expectFamily: 'meta', apply: (/** @type {any} */ c) => { const id = c.doc.components[0].id; if (c.meta && Array.isArray(c.meta.nodes)) c.meta.nodes = c.meta.nodes.filter((/** @type {any} */ n) => n.id !== id); } },
+];
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const root = repoRoot();

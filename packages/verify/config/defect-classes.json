@@ -1,0 +1,17 @@
+{
+  "_comment": "§3.2.0: the defect classes that make the >=90% coverage claim falsifiable. Each names the tier CHECK that catches it; g-defect-class-coverage fails unless that check is covered by a verdict-flipping mutation (so the class is provably caught, not merely listed). `tier:\"t3\"` classes are reachable only by the semantic tier (WP-3b) and are excluded from Scope A's denominator, which is printed separately. Sources are the DC-NN defect classes named in §1.1 / §2.1.3 and the T2 check table (§3.2.3).",
+  "classes": [
+    { "id": "DC-01", "tier": "t2", "check": "T2.21", "source": "§1.1", "describe": "a stray label without hideLabel on a non-input container (label:\"Card1\" on the page shell)" },
+    { "id": "DC-02", "tier": "t2", "check": "T2.16", "source": "§1.1", "describe": "a breakpoint styling key present in some but not all of desktop/tablet/mobile" },
+    { "id": "DC-03", "tier": "t2", "check": "T2.16", "source": "§1.1", "describe": "a breakpoint value contradicting the base level for the same key" },
+    { "id": "DC-04", "tier": "t2", "check": "T2.22", "source": "§1.1", "describe": "a fixed height on a page-shell card (dimensions.height wrapping the whole page)" },
+    { "id": "DC-05", "tier": "t2", "check": "T2.14", "source": "§1.1", "describe": "two styling channels for one property (legacy fontSize/fontWeight alongside v7 desktop.font)" },
+    { "id": "DC-06", "tier": "t2", "check": "T2.15", "source": "§1.1", "describe": "a stylingBox duplicated at both the base level and a breakpoint block" },
+    { "id": "DC-07", "tier": "t2", "check": "T2.13", "source": "§1.2#9", "describe": "an action wired to an illegal (actionOwner, actionName) pair — the silent no-op button" },
+    { "id": "DC-08", "tier": "t2", "check": "T2.20", "source": "§2.1.3", "describe": "a formSettings key illegal for the form kind (an active submit pipeline on a read-only list)" },
+    { "id": "DC-09", "tier": "t2", "check": "T2.05", "source": "§1.2#1", "describe": "a referenceListId that is not {module, bare name} (a dotted name, or flat module/referenceListName keys)" },
+    { "id": "DC-10", "tier": "t2", "check": "T2.06", "source": "§1.2#4", "describe": "an authorable:false component in the artifact (the banned columns component)" },
+    { "id": "DC-11", "tier": "t2", "check": "T2.18", "source": "§1.4", "describe": "an unresolved $role token left as a literal colour value in compiler output" },
+    { "id": "DC-12", "tier": "t3", "check": null, "source": "§1.2#10", "describe": "an entity property bound with the wrong casing so the cell renders blank (semantic; T3/WP-3b)" }
+  ]
+}
