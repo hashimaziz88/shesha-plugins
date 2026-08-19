@@ -99,7 +99,7 @@ export const mutations = [
   },
 ];
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {
   process.exit(await runGuarded(async () => {
     const fams = await run({ repoRoot: repoRoot() });
     console.log(report(fams, { title: id }));

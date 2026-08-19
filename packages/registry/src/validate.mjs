@@ -72,6 +72,9 @@ export function validate() {
   for (const [key, dir] of Object.entries(ratchet.direction)) {
     const floor = ratchet.measured[key];
     const now = m[key];
+    // A direction key absent from the measured set leaves `now` undefined; the two
+    // comparisons below would both be false, so skipping is behaviour-identical.
+    if (now === undefined) continue;
     if (dir === 'up' && now < floor) problems.push(`${key} ${now} fell below its ratchet floor ${floor}`);
     if (dir === 'down' && now > floor) problems.push(`${key} ${now} rose above its ratchet ceiling ${floor}`);
   }
@@ -90,7 +93,7 @@ export function validate() {
   return { ok: problems.length === 0, lines: problems.length ? [...lines, ...problems.map((p) => `  FAIL ${p}`)] : lines, m };
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   const r = validate();
   for (const l of r.lines) console.log(l);
   process.exit(r.ok ? 0 : 1);

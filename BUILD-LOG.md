@@ -711,3 +711,26 @@ and its action grammar per GAP-001, collapsiblePanel, tabs, statusTag, title, bu
 sectionSeparator, htmlRender) plus unequal-span `columns` are filed as BL-024, still graceful
 escapes today. `wp-table.json`'s WP-5e goal is updated to match what shipped.
 
+## WP-1c — Re-enable noUncheckedIndexedAccess tree-wide — 2026-08-19
+
+Status: complete
+Gate: `npm run typecheck` (now with `noUncheckedIndexedAccess:true`) -> exit 0; `node packages/verify/src/gates/g-workspace-hygiene.mjs` -> exit 0
+Evidence: packages/verify/evidence/WP-1c.json
+Decisions added: D-102 (scope change: WP-1c delivers BL-010; BL-001/006/014 stay BACKLOG)
+Blocked: none new
+Next: WP-3b (T3 semantic tier)
+
+BL-010 (D-024): `noUncheckedIndexedAccess` is on tree-wide, so every indexed access is a checked
+`T | undefined`. It had been deferred — g-workspace-hygiene asserted the flag ABSENT with a BL-010
+note; that check now asserts it `=== true`, with a new mutation (turning it off flips the verdict).
+The flag surfaced 209 type errors across registry/sfs/verify; a three-agent fan-out (one per
+package, disjoint files — D-058-clean, agents never touched the index) fixed them, each fix verified
+deterministically by `tsc` (unlike a semantic parse, a type-fix is caught by the compiler, so
+fan-out is safe here). Fixes are JSDoc `@type` casts (a `!` is invalid in a `.mjs`) with a per-site
+"provably in-bounds" justification, plus guards and `?? default`s. The change is type-only: full
+`npm run green` (tests + 24 gates + mutations) passes unchanged, which is the behaviour proof. The
+casts bloated `tools/normalise-legacy.mjs` past its 12288 B cap (g-oracle-independence#bytes); it was
+trimmed back under. BL-001 (3-arm SAA token/step cost) is unmeasurable from inside this session —
+the very reason D-050 deferred it — and BL-006/BL-014 are their own efforts, so D-102 keeps all
+three as visible BACKLOG rows rather than block WP-1c forever. `prove-b` gains its `strict index` step.
+

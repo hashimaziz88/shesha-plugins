@@ -76,7 +76,9 @@ export function resolveEnforcer(entry, ctx) {
   // Form 2: structural:<path> or hook:<path> — the path must exist.
   const structural = /^(structural|hook):(.+)$/.exec(entry);
   if (structural) {
-    const [, kind, target] = structural;
+    // Groups 1 and 2 are mandatory in the pattern, so both are defined when it matched.
+    const kind = /** @type {string} */ (structural[1]);
+    const target = /** @type {string} */ (structural[2]);
     if (!fs.existsSync(path.join(ctx.root, target))) {
       return { ok: false, form: kind, reason: `${kind}: path "${target}" does not exist` };
     }
@@ -89,7 +91,9 @@ export function resolveEnforcer(entry, ctx) {
   // Form 3: check:<tier-module>:<check-id> — the tier must export that id.
   const check = /^check:([a-z0-9-]+):([A-Za-z0-9.]+)$/.exec(entry);
   if (check) {
-    const [, tier, checkId] = check;
+    // Groups 1 and 2 are mandatory in the pattern, so both are defined when it matched.
+    const tier = /** @type {string} */ (check[1]);
+    const checkId = /** @type {string} */ (check[2]);
     const tierPath = path.join(ctx.root, 'packages/verify/src/tiers', `${tier}.mjs`);
     if (!fs.existsSync(tierPath)) {
       return { ok: false, form: 'check', reason: `check: tier module "${tier}" does not exist; use pending:<WP-id> until it does` };
@@ -103,7 +107,8 @@ export function resolveEnforcer(entry, ctx) {
   // Form 5 (O6): pending:<WP-id>, legal only while that WP has no complete block.
   const pending = /^pending:([A-Za-z0-9.-]+)$/.exec(entry);
   if (pending) {
-    const owner = pending[1];
+    // Group 1 is mandatory in the pattern, so it is defined when pending matched.
+    const owner = /** @type {string} */ (pending[1]);
     if (!ctx.knownIds.has(owner)) {
       return { ok: false, form: 'pending', reason: `pending: "${owner}" is neither a WP in wp-table.json nor a row in BACKLOG.md` };
     }
@@ -183,15 +188,19 @@ export async function run(ctx) {
   const contiguity = idFam.pointer('ids#contiguous');
   /** @type {number[]} */
   const gaps = [];
-  for (let n = numbers[0]; n <= numbers[numbers.length - 1]; n++) {
-    if (!numbers.includes(n)) gaps.push(n);
+  const firstNum = numbers[0];
+  const lastNum = numbers[numbers.length - 1];
+  if (firstNum !== undefined && lastNum !== undefined) {
+    for (let n = firstNum; n <= lastNum; n++) {
+      if (!numbers.includes(n)) gaps.push(n);
+    }
   }
   contiguity.assert(gaps.length === 0,
     `ids must be sequential with no gaps; missing ${gaps.map((n) => `D-${String(n).padStart(3, '0')}`).join(', ')}`);
 
   const ordered = idFam.pointer('ids#ascending');
   const asWritten = parsed.rows.map((r) => Number(r.id.slice(2)));
-  ordered.assert(asWritten.every((n, i) => i === 0 || n > asWritten[i - 1]),
+  ordered.assert(asWritten.every((n, i) => i === 0 || n > /** @type {number} */ (asWritten[i - 1])),
     'ids must appear in ascending order; the registry is append-only');
 
   // CONTROL §3's acceptance string: the reconciliation block must be present.
@@ -405,7 +414,8 @@ export const mutations = [
         const lines = fs.readFileSync(file, 'utf8').split('\n');
         const i = lines.findIndex((l) => /^\| D-\d{3} \|.*\| g-[a-z-]+ \| [^|]+ \|\s*$/.test(l.trim()));
         if (i < 0) continue;
-        lines[i] = lines[i].replace(/\| g-[a-z-]+ \| ([^|]+) \|(\s*)$/, '| g-does-not-exist | $1 |$2');
+        // findIndex returned i >= 0, so lines[i] is defined.
+        lines[i] = /** @type {string} */ (lines[i]).replace(/\| g-[a-z-]+ \| ([^|]+) \|(\s*)$/, '| g-does-not-exist | $1 |$2');
         fs.writeFileSync(file, lines.join('\n'));
         return;
       }
@@ -419,7 +429,8 @@ export const mutations = [
     /** @param {string} tmp */
     apply: async (tmp) => {
       const at = locateRow(tmp, 'D-002');
-      at.lines[at.index] = at.lines[at.index].replace(' | n/a |', ' |');
+      // locateRow returns a found index, so at.lines[at.index] is defined.
+      at.lines[at.index] = /** @type {string} */ (at.lines[at.index]).replace(' | n/a |', ' |');
       fs.writeFileSync(at.file, at.lines.join('\n'));
     },
     expect: 'fail',
@@ -447,7 +458,8 @@ export const mutations = [
       const live = path.join(tmp, 'DECISIONS.md');
       const lines = fs.readFileSync(live, 'utf8').split('\n');
       const last = lines.reduce((acc, l, i) => (l.trim().startsWith('| D-') ? i : acc), -1);
-      lines.splice(last + 1, 0, at.lines[at.index]);
+      // locateRow returns a found index, so at.lines[at.index] is defined.
+      lines.splice(last + 1, 0, /** @type {string} */ (at.lines[at.index]));
       fs.writeFileSync(live, lines.join('\n'));
     },
     expect: 'fail',
@@ -461,7 +473,8 @@ export const mutations = [
       if (!at.file.endsWith('decisions-archive.md')) {
         throw new Error('mutation cannot proceed: D-002 is not archived');
       }
-      at.lines[at.index] = at.lines[at.index].replace('| decided |', '| pending-probe |');
+      // locateRow returns a found index, so at.lines[at.index] is defined.
+      at.lines[at.index] = /** @type {string} */ (at.lines[at.index]).replace('| decided |', '| pending-probe |');
       fs.writeFileSync(at.file, at.lines.join('\n'));
     },
     expect: 'fail',
@@ -487,7 +500,7 @@ export const mutations = [
   },
 ];
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const root = repoRoot();
   process.exit(await runGuarded(async () => {
     const fams = await run({ repoRoot: root });

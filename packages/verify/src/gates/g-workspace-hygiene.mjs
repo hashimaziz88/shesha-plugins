@@ -145,8 +145,8 @@ export async function run(ctx) {
     const ts = /** @type {{compilerOptions?:Record<string,unknown>}} */ (tsGot.value);
     const co = ts.compilerOptions || {};
     tsFam.pointer('strict').assert(co.strict === true, '"strict" must be true (D-023)');
-    tsFam.pointer('noUncheckedIndexedAccess').assert(!('noUncheckedIndexedAccess' in co),
-      'noUncheckedIndexedAccess is off and absent; re-enabling it is BL-010 (D-024)');
+    tsFam.pointer('noUncheckedIndexedAccess').assert(co.noUncheckedIndexedAccess === true,
+      'noUncheckedIndexedAccess must be true: every indexed access is checked (BL-010 / D-024, re-enabled in WP-1c)');
     tsFam.pointer('module').assert(co.module === 'nodenext', '"module" must be nodenext');
     tsFam.pointer('moduleResolution').assert(co.moduleResolution === 'nodenext', '"moduleResolution" must be nodenext');
     tsFam.pointer('checkJs').assert(co.checkJs === true, '"checkJs" must be true — types are JSDoc, checked (D-023)');
@@ -230,6 +230,18 @@ export const mutations = [
       const f = path.join(tmp, 'tsconfig.json');
       const ts = JSON.parse(fs.readFileSync(f, 'utf8'));
       ts.compilerOptions.strict = false;
+      fs.writeFileSync(f, `${JSON.stringify(ts, null, 2)}\n`);
+    },
+    expect: 'fail',
+  },
+  {
+    name: 'tsconfig disables noUncheckedIndexedAccess',
+    kind: 'file',
+    /** @param {string} tmp */
+    apply: async (tmp) => {
+      const f = path.join(tmp, 'tsconfig.json');
+      const ts = JSON.parse(fs.readFileSync(f, 'utf8'));
+      ts.compilerOptions.noUncheckedIndexedAccess = false;
       fs.writeFileSync(f, `${JSON.stringify(ts, null, 2)}\n`);
     },
     expect: 'fail',

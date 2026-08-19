@@ -83,7 +83,7 @@ for (const fixture of FIXTURES) {
     let recomputed = 0;
     for (const n of meta.nodes) {
       assert.match(n.id, V5_PATTERN, `id ${n.id} for ${n.sfsPath} is not a v5 uuid`);
-      assert.equal(n.id, nodeId(module, form, n.sfsPath), `id for ${n.sfsPath} is not uuidv5 of its path`);
+      assert.equal(n.id, nodeId(/** @type {string} */ (module), /** @type {string} */ (form), n.sfsPath), `id for ${n.sfsPath} is not uuidv5 of its path`);
       recomputed += 1;
     }
     console.log(`Q5 ${fixture} · 50 in-process identical · 3 subprocess identical · ids v5-recomputed ${recomputed}/${meta.nodes.length} · banned identifiers 0`);

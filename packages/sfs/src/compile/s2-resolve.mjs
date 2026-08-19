@@ -34,7 +34,10 @@ import { SfsError } from './s1-parse.mjs';
  */
 export function camelPath(path) {
   return String(path).split('.')
-    .map((seg) => (seg.length === 0 ? seg : seg[0].toLowerCase() + seg.slice(1)))
+    .map((seg) => {
+      const first = seg[0];
+      return first === undefined ? seg : first.toLowerCase() + seg.slice(1);
+    })
     .join('.');
 }
 

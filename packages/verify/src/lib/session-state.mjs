@@ -23,7 +23,8 @@ export function completedWps(root) {
   for (const block of blocks) {
     const head = /^(WP-[0-9A-Za-z.]+)\s+—/.exec(block);
     if (!head) continue;
-    if (/^Status:\s*complete\s*$/mi.test(block)) done.add(head[1]);
+    // Group 1 is mandatory in the pattern, so it is defined when head matched.
+    if (/^Status:\s*complete\s*$/mi.test(block)) done.add(/** @type {string} */ (head[1]));
   }
   return done;
 }
@@ -37,6 +38,7 @@ export function backlogIds(root) {
   const text = readText(path.join(root, 'BACKLOG.md')) || '';
   /** @type {Set<string>} */
   const ids = new Set();
-  for (const m of text.matchAll(/^\|\s*((?:BL|GAP|PROM)-[0-9a-z]{3})\s*\|/gm)) ids.add(m[1]);
+  // Group 1 is mandatory in the pattern, so it is defined for every match.
+  for (const m of text.matchAll(/^\|\s*((?:BL|GAP|PROM)-[0-9a-z]{3})\s*\|/gm)) ids.add(/** @type {string} */ (m[1]));
   return ids;
 }

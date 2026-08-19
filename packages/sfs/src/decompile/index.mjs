@@ -170,7 +170,8 @@ function boxFor(block) {
   for (const [key, value] of Object.entries(sides)) {
     const m = /^(margin|padding)(Top|Right|Bottom|Left)$/.exec(key);
     if (m === null) continue;
-    const side = m[2].toLowerCase();
+    // Both capture groups are mandatory in the pattern, so a non-null match guarantees m[2].
+    const side = /** @type {string} */ (m[2]).toLowerCase();
     const raw = Number(value);
     if (!Number.isFinite(raw)) continue;
     // The schema requires INTEGER pad/margin; production stylingBox strings carry
@@ -276,12 +277,14 @@ function liftAction(reg, cfg, regionNameById, diagnostics) {
 function liftShell(components) {
   if (components.length !== 1) return null;
   const root = components[0];
+  if (root === undefined) return null;
   if (root.type !== 'card' || !isObj(root.content) || !Array.isArray(root.content.components)) return null;
   const kids = /** @type {Record<string, unknown>[]} */ (root.content.components);
   const band = kids[0];
   if (band === undefined || band.type !== 'container' || !Array.isArray(band.components)) return null;
   const bandKids = /** @type {Record<string, unknown>[]} */ (band.components);
-  if (bandKids.length === 0 || bandKids[0].type !== 'text') return null;
+  const firstBandKid = bandKids[0];
+  if (firstBandKid === undefined || firstBandKid.type !== 'text') return null;
 
   /** @type {string[]} */
   const texts = [];
@@ -297,7 +300,7 @@ function liftShell(components) {
   body.push(...kids.slice(1));
 
   /** @type {{title:string, subtitle?:string}} */
-  const page = { title: texts[0] };
+  const page = { title: texts[0] ?? '' };
   if (texts.length > 1) page.subtitle = texts[1];
   return { page, body };
 }
@@ -720,7 +723,8 @@ function liftResponsive(mk, kids, regions) {
   kids.forEach((kid, i) => {
     const d = isObj(kid.desktop) ? kid.desktop : {};
     const w = isObj(d.dimensions) ? d.dimensions.width : undefined;
-    const name = String(regions[i].name);
+    // regions is a 1:1 map of the same array kids comes from, so regions[i] is in-bounds.
+    const name = String(/** @type {Record<string, unknown>} */ (regions[i]).name);
     if (typeof w !== 'string') return;
     if (/^\d+px$/.test(w)) fixed[name] = w;
     else if (w.startsWith('calc(')) fill = name;
@@ -811,7 +815,8 @@ function liftButtons(reg, items, regionNameById, diagnostics) {
   /** @type {Record<string, unknown>[]} */
   const out = [];
   for (let i = 0; i < items.length; i += 1) {
-    const item = items[i];
+    // i ranges over 0..items.length-1, so items[i] is in-bounds.
+    const item = /** @type {Record<string, unknown>} */ (items[i]);
     /** @type {Record<string, unknown>} */
     const entry = {
       name: typeof item.name === 'string' ? item.name : `item${i + 1}`,

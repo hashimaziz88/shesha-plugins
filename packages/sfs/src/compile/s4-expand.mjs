@@ -19,7 +19,10 @@ import { SfsError } from './s1-parse.mjs';
 /** @typedef {import('../lib/registry.mjs').Registry} Registry */
 /** @typedef {import('./s1-parse.mjs').SfsDoc} SfsDoc */
 
-/** The breakpoint ladder, widest first. Only these three exist. */
+/**
+ * The breakpoint ladder, widest first. Only these three exist.
+ * @type {readonly ['desktop', 'tablet', 'mobile']}
+ */
 const LADDER = ['desktop', 'tablet', 'mobile'];
 
 /**
@@ -89,10 +92,12 @@ function stylingBoxFor(style) {
   const sides = {};
   const margin = /** @type {Record<string, number>} */ (style.margin || {});
   const pad = /** @type {Record<string, number>} */ (style.pad || {});
-  for (const [key, side] of [['top', 'Top'], ['right', 'Right'], ['bottom', 'Bottom'], ['left', 'Left']]) {
+  /** @type {[string, string][]} */
+  const sidePairs = [['top', 'Top'], ['right', 'Right'], ['bottom', 'Bottom'], ['left', 'Left']];
+  for (const [key, side] of sidePairs) {
     if (margin[key] !== undefined) sides[`margin${side}`] = String(margin[key]);
   }
-  for (const [key, side] of [['top', 'Top'], ['right', 'Right'], ['bottom', 'Bottom'], ['left', 'Left']]) {
+  for (const [key, side] of sidePairs) {
     if (pad[key] !== undefined) sides[`padding${side}`] = String(pad[key]);
   }
   return stylingBoxString(sides);
@@ -129,10 +134,10 @@ export function reserveFor(fixed, gap, where) {
 /**
  * Child widths per breakpoint, from the parent's one `responsive` declaration.
  * @param {Node} parent
- * @returns {Record<string, Record<string, string>>} breakpoint -> childName -> width
+ * @returns {Record<'desktop'|'tablet'|'mobile', Record<string, string>>} breakpoint -> childName -> width
  */
 export function childWidths(parent) {
-  /** @type {Record<string, Record<string, string>>} */
+  /** @type {Record<'desktop'|'tablet'|'mobile', Record<string, string>>} */
   const out = { desktop: {}, tablet: {}, mobile: {} };
   const r = parent.responsive;
   if (r === null) {
@@ -171,11 +176,13 @@ export function childWidths(parent) {
   const stackFrom = stack === 'at:tablet' ? 1 : stack === 'at:mobile' ? 2 : LADDER.length;
 
   LADDER.forEach((bp, i) => {
+    const col = out[bp];
     for (const name of names) {
-      if (i >= stackFrom) { out[bp][name] = '100%'; continue; }
-      if (fixed[name] !== undefined) out[bp][name] = fixed[name];
-      else if (name === fill) out[bp][name] = `calc(100% - ${reserve}px)`;
-      else out[bp][name] = 'auto';
+      if (i >= stackFrom) { col[name] = '100%'; continue; }
+      const fixedWidth = fixed[name];
+      if (fixedWidth !== undefined) col[name] = fixedWidth;
+      else if (name === fill) col[name] = `calc(100% - ${reserve}px)`;
+      else col[name] = 'auto';
     }
   });
   return out;
@@ -295,7 +302,9 @@ function columnComponents(reg, col, inline) {
   let display = { type: '[default]' };
 
   if (render !== null && render.kind === 'statusBadge') {
-    const rec = reg.components.refListStatus;
+    // refListStatus is a core registry component; the cast preserves the original
+    // runtime behaviour (a missing record would still throw on the .version read).
+    const rec = /** @type {import('../lib/registry.mjs').ComponentRecord} */ (reg.components.refListStatus);
     display = {
       type: 'refListStatus',
       settings: {

@@ -36,7 +36,8 @@ test('every error code raised in src appears in the catalogue', () => {
       if (entry.isDirectory()) { walk(abs); continue; }
       if (!entry.name.endsWith('.mjs')) continue;
       const text = fs.readFileSync(abs, 'utf8');
-      for (const m of text.matchAll(/new\s+\w*Error\(\s*'([A-Z]{2,4}-\d{3,4})'/g)) raised.add(m[1]);
+      // The pattern has one mandatory capture group, so every match has m[1].
+      for (const m of text.matchAll(/new\s+\w*Error\(\s*'([A-Z]{2,4}-\d{3,4})'/g)) raised.add(/** @type {string} */ (m[1]));
     }
   };
   walk(SRC);

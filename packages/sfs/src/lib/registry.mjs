@@ -100,7 +100,9 @@ export function recordForNode(reg, node) {
       `REG-2101 no component type is mapped to SFS node "${node}". `
       + `Add an sfsNode to a record in packages/registry/data/${REGISTRY_REF}/components.json`);
   }
-  const record = reg.components[type];
+  // `type` came from nodeToType, which only maps to types that have a record; the cast
+  // preserves the original runtime behaviour (a missing record would still throw below).
+  const record = /** @type {ComponentRecord} */ (reg.components[type]);
   if (record.authorable === false) {
     throw new RegistryError('SFS-1004',
       `SFS-1004 "${type}" is authorable:false — ${record.reason || 'no reason recorded'} (${record.decision || 'no decision'}). `

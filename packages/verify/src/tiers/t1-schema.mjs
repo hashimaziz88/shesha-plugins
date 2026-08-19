@@ -77,7 +77,11 @@ export function t1Full(root, art, opts = {}) {
   // the sidecar legitimately has MORE nodes than the markup has components.
   const metaNodes = meta && Array.isArray(meta.nodes) ? meta.nodes : [];
   const metaById = new Map(metaNodes.map((/** @type {any} */ n) => [n.id, n]));
-  const [metaModule, metaForm] = String(meta && meta.form ? meta.form : '/').split('/');
+  // split('/') always yields index 0; index 1 is present for the "module/form" shape
+  // the meta sidecar carries. Cast preserves the exact values passed to nodeId below.
+  const metaParts = String(meta && meta.form ? meta.form : '/').split('/');
+  const metaModule = /** @type {string} */ (metaParts[0]);
+  const metaForm = /** @type {string} */ (metaParts[1]);
   const fams = families([
     { name: 'file', unit: 'artifact' },
     { name: 'sfsSchema', unit: 'node', required: false },
@@ -254,8 +258,9 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       const metaAt = process.argv.indexOf('--meta');
       /** @param {string} a */
       const resolve = (a) => (path.isAbsolute(a) ? a : path.join(root, a));
-      const sfs = sfsAt >= 0 ? JSON.parse(readText(resolve(process.argv[sfsAt + 1])) || 'null') : undefined;
-      const meta = metaAt >= 0 ? JSON.parse(readText(resolve(process.argv[metaAt + 1])) || 'null') : null;
+      // The flag was found, so its value argument follows on the command line.
+      const sfs = sfsAt >= 0 ? JSON.parse(readText(resolve(/** @type {string} */ (process.argv[sfsAt + 1]))) || 'null') : undefined;
+      const meta = metaAt >= 0 ? JSON.parse(readText(resolve(/** @type {string} */ (process.argv[metaAt + 1]))) || 'null') : null;
       const fams = t1Full(root, art, { sfs, meta, legacy: process.argv.includes('--legacy') });
       console.log(report(fams, { title: 't1-schema' }));
       return exitFor(verdictOf(fams));

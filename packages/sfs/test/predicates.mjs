@@ -77,11 +77,11 @@ const j = (x) => JSON.stringify(x);
 export function n1LabelDefaults(m) {
   const nodes = allNodes(m);
   const auto = nodes.filter((n) => typeof n.label === 'string' && AUTO_LABEL.test(n.label));
-  if (auto.length > 0) return v(false, `${auto.length} node(s) carry an auto-shaped label, e.g. "${String(auto[0].label)}"`);
+  if (auto.length > 0) return v(false, `${auto.length} node(s) carry an auto-shaped label, e.g. "${String(/** @type {Record<string, unknown>} */ (auto[0]).label)}"`);
   // A labelled input (registry editModeChannel:"input") legitimately shows its label;
   // every other node hides it. `field`/`select` compile to those input types.
   const shown = nodes.filter((n) => !INPUT_LABEL_TYPES.has(String(n.type)) && n.hideLabel !== true);
-  if (shown.length > 0) return v(false, `${shown.length} non-input node(s) do not set hideLabel:true, e.g. ${String(shown[0].componentName)}`);
+  if (shown.length > 0) return v(false, `${shown.length} non-input node(s) do not set hideLabel:true, e.g. ${String(/** @type {Record<string, unknown>} */ (shown[0]).componentName)}`);
   const orphanAlign = nodes.filter((n) => n.labelAlign !== undefined && n.label === undefined);
   if (orphanAlign.length > 0) return v(false, `${orphanAlign.length} node(s) carry labelAlign with no label`);
   return v(true, `${nodes.length} node(s): no auto-label, every non-field hides its label, no orphan labelAlign`);
@@ -127,7 +127,7 @@ export function n4PageShellGeometry(m) {
     const dims = d === undefined ? undefined : /** @type {Record<string, unknown>|undefined} */ (d.dimensions);
     return dims !== undefined && typeof dims.height === 'string' && /^\d+px$/.test(dims.height);
   });
-  if (pinned.length > 0) return v(false, `${pinned.length} node(s) pin a px height, e.g. ${String(pinned[0].componentName)}`);
+  if (pinned.length > 0) return v(false, `${pinned.length} node(s) pin a px height, e.g. ${String(/** @type {Record<string, unknown>} */ (pinned[0]).componentName)}`);
   return v(true, 'page shell height auto at all three breakpoints; no node pins a px height');
 }
 
@@ -302,6 +302,8 @@ export function notEditableTriplet(m) {
  * @returns {Record<string, Verdict>}
  */
 export function identities(counts, sfsBytes, markupBytes) {
+  // The compiler's report populates every count key; treat them as definite numbers.
+  const c = /** @type {{ids:number, components:number, slots:number, items:number, styledComponents:number, breakpointBlocks:number, distinctTypeVersions:number, distinctTypes:number}} */ (counts);
   const ratio = markupBytes / sfsBytes;
   return {
     // The identity itself is total. The per-fixture non-vacuity guard is on
@@ -310,18 +312,18 @@ export function identities(counts, sfsBytes, markupBytes) {
     // either per fixture would silently require every fixture to be a page-shell list.
     // Non-vacuity of `slots` AND `items` is asserted across the fixture SET by
     // golden-defects.test.mjs (D-080, D-091).
-    A1: counts.ids === counts.components + counts.slots + counts.items && counts.components > 0
-      ? v(true, `ids ${counts.ids} = components ${counts.components} + slots ${counts.slots} + items ${counts.items}`)
-      : v(false, `ids ${counts.ids} != components ${counts.components} + slots ${counts.slots} + items ${counts.items} (components must be > 0)`),
-    A2: counts.breakpointBlocks === 3 * counts.styledComponents
-      ? v(true, `breakpointBlocks ${counts.breakpointBlocks} = 3 x ${counts.styledComponents}`)
-      : v(false, `breakpointBlocks ${counts.breakpointBlocks} != 3 x ${counts.styledComponents}`),
-    A3: counts.components >= 8
-      ? v(true, `components ${counts.components} >= 8`)
-      : v(false, `components ${counts.components} < 8`),
-    A4: counts.distinctTypeVersions === counts.distinctTypes
-      ? v(true, `${counts.distinctTypeVersions} type/version pair(s) over ${counts.distinctTypes} type(s): one version per type`)
-      : v(false, `${counts.distinctTypeVersions} type/version pair(s) but only ${counts.distinctTypes} type(s): a type carries two versions`),
+    A1: c.ids === c.components + c.slots + c.items && c.components > 0
+      ? v(true, `ids ${c.ids} = components ${c.components} + slots ${c.slots} + items ${c.items}`)
+      : v(false, `ids ${c.ids} != components ${c.components} + slots ${c.slots} + items ${c.items} (components must be > 0)`),
+    A2: c.breakpointBlocks === 3 * c.styledComponents
+      ? v(true, `breakpointBlocks ${c.breakpointBlocks} = 3 x ${c.styledComponents}`)
+      : v(false, `breakpointBlocks ${c.breakpointBlocks} != 3 x ${c.styledComponents}`),
+    A3: c.components >= 8
+      ? v(true, `components ${c.components} >= 8`)
+      : v(false, `components ${c.components} < 8`),
+    A4: c.distinctTypeVersions === c.distinctTypes
+      ? v(true, `${c.distinctTypeVersions} type/version pair(s) over ${c.distinctTypes} type(s): one version per type`)
+      : v(false, `${c.distinctTypeVersions} type/version pair(s) but only ${c.distinctTypes} type(s): a type carries two versions`),
     A5: ratio >= 8
       ? v(true, `markup/sfs ratio ${ratio.toFixed(2)} >= 8`)
       : v(false, `markup/sfs ratio ${ratio.toFixed(2)} < 8 (markup ${markupBytes} B, sfs ${sfsBytes} B)`),

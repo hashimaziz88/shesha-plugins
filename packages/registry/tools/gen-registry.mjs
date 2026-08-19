@@ -97,9 +97,15 @@ function sortDeep(v) {
 function completenessOf(props) {
   const keys = Object.keys(props);
   if (keys.length === 0) return 'none';
-  const allTyped = keys.every((k) => props[k].valueType !== null);
+  const allTyped = keys.every((k) => {
+    const p = props[k];
+    return p !== undefined && p.valueType !== null;
+  });
   if (!allTyped) return 'names-only';
-  const full = keys.every((k) => props[k].required !== null && props[k].valueTypeSource === 'source-parsed');
+  const full = keys.every((k) => {
+    const p = props[k];
+    return p !== undefined && p.required !== null && p.valueTypeSource === 'source-parsed';
+  });
   return full ? 'full' : 'value-typed';
 }
 
@@ -290,7 +296,7 @@ export function measure(components) {
 async function main() {
   const args = process.argv.slice(2);
   const commitAt = args.indexOf('--commit');
-  const commit = commitAt >= 0 ? args[commitAt + 1] : PINNED_COMMIT;
+  const commit = commitAt >= 0 ? (args[commitAt + 1] ?? '') : PINNED_COMMIT;
   if (!/^[0-9a-f]{40}$/.test(commit)) {
     console.error('REG-2901 --commit must be a full 40-char sha; a branch name moves');
     return 2;
@@ -324,6 +330,6 @@ async function main() {
   return 0;
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   process.exit(await main());
 }

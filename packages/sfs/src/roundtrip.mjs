@@ -101,9 +101,11 @@ export function roundtrip(root, scopePath) {
   };
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+const entryPath = process.argv[1];
+if (entryPath !== undefined && import.meta.url === pathToFileURL(entryPath).href) {
   const i = process.argv.indexOf('--scope');
-  const scopePath = i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : 'packages/sfs/config/roundtrip-expected.json';
+  const scopeArg = process.argv[i + 1];
+  const scopePath = i >= 0 && scopeArg ? scopeArg : 'packages/sfs/config/roundtrip-expected.json';
   const root = path.resolve(path.dirname(new URL(import.meta.url).pathname).replace(/^\/([A-Za-z]:)/, '$1'), '..', '..', '..');
   const r = roundtrip(root, scopePath);
   for (const l of r.lines) console.log(l);

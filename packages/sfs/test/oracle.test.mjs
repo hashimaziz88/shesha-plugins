@@ -70,7 +70,8 @@ for (const subject of SUBJECTS) {
 }
 
 test('Q3: the declared corpus form decompiles with zero structural escapes', () => {
-  const envelopeText = fs.readFileSync(path.join(repoRoot, SUBJECTS[1]), 'utf8');
+  // SUBJECTS is a two-element literal, so index 1 is in-bounds.
+  const envelopeText = fs.readFileSync(path.join(repoRoot, /** @type {string} */ (SUBJECTS[1])), 'utf8');
   const lifted = decompile(envelopeText);
   assert.equal(lifted.structuralEscapes, 0);
   console.log(`Q3 structural escapes ${lifted.structuralEscapes}`);

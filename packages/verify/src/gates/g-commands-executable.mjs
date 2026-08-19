@@ -107,7 +107,7 @@ function nodeChecks(file) {
     return { ok: true };
   } catch (e) {
     const err = /** @type {{stderr?:Buffer}} */ (e);
-    const stderr = err.stderr ? err.stderr.toString().split('\n')[0] : 'unknown parse error';
+    const stderr = err.stderr ? (err.stderr.toString().split('\n')[0] ?? 'unknown parse error') : 'unknown parse error';
     return { ok: false, reason: stderr };
   }
 }
@@ -144,7 +144,8 @@ export async function run(ctx) {
   const toolsPath = path.join(root, 'packages/mcp/src/index.mjs');
   if (fs.existsSync(toolsPath)) {
     const text = readText(toolsPath) || '';
-    for (const m of text.matchAll(/'([a-z_][a-z0-9_]*)'/g)) mcpTools.add(m[1]);
+    // Group 1 is mandatory in the pattern, so it is defined for every match.
+    for (const m of text.matchAll(/'([a-z_][a-z0-9_]*)'/g)) mcpTools.add(/** @type {string} */ (m[1]));
   }
 
   // Carried debt: a documented command that is dead for a reason this session did
@@ -181,7 +182,8 @@ export async function run(ctx) {
     const lines = text.split('\n');
 
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
+      // In-bounds: i < lines.length, so the line is defined.
+      const line = /** @type {string} */ (lines[i]);
       const where = `${relPath}:${i + 1}`;
 
       // A BACKLOG row's Acceptance cell is the DEFINITION OF DONE for work that
@@ -192,7 +194,8 @@ export async function run(ctx) {
 
       // ---- form 1: node <path> --------------------------------------------
       for (const m of line.matchAll(/\bnode\s+([^\s`'"]+\.(?:mjs|js|cjs))/g)) {
-        const target = m[1];
+        // Group 1 is mandatory in the pattern, so it is defined for every match.
+        const target = /** @type {string} */ (m[1]);
         const p = nodeFam.pointer(`${where} node ${target}`);
         nodeCount++;
         if (backlogRow) {
@@ -221,7 +224,8 @@ export async function run(ctx) {
 
       // ---- form 2: npm run <script> ---------------------------------------
       for (const m of line.matchAll(/\bnpm\s+run\s+([a-z][a-z0-9:_-]*)/g)) {
-        const script = m[1];
+        // Group 1 is mandatory in the pattern, so it is defined for every match.
+        const script = /** @type {string} */ (m[1]);
         const p = npmFam.pointer(`${where} npm run ${script}`);
         npmCount++;
         if (backlogRow) {
@@ -243,9 +247,11 @@ export async function run(ctx) {
         }
         // The script's target file must exist and parse, or the script is a
         // documented command that dies on invocation.
-        const target = /(?:^|\s)(packages\/[^\s"']+\.mjs)/.exec(scripts[script]);
+        // `script in scripts` was just checked above, so the lookup is defined.
+        const target = /(?:^|\s)(packages\/[^\s"']+\.mjs)/.exec(scripts[script] ?? '');
         if (!target) { p.check(); continue; }
-        const abs = path.join(root, target[1]);
+        // Group 1 is mandatory in the pattern, so it is defined when target matched.
+        const abs = path.join(root, /** @type {string} */ (target[1]));
         if (!fs.existsSync(abs)) {
           p.fail(`"npm run ${script}" runs ${target[1]}, which does not exist`);
           continue;
@@ -256,7 +262,9 @@ export async function run(ctx) {
 
       // ---- form 3: mcp__<server>__<tool> ----------------------------------
       for (const m of line.matchAll(/\bmcp__([a-z0-9-]+)__([a-z0-9_]+)/g)) {
-        const [, server, tool] = m;
+        // Groups 1 and 2 are mandatory in the pattern, so both are defined for every match.
+        const server = /** @type {string} */ (m[1]);
+        const tool = /** @type {string} */ (m[2]);
         const p = mcpFam.pointer(`${where} mcp__${server}__${tool}`);
         mcpCount++;
         if (backlogRow) {
@@ -394,7 +402,7 @@ export const mutations = [
   },
 ];
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const root = repoRoot();
   if (process.argv.includes('--baseline')) process.exit(await baseline(root));
   process.exit(await runGuarded(async () => {

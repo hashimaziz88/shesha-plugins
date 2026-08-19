@@ -14,7 +14,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const [, , root, ...subjects] = process.argv;
+const [, , rootArg, ...subjects] = process.argv;
+if (rootArg === undefined) throw new Error('oracle-eval: missing <repoRoot> argv');
+const root = rootArg;
 
 /**
  * @param {unknown} v
@@ -91,7 +93,7 @@ async function main() {
     walkNodesOf(source.components, (src) => {
       if (shellNodes.has(src)) return;
       const nodeName = typeof src.propertyName === 'string'
-        ? src.propertyName.split('.').map((s) => (s ? s[0].toLowerCase() + s.slice(1) : s)).join('.')
+        ? src.propertyName.split('.').map((s) => (s ? s.charAt(0).toLowerCase() + s.slice(1) : s)).join('.')
         : null;
       if (nodeName === null) return;
       const emitted = emittedByName.get(nodeName);

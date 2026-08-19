@@ -37,7 +37,8 @@ export function parseMessage(message) {
   const keys = {};
   for (const line of lines.slice(1)) {
     const m = /^([A-Z][A-Za-z-]*):\s*(.*)$/.exec(line.trim());
-    if (m) keys[m[1]] = m[2].trim();
+    // Groups 1 and 2 are mandatory in the pattern, so both are defined when m matched.
+    if (m) keys[/** @type {string} */ (m[1])] = /** @type {string} */ (m[2]).trim();
   }
   return { subject, body, keys };
 }
@@ -110,7 +111,8 @@ export async function run(ctx) {
     sp.fail(`subject "${subject.slice(0, 70)}" must be "[feature|fix|chore]- WP-NN <imperative summary>"`);
   } else {
     sp.check();
-    const summary = shape[3];
+    // Group 3 is mandatory in the pattern, so it is defined when shape matched.
+    const summary = /** @type {string} */ (shape[3]);
     subjFam.pointer('subject#length').assert(summary.length <= MAX_SUBJECT_AFTER_ID,
       `the summary is ${summary.length} characters after the WP id, over the ${MAX_SUBJECT_AFTER_ID} cap`);
   }
@@ -218,7 +220,7 @@ export const mutations = [
   },
 ];
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const i = process.argv.indexOf('--message-file');
   const messageFile = i >= 0 ? process.argv[i + 1] : undefined;
   if (!messageFile) {

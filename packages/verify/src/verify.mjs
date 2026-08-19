@@ -93,11 +93,15 @@ export async function runLadder(opts) {
   // did not run forces fail (§3.2.0 rule 2). T4/T5 never enter result.
   let result = 'pass';
   for (const t of RESULT_TIERS) {
-    const r = tierResults[t].result;
+    // tierResults is seeded with every tier key, so the lookup is defined.
+    const tr = tierResults[t];
+    if (tr === undefined) continue;
+    const r = tr.result;
     const requested = tiers.includes(t.toLowerCase());
     if (!requested) continue;
     if (r === 'notRun') { result = 'fail'; continue; }
-    if (LATTICE[r] > LATTICE[result]) result = r;
+    // r and result are verdicts in the LATTICE (notRun handled above), so both map.
+    if (/** @type {number} */ (LATTICE[r]) > /** @type {number} */ (LATTICE[result])) result = r;
   }
 
   const verdict = {
@@ -110,7 +114,8 @@ export async function runLadder(opts) {
 
   // exit: exitFor(result), except a PASS with a requested tier notRun -> 3.
   let exit = result === 'pass' ? EXIT.pass : (result === 'partial' ? EXIT.partial : EXIT.fail);
-  const requestedNotRun = tiers.some((t) => RESULT_TIERS.includes(t.toUpperCase()) && tierResults[t.toUpperCase()].result === 'notRun');
+  // The includes() guard confirms the upper-cased tier is a seeded key, so the lookup is defined.
+  const requestedNotRun = tiers.some((t) => RESULT_TIERS.includes(t.toUpperCase()) && /** @type {{result:string}} */ (tierResults[t.toUpperCase()]).result === 'notRun');
   if (result === 'pass' && requestedNotRun) exit = EXIT.partial;
   if (result !== 'pass') lines.push('A partial verdict is NOT a pass');
   lines.push(`verify ${screen}: result ${result} · tiers ${tiers.join(',')} · exit ${exit}`);

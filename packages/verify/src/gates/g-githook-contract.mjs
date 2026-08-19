@@ -104,7 +104,7 @@ export const mutations = [
   },
 ];
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const root = repoRoot();
   process.exit(await runGuarded(async () => {
     const fams = await run({ repoRoot: root });

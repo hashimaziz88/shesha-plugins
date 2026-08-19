@@ -139,7 +139,7 @@ test('every A1 summand is exercised across the fixture SET (D-080)', () => {
   const totals = FIXTURES.map((file) => {
     const counts = /** @type {Record<string, number>} */ (
       compile(fs.readFileSync(path.join(CLEAN, file), 'utf8'), { source: file }).report.counts);
-    return counts.slots;
+    return counts.slots ?? 0;
   });
   const withSlots = totals.filter((n) => n > 0);
   assert.ok(withSlots.length > 0,
@@ -151,7 +151,7 @@ test('the A1 items term is exercised across the fixture SET (D-091)', () => {
   // an action group does, so its non-vacuity is a property of the SET: at least one
   // clean fixture must emit items, or the items arithmetic is never tested.
   const totals = FIXTURES.map((file) => /** @type {Record<string, number>} */ (
-    compile(fs.readFileSync(path.join(CLEAN, file), 'utf8'), { source: file }).report.counts).items);
+    compile(fs.readFileSync(path.join(CLEAN, file), 'utf8'), { source: file }).report.counts).items ?? 0);
   assert.ok(totals.some((n) => n > 0),
     `no clean fixture emits items, so A1's items term is never exercised (per-fixture items: ${totals.join(', ')})`);
 });

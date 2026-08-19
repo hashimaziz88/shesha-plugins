@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 101,
+  "count": 102,
   "decisions": [
     {
       "id": "D-001",
@@ -1214,6 +1214,18 @@
       "consequence": "an unequal grid escapes rather than lifting to an invented width the round-trip gate could not catch as wrong",
       "enforcedBy": [
         "structural:packages/sfs/test/columns-lift.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-102",
+      "date": "2026-08-19",
+      "status": "decided",
+      "decision": "Scope change: WP-1c delivers BL-010 (noUncheckedIndexedAccess on tree-wide; g-workspace-hygiene enforces it true). BL-001 (3-arm SAA cost, unmeasurable in-session per D-050), BL-006, BL-014 stay BACKLOG, out of Scope B",
+      "why": "BL-001 cannot be measured here, so bundling blocks WP-1c forever",
+      "consequence": "deferred work stays visible in BACKLOG, never dropped",
+      "enforcedBy": [
+        "g-workspace-hygiene"
       ],
       "confirmation": "n/a"
     }

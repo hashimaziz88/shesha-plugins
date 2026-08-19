@@ -50,9 +50,11 @@ export const PAGE_SHELL_CLASS = 'sha-page';
  */
 function pageShell(reg, doc, body) {
   const page = /** @type {{title:string, subtitle?:string}} */ (doc.page);
-  const container = reg.components.container;
-  const text = reg.components.text;
-  const card = reg.components.card;
+  // Core registry components, always present; a cast keeps the original runtime
+  // behaviour (a missing record would still throw on the .version read below).
+  const container = /** @type {import('../lib/registry.mjs').ComponentRecord} */ (reg.components.container);
+  const text = /** @type {import('../lib/registry.mjs').ComponentRecord} */ (reg.components.text);
+  const card = /** @type {import('../lib/registry.mjs').ComponentRecord} */ (reg.components.card);
 
   /**
    * @param {string} name
@@ -227,7 +229,8 @@ export function formSettingsFor(reg, doc) {
  */
 export function entityToModelType(clrType, moduleName) {
   const segments = clrType.split('.');
-  return { name: segments[segments.length - 1], module: moduleName };
+  // String.split always yields at least one element, so the last index is in-bounds.
+  return { name: /** @type {string} */ (segments[segments.length - 1]), module: moduleName };
 }
 
 /**

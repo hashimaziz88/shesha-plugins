@@ -28,7 +28,7 @@ function oneFamily(name = 'things', extra = {}) {
 test('a required family that walked nothing is fail, not pass', () => {
   const f = oneFamily();
   assert.equal(verdictOf(f.list), 'fail');
-  assert.match(zeroCoverageReasons(f.list)[0].reason, /zero coverage is a hard fail/);
+  assert.match(/** @type {import('../src/coverage.mjs').Note} */ (zeroCoverageReasons(f.list)[0]).reason, /zero coverage is a hard fail/);
 });
 
 test('a family that walked pointers and checked none is fail', () => {
@@ -173,13 +173,13 @@ test('readJsonGuarded turns a malformed JSON file into one named failure and no 
   const got = readJsonGuarded(bad, f.get('data'), 'bad.json');
   assert.equal(got.ok, false);
   assert.equal(f.get('data').failures.length, 1);
-  assert.match(f.get('data').failures[0].reason, /is not valid JSON/);
+  assert.match(/** @type {import('../src/coverage.mjs').Note} */ (f.get('data').failures[0]).reason, /is not valid JSON/);
   assert.equal(verdictOf(f.list), 'fail');
 
   const missing = oneFamily('data2', { unit: 'file' });
   const gone = readJsonGuarded(path.join(dir, 'nope.json'), missing.get('data2'), 'nope.json');
   assert.equal(gone.ok, false);
-  assert.match(missing.get('data2').failures[0].reason, /does not exist/);
+  assert.match(/** @type {import('../src/coverage.mjs').Note} */ (missing.get('data2').failures[0]).reason, /does not exist/);
   fs.rmSync(dir, { recursive: true, force: true });
 });
 
@@ -229,7 +229,7 @@ test('an expectEmpty family with walked 1 fails naming the decision that deleted
   const f = families([{ name: 'overlays', unit: 'overlay', expectEmpty: true, decision: 'D-010' }]);
   f.get('overlays').pointer('baked-overlay.json').check();
   assert.equal(verdictOf(f.list), 'fail');
-  assert.match(zeroCoverageReasons(f.list)[0].reason, /deleted by D-010 — it has returned/);
+  assert.match(/** @type {import('../src/coverage.mjs').Note} */ (zeroCoverageReasons(f.list)[0]).reason, /deleted by D-010 — it has returned/);
 });
 
 test('families() rejects expectEmpty without a D-0NN decision id, and cannot() without a checkId', () => {

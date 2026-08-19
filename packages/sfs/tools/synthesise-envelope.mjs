@@ -132,6 +132,7 @@ export function main(argv) {
   return EXIT.pass;
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+const entryPath = process.argv[1];
+if (entryPath !== undefined && import.meta.url === pathToFileURL(entryPath).href) {
   process.exit(main(process.argv));
 }

@@ -36,10 +36,11 @@ export function scan() {
       const text = fs.readFileSync(abs, 'utf8');
       const stage = path.relative(SRC, abs).split(path.sep).join('/');
       for (const m of text.matchAll(CALL)) {
-        const code = m[1];
+        // CALL has two mandatory capture groups, so a match guarantees m[1] and m[2].
+        const code = /** @type {string} */ (m[1]);
         if (rows.has(code)) continue; // first raise site wins; codes are unique by design
         // The message literal begins with "CODE …"; the symptom is the text after it.
-        const raw = m[2].slice(1, -1).replace(/\s+/g, ' ').trim();
+        const raw = /** @type {string} */ (m[2]).slice(1, -1).replace(/\s+/g, ' ').trim();
         const symptom = raw.startsWith(code) ? raw.slice(code.length).trim() : raw;
         rows.set(code, { code, stage, symptom: symptom.slice(0, 200) });
       }
@@ -59,7 +60,8 @@ function render() {
   }, null, 2)}\n`;
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+const entryPath = process.argv[1];
+if (entryPath !== undefined && import.meta.url === pathToFileURL(entryPath).href) {
   const text = render();
   if (process.argv.includes('--check')) {
     const cur = fs.existsSync(path.join(ROOT, OUT)) ? fs.readFileSync(path.join(ROOT, OUT), 'utf8') : '';

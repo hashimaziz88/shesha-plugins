@@ -83,6 +83,15 @@ async function runColumns(/** @type {string} */ root) {
   }
 }
 
+/** WP-1c: noUncheckedIndexedAccess is on tree-wide, so every indexed access is checked (BL-010). */
+async function runStrictIndex(/** @type {string} */ root) {
+  const ts = JSON.parse(fs.readFileSync(path.join(root, 'tsconfig.json'), 'utf8'));
+  const on = ts.compilerOptions && ts.compilerOptions.noUncheckedIndexedAccess === true;
+  return on
+    ? { ok: true, lines: ['noUncheckedIndexedAccess: true — every indexed access is checked (BL-010, was D-024 deferral)'] }
+    : { ok: false, lines: ['noUncheckedIndexedAccess is not true in tsconfig.json'] };
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -92,6 +101,7 @@ const STEPS = [
   { id: 'robustness', label: 'compiler robust', needs: 'WP-5c', impl: runRobustness },
   { id: 'hygiene', label: 'decompiler hygiene', needs: 'WP-5d', impl: runHygiene },
   { id: 'columns', label: 'columns lift', needs: 'WP-5e', impl: runColumns },
+  { id: 'strict-index', label: 'strict index', needs: 'WP-1c', impl: runStrictIndex },
 ];
 
 /**
@@ -175,6 +185,6 @@ async function main() {
   return EXIT.pass;
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {
   process.exit(await runGuarded(main));
 }

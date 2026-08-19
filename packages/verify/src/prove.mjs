@@ -219,7 +219,8 @@ async function main() {
   const bless = process.argv.includes('--bless');
   const only = (() => {
     const i = process.argv.indexOf('--only');
-    return i >= 0 && process.argv[i + 1] ? process.argv[i + 1].split(',') : null;
+    const val = i >= 0 ? process.argv[i + 1] : undefined;
+    return val ? val.split(',') : null;
   })();
 
   const { scope, done, remaining } = await scopeState({ repoRoot: root });
@@ -296,6 +297,6 @@ async function main() {
   return EXIT.pass;
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {
   process.exit(await runGuarded(main));
 }

@@ -48,8 +48,9 @@ export function uuidv5(namespace, name) {
     .update(Buffer.from(name, 'utf8'))
     .digest();
   const b = Buffer.from(hash.subarray(0, 16));
-  b[6] = (b[6] & 0x0f) | 0x50;         // version 5
-  b[8] = (b[8] & 0x3f) | 0x80;         // RFC 4122 variant
+  // b is a 16-byte buffer, so indices 6 and 8 are in-bounds.
+  b[6] = (/** @type {number} */ (b[6]) & 0x0f) | 0x50;         // version 5
+  b[8] = (/** @type {number} */ (b[8]) & 0x3f) | 0x80;         // RFC 4122 variant
   const h = b.toString('hex');
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
 }

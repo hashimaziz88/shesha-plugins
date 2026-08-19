@@ -68,7 +68,7 @@ function withOnlyRows(text, keepIds) {
   return `${text.split('\n')
     .filter((line) => {
       const m = /^\|\s*(D-\d{3})\s*\|/.exec(line.trim());
-      return m === null || keepIds.has(m[1]);
+      return m === null || keepIds.has(m[1] ?? '');
     })
     .join('\n')
     .replace(/\n{3,}/g, '\n\n')
@@ -166,6 +166,6 @@ async function main() {
   return EXIT.pass;
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   process.exit(await main());
 }

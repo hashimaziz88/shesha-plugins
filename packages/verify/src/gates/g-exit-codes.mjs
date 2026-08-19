@@ -51,7 +51,8 @@ export async function run(ctx) {
     const m = /RESULTS\s*=\s*Object\.freeze\(\[([^\]]*)\]\)/.exec(covText);
     if (!m) ep.fail('coverage.mjs does not export a frozen RESULTS array');
     else {
-      const got = [...m[1].matchAll(/'([^']+)'|"([^"]+)"/g)].map((x) => x[1] ?? x[2]);
+      // Group 1 is mandatory in the pattern, so it is defined when m matched.
+      const got = [...(/** @type {string} */ (m[1])).matchAll(/'([^']+)'|"([^"]+)"/g)].map((x) => x[1] ?? x[2]);
       ep.assert(JSON.stringify(got) === JSON.stringify(FROZEN),
         `the verdict enum is ${JSON.stringify(got)}, not the frozen ${JSON.stringify(FROZEN)} — there is no fifth verdict, which would be a fail dressed as green`);
     }
@@ -83,7 +84,8 @@ export async function run(ctx) {
     // gate's own header) is never read as code.
     const code = text.split('\n').map((l) => l.replace(/\/\/.*$/, '')).join('\n');
     for (const m of code.matchAll(/process\.exit\(([^)]*)\)/g)) {
-      const arg = m[1].trim();
+      // Group 1 is mandatory in the pattern, so it is defined for every match.
+      const arg = /** @type {string} */ (m[1]).trim();
       const p = exitFam.pointer(`${r} process.exit(${arg.slice(0, 30)})`);
       // A raw exit code is a leading digit, or a ternary branch that is a digit.
       const rawLiteral = /^[0-9]/.test(arg) || /[?:]\s*[0-9]/.test(arg);

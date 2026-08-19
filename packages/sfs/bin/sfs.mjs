@@ -35,7 +35,8 @@ const VERBS = {
  */
 function runRoundtrip(args) {
   const i = args.indexOf('--scope');
-  const scope = i >= 0 && args[i + 1] ? args[i + 1] : 'packages/sfs/config/roundtrip-expected.json';
+  const scopeArg = args[i + 1];
+  const scope = i >= 0 && scopeArg ? scopeArg : 'packages/sfs/config/roundtrip-expected.json';
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
   let result;
   try { result = roundtrip(root, scope); } catch (e) {
@@ -148,6 +149,7 @@ export function main(argv) {
     return EXIT.pass;
   }
   const verb = args[0];
+  if (verb === undefined) return EXIT.usage;
   if (!(verb in VERBS)) {
     console.error(`sfs: unknown command "${verb}"\n`);
     process.stderr.write(USAGE);
@@ -163,6 +165,7 @@ export function main(argv) {
   return EXIT.usage;
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+const entryPath = process.argv[1];
+if (entryPath !== undefined && import.meta.url === pathToFileURL(entryPath).href) {
   process.exit(main(process.argv));
 }

@@ -119,7 +119,9 @@ export function archaeologyHits(text, patterns) {
     // gate waived, which is the failure mode the gate exists to prevent.
     const re = new RegExp(pattern);
     for (let i = 0; i < lines.length; i++) {
-      if (re.test(lines[i])) hits.push({ line: i + 1, pattern, excerpt: lines[i].trim().slice(0, 100) });
+      // In-bounds: i < lines.length, so the line is defined.
+      const line = /** @type {string} */ (lines[i]);
+      if (re.test(line)) hits.push({ line: i + 1, pattern, excerpt: line.trim().slice(0, 100) });
     }
   }
   return hits.sort((a, b) => a.line - b.line);
@@ -133,7 +135,8 @@ function completedWps(root) {
   const text = readText(path.join(root, 'BUILD-LOG.md')) || '';
   /** @type {Set<string>} */
   const done = new Set();
-  for (const m of text.matchAll(/^##\s+(WP-[0-9a-z]+)\s+—/gmi)) done.add(m[1]);
+  // Group 1 is mandatory in the pattern, so it is defined for every match.
+  for (const m of text.matchAll(/^##\s+(WP-[0-9a-z]+)\s+—/gmi)) done.add(/** @type {string} */ (m[1]));
   return done;
 }
 
@@ -206,9 +209,10 @@ export async function run(ctx) {
       const fm = /^---\n([\s\S]*?)\n---/.exec(text);
       if (!fm) fp.fail(`${skillMdRel} has no YAML frontmatter block`);
       else {
-        const keys = [...fm[1].matchAll(/^([A-Za-z_][A-Za-z0-9_-]*):/gm)].map((m) => m[1]);
-        const nameMatch = /^name:\s*(.+)$/m.exec(fm[1]);
-        const declared = nameMatch ? nameMatch[1].trim() : '';
+        // Group 1 is mandatory in each pattern, so it is defined whenever the match succeeds.
+        const keys = [...(/** @type {string} */ (fm[1])).matchAll(/^([A-Za-z_][A-Za-z0-9_-]*):/gm)].map((m) => /** @type {string} */ (m[1]));
+        const nameMatch = /^name:\s*(.+)$/m.exec(/** @type {string} */ (fm[1]));
+        const declared = nameMatch ? /** @type {string} */ (nameMatch[1]).trim() : '';
         const folder = path.basename(skill.rel);
         const problems2 = [];
         const allowed = cfg.allowedFrontmatterKeys || ['name', 'description'];
@@ -242,7 +246,8 @@ export async function run(ctx) {
       const refMatch = /\/references\/(.+)$/.exec(r);
       if (refMatch) {
         const dp = depthFam.pointer(r);
-        const depth = refMatch[1].split('/').length;
+        // Group 1 is mandatory in the pattern, so it is defined when refMatch matched.
+        const depth = /** @type {string} */ (refMatch[1]).split('/').length;
         const w = waiverFor(cfg, r);
         const allowed = w && typeof w.deepReferences === 'number' ? w.deepReferences : 1;
         dp.assert(depth <= allowed,
@@ -391,8 +396,9 @@ async function baseline(root) {
       if (hits.length > 0) measured.archaeology = hits.length;
       if (findAbsolutePath(text) !== null) measured.absolutePath = true;
       const fm = /^---\n([\s\S]*?)\n---/.exec(text);
-      const nameMatch = fm ? /^name:\s*(.+)$/m.exec(fm[1]) : null;
-      if (nameMatch && nameMatch[1].trim() !== path.basename(skill.rel)) measured.frontmatterNameMismatch = true;
+      // Group 1 is mandatory in each pattern, so it is defined whenever the match succeeds.
+      const nameMatch = fm ? /^name:\s*(.+)$/m.exec(/** @type {string} */ (fm[1])) : null;
+      if (nameMatch && /** @type {string} */ (nameMatch[1]).trim() !== path.basename(skill.rel)) measured.frontmatterNameMismatch = true;
       if (Object.keys(measured).length) record(skillMdRel, measured);
     }
     for (const f of listFiles(path.join(root, skill.rel))) {
@@ -402,7 +408,8 @@ async function baseline(root) {
       const measured = {};
       const refMatch = /\/references\/(.+)$/.exec(r);
       if (refMatch) {
-        const depth = refMatch[1].split('/').length;
+        // Group 1 is mandatory in the pattern, so it is defined when refMatch matched.
+        const depth = /** @type {string} */ (refMatch[1]).split('/').length;
         if (depth > 1) measured.deepReferences = depth;
       }
       if (f.endsWith('.md') || f.endsWith('.json')) {
@@ -477,7 +484,7 @@ export const mutations = [
   },
 ];
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const { repoRoot } = await import('../lib/fsx.mjs');
   const root = repoRoot();
   if (process.argv.includes('--baseline')) {

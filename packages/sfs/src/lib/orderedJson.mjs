@@ -127,7 +127,7 @@ export function orderNode(value, where = '') {
 export function stylingBoxString(sides) {
   /** @type {Record<string, number|string>} */
   const out = {};
-  for (const key of STYLINGBOX_KEY_ORDER) if (Object.hasOwn(sides, key)) out[key] = sides[key];
+  for (const key of STYLINGBOX_KEY_ORDER) if (Object.hasOwn(sides, key)) out[key] = /** @type {number|string} */ (sides[key]);
   return JSON.stringify(out);
 }
 

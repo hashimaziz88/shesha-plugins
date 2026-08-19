@@ -56,7 +56,9 @@ export function resolveToken(reg, ref, where) {
   if (m === null) {
     throw new TokenError('TOK-2000', `TOK-2000 "${ref}" at ${where} is not a token reference; the five prefixes are $role: $type: $space: $radius: $shadow:`);
   }
-  const [, prefix, name] = m;
+  // Both capture groups are mandatory, so a non-null match guarantees m[1] and m[2].
+  const prefix = /** @type {string} */ (m[1]);
+  const name = /** @type {string} */ (m[2]);
   const code = CODES[/** @type {keyof typeof CODES} */ (prefix)];
 
   if (prefix === 'role') {

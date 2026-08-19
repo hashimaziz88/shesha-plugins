@@ -136,6 +136,6 @@ async function main() {
   return worst === 'pass' ? EXIT.pass : worst === 'partial' ? EXIT.partial : EXIT.fail;
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {
   process.exit(await runGuarded(main));
 }

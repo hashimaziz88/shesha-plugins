@@ -125,7 +125,8 @@ export async function run(ctx) {
       p.fail(`${r} has ${sig.length} non-comment lines, must have exactly 1 (D-041): ${JSON.stringify(sig.slice(0, 3))}`);
       continue;
     }
-    p.assert(new RegExp(P.reExportLine).test(sig[0]),
+    // sig.length === 1 was just checked, so sig[0] is defined.
+    p.assert(new RegExp(P.reExportLine).test(/** @type {string} */ (sig[0])),
       `${r}'s single line must re-export the one coverage implementation, found ${JSON.stringify(sig[0])}`);
   }
 

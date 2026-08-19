@@ -63,13 +63,15 @@ export function defectsOf(markup) {
   /** @type {{id:string, rule:string, present:boolean, evidence:string}[]} */
   const out = [];
   /** @param {string} id @param {string} rule @param {Record<string, unknown>[]} hits @param {(n:Record<string, unknown>) => string} [say] */
-  const record = (id, rule, hits, say) => out.push({
-    id,
-    rule,
-    present: hits.length > 0,
-    evidence: hits.length === 0 ? '' : `${hits.length} node(s), e.g. ${
-      say ? say(hits[0]) : String(hits[0].componentName ?? hits[0].propertyName ?? hits[0].type)}`,
-  });
+  const record = (id, rule, hits, say) => {
+    let evidence = '';
+    const first = hits[0];
+    if (first !== undefined) {
+      evidence = `${hits.length} node(s), e.g. ${
+        say ? say(first) : String(first.componentName ?? first.propertyName ?? first.type)}`;
+    }
+    out.push({ id, rule, present: hits.length > 0, evidence });
+  };
 
   record('N1', 'label defaults', nodes.filter((n) =>
     (typeof n.label === 'string' && AUTO_LABEL.test(n.label))
@@ -128,9 +130,10 @@ export function defectsOf(markup) {
   // the shell card's content.
   const roots = /** @type {Record<string, unknown>[]} */ (markup.components || []);
   let n10 = false;
-  if (roots.length === 1 && roots[0].type === 'card' && isObj(roots[0].content)
-    && Array.isArray(roots[0].content.components)) {
-    const band = /** @type {Record<string, unknown>[]} */ (roots[0].content.components)[0];
+  const root0 = roots[0];
+  if (roots.length === 1 && root0 !== undefined && root0.type === 'card' && isObj(root0.content)
+    && Array.isArray(root0.content.components)) {
+    const band = /** @type {Record<string, unknown>[]} */ (root0.content.components)[0];
     if (isObj(band) && band.type === 'container' && Array.isArray(band.components)) {
       n10 = allNodes({ components: band.components })
         .some((n) => n.type === 'dataContext' || n.type === 'datatable' || n.type === 'datalist');

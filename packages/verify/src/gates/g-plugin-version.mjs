@@ -59,7 +59,8 @@ export function compareSemver(a, b) {
   if (b.pre.length === 0) return -1;
   const n = Math.min(a.pre.length, b.pre.length);
   for (let i = 0; i < n; i++) {
-    const x = a.pre[i], y = b.pre[i];
+    // In-bounds: i < n = min(a.pre.length, b.pre.length), so both entries are defined.
+    const x = /** @type {string} */ (a.pre[i]), y = /** @type {string} */ (b.pre[i]);
     const xn = /^\d+$/.test(x), yn = /^\d+$/.test(y);
     if (xn && yn) { const d = Number(x) - Number(y); if (d !== 0) return d; }
     else if (xn !== yn) return xn ? -1 : 1; // numeric identifiers rank below alphanumeric

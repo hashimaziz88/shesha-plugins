@@ -37,18 +37,21 @@ export function parseCoverage(text) {
   /** @type {Set<string>} */
   const subsumed = new Set();
   if (checksBlock) {
-    for (const line of checksBlock[1].split('\n')) {
+    // Group 1 is mandatory in each pattern, so it is defined whenever the match succeeds.
+    for (const line of (/** @type {string} */ (checksBlock[1])).split('\n')) {
       const idm = /\bid: '(T\d[\w.]*)'/.exec(line);
       if (!idm) continue;
-      checkIds.push(idm[1]);
-      if (/\bsubsumed:/.test(line)) subsumed.add(idm[1]);
+      const id = /** @type {string} */ (idm[1]);
+      checkIds.push(id);
+      if (/\bsubsumed:/.test(line)) subsumed.add(id);
     }
   }
   /** @type {Set<string>} */
   const covered = new Set();
   if (mutBlock) {
-    for (const m of mutBlock[1].matchAll(/covers: \[([^\]]*)\]/g)) {
-      for (const c of m[1].matchAll(/'(T\d[\w.]*)'/g)) covered.add(c[1]);
+    // Group 1 is mandatory in each pattern, so it is defined whenever the match succeeds.
+    for (const m of (/** @type {string} */ (mutBlock[1])).matchAll(/covers: \[([^\]]*)\]/g)) {
+      for (const c of (/** @type {string} */ (m[1])).matchAll(/'(T\d[\w.]*)'/g)) covered.add(/** @type {string} */ (c[1]));
     }
   }
   return { checkIds, subsumed, covered };

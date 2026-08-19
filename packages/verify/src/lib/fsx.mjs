@@ -84,7 +84,7 @@ export function normalisedByteSize(file) {
  */
 export function findAbsolutePath(text) {
   const m = /(?:^|[\s"'(\[<`])([A-Za-z]:[\\/])/m.exec(text);
-  return m ? m[1] : null;
+  return m ? (m[1] ?? null) : null;
 }
 
 /**
@@ -145,7 +145,8 @@ export function gitLsFiles(root, pathspec = []) {
 export function globToRegExp(glob) {
   let re = '';
   for (let i = 0; i < glob.length; i++) {
-    const c = glob[i];
+    // In-bounds: i < glob.length, so glob[i] is always a defined char.
+    const c = /** @type {string} */ (glob[i]);
     if (c === '*') {
       if (glob[i + 1] === '*') {
         // `**/` may match zero segments, so the slash is part of the optional group.
@@ -198,12 +199,18 @@ export function fencedBlocks(text) {
   /** @type {null|{startLine:number, char:string, len:number, info:string}} */
   let open = null;
   for (let i = 0; i < lines.length; i++) {
-    const m = /^(\s*)(`{3,}|~{3,})(.*)$/.exec(lines[i]);
+    // In-bounds: i < lines.length, so the line is defined.
+    const line = /** @type {string} */ (lines[i]);
+    const m = /^(\s*)(`{3,}|~{3,})(.*)$/.exec(line);
     if (!m) continue;
-    const marker = m[2];
+    // Groups 2 and 3 are mandatory in the pattern, so both are defined when m matched.
+    const marker = /** @type {string} */ (m[2]);
+    const info = /** @type {string} */ (m[3]).trim();
+    // marker is a fence of length >= 3, so its first char is defined.
+    const markerChar = /** @type {string} */ (marker[0]);
     if (open === null) {
-      open = { startLine: i + 1, char: marker[0], len: marker.length, info: m[3].trim() };
-    } else if (marker[0] === open.char && marker.length >= open.len && m[3].trim() === '') {
+      open = { startLine: i + 1, char: markerChar, len: marker.length, info };
+    } else if (markerChar === open.char && marker.length >= open.len && info === '') {
       // A closing fence matches the opening character and is at least as long, so a
       // 4-backtick block may legally contain 3-backtick blocks.
       out.push({ startLine: open.startLine, endLine: i + 1, lines: i - open.startLine, info: open.info });

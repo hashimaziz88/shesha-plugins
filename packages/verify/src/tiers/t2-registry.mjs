@@ -88,7 +88,8 @@ export function t2Registry(doc, meta, opts = {}) {
   const reg = load(opts.ref);
   const legacy = opts.legacy === true;
   const priority = new Set(reg.priorityTypes);
-  const channelKeys = new Set(reg.slots.map((s) => s.key.split('.')[0]));
+  // split('.') always yields index 0, so each mapped key is a defined string.
+  const channelKeys = new Set(reg.slots.map((s) => /** @type {string} */ (s.key.split('.')[0])));
   const channelLeafKeys = new Set(reg.slots.flatMap((s) => [s.key, s.key.split('.')[0], s.key.split('.').pop() || s.key]));
   const metaByPath = /** @type {Record<string, any>} */ (meta && meta.nodes ? meta.nodes : {});
   // A kind:list form that edits inline legitimately carries a submit pipeline; the
@@ -477,7 +478,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     let fams;
     if (formArg) {
       const metaAt = args.indexOf('--meta');
-      const { doc, meta } = readForm(root, formArg, metaAt >= 0 ? args[metaAt + 1] : null);
+      const { doc, meta } = readForm(root, formArg, metaAt >= 0 ? (args[metaAt + 1] ?? null) : null);
       fams = t2Registry(doc, meta, { legacy: args.includes('--legacy') });
     } else {
       fams = await run({ repoRoot: root });

@@ -19,7 +19,7 @@ if (!inFile || outIx < 0 || !argv[outIx + 1]) {
   process.stderr.write('usage: normalise-legacy.mjs <input.json> --out <output.json>\n');
   process.exit(1);
 }
-const outFile = argv[outIx + 1];
+const outFile = /** @type {string} */ (argv[outIx + 1]); // guarded present above
 
 const raw = rd(path.resolve(inFile));
 /** @type {*} */ let env;
@@ -106,7 +106,7 @@ if (band0 && band0.type === 'container' && Array.isArray(band0.components) && ba
 
 // R4-R13, children first
 /** @param {string} s @returns {string} */
-const camel = (s) => s.split('.').map((p) => p ? p[0].toLowerCase() + p.slice(1) : p).join('.');
+const camel = (s) => s.split('.').map((p) => (p[0] ?? '').toLowerCase() + p.slice(1)).join('.');
 const CHAN = ['font', 'background', 'border', 'shadow'];
 const OW = new Map();
 /** @param {*} c @returns {void} */

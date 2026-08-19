@@ -99,7 +99,10 @@ export async function run(ctx) {
     const clashes = [];
     for (let a = 0; a < globs.length; a++) {
       for (let b = a + 1; b < globs.length; b++) {
-        if (conflict(globs[a], globs[b])) clashes.push(`${globs[a]} <=> ${globs[b]}`);
+        // In-bounds: a, b < globs.length, so both entries are defined.
+        const ga = /** @type {string} */ (globs[a]);
+        const gb = /** @type {string} */ (globs[b]);
+        if (conflict(ga, gb)) clashes.push(`${ga} <=> ${gb}`);
       }
     }
     partition.pointer(wp).assert(clashes.length === 0,
