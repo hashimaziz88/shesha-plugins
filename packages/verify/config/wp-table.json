@@ -121,6 +121,51 @@
       "inScope": false,
       "goal": "Precedent retrieval, shape-indexed",
       "backlog": "BL-009"
+    },
+    {
+      "id": "WP-0b",
+      "order": null,
+      "inScope": false,
+      "goal": "Scope B bootstrap (D-100): session-scope-b.json, prove-b.mjs + its contract test, this table's Scope-B ids, CONTROL §3 Scope-B block"
+    },
+    {
+      "id": "WP-5c",
+      "order": null,
+      "inScope": false,
+      "goal": "Compiler robustness: the reading-'hidden' TypeError becomes a diagnostic, not a crash (MINING-REPORT.md §5, 498 forms)"
+    },
+    {
+      "id": "WP-5d",
+      "order": null,
+      "inScope": false,
+      "goal": "Decompiler output hygiene: sanitise entity/form/label/hooks names, empty strings, child-node kinds, pad types so lifted SFS passes its own schema (MINING-REPORT.md §5, ~700 forms)"
+    },
+    {
+      "id": "WP-5e",
+      "order": null,
+      "inScope": false,
+      "goal": "IR nodes for the escaping constructs: columns, buttonGroup, collapsiblePanel, tabs, statusTag, title, button, … (MINING-REPORT.md §5)"
+    },
+    {
+      "id": "WP-2b",
+      "order": null,
+      "inScope": false,
+      "goal": "Registry completeness: parse all 121 component TS interfaces, full >= 93/121, deferredAuthorable < 8",
+      "backlog": "BL-004"
+    },
+    {
+      "id": "WP-1c",
+      "order": null,
+      "inScope": false,
+      "goal": "Population hardening: SFS fuzzer >= 200 cases, real 23-field envelope, noUncheckedIndexedAccess, 3-arm cost",
+      "backlog": "BL-014"
+    },
+    {
+      "id": "WP-16b",
+      "order": null,
+      "inScope": false,
+      "goal": "Flip g-brief-budget bundle to enforced <= 61440 B once the brief is trimmed",
+      "backlog": "BL-011"
     }
   ]
 }

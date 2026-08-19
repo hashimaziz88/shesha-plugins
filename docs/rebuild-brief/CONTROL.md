@@ -81,6 +81,22 @@ Scope is **data**: `packages/verify/config/session-scope.json` lists exactly the
 
 **A gate ships in the work package that creates its subject.** WP-0 therefore ships the eleven of O7: `g-decisions`, `g-brief-budget`, `g-prose-budget`, `g-commit-format`, `g-gate-contract`, `g-coverage-single-impl`, `g-commands-executable`, `g-workspace-hygiene`, `g-githook-contract`, `g-no-secrets-or-scratch`, `g-disposition`. Every other gate named anywhere in the brief lands with its subject, or is a BACKLOG row. A gate written before its subject exists is a gate that checks nothing — the exact pattern this rebuild exists to remove.
 
+### 3b. Scope B — the mining-driven extension (D-100)
+
+A SECOND delivery opened after Scope A completed. Its ids are **data** in `packages/verify/config/session-scope-b.json`, read only by `prove-b.mjs`; §3's `session-scope.json` and `prove.expected.txt` stay frozen so the Scope-A proof never regresses. Detail and per-WP acceptance: `docs/rebuild-brief/phase-2-3/PROPOSAL.md`; the numbers driving it: `docs/rebuild-brief/corpus-intake/MINING-REPORT.md` (7.0% round-trip over 2,071 real forms).
+
+| WP | Goal | Gate |
+|---|---|---|
+| WP-5c / WP-5d / WP-5e | compiler robustness, decompiler hygiene, IR nodes — the round-trip lift | offline |
+| WP-2b | registry full ≥ 93/121 | offline |
+| WP-3b | T3 semantic tier | offline |
+| WP-1c | population hardening (fuzzer, real envelope, strict-index, 3-arm cost) | offline |
+| WP-6 / WP-9 / WP-7 / WP-16b | corpus round-trip, precedent, thin design skills, bundle-enforce | offline |
+| WP-8 | hooks / MCP / agent roles | needs a session RESTART |
+| WP-3c / WP-3d | live tiers T4 / T5 | needs browser + backend |
+
+Done: `npm run prove-b` → exit 0, last line `SESSION COMPLETE — SCOPE B`, while `npm run prove` still prints `SESSION COMPLETE — SCOPE A`.
+
 ---
 
 ## 4. The thirteen brief reconciliations

@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 99,
+  "count": 100,
   "decisions": [
     {
       "id": "D-001",
@@ -1190,6 +1190,18 @@
       "consequence": "31 tier mutations all flipping; three coverage gates live; roster 20",
       "enforcedBy": [
         "g-mutation-coverage"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-100",
+      "date": "2026-08-19",
+      "status": "decided",
+      "decision": "Scope change: open Scope B. Scope-B WP ids live in a new packages/verify/config/session-scope-b.json read only by a new packages/verify/src/prove-b.mjs; session-scope.json stays frozen at the 12 Scope-A ids so the Scope-A proof and its frozen expected file never drift. Adds WP-0b/5c/5d/5e/2b/1c/16b to wp-table.json and a Scope-B block to CONTROL §3. Scope B is done when prove-b prints SESSION COMPLETE — SCOPE B, granted exactly one --bless of prove-b.expected.txt, additive to CONTROL §5's two spent Scope-A blesses",
+      "why": "the mining run measured 7.0% round-trip over 2,071 real forms, so the backlog is real work the rebuild owes; leaving it prose is the failure invariant 2 forbids",
+      "consequence": "Scope A's frozen proof and bless budget are untouched; Scope B carries its own",
+      "enforcedBy": [
+        "structural:packages/verify/test/prove-b.contract.test.mjs"
       ],
       "confirmation": "n/a"
     }

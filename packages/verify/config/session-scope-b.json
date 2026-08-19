@@ -1,0 +1,18 @@
+{
+  "_comment": "Scope B is DATA (D-100, mirroring D-051 for Scope A). prove-b.mjs — and ONLY prove-b.mjs — reads this file. packages/verify/config/session-scope.json stays frozen at its 12 Scope-A ids so prove.mjs and prove.expected.txt never drift (CONTROL §5's two --bless are spent). The order is the mining-driven priority: the three highest-value gap-closers (compiler robustness, decompiler hygiene, IR nodes) first, then the rest, then the restart/backend-gated tiers last. Narrowing or splitting this list needs another 'Scope change:' row.",
+  "wps": [
+    "WP-5c",
+    "WP-5d",
+    "WP-5e",
+    "WP-2b",
+    "WP-3b",
+    "WP-1c",
+    "WP-6",
+    "WP-9",
+    "WP-7",
+    "WP-16b",
+    "WP-8",
+    "WP-3c",
+    "WP-3d"
+  ]
+}
