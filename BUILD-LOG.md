@@ -432,3 +432,48 @@ Gate mapping (D-094, a Gate removal row): the five planned WP-5 gates resolve as
 duplicated as gates (INV-2 asks for a program, not a new gate); g-markup-provenance is deferred
 to BL-008 (no committed `*.form.json` artifacts exist in Scope A to recompile). Every
 pending:WP-5 decision now names a live enforcer, and the pending-budget WP-5 owner is retired.
+
+## WP-7a — The great deletion and one thin skill — 2026-08-19
+
+Status: complete
+Gate: `node packages/verify/src/gates/g-skill-purity.mjs && node .../g-disposition.mjs && node .../g-prose-budget.mjs` -> exit 0
+Evidence: packages/verify/evidence/WP-7a.json
+Decisions added: D-095 (components-kb/examples relocate to L1, supersedes D-089); D-001/D-018/D-068 repointed from pending:WP-7a to live enforcers; D-011 repointed to pending:WP-3a (t2-registry is the "exact matching" enforcer)
+Blocked: none new
+Next: WP-3a
+
+`shesha-form-edit/**` is deleted entirely — the 46,926 B SKILL.md, its 32 reference files,
+the copied `packages/verify` seed, the empty `quarantine/`, and the block/pattern seed
+libraries (no compiler or gate reads them; the recipe logic is inlined in the compiler, not
+migrated as files). The two LIVE toolchain inputs are not deleted but MIGRATED to L1 ahead of
+the deletion: `components-kb -> packages/sfs/kb` (gen-registry.mjs' input) and
+`examples -> packages/sfs/corpus` (the round-trip corpus). The registry regenerates
+byte-identical and the corpus round-trips 1.00 after the move — verified BEFORE the deletion,
+so a broken path would have surfaced while the originals still existed (D-095).
+
+`shesha-spec` replaces it: one thin router SKILL.md (4,223 B, 91 lines, under the 8,192 B / 500-line
+tierA cap) that names the 11 corpus examples, the eight compiler-enforced constraints (each
+mapped to an error code), the escape hatch, the compile loop, and the four source-of-truth
+paths. It copies none of them — no prop list, no enum domain, no version integer, no transcribe-
+and-run snippet.
+
+Created `g-skill-purity` (D-068: skill purity is adjudicated once, at WP-7a) + its
+`skill-purity.json`: the design-pipeline skills are routers, proven to carry no executable code
+file, no `scripts/`/`node_modules/`, no `package.json`/README, and zero `assets/` bytes — the one
+design skill with asset debt is waived until BL-007 (the same public, expiring ratchet
+prose-budget uses). Three verdict-flipping mutations. Gate roster 16 -> 17; `prose-budget` tierA
+1 -> 4 (adds `shesha-spec`, expectedCount 4), 25 dead shesha-form-edit/components-kb waivers
+pruned. The command floor holds (47 >= 41) — the deletion did not drain it, so no threshold
+change was needed; the one dead shesha-form-edit command waiver was pruned. Plugin version
+1.8.5-alpha.2 -> 1.9.0 (a new skill folder is a minor bump).
+
+The observed g-skill-purity output, verbatim:
+
+```
+code-files      walked    5   checked    5   failures   0
+structure       walked    4   checked    4   failures   0
+banned-files    walked    4   checked    4   failures   0
+asset-bytes     walked    4   checked    3   n/a   1   failures   0
+waiver-expiry   walked    1   checked    1   failures   0
+skills 4 · codeFiles 0 · scripts 0 · readmes 0 · assetBytes 0 (non-waived)
+```

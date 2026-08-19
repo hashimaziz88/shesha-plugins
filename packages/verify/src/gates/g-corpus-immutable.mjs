@@ -17,7 +17,7 @@ export const id = 'g-corpus-immutable';
 export const describe = 'every corpus seed form hashes to its recorded sha256; the corpus is never edited to fake a round-trip';
 export const inputPaths = [
   'packages/sfs/config/corpus-manifest.json',
-  'plugins/shesha-developer/skills/shesha-form-edit/assets/examples',
+  'packages/sfs/corpus',
   'packages/sfs/test/fixtures/legacy/inline-editable-table.envelope.json',
   'package.json',
 ];
@@ -68,7 +68,7 @@ export const mutations = [
     apply: async (tmp) => {
       const f = path.join(tmp, 'packages/sfs/config/corpus-manifest.json');
       const m = JSON.parse(fs.readFileSync(f, 'utf8'));
-      m.forms.push({ path: 'plugins/shesha-developer/skills/shesha-form-edit/assets/examples/__deleted__.json', sha256: 'a'.repeat(64) });
+      m.forms.push({ path: 'packages/sfs/corpus/__deleted__.json', sha256: 'a'.repeat(64) });
       fs.writeFileSync(f, `${JSON.stringify(m, null, 2)}\n`);
     },
     expect: 'fail',

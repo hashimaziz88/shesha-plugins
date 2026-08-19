@@ -74,17 +74,15 @@
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/blocks",
-      "action": "move",
-      "to": "packages/sfs/recipes/_legacy/blocks",
-      "wp": "WP-5",
-      "reason": "Converted into the seven recipes, then _legacy is deleted in the same WP. Must move before WP-7a"
+      "action": "delete",
+      "wp": "WP-7a",
+      "reason": "The block seed library was shesha-form-edit assets; no compiler or gate reads it (verified: only config files name the path). The WP-5 move-to-recipes/_legacy never materialised (packages/sfs/recipes does not exist; the recipe logic is inlined in the compiler), so the raw seeds are deleted with shesha-form-edit in the great deletion. Reconciled per D-095"
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/patterns",
-      "action": "move",
-      "to": "packages/sfs/recipes/_legacy/patterns",
-      "wp": "WP-5",
-      "reason": "Converted into the seven recipes, then _legacy is deleted in the same WP. Must move before WP-7a"
+      "action": "delete",
+      "wp": "WP-7a",
+      "reason": "The pattern seed library was shesha-form-edit assets; no compiler or gate reads it (verified: only config files name the path). The WP-5 move-to-recipes/_legacy never materialised (packages/sfs/recipes does not exist; the recipe logic is inlined in the compiler), so the raw seeds are deleted with shesha-form-edit in the great deletion. Reconciled per D-095"
     },
     {
       "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples/inline-editable-table.json",
@@ -94,16 +92,24 @@
       "reason": "WP-1.a's target form. It leaves assets/examples ahead of that folder's WP-7a deletion because the GO/NO-GO proof compiles against it; the bulk row below still covers the remaining seeds."
     },
     {
-      "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples",
-      "action": "delete",
-      "wp": "WP-7a",
-      "reason": "D-013 — 2.5 MB of raw seed JSON, deleted only after decompilation into packages/sfs/corpus/ in WP-5"
-    },
-    {
       "path": "plugins/shesha-developer/skills/shesha-form-edit",
       "action": "delete",
       "wp": "WP-7a",
       "reason": "The 46,926 B SKILL.md and its 32 references, replaced by one thin shesha-spec skill routing to packages/sfs"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/examples",
+      "action": "move",
+      "to": "packages/sfs/corpus",
+      "wp": "WP-7a",
+      "reason": "D-095 — the examples are a LIVE toolchain input (roundtrip + g-corpus-immutable read them); migrated to L1 rather than deleted"
+    },
+    {
+      "path": "plugins/shesha-developer/skills/shesha-form-edit/assets/components-kb",
+      "action": "move",
+      "to": "packages/sfs/kb",
+      "wp": "WP-7a",
+      "reason": "D-095 — the KB is gen-registry.mjs’ input (WP-2); migrated to L1 so the toolchain is self-contained under packages/"
     }
   ]
 }

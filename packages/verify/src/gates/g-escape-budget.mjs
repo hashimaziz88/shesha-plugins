@@ -25,7 +25,7 @@ export const inputPaths = [
   'packages/registry/data',
   'packages/sfs/schema/sfs.schema.json',
   'packages/sfs/test/fixtures',
-  'plugins/shesha-developer/skills/shesha-form-edit/assets/examples',
+  'packages/sfs/corpus',
   'package.json',
 ];
 

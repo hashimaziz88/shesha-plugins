@@ -18,13 +18,6 @@
       "reason": "Pre-existing dead command: the script ships nowhere in this repo and predates the rebuild. Its replacement is the generated registry, which WP-2 produces; inventing a substitute path now would document a second command that does not run.",
       "until": "BL-012",
       "decision": "D-063"
-    },
-    {
-      "path": "plugins/shesha-developer/skills/shesha-form-edit/SKILL.md",
-      "command": "mcp__shesha__search_forms",
-      "reason": "References the MCP surface that BL-008 ships; packages/mcp exports an empty tool list until then. The whole skill is deleted at WP-7a, whichever lands first.",
-      "until": "BL-008",
-      "decision": "D-063"
     }
   ]
 }

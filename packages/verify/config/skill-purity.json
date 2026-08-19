@@ -1,0 +1,36 @@
+{
+  "_comment": "g-skill-purity (D-068: skill purity is adjudicated once, at WP-7a) reads every literal from here and carries none of its own. It scans the design-pipeline skills — the routers this rebuild owns and guarantees pure — and proves each is a router, not a code package: no executable code file, no forbidden dir, no banned file, zero bytes of assets/. `skills` is this gate's declared scope; a rename must update it here and in prose-budget.json's tierA.paths (BL-007 owns the shesha-claude-designer -> shesha-designer rename). `assetWaivers` carry the one design skill whose asset debt BL-007's rewrite removes; each names skill, measured bytes, the WP/BL id that removes it, and the authorising decision. A waiver whose `until` is recorded complete in BUILD-LOG.md while the assets still exist is a hard failure — the same ratchet prose-budget uses.",
+  "skills": [
+    "plugins/shesha-developer/skills/shesha-claude-designer",
+    "plugins/shesha-developer/skills/shesha-design-comprehension",
+    "plugins/shesha-developer/skills/shesha-design-system",
+    "plugins/shesha-developer/skills/shesha-spec"
+  ],
+  "codeExtensions": [
+    ".js",
+    ".mjs",
+    ".cjs",
+    ".ts",
+    ".tsx",
+    ".jsx",
+    ".py"
+  ],
+  "forbiddenDirs": [
+    "node_modules",
+    "scripts"
+  ],
+  "bannedFiles": [
+    "package.json",
+    "README.md",
+    "CHANGELOG.md",
+    "INSTALLATION_GUIDE.md"
+  ],
+  "assetWaivers": [
+    {
+      "skill": "plugins/shesha-developer/skills/shesha-design-system",
+      "bytes": 64884,
+      "until": "BL-007",
+      "decision": "D-063"
+    }
+  ]
+}

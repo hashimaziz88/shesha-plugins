@@ -1,0 +1,18 @@
+{
+  "name": "sfs-corpus-intake",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Extract Shesha form configurations from SQL Server and measure their normalisation defects.",
+  "scripts": {
+    "test": "node --test",
+    "list": "node export-shesha-forms.mjs --list-databases",
+    "census": "node defect-census.mjs"
+  },
+  "dependencies": {
+    "mssql": "^11.0.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

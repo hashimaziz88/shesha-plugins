@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 94,
+  "count": 95,
   "decisions": [
     {
       "id": "D-001",
@@ -10,7 +10,7 @@
       "why": "§3",
       "consequence": "Assets are moved, not re-earned",
       "enforcedBy": [
-        "pending:WP-7a"
+        "g-disposition"
       ],
       "confirmation": "n/a"
     },
@@ -130,7 +130,7 @@
       "why": "§1.4",
       "consequence": "No fuzzy matcher with a downgrade",
       "enforcedBy": [
-        "pending:WP-7a"
+        "pending:WP-3a"
       ],
       "confirmation": "n/a"
     },
@@ -214,7 +214,7 @@
       "why": "§1.2#5",
       "consequence": "One pass produces styled output",
       "enforcedBy": [
-        "pending:WP-7a"
+        "g-skill-purity"
       ],
       "confirmation": "n/a"
     },
@@ -817,7 +817,7 @@
       "why": "`g-workspace-hygiene` failing six pre-existing skill helpers would delete working behaviour to satisfy a rule `g-skill-purity` owns",
       "consequence": "Skill purity is adjudicated once, at WP-7a",
       "enforcedBy": [
-        "pending:WP-7a"
+        "g-skill-purity"
       ],
       "confirmation": "n/a"
     },
@@ -1064,7 +1064,7 @@
     {
       "id": "D-089",
       "date": "2026-08-18",
-      "status": "decided",
+      "status": "superseded-by-D-095",
       "decision": "The `components-kb` and `capability-matrix.json` are NOT moved into `packages/registry/data`: WP-0's two disposition move rows are void per §2.8.1 (\"the KB stays as the extractor's intermediate\") and §2.8.5 (the matrix is a design-skill asset; only its `versions` map is deleted, D-087)",
       "why": "`gen-registry.mjs` reads the KB in place under `plugins/**`; relocating a 920 KB read-only input or a design-skill asset into L0 data would invert ownership",
       "consequence": "disposition.json carries no WP-2 move row; the KB and matrix keep their plugins paths",
@@ -1130,6 +1130,18 @@
       "consequence": "every pending:WP-5 decision now names a live enforcer; two net-new gates ship",
       "enforcedBy": [
         "structural:packages/verify/config/pending-budget.json"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-095",
+      "date": "2026-08-19",
+      "status": "decided",
+      "decision": "The `components-kb` relocates to `packages/sfs/kb` and the examples to `packages/sfs/corpus` (both L1) as WP-7a deletes `shesha-form-edit`; both stay read-only extractor/round-trip inputs, now self-contained under `packages/` with no toolchain code reaching into a plugin skill. `capability-matrix.json` is unaffected (D-087). Supersedes D-089",
+      "why": "D-089 kept the KB under plugins/** to avoid inverting ownership into L0 registry/data, but deleting the skill that hosted it forces a home, and packages/sfs (the compiler+registry toolchain) is its true owner — L1 does not invert ownership",
+      "consequence": "gen-registry.mjs reads the KB at its new path; the registry regenerates byte-identical; disposition carries WP-7a move rows for both",
+      "enforcedBy": [
+        "g-disposition"
       ],
       "confirmation": "n/a"
     }

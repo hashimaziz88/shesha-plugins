@@ -8,7 +8,10 @@
 //      through `git ls-files` so untracked scratch never leaks in.
 //   2. Junction-link the root node_modules into the temp root. 'junction' is
 //      required on Windows; 'dir' fails without administrator rights.
-//   3. Never copy node_modules/, .git/, .build/, runs/, or the SFS corpus.
+//   3. Never copy node_modules/, .git/, .build/, or runs/. The SFS corpus at
+//      packages/sfs/corpus IS copied: since D-095 relocated it to L1 it is a
+//      declared inputPath of g-corpus-immutable and g-escape-budget, so a staged
+//      copy that omitted it would fail those gates' baselines for the wrong reason.
 //   4. Assert the verdict equals `expect`, and that `expect` is fail or partial —
 //      a mutation expecting pass is a contract violation, not a passing test.
 //   5. Print `mutations=<n> seconds=<s>` and fail if s exceeds the ceiling.
@@ -24,7 +27,7 @@ import { repoRoot, readText } from '../../src/lib/fsx.mjs';
 import { gateFiles, loadGate } from '../../src/lib/gate-loader.mjs';
 
 const ROOT = repoRoot();
-const NEVER_COPY = new Set(['node_modules', '.git', '.build', 'runs', 'corpus']);
+const NEVER_COPY = new Set(['node_modules', '.git', '.build', 'runs']);
 
 /** @type {string[]} */
 const tmpRoots = [];

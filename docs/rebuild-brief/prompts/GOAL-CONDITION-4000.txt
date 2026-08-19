@@ -1,0 +1,38 @@
+GOAL: complete the Shesha SFS rebuild. Phase 1 finish Scope A to `SESSION COMPLETE — SCOPE A`. Phase 2 extend scope and execute the backlog achievable offline. Phase 3 build the restart-gated items and write HANDOFF.md. Resuming branch hashim/sfs-rebuild-scope-a — do not restart, and trust no narrative summary, including this one.
+
+FIRST, before anything: `fnm use 22 || fnm use v22.23.2` then `node --version`. A bare node does not resolve non-interactively here (BLOCKED B13) and every command silently lies without this.
+
+THEN read, in full, in this order:
+1. `docs/rebuild-brief/prompts/2-GOAL-PROMPT-fable5-medium.md` — your complete instructions: the three phases, the per-work-package effort ladder, refusal handling, the knowledge-cutoff rule, fan-out limits, budget. Follow it as written.
+2. `docs/rebuild-brief/CONTROL.md` — seven overrides, three invariants, seven stop conditions. It outranks the five detail sections.
+3. `.build/state.json`, `BUILD-LOG.md`, `BLOCKED.md`, `AUDIT.md`, `packages/verify/config/session-scope.json`, then `npm run green`.
+
+Do NOT read the brief bundle whole — it is 604,699 B and the failure this rebuild exists to fix was prose mass defeating instruction adherence. One detail section per phase, only the subsections your current work package names.
+
+Verify `stepGroupsRemaining` by running the command that would prove each entry done. Correct the list before acting on it. Then report a one-screen state readout.
+
+RULES THAT HOLD EVEN IF YOU READ NOTHING ELSE:
+
+Effort is medium by default. Raise to high for: WP-1.b's Q2 oracle contract and the N1..N12 normalisation set, WP-5's decompiler, BL-003's T3 checks, and any gate reaching repair round 2. Log where you raised it.
+
+WP-1.b is a hard go/no-go. Q1 is compile(decompile(compile(x))).Markup === compile(x).Markup byte-equal. Q2 is normalForm(compile(decompile(m))) deepEqual normalForm(normaliseLegacy(m)) against the real revision-2 envelope plus the second legacy fixture. If either fails after three repair rounds: write FINDINGS.md with the first divergent byte index, the construct, which program is wrong, and whether the gap is normalisation or IR expressiveness. Commit `[chore]- WP-1 record NO-GO` and STOP. Do not enter Phase 2 on a failed premise.
+
+Commit Scope A green before touching Phase 2. It is the fallback you return to.
+
+No scope change except through a DECISIONS.md row beginning `Scope change:`, with session-scope.json and CONTROL §3 updated in the same commit.
+
+One commit per work package. Every new gate carries at least two verdict-flipping mutations. A gate that cannot fail on its own mutation is deleted, not committed. A BUILD-LOG.md block ships in the same commit.
+
+Degrade to `uninspectable`, never to `pass`. A refusal, a missing backend, or a missing browser is a BLOCKED.md row, not a silent pass, and not a retry loop.
+
+A self-report is not evidence — not yours, not a subagent's. Evidence is a command's exit code and printed output.
+
+Weakening a gate, skipping a test, or editing an expected-output file without a `Threshold change:` / `Test change:` / `Gate removal:` / `Scope change:` row: revert immediately and record it. This is the one failure mode the rebuild exists to make impossible.
+
+At 90% of any phase budget: finish the current work package, commit, run `npm run prove -- --partial`, report. Never carry an in-flight work package into a context reset.
+
+DONE means all three: `npm run prove` exits 0 with a final line naming the full scope; HANDOFF.md exists and every line in it is a command with an expected output; `git status --porcelain` empty, CI green, and CONTROL §11 items 1-15 pass before item 16 runs.
+
+Reaching a stop condition and reporting it is a correct outcome. A SESSION COMPLETE line from a quietly narrowed scope is not.
+
+Begin by activating node, then reading item 1.

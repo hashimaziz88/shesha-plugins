@@ -1,0 +1,104 @@
+{
+  "wp": "WP-7a",
+  "gitSha": "0f033ccec390cee60f03d742447d5edc18f98c8b",
+  "at": "2026-08-19T07:25:19.259Z",
+  "verdict": "pass",
+  "tests": 363,
+  "gates": 17,
+  "mutations": 57,
+  "mutationSeconds": 49.5,
+  "greenSeconds": null,
+  "perGateCoverage": {
+    "g-artifact-naming": {
+      "walked": 514,
+      "checked": 514,
+      "uninspectable": 0
+    },
+    "g-brief-budget": {
+      "walked": 19,
+      "checked": 19,
+      "uninspectable": 0
+    },
+    "g-commands-executable": {
+      "walked": 51,
+      "checked": 32,
+      "uninspectable": 0
+    },
+    "g-commit-format": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-corpus-immutable": {
+      "walked": 13,
+      "checked": 13,
+      "uninspectable": 0
+    },
+    "g-coverage-single-impl": {
+      "walked": 205,
+      "checked": 205,
+      "uninspectable": 0
+    },
+    "g-decisions": {
+      "walked": 567,
+      "checked": 567,
+      "uninspectable": 0
+    },
+    "g-disposition": {
+      "walked": 45,
+      "checked": 45,
+      "uninspectable": 0
+    },
+    "g-escape-budget": {
+      "walked": 4,
+      "checked": 4,
+      "uninspectable": 0
+    },
+    "g-gate-contract": {
+      "walked": 170,
+      "checked": 170,
+      "uninspectable": 0
+    },
+    "g-githook-contract": {
+      "walked": 7,
+      "checked": 7,
+      "uninspectable": 0
+    },
+    "g-no-secrets-or-scratch": {
+      "walked": 8,
+      "checked": 8,
+      "uninspectable": 0
+    },
+    "g-oracle-independence": {
+      "walked": 121,
+      "checked": 121,
+      "uninspectable": 0
+    },
+    "g-prose-budget": {
+      "walked": 302,
+      "checked": 302,
+      "uninspectable": 0
+    },
+    "g-registry-completeness": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-skill-purity": {
+      "walked": 18,
+      "checked": 17,
+      "uninspectable": 0
+    },
+    "g-workspace-hygiene": {
+      "walked": 149,
+      "checked": 149,
+      "uninspectable": 0
+    }
+  },
+  "exitCodes": {
+    "typecheck": 0,
+    "test": 0,
+    "gates": 0,
+    "mutations": 0
+  }
+}

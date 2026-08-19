@@ -26,7 +26,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..', '..', '..');
 const REF = '0.45.1';
 const DATA = `packages/registry/data/${REF}`;
-const KB = 'plugins/shesha-developer/skills/shesha-form-edit/assets/components-kb';
+const KB = 'packages/sfs/kb';
 const PINNED_COMMIT = '3418e292f4422c1b515b78a16d67f20a4bae7db3';
 
 /** The 13 priority types (§2.8.4). */
