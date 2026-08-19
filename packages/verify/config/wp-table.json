@@ -59,11 +59,17 @@
       "id": "WP-3a.2",
       "order": 9,
       "inScope": true,
-      "goal": "T1 schema tier, T2 registry tier (22 checks), verify.mjs driver, and the coverage gates"
+      "goal": "Tier ladder: T1 schema tier (10 checks), T2 registry tier (22 checks), verify.mjs driver — the functional verifier ladder (D-098 split)"
+    },
+    {
+      "id": "WP-3a.3",
+      "order": 10,
+      "inScope": true,
+      "goal": "Coverage-proof layer: g-exit-codes, g-mutation-coverage, g-defect-class-coverage, defect-classes.json, the mutation-harness kind:fixture extension, and the tier fixtures (D-098 split)"
     },
     {
       "id": "WP-10",
-      "order": 10,
+      "order": 11,
       "inScope": true,
       "goal": "The integration proof and the anti-drift checklist"
     },

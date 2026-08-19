@@ -25,6 +25,7 @@ A row whose `Blocks` is not `No` means the item is either in scope or the sessio
 | GAP-001 | Extend the action-intent argMap so production `Show Dialog`/`Submit` configs (with framework args beyond the 6-intent grammar) lift instead of escaping — makes employee-table round-trip clean instead of triaged | §2.1.7 | WP-5.b | No | `npm run sfs -- roundtrip --scope packages/sfs/config/roundtrip-expected.json` with employee-table MOVED to declaredSubset clean -> rate stays >= 0.90 |
 | GAP-nnn | Compiler gaps discovered in WP-5 triage | §2.5 | WP-5 | No | Each carries a `test.todo` fixture under `packages/sfs/test/fixtures/gaps/` naming its id |
 | PROM-nnn | SFS promotions discovered in WP-5 triage | §2.5 | WP-5 | No | Each carries prop names and the count of forms needing it |
+| BL-023 | Compiler emits `resolvedFrom` colour provenance on every resolved colour, so T2.17 verifies at the output tier that each hex is a resolved brand token (not a hardcoded literal) rather than disposing na | §2.3 | WP-3a.2 | No | `node packages/verify/src/tiers/t2-registry.mjs` with a hardcoded-hex fixture -> T2.17 fails |
 
 ## Notes
 

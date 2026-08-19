@@ -514,3 +514,38 @@ Created the read layer the whole verifier ladder stands on:
   g-coverage-single-impl enforces exactly-one-definition-in-walk.mjs) returning `Visit[]`.
 - `packages/verify/test/walk.test.mjs` — 5 tests: every channel reached, slot attribution,
   parent/where location, cycle-safety, and non-vacuity/descent on a real corpus form.
+
+## WP-3a.2 — The verifier tier ladder: T1, T2, verify.mjs — 2026-08-19
+
+Status: complete
+Gate: `node packages/verify/src/verify.mjs .build/wp3a --screen inline-editable-table --tiers t1,t2` -> exit 0 (t1 pass, t2 pass, 0 failures)
+Evidence: packages/verify/evidence/WP-3a.2.json
+Decisions added: D-097 (Scope change: registry completed for the used non-priority types + the T2 dispositions); D-098 (Scope change: WP-3a splits again into WP-3a.2 ladder + WP-3a.3 coverage layer, CONTROL §6). BL-023 raised.
+Blocked: none new
+Next: WP-3a.3
+
+The functional verifier ladder over one screen. `verify.mjs` compiles the screen into the
+run-dir, runs the requested tiers in order, combines them to `result = worst(pass<partial<fail)`
+(a requested result-tier reporting notRun forces fail), writes `<run>/screens/<screen>.verdict.json`,
+and exits `exitFor(result)` with the pass-but-requested-tier-notRun -> 3 rule (§3.2.0).
+
+T1 (`t1-schema.mjs`, 10 checks T1.01-T1.10) validates one compiled form + sidecar through the one
+walker: artifact parses, envelope contract (23 fields, Id===OriginId, Markup is a JSON string),
+every component has a non-empty non-token unique id, every parentId resolves to a component / a
+logical sidecar node / "root", every id is the recomputed uuidv5 (`nodeId` from the sidecar
+sfsPath; a v4-shaped id fails; `--legacy` -> na), >=1 component, and the sidecar covers every
+component. The WP-4 dir-mode `t1Schema` is preserved. 7 tests (accepts clean, rejects
+no-id/dup-id/v4-id/zero-components).
+
+T2 (`t2-registry.mjs`, 22 checks T2.01-T2.22) is exact registry matching that replaces the deleted
+validate-blocks.js (D-011): types/versions/props/value-types/enums/required/slots/nested/deny/
+styling/breakpoints/formSettings, all DATA from `load(ref)`. It PASSES clean compiler output and
+rejects real defects (5 tests). Reaching that meant completing the registry (D-097): gen-registry
+now reads `kb.settingsFields[].path` and merges authored props (container flex props +
+dataContext.uniqueStateId, verified in the framework clone); the compiler now records `meta.kind`
+in the sidecar (Markup untouched, Q1/Q2 unaffected); T2.17 is subsumed by TOK-2010 (BL-023),
+T2.15 flags only non-empty-base stylingBox dup, T2.20 treats none/null/empty as inactive.
+
+The registry `load()` view gained priorityTypes/requiredProps/deny/formSettings/actions/itemSchemas.
+validate.mjs stays 121/121, priority full 13/13. The coverage gates that PROVE the tiers stay
+honest (g-mutation-coverage etc.) + the fixtures are WP-3a.3.

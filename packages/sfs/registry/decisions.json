@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 96,
+  "count": 98,
   "decisions": [
     {
       "id": "D-001",
@@ -1152,6 +1152,30 @@
       "decision": "Scope change: WP-3a splits into WP-3a.1 (the verifier registry read-API `load()` + `slots.json`/`required-props.json`/`deny.json` and the single tree walker `walk.mjs`) and WP-3a.2 (T1 schema tier, T2 registry 22 checks, `verify.mjs`, the coverage gates); both stay in scope. `WP-3a` is kept in wp-table as an inScope:false umbrella so the eight pending:WP-3a T2/verify decisions still resolve until WP-3a.2 ships their enforcers",
       "why": "WP-3a.1 read-layer+walker is green and committable now, but T2 22 checks + verify + gates + 42 fixtures exceed one context; CONTROL §6 forbids half-committing and blesses the WP-N.a/.b split with a Scope change row (mirrors D-070, D-090)",
       "consequence": "eleven ids in session-scope; no work leaves the session; prove.mjs requires WP-3a.1 and WP-3a.2",
+      "enforcedBy": [
+        "structural:packages/verify/config/session-scope.json"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-097",
+      "date": "2026-08-19",
+      "status": "decided",
+      "decision": "Scope change: WP-3a.2 completes the registry for the non-priority types the clean/corpus forms use (container, dataContext, card, text, ...), pulling that slice of BL-004/BL-020 into scope — gen-registry reads `kb.settingsFields[].path` names and MERGES authored props; container gains alignItems/flexWrap/direction and dataContext uniqueStateId, all verified present in the framework clone at the pinned commit. T2 dispositions: T2.17 na (subsumed by TOK-2010, output provenance is BL-023), T2.15 flags only non-empty-base stylingBox dup, T2.20 reads the recorded meta.kind and treats none/null/empty as inactive",
+      "why": "T2 cannot conform against clean compiler output while the registry lacks props the compiler legitimately emits; the brief schedules WP-3a last precisely because T2 needs the completed registry, and degrading non-priority T2.04 to uninspectable would make T2 partial and fail its acceptance",
+      "consequence": "verify --tiers t1,t2 on the clean form exits 0; validate 121/121, priority full 13/13",
+      "enforcedBy": [
+        "structural:packages/verify/test/t2-registry.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-098",
+      "date": "2026-08-19",
+      "status": "decided",
+      "decision": "Scope change: WP-3a splits a second time (after D-096) — WP-3a.2 is the tier ladder (T1 + T2 + verify.mjs), WP-3a.3 is the coverage-proof layer (g-exit-codes, g-mutation-coverage, g-defect-class-coverage, defect-classes.json, the mutation-harness kind:fixture extension, and the tier fixtures); both stay in scope",
+      "why": "the tier ladder is green, tested, and passes verify --tiers t1,t2 -> exit 0 now, while the coverage gates + fixtures + harness extension are a further context; CONTROL §6 blesses the WP-N.a/.b split for a WP exceeding one context and WP-3a is the acknowledged-largest (mirrors D-070, D-090, D-096)",
+      "consequence": "twelve ids in session-scope; no work leaves the session; prove.mjs requires WP-3a.2 and WP-3a.3",
       "enforcedBy": [
         "structural:packages/verify/config/session-scope.json"
       ],

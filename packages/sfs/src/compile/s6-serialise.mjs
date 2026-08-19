@@ -149,6 +149,7 @@ export function serialise(tree, ctx) {
 
   const meta = {
     form: `${doc.module}/${doc.form}`,
+    kind: doc.kind,
     nodes: tree.nodes.map((n) => ({ id: n.id, sfsPath: n.sfsPath, name: n.name, type: n.type })),
   };
 

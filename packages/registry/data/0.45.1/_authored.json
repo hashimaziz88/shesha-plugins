@@ -1,5 +1,5 @@
 {
-  "_provenance": "Authored compiler overlay for the records the compiler emits. gen-registry.mjs merges the KB-derived 121-record base UNDER this; these fields win. The KB cannot supply sfsNode, editModeChannel, breakpointChannels, dimensionDefaults or the measured defaults — those are the compiler contract and live here.",
+  "_provenance": "Authored compiler overlay for the records the compiler emits. gen-registry.mjs merges the KB-derived 121-record base UNDER this; these fields win. The KB cannot supply sfsNode, editModeChannel, breakpointChannels, dimensionDefaults or the measured defaults — those are the compiler contract and live here. D-097: container flex props (alignItems, flexWrap, direction) and dataContext.uniqueStateId added as compiler-emitted prop names, verified present in the framework clone at the pinned commit.",
   "components": {
     "card": {
       "version": 3,
@@ -95,7 +95,27 @@
         "minWidth": "0px",
         "maxWidth": "auto"
       },
-      "editModeChannel": "container"
+      "editModeChannel": "container",
+      "props": {
+        "alignItems": {
+          "valueType": null,
+          "valueTypeSource": "framework-verified",
+          "required": null,
+          "requiredSource": "unknown"
+        },
+        "flexWrap": {
+          "valueType": null,
+          "valueTypeSource": "framework-verified",
+          "required": null,
+          "requiredSource": "unknown"
+        },
+        "direction": {
+          "valueType": null,
+          "valueTypeSource": "framework-verified",
+          "required": null,
+          "requiredSource": "unknown"
+        }
+      }
     },
     "text": {
       "version": 5,
@@ -145,7 +165,15 @@
         "sortMode": "standard",
         "allowReordering": "no"
       },
-      "editModeChannel": null
+      "editModeChannel": null,
+      "props": {
+        "uniqueStateId": {
+          "valueType": null,
+          "valueTypeSource": "framework-verified",
+          "required": null,
+          "requiredSource": "unknown"
+        }
+      }
     },
     "datatable": {
       "version": 29,

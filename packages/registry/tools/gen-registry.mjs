@@ -135,6 +135,24 @@ export function build(commit) {
       if (name.startsWith('_')) continue; // designer-internal accessors, never authored
       props[name] = { valueType: null, valueTypeSource: 'unknown', required: null, requiredSource: 'unknown' };
     }
+    // The KB's settingsFields is the component's full designer field surface — its
+    // legal prop names beyond the resolvedProps closure (the container flex props
+    // live only here). The top segment of a dotted path (`background.color` ->
+    // `background`) is the prop key on the node. Designer-internal accessors
+    // (`settingsTabs`, `_`-prefixed) are never authored (D-097).
+    const fieldNames = new Set();
+    /** @param {any} x */
+    const collectPaths = (x) => {
+      if (!x || typeof x !== 'object') return;
+      if (Array.isArray(x)) { x.forEach(collectPaths); return; }
+      if (typeof x.path === 'string' && x.path) fieldNames.add(x.path.split('.')[0]);
+      for (const v of Object.values(x)) if (v && typeof v === 'object') collectPaths(v);
+    };
+    collectPaths(kb.settingsFields);
+    for (const name of fieldNames) {
+      if (name.startsWith('_') || name === 'settingsTabs') continue;
+      if (!(name in props)) props[name] = { valueType: null, valueTypeSource: 'kb-settings-field', required: null, requiredSource: 'unknown' };
+    }
 
     const designerInternal = DESIGNER_INTERNAL.has(type);
     const versionUnknown = VERSION_UNKNOWN.has(type);
@@ -200,7 +218,10 @@ export function build(commit) {
     // authored overlay owns the compiler contract, so base's object must not leak
     // onto a compiler record: keep it only where the overlay declared its own.
     if (!Object.prototype.hasOwnProperty.call(overlay, 'slots')) delete merged.slots;
-    if (!merged.props) merged.props = {};
+    // props MERGE, they do not replace: the overlay ADDS compiler-known prop names
+    // (container's flex props, dataContext's uniqueStateId — verified against the
+    // framework clone, D-097) to the KB-derived set, never wiping it.
+    merged.props = { ...(base.props || {}), ...(overlay.props || {}) };
     merged.propsCompleteness = completenessOf(merged.props);
     components[type] = merged;
   }
