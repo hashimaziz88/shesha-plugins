@@ -180,7 +180,7 @@
     },
     "refListRef": {
       "type": "string",
-      "pattern": "^[A-Za-z][A-Za-z0-9_.-]*/[A-Za-z][A-Za-z0-9_]*$"
+      "pattern": "^[A-Za-z][A-Za-z0-9_.-]*/[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)*$"
     },
     "entityPath": {
       "type": "string",
@@ -465,11 +465,15 @@
         "do": {
           "enum": [
             "openDialog",
+            "closeDialog",
+            "confirm",
             "navigate",
             "refresh",
             "exportExcel",
             "script",
-            "submit"
+            "submit",
+            "startEdit",
+            "cancelEdit"
           ]
         },
         "with": {
@@ -539,7 +543,7 @@
                     ]
                   },
                   "args": {
-                    "type": "object"
+                    "type": ["object", "string"]
                   },
                   "relay": {
                     "type": "object"
@@ -661,11 +665,15 @@
         "do": {
           "enum": [
             "openDialog",
+            "closeDialog",
+            "confirm",
             "navigate",
             "refresh",
             "exportExcel",
             "script",
-            "submit"
+            "submit",
+            "startEdit",
+            "cancelEdit"
           ]
         },
         "with": {

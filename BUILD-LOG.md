@@ -993,3 +993,38 @@ props/versions/enums question to it (patterns in `rag-forbidden.json`); its dete
 `source-patterns.json` so the gate never matches its own source. The gate ratchet rises 30 -> 31.
 `prove-b` gains its `precedent index` step.
 
+## WP-6 — Corpus round-trip, the biggest-wins lift (4 -> 7 clean) — 2026-08-20
+
+Status: complete
+Gate: `npm run sfs -- roundtrip --scope packages/sfs/config/roundtrip-expected.json` -> exit 0, `rate 1.00 (clean 7/7)`; `node packages/verify/src/gates/g-escape-budget.mjs` -> exit 0 (rate 0.20 -> 0.125); `npm run green` -> exit 0
+Evidence: packages/verify/evidence/WP-6.json
+Decisions added: D-111 (the datatable-column + action-grammar lift; enforcer g-escape-budget). Closes GAP-001; refines BL-024 to name the remaining corpus node-types
+Blocked: none new — the four still-triaged forms need the sectionSeparator/collapsiblePanel/tabs node-types (BL-024)
+Next: WP-2b (needs the framework source at the pinned commit — see the resource note)
+
+WP-6/BL-002 asks the corpus round-trip to clear `rate >= 0.90`. The scope answer for this session
+was "biggest wins only" (the user's directive): lift the shared root-cause defects that clear the most
+forms, and leave the long tail — the container node-types no *cheap* fix reaches — as backlog. Two
+root causes were doing all the damage. First, the **datatable-column decompile** produced schema-invalid
+SFS on four forms (DEC-7001): it copied an empty `caption` (min-length 1) and an empty `propertyName`
+into a `bind` the pattern rejects, emitted no SFS node for an `action` column, and produced a dotted
+`referenceListId.name` (`Shesha.RequirementsStudio.RsStatus`) the `refListRef` pattern forbade.
+`liftColumns` now omits an empty bind/caption, lifts an action column to a `do` (or drops it as a
+counted escape, DEC-7306, when its config will not lift), and the schema's `refListRef` name segment
+allows the dotted qualified names production actually carries; the compiler's action-column path is its
+column index (unique when two action columns share or drop a caption). Second, **the action-intent
+grammar** (§2.1.7, GAP-001) voided the lift of every production `Show Dialog`/`Submit`/edit config:
+`openDialog` gained an `argIgnore` for the framework-internal `version`/`customWidth`/`showCloseIcon`
+(regenerated, not user-meaningful), the `confirm` (Show Confirmation Dialog), `closeDialog`, `startEdit`
+and `cancelEdit` intents were added (all measured from the corpus, the same provenance basis as the
+seed six), the action `do` enum grew to admit them, and `openDialog`'s `with.args` accepts the script
+string `formArguments` genuinely is. Together these raised the corpus round-trip from **4 to 7 clean
+and stable** forms (employee-table, employee-create, rs-table joined the declared clean set) and closed
+GAP-001; `g-escape-budget` ratcheted the structural-escape rate down 0.20 -> 0.125. The four forms that
+remain `triageOnly` escape *only* on three container/leaf node-types the compiler does not yet emit —
+`sectionSeparator`, `collapsiblePanel`->`panel`, `tabs` — each of which needs a registry `sfsNode`
+overlay, bespoke compiler expansion, and a decompiler lift (tabs also feeds T3's tabKey). Those are the
+genuine BL-024 long tail; lifting them to reach all-12 is WP-6's remaining path, best paired with the
+framework source (for D-097-faithful node contracts). `prove-b` gains its `corpus round-trip` step,
+which reports the honest 7-of-12 breakdown, not a bare rate.
+

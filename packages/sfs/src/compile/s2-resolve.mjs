@@ -312,11 +312,13 @@ function resolveRegion(reg, region, parentPath, diagnostics) {
   }
 
   if (Array.isArray(region.columns)) {
-    out.columns = region.columns.map((raw) => {
+    out.columns = region.columns.map((raw, i) => {
       const col = /** @type {Record<string, unknown>} */ (raw);
       const bind = col.bind === undefined ? null : camelPath(String(col.bind));
-      // A row-action column has no binding, so its path segment is its caption.
-      const seg = bind === null ? `action:${String(col.caption || 'action')}` : bind;
+      // A row-action column has no binding; its path segment is its column index, which
+      // is stable across the round-trip and unique even when two action columns share
+      // (or drop) a caption.
+      const seg = bind === null ? `action:${i}` : bind;
       const where = `${sfsPath}#col:${seg}`;
       if (bind !== null) {
         // No backend in this session, so every binding is uninspectable and counted.

@@ -1,7 +1,7 @@
 {
   "_comment": "§2.1.9 escape budget over a DECLARED scope. g-escape-budget recomputes the structural-escape rate over the clean fixtures (which must be 0) and the round-trip declared subset, fails when the rate exceeds maxStructuralEscapeRate, and — the ratchet — fails when the measured rate is MORE than 0.05 below the cap without the cap being lowered in the same commit. The direction is down only.",
   "scope": ["packages/sfs/test/fixtures/clean", "config:roundtrip-expected.json#declaredSubset"],
-  "maxStructuralEscapeRate": 0.20,
-  "measuredRate": 0.20,
-  "measuredAt": "WP-5.b"
+  "maxStructuralEscapeRate": 0.15,
+  "measuredRate": 0.125,
+  "measuredAt": "WP-6"
 }

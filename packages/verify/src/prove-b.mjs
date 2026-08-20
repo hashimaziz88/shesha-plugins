@@ -228,6 +228,21 @@ async function runPrecedent(/** @type {string} */ root) {
     : { ok: false, lines: [`precedent: notImplemented=${notImplemented} method=${r && r.method} results=${r && r.results.length} ragOk=${ragOk}`] };
 }
 
+/** WP-6: the corpus round-trip clears its declared subset at rate >= 0.90 (BL-002). */
+async function runRoundtrip(/** @type {string} */ root) {
+  const { roundtrip } = await import(pathToFileURL(path.join(root, 'packages/sfs/src/roundtrip.mjs')).href);
+  const r = /** @type {any} */ (roundtrip(root, 'packages/sfs/config/roundtrip-expected.json'));
+  const clean = r.report.cleanActual.length;
+  const rate = r.report.rate;
+  const triaged = r.report.triaged.length;
+  const escaped = r.report.escapes.filter((/** @type {any} */ e) => e.structuralEscapes > 0).length;
+  const total = clean + escaped + triaged;
+  const ok = r.ok && rate >= 0.90 && clean >= 7;
+  return ok
+    ? { ok: true, lines: [`corpus round-trip: ${clean} of ${total} forms clean+stable at rate ${rate.toFixed(2)} (>= 0.90, was 4); ${escaped} documented escape (BL-021), ${triaged} await BL-024 container node-types (sectionSeparator, collapsiblePanel, tabs); the datatable-column + action-grammar lift closed GAP-001 (BL-002, D-111)`] }
+    : { ok: false, lines: [`round-trip: rate=${rate.toFixed(2)} (want >= 0.90), clean=${clean} (want >= 7), ok=${r.ok}; ${r.report.problems.join('; ') || 'no problems'}`] };
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -246,6 +261,7 @@ const STEPS = [
   { id: 'metadata', label: 'T3 metadata substrate', needs: 'WP-3b.3c', impl: runMetadata },
   { id: 'checkref-lift', label: 'check-references lift', needs: 'WP-3b.4', impl: runCheckRefLift },
   { id: 'precedent', label: 'precedent index', needs: 'WP-9', impl: runPrecedent },
+  { id: 'roundtrip', label: 'corpus round-trip', needs: 'WP-6', impl: runRoundtrip },
 ];
 
 /**

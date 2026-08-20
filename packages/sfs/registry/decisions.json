@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 110,
+  "count": 111,
   "decisions": [
     {
       "id": "D-001",
@@ -1322,6 +1322,18 @@
       "consequence": "the package ships behaviour (no E_NOT_IMPLEMENTED); an empty index is a hard error and an embedding request degrades to shape",
       "enforcedBy": [
         "g-rag-isolation"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-111",
+      "date": "2026-08-20",
+      "status": "decided",
+      "decision": "WP-6 raises the corpus round-trip 4-&gt;7 clean: the datatable-column decompile lifts an action column to a `do` (no empty bind/caption; a bind-less column's path is its index) and allows dotted refListRef names, and the action grammar gains openDialog argIgnore (version/customWidth/showCloseIcon) plus closeDialog/confirm/startEdit/cancelEdit intents and their `do`-enum entries — closing GAP-001; the four triaged forms escape only on the sectionSeparator/collapsiblePanel/tabs node-types (BL-024)",
+      "why": "production dialog/edit/column action configs carried args and shapes the six-intent grammar could not express, so faithful forms escaped",
+      "consequence": "g-escape-budget ratchets the escape rate 0.20-&gt;0.125 down-only",
+      "enforcedBy": [
+        "g-escape-budget"
       ],
       "confirmation": "n/a"
     }

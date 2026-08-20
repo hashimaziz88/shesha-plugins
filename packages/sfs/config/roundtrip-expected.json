@@ -1,20 +1,20 @@
 {
-  "_comment": "§2.5 declared round-trip subset. The CLEAN set must match exactly (setMustMatchExactly): a form expected clean that is not is a fail, and an escape that comes out clean is also a fail. Byte-equality with the ORIGINAL is deliberately NOT required — the corpus carries defects. triageOnly forms are decompiled, reported uninspectable, and never contribute to pass/fail. inline-editable-table is the legacy seed's synthesised envelope (git-mv'd out of examples in WP-1).",
+  "_comment": "§2.5 declared round-trip subset. The CLEAN set must match exactly (setMustMatchExactly): a form expected clean that is not is a fail, and an escape that comes out clean is also a fail. Byte-equality with the ORIGINAL is deliberately NOT required — the corpus carries defects. triageOnly forms are decompiled, reported uninspectable, and never contribute to pass/fail. inline-editable-table is the legacy seed's synthesised envelope (git-mv'd out of examples in WP-1). WP-6 raised the clean set from 4 to 7: the datatable column lift (DEC-7306) and the action-intent grammar (openDialog argIgnore, closeDialog/confirm/startEdit/cancelEdit, D-111) cleared employee-table, employee-create and rs-table. The four forms still in triageOnly escape ONLY on the three container node-types the compiler does not yet emit (sectionSeparator, collapsiblePanel->panel, tabs), tracked in BL-024; lifting those is WP-6's remaining path to all-12.",
   "declaredSubset": [
     { "form": "entity-datalist",       "path": "packages/sfs/corpus/entity-datalist.json",   "expect": "clean" },
     { "form": "entity-card",           "path": "packages/sfs/corpus/entity-card.json",       "expect": "clean" },
     { "form": "rs-link-add-dialog",    "path": "packages/sfs/corpus/rs-link-add-dialog.json", "expect": "clean" },
     { "form": "inline-editable-table", "path": "packages/sfs/test/fixtures/legacy/inline-editable-table.envelope.json",                   "expect": "clean" },
+    { "form": "employee-table",        "path": "packages/sfs/corpus/employee-table.json",    "expect": "clean" },
+    { "form": "employee-create",       "path": "packages/sfs/corpus/employee-create.json",   "expect": "clean" },
+    { "form": "rs-table",              "path": "packages/sfs/corpus/rs-table.json",          "expect": "clean" },
     { "form": "standalone-create",     "path": "packages/sfs/corpus/standalone-create.json", "expect": "structural-escape", "cause": "columns (D-112) and a Submit action config the intent grammar cannot express", "backlog": "BL-021" }
   ],
   "triageOnly": [
-    { "form": "employee-table",                        "path": "packages/sfs/corpus/employee-table.json",                        "note": "Show Dialog action config exceeds the 6-intent grammar; escapes. compiler-gap", "backlog": "GAP-001" },
-    { "form": "rs-detail-with-header",                 "path": "packages/sfs/corpus/rs-detail-with-header.json" },
-    { "form": "employee-detail-with-child-tables",     "path": "packages/sfs/corpus/employee-detail-with-child-tables.json" },
-    { "form": "employee-detail-without-child-tables",  "path": "packages/sfs/corpus/employee-detail-without-child-tables.json" },
-    { "form": "employee-create",                       "path": "packages/sfs/corpus/employee-create.json" },
-    { "form": "rs-create-dialog",                      "path": "packages/sfs/corpus/rs-create-dialog.json" },
-    { "form": "rs-table",                              "path": "packages/sfs/corpus/rs-table.json" }
+    { "form": "rs-detail-with-header",                 "path": "packages/sfs/corpus/rs-detail-with-header.json",                "note": "escapes on sectionSeparator and tabs (container node-types not yet emitted)", "backlog": "BL-024" },
+    { "form": "employee-detail-with-child-tables",     "path": "packages/sfs/corpus/employee-detail-with-child-tables.json",    "note": "escapes on collapsiblePanel and tabs (container node-types not yet emitted)", "backlog": "BL-024" },
+    { "form": "employee-detail-without-child-tables",  "path": "packages/sfs/corpus/employee-detail-without-child-tables.json", "note": "escapes on collapsiblePanel (container node-type not yet emitted)", "backlog": "BL-024" },
+    { "form": "rs-create-dialog",                      "path": "packages/sfs/corpus/rs-create-dialog.json",                    "note": "escapes on sectionSeparator (leaf node-type not yet emitted)", "backlog": "BL-024" }
   ],
-  "gate": { "validates": 5, "clean": 4, "setMustMatchExactly": true, "minRate": 0.90 }
+  "gate": { "validates": 8, "clean": 7, "setMustMatchExactly": true, "minRate": 0.90 }
 }

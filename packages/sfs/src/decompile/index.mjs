@@ -229,7 +229,13 @@ function liftAction(reg, cfg, regionNameById, diagnostics) {
   for (const [sfsKey, fwKey] of Object.entries(/** @type {Record<string, string>} */ (spec.argMap))) {
     reverseMap[fwKey] = sfsKey;
   }
+  // Framework-internal args the compiler regenerates (the action-config `version`, a
+  // `customWidth` paired with a set `modalWidth`, a `showCloseIcon` that is always on):
+  // dropped on lift regardless of value, so a production config carrying them lifts
+  // instead of voiding (GAP-001, §2.1.7).
+  const ignore = Array.isArray(spec.argIgnore) ? /** @type {string[]} */ (spec.argIgnore) : [];
   for (const [fwKey, value] of Object.entries(args)) {
+    if (ignore.includes(fwKey)) continue;
     const sfsKey = reverseMap[fwKey];
     if (sfsKey === undefined) {
       // An unmapped framework argument equal to the intent's default is regenerated;
@@ -537,7 +543,9 @@ export function decompile(input, options = {}) {
         const lifted = liftAction(reg, rowClick, regionNameById, diagnostics);
         if (lifted !== null) region.onRowClick = lifted;
       }
-      region.columns = liftColumns(reg, mk, regionNameById, diagnostics);
+      const lifted = liftColumns(reg, mk, regionNameById, diagnostics);
+      region.columns = lifted.columns;
+      structuralEscapes += lifted.escapes;
     }
     if (String(mk.type) === 'buttonGroup' && Array.isArray(mk.items)) {
       const lifted = liftButtons(reg, /** @type {Record<string, unknown>[]} */ (mk.items), regionNameById, diagnostics);
@@ -738,23 +746,33 @@ function liftResponsive(mk, kids, regions) {
 }
 
 /**
- * datatable items -> SFS columns (section 2.5 step 6 for the column actions).
+ * datatable items -> SFS columns (section 2.5 step 6 for the column actions). A `data`
+ * column carries a `bind`; an `action` column carries a `do` lifted from its config.
+ * The crud-operations column is regenerated from `inline`, never lifted. A column that
+ * would carry neither a bind nor an expressible action (an action column whose config
+ * the intent grammar cannot lift) is a structural escape: it is dropped from the
+ * columns and counted, so the table stays schema-valid and the form is triaged.
  * @param {Registry} reg
  * @param {Record<string, unknown>} mk
  * @param {Map<string, string>} regionNameById
  * @param {Diagnostic[]} diagnostics
- * @returns {Record<string, unknown>[]}
+ * @returns {{columns:Record<string, unknown>[], escapes:number}}
  */
 function liftColumns(reg, mk, regionNameById, diagnostics) {
   const items = Array.isArray(mk.items) ? /** @type {Record<string, unknown>[]} */ (mk.items) : [];
   /** @type {Record<string, unknown>[]} */
   const out = [];
+  let escapes = 0;
   for (const item of items) {
     if (item.columnType === 'crud-operations') continue; // regenerated from `inline`
     /** @type {Record<string, unknown>} */
     const col = {};
-    if (typeof item.propertyName === 'string') col.bind = camelPath(item.propertyName);
-    col.caption = item.caption;
+    // bind only for a real, non-empty propertyName; an action column has none, and an
+    // empty string would fail the entityPath pattern.
+    if (typeof item.propertyName === 'string' && item.propertyName !== '') col.bind = camelPath(item.propertyName);
+    // caption is optional (schema anyOf is bind|do); the empty caption of an action
+    // column is not emitted rather than failing minLength 1.
+    if (typeof item.caption === 'string' && item.caption !== '') col.caption = item.caption;
     if (typeof item.width === 'number') col.width = item.width;
     if (typeof item.minWidth === 'number') col.min = item.minWidth;
     if (Object.hasOwn(item, 'maxWidth')) col.max = item.maxWidth;
@@ -793,9 +811,17 @@ function liftColumns(reg, mk, regionNameById, diagnostics) {
       const lifted = liftAction(reg, item.actionConfiguration, regionNameById, diagnostics);
       if (lifted !== null) col.do = lifted;
     }
+    // Every column must carry a bind or an expressible action (schema anyOf). A column
+    // with neither — an action column whose config the intent grammar cannot lift — is
+    // a structural escape (§2.5 step 6): drop it and count it, keeping the table valid.
+    if (col.bind === undefined && col.do === undefined) {
+      escapes += 1;
+      diagnostics.push({ severity: 'info', code: 'DEC-7306', message: `column "${String(item.propertyName || item.caption || item.columnType)}" carries no bind and an action the intent grammar cannot express; dropped as a structural escape` });
+      continue;
+    }
     out.push(col);
   }
-  return out;
+  return { columns: out, escapes };
 }
 
 /**

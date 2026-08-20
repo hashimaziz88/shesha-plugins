@@ -15,9 +15,36 @@
         "args": "formArguments"
       },
       "argDefaults": { "footerButtons": "default", "showModalFooter": true, "version": 0 },
+      "argIgnore": ["version", "customWidth", "showCloseIcon"],
       "buttonAction": "dialogue",
       "measured": true,
       "evidence": "production form"
+    },
+    "closeDialog": {
+      "actionName": "Close Dialog",
+      "actionOwner": "shesha.common",
+      "with": [],
+      "argMap": {},
+      "argDefaults": {},
+      "buttonAction": "dialogue",
+      "measured": true,
+      "evidence": "production form (employee-table dialog footer)"
+    },
+    "confirm": {
+      "actionName": "Show Confirmation Dialog",
+      "actionOwner": "shesha.common",
+      "with": ["title", "content", "okText", "cancelText", "danger"],
+      "argMap": {
+        "title": "title",
+        "content": "content",
+        "okText": "okText",
+        "cancelText": "cancelText",
+        "danger": "danger"
+      },
+      "argDefaults": {},
+      "buttonAction": "dialogue",
+      "measured": true,
+      "evidence": "production form (rs-table row action)"
     },
     "navigate": {
       "actionName": "Navigate",
@@ -68,6 +95,26 @@
       "buttonAction": "submit",
       "measured": false,
       "evidence": "debug.md row 17"
+    },
+    "startEdit": {
+      "actionName": "Start Edit",
+      "actionOwner": "shesha.form",
+      "with": [],
+      "argMap": {},
+      "argDefaults": {},
+      "buttonAction": "startFormEdit",
+      "measured": true,
+      "evidence": "production form (detail toolbar)"
+    },
+    "cancelEdit": {
+      "actionName": "Cancel Edit",
+      "actionOwner": "shesha.form",
+      "with": [],
+      "argMap": {},
+      "argDefaults": {},
+      "buttonAction": "cancelFormEdit",
+      "measured": true,
+      "evidence": "production form (detail toolbar)"
     }
   },
   "_actionConfigVersion": 2,
