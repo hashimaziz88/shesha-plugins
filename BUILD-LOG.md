@@ -896,3 +896,34 @@ coverage` now covers T3.20/21/22; the gate ratchet rises 26 -> 28. T3.22's real 
 WP-3b.3c/later; here it is exercised by an `isNull` contract row and a mutation. `prove-b` gains its
 `placement contract` step.
 
+## WP-3b.3c — The T3 metadata substrate (backend checks) — 2026-08-20
+
+Status: complete
+Gate: `node packages/verify/src/verify.mjs .build/wp3b --screen inline-editable-table --tiers t1,t2,t3` -> exit 0 (snapshot auto-loads, T3.01/02 resolve); `node packages/verify/src/verify.mjs .build/wp3b2 --screen bookings-table --tiers t3` -> exit 3 (partial, 14 uninspectable, no snapshot); `node packages/verify/src/gates/g-uninspectable-budget.mjs` -> exit 0; `npm run green` -> exit 0
+Evidence: packages/verify/evidence/WP-3b.3c.json
+Decisions added: D-108 (the T3 backend checks resolve against a recorded metadata snapshot verify.mjs auto-loads, degrade to uninspectable without one, and are bounded by uninspectable-budget.json); D-036 closed — its `pending:BL-003` becomes the live `check:t3-semantic:T3.02` enforcer (the executable casing check now exists)
+Blocked: none new
+Next: WP-3b.4 (fix the 12 dangling plugin refs, lift g-check-references; closes D-049)
+
+The five backend checks make T3 read entity metadata without a live backend. `t3-semantic.mjs` gains
+T3.01 (a data-column binding names a property that exists on the bound entity), T3.02 (the binding is
+camelCase as the metadata spells it — the §1.2#10 blank-cell defect, D-036), T3.06 (referenceListId
+resolves), T3.07 (formId {name,module} resolves) and T3.09 (a datalist row-template exists and differs
+from its own form). Their source is a recorded snapshot — `packages/sfs/test/fixtures/metadata/
+<screen>.metadata.json`, the D-036 `result.properties[]` shape with PascalCase paths — that `verify.mjs`
+auto-loads per screen (an explicit `--metadata` or a run-dir copy overrides it); absent a snapshot each
+check disposes `cannot("metadata unavailable…", <id>)` → uninspectable → partial, exit 3, never a pass
+(§3.2.4 backend-degradation rule). An `inline-editable-table` InventoryItem snapshot ships so BL-003's
+bare command stays exit 0 now that the backend checks are declared; `bookings-table`, with no snapshot,
+correctly degrades to partial (14 uninspectable). `uninspectable-budget.json` + `g-uninspectable-budget`
+bound the licence to say "I couldn't look" to exactly these five ids (each with a reason pattern and the
+admitting decision D-108); its two mutations (a check id no tier exports; the set past its max) flip.
+D-036 closes: its enforcer moves from `pending:BL-003` to `check:t3-semantic:T3.02`, so `g-decisions`'
+inputPaths gain `packages/verify/src/tiers` (the first `check:` enforcer needs the tier staged in the
+mutation harness). All eighteen T3 checks are covered — `tier-mutations` 58/58, `g-mutation-coverage`
+green — and every backend mutation was adversarially confirmed to flip its family with the snapshot in
+place. T3.03 (datatype-component pairing), T3.05 (required inputs on create/edit) and T3.11 (action-owner
+ownership) stay deferred: they need entity metadata or registry data (datatype-components, action-owners)
+that must be sourced from the framework, not guessed — WP-2b territory (D-108). The gate ratchet rises
+28 -> 29. `prove-b` gains its `T3 metadata substrate` step.
+

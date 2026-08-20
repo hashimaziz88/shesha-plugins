@@ -1,0 +1,22 @@
+{
+  "_comment": "Recorded entity-metadata snapshot (WP-3b.3c, D-108) for employees-table's Employee entity. verify.mjs auto-loads it so the T3 backend checks resolve; the placement contract fixture is separate (contracts/employees-table.contract.json).",
+  "recordedAt": "2026-08-20",
+  "backend": "snapshot",
+  "registryRef": "0.45.1",
+  "entities": {
+    "boxfusion.test.Domain.HR.Employee": {
+      "properties": [
+        { "path": "EmployeeNumber", "dataType": "string", "required": false },
+        { "path": "FullName", "dataType": "string", "required": false },
+        { "path": "Department", "dataType": "string", "required": false },
+        { "path": "JobTitle", "dataType": "string", "required": false },
+        { "path": "Email", "dataType": "string", "required": false },
+        { "path": "HireDate", "dataType": "date", "required": false },
+        { "path": "Location", "dataType": "string", "required": false },
+        { "path": "Status", "dataType": "reference-list", "required": false }
+      ]
+    }
+  },
+  "referenceLists": {},
+  "forms": []
+}

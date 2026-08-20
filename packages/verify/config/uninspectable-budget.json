@@ -1,0 +1,11 @@
+{
+  "_comment": "D-108, WP-3b.3c (§3.2.4). The bounded set of checks allowed to report `uninspectable` because they need a metadata source that is absent — the five T3 backend checks. Each names the reason pattern its notes must match and the decision that admits it. g-uninspectable-budget proves every classA key is a real tier check, every decision exists, and the set never grows past `max`. There is no flag that turns a backend-dependent check into a pass; this only bounds how many may be knowingly pushed.",
+  "max": 5,
+  "classA": {
+    "T3.01": { "reasonPattern": "^(backend|metadata) unavailable", "decision": "D-108" },
+    "T3.02": { "reasonPattern": "^(backend|metadata) unavailable", "decision": "D-108" },
+    "T3.06": { "reasonPattern": "^(backend|metadata) unavailable", "decision": "D-108" },
+    "T3.07": { "reasonPattern": "^(backend|metadata) unavailable", "decision": "D-108" },
+    "T3.09": { "reasonPattern": "^(backend|metadata) unavailable", "decision": "D-108" }
+  }
+}

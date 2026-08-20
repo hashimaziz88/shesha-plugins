@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 107,
+  "count": 108,
   "decisions": [
     {
       "id": "D-001",
@@ -430,7 +430,7 @@
       "why": "§1.2#10 wrong casing renders every cell blank",
       "consequence": "One unwrapper, one casing rule",
       "enforcedBy": [
-        "pending:BL-003"
+        "check:t3-semantic:T3.02"
       ],
       "confirmation": "pending-probe:metadata-endpoint"
     },
@@ -1286,6 +1286,18 @@
       "consequence": "g-fixture-manifest validates each contract (schema, known predicates, real screen, byte cap); g-verdict-integrity recomputes it and fails on drift",
       "enforcedBy": [
         "g-verdict-integrity"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-108",
+      "date": "2026-08-20",
+      "status": "decided",
+      "decision": "The T3 backend checks (T3.01/02/06/07/09) resolve against a recorded metadata snapshot (packages/sfs/test/fixtures/metadata/&lt;screen&gt;.metadata.json, D-036 shape) that verify.mjs auto-loads per screen; absent a snapshot each disposes uninspectable, never a pass, and the bounded set lives in uninspectable-budget.json. T3.03/T3.05/T3.11 stay deferred — they need entity-metadata or registry data (datatype-components, action-owners) sourced not guessed (WP-2b)",
+      "why": "a 1fr-style casing defect renders every cell blank (§1.2#10) yet the DOM cannot see it, so the check reads the compiler binding against recorded metadata; an unbounded \"could not look\" licence is how a verifier stops verifying",
+      "consequence": "g-uninspectable-budget bounds the uninspectable set; the snapshot keeps BL-003 at exit 0",
+      "enforcedBy": [
+        "g-uninspectable-budget"
       ],
       "confirmation": "n/a"
     }

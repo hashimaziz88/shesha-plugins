@@ -89,7 +89,8 @@ export async function runLadder(opts) {
   if (tiers.includes('t3')) {
     const entity = (art.envelope && art.envelope.ModelType) || (sfs && sfs.entity) || null;
     const contract = loadContract(root, runDir, screen);
-    const fams = t3Semantic(art.doc, meta, { legacy, entity, contract });
+    const metadata = loadMetadata(root, runDir, screen, opts.metadata);
+    const fams = t3Semantic(art.doc, meta, { legacy, entity, contract, metadata });
     const v = verdictOf(fams);
     tierResults.T3 = { result: v, detail: detailOf(fams) };
     lines.push(tierLine('t3', fams, v));
@@ -149,6 +150,28 @@ function loadContract(root, runDir, screen) {
     try { return JSON.parse(raw); } catch { return undefined; }
   }
   return undefined;
+}
+
+/**
+ * The recorded metadata snapshot for a screen (§3.2.4). An explicit --metadata path
+ * wins; otherwise a run-dir copy, then the committed per-screen fixture. Absent, the T3
+ * backend checks stay uninspectable — there is no auto-pass. A malformed file is
+ * surfaced as absent rather than crashing the ladder.
+ * @param {string} root @param {string} runDir @param {string} screen @param {string|null} explicit
+ * @returns {any|null}
+ */
+function loadMetadata(root, runDir, screen, explicit) {
+  const candidates = [
+    explicit ? (path.isAbsolute(explicit) ? explicit : path.join(root, explicit)) : null,
+    path.join(runDir, 'screens', `${screen}.metadata.json`),
+    path.join(root, 'packages/sfs/test/fixtures/metadata', `${screen}.metadata.json`),
+  ].filter(Boolean);
+  for (const c of /** @type {string[]} */ (candidates)) {
+    const raw = readText(c);
+    if (raw === null) continue;
+    try { return JSON.parse(raw); } catch { return null; }
+  }
+  return null;
 }
 
 /** @param {import('@shesha/registry/coverage').Family[]} fams */

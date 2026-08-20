@@ -71,9 +71,13 @@ for (const m of t1Muts) {
   });
 }
 
+// The recorded snapshot lets the six backend checks resolve, so the baseline is a
+// pass and a backend mutation is attributable to the mutation, not to a missing source.
+const t3Metadata = JSON.parse(fs.readFileSync(path.join(ROOT, 'packages/sfs/test/fixtures/metadata/inline-editable-table.metadata.json'), 'utf8'));
+
 test('t3 baseline passes clean compiler output', () => {
   const b = baseline();
-  assert.equal(verdictOf(t3Semantic(b.doc, b.meta, { entity: String(b.envelope.ModelType) })), 'pass');
+  assert.equal(verdictOf(t3Semantic(b.doc, b.meta, { entity: String(b.envelope.ModelType), metadata: t3Metadata })), 'pass');
 });
 
 for (const m of t3Muts) {
@@ -81,7 +85,7 @@ for (const m of t3Muts) {
     const b = baseline();
     const ctx = /** @type {any} */ ({ doc: structuredClone(b.doc), meta: structuredClone(b.meta), entity: String(b.envelope.ModelType), contract: undefined });
     m.apply(ctx);
-    const fams = t3Semantic(ctx.doc, ctx.meta, { entity: ctx.entity, contract: ctx.contract });
+    const fams = t3Semantic(ctx.doc, ctx.meta, { entity: ctx.entity, contract: ctx.contract, metadata: t3Metadata });
     assert.equal(verdictOf(fams), m.expect, `verdict did not become ${m.expect}`);
     assert.ok(familyCaught(fams, m.expectFamily, m.expect), `${m.expectFamily} did not catch "${m.name}"`);
   });

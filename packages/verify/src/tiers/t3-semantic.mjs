@@ -26,8 +26,15 @@ import { evaluate } from '../predicates/index.mjs';
 export const id = 't3-semantic';
 export const describe = 'binding scope, references, data context, actions, submit/exit, embedded scripts, templating, row-click wiring — offline over the compiled tree';
 
-/** The offline T3 checks (§3.2.4). Backend and contract checks are added by later sub-WPs. */
+/** The offline T3 checks (§3.2.4) plus the six backend checks (WP-3b.3c) that resolve
+ *  against a recorded metadata snapshot or degrade to uninspectable. T3.03/T3.11 (which
+ *  need registry data that must be sourced, not guessed — WP-2b territory) stay deferred. */
 export const checks = [
+  { id: 'T3.01', family: 'bindings', describe: 'every data-column binding names a property that exists on the bound entity (metadata)' },
+  { id: 'T3.02', family: 'bindings', describe: 'every data-column binding is camelCase as the metadata spells it (D-036)' },
+  { id: 'T3.06', family: 'reflists', describe: 'every referenceListId resolves in the metadata snapshot' },
+  { id: 'T3.07', family: 'references', describe: 'every formId {name,module} resolves in the metadata snapshot' },
+  { id: 'T3.09', family: 'references', describe: 'a datalist row-template form exists and is not the datalist’s own form (metadata)' },
   { id: 'T3.04', family: 'bindings', describe: 'no duplicate propertyName within one binding scope' },
   { id: 'T3.08', family: 'references', describe: 'a component whose registry entry requires formId carries a non-empty one' },
   { id: 'T3.10', family: 'actions', describe: 'every actionConfiguration.onSuccess target resolves to an in-tree id or a legal global action' },
@@ -56,6 +63,15 @@ const AsyncFunction = /** @type {any} */ (Object.getPrototypeOf(async () => {}).
 
 /** @param {any} v @returns {boolean} */
 const isDataComponent = (v) => v === 'datatable' || v === 'datalist';
+
+/**
+ * The camelCased form of a PascalCase metadata path (D-036): each dotted segment's
+ * first letter is lowered. "UnitPrice" -> "unitPrice", "Address.City" -> "address.city".
+ * @param {string} p @returns {string}
+ */
+function camelPath(p) {
+  return String(p).split('.').map((s) => (s ? s.charAt(0).toLowerCase() + s.slice(1) : s)).join('.');
+}
 
 /**
  * Collect every embedded script string (non-empty) reachable from a node's own props
@@ -114,7 +130,7 @@ function mustacheRootsOf(node, channelKeys) {
  * The full offline T3 over ONE compiled form.
  * @param {{components?:any[], formSettings?:any}} doc parsed markup
  * @param {{nodes?:any[], kind?:string}|null} meta the compiled sidecar
- * @param {{ref?:string, legacy?:boolean, entity?:string|null, contract?:{acceptance?:any[], columns?:Record<string, string[]>}}} [opts]
+ * @param {{ref?:string, legacy?:boolean, entity?:string|null, contract?:{acceptance?:any[], columns?:Record<string, string[]>}, metadata?:any}} [opts]
  * @returns {import('@shesha/registry/coverage').Family[]}
  */
 export function t3Semantic(doc, meta, opts = {}) {
@@ -123,6 +139,8 @@ export function t3Semantic(doc, meta, opts = {}) {
   const requiredProps = reg.requiredProps;
   const kind = (meta && typeof meta.kind === 'string') ? meta.kind : deriveKind(doc);
   const entity = opts.entity ?? null;
+  const metaForm = meta ? /** @type {any} */ (meta).form : null;
+  const formName = typeof metaForm === 'string' ? (metaForm.split('/').pop() || null) : null;
 
   const fams = families([
     { name: 'bindings', unit: 'binding-scope', required: false },
@@ -136,13 +154,23 @@ export function t3Semantic(doc, meta, opts = {}) {
     { name: 'placement', unit: 'predicate-row', required: false },
     { name: 'columns', unit: 'datatable', required: false },
     { name: 'tabs', unit: 'tab-row', required: false },
+    { name: 'reflists', unit: 'reflist-site', required: false },
   ]);
   const F = {
     bindings: fams.get('bindings'), references: fams.get('references'), actions: fams.get('actions'),
     data: fams.get('data'), formSemantics: fams.get('formSemantics'), scripts: fams.get('scripts'),
     templating: fams.get('templating'), wiring: fams.get('wiring'),
     placement: fams.get('placement'), columns: fams.get('columns'), tabs: fams.get('tabs'),
+    reflists: fams.get('reflists'),
   };
+  // The metadata source (a recorded snapshot, WP-3b.3c). Without it the six backend
+  // checks are uninspectable, never a pass (§3.2.4 backend-degradation rule).
+  const md = opts.metadata && typeof opts.metadata === 'object' ? opts.metadata : null;
+  const entityMeta = md && md.entities && entity ? md.entities[entity] : null;
+  const entityCamel = entityMeta && Array.isArray(entityMeta.properties)
+    ? new Set(entityMeta.properties.map((/** @type {any} */ p) => camelPath(String(p.path)))) : null;
+  const reflistKeys = md && md.referenceLists ? new Set(Object.keys(md.referenceLists)) : null;
+  const formKeys = md && Array.isArray(md.forms) ? new Set(md.forms.map((/** @type {any} */ f) => `${f.module}/${f.name}`)) : null;
 
   const visits = walkComponents(doc);
   /** @type {Map<any, any>} */
@@ -179,8 +207,43 @@ export function t3Semantic(doc, meta, opts = {}) {
     if (typeof node.propertyName === 'string' && node.propertyName) recordBinding(node.propertyName, node, `${where}<${type}>`);
     if (Array.isArray(node.items)) {
       node.items.forEach((/** @type {any} */ it, /** @type {number} */ i) => {
-        if (it && it.columnType === 'data' && typeof it.propertyName === 'string' && it.propertyName) recordBinding(it.propertyName, node, `${where}.items[${i}]`);
+        if (!(it && it.columnType === 'data' && typeof it.propertyName === 'string' && it.propertyName)) return;
+        const b = it.propertyName;
+        recordBinding(b, node, `${where}.items[${i}]`); // T3.04
+        // ---- T3.01 binding exists on the entity; T3.02 binding is camelCase ----
+        const w = `${where}.items[${i}].${b}`;
+        const p1 = F.bindings.pointer(`${w}#T3.01`);
+        const p2 = F.bindings.pointer(`${w}#T3.02`);
+        if (entityCamel === null) {
+          p1.cannot('metadata unavailable: no entity metadata to resolve the binding', 'T3.01');
+          p2.cannot('metadata unavailable: no entity metadata to check the binding casing', 'T3.02');
+        } else {
+          p1.assert(entityCamel.has(camelPath(b)), `T3.01 binding "${b}" at ${w} is not a property of ${entity}`);
+          p2.assert(b === camelPath(b), `T3.02 binding "${b}" at ${w} is not camelCase as the metadata spells it`);
+        }
       });
+    }
+
+    // ---- T3.06 referenceListId resolves (metadata) --------------------------
+    if (node.referenceListId && typeof node.referenceListId === 'object' && typeof node.referenceListId.name === 'string') {
+      const rl = node.referenceListId;
+      const key = `${rl.module}/${rl.name}`;
+      const p = F.reflists.pointer(`${where}<${type}>#T3.06`);
+      if (reflistKeys === null) p.cannot('metadata unavailable: no reference-list snapshot to resolve against', 'T3.06');
+      else p.assert(reflistKeys.has(key), `T3.06 referenceListId "${key}" at ${where} does not resolve in the metadata snapshot`);
+    }
+
+    // ---- T3.07 formId resolves (metadata); T3.09 datalist row-template ------
+    if (node.formId && typeof node.formId === 'object' && typeof node.formId.name === 'string') {
+      const key = `${node.formId.module}/${node.formId.name}`;
+      const p7 = F.references.pointer(`${where}<${type}>#T3.07`);
+      if (formKeys === null) p7.cannot('metadata unavailable: no forms snapshot to resolve the formId', 'T3.07');
+      else p7.assert(formKeys.has(key), `T3.07 formId "${key}" at ${where} does not resolve in the metadata snapshot`);
+      if (type === 'datalist') {
+        const p9 = F.references.pointer(`${where}<${type}>#T3.09`);
+        if (formKeys === null) p9.cannot('metadata unavailable: cannot confirm the row-template form exists', 'T3.09');
+        else p9.assert(formKeys.has(key) && node.formId.name !== formName, `T3.09 datalist row-template "${key}" at ${where} must exist and differ from the form's own name "${formName}"`);
+      }
     }
 
     // ---- T3.08 formId required where the registry requires it ----------------
@@ -337,6 +400,11 @@ export const mutations = [
   { name: 'a contract placement predicate that is false', covers: ['T3.21'], expect: 'fail', expectFamily: 'placement', apply: (/** @type {any} */ c) => { c.contract = { acceptance: [{ id: 'M21', tier: 't3', predicate: 'region', args: { node: 'pageShell' }, expect: { eq: 'body' } }] }; } },
   { name: 'a contract tab assignment the tree does not satisfy', covers: ['T3.22'], expect: 'fail', expectFamily: 'tabs', apply: (/** @type {any} */ c) => { c.contract = { acceptance: [{ id: 'M22', tier: 't3', predicate: 'tab', args: { node: 'pageShell' }, expect: { eq: 'Endpoints' } }] }; } },
   { name: 'a contract column set that disagrees with the compiled columns', covers: ['T3.20'], expect: 'fail', expectFamily: 'columns', apply: (/** @type {any} */ c) => { c.contract = { columns: { inventoryTable: ['Not', 'The', 'Real', 'Columns'] } }; } },
+  { name: 'a data-column binding to a property the entity does not have', covers: ['T3.01'], expect: 'fail', expectFamily: 'bindings', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => Array.isArray(x.items) && x.type === 'datatable'); const col = n && n.items.find((/** @type {any} */ it) => it.columnType === 'data'); if (col) col.propertyName = 'ghostProperty'; } },
+  { name: 'a data-column binding in PascalCase, not as the metadata spells it', covers: ['T3.02'], expect: 'fail', expectFamily: 'bindings', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => Array.isArray(x.items) && x.type === 'datatable'); const col = n && n.items.find((/** @type {any} */ it) => it.columnType === 'data'); if (col) col.propertyName = 'Name'; } },
+  { name: 'a referenceListId that does not resolve in the metadata', covers: ['T3.06'], expect: 'fail', expectFamily: 'reflists', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.type === 'datatable'); if (n) n.referenceListId = { module: 'ghost', name: 'GhostList' }; } },
+  { name: 'a formId that does not resolve in the metadata', covers: ['T3.07'], expect: 'fail', expectFamily: 'references', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.type === 'datatable'); if (n) n.formId = { module: 'ghost', name: 'GhostForm' }; } },
+  { name: 'a datalist row-template form that does not exist', covers: ['T3.09'], expect: 'fail', expectFamily: 'references', apply: (/** @type {any} */ c) => { const dc = findNode(c.doc, (x) => x.type === 'dataContext'); if (dc) { const kids = Array.isArray(dc.components) ? dc.components : (dc.components = []); kids.push({ type: 'datalist', id: 'inject-dl-rt', parentId: dc.id, version: 1, formId: { module: 'ghost', name: 'GhostTemplate' } }); } } },
 ];
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

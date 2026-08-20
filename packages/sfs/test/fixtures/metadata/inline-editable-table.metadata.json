@@ -1,0 +1,23 @@
+{
+  "_comment": "Recorded entity-metadata snapshot (WP-3b.3c, D-036). The offline stand-in for the Get endpoint's result.properties[] — PascalCase paths as the backend spells them; the compiler emits the camelCased binding. verify.mjs auto-loads <screen>.metadata.json so the T3 backend checks resolve without a live backend; a screen with no snapshot leaves those checks uninspectable (partial), never a pass.",
+  "recordedAt": "2026-08-20",
+  "backend": "snapshot",
+  "registryRef": "0.45.1",
+  "entities": {
+    "boxfusion.test.Domain.InventoryItems.InventoryItem": {
+      "properties": [
+        { "path": "Name", "dataType": "string", "required": false },
+        { "path": "Code", "dataType": "string", "required": false },
+        { "path": "Category", "dataType": "string", "required": false },
+        { "path": "Quantity", "dataType": "number", "required": false },
+        { "path": "UnitPrice", "dataType": "number", "required": false },
+        { "path": "Supplier", "dataType": "string", "required": false },
+        { "path": "ReorderLevel", "dataType": "number", "required": false },
+        { "path": "LastRestocked", "dataType": "date", "required": false },
+        { "path": "Status", "dataType": "reference-list", "required": false }
+      ]
+    }
+  },
+  "referenceLists": {},
+  "forms": []
+}

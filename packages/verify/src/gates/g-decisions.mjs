@@ -33,6 +33,7 @@ export const inputPaths = [
   // Every path an Enforced by entry can resolve against has to be in the staged
   // copy, or the mutation harness measures a gate whose enforcers all look absent.
   'packages/verify/src/gates',
+  'packages/verify/src/tiers',
   'packages/verify/test',
   'packages/registry/probes',
   'packages/sfs/registry/decisions.json',

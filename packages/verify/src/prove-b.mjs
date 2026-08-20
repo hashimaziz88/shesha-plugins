@@ -147,12 +147,13 @@ async function runT3Tier(/** @type {string} */ root) {
   const r = /** @type {any} */ (compile(src, { source: 'prove-b' }));
   const doc = JSON.parse(String(r.envelope.Markup));
   const entity = String(r.envelope.ModelType);
-  const clean = verdictOf(t3Semantic(doc, r.meta, { entity }));
+  const md = JSON.parse(fs.readFileSync(path.join(root, 'packages/sfs/test/fixtures/metadata/inline-editable-table.metadata.json'), 'utf8'));
+  const clean = verdictOf(t3Semantic(doc, r.meta, { entity, metadata: md }));
   // Adversarial: a dataContext whose entityType disagrees with the form entity must fail.
   const bad = JSON.parse(JSON.stringify(doc));
   const walk = (/** @type {any} */ n, /** @type {(x:any)=>void} */ cb) => { if (Array.isArray(n)) n.forEach((x) => walk(x, cb)); else if (n && typeof n === 'object') { cb(n); for (const k of Object.keys(n)) walk(n[k], cb); } };
   walk(bad.components, (n) => { if (n.type === 'dataContext') n.entityType = 'wrong.Entity'; });
-  const flipped = verdictOf(t3Semantic(bad, r.meta, { entity }));
+  const flipped = verdictOf(t3Semantic(bad, r.meta, { entity, metadata: md }));
   const ok = clean === 'pass' && flipped === 'fail';
   return ok
     ? { ok: true, lines: [`T3 offline tier passes clean and catches a defect: ${checks.length} checks, a wrong dataContext entityType flips it to fail (§3.2.4, D-106)`] }
@@ -168,13 +169,31 @@ async function runContract(/** @type {string} */ root) {
   const doc = JSON.parse(String(r.envelope.Markup));
   const entity = String(r.envelope.ModelType);
   const contract = JSON.parse(fs.readFileSync(path.join(root, 'packages/sfs/test/fixtures/contracts/employees-table.contract.json'), 'utf8'));
-  const clean = verdictOf(t3Semantic(doc, r.meta, { entity, contract }));
+  const md = JSON.parse(fs.readFileSync(path.join(root, 'packages/sfs/test/fixtures/metadata/employees-table.metadata.json'), 'utf8'));
+  const clean = verdictOf(t3Semantic(doc, r.meta, { entity, contract, metadata: md }));
   const bad = { acceptance: [{ id: 'X', tier: 't3', predicate: 'region', args: { node: 'pageShell' }, expect: { eq: 'body' } }] };
-  const flipped = verdictOf(t3Semantic(doc, r.meta, { entity, contract: bad }));
+  const flipped = verdictOf(t3Semantic(doc, r.meta, { entity, contract: bad, metadata: md }));
   const ok = clean === 'pass' && flipped === 'fail';
   return ok
     ? { ok: true, lines: [`placement contract evaluates: ${contract.acceptance.length} rows + a column set pass over the compiled screen, a drifted row flips it to fail (T3.20/21/22, D-107)`] }
     : { ok: false, lines: [`contract checks: clean=${clean} (want pass), drifted=${flipped} (want fail)`] };
+}
+
+/** WP-3b.3c: the T3 backend checks resolve with a recorded snapshot, degrade without it. */
+async function runMetadata(/** @type {string} */ root) {
+  const { compile } = await import(pathToFileURL(path.join(root, 'packages/sfs/src/compile/index.mjs')).href);
+  const { t3Semantic } = await import(pathToFileURL(path.join(root, 'packages/verify/src/tiers/t3-semantic.mjs')).href);
+  const { verdictOf } = await import(pathToFileURL(path.join(root, 'packages/registry/src/coverage.mjs')).href);
+  const r = /** @type {any} */ (compile(fs.readFileSync(path.join(root, 'packages/sfs/test/fixtures/clean/inline-editable-table.sfs.json'), 'utf8'), { source: 'prove-b' }));
+  const doc = JSON.parse(String(r.envelope.Markup));
+  const entity = String(r.envelope.ModelType);
+  const md = JSON.parse(fs.readFileSync(path.join(root, 'packages/sfs/test/fixtures/metadata/inline-editable-table.metadata.json'), 'utf8'));
+  const withMd = verdictOf(t3Semantic(doc, r.meta, { entity, metadata: md }));
+  const withoutMd = verdictOf(t3Semantic(doc, r.meta, { entity, metadata: null }));
+  const ok = withMd === 'pass' && withoutMd === 'partial';
+  return ok
+    ? { ok: true, lines: ['T3 backend checks resolve with a recorded snapshot (pass) and degrade to uninspectable without it (partial), never a pass (§3.2.4, D-108; D-036 closed)'] }
+    : { ok: false, lines: [`metadata substrate: withSnapshot=${withMd} (want pass), withoutSnapshot=${withoutMd} (want partial)`] };
 }
 
 /**
@@ -192,6 +211,7 @@ const STEPS = [
   { id: 'predicates', label: 'placement predicates', needs: 'WP-3b.2', impl: runPredicates },
   { id: 't3-tier', label: 'T3 semantic tier', needs: 'WP-3b.3', impl: runT3Tier },
   { id: 'contract', label: 'placement contract', needs: 'WP-3b.3b', impl: runContract },
+  { id: 'metadata', label: 'T3 metadata substrate', needs: 'WP-3b.3c', impl: runMetadata },
 ];
 
 /**
