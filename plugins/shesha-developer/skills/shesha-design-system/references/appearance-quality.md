@@ -1,6 +1,6 @@
 # Appearance quality (the look)
 
-The appearance companion to `shesha-form-edit`'s `form-quality.md`. **Clear split:** `form-quality.md` owns *construction* (bindings, CRUD wiring, `validationErrors`, the guardrails) — those are kept verbatim there and **appearance never overrides a construction guardrail**. This file owns *appearance*: when a form must look like a design or brand, grade it against the positive recipes below. Concrete v7 shapes are in [component-recipes.md](component-recipes.md); which channels actually render is in [capability-matrix.md](capability-matrix.md).
+The appearance companion to `form-quality.md`. **Clear split:** `form-quality.md` owns *construction* (bindings, CRUD wiring, `validationErrors`, the guardrails) — those are kept verbatim there and **appearance never overrides a construction guardrail**. This file owns *appearance*: when a form must look like a design or brand, grade it against the positive recipes below. Concrete v7 shapes are in [component-recipes.md](component-recipes.md); which channels actually render is in [capability-matrix.md](capability-matrix.md).
 
 ## Surface & elevation
 - Page root = `surfaces.canvas`; cards = white + hairline (`lines.border`) + `radius.lg` **plus the brand card shadow only if the brand defines one** (the Shesha default is border-forward — cards render flat; a brand with a visible `shadow.card` e.g. `0 1 4 rgba(0,0,0,0.06)` pairs it with the hairline); header strips = `surfaces.surfaceAlt` + bottom hairline. Structure comes from the line — never a shadow instead of a border, and never a heavy/decorative shadow.
@@ -21,7 +21,7 @@ The appearance companion to `shesha-form-edit`'s `form-quality.md`. **Clear spli
 - Semantic colours are operational status signals only — never decorative.
 
 ## Audit output
-Given a screenshot + the theme, return **prop-level fixes** (component · prop path · current vs target · one-line reason), ordered by impact — suggestions, not blockers. Route any *structural* finding back to `shesha-form-edit`; never restructure here.
+Given a screenshot + the theme, return **prop-level fixes** (component · prop path · current vs target · one-line reason), ordered by impact — suggestions, not blockers. Route any *structural* finding back to `shesha-spec`; never restructure here.
 
 ## NOT governed here (→ `form-quality.md` guardrails — never relaxed)
-`validationErrors` present · Submit + paired exit · `propertyName` camelCase (incl. datatable columns) · `modelType` `{name,module}` object · dropdown `dataSourceType` · dates → `dateField` · `editMode` per form type · unique ids · no clipping (`dimensions.minHeight:'fit-content'`) · destructive never primary · no loose `button` nodes. If an appearance goal seems to require breaking one of these, stop — the structure is wrong; route to `shesha-form-edit`.
+`validationErrors` present · Submit + paired exit · `propertyName` camelCase (incl. datatable columns) · `modelType` `{name,module}` object · dropdown `dataSourceType` · dates → `dateField` · `editMode` per form type · unique ids · no clipping (`dimensions.minHeight:'fit-content'`) · destructive never primary · no loose `button` nodes. If an appearance goal seems to require breaking one of these, stop — the structure is wrong; route to `shesha-spec`.

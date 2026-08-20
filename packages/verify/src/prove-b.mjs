@@ -196,6 +196,18 @@ async function runMetadata(/** @type {string} */ root) {
     : { ok: false, lines: [`metadata substrate: withSnapshot=${withMd} (want pass), withoutSnapshot=${withoutMd} (want partial)`] };
 }
 
+/** WP-3b.4: g-check-references, lifted onto the coverage API, passes over the cleaned plugin. */
+async function runCheckRefLift(/** @type {string} */ root) {
+  const gate = await import(pathToFileURL(path.join(root, 'packages/verify/src/gates/g-check-references.mjs')).href);
+  const { verdictOf } = await import(pathToFileURL(path.join(root, 'packages/registry/src/coverage.mjs')).href);
+  const v = verdictOf(await gate.run({ repoRoot: root }));
+  const husksGone = !fs.existsSync(path.join(root, 'quarantine/g-check-references.mjs')) && !fs.existsSync(path.join(root, 'quarantine/t3-semantic.mjs'));
+  const ok = v === 'pass' && husksGone;
+  return ok
+    ? { ok: true, lines: ['g-check-references, lifted onto the coverage API, passes over the cleaned plugin; the quarantined husks are gone (D-049 closed, D-109)'] }
+    : { ok: false, lines: [`check-references lift: gate verdict=${v} (want pass), husksGone=${husksGone}`] };
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -212,6 +224,7 @@ const STEPS = [
   { id: 't3-tier', label: 'T3 semantic tier', needs: 'WP-3b.3', impl: runT3Tier },
   { id: 'contract', label: 'placement contract', needs: 'WP-3b.3b', impl: runContract },
   { id: 'metadata', label: 'T3 metadata substrate', needs: 'WP-3b.3c', impl: runMetadata },
+  { id: 'checkref-lift', label: 'check-references lift', needs: 'WP-3b.4', impl: runCheckRefLift },
 ];
 
 /**

@@ -927,3 +927,39 @@ ownership) stay deferred: they need entity metadata or registry data (datatype-c
 that must be sourced from the framework, not guessed — WP-2b territory (D-108). The gate ratchet rises
 28 -> 29. `prove-b` gains its `T3 metadata substrate` step.
 
+## WP-3b.4 — Lift g-check-references out of quarantine — 2026-08-20
+
+Status: complete
+Gate: `node packages/verify/src/gates/g-check-references.mjs` -> exit 0 (links 138 · paths 8 · skills 14 · roles 4 · groups 65, 0 failures); `node packages/verify/src/gates/g-disposition.mjs` -> exit 0; `npm run green` -> exit 0 (30 gates)
+Evidence: packages/verify/evidence/WP-3b.4.json
+Decisions added: D-109 (WP-3b lifts the two BL-003 quarantined files; supersedes D-049, which is now superseded-by-D-109 and enforced by the live g-check-references)
+Blocked: none new
+Next: WP-2b (registry completeness) — the last offline T3-adjacent WP done; the T3 subsystem is complete
+
+The second half of D-049. `check-references.mjs` becomes `packages/verify/src/gates/g-check-references.mjs`
+on the one coverage implementation, closing both holes the quarantine recorded: it declares its family
+set up front with `families()` (the lazy `fam()` that let 9 pointers vanish silently is gone — R2), and
+every JSON read goes through `readJsonGuarded` (a malformed data file is one named failure, never the
+uncaught SyntaxError that read as a clean exit). Six families survive: links, paths, skills, roles,
+groups, and skill/agent-id resolution (folded into `skills` — the current design skills dispatch agents
+in prose, not the old `` `x` agent`` pattern, so a separate always-empty `agents` family would trip R1;
+every `shesha-developer:X` ref now must resolve to a skill OR an agent). The original's `overlays` (block
+`$styleOverlay` files) and `versions` (component versions vs an in-plugin components-kb) are dropped, not
+weakened: their subjects left with shesha-form-edit — the block library (D-010 resolves styling at
+compile time, no overlay pass) and the KB (relocated to packages/sfs/kb, D-095, where the registry owns
+version authority).
+
+Lifting it required cleaning the debt WP-7a's deletion of shesha-form-edit left: 68 dead references to
+the deleted skill across 19 design-skill and agent files. A pilot-disciplined fan-out repointed every
+skill-delegation reference to `shesha-spec` (the SFS-authoring replacement) and removed every dead
+file/asset link (the 32 deleted reference files, the block library, the relocated KB, the 3
+gate-flagged dead paths); `grep shesha-form-edit` now returns zero. The quarantine's two BL-003 files
+(t3-semantic.mjs — already superseded by the T3 tier in WP-3b.3 — and check-references plus its negative
+script) are deleted, their `quarantine.json` rows removed (only BL-005's layout-probe remains), with
+disposition delete rows against WP-3b.4. `g-disposition` gained a move-then-delete rule: a completed
+move whose destination a later completed WP deletes (a lift) is legitimate, not a failed move; its
+mutations still flip. The lift touches `plugins/**`, so `plugin.json` bumps 1.9.2 -> 1.9.3 and the
+floor with it. The gate ratchet rises 29 -> 30. `prove-b` gains its `check-references lift` step. With
+this, WP-3b is complete: the full-brief T3 tier, its placement engine, its metadata substrate, and both
+quarantined files lifted.
+

@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 108,
+  "count": 109,
   "decisions": [
     {
       "id": "D-001",
@@ -583,12 +583,12 @@
     {
       "id": "D-049",
       "date": "2026-08-17",
-      "status": "decided",
+      "status": "superseded-by-D-109",
       "decision": "`verify-artifact.mjs` and `check-references.mjs` move unchanged, are referenced by nothing, and are registered in `quarantine.json` with `liftedBy: BL-003`",
       "why": "Phase 0 wants the bleeding stopped now, but the correct fixes need T2/T3",
       "consequence": "A holed gate emits no green signal",
       "enforcedBy": [
-        "pending:BL-003"
+        "g-check-references"
       ],
       "confirmation": "n/a"
     },
@@ -1298,6 +1298,18 @@
       "consequence": "g-uninspectable-budget bounds the uninspectable set; the snapshot keeps BL-003 at exit 0",
       "enforcedBy": [
         "g-uninspectable-budget"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-109",
+      "date": "2026-08-20",
+      "status": "decided",
+      "decision": "WP-3b lifts the two BL-003 quarantined files: t3-semantic.mjs is rewritten as the T3 tier (WP-3b.3), check-references.mjs as g-check-references on the one coverage impl (WP-3b.4) — lazy-families + uncaught-SyntaxError holes closed; the overlays/versions families drop (subjects gone: blocks D-010, components-kb to packages/sfs/kb D-095); the quarantine.json BL-003 rows and superseded files are removed. Supersedes D-049",
+      "why": "a holed gate emits no green signal, but the fixes needed the T2/T3 layer that now exists",
+      "consequence": "68 dead shesha-form-edit refs repointed to shesha-spec or removed; only layout-probe stays quarantined",
+      "enforcedBy": [
+        "g-check-references"
       ],
       "confirmation": "n/a"
     }

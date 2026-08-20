@@ -1,39 +1,6 @@
 {
-  "_comment": "D-049. Two gates that emitted green signals through real holes. They move unchanged and are referenced by nothing; until BL-003 fixes them, the enforcement IS the deletion of every documented invocation. g-quarantine ships in BL-003. D-038 places them at repo-root quarantine/ rather than packages/**: each defines its own verdictOf and walked/checked pair, which D-005 forbids inside the live toolchain, and an exemption list inside g-coverage-single-impl would be the exact tampering pattern this rebuild removes.",
+  "_comment": "D-049/D-109. The BL-003 pair (verify-artifact/t3-semantic.mjs and check-references.mjs) has been LIFTED: t3-semantic became the T3 tier (WP-3b.3) and check-references became packages/verify/src/gates/g-check-references.mjs on the one coverage implementation (WP-3b.4), both with their D-049 holes closed; their quarantine rows and superseded files are removed. What remains is BL-005's layout-probe.js — CommonJS whose only consumer is the T4b DOM residue probe WP-3c owns; no live code path reaches it, so it stays quarantined until then.",
   "rows": [
-    {
-      "path": "quarantine/t3-semantic.mjs",
-      "was": "plugins/shesha-developer/skills/shesha-form-edit/scripts/verify-artifact.mjs",
-      "liftedBy": "BL-003",
-      "holes": [
-        "verdictOf has no zero-coverage rule: a formId that is empty, null or absent is never walked, giving walked 0 / checked 0 / verdict pass / exit 0 — the exact false green its own header claims to prevent",
-        "defines a second verdictOf and a second walked/checked counter pair, which D-005 permits in exactly one file"
-      ],
-      "invocationsDeleted": true,
-      "testsStillRun": "packages/verify/test/t3-semantic.test.mjs (15 tests, all passing)"
-    },
-    {
-      "path": "quarantine/g-check-references.mjs",
-      "was": "plugins/shesha-developer/skills/shesha-form-edit/scripts/check-references.mjs",
-      "liftedBy": "BL-003",
-      "holes": [
-        "creates families lazily, so rewording two files moved 9 agent-dispatch pointers from checked 9 to unmentioned and the run still reported PASS",
-        "crashes with an uncaught SyntaxError on malformed JSON, which is indistinguishable by exit code from a real failure",
-        "defines its own walked/checked counter pair"
-      ],
-      "invocationsDeleted": true,
-      "testsStillRun": null
-    },
-    {
-      "path": "quarantine/g-check-references.mutation.mjs",
-      "was": "plugins/shesha-developer/skills/shesha-form-edit/tests/check-references.negative.mjs",
-      "liftedBy": "BL-003",
-      "holes": [
-        "a standalone argv script rather than a node:test file, and its path constants resolve relative to the skill folder it no longer lives in"
-      ],
-      "invocationsDeleted": true,
-      "testsStillRun": null
-    },
     {
       "path": "quarantine/layout-probe.js",
       "was": "plugins/shesha-developer/skills/shesha-design-comprehension/scripts/layout-probe.js",

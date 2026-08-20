@@ -169,7 +169,6 @@ startup. So the sequence is: make the change + migration → **rebuild + restart
 - **Headless / CI:** stop the port holder → `dotnet build` the Web.Host → launch `ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://localhost:<port> dotnet <App>.Web.Host.dll` in the background → poll `/swagger/index.html` for 200.
 - **A brand-new entity needs TWO boots** — its dynamic CRUD controller registers only on the boot *after* its `EntityConfig` is seeded; poll `…/api/dynamic/<module>/<Entity>/Crud/GetAll` and restart once more if it 404s.
 - **Attended / Visual Studio dev:** don't kill VS's host — ask the developer to rebuild + restart in VS (twice for a new entity), then continue.
-- Full runbook (shared with the form skill): `shesha-developer/skills/shesha-form-edit/references/backend-restart.md`.
 
 After the restart, you **MUST ALWAYS** run the `test-entity-crud-api` skill to verify that the changes work correctly (it needs the entity live to hit its CRUD endpoints).
 

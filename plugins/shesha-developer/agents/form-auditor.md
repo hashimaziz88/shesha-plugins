@@ -12,7 +12,7 @@ You audit ONE Shesha form. **Assume something is wrong and try to prove it** —
 
 ## Required inputs (from the dispatch prompt — stop and report if missing)
 
-- `SKILL_ROOT` — path to the shesha-form-edit skill
+- `SKILL_ROOT` — path to the shesha-spec skill
 - The form source: a markup file path, OR backend URL + bearer-token file + module + form name
 - The audit spec: which check families to run, plus any case-specific checks
 - The verdict schema to return (defaults to the contract below)
@@ -31,7 +31,7 @@ Recurse ALL of: `components[]`, `content.components[]`, `header.components[]`, `
 - **types-and-props** — every `type` exists in `SKILL_ROOT/../clean-form-config/assets/groups/index.json`; flag any `type` absent from the index as invalid (e.g. a mis-cased or non-canonical component name); props validated against the group file (template-origin props the index lacks are documented false positives — flag as `info`, not `fail`).
 - **crud-wiring** — Add button = Show Dialog with resolvable formId + onSuccess Refresh table (actionOwner = dataContext id); detail lifecycle = Start Edit / Submit / Cancel Edit; action identifiers use spaced names + lowercase owners.
 - **subtable-canon** — per `SKILL_ROOT/references/components/junction-subtables.md`: dataContext sourceType/entityType/code-object endpoint, toolbar classes, drill-down column targeting, delete recipe (never `Delete row`/`table`).
-- **submit-mechanics** — any dialog presetting a required FK has BOTH a bound component AND `formSettings.onPrepareSubmitData` (per `references/components/add-dialogs.md`).
+- **submit-mechanics** — any dialog presetting a required FK has BOTH a bound component AND `formSettings.onPrepareSubmitData`.
 - **quality** — the checklist in `SKILL_ROOT/references/form-quality.md` (validationErrors, labels, dropdown sources, primary action, editMode per form type).
 - **scripts** — mustache uses `{{double braces}}`; embedded scripts JSON-safe, async/try-catch on API calls; code-carrying props are `{_mode:'code'}` objects.
 
@@ -56,4 +56,4 @@ Recurse ALL of: `components[]`, `content.components[]`, `header.components[]`, `
 
 `pass` = no `fail`-severity results **and** no `uninspectable` entries. Use ONLY evidence from the markup/spec you were given — do not invent issues, do not soften real ones.
 
-**Report coverage, not just findings** ([verification.md §0](../skills/shesha-form-edit/references/verification.md)). Every check family declares how many nodes it walked, how many assertions it evaluated, and what it could not evaluate and why. A family that examined nothing reports `checked: 0` and is **not** a pass — "nothing was wrong" and "nothing was looked at" must never print the same. A sibling checker once passed a form having reported *"0 bindings, 0 reflists, 0 endpoints checked"*, because that form's constructs were invisible to its walker; the green light cost more than no check would have. If a construct is opaque to you — a code-mode expression, a runtime-only binding — name it in `uninspectable` and let a human read it.
+**Report coverage, not just findings**. Every check family declares how many nodes it walked, how many assertions it evaluated, and what it could not evaluate and why. A family that examined nothing reports `checked: 0` and is **not** a pass — "nothing was wrong" and "nothing was looked at" must never print the same. A sibling checker once passed a form having reported *"0 bindings, 0 reflists, 0 endpoints checked"*, because that form's constructs were invisible to its walker; the green light cost more than no check would have. If a construct is opaque to you — a code-mode expression, a runtime-only binding — name it in `uninspectable` and let a human read it.

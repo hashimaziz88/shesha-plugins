@@ -10,7 +10,7 @@ What the app theme actually reaches: primary-button fill, link colour, active ta
 
 What it does **not** reach, and what fidelity is actually made of: type scale, spacing rhythm, surface treatment (card background, hairline border, radius, shadow), table chrome, status-chip styling, page shell. All of that lives in per-component blocks.
 
-**So: set the app theme once for chrome, then stop.** Do not spend a session tuning theme tokens expecting the page to transform — it won't, and that time is the single most reliably wasted hour in this pipeline. High fidelity comes from composing the pre-styled blocks in `shesha-form-edit/assets/blocks/`, whose values are baked in from `../assets/block-styles/` + the brand tokens.
+**So: set the app theme once for chrome, then stop.** Do not spend a session tuning theme tokens expecting the page to transform — it won't, and that time is the single most reliably wasted hour in this pipeline. High fidelity comes from composing the pre-styled blocks, whose values are baked in from `../assets/block-styles/` + the brand tokens.
 
 ## Mechanism (Shesha)
 

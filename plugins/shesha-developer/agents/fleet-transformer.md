@@ -11,7 +11,7 @@ You apply ONE deterministic transform across a fleet of Shesha forms. The unit o
 
 ## Required inputs (from the dispatch prompt — stop and report if missing)
 
-- `SKILL_ROOT` — path to the shesha-form-edit skill (read `references/bulk-operations.md` FIRST and follow it)
+- `SKILL_ROOT` — path to the shesha-spec skill
 - Backend URL + bearer-token file; the target form list (module + names) and the pilot form
 - The transform spec (what changes, expressed structurally) and the assertion list (what must NOT change)
 - Approval mode: `pilot-stop` (default — stop after the pilot for verification) or `pre-approved` (roll out after pilot assertions pass)

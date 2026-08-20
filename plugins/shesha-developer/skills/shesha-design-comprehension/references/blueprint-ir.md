@@ -4,7 +4,7 @@ The intermediate representation that carries a screen's placement from design to
 
 ## Why hybrid Markdown (not pure JSON/YAML)
 
-The blueprint has two audiences. A **human** reviews and approves placement at the planning gate — they read Markdown, not a 24-deep JSON tree. A **builder** (`shesha-form-edit`) consumes it as a requirements brief — archetype + layout spec + bindings is exactly the input it already takes. So the doc is human-readable Markdown **headings/prose**, with the machine-precise parts isolated in **three fenced code blocks per region**:
+The blueprint has two audiences. A **human** reviews and approves placement at the planning gate — they read Markdown, not a 24-deep JSON tree. A **builder** (`shesha-spec`) consumes it as a requirements brief — archetype + layout spec + bindings is exactly the input it already takes. So the doc is human-readable Markdown **headings/prose**, with the machine-precise parts isolated in **three fenced code blocks per region**:
 
 - ` ```layout-tree ` — the container tree: regions → sections → flex-row splits → split children → fields, with explicit child counts and per-child native widths.
 - ` ```bindings ` — a table mapping each label to its entity property, component type and datatype.
@@ -35,9 +35,8 @@ Viewport captured:  <w>x<h>      Source:  <probe file / source path / screenshot
 
 ## The eight archetypes (target vocabulary)
 
-The blueprint's `Archetype` must be one of `shesha-form-edit`'s archetypes, so the builder picks the right seed:
+The blueprint's `Archetype` must be one of `shesha-spec`'s archetypes, so the builder picks the right seed:
 `record-detail` · `hub` · `list-card` · `capture` · `dashboard` · `solution-map` · `wizard` · `inline-card`.
-(See `shesha-form-edit/references/archetypes.md` for each one's seed, blocks and default shape.)
 
 ## Fidelity tiers — including "there is no design"
 
@@ -137,7 +136,7 @@ Realises UseCases  | realisesUseCases       | datalist panel         | M:M → U
 Required End-points| requiredEndpoints      | datalist panel         | M:M → ApiDefinition
 ```
 
-> **Component-column rules the builder must honor (not just placement):** a `datalist panel` / `datalist (capture)` builds a **`datalist` row-template** — NEVER a `datatable` (a related collection drawn as a grid is a defect even though the data is collection-shaped). A rail attribute control (`dropdown` / `entityAutocomplete` rows in a read-only Details summary) is **read-only display** — author it `editMode: "readOnly"`, not `inherited` (which renders blank in the view state). A `refListStatus` is a status **chip**, not a dropdown. Row-template datalists need a fetch **projection** for their nested bindings — see `shesha-form-edit/references/components/data-tables.md` ("cards render empty" trap).
+> **Component-column rules the builder must honor (not just placement):** a `datalist panel` / `datalist (capture)` builds a **`datalist` row-template** — NEVER a `datatable` (a related collection drawn as a grid is a defect even though the data is collection-shaped). A rail attribute control (`dropdown` / `entityAutocomplete` rows in a read-only Details summary) is **read-only display** — author it `editMode: "readOnly"`, not `inherited` (which renders blank in the view state). A `refListStatus` is a status **chip**, not a dropdown. Row-template datalists need a fetch **projection** for their nested bindings (the "cards render empty" trap).
 
 ## Placement contract  (executable predicates — verified by verification-loop.md)
 ```contract

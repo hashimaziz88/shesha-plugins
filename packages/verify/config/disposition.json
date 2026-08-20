@@ -110,6 +110,30 @@
       "to": "packages/sfs/kb",
       "wp": "WP-7a",
       "reason": "D-095 — the KB is gen-registry.mjs’ input (WP-2); migrated to L1 so the toolchain is self-contained under packages/"
+    },
+    {
+      "path": "quarantine/t3-semantic.mjs",
+      "action": "delete",
+      "wp": "WP-3b.4",
+      "reason": "D-109 — the quarantined verify-artifact CLI is superseded by the T3 tier (WP-3b.3); its D-005 verdictOf/counter duplication goes with it"
+    },
+    {
+      "path": "quarantine/t3-semantic.test.mjs",
+      "action": "delete",
+      "wp": "WP-3b.4",
+      "reason": "D-109 — tested the deleted verify-artifact CLI; the T3 tier is covered by tier-mutations + predicates.test"
+    },
+    {
+      "path": "quarantine/g-check-references.mjs",
+      "action": "delete",
+      "wp": "WP-3b.4",
+      "reason": "D-109 — lifted to packages/verify/src/gates/g-check-references.mjs on the one coverage impl; the lazy-families + SyntaxError holes closed"
+    },
+    {
+      "path": "quarantine/g-check-references.mutation.mjs",
+      "action": "delete",
+      "wp": "WP-3b.4",
+      "reason": "D-109 — the standalone negative script is replaced by the lifted gates mutations[]"
     }
   ]
 }

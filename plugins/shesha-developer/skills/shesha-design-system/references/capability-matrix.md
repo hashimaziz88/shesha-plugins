@@ -2,13 +2,13 @@
 
 Which v7 style channel actually **renders** on which component, measured against a live Shesha backend — not inferred from the props index (the index says what's *legal*; this says what *works*). Version-stamped; re-measure on a Shesha upgrade and diff. Machine-readable source: [`../assets/capability-matrix.json`](../assets/capability-matrix.json).
 
-> **`validate-blocks` rule:** a block (`shesha-form-edit/assets/blocks`) may only reference channels marked ✅ `renders` or ⚠️ `gotcha` (with the documented working key path). A block referencing a ❌ `no-op` channel must not compose.
+> **`validate-blocks` rule:** a block may only reference channels marked ✅ `renders` or ⚠️ `gotcha` (with the documented working key path). A block referencing a ❌ `no-op` channel must not compose.
 
 **Measured:** `@shesha-io/reactjs 0.45.x` · RequirementsStudio `:21021` · viewport 1440×900 · 2026-06-30. Method: per-cell **control twin** (channel omitted) → a no-op is `rendered == control ≠ intended`. Probe forms (`-claude` suffix, disposable): `style-lab-flex-split / surface / inputs / controls`.
 
 ## ⚠️ Read first — two cross-cutting rules
 
-1. **Component VERSION must match the live framework, or the style block silently no-ops.** `numberField` at `version 3` ignored its entire `desktop` block (a total no-op); at `version 5` `dimensions.width` applied. A stale version re-runs the migration chain and drops styling with NO error. **Versions live in one place: `shesha-form-edit/assets/components-kb/_index.json`**, mirrored in [`component-cheatsheet.md`](../../shesha-form-edit/references/component-cheatsheet.md). Never hand-maintain a version list on this line; a hand-maintained one drifts from that source of truth.
+1. **Component VERSION must match the live framework, or the style block silently no-ops.** `numberField` at `version 3` ignored its entire `desktop` block (a total no-op); at `version 5` `dimensions.width` applied. A stale version re-runs the migration chain and drops styling with NO error. **Versions live in one authoritative source, not in these docs.** Never hand-maintain a version list on this line; a hand-maintained one drifts from that source of truth.
 
 <a id="flex-split"></a>
 2. **The flex-split idiom — the canonical statement. Link here; don't restate it.**

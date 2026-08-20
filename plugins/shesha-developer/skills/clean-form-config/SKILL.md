@@ -60,15 +60,15 @@ Layout checks are defined in [layout-checks.md](layout-checks.md) — new checks
 
 **Return the cleaned JSON to the caller. This skill never pushes.**
 
-`shesha-form-edit` invokes this skill as a **mandatory blocking step immediately before its own
+`shesha-spec` invokes this skill as a **mandatory blocking step immediately before its own
 push** (its SKILL.md Step 6). A second push path here would bypass that skill's re-fetch diff and
 browser smoke, and it contradicts the pipeline's "one push path — all writes go through
-`shesha-form-edit`" rule ([handoff-contract.md](../shesha-claude-designer/references/handoff-contract.md)).
+`shesha-spec`" rule ([handoff-contract.md](../shesha-claude-designer/references/handoff-contract.md)).
 
 - **Invoked as a sub-skill (the normal case):** return the cleaned JSON and the change list. The
   caller pushes and verifies.
 - **Invoked standalone by a user on a local file:** report the cleaned JSON and tell them to push
-  it with `shesha-form-edit`.
+  it with `shesha-spec`.
 
 **Never call `AskUserQuestion` from this skill.** It runs inside a blocking step of a pipeline that
 is frequently headless, where an interactive prompt dead-ends the whole run.

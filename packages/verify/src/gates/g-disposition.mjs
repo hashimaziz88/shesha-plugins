@@ -56,6 +56,10 @@ export async function run(ctx) {
   }
 
   const done = completedWps(root);
+  // A file can be moved by one WP and later deleted by another (a lift out of
+  // quarantine: WP-0 moved it in, a later WP removes the husk). Such a move's
+  // destination is legitimately absent, explained by a completed delete row for it.
+  const deletedByComplete = new Set(rows.filter((r) => r.action === 'delete' && done.has(r.wp)).map((r) => r.path));
 
   for (const r of rows) {
     const sp = shapeFam.pointer(r.path || '(no path)');
@@ -87,9 +91,12 @@ export async function run(ctx) {
     } else {
       const mp = fams.get('move-targets').pointer(`${r.wp}: ${r.path} -> ${r.to}`);
       const landed = r.to ? fs.existsSync(path.join(root, r.to)) : false;
+      // A destination that is absent because a later completed WP deleted it (a lift)
+      // is legitimate; an absent destination with no such delete row is a failed move.
+      const liftedAway = !landed && !!r.to && deletedByComplete.has(r.to);
       if (complete) {
-        mp.assert(landed && !exists,
-          `${r.wp} is complete, so ${r.to} must exist and ${r.path} must not; landed=${landed} source-still-present=${exists}`);
+        mp.assert((landed || liftedAway) && !exists,
+          `${r.wp} is complete, so ${r.to} must exist (or be removed by a later completed delete row) and ${r.path} must not; landed=${landed} lifted=${liftedAway} source-still-present=${exists}`);
       } else {
         mp.na(`${r.wp} is not yet complete, so this move is not due`);
       }

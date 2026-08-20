@@ -1,12 +1,12 @@
 ---
 name: shesha-forms
-description: "DEPRECATED — use shesha-developer:shesha-form-edit instead. Legacy wrapper around the Shesha MCP server's form tools, kept only for the MCP setup notes. Do NOT select this skill for creating, updating or modifying forms: the MCP path it wraps fails regularly ('dict' object has no attribute 'lower', JSON-RPC -32602) and shesha-form-edit's direct-API path supersedes it entirely."
+description: "DEPRECATED — use shesha-developer:shesha-spec instead. Legacy wrapper around the Shesha MCP server's form tools, kept only for the MCP setup notes. Do NOT select this skill for creating, updating or modifying forms: the MCP path it wraps fails regularly ('dict' object has no attribute 'lower', JSON-RPC -32602) and shesha-spec's direct-API path supersedes it entirely."
 allowed-tools:
   - Bash(claude mcp *)
 # DEPRECATED 2026-08-12. Zero inbound references anywhere in this plugin, and its trigger
-# phrases were a superset of shesha-form-edit's — so skill routing was a coin flip into a
+# phrases were a superset of shesha-spec's — so skill routing was a coin flip into a
 # path the rest of the pipeline documents as broken. Retained only for the MCP install
-# notes below, which shesha-form-edit's seed-discovery step still refers to.
+# notes below, which shesha-spec's seed-discovery step still refers to.
   - Bash(dotnet *)
   - Bash(powershell *)
   - Bash(curl *)

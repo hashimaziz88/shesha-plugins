@@ -1,6 +1,6 @@
 # Style channels and override precedence
 
-Why a stamped style prop doesn't render, where each channel lands in the DOM, and the ordered debug procedure. Block shapes (border/background/dimensions/font/shadow) are in [styling-v7-mechanics.md](styling-v7-mechanics.md). Layout idioms / structure (`containers.md`, `layout.md`, `detail-page-pattern.md`) live in the `shesha-form-edit` skill — this skill (`shesha-design-system`) owns appearance only. Capability verdicts (which channel actually renders per component) are in [capability-matrix.md](capability-matrix.md).
+Why a stamped style prop doesn't render, where each channel lands in the DOM, and the ordered debug procedure. Block shapes (border/background/dimensions/font/shadow) are in [styling-v7-mechanics.md](styling-v7-mechanics.md). Layout idioms / structure live in the `shesha-spec` skill — this skill (`shesha-design-system`) owns appearance only. Capability verdicts (which channel actually renders per component) are in [capability-matrix.md](capability-matrix.md).
 
 ---
 
@@ -90,7 +90,7 @@ Run in order; stop at the first hit:
 4. **Channel→div mapping** — is the prop landing on the inner div when the constraint is on the outer flex item? (sizing fixes must go through `dimensions`)
 5. **enableStyleOnReadonly** — readonly/Live mode with `enableStyleOnReadonly: false`?
 6. Verify with `getBoundingClientRect`/`getComputedStyle` in-browser, **not screenshots** — scaled screenshots fake 10–15px offsets that are really 0.
-7. Before re-testing, clear the FE form cache: forms are cached in **IndexedDB** (`form`/`form_lookup`); `indexedDB.deleteDatabase` from inside the app silently blocks — clear from a static page (e.g. `/favicon.ico`), or stale markup keeps rendering. See [verification.md](../../shesha-form-edit/references/verification.md).
+7. Before re-testing, clear the FE form cache: forms are cached in **IndexedDB** (`form`/`form_lookup`); `indexedDB.deleteDatabase` from inside the app silently blocks — clear from a static page (e.g. `/favicon.ico`), or stale markup keeps rendering.
 
 ---
 

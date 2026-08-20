@@ -1,17 +1,17 @@
 # Verification loop — does the built form match the blueprint?
 
-The mechanism that turns "it renders" into "it's placed where the design put it". This is what actually fixes the container-drift complaint: the blueprint's `contract` rows become a measured pass/fail gate on the built Shesha form, and failures become concrete fixes routed back to `shesha-form-edit`.
+The mechanism that turns "it renders" into "it's placed where the design put it". This is what actually fixes the container-drift complaint: the blueprint's `contract` rows become a measured pass/fail gate on the built Shesha form, and failures become concrete fixes routed back to `shesha-spec`.
 
 Runs as **gate 5a.5** in `shesha-claude-designer` — after structural integrity (5a), before styling (5b). It can also be invoked standalone to diagnose an existing form ("why doesn't this match the design?").
 
 ## Procedure
 
-1. **Build + publish** the form via `shesha-form-edit` (Draft → Live).
+1. **Build + publish** the form via `shesha-spec` (Draft → Live).
 2. **Clear the form cache.** The frontend caches form markup in IndexedDB — clear `form` / `form_lookup` from `/favicon.ico` (not in-app) after every push, or you measure a ghost of the previous build.
 3. **Navigate the real path.** Open the form via **table-row → details**, never a pasted `?id=` (a direct id load 500s the subtable Crud/Create). Pin the **same viewport** used for capture (1440×900).
-4. **Re-probe.** Run the *same* `scripts/layout-probe.js` against the rendered Shesha form → actual `layout.json`. Same instrument as capture = comparable numbers.
+4. **Re-probe.** Run the *same* layout probe against the rendered Shesha form → actual `layout.json`. Same instrument as capture = comparable numbers.
 5. **Diff actual vs the blueprint `contract`** — structurally, not by pixels (next section).
-6. **Route mismatches back to `shesha-form-edit`** as concrete fixes; rebuild → re-publish → clear cache → re-probe → re-diff until every assertion passes.
+6. **Route mismatches back to `shesha-spec`** as concrete fixes; rebuild → re-publish → clear cache → re-probe → re-diff until every assertion passes.
 
 ## What to diff (and why it survives the pixel↔width-expression gap)
 
@@ -27,7 +27,7 @@ Assert on properties that are stable across the design's pixel grid and Shesha's
 
 **Never** assert absolute pixels or exact width expressions — a `minmax(0,1fr) 332px` design grid is *satisfied* by a flex-row split whose fill cell is `width:"calc(100% - 356px)"` and whose rail cell is a fixed `width:"332px"` (the ratio, not the exact calc, is what matters). Fail only on **wrong cluster / wrong parent / wrong tab / ratio out of range**.
 
-## Routed-fix vocabulary (speak `shesha-form-edit`'s language)
+## Routed-fix vocabulary (speak `shesha-spec`'s language)
 
 A failing assertion becomes an instruction phrased in the builder's terms, e.g.:
 
@@ -35,7 +35,7 @@ A failing assertion becomes an instruction phrased in the builder's terms, e.g.:
 
 > **A4 FAIL** — `Details` rows measured full-width (one node per rowBand) but blueprint asserts 2-cell rows. *Fix:* wrap each label+control into a 2-cell flex row — a `container` with `display:"flex"` + `flexDirection:"row"` + `gap` whose two child `container`s each carry a `desktop.dimensions.width` — or use the detail-attributes recipe's label/value row.
 
-Keep each fix to: the failing assertion id, the measured fact (with numbers), the asserted fact, and the structural change in `shesha-form-edit` terms.
+Keep each fix to: the failing assertion id, the measured fact (with numbers), the asserted fact, and the structural change in `shesha-spec` terms.
 
 ## RED → GREEN (how this skill is validated)
 

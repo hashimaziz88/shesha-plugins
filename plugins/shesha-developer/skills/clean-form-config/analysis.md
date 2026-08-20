@@ -162,13 +162,13 @@ For every component where **`type === 'dropdown'`** and **`dataSourceType === 'v
 1. Skip if `values` is absent, `null`, or not an array.
 2. For each item in the array, check:
    - **Required keys present**: `id`, `label`, `value` — the `{ id, label, value }` contract that
-     `shesha-form-edit` authors to ([dropdowns.md](../shesha-form-edit/references/components/dropdowns.md)).
+     `shesha-spec` authors to.
    - **Known optional keys**: `color` (string), `icon` (string). Any other key is an **unknown key**.
    - **Type check**: `label` and `value` must be strings. `color` and `icon`, if present, must be strings.
 3. Classify each issue:
    - Missing `id`, `label` or `value` → **[MANUAL REVIEW]**
    - Missing `color` → **not an issue.** `color` is optional; do not report it and **do not inject
-     `"color": ""`**. This skill runs as a blocking step immediately before `shesha-form-edit`
+     `"color": ""`**. This skill runs as a blocking step immediately before `shesha-spec`
      pushes, so injecting a key mutates markup the caller deliberately authored — the two skills
      were disagreeing about the same contract, and the caller's is the one that renders.
    - Wrong type for `label`, `value`, `color`, or `icon` → **[MANUAL REVIEW]**
