@@ -138,6 +138,27 @@ async function runPredicates(/** @type {string} */ root) {
     : { ok: false, lines: [`predicate engine: ${results.filter((r) => !r.pass).map((r) => r.predicate).join(',') || 'ok'}; absentPass=${absent.pass}`] };
 }
 
+/** WP-3b.3: the T3 offline semantic tier passes clean and discriminates a real defect. */
+async function runT3Tier(/** @type {string} */ root) {
+  const { compile } = await import(pathToFileURL(path.join(root, 'packages/sfs/src/compile/index.mjs')).href);
+  const { t3Semantic, checks } = await import(pathToFileURL(path.join(root, 'packages/verify/src/tiers/t3-semantic.mjs')).href);
+  const { verdictOf } = await import(pathToFileURL(path.join(root, 'packages/registry/src/coverage.mjs')).href);
+  const src = fs.readFileSync(path.join(root, 'packages/sfs/test/fixtures/clean/inline-editable-table.sfs.json'), 'utf8');
+  const r = /** @type {any} */ (compile(src, { source: 'prove-b' }));
+  const doc = JSON.parse(String(r.envelope.Markup));
+  const entity = String(r.envelope.ModelType);
+  const clean = verdictOf(t3Semantic(doc, r.meta, { entity }));
+  // Adversarial: a dataContext whose entityType disagrees with the form entity must fail.
+  const bad = JSON.parse(JSON.stringify(doc));
+  const walk = (/** @type {any} */ n, /** @type {(x:any)=>void} */ cb) => { if (Array.isArray(n)) n.forEach((x) => walk(x, cb)); else if (n && typeof n === 'object') { cb(n); for (const k of Object.keys(n)) walk(n[k], cb); } };
+  walk(bad.components, (n) => { if (n.type === 'dataContext') n.entityType = 'wrong.Entity'; });
+  const flipped = verdictOf(t3Semantic(bad, r.meta, { entity }));
+  const ok = clean === 'pass' && flipped === 'fail';
+  return ok
+    ? { ok: true, lines: [`T3 offline tier passes clean and catches a defect: ${checks.length} checks, a wrong dataContext entityType flips it to fail (§3.2.4, D-106)`] }
+    : { ok: false, lines: [`T3 tier: clean=${clean} (want pass), corrupted=${flipped} (want fail)`] };
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -151,6 +172,7 @@ const STEPS = [
   { id: 'prose-thin', label: 'prose thin', needs: 'WP-7', impl: runProseThin },
   { id: 'sidecar', label: 'placement sidecar', needs: 'WP-3b.1', impl: runSidecar },
   { id: 'predicates', label: 'placement predicates', needs: 'WP-3b.2', impl: runPredicates },
+  { id: 't3-tier', label: 'T3 semantic tier', needs: 'WP-3b.3', impl: runT3Tier },
 ];
 
 /**

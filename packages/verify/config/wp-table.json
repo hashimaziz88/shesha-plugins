@@ -98,7 +98,21 @@
       "id": "WP-3b.3",
       "order": null,
       "inScope": false,
-      "goal": "The T3 semantic tier + verify.mjs wiring + T3/placement fixtures + g-fixture-manifest/g-verdict-integrity + mutation/defect-class reconciliation; the .build/wp3b --tiers t1,t2,t3 acceptance (D-103 split)",
+      "goal": "T3 semantic tier — offline core: 10 checks over the compiled tree (T3.04/08/10/12/13/14/16/17/18/19), wired into verify.mjs; the .build/wp3b --screen inline-editable-table --tiers t1,t2,t3 exit-0 acceptance (D-106 split)",
+      "backlog": "BL-003"
+    },
+    {
+      "id": "WP-3b.3b",
+      "order": null,
+      "inScope": false,
+      "goal": "T3 contract checks T3.20/T3.21/T3.22 over the placement predicate engine + placement/t3 fixtures + g-fixture-manifest + g-verdict-integrity (D-106 split)",
+      "backlog": "BL-003"
+    },
+    {
+      "id": "WP-3b.3c",
+      "order": null,
+      "inScope": false,
+      "goal": "T3 metadata substrate: the 6 backend checks (T3.01/02/05/06/07/09) + recorded metadata snapshots + datatype-components/action-owner registry data (T3.03/T3.11); closes D-036 (D-106 split)",
       "backlog": "BL-003"
     },
     {

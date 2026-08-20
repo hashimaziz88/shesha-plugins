@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 105,
+  "count": 106,
   "decisions": [
     {
       "id": "D-001",
@@ -1233,7 +1233,7 @@
       "id": "D-103",
       "date": "2026-08-20",
       "status": "decided",
-      "decision": "Scope change: WP-3b (full brief T3) splits into WP-3b.1 (compiler placement sidecar §3.3.1), WP-3b.2 (18-name predicate engine + assertions.schema.json), WP-3b.3 (T3 tier + verify wiring + fixtures + the .build/wp3b --tiers t1,t2,t3 acceptance), WP-3b.4 (lift g-check-references out of quarantine); session-scope-b.json swaps WP-3b for the four; wp-table.json + CONTROL §3b updated",
+      "decision": "Scope change: WP-3b (full brief T3) splits into WP-3b.1 (compiler placement sidecar §3.3.1), WP-3b.2 (18-name predicate engine + assertions.schema.json), WP-3b.3 (the T3 tier), WP-3b.4 (lift g-check-references out of quarantine); session-scope-b.json swaps WP-3b for the four",
       "why": "placement needs an L1 sidecar first, and g-check-references cannot lift while 12 dangling refs fail its baseline; each exceeds one context (CONTROL §6, mirrors D-096/D-098)",
       "consequence": "prove-b requires all four",
       "enforcedBy": [
@@ -1262,6 +1262,18 @@
       "consequence": "g-no-prose-assertions bans prose assertions and fails on registry drift",
       "enforcedBy": [
         "g-no-prose-assertions"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-106",
+      "date": "2026-08-20",
+      "status": "decided",
+      "decision": "Scope change: WP-3b.3 (the T3 tier) splits into WP-3b.3 (offline-core tier, wired into verify.mjs, the .build/wp3b --tiers t1,t2,t3 exit-0 acceptance), WP-3b.3b (contract checks T3.20/21/22 + fixtures + g-fixture-manifest/g-verdict-integrity), WP-3b.3c (metadata substrate + the 6 backend checks, closing D-036); session-scope-b.json swaps WP-3b.3 for the three",
+      "why": "offline checks are green now; backend needs a snapshot substrate; contract needs fixtures (CONTROL §6)",
+      "consequence": "prove-b requires all three",
+      "enforcedBy": [
+        "structural:packages/verify/test/prove-b.contract.test.mjs"
       ],
       "confirmation": "n/a"
     }

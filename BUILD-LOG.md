@@ -830,3 +830,39 @@ become predicate rows) across `blueprint-ir.md`, `SKILL.md` and `verification-lo
 the fence, so the rename is safe. The commit touches `plugins/**`, so `plugin.json` bumps 1.9.1→1.9.2
 and `g-plugin-version`'s floor with it. `prove-b` gains its `placement predicates` step.
 
+## WP-3b.3 — The T3 semantic tier (offline core) — 2026-08-20
+
+Status: complete
+Gate: `node packages/verify/src/verify.mjs .build/wp3b --screen inline-editable-table --tiers t1,t2,t3` -> exit 0 (t1/t2/t3 all pass); `node --test packages/verify/test/tier-mutations.test.mjs` -> 50/50 (10 t3 mutations flip); `npm run green` -> exit 0
+Evidence: packages/verify/evidence/WP-3b.3.json
+Decisions added: D-106 (Scope change: WP-3b.3 splits into WP-3b.3 offline core + WP-3b.3b contract checks + WP-3b.3c metadata substrate)
+Blocked: none new
+Next: WP-3b.3b (the contract checks T3.20/21/22 + fixtures + g-fixture-manifest/g-verdict-integrity)
+
+The full brief T3 is 22 checks across three data sources — offline (tree + registry + sidecar), backend
+(entity metadata), and contract (plan.json predicate rows) — so D-106 splits WP-3b.3 into the offline
+core (this WP), the contract checks (WP-3b.3b, over the WP-3b.2 predicate engine), and the metadata
+substrate (WP-3b.3c, the 6 backend checks + a recorded-snapshot loader, closing D-036). The key finding
+that shapes the split: an offline-only tier that declares no backend checks yet PASSES on the clean
+`inline-editable-table` (no uninspectable), so BL-003's bare `verify.mjs .build/wp3b --tiers t1,t2,t3`
+command already exits 0 here — the exit-0 acceptance lands now, and WP-3b.3c keeps it at 0 by
+auto-loading a recorded InventoryItem snapshot when it adds the backend checks.
+
+`packages/verify/src/tiers/t3-semantic.mjs` is the rewrite the quarantine required (D-038/D-049): it
+defines no `verdictOf` and no walked/checked pair (D-005), declaring its 8 families with `families()`
+and yielding to the driver's `verdictOf`, exactly like `t2-registry`. It ships 10 offline checks over
+the single `walkComponents` walker: T3.04 (no duplicate propertyName within a data scope), T3.08 (a
+component whose registry `requiredProps` includes `formId` carries one), T3.10 (`onSuccess` resolves to
+an in-tree id or a known global-action owner), T3.12 (data components have a `dataContext` ancestor with
+the four required props), T3.13 (`dataContext.entityType` equals the form entity), T3.14 (at most one
+primary button per zone), T3.16 (submit pipeline matches kind — list has none, create/edit has one),
+T3.17 (embedded scripts parse, via the AsyncFunction constructor — the same syntax check as `node
+--check`, without a subprocess per script), T3.18 (mustache roots are one of the six known scopes), T3.19
+(a row-click surface is not wired both by `onRowClick` and `rowClickActionConfiguration`). It is wired
+into `verify.mjs` (replacing the `notRun` stub), passing the form entity from the envelope's `ModelType`.
+`g-mutation-coverage` and `tier-mutations.test.mjs` gain the t3 tier; all 10 mutations flip their named
+family (`tier-mutations` 50/50), and each was adversarially confirmed to reject the wrong answer, not
+merely pass clean. The six backend checks (T3.01/02/05/06/07/09), the datatype/action-owner registry
+checks (T3.03/T3.11) and the three contract checks (T3.20/21/22) are added to `checks[]` by WP-3b.3b/3c,
+so `g-mutation-coverage` never sees an uncovered id. `prove-b` gains its `T3 semantic tier` step.
+

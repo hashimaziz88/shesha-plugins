@@ -19,6 +19,7 @@ import { verdictOf, EXIT } from '@shesha/registry/coverage';
 import { repoRoot, readText } from './lib/fsx.mjs';
 import { t1Full, readArtifact } from './tiers/t1-schema.mjs';
 import { t2Registry } from './tiers/t2-registry.mjs';
+import { t3Semantic } from './tiers/t3-semantic.mjs';
 
 const LATTICE = /** @type {Record<string, number>} */ ({ pass: 0, partial: 1, fail: 2 });
 const RESULT_TIERS = ['T1', 'T2', 'T3'];
@@ -86,7 +87,11 @@ export async function runLadder(opts) {
     lines.push(tierLine('t2', fams, v));
   }
   if (tiers.includes('t3')) {
-    tierResults.T3 = notRun('T3 semantic tier is WP-3b (BL-003)');
+    const entity = (art.envelope && art.envelope.ModelType) || (sfs && sfs.entity) || null;
+    const fams = t3Semantic(art.doc, meta, { legacy, entity });
+    const v = verdictOf(fams);
+    tierResults.T3 = { result: v, detail: detailOf(fams) };
+    lines.push(tierLine('t3', fams, v));
   }
 
   // result = worst(T1,T2,T3) over pass<partial<fail; a REQUESTED result-tier that

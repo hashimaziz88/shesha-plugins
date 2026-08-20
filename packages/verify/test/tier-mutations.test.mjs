@@ -13,6 +13,7 @@ import { verdictOf } from '@shesha/registry/coverage';
 import { compile } from '../../sfs/src/compile/index.mjs';
 import { t1Full, mutations as t1Muts, checks as t1Checks } from '../src/tiers/t1-schema.mjs';
 import { t2Registry, mutations as t2Muts, checks as t2Checks } from '../src/tiers/t2-registry.mjs';
+import { t3Semantic, mutations as t3Muts, checks as t3Checks } from '../src/tiers/t3-semantic.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 
@@ -29,7 +30,7 @@ function familyCaught(fams, name, expect) {
   return expect === 'partial' ? fam.uninspectable.length > 0 : fam.failures.length > 0;
 }
 
-for (const [tier, checks, muts] of /** @type {const} */ ([['t1', t1Checks, t1Muts], ['t2', t2Checks, t2Muts]])) {
+for (const [tier, checks, muts] of /** @type {const} */ ([['t1', t1Checks, t1Muts], ['t2', t2Checks, t2Muts], ['t3', t3Checks, t3Muts]])) {
   test(`${tier}: every non-subsumed check id is covered by a mutation`, () => {
     const covered = new Set(muts.flatMap((m) => m.covers));
     const uncovered = checks.filter((c) => !(/** @type {any} */ (c).subsumed) && !covered.has(c.id)).map((c) => c.id);
@@ -65,6 +66,22 @@ for (const m of t1Muts) {
     const ctx = { envelope: structuredClone(b.envelope), doc: structuredClone(b.doc), sfs: structuredClone(b.sfs), meta: structuredClone(b.meta), provenance: undefined };
     m.apply(ctx);
     const fams = t1Full(ROOT, { envelope: ctx.envelope, doc: ctx.doc }, { sfs: ctx.sfs, meta: ctx.meta, provenance: ctx.provenance });
+    assert.equal(verdictOf(fams), m.expect, `verdict did not become ${m.expect}`);
+    assert.ok(familyCaught(fams, m.expectFamily, m.expect), `${m.expectFamily} did not catch "${m.name}"`);
+  });
+}
+
+test('t3 baseline passes clean compiler output', () => {
+  const b = baseline();
+  assert.equal(verdictOf(t3Semantic(b.doc, b.meta, { entity: String(b.envelope.ModelType) })), 'pass');
+});
+
+for (const m of t3Muts) {
+  test(`t3 mutation "${m.name}" flips ${m.expectFamily} to ${m.expect}`, () => {
+    const b = baseline();
+    const ctx = { doc: structuredClone(b.doc), meta: structuredClone(b.meta), entity: String(b.envelope.ModelType) };
+    m.apply(ctx);
+    const fams = t3Semantic(ctx.doc, ctx.meta, { entity: ctx.entity });
     assert.equal(verdictOf(fams), m.expect, `verdict did not become ${m.expect}`);
     assert.ok(familyCaught(fams, m.expectFamily, m.expect), `${m.expectFamily} did not catch "${m.name}"`);
   });

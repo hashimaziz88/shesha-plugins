@@ -16,12 +16,14 @@ export const describe = "every tier check id is covered by a mutation's covers[]
 export const inputPaths = [
   'packages/verify/src/tiers/t1-schema.mjs',
   'packages/verify/src/tiers/t2-registry.mjs',
+  'packages/verify/src/tiers/t3-semantic.mjs',
   'package.json',
 ];
 
 const TIERS = [
   { tier: 't1', file: 'packages/verify/src/tiers/t1-schema.mjs' },
   { tier: 't2', file: 'packages/verify/src/tiers/t2-registry.mjs' },
+  { tier: 't3', file: 'packages/verify/src/tiers/t3-semantic.mjs' },
 ];
 
 /**
