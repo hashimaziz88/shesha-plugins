@@ -1,0 +1,17 @@
+{
+  "screen": "employees-table",
+  "_comment": "Placement contract (WP-3b.3b, §3.3.3). Declarative predicate rows the T3 tier evaluates over the compiled sidecar via the frozen 18-name engine. `acceptance` drives T3.21 (non-tab rows) and T3.22 (tab rows); `columns` drives T3.20. Every row here is TRUE of the compiled employees-table — a wrong row fails, which is what g-verdict-integrity proves.",
+  "acceptance": [
+    { "id": "P1", "tier": "t3", "predicate": "cellCount", "args": { "row": "toolbar" }, "expect": { "eq": 2 } },
+    { "id": "P2", "tier": "t3", "predicate": "cellSizing", "args": { "node": "searchCell" }, "expect": { "eq": "fill" } },
+    { "id": "P3", "tier": "t3", "predicate": "cellSizing", "args": { "node": "addCell" }, "expect": { "eq": "fixed" } },
+    { "id": "P4", "tier": "t3", "predicate": "cellsEqual", "args": { "row": "toolbar" }, "expect": { "eq": false } },
+    { "id": "P5", "tier": "t3", "predicate": "region", "args": { "node": "pageShell" }, "expect": { "eq": "page" } },
+    { "id": "P6", "tier": "t3", "predicate": "componentType", "args": { "node": "pageShell" }, "expect": { "eq": "card" } },
+    { "id": "P7", "tier": "t3", "predicate": "count", "args": { "type": "datatable" }, "expect": { "eq": 1 } },
+    { "id": "P8", "tier": "t3", "predicate": "tab", "args": { "node": "pageShell" }, "expect": { "isNull": true } }
+  ],
+  "columns": {
+    "employeesTable": ["Number", "Name", "Department", "Job title", "Email", "Hired", "Location", "Status"]
+  }
+}

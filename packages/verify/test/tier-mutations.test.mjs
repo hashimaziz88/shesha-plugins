@@ -79,9 +79,9 @@ test('t3 baseline passes clean compiler output', () => {
 for (const m of t3Muts) {
   test(`t3 mutation "${m.name}" flips ${m.expectFamily} to ${m.expect}`, () => {
     const b = baseline();
-    const ctx = { doc: structuredClone(b.doc), meta: structuredClone(b.meta), entity: String(b.envelope.ModelType) };
+    const ctx = /** @type {any} */ ({ doc: structuredClone(b.doc), meta: structuredClone(b.meta), entity: String(b.envelope.ModelType), contract: undefined });
     m.apply(ctx);
-    const fams = t3Semantic(ctx.doc, ctx.meta, { entity: ctx.entity });
+    const fams = t3Semantic(ctx.doc, ctx.meta, { entity: ctx.entity, contract: ctx.contract });
     assert.equal(verdictOf(fams), m.expect, `verdict did not become ${m.expect}`);
     assert.ok(familyCaught(fams, m.expectFamily, m.expect), `${m.expectFamily} did not catch "${m.name}"`);
   });

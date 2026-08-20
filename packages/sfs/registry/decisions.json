@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 106,
+  "count": 107,
   "decisions": [
     {
       "id": "D-001",
@@ -1274,6 +1274,18 @@
       "consequence": "prove-b requires all three",
       "enforcedBy": [
         "structural:packages/verify/test/prove-b.contract.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-107",
+      "date": "2026-08-20",
+      "status": "decided",
+      "decision": "The T3 contract checks (T3.20 columns, T3.21 placement, T3.22 tabs) read a per-screen contract fixture (packages/sfs/test/fixtures/contracts/&lt;screen&gt;.contract.json: acceptance predicate rows + a declared column set) and evaluate it through the WP-3b.2 engine; verify.mjs loads it, a run-dir copy overriding the committed one",
+      "why": "placement drift is caught by recomputing the contract over the freshly-compiled screen, not by trusting a reported result",
+      "consequence": "g-fixture-manifest validates each contract (schema, known predicates, real screen, byte cap); g-verdict-integrity recomputes it and fails on drift",
+      "enforcedBy": [
+        "g-verdict-integrity"
       ],
       "confirmation": "n/a"
     }

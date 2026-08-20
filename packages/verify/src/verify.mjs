@@ -88,7 +88,8 @@ export async function runLadder(opts) {
   }
   if (tiers.includes('t3')) {
     const entity = (art.envelope && art.envelope.ModelType) || (sfs && sfs.entity) || null;
-    const fams = t3Semantic(art.doc, meta, { legacy, entity });
+    const contract = loadContract(root, runDir, screen);
+    const fams = t3Semantic(art.doc, meta, { legacy, entity, contract });
     const v = verdictOf(fams);
     tierResults.T3 = { result: v, detail: detailOf(fams) };
     lines.push(tierLine('t3', fams, v));
@@ -129,6 +130,26 @@ export async function runLadder(opts) {
 
 /** @param {string} reason @returns {{result:string, reason:string}} */
 function notRun(reason) { return { result: 'notRun', reason }; }
+
+/**
+ * The placement contract for a screen: a run-dir override, else the committed clean
+ * fixture, else undefined (the T3 contract families then walk nothing). A malformed
+ * contract file is surfaced as no-contract rather than crashing the ladder.
+ * @param {string} root @param {string} runDir @param {string} screen
+ * @returns {{acceptance?:any[], columns?:Record<string, string[]>}|undefined}
+ */
+function loadContract(root, runDir, screen) {
+  const candidates = [
+    path.join(runDir, 'screens', `${screen}.contract.json`),
+    path.join(root, 'packages/sfs/test/fixtures/contracts', `${screen}.contract.json`),
+  ];
+  for (const c of candidates) {
+    const raw = readText(c);
+    if (raw === null) continue;
+    try { return JSON.parse(raw); } catch { return undefined; }
+  }
+  return undefined;
+}
 
 /** @param {import('@shesha/registry/coverage').Family[]} fams */
 function detailOf(fams) {

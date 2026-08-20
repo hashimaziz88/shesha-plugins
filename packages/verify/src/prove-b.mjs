@@ -159,6 +159,24 @@ async function runT3Tier(/** @type {string} */ root) {
     : { ok: false, lines: [`T3 tier: clean=${clean} (want pass), corrupted=${flipped} (want fail)`] };
 }
 
+/** WP-3b.3b: the T3 contract checks evaluate a committed contract and catch drift. */
+async function runContract(/** @type {string} */ root) {
+  const { compile } = await import(pathToFileURL(path.join(root, 'packages/sfs/src/compile/index.mjs')).href);
+  const { t3Semantic } = await import(pathToFileURL(path.join(root, 'packages/verify/src/tiers/t3-semantic.mjs')).href);
+  const { verdictOf } = await import(pathToFileURL(path.join(root, 'packages/registry/src/coverage.mjs')).href);
+  const r = /** @type {any} */ (compile(fs.readFileSync(path.join(root, 'packages/sfs/test/fixtures/clean/employees-table.sfs.json'), 'utf8'), { source: 'prove-b' }));
+  const doc = JSON.parse(String(r.envelope.Markup));
+  const entity = String(r.envelope.ModelType);
+  const contract = JSON.parse(fs.readFileSync(path.join(root, 'packages/sfs/test/fixtures/contracts/employees-table.contract.json'), 'utf8'));
+  const clean = verdictOf(t3Semantic(doc, r.meta, { entity, contract }));
+  const bad = { acceptance: [{ id: 'X', tier: 't3', predicate: 'region', args: { node: 'pageShell' }, expect: { eq: 'body' } }] };
+  const flipped = verdictOf(t3Semantic(doc, r.meta, { entity, contract: bad }));
+  const ok = clean === 'pass' && flipped === 'fail';
+  return ok
+    ? { ok: true, lines: [`placement contract evaluates: ${contract.acceptance.length} rows + a column set pass over the compiled screen, a drifted row flips it to fail (T3.20/21/22, D-107)`] }
+    : { ok: false, lines: [`contract checks: clean=${clean} (want pass), drifted=${flipped} (want fail)`] };
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -173,6 +191,7 @@ const STEPS = [
   { id: 'sidecar', label: 'placement sidecar', needs: 'WP-3b.1', impl: runSidecar },
   { id: 'predicates', label: 'placement predicates', needs: 'WP-3b.2', impl: runPredicates },
   { id: 't3-tier', label: 'T3 semantic tier', needs: 'WP-3b.3', impl: runT3Tier },
+  { id: 'contract', label: 'placement contract', needs: 'WP-3b.3b', impl: runContract },
 ];
 
 /**

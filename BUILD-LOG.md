@@ -866,3 +866,33 @@ merely pass clean. The six backend checks (T3.01/02/05/06/07/09), the datatype/a
 checks (T3.03/T3.11) and the three contract checks (T3.20/21/22) are added to `checks[]` by WP-3b.3b/3c,
 so `g-mutation-coverage` never sees an uncovered id. `prove-b` gains its `T3 semantic tier` step.
 
+## WP-3b.3b — The T3 contract checks (placement, columns, tabs) — 2026-08-20
+
+Status: complete
+Gate: `node packages/verify/src/gates/g-verdict-integrity.mjs` -> exit 0; `node packages/verify/src/gates/g-fixture-manifest.mjs` -> exit 0; `node packages/verify/src/verify.mjs .build/wp3b --screen employees-table --tiers t3` -> exit 0 (placement 7 · columns 1 · tabs 1); `npm run green` -> exit 0
+Evidence: packages/verify/evidence/WP-3b.3b.json
+Decisions added: D-107 (the T3 contract checks read a per-screen contract fixture and evaluate it through the WP-3b.2 engine; g-fixture-manifest validates it, g-verdict-integrity recomputes it)
+Blocked: none new
+Next: WP-3b.3c (the metadata substrate + the 6 backend checks; closes D-036)
+
+The three contract checks make D-014's placement predicates verify a real screen. `t3-semantic.mjs`
+gains the `placement`, `columns` and `tabs` families and checks T3.21 (every non-tab contract
+predicate evaluates true), T3.22 (every `tab` predicate evaluates true), and T3.20 (the compiled
+datatable's data-column captions equal the contract's declared set, in order). The contract is
+declarative data at `packages/sfs/test/fixtures/contracts/<screen>.contract.json` — `{acceptance:
+[predicate rows], columns:{<datatable>:[captions]}}`; `verify.mjs` loads it (a run-dir copy overrides
+the committed one) and the tier evaluates each row through the WP-3b.2 engine, one row one pointer, no
+eval. A screen with no contract walks these families zero, so the `inline-editable-table` exit-0
+acceptance is unchanged; `employees-table` gains a committed contract (8 acceptance rows + an 8-column
+set) that is TRUE of its compiled form. Two new gates: `g-fixture-manifest` (each contract is
+schema-valid against assertions.schema.json, names only registry predicates, targets a real screen,
+and is within its 32 KB cap) and `g-verdict-integrity` (recomputes every contract over its
+freshly-compiled screen and fails on drift — a contract that no longer matches its form is caught,
+never trusted; both also assert determinism). All four new checks/gates are adversarially verified:
+the tier's three contract mutations flip (`tier-mutations` 53/53), and each gate's two mutations flip
+(a drifted contract row, a wrong column set; an unknown predicate, a ghost screen). `g-mutation-
+coverage` now covers T3.20/21/22; the gate ratchet rises 26 -> 28. T3.22's real tabbed-form coverage
+(sidecar `tabKey` is `null` until the compiler resolves `tabs` regions) lands with the tabs fixture in
+WP-3b.3c/later; here it is exercised by an `isNull` contract row and a mutation. `prove-b` gains its
+`placement contract` step.
+

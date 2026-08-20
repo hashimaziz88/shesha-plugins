@@ -21,6 +21,7 @@ import { load } from '@shesha/registry';
 import { readText, repoRoot } from '../lib/fsx.mjs';
 import { walkComponents } from '../walk.mjs';
 import { readForm } from './t2-registry.mjs';
+import { evaluate } from '../predicates/index.mjs';
 
 export const id = 't3-semantic';
 export const describe = 'binding scope, references, data context, actions, submit/exit, embedded scripts, templating, row-click wiring — offline over the compiled tree';
@@ -37,6 +38,9 @@ export const checks = [
   { id: 'T3.17', family: 'scripts', describe: 'every embedded script parses' },
   { id: 'T3.18', family: 'templating', describe: 'every mustache expression root is a known scope' },
   { id: 'T3.19', family: 'wiring', describe: 'at most one navigation wiring per row-click surface (onRowClick xor rowClickActionConfiguration)' },
+  { id: 'T3.20', family: 'columns', describe: 'the compiled column captions equal the contract’s declared set, in order' },
+  { id: 'T3.21', family: 'placement', describe: 'every non-tab contract predicate evaluates true over the compiled tree' },
+  { id: 'T3.22', family: 'tabs', describe: 'every tab-assignment contract predicate evaluates true' },
 ];
 
 /** The frozen mustache scopes a `{{root...}}` expression may name (§3.2.4 T3.18). */
@@ -110,7 +114,7 @@ function mustacheRootsOf(node, channelKeys) {
  * The full offline T3 over ONE compiled form.
  * @param {{components?:any[], formSettings?:any}} doc parsed markup
  * @param {{nodes?:any[], kind?:string}|null} meta the compiled sidecar
- * @param {{ref?:string, legacy?:boolean, entity?:string|null}} [opts]
+ * @param {{ref?:string, legacy?:boolean, entity?:string|null, contract?:{acceptance?:any[], columns?:Record<string, string[]>}}} [opts]
  * @returns {import('@shesha/registry/coverage').Family[]}
  */
 export function t3Semantic(doc, meta, opts = {}) {
@@ -129,11 +133,15 @@ export function t3Semantic(doc, meta, opts = {}) {
     { name: 'scripts', unit: 'script-site', required: false },
     { name: 'templating', unit: 'mustache-site', required: false },
     { name: 'wiring', unit: 'row-click-surface', required: false },
+    { name: 'placement', unit: 'predicate-row', required: false },
+    { name: 'columns', unit: 'datatable', required: false },
+    { name: 'tabs', unit: 'tab-row', required: false },
   ]);
   const F = {
     bindings: fams.get('bindings'), references: fams.get('references'), actions: fams.get('actions'),
     data: fams.get('data'), formSemantics: fams.get('formSemantics'), scripts: fams.get('scripts'),
     templating: fams.get('templating'), wiring: fams.get('wiring'),
+    placement: fams.get('placement'), columns: fams.get('columns'), tabs: fams.get('tabs'),
   };
 
   const visits = walkComponents(doc);
@@ -261,6 +269,33 @@ export function t3Semantic(doc, meta, opts = {}) {
     p16.na(`T3.16 no submit-pipeline rule for kind "${kind}"`);
   }
 
+  // ---- T3.20/21/22 contract predicates over the compiled tree ---------------
+  // The contract is declarative data (§3.3.3): {acceptance:[predicate rows], columns:{
+  // datatable: [captions]}}. Each acceptance row is one pointer; the verifier evaluates
+  // it through the WP-3b.2 engine (no eval, no free text). A `tab` row is T3.22; every
+  // other predicate is T3.21; the declared column set is T3.20.
+  const contract = opts.contract;
+  if (contract && typeof contract === 'object') {
+    const rows = Array.isArray(contract.acceptance) ? contract.acceptance : [];
+    for (const row of rows) {
+      if (!row || typeof row.predicate !== 'string') continue;
+      const isTab = row.predicate === 'tab';
+      const fam = isTab ? F.tabs : F.placement;
+      const checkId = isTab ? 'T3.22' : 'T3.21';
+      const res = evaluate(row, /** @type {any} */ (meta || { nodes: [] }));
+      fam.pointer(`${row.id || row.predicate}#${checkId}`).assert(res.pass, `${checkId} ${row.id || row.predicate}: ${res.reason || 'failed'}`);
+    }
+    const cols = contract.columns && typeof contract.columns === 'object' ? contract.columns : {};
+    for (const [dtName, declared] of Object.entries(cols)) {
+      const p = F.columns.pointer(`${dtName}#T3.20`);
+      const dt = findNode(doc, (x) => x.type === 'datatable' && (x.componentName === dtName || x.propertyName === dtName));
+      if (!dt) { p.fail(`T3.20 contract names datatable "${dtName}", which is not in the form`); continue; }
+      const captions = (Array.isArray(dt.items) ? dt.items : []).filter((/** @type {any} */ it) => it.columnType === 'data').map((/** @type {any} */ it) => it.caption);
+      p.assert(JSON.stringify(captions) === JSON.stringify(declared),
+        `T3.20 "${dtName}" compiled columns ${JSON.stringify(captions)} != declared ${JSON.stringify(declared)}`);
+    }
+  }
+
   return fams.list;
 }
 
@@ -299,6 +334,9 @@ export const mutations = [
   { name: 'an embedded script that does not parse', covers: ['T3.17'], expect: 'fail', expectFamily: 'scripts', apply: (/** @type {any} */ c) => { c.doc.components[0].onClick = 'return ((('; } },
   { name: 'a mustache expression with an unknown root', covers: ['T3.18'], expect: 'fail', expectFamily: 'templating', apply: (/** @type {any} */ c) => { c.doc.components[0].label = '{{ mysteryRoot.value }}'; } },
   { name: 'a row-click surface wired both ways', covers: ['T3.19'], expect: 'fail', expectFamily: 'wiring', apply: (/** @type {any} */ c) => { const n = findNode(c.doc, (x) => x.type === 'datatable'); if (n) { n.onRowClick = 'return 1;'; n.rowClickActionConfiguration = { actionName: 'navigate' }; } } },
+  { name: 'a contract placement predicate that is false', covers: ['T3.21'], expect: 'fail', expectFamily: 'placement', apply: (/** @type {any} */ c) => { c.contract = { acceptance: [{ id: 'M21', tier: 't3', predicate: 'region', args: { node: 'pageShell' }, expect: { eq: 'body' } }] }; } },
+  { name: 'a contract tab assignment the tree does not satisfy', covers: ['T3.22'], expect: 'fail', expectFamily: 'tabs', apply: (/** @type {any} */ c) => { c.contract = { acceptance: [{ id: 'M22', tier: 't3', predicate: 'tab', args: { node: 'pageShell' }, expect: { eq: 'Endpoints' } }] }; } },
+  { name: 'a contract column set that disagrees with the compiled columns', covers: ['T3.20'], expect: 'fail', expectFamily: 'columns', apply: (/** @type {any} */ c) => { c.contract = { columns: { inventoryTable: ['Not', 'The', 'Real', 'Columns'] } }; } },
 ];
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
