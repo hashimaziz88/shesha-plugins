@@ -10,5 +10,10 @@
   "workspace": {
     "jsonImport": "from\\s+['\"][^'\"]*\\.json['\"]",
     "verifyImport": ["from\\s+['\"]@shesha/verify", "packages/verify/"]
+  },
+  "ragIsolation": {
+    "precedentImport": "(from\\s+['\"]@shesha/precedent|import\\(\\s*['\"][^'\"]*precedent[^'\"]*['\"]|\\bprecedent_search\\b)",
+    "compileImport": "(from\\s+['\"][^'\"]*sfs/src/compile|from\\s+['\"]@shesha/sfs['\"])",
+    "similarityTerms": "\\b(cosine|embed|similarity|nearest|topK)\\b"
   }
 }

@@ -208,6 +208,26 @@ async function runCheckRefLift(/** @type {string} */ root) {
     : { ok: false, lines: [`check-references lift: gate verdict=${v} (want pass), husksGone=${husksGone}`] };
 }
 
+/** WP-9: precedent Index A retrieves shapes over the corpus and stays out of the correctness path. */
+async function runPrecedent(/** @type {string} */ root) {
+  const P = await import(pathToFileURL(path.join(root, 'packages/precedent/src/index.mjs')).href);
+  const { verdictOf } = await import(pathToFileURL(path.join(root, 'packages/registry/src/coverage.mjs')).href);
+  const rag = await import(pathToFileURL(path.join(root, 'packages/verify/src/gates/g-rag-isolation.mjs')).href);
+  const idx = P.indexDir(path.join(root, 'packages/sfs/corpus'));
+  let notImplemented = false;
+  /** @type {any} */
+  let r = null;
+  try {
+    const form = JSON.parse(fs.readFileSync(path.join(root, 'packages/sfs/corpus/employee-table.json'), 'utf8'));
+    r = P.search({ form, k: 3 }, idx);
+  } catch (e) { notImplemented = (/** @type {any} */ (e)).code === 'E_NOT_IMPLEMENTED'; }
+  const ragOk = verdictOf(await rag.run({ repoRoot: root })) === 'pass';
+  const ok = !notImplemented && r && r.method === 'shape' && r.results.length >= 1 && ragOk;
+  return ok
+    ? { ok: true, lines: [`precedent Index A retrieves ${r.results.length} shapes over ${r.corpusSize} corpus forms (method=shape, no E_NOT_IMPLEMENTED); g-rag-isolation holds (BL-009, D-110)`] }
+    : { ok: false, lines: [`precedent: notImplemented=${notImplemented} method=${r && r.method} results=${r && r.results.length} ragOk=${ragOk}`] };
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -225,6 +245,7 @@ const STEPS = [
   { id: 'contract', label: 'placement contract', needs: 'WP-3b.3b', impl: runContract },
   { id: 'metadata', label: 'T3 metadata substrate', needs: 'WP-3b.3c', impl: runMetadata },
   { id: 'checkref-lift', label: 'check-references lift', needs: 'WP-3b.4', impl: runCheckRefLift },
+  { id: 'precedent', label: 'precedent index', needs: 'WP-9', impl: runPrecedent },
 ];
 
 /**

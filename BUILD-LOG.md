@@ -963,3 +963,33 @@ floor with it. The gate ratchet rises 29 -> 30. `prove-b` gains its `check-refer
 this, WP-3b is complete: the full-brief T3 tier, its placement engine, its metadata substrate, and both
 quarantined files lifted.
 
+## WP-9 — Precedent retrieval, shape-indexed (Index A) — 2026-08-20
+
+Status: complete
+Gate: `node --test packages/precedent/test/*.test.mjs` -> 11/11 (includes the 5000-row scan <= 50ms); `node packages/verify/src/gates/g-rag-isolation.mjs` -> exit 0; `npm run green` -> exit 0 (31 gates)
+Evidence: packages/verify/evidence/WP-9.json
+Decisions added: D-110 (precedent is a deterministic shape Index A over the compiled corpus, JSONL not node:sqlite, no embedding; RAG is never a correctness lookup, enforced by g-rag-isolation)
+Blocked: none new
+Next: WP-2b (registry >= 93/121) — the last large offline WP
+
+`packages/precedent` replaces its `E_NOT_IMPLEMENTED` scaffold with real shape-indexed retrieval
+(BL-009, §4.7). Per the strategy doc the primary index is SHAPE, not embedding: `shapeOf(form)`
+computes a form's kind, entity depth, node multiset, region topology (the component-type tree
+serialised depth-first), column count, action intents, tabs and responsive signature — all exact, no
+GPU, no model, no network, reproducible across machines. `similarity` is
+`0.5·nodeMultiset-jaccard + 0.3·topology-trigram-jaccard + 0.2·kind`; the trigram shingle is a
+deterministic proxy for normalised tree-edit distance that keeps a full 5000-row scan under the 50 ms
+budget (`shape.test.mjs` asserts it) — a real O(n^2) edit distance would blow it, which is the whole
+argument against a vector extension at this corpus size. The package is dependency-layer 0
+(g-workspace-hygiene): it imports nothing from `@shesha/sfs` or `@shesha/registry`, so it carries its
+own tiny node walk and shapes the corpus markup directly rather than reaching up to the decompiler
+(which also fails on 4 corpus forms until BL-024). Storage is one gitignored JSONL file, never
+`node:sqlite` (flag-gated on Node 22; an unflagged import throws); Index B's `Float32Array` embeddings
+are BL-H1 — a request for `method:"embedding"` degrades to shape and sets `degraded`, never a silent
+empty, and an empty index is a hard `E_EMPTY_INDEX`, never a false "no precedent exists". The RAG
+prohibition (§4.7.1) ships as `g-rag-isolation` (3 mutations, all flipping): the compiler and verifier
+never import the retrieval package, precedent never imports the compiler, and no skill routes a
+props/versions/enums question to it (patterns in `rag-forbidden.json`); its detection regexes live in
+`source-patterns.json` so the gate never matches its own source. The gate ratchet rises 30 -> 31.
+`prove-b` gains its `precedent index` step.
+

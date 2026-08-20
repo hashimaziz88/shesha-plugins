@@ -1,0 +1,11 @@
+{
+  "_comment": "§4.7.1. Six patterns that pair precedent_search with a correctness question — which props are legal, which version, which enum domain. Those need an EXACT answer from the registry, never a nearest-neighbour from retrieval; a skill doc that routes such a question to precedent_search reintroduces the ambiguity the registry removes. g-rag-isolation fails on any plugins/**/*.md matching any of these.",
+  "patterns": [
+    "precedent_search[\\s\\S]{0,120}(legal props|which props|allowed props|prop(?:erty)? is (?:legal|allowed))",
+    "(legal props|which props|allowed props)[\\s\\S]{0,120}precedent_search",
+    "precedent_search[\\s\\S]{0,120}(which version|component version|current version)",
+    "(which version|component version|current version)[\\s\\S]{0,120}precedent_search",
+    "precedent_search[\\s\\S]{0,120}(enum domain|allowed values|reference list values|which enum)",
+    "(enum domain|allowed values|which enum)[\\s\\S]{0,120}precedent_search"
+  ]
+}
