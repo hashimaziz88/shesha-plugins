@@ -27,13 +27,13 @@ It is the layer between "I have a design" and "build the form". It does **not** 
 
 ## The pipeline
 
-Flow: detect fidelity tier → capture layout → write blueprint.md → `shesha-form-edit` builds → re-probe the built form and diff vs assertions → route any mismatch back to the build.
+Flow: detect fidelity tier → capture layout → write blueprint.md → `shesha-form-edit` builds → re-probe the built form and diff vs the contract → route any mismatch back to the build.
 
 1. **Detect the fidelity tier** — readable source (A, best), runnable app (B), screenshots/PDF (C). See [capture-pipeline.md](references/capture-pipeline.md).
 2. **Capture the layout.** For a runnable design or any rendered page, use the verifier package's layout probe: it walks the DOM at a pinned viewport and emits column counts, spans, nesting and row grouping per container. For readable source, parse the grid templates directly. For screenshots/PDF, normalise content with markitdown and vision-read spatial layout.
-3. **Write the blueprint** in [blueprint-ir.md](references/blueprint-ir.md) format — three fenced machine blocks per region: `layout-tree`, `bindings`, `assertions`.
+3. **Write the blueprint** in [blueprint-ir.md](references/blueprint-ir.md) format — three fenced machine blocks per region: `layout-tree`, `bindings`, `contract`.
 4. **Hand the blueprint to `shesha-form-edit`** as the build's requirements (archetype + seed + column spans + per-field binding). **REQUIRED PARTNER:** `shesha-developer:shesha-form-edit` builds the structure.
-5. **Verify by measurement.** Re-probe the built, published, table→details-navigated form; diff actual placement against `assertions`; route mismatches back to `shesha-form-edit`. See [verification-loop.md](references/verification-loop.md).
+5. **Verify by measurement.** Re-probe the built, published, table→details-navigated form; diff actual placement against `contract`; route mismatches back to `shesha-form-edit`. See [verification-loop.md](references/verification-loop.md).
 
 ## markitdown is one layer, not the engine
 
@@ -52,7 +52,7 @@ Pin **one** viewport (default 1440×900) for both capture and verification. Asse
 ## Non-negotiables
 
 - **Measure, don't guess.** Every split-child count / span comes from a probe measurement, a parsed source grid template, or (Tier C only) explicit vision reading — never prose intuition. Stamp every blueprint with its fidelity tier and confidence.
-- **The blueprint is a contract.** Whatever the `assertions` block states MUST be re-verified after the build. A blueprint without verification is just a prettier prose brief.
+- **The blueprint is a contract.** Whatever the `contract` block states MUST be re-verified after the build. A blueprint without verification is just a prettier prose brief.
 - **Splits are flex-container children, NEVER the Shesha `columns` component.** Build a split as a `container` with `display:"flex"` + `flexDirection:"row"` + a `gap`, and map each child's native span onto that child container's `desktop.dimensions.width` — the only channel that reaches the outer div. A filling main column is `width:"calc(100% - <rail+gap>px)"`; a fixed rail is `width:"332px"` with matching min/max. Per-child `customStyle:{flex:…}` is INERT for outer sizing (it lands on the inner div). Full rules + the worked width mapping: [blueprint-ir.md](references/blueprint-ir.md).
 - **Stay in your lane.** Produce blueprints + verification verdicts. Never author form JSON, set colours, or push — route those to `shesha-form-edit` and `shesha-design-system`.
 - **One viewport.** Never compare measurements taken at different viewports; record the viewport in every capture.

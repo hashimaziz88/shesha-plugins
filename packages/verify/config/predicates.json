@@ -1,0 +1,23 @@
+{
+  "_comment": "The frozen 18-name placement predicate registry (§3.3.2, D-014/D-105). This is the single source: packages/verify/src/predicates/index.mjs must export exactly these as PREDICATES, and packages/verify/schema/assertions.schema.json must enum exactly these predicate names. g-no-prose-assertions fails on any drift between the three, and on any contract row naming a predicate not here. Adding or removing a predicate is a decision, not an edit.",
+  "predicates": [
+    { "name": "cellCount", "args": ["row"], "returns": "number of cells in the row" },
+    { "name": "cellRow", "args": ["node"], "returns": "the row name the node is a cell of" },
+    { "name": "cellIndex", "args": ["node"], "returns": "its index within that row" },
+    { "name": "cellSizing", "args": ["node"], "returns": "fill | fixed | auto" },
+    { "name": "cellPx", "args": ["node"], "returns": "declared px for a fixed cell" },
+    { "name": "cellsEqual", "args": ["row"], "returns": "true when every cell has the same sizing and, for fixed, the same px" },
+    { "name": "ratio", "args": ["a", "b"], "returns": "declared-intent width ratio at 1440px" },
+    { "name": "parent", "args": ["node"], "returns": "parent's name" },
+    { "name": "ancestors", "args": ["node"], "returns": "name[], nearest first" },
+    { "name": "depth", "args": ["node"], "returns": "integer" },
+    { "name": "region", "args": ["node"], "returns": "page | header | body | rail" },
+    { "name": "tab", "args": ["node"], "returns": "tabKey or null" },
+    { "name": "rowGroupSizes", "args": ["container"], "returns": "number[], one per row group of the container's direct children" },
+    { "name": "rowGroupMembers", "args": ["node"], "returns": "name[] sharing the node's row group" },
+    { "name": "nextSibling", "args": ["node"], "returns": "next sibling's name, or null" },
+    { "name": "align", "args": ["node"], "returns": "start | center | end | between" },
+    { "name": "componentType", "args": ["node"], "returns": "compiled component type" },
+    { "name": "count", "args": ["type"], "returns": "number of components of that type in the tree" }
+  ]
+}

@@ -20,7 +20,7 @@
     "node": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "sfsPath", "type", "parent", "depth", "region", "tabKey", "cell", "rowGroup", "align"],
+      "required": ["id", "name", "sfsPath", "type", "parent", "depth", "region", "tabKey", "cell", "rowGroup", "align", "orientation"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
         "name": { "type": "string", "minLength": 1 },
@@ -32,7 +32,8 @@
         "tabKey": { "type": ["string", "null"] },
         "cell": { "$ref": "#/$defs/cell" },
         "rowGroup": { "$ref": "#/$defs/rowGroup" },
-        "align": { "enum": ["start", "center", "end", "between"] }
+        "align": { "enum": ["start", "center", "end", "between"] },
+        "orientation": { "enum": ["row", "col", null] }
       }
     },
     "cell": {

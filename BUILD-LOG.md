@@ -800,3 +800,33 @@ what the compiler emits and both flip the verdict. All 13 clean fixtures validat
 suite (tests + 25 gates + 77 mutations) passes unchanged, which is the behaviour proof. `prove-b`
 gains its `placement sidecar` step.
 
+## WP-3b.2 — The placement predicate engine (D-014) — 2026-08-20
+
+Status: complete
+Gate: `node packages/verify/src/gates/g-no-prose-assertions.mjs` -> exit 0 (registry 22 · prose 157, 0 failures); `node --test packages/verify/test/predicates.test.mjs` -> 6/6; `npm run green` -> exit 0 (26 gates, all mutations flip)
+Evidence: packages/verify/evidence/WP-3b.2.json
+Decisions added: D-105 (the placement predicate engine: frozen 18-name registry, config==engine==schema, contracts are declarative rows); D-014 closed — its `pending:BL-003` becomes the live `g-no-prose-assertions` enforcer (executable predicates now exist), so it archives
+Blocked: none new
+Next: WP-3b.3 (the T3 semantic tier + the .build/wp3b acceptance)
+
+D-014 ("placement is executable predicates over the compiled tree, not English a model judges") becomes
+real. `packages/verify/src/predicates/` is the frozen 18-name engine (`index.mjs` + `tree.mjs`): each
+predicate reads placement off the WP-3b.1 sidecar — `cellSizing`/`cellPx`/`ratio` from the declared
+`cell`, `parent`/`ancestors`/`nextSibling`/`rowGroupSizes` from the by-parent index, `region`/`tab`/
+`align`/`componentType`/`count` direct. `ratio` is a declared-intent width at a 1440px reference
+(fill = 1440 − Σfixed − reserve), never a measured pixel; `searchCell:addCell` reads 1024/200 = 5.12
+off the toolbar row, which is what makes the DOM's `1fr`→`962px` collapse irrelevant. A predicate on a
+missing node returns ABSENT, which the evaluator disposes fail (the node must exist), never
+uninspectable. `assertions.schema.json` fixes the contract-row shape `{id,tier,predicate,args,expect}`
+with the closed comparator set; `predicates.json` is the single source the engine and schema must both
+match. The sidecar gained a per-node `orientation` (row/col) so `rowGroupSizes`/`rowGroupMembers` can
+tell a horizontal row from a vertical stack — a col of 2-cell rows sizes `[2,2]`, a col of standalone
+panels `[1,1]`. New gate `g-no-prose-assertions` fails on any ```` ```assertions ```` prose block under
+`plugins/**` and on any drift between config/engine/schema; its two mutations (smuggle a prose block,
+drop a registry name) both flip. It caught a real one: the design-comprehension `blueprint-ir.md` still
+carried the English A1–A7 ```` ```assertions ```` block D-014 deletes, so this WP converts the skill's
+blueprint format to the executable `contract` block (the exact §3.3.3 conversion — the seven sentences
+become predicate rows) across `blueprint-ir.md`, `SKILL.md` and `verification-loop.md`; no code parses
+the fence, so the rename is safe. The commit touches `plugins/**`, so `plugin.json` bumps 1.9.1→1.9.2
+and `g-plugin-version`'s floor with it. `prove-b` gains its `placement predicates` step.
+

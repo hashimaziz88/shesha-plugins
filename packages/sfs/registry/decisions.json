@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 104,
+  "count": 105,
   "decisions": [
     {
       "id": "D-001",
@@ -166,7 +166,7 @@
       "why": "§4 L3",
       "consequence": "The DOM probe covers residue only",
       "enforcedBy": [
-        "pending:BL-003"
+        "g-no-prose-assertions"
       ],
       "confirmation": "n/a"
     },
@@ -1233,9 +1233,9 @@
       "id": "D-103",
       "date": "2026-08-20",
       "status": "decided",
-      "decision": "Scope change: WP-3b (full brief T3) splits into WP-3b.1 (compiler placement sidecar §3.3.1 + compiled-meta.schema.json), WP-3b.2 (the 18-name placement predicate engine + assertions.schema.json), WP-3b.3 (the T3 tier + verify wiring + fixtures + the .build/wp3b --tiers t1,t2,t3 acceptance), WP-3b.4 (fix 12 dangling plugin refs, lift g-check-references out of quarantine); session-scope-b.json swaps WP-3b for the four; wp-table.json + CONTROL §3b updated",
-      "why": "the sidecar emits only {id,sfsPath,name,type} so placement needs an L1 sidecar first, and g-check-references cannot lift while 12 dangling refs fail its baseline; each exceeds one context (CONTROL §6, mirrors D-096/D-098)",
-      "consequence": "four ids in session-scope-b; no work leaves the session; prove-b requires all four",
+      "decision": "Scope change: WP-3b (full brief T3) splits into WP-3b.1 (compiler placement sidecar §3.3.1), WP-3b.2 (18-name predicate engine + assertions.schema.json), WP-3b.3 (T3 tier + verify wiring + fixtures + the .build/wp3b --tiers t1,t2,t3 acceptance), WP-3b.4 (lift g-check-references out of quarantine); session-scope-b.json swaps WP-3b for the four; wp-table.json + CONTROL §3b updated",
+      "why": "placement needs an L1 sidecar first, and g-check-references cannot lift while 12 dangling refs fail its baseline; each exceeds one context (CONTROL §6, mirrors D-096/D-098)",
+      "consequence": "prove-b requires all four",
       "enforcedBy": [
         "structural:packages/verify/test/prove-b.contract.test.mjs"
       ],
@@ -1245,11 +1245,23 @@
       "id": "D-104",
       "date": "2026-08-20",
       "status": "decided",
-      "decision": "The compiler emits the §3.3.1 provenance sidecar (per node: region, depth, parent, tabKey, cell{sizing,px,reservePx}, rowGroup, align) on every compile, validated against packages/sfs/schema/compiled-meta.schema.json; T3 and every placement predicate read placement from it, never from CSS; cell.sizing is the compiler's own calc(100%-Npx)/Npx/auto declaration",
-      "why": "a 1fr intent resolves in the DOM to a px width indistinguishable from a fixed one, so placement is read from the compiler, not the browser",
-      "consequence": "the sidecar is the contract WP-3b.2/3b.3 stand on",
+      "decision": "The compiler emits the §3.3.1 sidecar (per node region, depth, parent, tabKey, cell{sizing,px,reservePx}, rowGroup, align, orientation) on every compile, validated against packages/sfs/schema/compiled-meta.schema.json; T3 and the placement predicates read placement from it, not CSS; cell.sizing is the compiler's calc(100%-Npx)/Npx/auto declaration",
+      "why": "a 1fr intent reads in the DOM as a fixed px width, so placement comes from the compiler",
+      "consequence": "the contract WP-3b.2/3b.3 stand on",
       "enforcedBy": [
         "g-compiled-meta"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-105",
+      "date": "2026-08-20",
+      "status": "decided",
+      "decision": "Placement predicates are the frozen 18-name registry (packages/verify/config/predicates.json), implemented in predicates/index.mjs and enumerated in assertions.schema.json; the three must agree; a contract is declarative predicate rows the verifier evaluates over the sidecar, never English/eval",
+      "why": "three copies of the name set drift unless a program reconciles them (D-014)",
+      "consequence": "g-no-prose-assertions bans prose assertions and fails on registry drift",
+      "enforcedBy": [
+        "g-no-prose-assertions"
       ],
       "confirmation": "n/a"
     }

@@ -118,6 +118,26 @@ async function runSidecar(/** @type {string} */ root) {
     : { ok: false, lines: [`sidecar incomplete: provenance=${meta.provenance} shell=${shell && shell.region} fill=${fill && fill.cell && fill.cell.reservePx} complete=${complete}`] };
 }
 
+/** WP-3b.2: the 18-name placement predicate engine evaluates a contract over the sidecar. */
+async function runPredicates(/** @type {string} */ root) {
+  const { compile } = await import(pathToFileURL(path.join(root, 'packages/sfs/src/compile/index.mjs')).href);
+  const { evaluate } = await import(pathToFileURL(path.join(root, 'packages/verify/src/predicates/index.mjs')).href);
+  const src = fs.readFileSync(path.join(root, 'packages/sfs/test/fixtures/clean/employees-table.sfs.json'), 'utf8');
+  const { meta } = /** @type {any} */ (compile(src, { source: 'prove-b' }));
+  const rows = [
+    { predicate: 'cellCount', args: { row: 'toolbar' }, expect: { eq: 2 } },
+    { predicate: 'cellSizing', args: { node: 'searchCell' }, expect: { eq: 'fill' } },
+    { predicate: 'ratio', args: { a: 'searchCell', b: 'addCell' }, expect: { gte: 2.5 } },
+    { predicate: 'region', args: { node: 'pageShell' }, expect: { eq: 'page' } },
+  ];
+  const results = rows.map((r) => /** @type {any} */ (evaluate)(r, meta));
+  const absent = /** @type {any} */ (evaluate)({ predicate: 'cellSizing', args: { node: 'ghostNode' }, expect: { eq: 'fill' } }, meta);
+  const ok = results.every((r) => r.pass === true) && absent.pass === false;
+  return ok
+    ? { ok: true, lines: [`placement predicates evaluate: ${results.length} contract rows pass over the sidecar, an absent node fails (D-014, the 18-name engine)`] }
+    : { ok: false, lines: [`predicate engine: ${results.filter((r) => !r.pass).map((r) => r.predicate).join(',') || 'ok'}; absentPass=${absent.pass}`] };
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -130,6 +150,7 @@ const STEPS = [
   { id: 'strict-index', label: 'strict index', needs: 'WP-1c', impl: runStrictIndex },
   { id: 'prose-thin', label: 'prose thin', needs: 'WP-7', impl: runProseThin },
   { id: 'sidecar', label: 'placement sidecar', needs: 'WP-3b.1', impl: runSidecar },
+  { id: 'predicates', label: 'placement predicates', needs: 'WP-3b.2', impl: runPredicates },
 ];
 
 /**

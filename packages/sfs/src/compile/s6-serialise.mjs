@@ -159,7 +159,7 @@ export function serialise(tree, ctx) {
     nodes: tree.nodes.map((n) => ({
       id: n.id, sfsPath: n.sfsPath, name: n.name, type: n.type,
       parent: n.parent, depth: n.depth, region: n.region, tabKey: n.tabKey,
-      cell: n.cell, rowGroup: n.rowGroup, align: n.align,
+      cell: n.cell, rowGroup: n.rowGroup, align: n.align, orientation: n.orientation,
     })),
   };
 

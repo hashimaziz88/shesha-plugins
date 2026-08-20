@@ -1,6 +1,6 @@
 # Verification loop — does the built form match the blueprint?
 
-The mechanism that turns "it renders" into "it's placed where the design put it". This is what actually fixes the container-drift complaint: the blueprint's `assertions` become a measured pass/fail gate on the built Shesha form, and failures become concrete fixes routed back to `shesha-form-edit`.
+The mechanism that turns "it renders" into "it's placed where the design put it". This is what actually fixes the container-drift complaint: the blueprint's `contract` rows become a measured pass/fail gate on the built Shesha form, and failures become concrete fixes routed back to `shesha-form-edit`.
 
 Runs as **gate 5a.5** in `shesha-claude-designer` — after structural integrity (5a), before styling (5b). It can also be invoked standalone to diagnose an existing form ("why doesn't this match the design?").
 
@@ -10,7 +10,7 @@ Runs as **gate 5a.5** in `shesha-claude-designer` — after structural integrity
 2. **Clear the form cache.** The frontend caches form markup in IndexedDB — clear `form` / `form_lookup` from `/favicon.ico` (not in-app) after every push, or you measure a ghost of the previous build.
 3. **Navigate the real path.** Open the form via **table-row → details**, never a pasted `?id=` (a direct id load 500s the subtable Crud/Create). Pin the **same viewport** used for capture (1440×900).
 4. **Re-probe.** Run the *same* `scripts/layout-probe.js` against the rendered Shesha form → actual `layout.json`. Same instrument as capture = comparable numbers.
-5. **Diff actual vs the blueprint `assertions`** — structurally, not by pixels (next section).
+5. **Diff actual vs the blueprint `contract`** — structurally, not by pixels (next section).
 6. **Route mismatches back to `shesha-form-edit`** as concrete fixes; rebuild → re-publish → clear cache → re-probe → re-diff until every assertion passes.
 
 ## What to diff (and why it survives the pixel↔width-expression gap)
@@ -42,9 +42,9 @@ Keep each fix to: the failing assertion id, the measured fact (with numbers), th
 The skill is proven by watching the failure first:
 
 - **RED:** build the pilot from a *prose* brief only (no blueprint) → probe → record ≥1 failing assertion with numbers (e.g. panels collapse into one column; KIB flattens). This reproduces the drift, measured.
-- **GREEN:** build the same screen from the blueprint → probe → iterate routed fixes until the *same* assertions all pass.
+- **GREEN:** build the same screen from the blueprint → probe → iterate routed fixes until the *same* contract rows all pass.
 
-The RED→GREEN delta on identical assertions is the proof the layer fixes drift rather than re-describing it.
+The RED→GREEN delta on identical contract rows is the proof the layer fixes drift rather than re-describing it.
 
 ## Failure modes
 

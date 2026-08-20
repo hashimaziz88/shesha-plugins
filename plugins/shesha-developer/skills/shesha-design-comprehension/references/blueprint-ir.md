@@ -8,7 +8,7 @@ The blueprint has two audiences. A **human** reviews and approves placement at t
 
 - ` ```layout-tree ` — the container tree: regions → sections → flex-row splits → split children → fields, with explicit child counts and per-child native widths.
 - ` ```bindings ` — a table mapping each label to its entity property, component type and datatype.
-- ` ```assertions ` — the placement contract: the statements the verification loop re-measures against.
+- ` ```contract ` — the placement contract: executable predicate rows (the 18 in `packages/verify/config/predicates.json`, schema `packages/verify/schema/assertions.schema.json`) the verifier evaluates over the compiled tree. Never English a model judges (D-014).
 
 Pure JSON would be unreviewable; pure prose is the thing that drifts. The fenced blocks recover everything the machine needs without making the whole doc machine-only.
 
@@ -29,8 +29,8 @@ Viewport captured:  <w>x<h>      Source:  <probe file / source path / screenshot
 ## Bindings
 ```bindings …```
 
-## Assertions  (placement contract — verified by verification-loop.md)
-```assertions …```
+## Placement contract  (executable predicates — verified by verification-loop.md)
+```contract …```
 ```
 
 ## The eight archetypes (target vocabulary)
@@ -53,7 +53,7 @@ The blueprint's `Archetype` must be one of `shesha-form-edit`'s archetypes, so t
 What Tier D must be honest about:
 
 - **Stamp `Fidelity tier: D (no design source; derived from archetype + <brand> tokens)` and `Confidence: derived`.** Never claim a tier you didn't have a source for.
-- **Its `assertions` are self-consistency checks, not evidence of matching anyone's design** — there is no design to match. They still earn their place: they catch the split collapsing, the rail landing under the main column, a tab losing its children. Mark the block `assertions (derived — archetype default, not a measured design)` so nobody reads a Tier D pass as "matches the mockup".
+- **Its `contract` rows are self-consistency checks, not evidence of matching anyone's design** — there is no design to match. They still earn their place: they catch the split collapsing, the rail landing under the main column, a tab losing its children. Mark the block `contract (derived — archetype default, not a measured design)` so nobody reads a Tier D pass as "matches the mockup".
 - **`Source:` names the archetype and brand file**, e.g. `archetypes.md#record-detail + shesha.tokens.json`, so the provenance is inspectable.
 - If the user later supplies a real design, re-comprehend at Tier A/B — do not retrofit measurements onto a derived blueprint.
 
@@ -139,24 +139,34 @@ Required End-points| requiredEndpoints      | datalist panel         | M:M → A
 
 > **Component-column rules the builder must honor (not just placement):** a `datalist panel` / `datalist (capture)` builds a **`datalist` row-template** — NEVER a `datatable` (a related collection drawn as a grid is a defect even though the data is collection-shaped). A rail attribute control (`dropdown` / `entityAutocomplete` rows in a read-only Details summary) is **read-only display** — author it `editMode: "readOnly"`, not `inherited` (which renders blank in the view state). A `refListStatus` is a status **chip**, not a dropdown. Row-template datalists need a fetch **projection** for their nested bindings — see `shesha-form-edit/references/components/data-tables.md` ("cards render empty" trap).
 
-## Assertions  (placement contract — verified by verification-loop.md)
-```assertions
-A1  body is a 2-column split; left:right width ratio ≈ 18:6 (left ≥ 2.5× right); right rail ≈ 332px fixed
-A2  the related panels (Realises Use Cases, Required End-points) are BOTH in the RIGHT column (same x-cluster as the Details card), stacked vertically
-A3  the requirements list/capture card is in the LEFT column (not the rail)
-A4  the "Details" card rows are 2-cell (label + control side by side), not full-width stacked
-A5  nesting: the related panels are children of the rail column, not of the page root
-A6  the KIB is a single flex row of 6 equal cells directly under the header band
-A7  header actions (Mockup, Trace) sit in the header band, right-aligned on the title row
+## Placement contract  (executable predicates — verified by verification-loop.md)
+```contract
+[
+  {"id":"A1.1","tier":"t3","predicate":"cellCount","args":{"row":"body"},"expect":{"eq":2}},
+  {"id":"A1.2","tier":"t3","predicate":"ratio","args":{"a":"main","b":"rail"},"expect":{"gte":2.5}},
+  {"id":"A1.3","tier":"t3","predicate":"cellSizing","args":{"node":"rail"},"expect":{"eq":"fixed"}},
+  {"id":"A1.4","tier":"t3","predicate":"cellPx","args":{"node":"rail"},"expect":{"within":[292,372]}},
+  {"id":"A1.5","tier":"t3","predicate":"cellSizing","args":{"node":"main"},"expect":{"eq":"fill"}},
+  {"id":"A2.1","tier":"t3","predicate":"cellRow","args":{"node":"realisesUseCases"},"expect":{"eq":"rail"}},
+  {"id":"A2.2","tier":"t3","predicate":"cellRow","args":{"node":"requiredEndpoints"},"expect":{"eq":"rail"}},
+  {"id":"A3","tier":"t3","predicate":"ancestors","args":{"node":"requirementsCard"},"expect":{"includes":"main"}},
+  {"id":"A4","tier":"t3","predicate":"rowGroupSizes","args":{"container":"detailsCard"},"expect":{"everyEq":2}},
+  {"id":"A5","tier":"t3","predicate":"parent","args":{"node":"realisesUseCases"},"expect":{"eq":"rail"}},
+  {"id":"A6.1","tier":"t3","predicate":"cellCount","args":{"row":"kib"},"expect":{"eq":6}},
+  {"id":"A6.2","tier":"t3","predicate":"cellsEqual","args":{"row":"kib"},"expect":{"eq":true}},
+  {"id":"A6.3","tier":"t3","predicate":"nextSibling","args":{"node":"headerBand"},"expect":{"eq":"kib"}},
+  {"id":"A7","tier":"t3","predicate":"align","args":{"node":"headerActions"},"expect":{"eq":"end"}}
+]
 ```
+The English "≈ 18:6" is deleted, not translated (a 24-grid ratio the layout has no node for); every fuzzy word — "same x-cluster", "wrong parent", "under the header" — becomes an exact identity on the compiled tree. Absolute pixels are legal only through `within`. `verify` evaluates each row; no agent authors or alters a result (D-014).
 ````
 
-This one document is simultaneously: the thing a reviewer signs off (prose + tree), the requirements brief the builder works from (archetype → seed `rs-detail-with-header.json`, splits → flex-row `container`s with per-child `desktop.dimensions.width`, bindings → component+propertyName), and the contract the verification loop measures (`assertions` A1–A7).
+This one document is simultaneously: the thing a reviewer signs off (prose + tree), the requirements brief the builder works from (archetype → seed `rs-detail-with-header.json`, splits → flex-row `container`s with per-child `desktop.dimensions.width`, bindings → component+propertyName), and the placement contract the verifier evaluates (executable predicate rows A1.1–A7).
 
 ## Authoring checklist
 
 - [ ] `Archetype` is one of the eight, with a variant note if needed.
 - [ ] Every `row` line records native cell widths (`row=[…]`, `fill`/`1fr` + fixed px) and a `gap`; no Shesha `columns` component, no `/24` normalisation. Each cell maps to a `container` sized via `desktop.dimensions.width` (fill → `calc(100% - <fixed+gap>px)`, fixed → `<n>px`); the row carries `display:"flex"`.
 - [ ] Every bound field has `← Entity.property`; every region names its design-system `recipe`.
-- [ ] `assertions` cover: split-cell membership, row grouping, nesting depth, tab assignment — the things that drift. No pixel asserts.
+- [ ] the `contract` predicate rows cover: split-cell membership, row grouping, nesting depth, tab assignment — the things that drift. Pixels only via `within`.
 - [ ] Fidelity tier + confidence + viewport stamped at the top.

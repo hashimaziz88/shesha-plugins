@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boxfusion.io/sfs/assertions.schema.json",
+  "title": "SFS placement contract rows (§3.3.3, D-014/D-105)",
+  "description": "One contract predicate is declarative data at plan.json screens[].acceptance[]: {id, tier, predicate, args, expect, severity, blockedBy}. predicate is one of the frozen 18 (packages/verify/config/predicates.json) and expect is exactly one comparator. No compound all:[] clause — one row is one pointer in the placement family. There is no eval and no free-text matching.",
+  "type": "array",
+  "items": { "$ref": "#/$defs/row" },
+  "$defs": {
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "tier", "predicate", "args", "expect"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "tier": { "enum": ["t3", "t4", "t5"] },
+        "predicate": {
+          "enum": [
+            "cellCount", "cellRow", "cellIndex", "cellSizing", "cellPx", "cellsEqual",
+            "ratio", "parent", "ancestors", "depth", "region", "tab",
+            "rowGroupSizes", "rowGroupMembers", "nextSibling", "align", "componentType", "count"
+          ]
+        },
+        "args": { "type": "object" },
+        "expect": { "$ref": "#/$defs/expect" },
+        "severity": { "enum": ["blocker", "major", "minor"] },
+        "blockedBy": { "type": ["string", "null"] }
+      }
+    },
+    "expect": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "eq": {},
+        "neq": {},
+        "gte": { "type": "number" },
+        "lte": { "type": "number" },
+        "within": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+        "oneOf": { "type": "array" },
+        "includes": {},
+        "includesAll": { "type": "array" },
+        "everyEq": {},
+        "isNull": { "const": true },
+        "notNull": { "const": true }
+      }
+    }
+  }
+}

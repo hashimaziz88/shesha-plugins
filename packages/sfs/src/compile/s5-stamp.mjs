@@ -33,7 +33,7 @@ import { SfsError } from './s1-parse.mjs';
  * @typedef {{row:string|null, index:number, members:string[]}} RowGroup
  * @typedef {{id:string, sfsPath:string, name:string, type:string, parent:string, depth:number,
  *            region:'page'|'header'|'body'|'rail', tabKey:string|null, cell:Cell, rowGroup:RowGroup,
- *            align:'start'|'center'|'end'|'between'}} SidecarNode
+ *            align:'start'|'center'|'end'|'between', orientation:'row'|'col'|null}} SidecarNode
  * @typedef {{depth:number, cell:Cell, rowGroup:RowGroup, align:'start'|'center'|'end'|'between'}} Place
  */
 
@@ -105,6 +105,20 @@ function alignOf(node) {
 }
 
 /**
+ * How a container lays its direct children out: `row` (one horizontal row group) or
+ * `col` (each child its own row group). A leaf declares neither and reads null. The
+ * placement predicates rowGroupSizes/rowGroupMembers need this — a row of all-auto
+ * cells is otherwise indistinguishable from a vertical stack.
+ * @param {Record<string, unknown>} node
+ * @returns {'row'|'col'|null}
+ */
+function orientationOf(node) {
+  if (node.flexDirection === 'row') return 'row';
+  if (node.flexDirection === 'column') return 'col';
+  return null;
+}
+
+/**
  * The Place of every child in `kids`, reached through the container `row`. cell.sizing
  * is each child's own; row/index/count and rowGroup.members are the container's.
  * @param {Record<string, unknown>[]} kids
@@ -141,7 +155,7 @@ function stampNode(node, parentId, ctx, place) {
   ctx.nodes.push({
     id, sfsPath, name: String(node.componentName), type: String(node.type),
     parent: parentId, depth: place.depth, region: regionOf(sfsPath), tabKey: null,
-    cell: place.cell, rowGroup: place.rowGroup, align: place.align,
+    cell: place.cell, rowGroup: place.rowGroup, align: place.align, orientation: orientationOf(node),
   });
   if (node.type === 'dataContext') ctx.dataRegions.set(String(node.componentName), id);
 
@@ -166,7 +180,7 @@ function stampNode(node, parentId, ctx, place) {
       id: slotId, sfsPath: `${sfsPath}#slot:${slot}`, name: slot, type: `${String(node.type)}.slot`,
       parent: id, depth: place.depth + 1, region: regionOf(sfsPath), tabKey: null,
       cell: { row: String(node.componentName), index: 0, count: 1, sizing: 'auto', px: null, reservePx: null },
-      rowGroup: { row: slot, index: 0, members }, align: 'start',
+      rowGroup: { row: slot, index: 0, members }, align: 'start', orientation: 'col',
     });
     const childPlaces = placesOf(kids, slot, place.depth + 2);
     // placesOf returns one Place per kid, in order, so the index is defined.
@@ -197,7 +211,7 @@ function stampNode(node, parentId, ctx, place) {
         id: itemId, sfsPath: itemPath, name, type: `${String(node.type)}.item`,
         parent: id, depth: place.depth + 1, region: regionOf(sfsPath), tabKey: null,
         cell: { row: String(node.componentName), index: i, count: items.length, sizing: 'auto', px: null, reservePx: null },
-        rowGroup: { row: String(node.componentName), index: i, members }, align: 'start',
+        rowGroup: { row: String(node.componentName), index: i, members }, align: 'start', orientation: null,
       });
       collectPending(item, ctx.pending);
     });
