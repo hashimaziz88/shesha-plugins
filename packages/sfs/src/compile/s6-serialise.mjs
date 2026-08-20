@@ -147,10 +147,20 @@ export function serialise(tree, ctx) {
     diagnostics: ctx.diagnostics,
   };
 
+  // The provenance sidecar (§3.3.1, WP-3b.1). `form`/`kind` stay the load-bearing
+  // fields T1.08 and T2.20 read; the placement members (parent, depth, region, tabKey,
+  // cell, rowGroup, align) come straight off the stamp records. provenance is COMPILED:
+  // every member here is this compile's own declaration, never a reconstruction.
   const meta = {
+    schemaVersion: 1,
+    provenance: 'COMPILED',
     form: `${doc.module}/${doc.form}`,
     kind: doc.kind,
-    nodes: tree.nodes.map((n) => ({ id: n.id, sfsPath: n.sfsPath, name: n.name, type: n.type })),
+    nodes: tree.nodes.map((n) => ({
+      id: n.id, sfsPath: n.sfsPath, name: n.name, type: n.type,
+      parent: n.parent, depth: n.depth, region: n.region, tabKey: n.tabKey,
+      cell: n.cell, rowGroup: n.rowGroup, align: n.align,
+    })),
   };
 
   return { markup, envelope, report, meta };

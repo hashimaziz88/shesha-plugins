@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boxfusion.io/sfs/compiled-meta.schema.json",
+  "title": "SFS compiled provenance sidecar (§3.3.1)",
+  "description": "The <screen>.form.meta.json the compiler emits on every compile (WP-3b.1, D-104). Section 3 owns the content; T3 and every placement predicate read placement from these members, never from rendered CSS. cell.sizing/px/reservePx are the compiler's own declaration of the responsive intent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "provenance", "form", "kind", "nodes"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "provenance": { "enum": ["COMPILED", "ENVELOPE-SYNTHESISED", "LEGACY-RECONSTRUCTED"] },
+    "form": { "type": "string", "minLength": 1 },
+    "kind": { "type": "string", "minLength": 1 },
+    "nodes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/node" }
+    }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "sfsPath", "type", "parent", "depth", "region", "tabKey", "cell", "rowGroup", "align"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "sfsPath": { "type": "string", "minLength": 1 },
+        "type": { "type": "string", "minLength": 1 },
+        "parent": { "type": "string", "minLength": 1 },
+        "depth": { "type": "integer", "minimum": 0 },
+        "region": { "enum": ["page", "header", "body", "rail"] },
+        "tabKey": { "type": ["string", "null"] },
+        "cell": { "$ref": "#/$defs/cell" },
+        "rowGroup": { "$ref": "#/$defs/rowGroup" },
+        "align": { "enum": ["start", "center", "end", "between"] }
+      }
+    },
+    "cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["row", "index", "count", "sizing", "px", "reservePx"],
+      "properties": {
+        "row": { "type": ["string", "null"] },
+        "index": { "type": "integer", "minimum": 0 },
+        "count": { "type": "integer", "minimum": 1 },
+        "sizing": { "enum": ["fill", "fixed", "auto"] },
+        "px": { "type": ["integer", "null"], "minimum": 0 },
+        "reservePx": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "rowGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["row", "index", "members"],
+      "properties": {
+        "row": { "type": ["string", "null"] },
+        "index": { "type": "integer", "minimum": 0 },
+        "members": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

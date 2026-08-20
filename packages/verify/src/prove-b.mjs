@@ -101,6 +101,23 @@ async function runProseThin(/** @type {string} */ root) {
     : { ok: false, lines: [`${stragglers.length} BL-007/BL-012 prose waiver(s) still present`] };
 }
 
+/** WP-3b.1: the compiler emits the §3.3.1 placement sidecar on every compile. */
+async function runSidecar(/** @type {string} */ root) {
+  const { compile } = await import(pathToFileURL(path.join(root, 'packages/sfs/src/compile/index.mjs')).href);
+  const src = fs.readFileSync(path.join(root, 'packages/sfs/test/fixtures/clean/employees-table.sfs.json'), 'utf8');
+  const { meta } = /** @type {any} */ (compile(src, { source: 'prove-b' }));
+  const nodes = /** @type {any[]} */ (meta.nodes || []);
+  const shell = nodes.find((n) => n.sfsPath === '/pageShell');
+  const fill = nodes.find((n) => n.cell && n.cell.sizing === 'fill');
+  const complete = nodes.length > 0 && nodes.every((n) => n.region !== undefined && n.cell && n.rowGroup
+    && n.tabKey !== undefined && typeof n.depth === 'number' && typeof n.parent === 'string');
+  const ok = meta.provenance === 'COMPILED' && shell && shell.region === 'page'
+    && fill && typeof fill.cell.reservePx === 'number' && complete;
+  return ok
+    ? { ok: true, lines: [`sidecar carries placement: pageShell region=page, a fill cell reserves ${fill.cell.reservePx}px, ${nodes.length} nodes complete (§3.3.1)`] }
+    : { ok: false, lines: [`sidecar incomplete: provenance=${meta.provenance} shell=${shell && shell.region} fill=${fill && fill.cell && fill.cell.reservePx} complete=${complete}`] };
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -112,6 +129,7 @@ const STEPS = [
   { id: 'columns', label: 'columns lift', needs: 'WP-5e', impl: runColumns },
   { id: 'strict-index', label: 'strict index', needs: 'WP-1c', impl: runStrictIndex },
   { id: 'prose-thin', label: 'prose thin', needs: 'WP-7', impl: runProseThin },
+  { id: 'sidecar', label: 'placement sidecar', needs: 'WP-3b.1', impl: runSidecar },
 ];
 
 /**

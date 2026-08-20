@@ -764,3 +764,39 @@ part of the waiver acceptance (the skill is thin and clean under its current nam
 churns the marketplace id and every cross-skill reference, so it is left as a separate concern rather
 than bundled here.
 
+## WP-3b.1 — Compiler placement sidecar (§3.3.1) — 2026-08-20
+
+Status: complete
+Gate: `node packages/verify/src/gates/g-compiled-meta.mjs` -> exit 0 (schema 2 · sidecar 13 · placement 248, 0 failures); `npm run green` -> exit 0 (25 gates, mutations=77 caught=77)
+Evidence: packages/verify/evidence/WP-3b.1.json
+Decisions added: D-103 (Scope change: WP-3b splits into WP-3b.1..WP-3b.4, the full-brief T3 sequence); D-104 (the compiler emits the §3.3.1 provenance sidecar, validated by g-compiled-meta)
+Blocked: none new
+Next: WP-3b.2 (the placement predicate engine)
+
+WP-3b is the full-brief T3 (30-verifier.md §3.2.4/§3.3), which is a multi-context subsystem: the
+placement predicates read `cell.sizing`/`rowGroup`/`region`/`tabKey` from a compiler-emitted sidecar
+that did not exist — `meta.nodes[]` carried only `{id,sfsPath,name,type}` — and `g-check-references`
+cannot lift while 12 dangling plugin refs fail its own baseline. D-103 splits WP-3b into WP-3b.1
+(this sidecar), WP-3b.2 (the 18-name predicate engine, closes D-014), WP-3b.3 (the T3 tier + the
+`.build/wp3b --tiers t1,t2,t3` acceptance), WP-3b.4 (the check-references lift, closes D-049), each an
+independently-green commit (CONTROL §6, mirrors the WP-3a splits D-096/D-098).
+
+This WP threads the §3.3.1 member set onto every stamp record in `s5-stamp.mjs` — `parent`, `depth`,
+`region` (page/header/body from the pageShell/titleBand/#header sfsPath markers), `tabKey` (null: no
+clean fixture declares a `tabs` region, and tab-membership derivation lands with the tabs subject in
+WP-3b.3), `cell{row,index,count,sizing,px,reservePx}`, `rowGroup{row,index,members}` and `align`.
+`cell.sizing` is read back from the node's own `desktop.dimensions.width` — the `calc(100% - Npx)` /
+`Npx` / auto string s4 already wrote from the responsive intent, which is the exact inverse §3.3.1
+blesses for `--legacy` and is the compiler reading its own declaration within one compile, never
+inferring geometry from CSS. `s6-serialise.mjs` emits the container as `{schemaVersion, provenance:
+"COMPILED", form, kind, nodes}`, keeping `form`/`kind` (the load-bearing fields T1.08/T2.20 read) and
+the array shape T1.10 requires. A latent defect surfaced and was fixed, not papered over: the
+auto-inserted crud-operations column carries `caption:""`, so `name ?? caption ?? "item"` resolved to
+the empty string — `itemName()` now falls through empty strings so no sidecar node has an empty join
+key. New: `packages/sfs/schema/compiled-meta.schema.json` and `g-compiled-meta` (compiles every clean
+fixture, validates its sidecar against the schema, and asserts the semantics the predicates depend on
+— a fill cell reserves, the page shell reads region page); its two mutations tighten the schema past
+what the compiler emits and both flip the verdict. All 13 clean fixtures validate; the full green
+suite (tests + 25 gates + 77 mutations) passes unchanged, which is the behaviour proof. `prove-b`
+gains its `placement sidecar` step.
+

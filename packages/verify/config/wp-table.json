@@ -77,7 +77,35 @@
       "id": "WP-3b",
       "order": null,
       "inScope": false,
-      "goal": "T3 semantic tier and placement predicates",
+      "goal": "T3 semantic tier and placement predicates — realized as WP-3b.1..WP-3b.4 (D-103 Scope change); kept as the umbrella owner of the pending:BL-003 decisions until each sub-WP ships its enforcer",
+      "backlog": "BL-003"
+    },
+    {
+      "id": "WP-3b.1",
+      "order": null,
+      "inScope": false,
+      "goal": "Compiler placement sidecar (§3.3.1): meta.nodes carry region/depth/parent/tabKey/cell/rowGroup/align, validated against compiled-meta.schema.json by g-compiled-meta (D-103 split)",
+      "backlog": "BL-003"
+    },
+    {
+      "id": "WP-3b.2",
+      "order": null,
+      "inScope": false,
+      "goal": "The 18-name placement predicate engine (predicates/index.mjs + tree.mjs) + assertions.schema.json + g-no-prose-assertions; closes D-014 (D-103 split)",
+      "backlog": "BL-003"
+    },
+    {
+      "id": "WP-3b.3",
+      "order": null,
+      "inScope": false,
+      "goal": "The T3 semantic tier + verify.mjs wiring + T3/placement fixtures + g-fixture-manifest/g-verdict-integrity + mutation/defect-class reconciliation; the .build/wp3b --tiers t1,t2,t3 acceptance (D-103 split)",
+      "backlog": "BL-003"
+    },
+    {
+      "id": "WP-3b.4",
+      "order": null,
+      "inScope": false,
+      "goal": "Fix the 12 dangling plugin refs and lift g-check-references onto coverage.mjs out of quarantine; closes D-049 (D-103 split)",
       "backlog": "BL-003"
     },
     {

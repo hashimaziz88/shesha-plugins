@@ -89,7 +89,7 @@ A SECOND delivery opened after Scope A completed. Its ids are **data** in `packa
 |---|---|---|
 | WP-5c / WP-5d / WP-5e | compiler robustness, decompiler hygiene, IR nodes — the round-trip lift | offline |
 | WP-2b | registry full ≥ 93/121 | offline |
-| WP-3b | T3 semantic tier | offline |
+| WP-3b.1..4 | T3 tier (D-103 split) | offline |
 | WP-1c | population hardening (fuzzer, real envelope, strict-index, 3-arm cost) | offline |
 | WP-6 / WP-9 / WP-7 / WP-16b | corpus round-trip, precedent, thin design skills, bundle-enforce | offline |
 | WP-8 | hooks / MCP / agent roles | needs a session RESTART |
