@@ -29,7 +29,9 @@ The four seeds live at `assets/examples/`. Every non-audit visual + structural +
 
 > **Before writing any JSON, Read the target archetype's screenshot(s).** 
 
-## The flow — five steps, no branches
+## The flow — five steps
+
+> **Order of operations: domain first, forms last.** If Step 2 finds the entity missing, create it and get the backend restarted (Step 2.3) *before* copying any seed — a form built against a not-yet-registered entity won't render.
 
 ### Step 1 — Auth + resolve context
 
@@ -44,9 +46,12 @@ For every entity you're binding:
 
 1. `GET /api/services/app/EntityConfig/GetMainDataList?maxResultCount=500` — find `items[].className === "<Entity>"`. Take `name`, `module`, and `fullClassName` verbatim.
 2. `GET /api/services/app/Metadata/GetProperties?container=<fullClassName>` — the property list you'll bind fields to. `path` is PascalCase in the response — **camelCase every `propertyName` when copying into markup** (`FirstName` → `firstName`; see [references/binding-rules.md](references/binding-rules.md)).
-3. `GET /api/services/app/Entities/GetAll?entityType=<fullClassName>&maxResultCount=1` — must return HTTP 200 with a `result.totalCount`. If it 400s, the entity's dynamic CRUD isn't registered — route to `shesha-developer:domain-model` and stop.
+3. `GET /api/services/app/Entities/GetAll?entityType=<fullClassName>&maxResultCount=1` — must return HTTP 200 with a `result.totalCount`. **A 400 (or the entity missing from step 2.1's `GetMainDataList`) means its dynamic CRUD isn't registered — the domain doesn't exist or hasn't been rebuilt yet.** Don't build against a missing entity. Instead:
+   - **Create it — delegate ownership.** Invoke `Skill(shesha-developer:domain-model)` and let it own the run end-to-end: it creates the entity + migration **and** performs the mandatory rebuild + **restart-twice** via its own runbook. Pass the full context block, not blobs — Backend URL · Username · Password · **Module** · **Working directory** (the .NET solution root the rebuild/restart run from — load-bearing) · the **entity name + property list / requirements** the user gave (the one thing domain-model can't derive) · the **required outcome**: "entity live — `/api/dynamic/<module>/<Entity>/Crud/GetAll` returns 200 after the restart; report back the final `{name, module, fullClassName}`." **Never rebuild or restart the backend from this skill** — the runbook (not you) picks the restart path: self-host Kestrel when headless, prompt the developer to Stop▸Build▸Run twice when attended/Visual Studio, shesha-agent API when ephemeral.
+   - **Then verify, don't restart.** When domain-model returns, poll `GET /api/dynamic/<module>/<Entity>/Crud/GetAll?maxResultCount=1` until 200. If it still 404s, that's the known 2-boot lag, not a failure — request **one** more delegated boot per [references/backend-restart.md](references/backend-restart.md) ("budget 2–3 boots"), then re-poll. Do not build a parallel restart loop or call `dotnet build`/`dotnet run`/kill the port.
+   - **Re-resolve context.** A restart can change the module id — re-run step 1's `Module/GetAll` and steps 2.1–2.2 for the now-live entity before continuing.
 
-Store `{name, module, fullClassName}` as `MODELTYPE`. `formSettings.modelType` is authored as the **object** `{ name, module }`. Any `dataContext.entityType` uses the same object.
+Once `Crud/GetAll` returns 200, store `{name, module, fullClassName}` as `MODELTYPE`. `formSettings.modelType` is authored as the **object** `{ name, module }`. Any `dataContext.entityType` uses the same object.
 
 ### Step 3 — Copy the seed + run the swap checklist
 
@@ -81,7 +86,7 @@ Exit code 0 → OK to push. Exit code 1 → fix the printed BLOCK-PUSH violation
 
 - If the form doesn't exist yet: `POST /api/services/Shesha/FormConfiguration/Create` with `{name, label, description, moduleId}` → capture `result.id`.
 - Push markup: `PUT /api/services/Shesha/FormConfiguration/UpdateMarkup` with `{id, markup: JSON.stringify(<markup>)}`. Also pass `access: 5` on anonymous pages (login, register).
-- Re-fetch via `GetByName` to confirm the round-trip.
+- Re-fetch via `GetByName` to confirm the round-trip. **After a run that created/changed the domain in Step 2.3**, `GetByName` (and the `/dynamic/<mod>/<name>` route) can 404 even though `GetJson?id=<id>` still returns the markup — startup re-ran the config bootstrappers. If so, **re-push via `UpdateMarkup`** to restore name-resolution, then re-fetch. A clean run that never restarted won't hit this. See [references/backend-restart.md](references/backend-restart.md).
 - Report the form's module + name + id.
 
 ### Optional — Browser smoke
@@ -110,6 +115,7 @@ For >5 near-identical forms across a fleet, escalate to `shesha-developer:shesha
 
 | Concern | File |
 |---|---|
+| Missing entity → create it + get the backend restarted before building (delegate to domain-model; 2-boot lag; headless Kestrel vs prompt-in-VS vs shesha-agent) | [references/backend-restart.md](references/backend-restart.md) |
 | What each of the four seeds guarantees, byte-exact rules, swap checklist | [references/canonical-seeds.md](references/canonical-seeds.md) |
 | Component types + current versions + minimal shape | [references/component-list.md](references/component-list.md) |
 | Action-configuration verbatim JSON (Show Dialog / Refresh table / Submit / Start Edit / Cancel Edit / Navigate) | [references/action-configurations.md](references/action-configurations.md) |
