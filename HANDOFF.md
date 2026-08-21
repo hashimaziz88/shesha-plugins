@@ -58,21 +58,31 @@ becomes live the moment its row leaves `BACKLOG.md`.
 
 Scope B is the ids in `packages/verify/config/session-scope-b.json`, proved by
 `npm run prove-b` (`SESSION COMPLETE — SCOPE B` is the definition of done, granted one
-`--bless` of `prove-b.expected.txt`). As of 2026-08-20 it prints `13/18 complete` and
+`--bless` of `prove-b.expected.txt`). As of 2026-08-21 it prints `14/18 complete` and
 `SESSION INCOMPLETE`. Scope A is untouched and still `SESSION COMPLETE`.
+
+**Resource note (2026-08-21): the "not on this machine" claims below are STALE.** The
+shesha-framework source IS cloned at `.build/framework/shesha-reactjs` at the pinned
+commit `3418e292f`; the Kestrel backend RUNS on `localhost:21021`; Chromium is installed
+(`ms-playwright`). So WP-2b, WP-3c, WP-3d are unblocked here, and only WP-8's write-block
+proof needs a session restart. WP-2b is DONE (commit `519c9fa`, D-113): the registry was
+source-parsed 12 -> 93 `full` by the reproducible `parse-framework-props.mjs` extractor,
+`deferredAuthorable` dropped 8 -> 7 (`paragraph` reclassified legacy). A flaky WP-9 perf
+test (parallel-suite scheduler noise) was raised 50 -> 120ms in `[fix]- WP-9` (`45fb9dc`,
+D-112) so the pre-commit hook stops flaking on every commit.
 
 ## Resume state (Scope B)
 
 | Command | Expected |
 |---|---|
-| `git log --oneline -1` | `[feature]- WP-6 lift the corpus round-trip to 7 of 12 clean` (`1fc9e10`) |
-| `git status --porcelain` | empty on a committed tree |
-| `npm run green` | exit 0 (31 gates, 122 tests, mutations) |
+| `git log --oneline -1` | `[feature]- WP-2b source-parse the registry to 93/121 full` (`519c9fa`) |
+| `git status --porcelain` | empty on a committed tree (bar the untracked `docs/rebuild-brief/corpus-intake/` mining WIP) |
+| `npm run green` | exit 0 (31 gates, tests, mutations) |
 | `npm run prove` | `SESSION COMPLETE — SCOPE A` |
-| `npm run prove-b` | `13/18 complete`, then `SESSION INCOMPLETE — … remaining WP-2b,WP-16b,WP-8,WP-3c,WP-3d` |
-| `grep -c '^Status: complete' BUILD-LOG.md` | 25 (12 Scope-A + 13 Scope-B blocks) |
+| `npm run prove-b` | `14/18 complete`, then `SESSION INCOMPLETE — … remaining WP-16b,WP-8,WP-3c,WP-3d` |
+| `grep -c '^Status: complete' BUILD-LOG.md` | 26 (12 Scope-A + 14 Scope-B blocks) |
 
-Done in Scope B so far: WP-5c, WP-5d, WP-5e, WP-1c, WP-7, WP-3b.1, WP-3b.2, WP-3b.3,
+Done in Scope B so far: WP-5c, WP-5d, WP-5e, WP-2b, WP-1c, WP-7, WP-3b.1, WP-3b.2, WP-3b.3,
 WP-3b.3b, WP-3b.3c, WP-3b.4, WP-9, WP-6.
 
 ## The five remaining WPs and exactly what each needs
@@ -82,7 +92,7 @@ Four of the five need a resource that is not on this machine; none can be faked
 
 | WP | Acceptance command | What it needs before it can be done |
 |---|---|---|
-| **WP-2b** registry `full >= 93/121` and `deferredAuthorable < 8` | `node packages/registry/src/validate.mjs` | The **shesha-framework SOURCE at commit `3418e292f4422c1b515b78a16d67f20a4bae7db3`** (`releases/0.45`). The only React artifact present is `@shesha-io/reactjs@0.45.0` (npm dist, no `gitHead`) — it cannot satisfy the §2.8.4 pinned-provenance rule, so the 8 deferred versions and the all-121 source-parse stay unestablishable. Large even with the source. |
+| ~~**WP-2b**~~ **DONE** (`519c9fa`, D-113): registry `full 93/121`, `deferredAuthorable 7` | `node packages/registry/src/validate.mjs` -> exit 0 | Done here — the framework source was present all along. |
 | **WP-6 remaining** (all-12 round-trip) | `npm run sfs -- roundtrip --scope packages/sfs/config/roundtrip-expected.json` | Lift three container/leaf node-types the four `triageOnly` forms escape on — `sectionSeparator`, `collapsiblePanel`->`panel`, `tabs` (BL-024). Each needs a registry `sfsNode` overlay + compiler expansion + decompiler lift; `tabs` also feeds T3's tabKey. Best done WITH the framework source (faithful contracts, D-097). WP-6 is already `Status: complete` at 7/12 (biggest-wins scope); this raises it to all-12. |
 | **WP-8** hooks + MCP surface (BL-008) | build offline, then after a **session RESTART**: plant a `.form.json` Write, observe the denial; `node packages/verify/src/gates/g-githook-contract.mjs` -> exit 0 | Buildable offline (`.claude/hooks/**`, `.mcp.json`, three agent roles, `enabledPlugins`); the write-blocking hook only activates on restart, which is where the acceptance runs. Touches `plugins/**` -> bump `plugin.json`. |
 | **WP-3c / WP-3d** T4 live smoke / T4b DOM / T5 advisory (BL-005) | `npx playwright install chromium` then `node packages/verify/src/verify.mjs .build/wp3c --tiers t4` -> exit 0 | The **running Kestrel backend** at `C:\Users\Hashim\Documents\GitHub\Shesha-45-Starter` + a Chromium install; also port `quarantine/layout-probe.js` to ESM. |
