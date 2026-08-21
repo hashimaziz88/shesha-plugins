@@ -44,11 +44,19 @@ const DESIGNER_INTERNAL = new Set([
   'headerAppControl', 'datatable_template', 'dataContextSelector',
 ]);
 
-/** D-114: authorable in principle, version unestablishable offline -> deferred (BL-022). */
+/** D-086: authorable in principle, but no version migrator exists in the framework
+ * source, so no honest version can be assigned without inventing one -> deferred
+ * (BL-022). WP-2b confirmed against the pinned clone that none of these carry a
+ * migrator; the version is genuinely absent, not merely unread. */
 const VERSION_UNKNOWN = new Set([
-  'buttons', 'dynamicView', 'imagePicker', 'logViewer', 'paragraph',
+  'buttons', 'dynamicView', 'imagePicker', 'logViewer',
   'permissionTagGroup', 'processMonitor', 'threeStateSwitch',
 ]);
+
+/** D-113: components shipped under the framework's designer-components/_legacyComponents/
+ * are deprecated, not authored into new forms; `legacy` is their honest disposition,
+ * not the version-unknown deferral. `paragraph` is version-less AND legacy. */
+const LEGACY = new Set(['paragraph']);
 
 /** The five nested item schemas (§2.8.2). */
 const ITEM_SCHEMAS = {
@@ -90,6 +98,15 @@ function sortDeep(v) {
 }
 
 /**
+ * The two framework-DERIVED provenances a 'full' claim rests on: `source-parsed`
+ * (the registry extractor read the framework at the pinned commit) and
+ * `framework-verified` (the compiler emits the prop and confirmed its type against
+ * the framework). Both are ground truth from the framework; a prop typed by either,
+ * with a known required flag, is fully known. `kb-only`/`unknown` are neither.
+ */
+const FRAMEWORK_DERIVED = new Set(['source-parsed', 'framework-verified']);
+
+/**
  * Compute the four-state completeness ladder from a props map (§2.8.2).
  * @param {Record<string, {valueType:unknown, required:unknown, valueTypeSource:unknown}>} props
  * @returns {'none'|'names-only'|'value-typed'|'full'}
@@ -104,7 +121,7 @@ function completenessOf(props) {
   if (!allTyped) return 'names-only';
   const full = keys.every((k) => {
     const p = props[k];
-    return p !== undefined && p.required !== null && p.valueTypeSource === 'source-parsed';
+    return p !== undefined && p.required !== null && FRAMEWORK_DERIVED.has(/** @type {string} */ (p.valueTypeSource));
   });
   return full ? 'full' : 'value-typed';
 }
@@ -162,18 +179,22 @@ export function build(commit) {
 
     const designerInternal = DESIGNER_INTERNAL.has(type);
     const versionUnknown = VERSION_UNKNOWN.has(type);
+    const legacy = LEGACY.has(type);
     const priority = PRIORITY.includes(type);
+    // Layer 2 applies to every type the framework extractor typed. WP-2b lifted this
+    // from the 13 priority types to all ~93 components whose settings form was parsed
+    // (parse-framework-props.mjs); the 13 priority entries remain the pinned anchors.
+    const hasFwEntry = frameworkPresent && Object.prototype.hasOwnProperty.call(fw.types, type);
 
-    // Layer 2: framework value types for the priority types' salient props. The
-    // salient map REPLACES the closure for priority types (the §2.8.2 shape), so
-    // completeness is measured over source-parsed props, not over 136 style props.
-    if (priority && frameworkPresent) {
+    // Layer 2: framework value types for the salient props. The salient map REPLACES
+    // the closure (the §2.8.2 shape), so completeness is measured over source-parsed
+    // props, not over the 136 style props. A typed component with no distinct config
+    // still carries the base contract — its honest, fully source-parsed salient set.
+    if (hasFwEntry) {
       /** @type {Record<string, any>} */
       const salient = {};
       for (const [name, p] of Object.entries(fw.base)) salient[name] = { ...p };
       for (const [name, p] of Object.entries(fw.types[type] || {})) salient[name] = { ...p };
-      // Keep the map non-vacuous: a priority type with an empty own interface still
-      // carries the base contract, which is the honest salient set.
       if (Object.keys(salient).length > 0) {
         for (const k of Object.keys(props)) delete props[k];
         Object.assign(props, salient);
@@ -192,14 +213,20 @@ export function build(commit) {
       breakpointChannels: [],
       legacyStyleProps: [],
       versionSource: 'kb',
-      provenance: { confidence: frameworkPresent && priority ? 'source-parsed' : (Object.keys(props).length ? 'kb-only' : 'kb-only') },
+      provenance: { confidence: hasFwEntry ? 'source-parsed' : 'kb-only' },
     };
 
-    // D-113 / D-114: dispose the 22 version-null records.
+    // D-086 / D-113: dispose the version-null records. Designer-internal widgets are
+    // never authored (props wiped); legacy widgets are deprecated (kept for decompile);
+    // the rest are authorable-in-principle but version-less, so deferred (BL-022).
     if (designerInternal) {
       record.authorable = false;
       record.reason = 'designer-internal';
       record.props = {};
+    } else if (legacy) {
+      record.authorable = false;
+      record.reason = 'legacy';
+      record.decision = 'D-113';
     } else if (versionUnknown) {
       record.authorable = false;
       record.reason = 'version unknown offline';
@@ -226,8 +253,15 @@ export function build(commit) {
     if (!Object.prototype.hasOwnProperty.call(overlay, 'slots')) delete merged.slots;
     // props MERGE, they do not replace: the overlay ADDS compiler-known prop names
     // (container's flex props, dataContext's uniqueStateId — verified against the
-    // framework clone, D-097) to the KB-derived set, never wiping it.
-    merged.props = { ...(base.props || {}), ...(overlay.props || {}) };
+    // framework clone, D-097) to the KB-derived set, never wiping it. WP-2b: a null
+    // (untyped) overlay prop must NOT clobber a source-parsed value the extractor
+    // now supplies — the overlay only adds names or upgrades, never downgrades.
+    merged.props = { ...(base.props || {}) };
+    for (const [name, op] of Object.entries(overlay.props || {})) {
+      const cur = merged.props[name];
+      if (cur && cur.valueType != null && (op == null || op.valueType == null)) continue;
+      merged.props[name] = op;
+    }
     merged.propsCompleteness = completenessOf(merged.props);
     components[type] = merged;
   }
@@ -288,9 +322,10 @@ export function measure(components) {
     || ['names-only', 'value-typed', 'full'].includes(r.propsCompleteness)).length;
   const valueTyped = all.filter((r) => ['value-typed', 'full'].includes(r.propsCompleteness)).length;
   const deferredAuthorable = all.filter((r) => r.authorable === false && r.reason === 'version unknown offline').length;
+  const full = all.filter((r) => r.propsCompleteness === 'full').length;
   const priorityValueTyped = PRIORITY.filter((t) => components[t] && ['value-typed', 'full'].includes(components[t].propsCompleteness)).length;
   const priorityFull = PRIORITY.filter((t) => components[t] && components[t].propsCompleteness === 'full').length;
-  return { records: all.length, authorable, namesOnlyOrBetter, valueTyped, deferredAuthorable, priorityValueTyped, priorityFull };
+  return { records: all.length, authorable, namesOnlyOrBetter, valueTyped, full, deferredAuthorable, priorityValueTyped, priorityFull };
 }
 
 async function main() {
@@ -323,7 +358,7 @@ async function main() {
   if (ratchet) {
     const cfgPath = path.join(ROOT, 'packages/registry/config/registry-ratchet.json');
     const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf8'));
-    cfg.measured = { authorable: m.authorable, namesOnlyOrBetter: m.namesOnlyOrBetter, valueTyped: m.valueTyped, deferredAuthorable: m.deferredAuthorable };
+    cfg.measured = { authorable: m.authorable, namesOnlyOrBetter: m.namesOnlyOrBetter, valueTyped: m.valueTyped, full: m.full, deferredAuthorable: m.deferredAuthorable };
     fs.writeFileSync(cfgPath, `${JSON.stringify(cfg, null, 2)}\n`);
     console.log('gen-registry --ratchet: rewrote measured floors');
   }

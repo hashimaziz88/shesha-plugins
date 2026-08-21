@@ -110,10 +110,14 @@
           "requiredSource": "unknown"
         },
         "direction": {
-          "valueType": null,
+          "valueType": "enum",
           "valueTypeSource": "framework-verified",
-          "required": null,
-          "requiredSource": "unknown"
+          "required": false,
+          "requiredSource": "framework-verified",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ]
         }
       }
     },
@@ -168,10 +172,10 @@
       "editModeChannel": null,
       "props": {
         "uniqueStateId": {
-          "valueType": null,
+          "valueType": "string",
           "valueTypeSource": "framework-verified",
-          "required": null,
-          "requiredSource": "unknown"
+          "required": false,
+          "requiredSource": "framework-verified"
         }
       }
     },

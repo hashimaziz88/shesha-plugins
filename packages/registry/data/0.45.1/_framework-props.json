@@ -287,6 +287,2197 @@
     }
   },
   "types": {
+    "KeyInformationBar": {
+      "alignItems": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "flex-start",
+          "flex-end",
+          "center"
+        ]
+      },
+      "columns": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dividerColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dividerHeight": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dividerMargin": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dividerThickness": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dividerWidth": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "gap": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orientation": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "horizontal",
+          "vertical"
+        ]
+      }
+    },
+    "address": {
+      "countryRestriction": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "debounce": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "googleMapsApiKey": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "latPriority": {
+        "valueType": "number",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "lngPriority": {
+        "valueType": "number",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "minCharactersSearch": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "openCageApiKey": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "prefix": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "radiusPriority": {
+        "valueType": "number",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showPriorityBounds": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "alert": {
+      "alertType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "success",
+          "info",
+          "warning",
+          "error"
+        ]
+      },
+      "banner": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "closable": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "icon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "marquee": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showIcon": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "text": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "attachmentsEditor": {
+      "allowAdd": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowDelete": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowReplace": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowViewHistory": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowedFileTypes": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "customActions": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "customContent": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "downloadZip": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "downloadedIcon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "extraFormId": {
+        "valueType": "formRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "extraFormSelectionMode": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "name",
+          "dynamic"
+        ]
+      },
+      "extraFormType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filesCategory": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filesLayout": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "vertical",
+          "horizontal",
+          "grid"
+        ]
+      },
+      "gap": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hideFileName": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isDragger": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onDownload": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ownerId": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ownerName": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ownerType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "styleDownloadedFiles": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "autocomplete": {
+      "allowFreeText": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dataSourceType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "entitiesList",
+          "url"
+        ]
+      },
+      "dataSourceUrl": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "disableSearch": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "displayPropName": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "displayValueFunc": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "entityType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "fields": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filter": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filterKeysFunc": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "grouping": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "keyPropName": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "keyValueFunc": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "mode": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "single",
+          "multiple"
+        ]
+      },
+      "outcomeValueFunc": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "queryParams": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "quickviewDisplayPropertyName": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "quickviewEnabled": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "quickviewFormPath": {
+        "valueType": "formRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "quickviewGetEntityUrl": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "quickviewWidth": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "sorting": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valueFormat": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "autocompleteTagGroup": {
+      "autocompleteUrl": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "barChart": {
+      "additionalProperties": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "aggregationMethod": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "sum",
+          "count",
+          "average",
+          "min",
+          "max"
+        ]
+      },
+      "axisProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "axisPropertyLabel": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "className": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dataMode": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "url",
+          "entityType"
+        ]
+      },
+      "entityType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filters": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "groupingProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "groupingTimeSeriesFormat": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "day",
+          "month",
+          "year",
+          "day-month",
+          "day-month-year",
+          "month-year"
+        ]
+      },
+      "isAxisTimeSeries": {
+        "valueType": "boolean",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isDoughnut": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isGroupingTimeSeries": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "legendPosition": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "top",
+          "bottom",
+          "left",
+          "right"
+        ]
+      },
+      "maxResultCount": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orderBy": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orderDirection": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "asc",
+          "desc"
+        ]
+      },
+      "requestTimeout": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showLegend": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showXAxisScale": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showXAxisTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showYAxisScale": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showYAxisTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "simpleOrPivot": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "simple",
+          "pivot"
+        ]
+      },
+      "stacked": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strokeColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strokeWidth": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "tension": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "timeSeriesFormat": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "day",
+          "month",
+          "year",
+          "day-month",
+          "day-month-year",
+          "month-year"
+        ]
+      },
+      "title": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "url": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valueProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valuePropertyLabel": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "button": {
+      "actionConfiguration": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "itemSubType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "button",
+          "separator",
+          "line",
+          "dynamic"
+        ]
+      },
+      "dividerWidth": {
+        "valueType": "cssSize",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dividerColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "name": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "block": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "label": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "tooltip": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "sortOrder": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "danger": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hidden": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isDynamic": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "itemType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "item",
+          "group"
+        ]
+      },
+      "icon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "iconPosition": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "start",
+          "end"
+        ]
+      },
+      "downIcon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ghost": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "permissions": {
+        "valueType": "permissionRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "editMode": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "editable",
+          "readOnly",
+          "inherited"
+        ]
+      },
+      "readOnly": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "width": {
+        "valueType": "cssSize",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "height": {
+        "valueType": "cssSize",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "backgroundColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "fontSize": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "color": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "fontWeight": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "borderWidth": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "borderColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "borderStyle": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "dotted",
+          "solid",
+          "dashed"
+        ]
+      },
+      "borderRadius": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "buttonGroup": {
+      "items": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isInline": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "noStyles": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "buttons": {},
+    "calendar": {
+      "displayPeriod": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "month",
+          "week",
+          "work_week",
+          "day",
+          "agenda"
+        ]
+      },
+      "dummyEventColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "externalEndDate": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "externalStartDate": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "items": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "maxDate": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "minDate": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "momentLocale": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "name": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onSlotClick": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onViewChange": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "card": {
+      "className": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hideHeading": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hideWhenEmpty": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "chart": {
+      "additionalProperties": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "aggregationMethod": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "sum",
+          "count",
+          "average",
+          "min",
+          "max"
+        ]
+      },
+      "axisProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "axisPropertyLabel": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "className": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dataMode": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "url",
+          "entityType"
+        ]
+      },
+      "entityType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filters": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "groupingProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "groupingTimeSeriesFormat": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "day",
+          "month",
+          "year",
+          "day-month",
+          "day-month-year",
+          "month-year"
+        ]
+      },
+      "isAxisTimeSeries": {
+        "valueType": "boolean",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isDoughnut": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isGroupingTimeSeries": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "legendPosition": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "top",
+          "bottom",
+          "left",
+          "right"
+        ]
+      },
+      "maxResultCount": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orderBy": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orderDirection": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "asc",
+          "desc"
+        ]
+      },
+      "requestTimeout": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showLegend": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showXAxisScale": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showXAxisTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showYAxisScale": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showYAxisTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "simpleOrPivot": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "simple",
+          "pivot"
+        ]
+      },
+      "stacked": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strokeColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strokeWidth": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "tension": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "timeSeriesFormat": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "day",
+          "month",
+          "year",
+          "day-month",
+          "day-month-year",
+          "month-year"
+        ]
+      },
+      "title": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "url": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valueProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valuePropertyLabel": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "checkbox": {},
+    "checkboxGroup": {
+      "items": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "mode": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "single",
+          "multiple"
+        ]
+      },
+      "referenceListNamespace": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "referenceListName": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "referenceListId": {
+        "valueType": "refListRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dataSourceType": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "values",
+          "referenceList",
+          "url"
+        ]
+      },
+      "dataSourceUrl": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "reducerFunc": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "readOnly": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "enableStyleOnReadonly": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "chevron": {
+      "activeColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "colorSource": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "primary",
+          "custom",
+          "reflist"
+        ]
+      },
+      "height": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "items": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "referenceList": {
+        "valueType": "refListRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showIcons": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "width": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "codeEditor": {
+      "availableConstantsExpression": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "environment": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "language": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "mode": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "resultTypeExpression": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "wrapInTemplate": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "collapsiblePanel": {
+      "accentStyle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "collapsedByDefault": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "collapsible": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "header",
+          "icon",
+          "disabled"
+        ]
+      },
+      "expandIconPosition": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "hide",
+          "start",
+          "end"
+        ]
+      },
+      "ghost": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hasCustomHeader": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hideCollapseContent": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hideWhenEmpty": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isSimpleDesign": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "colorPicker": {
+      "allowClear": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "disabledAlpha": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showText": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "size": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "small",
+          "middle",
+          "large"
+        ]
+      },
+      "title": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "columns": {
+      "columns": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "gutterX": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "gutterY": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "component-selector": {
+      "componentType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "noSelectionItemText": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "noSelectionItemValue": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "configurableActionConfigurator": {},
+    "configurableItemAutocomplete": {
+      "entityType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filter": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "mode": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "size": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "container": {
+      "alignItems": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "alignSelf": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "className": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "display": {
+        "valueType": "string",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "flexDirection": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "flexWrap": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "gap": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "gridColumnsCount": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "justifyContent": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "justifyItems": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "justifySelf": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "noDefaultStyling": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showAdvanced": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "contextPropertyAutocomplete": {
+      "autoFillProps": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hideBorder": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "modelType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "name": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "size": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "dataContext": {
+      "allowReordering": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "customReorderEndpoint": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dataFetchingMode": {
+        "valueType": "string",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "defaultPageSize": {
+        "valueType": "string",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "disableRefresh": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "endpoint": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "entityType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "grouping": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onAfterRowReorder": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onBeforeRowReorder": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "permanentFilter": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "sortMode": {
+        "valueType": "string",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "sourceType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "standardSorting": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strictSortBy": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strictSortOrder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "dataSortingEditor": {
+      "modelType": {
+        "valueType": "string",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "datalist": {
+      "dataSource": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "formSelectionMode": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "name",
+          "view",
+          "expression"
+        ]
+      },
+      "formId": {
+        "valueType": "formRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "formType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "formIdExpression": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "createFormId": {
+        "valueType": "formRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "createFormType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "selectionMode": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "none",
+          "single",
+          "multiple"
+        ]
+      },
+      "grouping": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "entityType": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orientation": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "vertical",
+          "horizontal",
+          "wrap"
+        ]
+      },
+      "customListItemWidth": {
+        "valueType": "cssSize",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "cardMinWidth": {
+        "valueType": "cssSize",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "cardMaxWidth": {
+        "valueType": "cssSize",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "cardHeight": {
+        "valueType": "cssSize",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "cardSpacing": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showBorder": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "gap": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "container": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dblClickActionConfiguration": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onRowDeleteSuccessAction": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "collapsible": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "collapseByDefault": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "groupStyle": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "inlineEditMode": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "one-by-one",
+          "all-at-once"
+        ]
+      },
+      "inlineSaveMode": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "auto",
+          "manual"
+        ]
+      },
+      "noDataText": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "noDataSecondaryText": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "noDataIcon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onNewListItemInitialize": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "canDeleteInline": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "yes",
+          "no",
+          "inherit"
+        ]
+      },
+      "customDeleteUrl": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "canEditInline": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "yes",
+          "no",
+          "inherit"
+        ]
+      },
+      "customUpdateUrl": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "canAddInline": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "yes",
+          "no",
+          "inherit"
+        ]
+      },
+      "customCreateUrl": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onListItemSave": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onListItemSaveSuccessAction": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "modalWidth": {
+        "valueType": "cssSize",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "widthUnits": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "customWidth": {
+        "valueType": "cssSize",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showEditIcons": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onListItemClick": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onListItemHover": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onListItemSelect": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onSelectionChange": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
     "datatable": {
       "items": {
         "valueType": "array",
@@ -1105,317 +3296,284 @@
         "requiredSource": "source-parsed"
       }
     },
-    "datalist": {
-      "dataSource": {
+    "datatable.filter": {
+      "buttonType": {
+        "valueType": "string",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "icon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "tooltip": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "datatable.pager": {
+      "showSizeChanger": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showTotalItems": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "font": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "shadow": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "background": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "border": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "datatable.quickSearch": {
+      "block": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "dateField": {
+      "dateFormat": {
         "valueType": "string",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "formSelectionMode": {
-        "valueType": "enum",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed",
-        "enum": [
-          "name",
-          "view",
-          "expression"
-        ]
-      },
-      "formId": {
-        "valueType": "formRef",
+      "defaultToMidnight": {
+        "valueType": "boolean",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "formType": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "formIdExpression": {
+      "disabledDateFunc": {
         "valueType": "codeSetting",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "createFormId": {
-        "valueType": "formRef",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "createFormType": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "selectionMode": {
+      "disabledDateMode": {
         "valueType": "enum",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed",
         "enum": [
           "none",
-          "single",
-          "multiple"
+          "functionTemplate",
+          "customFunction"
         ]
       },
-      "grouping": {
-        "valueType": "array",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "entityType": {
-        "valueType": "entityPath",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "orientation": {
+      "disabledDateTemplate": {
         "valueType": "enum",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed",
         "enum": [
-          "vertical",
-          "horizontal",
-          "wrap"
+          "return current && current < moment().startOf('day');",
+          "return current && current > moment().endOf('day');"
         ]
       },
-      "customListItemWidth": {
-        "valueType": "cssSize",
+      "disabledTimeFunc": {
+        "valueType": "codeSetting",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "cardMinWidth": {
-        "valueType": "cssSize",
+      "disabledTimeMode": {
+        "valueType": "enum",
         "required": false,
         "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
+        "requiredSource": "source-parsed",
+        "enum": [
+          "none",
+          "timeFunctionTemplate",
+          "customTimeFunction"
+        ]
       },
-      "cardMaxWidth": {
-        "valueType": "cssSize",
+      "disabledTimeTemplate": {
+        "valueType": "enum",
         "required": false,
         "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
+        "requiredSource": "source-parsed",
+        "enum": [
+          "disabledPastTime",
+          "disabledFutureTime"
+        ]
       },
-      "cardHeight": {
-        "valueType": "cssSize",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "cardSpacing": {
+      "monthFormat": {
         "valueType": "string",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "showBorder": {
+      "picker": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "date",
+          "week",
+          "month",
+          "quarter",
+          "year"
+        ]
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "quarterFormat": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "range": {
         "valueType": "boolean",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "gap": {
-        "valueType": "number",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "container": {
-        "valueType": "object",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "dblClickActionConfiguration": {
-        "valueType": "actionConfig",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "onRowDeleteSuccessAction": {
-        "valueType": "actionConfig",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "collapsible": {
+      "resolveToUTC": {
         "valueType": "boolean",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "collapseByDefault": {
+      "showNow": {
         "valueType": "boolean",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "groupStyle": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "inlineEditMode": {
-        "valueType": "enum",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed",
-        "enum": [
-          "one-by-one",
-          "all-at-once"
-        ]
-      },
-      "inlineSaveMode": {
-        "valueType": "enum",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed",
-        "enum": [
-          "auto",
-          "manual"
-        ]
-      },
-      "noDataText": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "noDataSecondaryText": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "noDataIcon": {
-        "valueType": "icon",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "onNewListItemInitialize": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "canDeleteInline": {
-        "valueType": "enum",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed",
-        "enum": [
-          "yes",
-          "no",
-          "inherit"
-        ]
-      },
-      "customDeleteUrl": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "canEditInline": {
-        "valueType": "enum",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed",
-        "enum": [
-          "yes",
-          "no",
-          "inherit"
-        ]
-      },
-      "customUpdateUrl": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "canAddInline": {
-        "valueType": "enum",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed",
-        "enum": [
-          "yes",
-          "no",
-          "inherit"
-        ]
-      },
-      "customCreateUrl": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "onListItemSave": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "onListItemSaveSuccessAction": {
-        "valueType": "actionConfig",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "modalWidth": {
-        "valueType": "cssSize",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "widthUnits": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "customWidth": {
-        "valueType": "cssSize",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "showEditIcons": {
+      "showTime": {
         "valueType": "boolean",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "onListItemClick": {
+      "timeFormat": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "weekFormat": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "yearFormat": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "divider": {
+      "dashed": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dividerType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "drawer": {
+      "cancelButtonCustomEnabled": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "cancelText": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "okButtonCustomEnabled": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "okText": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onCancelAction": {
         "valueType": "actionConfig",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "onListItemHover": {
+      "onOkAction": {
         "valueType": "actionConfig",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "onListItemSelect": {
-        "valueType": "actionConfig",
+      "placement": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "top",
+          "right",
+          "bottom",
+          "left"
+        ]
+      },
+      "showFooter": {
+        "valueType": "boolean",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "onSelectionChange": {
-        "valueType": "actionConfig",
+      "showHeader": {
+        "valueType": "boolean",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
@@ -1580,274 +3738,145 @@
         "requiredSource": "source-parsed"
       }
     },
-    "button": {
-      "actionConfiguration": {
-        "valueType": "actionConfig",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "itemSubType": {
-        "valueType": "enum",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed",
-        "enum": [
-          "button",
-          "separator",
-          "line",
-          "dynamic"
-        ]
-      },
-      "dividerWidth": {
-        "valueType": "cssSize",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "dividerColor": {
-        "valueType": "colorRef",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "name": {
+    "dynamicItemsConfigurator": {},
+    "dynamicView": {},
+    "editModeSelector": {},
+    "editableTagGroup": {
+      "placeholder": {
         "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "block": {
-        "valueType": "boolean",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "label": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "tooltip": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "sortOrder": {
-        "valueType": "number",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "danger": {
-        "valueType": "boolean",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "hidden": {
-        "valueType": "boolean",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "isDynamic": {
-        "valueType": "boolean",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "itemType": {
-        "valueType": "enum",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed",
-        "enum": [
-          "item",
-          "group"
-        ]
-      },
-      "icon": {
-        "valueType": "icon",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "iconPosition": {
-        "valueType": "enum",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed",
-        "enum": [
-          "start",
-          "end"
-        ]
-      },
-      "downIcon": {
-        "valueType": "icon",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "ghost": {
-        "valueType": "boolean",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "permissions": {
-        "valueType": "permissionRef",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "editMode": {
-        "valueType": "enum",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed",
-        "enum": [
-          "editable",
-          "readOnly",
-          "inherited"
-        ]
-      },
-      "readOnly": {
-        "valueType": "boolean",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "width": {
-        "valueType": "cssSize",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "height": {
-        "valueType": "cssSize",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "backgroundColor": {
-        "valueType": "colorRef",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "fontSize": {
-        "valueType": "number",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "color": {
-        "valueType": "colorRef",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "fontWeight": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "borderWidth": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "borderColor": {
-        "valueType": "colorRef",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "borderStyle": {
-        "valueType": "enum",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed",
-        "enum": [
-          "dotted",
-          "solid",
-          "dashed"
-        ]
-      },
-      "borderRadius": {
-        "valueType": "number",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       }
     },
-    "buttonGroup": {
+    "endpointsAutocomplete": {
+      "availableHttpVerbs": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hideBorder": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "httpVerb": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "mode": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "url",
+          "endpoint"
+        ]
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "prefix": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "size": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "suffix": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "textType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "entityPicker": {
+      "allowNewRecord": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "buttons": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "displayEntityKey": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "entityType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filters": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "footerButtons": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "default",
+          "custom",
+          "none"
+        ]
+      },
+      "incomeCustomJs": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
       "items": {
         "valueType": "array",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "isInline": {
-        "valueType": "boolean",
-        "required": false,
+      "modalFormId": {
+        "valueType": "formRef",
+        "required": true,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "noStyles": {
-        "valueType": "boolean",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      }
-    },
-    "datatable.pager": {
-      "showSizeChanger": {
-        "valueType": "boolean",
-        "required": false,
+      "modalTitle": {
+        "valueType": "string",
+        "required": true,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "showTotalItems": {
-        "valueType": "boolean",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "font": {
-        "valueType": "object",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "shadow": {
-        "valueType": "object",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "background": {
-        "valueType": "object",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "border": {
-        "valueType": "object",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      }
-    },
-    "checkbox": {},
-    "checkboxGroup": {
-      "items": {
-        "valueType": "array",
+      "modalWidth": {
+        "valueType": "string",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
@@ -1862,55 +3891,1937 @@
           "multiple"
         ]
       },
-      "referenceListNamespace": {
+      "outcomeCustomJs": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
         "valueType": "string",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "referenceListName": {
+      "submitHttpVerb": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "POST",
+          "PUT"
+        ]
+      },
+      "valueFormat": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "simple",
+          "entityReference",
+          "custom"
+        ]
+      }
+    },
+    "entityReference": {
+      "additionalProperties": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "buttons": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "displayProperty": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "displayType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "displayProperty",
+          "icon",
+          "textTitle"
+        ]
+      },
+      "entityReferenceType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "Quickview",
+          "NavigateLink",
+          "Dialog"
+        ]
+      },
+      "entityType": {
+        "valueType": "string",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "footerButtons": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "default",
+          "custom",
+          "none"
+        ]
+      },
+      "formIdentifier": {
+        "valueType": "formRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "formSelectionMode": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "name",
+          "dynamic"
+        ]
+      },
+      "formType": {
         "valueType": "string",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "referenceListId": {
+      "getEntityUrl": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "handleFail": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "handleSuccess": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "iconName": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "labelCol": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "modalTitle": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "modalWidth": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onFail": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onSuccess": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "quickviewWidth": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "submitHttpVerb": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "POST",
+          "PUT"
+        ]
+      },
+      "textTitle": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "wrapperCol": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "entityTypeAutocomplete": {
+      "entityType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filter": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "mode": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "size": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "fileUpload": {
+      "allowDelete": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowReplace": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowUpload": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowedFileTypes": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hideFileName": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isDragger": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ownerId": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ownerType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "useSync": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "formAutocomplete": {},
+    "headerAppControl": {},
+    "htmlRender": {
+      "renderer": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "iconPicker": {},
+    "image": {
+      "allowPreview": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowedFileTypes": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "alt": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "base64": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "borderColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "borderRadius": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "borderSize": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "borderType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dataSource": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "fileCategory": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filter": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "height": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "objectFit": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "objectPosition": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "opacity": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ownerId": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ownerType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "storedFileId": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "url": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "width": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "imagePicker": {
+      "allowDelete": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowReplace": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowUpload": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowedFileTypes": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isDragger": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ownerId": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ownerType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "useSync": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "kanban": {
+      "allowDelete": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowEdit": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowNewRecord": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "collapsible": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "columnStyle": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "createFormId": {
+        "valueType": "formRef",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "editFormId": {
+        "valueType": "formRef",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "gap": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "groupingProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "headerStyles": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "items": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "kanbanReadonly": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "modalFormId": {
+        "valueType": "formRef",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "referenceList": {
         "valueType": "refListRef",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "dataSourceType": {
+      "showIcons": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "labelConfigurator": {},
+    "labelValueEditor": {
+      "labelName": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "labelTitle": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "mode": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valueName": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valueTitle": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "lineChart": {
+      "additionalProperties": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "aggregationMethod": {
         "valueType": "enum",
         "required": true,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed",
         "enum": [
-          "values",
-          "referenceList",
-          "url"
+          "sum",
+          "count",
+          "average",
+          "min",
+          "max"
         ]
       },
-      "dataSourceUrl": {
+      "axisProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "axisPropertyLabel": {
         "valueType": "string",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "reducerFunc": {
+      "className": {
         "valueType": "string",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "readOnly": {
+      "dataMode": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "url",
+          "entityType"
+        ]
+      },
+      "entityType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filters": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "groupingProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "groupingTimeSeriesFormat": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "day",
+          "month",
+          "year",
+          "day-month",
+          "day-month-year",
+          "month-year"
+        ]
+      },
+      "isAxisTimeSeries": {
+        "valueType": "boolean",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isDoughnut": {
         "valueType": "boolean",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       },
-      "enableStyleOnReadonly": {
+      "isGroupingTimeSeries": {
         "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "legendPosition": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "top",
+          "bottom",
+          "left",
+          "right"
+        ]
+      },
+      "maxResultCount": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orderBy": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orderDirection": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "asc",
+          "desc"
+        ]
+      },
+      "requestTimeout": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showLegend": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showXAxisScale": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showXAxisTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showYAxisScale": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showYAxisTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "simpleOrPivot": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "simple",
+          "pivot"
+        ]
+      },
+      "stacked": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strokeColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strokeWidth": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "tension": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "timeSeriesFormat": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "day",
+          "month",
+          "year",
+          "day-month",
+          "day-month-year",
+          "month-year"
+        ]
+      },
+      "title": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "url": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valueProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valuePropertyLabel": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "link": {
+      "alignItems": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "className": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "content": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "direction": {
+        "valueType": "string",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hasChildren": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "href": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "justifyContent": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "justifyItems": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "target": {
+        "valueType": "string",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "logViewer": {},
+    "mainMenuEditor": {
+      "height": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "markdown": {
+      "content": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "menuList": {
+      "containerStyle": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "gap": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hoverItemBackground": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hoverItemColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "itemBackground": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "itemColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "menuOverflow": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "dropdown",
+          "menu",
+          "scroll"
+        ]
+      },
+      "selectedItemBackground": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "selectedItemColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "styleOnHover": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "styleOnSelected": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "styleOnSubMenu": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "subItemBackground": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "subItemColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "metadataEditor": {
+      "baseProperties": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "notes": {
+      "allowDelete": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "autoSize": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ownerId": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ownerType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "savePlacement": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "numberField": {
+      "highPrecision": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "prefix": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "prefixIcon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "stepNumeric": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "stepString": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "suffix": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "suffixIcon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "passwordCombo": {
+      "confirmDescription": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "confirmLabel": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "confirmPlaceholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "message": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "minLength": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "repeatPropertyName": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "permissionAutocomplete": {
+      "hideBorder": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "size": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "permissionedObjectsTree": {
+      "defaultAccess": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "height": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "objectsType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onSelectAction": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "permissionsTree": {
+      "height": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "mode": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onSelectAction": {
+        "valueType": "actionConfig",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "pieChart": {
+      "additionalProperties": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "aggregationMethod": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "sum",
+          "count",
+          "average",
+          "min",
+          "max"
+        ]
+      },
+      "axisProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "axisPropertyLabel": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "className": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dataMode": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "url",
+          "entityType"
+        ]
+      },
+      "entityType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filters": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "groupingProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "groupingTimeSeriesFormat": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "day",
+          "month",
+          "year",
+          "day-month",
+          "day-month-year",
+          "month-year"
+        ]
+      },
+      "isAxisTimeSeries": {
+        "valueType": "boolean",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isDoughnut": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isGroupingTimeSeries": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "legendPosition": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "top",
+          "bottom",
+          "left",
+          "right"
+        ]
+      },
+      "maxResultCount": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orderBy": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orderDirection": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "asc",
+          "desc"
+        ]
+      },
+      "requestTimeout": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showLegend": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showXAxisScale": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showXAxisTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showYAxisScale": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showYAxisTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "simpleOrPivot": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "simple",
+          "pivot"
+        ]
+      },
+      "stacked": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strokeColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strokeWidth": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "tension": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "timeSeriesFormat": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "day",
+          "month",
+          "year",
+          "day-month",
+          "day-month-year",
+          "month-year"
+        ]
+      },
+      "title": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "url": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valueProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valuePropertyLabel": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "polarAreaChart": {
+      "additionalProperties": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "aggregationMethod": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "sum",
+          "count",
+          "average",
+          "min",
+          "max"
+        ]
+      },
+      "axisProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "axisPropertyLabel": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "className": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dataMode": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "url",
+          "entityType"
+        ]
+      },
+      "entityType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "filters": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "groupingProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "groupingTimeSeriesFormat": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "day",
+          "month",
+          "year",
+          "day-month",
+          "day-month-year",
+          "month-year"
+        ]
+      },
+      "isAxisTimeSeries": {
+        "valueType": "boolean",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isDoughnut": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "isGroupingTimeSeries": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "legendPosition": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "top",
+          "bottom",
+          "left",
+          "right"
+        ]
+      },
+      "maxResultCount": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orderBy": {
+        "valueType": "entityPath",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orderDirection": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "asc",
+          "desc"
+        ]
+      },
+      "requestTimeout": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showLegend": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showXAxisScale": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showXAxisTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showYAxisScale": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showYAxisTitle": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "simpleOrPivot": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "simple",
+          "pivot"
+        ]
+      },
+      "stacked": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strokeColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strokeWidth": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "tension": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "timeSeriesFormat": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "day",
+          "month",
+          "year",
+          "day-month",
+          "day-month-year",
+          "month-year"
+        ]
+      },
+      "title": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "url": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valueProperty": {
+        "valueType": "entityPath",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valuePropertyLabel": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "processMonitor": {
+      "processId": {
+        "valueType": "string",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "processType": {
+        "valueType": "string",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "profileDropdown": {
+      "items": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "popOverContentStyle": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "popOverFormId": {
+        "valueType": "formRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "popOverTitle": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showUserInfo": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "subText": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "subTextColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "subTextFontSize": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "subTextStyle": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "progress": {
+      "gapDegree": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "gapPosition": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "top",
+          "bottom",
+          "left",
+          "right"
+        ]
+      },
+      "percent": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "progressType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "line",
+          "circle",
+          "dashboard"
+        ]
+      },
+      "showInfo": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "status": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "success",
+          "exception",
+          "normal",
+          "active"
+        ]
+      },
+      "steps": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strokeColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "strokeLinecap": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "round",
+          "butt",
+          "square"
+        ]
+      },
+      "strokeWidth": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "trailColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "width": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "propertyAutocomplete": {
+      "autoFillProps": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "hideBorder": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "mode": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "modelType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "size": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "propertyRouter": {
+      "propertyRouteName": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "queryBuilder": {
+      "fieldsUnavailableHint": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "jsonExpanded": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "modelType": {
+        "valueType": "string",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
@@ -1977,6 +5888,970 @@
         "requiredSource": "source-parsed"
       }
     },
+    "rate": {
+      "count": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "icon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "refListStatus": {
+      "referenceListId": {
+        "valueType": "refListRef",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showIcon": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showReflistName": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "solidBackground": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "referenceListAutocomplete": {},
+    "richTextEditor": {
+      "allowResizeX": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "allowResizeY": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "askBeforePasteFromWord": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "askBeforePasteHTML": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "autofocus": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "direction": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "",
+          "rtl",
+          "ltr"
+        ]
+      },
+      "disablePlugins": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "add-new-line",
+          "about",
+          "focus",
+          "class-span",
+          "backspace",
+          "bold",
+          "wrap-nodes",
+          "clean-html",
+          "copy-format",
+          "clipboard",
+          "paste",
+          "paste-storage",
+          "drag-and-drop",
+          "drag-and-drop-element",
+          "paste-from-word",
+          "color",
+          "enter",
+          "key-arrow-outside",
+          "error-messages",
+          "font",
+          "format-block",
+          "fullsize",
+          "hotkeys",
+          "iframe",
+          "indent",
+          "hr",
+          "inline-popup",
+          "justify",
+          "line-height",
+          "limit",
+          "link",
+          "mobile",
+          "ordered-list",
+          "powered-by-jodit",
+          "placeholder",
+          "redo-undo",
+          "resizer",
+          "search",
+          "select",
+          "size",
+          "resize-handler",
+          "source",
+          "stat",
+          "sticky",
+          "spellcheck",
+          "symbols",
+          "tooltip",
+          "tab",
+          "xpath",
+          "image-properties",
+          "image-processor",
+          "image",
+          "media",
+          "video",
+          "file",
+          "resize-cells",
+          "select-cells",
+          "table-keyboard-navigation",
+          "table",
+          "preview",
+          "print"
+        ]
+      },
+      "enter": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "BR",
+          "P",
+          "DIV"
+        ]
+      },
+      "iframe": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "insertImageAsBase64URI": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "preset": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "null",
+          "inline"
+        ]
+      },
+      "saveHeightInStorage": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "saveModeInStorage": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showCharsCounter": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showWordsCounter": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "theme": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "default",
+          "dark"
+        ]
+      },
+      "toolbar": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "toolbarButtonSize": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "tiny",
+          "xsmall",
+          "middle",
+          "large"
+        ]
+      }
+    },
+    "section": {
+      "containerStyle": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "titleStyle": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "lineFont": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "font": {
+        "valueType": "object",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "titleStylingBox": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "containerStylingBox": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dashed": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "lineWidth": {
+        "valueType": "cssSize",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "lineHeight": {
+        "valueType": "cssSize",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "sectionSeparator": {
+      "containerStyle": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "inline": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "lineHeight": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "lineType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "solid",
+          "dashed",
+          "dotted"
+        ]
+      },
+      "lineWidth": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "orientation": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "titleStyle": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "setting": {
+      "availableConstantsExpression": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "resultTypeExpression": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "useAsyncEvaluation": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "sizableColumns": {
+      "columns": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "slider": {
+      "max": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "min": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "space": {
+      "align": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "direction": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "marginLeft": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "marginRight": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "size": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "sizeNumber": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "wrap": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "statistic": {
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "precision": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "prefix": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "prefixIcon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "suffix": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "suffixIcon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "title": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "titleStyle": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "value": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valueStyle": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "statusTag": {
+      "color": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "mappings": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "override": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "value": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "valueSource": {
+        "valueType": "enum",
+        "required": true,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "form",
+          "manual"
+        ]
+      }
+    },
+    "styleBox": {},
+    "subForm": {
+      "apiMode": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "entityName",
+          "url"
+        ]
+      },
+      "dataSource": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "form",
+          "api"
+        ]
+      },
+      "entityType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "formId": {
+        "valueType": "formRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "formSelectionMode": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "name",
+          "dynamic"
+        ]
+      },
+      "formType": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "getUrl": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "labelCol": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onCreated": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "onUpdated": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "postUrl": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "properties": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "putUrl": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "queryParams": {
+        "valueType": "codeSetting",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "uniqueStateId": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "wrapperCol": {
+        "valueType": "number",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "switch": {
+      "size": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "small",
+          "default"
+        ]
+      }
+    },
+    "tableViewSelector": {
+      "filters": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showIcon": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "tabs": {
+      "defaultActiveKey": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "tabLineColor": {
+        "valueType": "colorRef",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "tabPosition": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "top",
+          "bottom",
+          "left",
+          "right"
+        ]
+      },
+      "tabType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "line",
+          "card"
+        ]
+      },
+      "tabs": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "text": {
+      "code": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "content": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "contentDisplay": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "content",
+          "name"
+        ]
+      },
+      "contentType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "",
+          "primary",
+          "secondary",
+          "success",
+          "warning",
+          "info",
+          "danger",
+          "custom"
+        ]
+      },
+      "copyable": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "dataType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "string",
+          "date-time",
+          "number",
+          "boolean"
+        ]
+      },
+      "dateFormat": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "delete": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "ellipsis": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "italic": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "keyboard": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "level": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ]
+      },
+      "mark": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "numberFormat": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "currency",
+          "double",
+          "round",
+          "thousandSeparator"
+        ]
+      },
+      "textType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "span",
+          "paragraph",
+          "title"
+        ]
+      },
+      "underline": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "textArea": {
+      "allowClear": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "autoSize": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "passEmptyStringByDefault": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "showCount": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "size": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "small",
+          "medium",
+          "large"
+        ]
+      },
+      "spellCheck": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "textField": {
+      "placeholder": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "prefix": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "prefixIcon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "regExp": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "spellCheck": {
+        "valueType": "boolean",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "suffix": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "suffixIcon": {
+        "valueType": "icon",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "textType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "text",
+          "password"
+        ]
+      }
+    },
+    "themeEditor": {
+      "height": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      }
+    },
+    "threeStateSwitch": {},
     "timePicker": {
       "className": {
         "valueType": "string",
@@ -2087,63 +6962,74 @@
         "requiredSource": "source-parsed"
       }
     },
-    "section": {
-      "containerStyle": {
+    "validationErrors": {
+      "className": {
         "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "titleStyle": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "lineFont": {
-        "valueType": "object",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "font": {
-        "valueType": "object",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "titleStylingBox": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "containerStylingBox": {
-        "valueType": "string",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "dashed": {
-        "valueType": "boolean",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "lineWidth": {
-        "valueType": "cssSize",
-        "required": false,
-        "valueTypeSource": "source-parsed",
-        "requiredSource": "source-parsed"
-      },
-      "lineHeight": {
-        "valueType": "cssSize",
         "required": false,
         "valueTypeSource": "source-parsed",
         "requiredSource": "source-parsed"
       }
     },
-    "formAutocomplete": {},
-    "referenceListAutocomplete": {}
+    "wizard": {
+      "buttonsLayout": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "left",
+          "right",
+          "spaceBetween"
+        ]
+      },
+      "defaultActiveStep": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "direction": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "vertical",
+          "horizontal"
+        ]
+      },
+      "labelPlacement": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "vertical",
+          "horizontal"
+        ]
+      },
+      "stepWidth": {
+        "valueType": "string",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "steps": {
+        "valueType": "array",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed"
+      },
+      "wizardType": {
+        "valueType": "enum",
+        "required": false,
+        "valueTypeSource": "source-parsed",
+        "requiredSource": "source-parsed",
+        "enum": [
+          "default",
+          "navigation"
+        ]
+      }
+    }
   }
 }

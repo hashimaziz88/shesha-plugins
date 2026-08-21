@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 112,
+  "count": 113,
   "decisions": [
     {
       "id": "D-001",
@@ -1346,6 +1346,18 @@
       "consequence": "No wall-clock assertion that flakes under the parallel runner",
       "enforcedBy": [
         "structural:packages/precedent/test/shape.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-113",
+      "date": "2026-08-21",
+      "status": "decided",
+      "decision": "WP-2b lifts the registry from 12 to 93 `full`: the reproducible extractor parse-framework-props.mjs source-parses each component's settings form (editor kind -&gt; valueType, omit-never-guess, base-only counts only when no real editor is dropped) to type ~80 components beyond the 13 priority anchors; `full &gt;= 93` and `deferredAuthorable &lt;= 7` become §2.8.4 demands; completenessOf counts the compiler's `framework-verified` props (container.direction, dataContext.uniqueStateId, datatable.crud) as full-derived alongside source-parsed, and a null overlay prop never clobbers a source-parsed one; `paragraph` (framework _legacyComponents/) is reclassified legacy, not version-unknown, since none of the deferred set carries a migrator to invent a version from",
+      "why": "§2.8.4",
+      "consequence": "No _framework-props hand-authored; no full below 93; no version invented for a migrator-less widget",
+      "enforcedBy": [
+        "g-registry-completeness"
       ],
       "confirmation": "n/a"
     }

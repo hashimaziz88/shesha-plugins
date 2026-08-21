@@ -97,6 +97,37 @@ export const mutations = [
     },
     expect: 'fail',
   },
+  {
+    name: 'full completeness drops below the WP-2b floor (a non-priority full record regresses)',
+    kind: 'file',
+    /** @param {string} tmp */
+    apply: async (tmp) => {
+      const f = path.join(tmp, 'packages/registry/data/0.45.1/components.json');
+      const j = JSON.parse(fs.readFileSync(f, 'utf8'));
+      const priority = new Set(['datatable', 'datalist', 'dropdown', 'button', 'buttonGroup', 'datatable.pager',
+        'checkbox', 'checkboxGroup', 'radio', 'timePicker', 'section', 'formAutocomplete', 'referenceListAutocomplete']);
+      const victim = Object.values(j.components).find((r) => r.propsCompleteness === 'full' && !priority.has(r.type));
+      if (!victim) throw new Error('mutation anchor not found: no non-priority full record');
+      victim.propsCompleteness = 'value-typed';
+      fs.writeFileSync(f, `${JSON.stringify(j, null, 2)}\n`);
+    },
+    expect: 'fail',
+  },
+  {
+    name: 'deferredAuthorable rises above its ceiling (an authorable record is deferred version-unknown)',
+    kind: 'file',
+    /** @param {string} tmp */
+    apply: async (tmp) => {
+      const f = path.join(tmp, 'packages/registry/data/0.45.1/components.json');
+      const j = JSON.parse(fs.readFileSync(f, 'utf8'));
+      const victim = Object.values(j.components).find((r) => r.authorable === true);
+      if (!victim) throw new Error('mutation anchor not found: no authorable record');
+      victim.authorable = false;
+      victim.reason = 'version unknown offline';
+      fs.writeFileSync(f, `${JSON.stringify(j, null, 2)}\n`);
+    },
+    expect: 'fail',
+  },
 ];
 
 if (process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href) {

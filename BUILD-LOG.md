@@ -1028,3 +1028,43 @@ genuine BL-024 long tail; lifting them to reach all-12 is WP-6's remaining path,
 framework source (for D-097-faithful node contracts). `prove-b` gains its `corpus round-trip` step,
 which reports the honest 7-of-12 breakdown, not a bare rate.
 
+## WP-2b — The full registry, source-parsed from the framework (12 -> 93 full) — 2026-08-21
+
+Status: complete
+Gate: `node packages/registry/src/validate.mjs` -> exit 0, `full 93/121 · deferredAuthorable 7`; `node packages/registry/tools/parse-framework-props.mjs --check` + `gen-registry --check` -> byte-identical; `node packages/verify/src/gates/g-registry-completeness.mjs` -> exit 0 (5 mutations, all flip); `npm run green` -> exit 0
+Evidence: packages/verify/evidence/WP-2b.json
+Decisions added: D-113 (the reproducible settings-form extractor lifts full 12 -> 93; `full >= 93` and `deferredAuthorable <= 7` become §2.8.4 demands; `framework-verified` counts as full-derived; `paragraph` reclassified legacy; enforcer g-registry-completeness). D-098 archived earlier (WP-9 fix); this commit archives one more closed row to hold the DECISIONS byte ratchet.
+Blocked: none new — the 7 remaining deferred widgets genuinely carry no migrator in the source, so no version can be assigned without inventing one (D-114 upheld)
+Next: WP-16b (brief-bundle relocation), then the restart/backend-gated WP-8, WP-3c, WP-3d
+
+WP-2b/§2.8.4 (BL-004/020/022) asks the registry to reach `full >= 93/121` and shrink the deferred set
+below 8, using the framework source at the pinned commit (present at `.build/framework` @ `3418e292f`).
+The original `_framework-props.json` covered only the 13 priority types and was an ad-hoc hand parse; a
+**reproducible extractor** — `packages/registry/tools/parse-framework-props.mjs` — now replaces it. Per
+the L0 lesson (2026-08-19: agents that read only the TS interface GUESS `colorRef`/`cssSize`/`codeSetting`
+from prop NAMES), the extractor reads the authoritative signal — each component's SETTINGS FORM — and maps
+the per-prop editor kind DETERMINISTICALLY to a registry valueType (`colorPicker`->colorRef,
+`codeEditor`->codeSetting, `contextPropertyAutocomplete`->entityPath, `referenceListAutocomplete`->refListRef,
+`iconPicker`->icon, `permissions`->permissionRef, `configurableActionConfigurator`->actionConfig,
+`formAutocomplete`->formRef, `dropdown`/`radio`->enum from a literal option domain, else the primitive). A
+prop whose editor kind is not mappable is OMITTED, never guessed; `required` comes from `validate.required`;
+enum domains come from a literal `dropdownOptions`/`values` array (never invented). It parses both fluent-builder
+`.ts` and json-markup `.json` forms via the TS AST, and is byte-deterministic (`--check`). `gen-registry.mjs`
+now applies its Layer-2 salient replacement to every framework-typed component (not just the 13 priority
+anchors, which stay preserved verbatim); a component is `full` when its whole salient set (base contract +
+own props) is framework-derived. Three real fixes carried the last three: a null overlay prop no longer
+clobbers a source-parsed one; `completenessOf` counts the compiler's `framework-verified` provenance
+(container.direction, dataContext.uniqueStateId, datatable.crud — all confirmed in source) as full-derived
+alongside source-parsed; and `paragraph`, which ships under the framework's `_legacyComponents/`, is
+reclassified `legacy` rather than version-unknown, dropping deferredAuthorable 8 -> 7. The 7 that remain
+deferred were proven to carry no migrator at all in the source, so no honest version exists to establish
+(D-114's "without inventing a number" upheld). Result: `full` rises **12 -> 93/121**, `valueTyped` 13 -> 93,
+`deferredAuthorable` 8 -> 7; `registry-ratchet.json` gains the `fullAtLeast:93`/`deferredAuthorableMax:7`
+demands and a `full` up-ratchet, and `g-registry-completeness` gains two mutations that flip on a full
+regression and a deferred rise. A 4-slice adversarial workflow audited all 88 non-priority entries against
+the source and returned **PARSE-HONEST** (0 blockers, 0 concerns): every semantic ref type was confirmed
+against the real editor kind, no enum values were invented, no base name leaked, no layout kind became a
+prop. Its one note — json-markup dropdowns carry the option domain under a `values` key — was closed by
+reading that key too, upgrading ~8 props (image.objectFit, space.direction, link.target, …) from `string`
+to a precise `enum`. `prove-b` gains its `full registry` step.
+

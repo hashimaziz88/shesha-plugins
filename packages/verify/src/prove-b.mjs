@@ -83,6 +83,17 @@ async function runColumns(/** @type {string} */ root) {
   }
 }
 
+/** WP-2b: the registry is source-typed to >= 93/121 full and the deferred set is < 8 (BL-004/020/022). */
+async function runRegistry(/** @type {string} */ root) {
+  const { measure } = await import(pathToFileURL(path.join(root, 'packages/registry/tools/gen-registry.mjs')).href);
+  const comps = JSON.parse(fs.readFileSync(path.join(root, 'packages/registry/data/0.45.1/components.json'), 'utf8')).components;
+  const m = measure(comps);
+  const ok = m.full >= 93 && m.deferredAuthorable < 8;
+  return ok
+    ? { ok: true, lines: [`registry ${m.full}/121 components full (>= 93, was 12) and deferredAuthorable ${m.deferredAuthorable} (< 8): the settings-form extractor types ~80 beyond the 13 priority anchors, framework-verified overlay props count as full, paragraph is legacy (BL-004/020/022, D-113)`] }
+    : { ok: false, lines: [`registry below the WP-2b floor: full=${m.full} (need >= 93), deferredAuthorable=${m.deferredAuthorable} (need < 8)`] };
+}
+
 /** WP-1c: noUncheckedIndexedAccess is on tree-wide, so every indexed access is checked (BL-010). */
 async function runStrictIndex(/** @type {string} */ root) {
   const ts = JSON.parse(fs.readFileSync(path.join(root, 'tsconfig.json'), 'utf8'));
@@ -252,6 +263,7 @@ const STEPS = [
   { id: 'robustness', label: 'compiler robust', needs: 'WP-5c', impl: runRobustness },
   { id: 'hygiene', label: 'decompiler hygiene', needs: 'WP-5d', impl: runHygiene },
   { id: 'columns', label: 'columns lift', needs: 'WP-5e', impl: runColumns },
+  { id: 'registry', label: 'full registry', needs: 'WP-2b', impl: runRegistry },
   { id: 'strict-index', label: 'strict index', needs: 'WP-1c', impl: runStrictIndex },
   { id: 'prose-thin', label: 'prose thin', needs: 'WP-7', impl: runProseThin },
   { id: 'sidecar', label: 'placement sidecar', needs: 'WP-3b.1', impl: runSidecar },

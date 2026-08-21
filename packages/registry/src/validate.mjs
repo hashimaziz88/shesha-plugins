@@ -41,6 +41,16 @@ export function validate() {
     problems.push(`itemSchemas ${Object.keys(comps._itemSchemas || {}).length} != ${d.itemSchemas}`);
   }
 
+  // §2.8.4 WP-2b: full completeness floor and the deferred-authorable ceiling. The
+  // framework clone makes both demandable; without it the extractor cannot reach the
+  // floor and this stays a report, never a fake pass (frameworkPresent gates below).
+  if (typeof d.fullAtLeast === 'number' && (m.full ?? 0) < d.fullAtLeast) {
+    problems.push(`full ${m.full} < demanded fullAtLeast ${d.fullAtLeast}`);
+  }
+  if (typeof d.deferredAuthorableMax === 'number' && (m.deferredAuthorable ?? 0) > d.deferredAuthorableMax) {
+    problems.push(`deferredAuthorable ${m.deferredAuthorable} > demanded max ${d.deferredAuthorableMax}`);
+  }
+
   // authorable ⇒ version !== null
   if (d.authorableImpliesVersion) {
     const bad = Object.values(components).filter((r) => r.authorable === true && (r.version === null || r.version === undefined)).map((r) => r.type);
@@ -87,8 +97,8 @@ export function validate() {
   }
 
   const lines = [
-    `registry records=${m.records} authorable=${m.authorable} namesOnlyOrBetter=${m.namesOnlyOrBetter} valueTyped=${m.valueTyped} deferredAuthorable=${m.deferredAuthorable} priorityValueTyped=${m.priorityValueTyped}/13`,
-    `names-only ${m.namesOnlyOrBetter}/121 · priority full ${m.priorityFull}/13 (value-typed ${m.priorityValueTyped}/13) · frameworkPresent ${meta.frameworkPresent}`,
+    `registry records=${m.records} authorable=${m.authorable} namesOnlyOrBetter=${m.namesOnlyOrBetter} valueTyped=${m.valueTyped} full=${m.full} deferredAuthorable=${m.deferredAuthorable} priorityValueTyped=${m.priorityValueTyped}/13`,
+    `full ${m.full}/121 · names-only ${m.namesOnlyOrBetter}/121 · priority full ${m.priorityFull}/13 (value-typed ${m.priorityValueTyped}/13) · deferredAuthorable ${m.deferredAuthorable} · frameworkPresent ${meta.frameworkPresent}`,
   ];
   return { ok: problems.length === 0, lines: problems.length ? [...lines, ...problems.map((p) => `  FAIL ${p}`)] : lines, m };
 }
