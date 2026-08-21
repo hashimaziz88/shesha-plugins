@@ -41,6 +41,7 @@ export const inputPaths = [
   'packages/sfs/schema',
   'packages/sfs/test',
   'packages/registry/test',
+  'packages/precedent/test',
   'BUILD-LOG.md',
   'packages/verify/src/lib/session-state.mjs',
   'package.json',

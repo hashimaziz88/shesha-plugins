@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 111,
+  "count": 112,
   "decisions": [
     {
       "id": "D-001",
@@ -1334,6 +1334,18 @@
       "consequence": "g-escape-budget ratchets the escape rate 0.20-&gt;0.125 down-only",
       "enforcedBy": [
         "g-escape-budget"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-112",
+      "date": "2026-08-21",
+      "status": "decided",
+      "decision": "Test change: the WP-9 precedent perf test's wall-clock budget is raised 50 -&gt; 120ms because `npm test` runs test files in parallel and this single reading absorbs co-runner scheduler/GC noise (measured 50-70ms under suite load, ~40ms in isolation); D-110's design intent and the algorithm's isolated cost are unchanged, and 120ms still fails hard on the O(n^2) regression the budget guards",
+      "why": "§4.7.2",
+      "consequence": "No wall-clock assertion that flakes under the parallel runner",
+      "enforcedBy": [
+        "structural:packages/precedent/test/shape.test.mjs"
       ],
       "confirmation": "n/a"
     }
