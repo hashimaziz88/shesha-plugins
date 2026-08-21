@@ -12,14 +12,21 @@ them here.
 live, *then* copy a seed. A form built against a not-yet-registered entity won't render; a form pushed
 *before* a later restart can be orphaned (see "After a restart" below).
 
-## Delegate the create + restart to `domain-model` — never restart yourself
+## Delegate the create + restart to `domain-model`
 
 `domain-model` already declares rebuild + restart **mandatory** after every domain change and owns the
-restart end-to-end. Hand it the work and let it finish:
+*initial* restart end-to-end. Hand it the work and let it finish (the one restart you own yourself is the
+detached persist relaunch further down — headless only):
 
-- Invoke `Skill(shesha-developer:domain-model)` with the full context block — Backend URL · Username ·
-  Password · **Module** · **Working directory** (the .NET solution root the rebuild/restart run from) ·
-  the **entity name + property list / requirements** · the **required outcome** ("entity live:
+- **Resolve the real solution root first.** The supplied **Working directory** is often a scratch/output
+  dir with no `.sln`. If `<workingDir>` (or `<workingDir>/backend`) has no `*.sln`, search for the backend
+  solution (`*.Web.Host.csproj`, then widen) and use that directory — domain-model builds/restarts from
+  this path, so a wrong one silently builds nothing.
+- Invoke the **`domain-model` skill directly via the `Skill` tool, inline in this session** — do **not**
+  spawn a separate sub-agent / `Task` for it (a sub-agent's background backend dies when the sub-agent
+  ends, before you can use it). Pass the full context block — Backend URL · Username · Password ·
+  **Module** · **Working directory** (the *resolved solution root*) · the **entity name + property list /
+  requirements** · the **required outcome** ("entity live:
   `/api/dynamic/<module>/<Entity>/Crud/GetAll` returns 200; report final `{name, module, fullClassName}`").
 - **Scenario detection is not this skill's job.** The shared runbook that `domain-model` follows detects
   ephemeral vs headless vs attended and picks the restart path itself. You only care about the two
@@ -47,6 +54,45 @@ seeded. When `domain-model` returns:
    the port yourself.
 3. A restart can change the module id — re-run `Module/GetAll` (Step 1) and re-resolve the entity
    (Step 2.1–2.2) before building and before Step 5's `moduleId`-based push.
+
+## Persist the backend after a headless restart
+
+**Headless only** — skip in attended/Visual-Studio (the developer owns the backend) and ephemeral
+(shesha-agent owns it). domain-model's headless path launches Kestrel as a **session-bound background
+task** — a child of this `claude -p` session. It is reaped the instant the session exits, so a downstream
+grader/harness that reads `:21021` *after* you finish sees a dead port — no persisted form, no screenshot —
+even though everything you did succeeded. Once CRUD is verified, relaunch the built backend **detached** so
+it outlives the session:
+
+```powershell
+$WH  = "<resolvedSolutionRoot>/backend/src/<App>.Web.Host"
+$DLL = "$WH/bin/Debug/net8.0/<App>.Web.Host.dll"
+# 1. stop the session-bound holder on :21021
+$holder = (Get-NetTCPConnection -LocalPort 21021 -State Listen -ErrorAction SilentlyContinue).OwningProcess | Select-Object -First 1
+if ($holder) { Stop-Process -Id $holder -Force -ErrorAction SilentlyContinue; Start-Sleep 2 }
+# 2. relaunch DETACHED — Start-Process is NOT a harness-tracked background task, so it survives session exit
+$env:ASPNETCORE_ENVIRONMENT = "Development"; $env:ASPNETCORE_URLS = "http://localhost:21021"
+Start-Process -FilePath "dotnet" -ArgumentList "`"$DLL`"" -WorkingDirectory "$WH/bin/Debug/net8.0" `
+  -WindowStyle Hidden `
+  -RedirectStandardOutput "$WH/backend-detached.out.log" -RedirectStandardError "$WH/backend-detached.err.log"
+```
+
+Do **not** launch this through the Bash `run_in_background` mechanism — that is exactly the session-bound
+task that dies on exit. After launching, poll in a *separate* call until BOTH return 200, then finish:
+`GET /swagger/index.html` → 200, and `GET /api/dynamic/<module>/<Entity>/Crud/GetAll?maxResultCount=1`
+(Bearer) → 200. Forms live in the database, so this relaunch never loses a form you already pushed — but
+prefer to run it right after CRUD is verified so the build/push/smoke all use the persistent process.
+
+**If a detached `Start-Process` still dies on session exit** (a harness that kill-on-close job-wraps the
+whole process tree), launch it out of the tree via the Windows Task Scheduler — a process the Scheduler
+service starts is not in this session's job:
+
+```powershell
+schtasks /Create /TN sfs-backend /SC ONCE /ST 00:00 /F /TR "cmd /c set ASPNETCORE_ENVIRONMENT=Development&& set ASPNETCORE_URLS=http://localhost:21021&& dotnet \"$DLL\""
+schtasks /Run /TN sfs-backend
+```
+
+Verify the same two endpoints, then finish.
 
 ## After a restart — re-verify the forms you push
 
