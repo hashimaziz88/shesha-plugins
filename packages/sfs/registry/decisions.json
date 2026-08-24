@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 122,
+  "count": 123,
   "decisions": [
     {
       "id": "D-001",
@@ -1461,11 +1461,23 @@
       "id": "D-122",
       "date": "2026-08-24",
       "status": "decided",
-      "decision": "Scope change: WP-8c (3 agents + 5 gates) splits into WP-8c.1 (6 agent files via git mv/rewrite + g-agent-contract/g-judge-isolation/g-plugin-enabled + enable plugin + delete clean-form-config skill) and WP-8c.2 (g-markup-provenance closing D-003 + g-specwriter-purity + fixtures that recompile byte-identically); session-scope-b.json swaps WP-8c for the two",
+      "decision": "Scope change: WP-8c (3 agents + 5 gates) splits into WP-8c.1 (6 agent files via git mv/rewrite + g-agent-contract/g-judge-isolation/g-plugin-enabled + enable plugin) and WP-8c.2 (g-markup-provenance closing D-003 + g-specwriter-purity + fixtures that recompile byte-identically + delete clean-form-config skill, moving its 8 assets/groups to packages/registry/data/prop-groups and repointing g-check-references); session-scope-b.json swaps WP-8c for the two",
       "why": "6 agent files + 5 gates + generated compile fixtures past one context (CONTROL §6, mirrors D-115/D-118)",
       "consequence": "prove-b requires both",
       "enforcedBy": [
         "structural:packages/verify/test/prove-b.contract.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-123",
+      "date": "2026-08-24",
+      "status": "decided",
+      "decision": "WP-8c.1: the six subagents are files proved by g-agent-contract — sfs-specwriter (git mv form-author) and sfs-evaluator (git mv form-auditor) rewritten, sfs-planner new, design-critic/fleet-transformer/fullstack-prereq-checker rewritten; each &lt;=4096 B, name==basename, tools/disallowedTools present+disjoint, no MultiEdit, no \"## Hard stops\". g-judge-isolation keeps the builder self-report token &gt;400 chars from any evaluator/critic reference, pins dispatch.schema.json not.pattern, bars Bash from the evaluator; g-plugin-enabled requires enabledPlugins to enable shesha-developer",
+      "why": "an agent rule addressed to a model's memory is not enforced; an empty enabledPlugins leaves Task(subagent_type) unresolved",
+      "consequence": "g-agent-contract walks all 6, g-judge-isolation + g-plugin-enabled enforce isolation + registration",
+      "enforcedBy": [
+        "g-agent-contract"
       ],
       "confirmation": "n/a"
     }

@@ -8,8 +8,18 @@
 export const MCP_API_VERSION = '0.1.0';
 
 /**
- * The exported tool list g-commands-executable resolves `mcp__<server>__<tool>`
- * references against. Empty until BL-008 lands the server.
+ * The exported tool-name surface g-commands-executable resolves `mcp__<server>__<tool>`
+ * references against. These seven names are the L4 tool surface the agent files (WP-8c.1)
+ * reference; the server runtime that implements them — @modelcontextprotocol/sdk, the
+ * three transports and the handlers — is WP-8d.
  * @type {string[]}
  */
-export const tools = [];
+export const tools = [
+  'compile',
+  'decompile',
+  'verify',
+  'registry_lookup',
+  'metadata_entity',
+  'precedent_search',
+  'push',
+];

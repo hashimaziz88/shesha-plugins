@@ -1,0 +1,204 @@
+{
+  "wp": "WP-8c.1",
+  "gitSha": "f63c2c92d9b51248d7c3e50388ad25addcb16bcc",
+  "at": "2026-08-24T11:35:57.160Z",
+  "verdict": "pass",
+  "tests": 526,
+  "gates": 37,
+  "mutations": 104,
+  "mutationSeconds": 90.2,
+  "greenSeconds": null,
+  "perGateCoverage": {
+    "g-agent-contract": {
+      "walked": 9,
+      "checked": 9,
+      "uninspectable": 0
+    },
+    "g-artifact-naming": {
+      "walked": 615,
+      "checked": 615,
+      "uninspectable": 0
+    },
+    "g-brief-budget": {
+      "walked": 24,
+      "checked": 24,
+      "uninspectable": 0
+    },
+    "g-check-references": {
+      "walked": 229,
+      "checked": 227,
+      "uninspectable": 0
+    },
+    "g-commands-executable": {
+      "walked": 72,
+      "checked": 51,
+      "uninspectable": 0
+    },
+    "g-commit-format": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-compiled-meta": {
+      "walked": 263,
+      "checked": 263,
+      "uninspectable": 0
+    },
+    "g-corpus-immutable": {
+      "walked": 13,
+      "checked": 13,
+      "uninspectable": 0
+    },
+    "g-cost-delta": {
+      "walked": 4,
+      "checked": 4,
+      "uninspectable": 0
+    },
+    "g-coverage-single-impl": {
+      "walked": 340,
+      "checked": 340,
+      "uninspectable": 0
+    },
+    "g-decisions": {
+      "walked": 741,
+      "checked": 741,
+      "uninspectable": 0
+    },
+    "g-defect-class-coverage": {
+      "walked": 14,
+      "checked": 13,
+      "uninspectable": 0
+    },
+    "g-disposition": {
+      "walked": 57,
+      "checked": 57,
+      "uninspectable": 0
+    },
+    "g-escape-budget": {
+      "walked": 4,
+      "checked": 4,
+      "uninspectable": 0
+    },
+    "g-exit-codes": {
+      "walked": 126,
+      "checked": 126,
+      "uninspectable": 0
+    },
+    "g-fanout-partition": {
+      "walked": 11,
+      "checked": 11,
+      "uninspectable": 0
+    },
+    "g-fixture-manifest": {
+      "walked": 3,
+      "checked": 3,
+      "uninspectable": 0
+    },
+    "g-gap-visibility": {
+      "walked": 23,
+      "checked": 23,
+      "uninspectable": 0
+    },
+    "g-gate-contract": {
+      "walked": 272,
+      "checked": 272,
+      "uninspectable": 0
+    },
+    "g-githook-contract": {
+      "walked": 7,
+      "checked": 7,
+      "uninspectable": 0
+    },
+    "g-hook-contract": {
+      "walked": 25,
+      "checked": 25,
+      "uninspectable": 0
+    },
+    "g-hook-liveness": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-judge-isolation": {
+      "walked": 593,
+      "checked": 593,
+      "uninspectable": 0
+    },
+    "g-mutation-coverage": {
+      "walked": 51,
+      "checked": 49,
+      "uninspectable": 0
+    },
+    "g-no-prose-assertions": {
+      "walked": 180,
+      "checked": 180,
+      "uninspectable": 0
+    },
+    "g-no-secrets-or-scratch": {
+      "walked": 8,
+      "checked": 8,
+      "uninspectable": 0
+    },
+    "g-oracle-independence": {
+      "walked": 121,
+      "checked": 121,
+      "uninspectable": 0
+    },
+    "g-plugin-enabled": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-plugin-version": {
+      "walked": 3,
+      "checked": 3,
+      "uninspectable": 0
+    },
+    "g-prose-budget": {
+      "walked": 294,
+      "checked": 294,
+      "uninspectable": 0
+    },
+    "g-rag-isolation": {
+      "walked": 237,
+      "checked": 237,
+      "uninspectable": 0
+    },
+    "g-registry-completeness": {
+      "walked": 1,
+      "checked": 1,
+      "uninspectable": 0
+    },
+    "g-run-dir-location": {
+      "walked": 2,
+      "checked": 2,
+      "uninspectable": 0
+    },
+    "g-skill-purity": {
+      "walked": 18,
+      "checked": 17,
+      "uninspectable": 0
+    },
+    "g-uninspectable-budget": {
+      "walked": 7,
+      "checked": 7,
+      "uninspectable": 0
+    },
+    "g-verdict-integrity": {
+      "walked": 2,
+      "checked": 2,
+      "uninspectable": 0
+    },
+    "g-workspace-hygiene": {
+      "walked": 211,
+      "checked": 211,
+      "uninspectable": 0
+    }
+  },
+  "exitCodes": {
+    "typecheck": 0,
+    "test": 0,
+    "gates": 0,
+    "mutations": 0
+  }
+}

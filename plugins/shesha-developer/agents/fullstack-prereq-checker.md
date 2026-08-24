@@ -4,7 +4,7 @@ description: Verifies backend prerequisites before Shesha form work — entity r
 model: haiku
 maxTurns: 25
 tools: Bash, Read, Grep, Glob
-disallowedTools: Write, Edit
+disallowedTools: Write, Edit, NotebookEdit, mcp__shesha-sfs__push
 color: green
 ---
 
@@ -26,17 +26,17 @@ You verify that the backend can support planned form work. You diagnose only —
 
 Optionally dispatch deep diagnosis through `shesha-developer:test-entity-crud-api` with `--no-fix` when multiple entities fail.
 
-## Verdict contract (your final message — JSON only)
+## Output contract — `$RUN_DIR/prereq/<entity>.json` (prereq.schema.json)
+
+Write one file per entity: `entity`, `modelType`, `endpoints[]`, `refLists[]`, `permissions[]`, `verdict`. Each array item records the check target, its `pass`, the `evidence` (HTTP status + the payload fact), and the `fixSkill` that closes the gap.
 
 ```json
 {
-  "ready": false,
-  "checks": [
-    { "check": "entity-registered", "target": "<modelType>", "pass": false,
-      "evidence": "HTTP 404 from Metadata/GetProperties", "fixSkill": "shesha-developer:domain-model" }
-  ],
-  "summary": "<= 2 sentences"
+  "entity": "<entity>", "modelType": "<modelType>",
+  "endpoints": [{ "target": "Crud/GetAll", "pass": true, "evidence": "HTTP 200", "fixSkill": null }],
+  "refLists": [], "permissions": [],
+  "verdict": "ready"
 }
 ```
 
-`ready` = every check passed. Never mark `ready: true` with an unverified check — drop unrun checks into `checks` with `pass: false` and evidence `"not verified"`.
+`verdict: "ready"` requires every check passed. Never mark ready with an unverified check — record unrun checks with `pass: false` and evidence `"not verified"`.
