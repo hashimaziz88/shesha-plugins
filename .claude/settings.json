@@ -1,3 +1,11 @@
 {
-  "enabledPlugins": {}
+  "enabledPlugins": {},
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|NotebookEdit|Read|Bash",
+        "hooks": [{ "type": "command", "command": "node .claude/hooks/block-form-writes.mjs", "timeout": 15 }]
+      }
+    ]
+  }
 }

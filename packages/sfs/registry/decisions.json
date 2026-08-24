@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 118,
+  "count": 119,
   "decisions": [
     {
       "id": "D-001",
@@ -1418,6 +1418,18 @@
       "consequence": "prove-b requires all three",
       "enforcedBy": [
         "structural:packages/verify/test/prove-b.contract.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-119",
+      "date": "2026-08-24",
+      "status": "decided",
+      "decision": "WP-8b.1: Claude Code hooks return only exit 0 (decision on stdout) or 2 (stdout unwritable); exit(1) is banned (a non-2 non-zero exit is a silent non-block); decide(payload,ctx) is pure over an injected ctx so hooks.test runs it in-process (runner/decide split); block-form-writes is the fast first line of INV 1 (D-003), enforced of last resort by g-markup-provenance (WP-8c)",
+      "why": "a hook that fails silently protects nothing (§4.3.1 rule 5)",
+      "consequence": "g-hook-contract bans exit(1), checks every wired hook exists and every decide has a runner",
+      "enforcedBy": [
+        "g-hook-contract"
       ],
       "confirmation": "n/a"
     }

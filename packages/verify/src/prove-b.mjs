@@ -118,6 +118,19 @@ async function runSchemas(/** @type {string} */ root) {
     : { ok: false, lines: failures.map((f) => `FAIL ${f}`) };
 }
 
+/** WP-8b.1: block-form-writes denies markup writes and allows spec writes (§4.3.3, D-119). */
+async function runHooks(/** @type {string} */ root) {
+  const { decide } = /** @type {any} */ (await import(pathToFileURL(path.join(root, '.claude/hooks/block-form-writes.decide.mjs')).href));
+  const ctx = { root, fs, activeRunId: null };
+  const deny = decide({ tool_name: 'Write', tool_input: { file_path: 'runs/r/screens/s.form.json' } }, ctx);
+  const allow = decide({ tool_name: 'Write', tool_input: { file_path: 'runs/r/screens/x.sfs.json' } }, ctx);
+  const rootless = decide({ tool_name: 'Write', tool_input: { file_path: 'x.form.json' } }, { root: null, fs, activeRunId: null });
+  const ok = deny.code === 'HOOK-0101' && allow.decision === 'allow' && rootless.code === 'HOOK-0001';
+  return ok
+    ? { ok: true, lines: ['block-form-writes denies a .form.json write (HOOK-0101), allows a .sfs.json write, fails closed on no repo root (HOOK-0001); exit(1) banned (WP-8b.1, D-119)'] }
+    : { ok: false, lines: [`FAIL deny=${deny.code} allow=${allow.decision} rootless=${rootless.code}`] };
+}
+
 /** WP-1c: noUncheckedIndexedAccess is on tree-wide, so every indexed access is checked (BL-010). */
 async function runStrictIndex(/** @type {string} */ root) {
   const ts = JSON.parse(fs.readFileSync(path.join(root, 'tsconfig.json'), 'utf8'));
@@ -289,6 +302,7 @@ const STEPS = [
   { id: 'columns', label: 'columns lift', needs: 'WP-5e', impl: runColumns },
   { id: 'registry', label: 'full registry', needs: 'WP-2b', impl: runRegistry },
   { id: 'schemas', label: 'handoff schemas', needs: 'WP-8a', impl: runSchemas },
+  { id: 'hooks', label: 'hook contract', needs: 'WP-8b.1', impl: runHooks },
   { id: 'strict-index', label: 'strict index', needs: 'WP-1c', impl: runStrictIndex },
   { id: 'prose-thin', label: 'prose thin', needs: 'WP-7', impl: runProseThin },
   { id: 'sidecar', label: 'placement sidecar', needs: 'WP-3b.1', impl: runSidecar },

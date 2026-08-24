@@ -45,6 +45,8 @@ export const inputPaths = [
   '.githooks',
   '.gitattributes',
   '.gitignore',
+  '.claude/hooks',
+  '.claude/settings.json',
   'quarantine',
 ];
 
