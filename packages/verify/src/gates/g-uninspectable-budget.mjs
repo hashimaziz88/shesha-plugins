@@ -23,6 +23,7 @@ export const inputPaths = [
   'packages/verify/src/tiers/t2-registry.mjs',
   'packages/verify/src/tiers/t3-semantic.mjs',
   'DECISIONS.md',
+  'docs/decisions-archive.md',
 ];
 
 const BUDGET = 'packages/verify/config/uninspectable-budget.json';
@@ -53,7 +54,9 @@ export async function run(ctx) {
     if (text === null) continue;
     for (const cid of parseCoverage(text).checkIds) checkIds.add(cid);
   }
-  const decisions = readText(path.join(root, 'DECISIONS.md')) || '';
+  // A decision that has been archived (docs/decisions-archive.md) is still a valid
+  // decision — resolve the reference across both files, as g-decisions does for enforcers.
+  const decisions = `${readText(path.join(root, 'DECISIONS.md')) || ''}\n${readText(path.join(root, 'docs/decisions-archive.md')) || ''}`;
 
   for (const [key, entry] of Object.entries(classA)) {
     const p = fam.pointer(`classA:${key}`);

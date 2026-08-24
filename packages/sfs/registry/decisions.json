@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 121,
+  "count": 122,
   "decisions": [
     {
       "id": "D-001",
@@ -1454,6 +1454,18 @@
       "consequence": "push-admissible.test proves P0–P9, g-hook-liveness proves hooks.jsonl covers events, hooks.test the three decides",
       "enforcedBy": [
         "g-hook-liveness"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-122",
+      "date": "2026-08-24",
+      "status": "decided",
+      "decision": "Scope change: WP-8c (3 agents + 5 gates) splits into WP-8c.1 (6 agent files via git mv/rewrite + g-agent-contract/g-judge-isolation/g-plugin-enabled + enable plugin + delete clean-form-config skill) and WP-8c.2 (g-markup-provenance closing D-003 + g-specwriter-purity + fixtures that recompile byte-identically); session-scope-b.json swaps WP-8c for the two",
+      "why": "6 agent files + 5 gates + generated compile fixtures past one context (CONTROL §6, mirrors D-115/D-118)",
+      "consequence": "prove-b requires both",
+      "enforcedBy": [
+        "structural:packages/verify/test/prove-b.contract.test.mjs"
       ],
       "confirmation": "n/a"
     }
