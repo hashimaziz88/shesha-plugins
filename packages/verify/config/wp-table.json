@@ -154,7 +154,35 @@
       "id": "WP-8",
       "order": null,
       "inScope": false,
-      "goal": "Hooks, MCP wiring and the three agent roles",
+      "goal": "Hooks, MCP wiring and the three agent roles (split into WP-8a..8d, D-115)",
+      "backlog": "BL-008"
+    },
+    {
+      "id": "WP-8a",
+      "order": null,
+      "inScope": true,
+      "goal": "Run-dir + 7 handoff schemas + sfs validate/run CLI + schemas.test + g-run-dir-location",
+      "backlog": "BL-008"
+    },
+    {
+      "id": "WP-8b",
+      "order": null,
+      "inScope": true,
+      "goal": "6 runner/decide hooks + hooks.test + g-hook-contract/g-hook-liveness + push-admissible.test",
+      "backlog": "BL-008"
+    },
+    {
+      "id": "WP-8c",
+      "order": null,
+      "inScope": true,
+      "goal": "3 agent files + .claude/settings.json + g-agent-contract/g-specwriter-purity/g-judge-isolation/g-plugin-enabled/g-markup-provenance",
+      "backlog": "BL-008"
+    },
+    {
+      "id": "WP-8d",
+      "order": null,
+      "inScope": true,
+      "goal": "packages/mcp (7 tools, 3 transports) + .mcp.json + g-mcp-cli-parity + transports.test",
       "backlog": "BL-008"
     },
     {

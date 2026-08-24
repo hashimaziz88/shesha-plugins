@@ -92,7 +92,7 @@ A SECOND delivery opened after Scope A completed. Its ids are **data** in `packa
 | WP-3b.1..4 | T3 tier (D-103; 3b.3 split D-106) | offline |
 | WP-1c | population hardening (fuzzer, real envelope, strict-index, 3-arm cost) | offline |
 | WP-6 / WP-9 / WP-7 | corpus round-trip, precedent, thin design skills | offline |
-| WP-8 | hooks / MCP / agent roles | needs a session RESTART |
+| WP-8a..8d | operating layer: schemas, hooks, agents, MCP (D-115) | offline |
 | WP-3c / WP-3d | live tiers T4 / T5 | needs browser + backend |
 
 Done: `npm run prove-b` → exit 0, last line `SESSION COMPLETE — SCOPE B`, while `npm run prove` still prints `SESSION COMPLETE — SCOPE A`.

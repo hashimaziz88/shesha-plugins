@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 114,
+  "count": 115,
   "decisions": [
     {
       "id": "D-001",
@@ -1368,6 +1368,18 @@
       "decision": "Scope change: WP-16b is removed from session-scope-b.json (18 -&gt; 17 ids). Its acceptance (g-brief-budget bundle enforced &lt;= 61440 B) is infeasible by the sanctioned BL-011 extraction: the docs/rebuild-brief/*.md bundle is ~613 KB and ~330 KB is design prose that cannot move to data/*.json, so 61440 B is reachable only by moving prose out of the glob (the S7 anti-pattern invariant 2 forbids) or a 6x rewrite dropping intent other WPs cite. BL-011 stays a deferred BACKLOG row, g-brief-budget stays bundle.enforced:false, and wp-table.json already carried WP-16b inScope:false",
       "why": "forcing the target would adapt the artifact to pass the check, the S7 failure this rebuild prevents",
       "consequence": "Scope B completes over the 17 achievable ids",
+      "enforcedBy": [
+        "structural:packages/verify/test/prove-b.contract.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-115",
+      "date": "2026-08-24",
+      "status": "decided",
+      "decision": "Scope change: WP-8 (the operating layer) splits into WP-8a (run-dir + 7 handoff schemas + sfs validate/run CLI + schemas.test + g-run-dir-location), WP-8b (6 runner/decide hooks + hooks.test + g-hook-contract/g-hook-liveness + push-admissible.test), WP-8c (3 agent files via git mv + .claude/settings.json + g-agent-contract/g-specwriter-purity/g-judge-isolation/g-plugin-enabled/g-markup-provenance), WP-8d (packages/mcp 7 tools/3 transports + .mcp.json + g-mcp-cli-parity + transports.test); session-scope-b.json swaps WP-8 for the four (§4.8 rows 1-8,12-13). §4.8 proves the hooks as programs so WP-8 is offline; the live restart pass is WP-11 (§4.9, out of session)",
+      "why": "the operating layer is ~10 gates + 7 schemas + packages/mcp + 6 hooks + 3 agents, far past one context (CONTROL §6, mirrors D-103/D-106)",
+      "consequence": "prove-b requires all four",
       "enforcedBy": [
         "structural:packages/verify/test/prove-b.contract.test.mjs"
       ],
