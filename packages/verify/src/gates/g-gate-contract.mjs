@@ -47,6 +47,7 @@ export const inputPaths = [
   '.gitignore',
   '.claude/hooks',
   '.claude/settings.json',
+  '.mcp.json',
   'quarantine',
 ];
 

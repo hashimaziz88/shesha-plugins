@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "shesha-sfs": {
+      "command": "node",
+      "args": ["packages/mcp/bin/server.mjs", "--stdio"],
+      "env": { "SHESHA_REGISTRY_REF": "0.45.1" }
+    }
+  }
+}

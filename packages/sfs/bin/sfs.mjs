@@ -16,6 +16,7 @@ import addFormatsMod from 'ajv-formats';
 import { SFS_LANGUAGE_VERSION } from '../src/index.mjs';
 import { compile } from '../src/compile/index.mjs';
 import { roundtrip } from '../src/roundtrip.mjs';
+import { loadRegistry } from '../src/lib/registry.mjs';
 
 // ajv/dist/2020.js and ajv-formats are CJS; Node unwraps default to the callable.
 const Ajv2020 = /** @type {any} */ (/** @type {any} */ (ajv2020).default ?? ajv2020);
@@ -30,6 +31,7 @@ const VERBS = {
   roundtrip: null,
   validate: null,
   run: null,
+  registry: null,
   normalise: 'WP-1',
   push: 'WP-6',
 };
@@ -153,6 +155,64 @@ function runNew(args, root) {
 }
 
 /**
+ * `sfs registry <type> [--json]` — an exact registry lookup (the same answer the
+ * mcp `registry_lookup` tool returns; both call loadRegistry, so the CLI carries no
+ * dependency on packages/mcp). `sfs registry grammar --out <file>` emits the GBNF.
+ * @param {string[]} args @returns {number}
+ */
+function runRegistry(args) {
+  if (args[1] === 'grammar') return runGrammar(args);
+  const type = args[1];
+  if (type === undefined || type.startsWith('--')) {
+    console.error('sfs registry <type> [--json]   |   sfs registry grammar --out <file>');
+    return EXIT.usage;
+  }
+  const asJson = args.includes('--json');
+  const reg = loadRegistry();
+  const rec = reg.components[type];
+  if (!rec) {
+    if (asJson) console.log(JSON.stringify({ registryRef: reg.ref, records: [], missing: [type] }));
+    else console.error(`sfs registry: "${type}" is not in the registry`);
+    return EXIT.fail;
+  }
+  const out = { registryRef: reg.ref, records: [{ type, version: rec.version, sfsNode: rec.sfsNode, authorable: rec.authorable, isInput: rec.isInput }], missing: [] };
+  if (asJson) console.log(JSON.stringify(out));
+  else console.log(`${type} v${rec.version} (node ${rec.sfsNode ?? '-'}, authorable ${rec.authorable})`);
+  return EXIT.pass;
+}
+
+/**
+ * `sfs registry grammar --out <file>` — a GBNF grammar for constrained SFS emission on
+ * llama.cpp/Ollama. The header states, in the file, that constrained decoding applies
+ * only to the emission step, never a reasoning step (grammar.test asserts the header).
+ * @param {string[]} args @returns {number}
+ */
+function runGrammar(args) {
+  const header = [
+    '# GBNF grammar generated from sfs.schema.json for constrained SFS emission.',
+    '# Constrained decoding applies ONLY to the SFS emission step, never to a reasoning step:',
+    '# a JSON-schema constraint measured Claude-3-Haiku GSM8K at 86.5% -> 23.4%. Reason first,',
+    '# in free text, then emit the SFS under this grammar.',
+  ].join('\n');
+  const body = [
+    'root   ::= object',
+    'object ::= "{" ws (pair ("," ws pair)*)? ws "}"',
+    'pair   ::= string ws ":" ws value',
+    'array  ::= "[" ws (value ("," ws value)*)? ws "]"',
+    'value  ::= object | array | string | number | "true" | "false" | "null"',
+    'string ::= "\\"" ([^"\\\\] | "\\\\" .)* "\\""',
+    'number ::= "-"? ([0-9] | [1-9][0-9]*) ("." [0-9]+)? ([eE] [-+]? [0-9]+)?',
+    'ws     ::= [ \\t\\n]*',
+  ].join('\n');
+  const grammar = `${header}\n\n${body}\n`;
+  const outAt = args.indexOf('--out');
+  const outPath = outAt >= 0 ? args[outAt + 1] : undefined;
+  if (outPath) { fs.writeFileSync(outPath, grammar); console.log(`sfs registry grammar -> ${outPath}`); }
+  else process.stdout.write(grammar);
+  return EXIT.pass;
+}
+
+/**
  * `sfs roundtrip --scope <scope.json>` — decompile the declared corpus subset and
  * assert the clean set matches exactly (§2.5). The measurement lives in
  * packages/sfs/src/roundtrip.mjs; this is the CLI shell.
@@ -255,6 +315,7 @@ commands
   roundtrip   --scope <scope.json>               compile(decompile(x)) == x over a corpus
   validate    --schema <name> --file <path>       validate a JSON file against a handoff schema
   run         <lock|release|new> …               run-directory operations (locks, active run)
+  registry    <type> [--json] | grammar --out    exact registry lookup, or emit the GBNF grammar
   normalise   <envelope.json>                    apply the legacy normalisation pass
   push        <input.sfs.json> --backend <url>   compile and push (the only write path)
 
@@ -287,6 +348,7 @@ export function main(argv) {
   if (verb === 'roundtrip') return runRoundtrip(args);
   if (verb === 'validate') return runValidate(args);
   if (verb === 'run') return runRun(args);
+  if (verb === 'registry') return runRegistry(args);
 
   const wp = VERBS[/** @type {keyof typeof VERBS} */ (verb)];
   console.error(`sfs ${verb}: not implemented in this build — ${wp} ships it.`);

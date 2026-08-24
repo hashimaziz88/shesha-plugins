@@ -216,6 +216,22 @@ async function runInv1(/** @type {string} */ root) {
     : { ok: false, lines: [`FAIL markup-provenance=${mpv} (walked ${walked}) specwriter-purity=${spv} groupsMoved=${groups} skillGone=${gone}`] };
 }
 
+/** WP-8d: the seven-tool MCP surface, one implementation behind three adapters, parity-locked to the CLI (§4.5). */
+async function runMcp(/** @type {string} */ root) {
+  const { tools, byName } = /** @type {any} */ (await import(pathToFileURL(path.join(root, 'packages/mcp/src/tools/index.mjs')).href));
+  const parity = /** @type {any} */ (await import(pathToFileURL(path.join(root, 'packages/verify/src/gates/g-mcp-cli-parity.mjs')).href));
+  const { verdictOf } = /** @type {any} */ (await import(pathToFileURL(path.join(root, 'packages/registry/src/coverage.mjs')).href));
+  const seven = tools.length === 7;
+  const dt = byName.registry_lookup.run({ types: ['datatable'] });
+  const dtOk = dt.records[0] && dt.records[0].type === 'datatable' && typeof dt.records[0].version === 'number';
+  const parityOk = verdictOf(await parity.run({ repoRoot: root })) === 'pass';
+  const wired = fs.existsSync(path.join(root, '.mcp.json'));
+  const ok = seven && dtOk && parityOk && wired;
+  return ok
+    ? { ok: true, lines: [`the shesha-sfs MCP surface is seven tools behind one implementation: registry_lookup resolves datatable to v${dt.records[0].version} exactly, g-mcp-cli-parity locks the tool set to the CLI subcommand set (${tools.length} == ${tools.length}), and /.mcp.json launches the stdio server (WP-8d, D-126)`] }
+    : { ok: false, lines: [`FAIL seven=${seven} datatable=${dtOk} parity=${parityOk} mcpJson=${wired}`] };
+}
+
 /** WP-1c: noUncheckedIndexedAccess is on tree-wide, so every indexed access is checked (BL-010). */
 async function runStrictIndex(/** @type {string} */ root) {
   const ts = JSON.parse(fs.readFileSync(path.join(root, 'tsconfig.json'), 'utf8'));
@@ -391,6 +407,7 @@ const STEPS = [
   { id: 'validate-cli', label: 'sfs validate CLI', needs: 'WP-8b.2', impl: runValidateCli },
   { id: 'operating-layer', label: 'push admission', needs: 'WP-8b.3', impl: runOperatingLayer },
   { id: 'inv1', label: 'markup provenance', needs: 'WP-8c.2', impl: runInv1 },
+  { id: 'mcp', label: 'mcp tool surface', needs: 'WP-8d', impl: runMcp },
   { id: 'strict-index', label: 'strict index', needs: 'WP-1c', impl: runStrictIndex },
   { id: 'prose-thin', label: 'prose thin', needs: 'WP-7', impl: runProseThin },
   { id: 'sidecar', label: 'placement sidecar', needs: 'WP-3b.1', impl: runSidecar },

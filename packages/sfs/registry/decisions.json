@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 125,
+  "count": 126,
   "decisions": [
     {
       "id": "D-001",
@@ -1502,6 +1502,18 @@
       "consequence": "g-specwriter-purity over the clean log + run-dirty",
       "enforcedBy": [
         "g-specwriter-purity"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-126",
+      "date": "2026-08-24",
+      "status": "decided",
+      "decision": "WP-8d: the shesha-sfs MCP surface is seven tools (compile/decompile/verify/registry_lookup/metadata_entity/precedent_search/push) with ONE implementation in packages/mcp/src/tools/*.mjs behind 3 adapters — stdio JSON-RPC (@modelcontextprotocol/sdk 1.30.0, one external dep), loopback-only --http (any other --host exits 2), and a CLI subcommand per tool; /.mcp.json launches the stdio server; `sfs registry grammar` emits a GBNF whose header bars constraining a reasoning step",
+      "why": "two surfaces with two implementations drift; a non-loopback bind exposes the tools",
+      "consequence": "g-mcp-cli-parity locks the tool set == CLI subcommand set + schema-driven flags + the ESM export; transports.test proves the three transports",
+      "enforcedBy": [
+        "g-mcp-cli-parity"
       ],
       "confirmation": "n/a"
     }
