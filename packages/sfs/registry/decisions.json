@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 113,
+  "count": 114,
   "decisions": [
     {
       "id": "D-001",
@@ -1358,6 +1358,18 @@
       "consequence": "No _framework-props hand-authored; no full below 93; no version invented for a migrator-less widget",
       "enforcedBy": [
         "g-registry-completeness"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-114",
+      "date": "2026-08-21",
+      "status": "decided",
+      "decision": "Scope change: WP-16b is removed from session-scope-b.json (18 -&gt; 17 ids). Its acceptance (g-brief-budget bundle enforced &lt;= 61440 B) is infeasible by the sanctioned BL-011 extraction: the docs/rebuild-brief/*.md bundle is ~613 KB and ~330 KB is design prose that cannot move to data/*.json, so 61440 B is reachable only by moving prose out of the glob (the S7 anti-pattern invariant 2 forbids) or a 6x rewrite dropping intent other WPs cite. BL-011 stays a deferred BACKLOG row, g-brief-budget stays bundle.enforced:false, and wp-table.json already carried WP-16b inScope:false",
+      "why": "forcing the target would adapt the artifact to pass the check, the S7 failure this rebuild prevents",
+      "consequence": "Scope B completes over the 17 achievable ids",
+      "enforcedBy": [
+        "structural:packages/verify/test/prove-b.contract.test.mjs"
       ],
       "confirmation": "n/a"
     }
