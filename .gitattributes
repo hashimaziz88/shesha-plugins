@@ -3,3 +3,10 @@
 # hooks would silently stop enforcing anything on the next person's machine.
 .githooks/** text eol=lf
 *.sh text eol=lf
+
+# The markup-provenance fixtures are recompiled and compared byte-for-byte by
+# g-markup-provenance (§4.3.8). core.autocrlf must not rewrite them to CRLF on
+# checkout, or the recompiled LF bytes would never match. Pin them to LF.
+packages/sfs/test/fixtures/clean/*.expected.form.json text eol=lf
+packages/sfs/test/fixtures/clean/*.provenance.json text eol=lf
+packages/verify/test/fixtures/run/screens/** text eol=lf

@@ -134,6 +134,19 @@
       "action": "delete",
       "wp": "WP-3b.4",
       "reason": "D-109 — the standalone negative script is replaced by the lifted gates mutations[]"
-    }
+    },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/assets/groups/advanced.json", "action": "move", "to": "packages/registry/data/prop-groups/advanced.json", "wp": "WP-8c.2", "reason": "D-124 — the prop-group index moves to L0 data; its function becomes T2's prop-legality check" },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/assets/groups/base.json", "action": "move", "to": "packages/registry/data/prop-groups/base.json", "wp": "WP-8c.2", "reason": "D-124 — prop-group index to L0 data" },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/assets/groups/data-display.json", "action": "move", "to": "packages/registry/data/prop-groups/data-display.json", "wp": "WP-8c.2", "reason": "D-124 — prop-group index to L0 data" },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/assets/groups/data-entry.json", "action": "move", "to": "packages/registry/data/prop-groups/data-entry.json", "wp": "WP-8c.2", "reason": "D-124 — prop-group index to L0 data" },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/assets/groups/entity-references.json", "action": "move", "to": "packages/registry/data/prop-groups/entity-references.json", "wp": "WP-8c.2", "reason": "D-124 — prop-group index to L0 data" },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/assets/groups/index.json", "action": "move", "to": "packages/registry/data/prop-groups/index.json", "wp": "WP-8c.2", "reason": "D-124 — prop-group index to L0 data; g-check-references reads it here now" },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/assets/groups/layout.json", "action": "move", "to": "packages/registry/data/prop-groups/layout.json", "wp": "WP-8c.2", "reason": "D-124 — prop-group index to L0 data" },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/assets/groups/tables-and-lists.json", "action": "move", "to": "packages/registry/data/prop-groups/tables-and-lists.json", "wp": "WP-8c.2", "reason": "D-124 — prop-group index to L0 data" },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/SKILL.md", "action": "delete", "wp": "WP-8c.2", "reason": "D-124 — a MUST-strength every-push gate that shipped zero scripts (§1.7 T8); the compiler + T2 replace it" },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/analysis.md", "action": "delete", "wp": "WP-8c.2", "reason": "D-124 — clean-form-config deleted as a skill" },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/api.md", "action": "delete", "wp": "WP-8c.2", "reason": "D-124 — clean-form-config deleted as a skill" },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/generate-index.md", "action": "delete", "wp": "WP-8c.2", "reason": "D-124 — clean-form-config deleted as a skill" },
+    { "path": "plugins/shesha-developer/skills/clean-form-config/layout-checks.md", "action": "delete", "wp": "WP-8c.2", "reason": "D-124 — clean-form-config deleted as a skill" }
   ]
 }

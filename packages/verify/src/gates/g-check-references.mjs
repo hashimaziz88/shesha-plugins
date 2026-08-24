@@ -24,7 +24,7 @@ import { readText, repoRoot } from '../lib/fsx.mjs';
 
 export const id = 'g-check-references';
 export const describe = 'every markdown link, backticked path, skill/agent id, $role token and component group in plugins/shesha-developer resolves';
-export const inputPaths = ['plugins'];
+export const inputPaths = ['plugins', 'packages/registry/data/prop-groups'];
 
 const PLUGIN = 'plugins/shesha-developer';
 const LINKABLE = /\.(md|json|mjs|js|ps1|sh|py)$/;
@@ -153,10 +153,12 @@ export async function run(ctx) {
   }
 
   // ---- 6. every type in the component index resolves to a group entry -------
-  const groupsDir = path.join(ROOT, 'skills', 'clean-form-config', 'assets', 'groups');
+  // The prop-group index moved out of the deleted clean-form-config skill into L0 data
+  // (packages/registry/data/prop-groups, WP-8c.2 / D-124); its function is T2's prop-legality check.
+  const groupsDir = path.join(ctx.repoRoot, 'packages/registry/data/prop-groups');
   const index = fs.existsSync(path.join(groupsDir, 'index.json')) ? readJson(path.join(groupsDir, 'index.json')) : null;
   if (!index) {
-    F.groups.pointer('clean-form-config/assets/groups/index.json').fail('the component index is missing or unreadable');
+    F.groups.pointer('packages/registry/data/prop-groups/index.json').fail('the component index is missing or unreadable');
   } else {
     /** @type {Map<string, any>} */
     const cache = new Map();
@@ -178,7 +180,7 @@ export const mutations = [
     kind: 'file',
     /** @param {string} tmp */
     apply: async (tmp) => {
-      const f = path.join(tmp, PLUGIN, 'skills/clean-form-config/SKILL.md');
+      const f = path.join(tmp, PLUGIN, 'skills/shesha-spec/SKILL.md');
       fs.appendFileSync(f, '\nSee [the missing doc](references/this-does-not-exist.md).\n');
     },
     expect: 'fail',
@@ -188,7 +190,7 @@ export const mutations = [
     kind: 'file',
     /** @param {string} tmp */
     apply: async (tmp) => {
-      const f = path.join(tmp, PLUGIN, 'skills/clean-form-config/SKILL.md');
+      const f = path.join(tmp, PLUGIN, 'skills/shesha-spec/SKILL.md');
       fs.appendFileSync(f, '\nHand it to `shesha-developer:no-such-skill` and stop.\n');
     },
     expect: 'fail',

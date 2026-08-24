@@ -94,7 +94,7 @@ export const mutations = [
     kind: 'file',
     /** @param {string} tmp */
     apply: async (tmp) => {
-      const f = path.join(tmp, 'plugins/shesha-developer/skills/clean-form-config/SKILL.md');
+      const f = path.join(tmp, 'plugins/shesha-developer/skills/shesha-spec/SKILL.md');
       fs.appendFileSync(f, '\n```assertions\nbody is a 2-column split; the rail is on the right\n```\n');
     },
     expect: 'fail',

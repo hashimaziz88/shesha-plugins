@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 123,
+  "count": 125,
   "decisions": [
     {
       "id": "D-001",
@@ -34,7 +34,7 @@
       "why": "§4 L4",
       "consequence": "No hand-edited form JSON",
       "enforcedBy": [
-        "pending:BL-008"
+        "g-markup-provenance"
       ],
       "confirmation": "n/a"
     },
@@ -190,7 +190,7 @@
       "why": "§4 L3",
       "consequence": "The Evaluator cannot read run logs",
       "enforcedBy": [
-        "pending:BL-008"
+        "g-judge-isolation"
       ],
       "confirmation": "n/a"
     },
@@ -1317,9 +1317,9 @@
       "id": "D-110",
       "date": "2026-08-20",
       "status": "decided",
-      "decision": "Precedent retrieval (BL-009, WP-9) is Index A: a deterministic SHAPE index (kind, node multiset, region topology, columns, actions, tabs) over the compiled corpus markup, stored one-per-line in packages/precedent/data/shapes.jsonl (gitignored) — no node:sqlite (flag-gated on Node 22, unflagged import throws), no embedding (Index B is BL-H1). similarity = 0.5·nodeMultiset-jaccard + 0.3·topology-trigram-jaccard + 0.2·kind; the trigram proxy keeps a 5000-row scan under 50ms. RAG is never a correctness lookup: the compiler/verifier never import it, it never imports the compiler, no skill routes props/versions/enums to it",
-      "why": "an exact registry answer beats a nearest-neighbour; retrieval over the KB reintroduces the ambiguity the registry removes (§4.7.1)",
-      "consequence": "the package ships behaviour (no E_NOT_IMPLEMENTED); an empty index is a hard error and an embedding request degrades to shape",
+      "decision": "Precedent retrieval (BL-009, WP-9) is Index A: a deterministic SHAPE index over the compiled corpus, stored one-per-line in packages/precedent/data/shapes.jsonl (gitignored) — no node:sqlite, no embedding (Index B is BL-H1). RAG is never a correctness lookup: the compiler/verifier never import it, it never imports the compiler, no skill routes props/versions/enums to it",
+      "why": "an exact registry answer beats a nearest-neighbour (§4.7.1)",
+      "consequence": "the package ships behaviour (no E_NOT_IMPLEMENTED); an empty index is a hard error",
       "enforcedBy": [
         "g-rag-isolation"
       ],
@@ -1353,9 +1353,9 @@
       "id": "D-113",
       "date": "2026-08-21",
       "status": "decided",
-      "decision": "WP-2b lifts the registry from 12 to 93 `full`: the reproducible extractor parse-framework-props.mjs source-parses each component's settings form (editor kind -&gt; valueType, omit-never-guess, base-only counts only when no real editor is dropped) to type ~80 components beyond the 13 priority anchors; `full &gt;= 93` and `deferredAuthorable &lt;= 7` become §2.8.4 demands; completenessOf counts the compiler's `framework-verified` props (container.direction, dataContext.uniqueStateId, datatable.crud) as full-derived alongside source-parsed, and a null overlay prop never clobbers a source-parsed one; `paragraph` (framework _legacyComponents/) is reclassified legacy, not version-unknown, since none of the deferred set carries a migrator to invent a version from",
+      "decision": "WP-2b lifts the registry from 12 to 93 `full` via the reproducible extractor parse-framework-props.mjs (source-parses each settings form: editor kind -&gt; valueType, omit-never-guess); `full &gt;= 93` and `deferredAuthorable &lt;= 7` are §2.8.4 demands; completenessOf counts framework-verified props as full-derived and a null overlay never clobbers a source-parsed prop; paragraph is reclassified legacy, not version-unknown",
       "why": "§2.8.4",
-      "consequence": "No _framework-props hand-authored; no full below 93; no version invented for a migrator-less widget",
+      "consequence": "No _framework-props hand-authored; no full below 93; no invented version",
       "enforcedBy": [
         "g-registry-completeness"
       ],
@@ -1473,11 +1473,35 @@
       "id": "D-123",
       "date": "2026-08-24",
       "status": "decided",
-      "decision": "WP-8c.1: the six subagents are files proved by g-agent-contract — sfs-specwriter (git mv form-author) and sfs-evaluator (git mv form-auditor) rewritten, sfs-planner new, design-critic/fleet-transformer/fullstack-prereq-checker rewritten; each &lt;=4096 B, name==basename, tools/disallowedTools present+disjoint, no MultiEdit, no \"## Hard stops\". g-judge-isolation keeps the builder self-report token &gt;400 chars from any evaluator/critic reference, pins dispatch.schema.json not.pattern, bars Bash from the evaluator; g-plugin-enabled requires enabledPlugins to enable shesha-developer",
-      "why": "an agent rule addressed to a model's memory is not enforced; an empty enabledPlugins leaves Task(subagent_type) unresolved",
-      "consequence": "g-agent-contract walks all 6, g-judge-isolation + g-plugin-enabled enforce isolation + registration",
+      "decision": "WP-8c.1: the six subagents are files proved by g-agent-contract (name==basename, tools/disallowedTools present+disjoint, no MultiEdit, &lt;=4096 B, no \"## Hard stops\"); sfs-specwriter/sfs-evaluator are git mv of form-author/form-auditor, sfs-planner is new, the other three rewritten. g-judge-isolation keeps the self-report token &gt;400 chars from any evaluator/critic ref, pins dispatch.schema not.pattern, bars Bash from the evaluator; g-plugin-enabled requires enabledPlugins to enable shesha-developer",
+      "why": "an agent rule addressed to a model's memory is not enforced",
+      "consequence": "g-agent-contract + g-judge-isolation + g-plugin-enabled",
       "enforcedBy": [
         "g-agent-contract"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-124",
+      "date": "2026-08-24",
+      "status": "decided",
+      "decision": "WP-8c.2: g-markup-provenance is the real INV-1 enforcer (closes D-003): it recompiles each compiled artifact's sibling SFS under its provenance meta (registrySha256/brand/compilerVersion) and hard-fails on any non-byte-identical result or missing sibling; fixtures are LF-pinned in .gitattributes. clean-form-config is deleted (shipped zero scripts, §1.7 T8); its 8 assets/groups move to packages/registry/data/prop-groups, read there by g-check-references",
+      "why": "a command-line matcher cannot see a computed-path writer",
+      "consequence": "g-markup-provenance recompiles every fixture; g-disposition records the move+deletes",
+      "enforcedBy": [
+        "g-markup-provenance"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-125",
+      "date": "2026-08-24",
+      "status": "decided",
+      "decision": "WP-8c.2: g-specwriter-purity hard-fails any logs/specwriter-*.md carrying one of the six markup fingerprints (parentId, componentName, \"desktop\":, stylingBox, _type\":\"action-config, version-near-type); run-dirty is the negative control",
+      "why": "quoting compiled markup means the author read the artifact, not the IR (§4.1.1)",
+      "consequence": "g-specwriter-purity over the clean log + run-dirty",
+      "enforcedBy": [
+        "g-specwriter-purity"
       ],
       "confirmation": "n/a"
     }

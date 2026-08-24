@@ -199,6 +199,23 @@ async function runOperatingLayer(/** @type {string} */ root) {
     : { ok: false, lines: [`FAIL a=${a1}${a2}${a3} b=${b1}${b2} push=${p1}${p2} dispatch=${d1} session=${s1}`] };
 }
 
+/** WP-8c.2: g-markup-provenance enforces INV 1 by recompilation, g-specwriter-purity keeps logs clean, the prop-group index moved to L0 (§4.3.8, D-124/D-125). */
+async function runInv1(/** @type {string} */ root) {
+  const mp = /** @type {any} */ (await import(pathToFileURL(path.join(root, 'packages/verify/src/gates/g-markup-provenance.mjs')).href));
+  const sp = /** @type {any} */ (await import(pathToFileURL(path.join(root, 'packages/verify/src/gates/g-specwriter-purity.mjs')).href));
+  const { verdictOf } = /** @type {any} */ (await import(pathToFileURL(path.join(root, 'packages/registry/src/coverage.mjs')).href));
+  const mpFams = await mp.run({ repoRoot: root });
+  const mpv = verdictOf(mpFams);
+  const spv = verdictOf(await sp.run({ repoRoot: root }));
+  const walked = mpFams.find((/** @type {any} */ f) => f.name === 'markup-provenance')?.walked ?? 0;
+  const groups = fs.existsSync(path.join(root, 'packages/registry/data/prop-groups/index.json'));
+  const gone = !fs.existsSync(path.join(root, 'plugins/shesha-developer/skills/clean-form-config'));
+  const ok = mpv === 'pass' && spv === 'pass' && groups && gone && walked >= 11;
+  return ok
+    ? { ok: true, lines: [`INV 1 has a real enforcer: g-markup-provenance recompiles ${walked} committed artifacts byte-identically from their sibling SFS (closes D-003), g-specwriter-purity keeps specwriter logs free of the six markup fingerprints, and the prop-group index moved to packages/registry/data/prop-groups as clean-form-config was deleted (WP-8c.2, D-124/D-125)`] }
+    : { ok: false, lines: [`FAIL markup-provenance=${mpv} (walked ${walked}) specwriter-purity=${spv} groupsMoved=${groups} skillGone=${gone}`] };
+}
+
 /** WP-1c: noUncheckedIndexedAccess is on tree-wide, so every indexed access is checked (BL-010). */
 async function runStrictIndex(/** @type {string} */ root) {
   const ts = JSON.parse(fs.readFileSync(path.join(root, 'tsconfig.json'), 'utf8'));
@@ -373,6 +390,7 @@ const STEPS = [
   { id: 'hooks', label: 'hook contract', needs: 'WP-8b.1', impl: runHooks },
   { id: 'validate-cli', label: 'sfs validate CLI', needs: 'WP-8b.2', impl: runValidateCli },
   { id: 'operating-layer', label: 'push admission', needs: 'WP-8b.3', impl: runOperatingLayer },
+  { id: 'inv1', label: 'markup provenance', needs: 'WP-8c.2', impl: runInv1 },
   { id: 'strict-index', label: 'strict index', needs: 'WP-1c', impl: runStrictIndex },
   { id: 'prose-thin', label: 'prose thin', needs: 'WP-7', impl: runProseThin },
   { id: 'sidecar', label: 'placement sidecar', needs: 'WP-3b.1', impl: runSidecar },

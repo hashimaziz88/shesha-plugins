@@ -114,7 +114,7 @@ export const mutations = [
     kind: 'file',
     /** @param {string} tmp */
     apply: async (tmp) => {
-      const f = path.join(tmp, 'plugins/shesha-developer/skills/clean-form-config/SKILL.md');
+      const f = path.join(tmp, 'plugins/shesha-developer/skills/shesha-spec/SKILL.md');
       fs.appendFileSync(f, `\nTo find which props are legal on a component, call \`${SEARCH_TOOL}\` and use the nearest result.\n`);
     },
     expect: 'fail',

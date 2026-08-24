@@ -8,10 +8,34 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 /** The pinned data directory. WP-2 adds sibling versions; the ref is never guessed. */
 export const REGISTRY_REF = '0.45.1';
+
+/** The five data files a compile's bytes depend on, for a given brand. @param {string} brand */
+function fingerprintFiles(brand) {
+  return ['actions.json', 'components.json', 'form-settings.json', 'tokens/roles.json', `tokens/${brand}.json`].sort();
+}
+
+/**
+ * A content fingerprint of the registry a compile depends on (§4.3.8). CRLF/BOM are
+ * normalised so it never drifts on a Windows checkout (the autocrlf gotcha). Both the
+ * markup-provenance fixture generator and g-markup-provenance call this, against their
+ * own root, so a staged copy and the real tree agree.
+ * @param {string} [root] @param {string} [brand] @returns {string}
+ */
+export function registryFingerprint(root, brand = 'shesha') {
+  const base = path.join(root ?? repoRoot(), 'packages/registry/data', REGISTRY_REF);
+  const h = createHash('sha256');
+  for (const rel of fingerprintFiles(brand)) {
+    h.update(`${rel}\0`);
+    h.update(fs.readFileSync(path.join(base, rel), 'utf8').replace(/^﻿/, '').replace(/\r\n/g, '\n'));
+    h.update('\0');
+  }
+  return h.digest('hex');
+}
 
 export class RegistryError extends Error {
   /** @param {string} code @param {string} m */

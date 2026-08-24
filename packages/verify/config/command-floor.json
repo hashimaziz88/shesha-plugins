@@ -11,13 +11,5 @@
     "playwright",
     "markitdown"
   ],
-  "waivers": [
-    {
-      "path": "plugins/shesha-developer/skills/clean-form-config/generate-index.md",
-      "command": "node .claude/shesha/generate-component-props.mjs",
-      "reason": "Pre-existing dead command: the script ships nowhere in this repo and predates the rebuild. Its replacement is the generated registry, which WP-2 produces; inventing a substitute path now would document a second command that does not run.",
-      "until": "BL-012",
-      "decision": "D-063"
-    }
-  ]
+  "waivers": []
 }
