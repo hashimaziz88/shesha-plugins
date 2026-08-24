@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boxfusion.io/shesha/sfs/verdict.schema.json",
+  "title": "Screen verdict envelope (§4.2.2)",
+  "description": "The envelope push-admissible.mjs and g-verdict-integrity read. Section 3 owns findings[].code vocabulary, findings[].evidence and tiers[].detail; this section owns the envelope and must not be renamed. result is not a function of advisory (D-015).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["verdictVersion", "runId", "screen", "round", "result", "tiers", "coverage", "findings", "sealedAt"],
+  "properties": {
+    "verdictVersion": { "const": "1.0" },
+    "runId": { "type": "string", "pattern": "^[0-9]{8}-[0-9]{4}-[a-z0-9-]{1,40}$" },
+    "screen": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,39}$" },
+    "round": { "type": "integer", "minimum": 1, "maximum": 3 },
+    "result": { "enum": ["pass", "partial", "fail", "refused"] },
+    "sealedAt": { "type": "string", "format": "date-time" },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["formSha256", "sfsSha256", "compileSha256"],
+      "properties": {
+        "formSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "sfsSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "compileSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "probe": { "type": "string" },
+        "shot": { "type": "string" }
+      }
+    },
+    "tiers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["T1", "T2", "T3", "T4", "T5"],
+      "properties": {
+        "T1": { "$ref": "#/$defs/tier" },
+        "T2": { "$ref": "#/$defs/tier" },
+        "T3": { "$ref": "#/$defs/tier" },
+        "T4": { "$ref": "#/$defs/tier" },
+        "T5": { "$ref": "#/$defs/tier" }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["required", "walked", "checked", "uninspectable"],
+        "properties": {
+          "required": { "type": "boolean" },
+          "walked": { "type": "integer", "minimum": 0 },
+          "checked": { "type": "integer", "minimum": 0 },
+          "uninspectable": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "predicates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "result"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "result": { "enum": ["pass", "fail", "uninspectable"] },
+          "actual": {},
+          "expect": {},
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "severity", "owner", "path", "message"],
+        "properties": {
+          "code": { "type": "string", "pattern": "^[A-Z]{3,4}-[0-9]{4}$" },
+          "severity": { "enum": ["must", "should", "info"] },
+          "owner": { "enum": ["specwriter", "planner", "compiler", "registry", "backend", "harness"] },
+          "path": { "type": "string", "minLength": 1 },
+          "message": { "type": "string", "minLength": 40 },
+          "hint": { "type": "string" },
+          "predicateId": { "type": "string" },
+          "evidence": {}
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "specwriter": { "type": "integer", "minimum": 0 },
+        "planner": { "type": "integer", "minimum": 0 },
+        "compiler": { "type": "integer", "minimum": 0 },
+        "registry": { "type": "integer", "minimum": 0 },
+        "backend": { "type": "integer", "minimum": 0 },
+        "harness": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "advisory": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "t5": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "rank": { "enum": ["excellent", "acceptable", "generic", "broken"] },
+            "model": { "type": "string" },
+            "rubricVersion": { "type": "string" },
+            "anchorRankedFirst": { "type": "boolean" },
+            "qualified": { "type": "boolean" },
+            "anchorRecord": {},
+            "notes": { "type": "string", "maxLength": 600 }
+          }
+        }
+      }
+    },
+    "notes": { "type": "string", "maxLength": 600 }
+  },
+  "$defs": {
+    "tier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result", "walked", "checked", "uninspectable", "ms"],
+      "properties": {
+        "result": { "enum": ["pass", "fail", "partial", "skipped", "uninspectable"] },
+        "walked": { "type": "integer", "minimum": 0 },
+        "checked": { "type": "integer", "minimum": 0 },
+        "uninspectable": { "type": "integer", "minimum": 0 },
+        "ms": { "type": "integer", "minimum": 0 },
+        "reason": { "type": "string" },
+        "detail": {},
+        "backend": { "type": ["string", "null"] }
+      }
+    }
+  }
+}

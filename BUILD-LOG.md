@@ -1068,3 +1068,14 @@ prop. Its one note — json-markup dropdowns carry the option domain under a `va
 reading that key too, upgrading ~8 props (image.objectFit, space.direction, link.target, …) from `string`
 to a precise `enum`. `prove-b` gains its `full registry` step.
 
+## WP-8a — Run-dir + 7 handoff schemas (operating layer, part 1 of D-115) — 2026-08-24
+
+Status: complete
+Gate: `node --test packages/verify/test/schemas.test.mjs` -> `# pass 14 # fail 0` (7 ajv-strict compiles + `--test-name-pattern "plan rejects"` -> 5); `node packages/verify/src/gates/g-run-dir-location.mjs` -> exit 0 (2 families); `npm run green` -> exit 0 (32 gates)
+Evidence: packages/verify/evidence/WP-8a.json
+Decisions added: D-116 (the 7 handoff schemas + the plan schema's five structural impossibilities; enforcer schemas.test), D-117 (run dirs live at runs/<runId>/, not the pre-rebuild .claude/shesha/runs/; enforcer g-run-dir-location)
+Blocked: none new
+Next: WP-8b (the 6 runner/decide hooks + hooks.test + g-hook-contract/g-hook-liveness + push-admissible, plus the `sfs validate`/`run` CLI the hooks spawn)
+
+WP-8a is the first of the four WP-8 sub-WPs (D-115): the run-directory contract. It ships the **seven handoff schemas** in `packages/sfs/schema/` — `plan`, `manifest`, `verdict`, `dispatch`, `sfs-meta`, `lock`, `blueprint` — each draft-2020-12, `$id` `https://boxfusion.io/shesha/sfs/<name>.schema.json`, `additionalProperties:false` at every object level, and compilable under `new Ajv2020({strict:true})` (a `(?i)` inline flag or a missing `type` throws at `compile()`, not at validate; the one union type — `manifest.screens[].tokens` — is `{}` any, since `{strict:true}` rejects a multi-type array without `allowUnionTypes`). `schemas.test.mjs` asserts the seven compile (row 2) and the **five defect classes the plan schema makes structurally impossible** (row 3): a screen with no `contract` (required); an all-visual contract (`predicates.contains {tier:{const:"T3"}}`); a **prose** assertion (`predicate` must match `^[a-z][A-Za-z0-9]{2,39}$`, so `"body is a 2-column split; ratio ≈ 18:6"` cannot validate); a repair loop above 3 (`repairPolicy.maxRounds const:3`); two authors on one form (`fanout.withinScreen const:1`). `g-run-dir-location` (D-117) fails on any file at the pre-rebuild `.claude/shesha/runs/` path and on a `runs/` that is not gitignored — two families, two verdict-flipping mutations; the gate-ratchet floor rises 31 -> 32. `prove-b` gains its `handoff schemas` step. The `sfs validate`/`run` CLI that D-115 grouped under 8a moves to WP-8b, where the hooks that spawn it live and exercise it — the schemas it validates against are frozen here.
+

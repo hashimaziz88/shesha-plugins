@@ -94,6 +94,30 @@ async function runRegistry(/** @type {string} */ root) {
     : { ok: false, lines: [`registry below the WP-2b floor: full=${m.full} (need >= 93), deferredAuthorable=${m.deferredAuthorable} (need < 8)`] };
 }
 
+/** WP-8a: the seven handoff schemas compile under ajv {strict:true} (§4.2.2, D-116). */
+async function runSchemas(/** @type {string} */ root) {
+  const ajvMod = /** @type {any} */ (await import('ajv/dist/2020.js'));
+  const Ajv2020 = ajvMod.default?.default ?? ajvMod.default ?? ajvMod;
+  const fmtMod = /** @type {any} */ (await import('ajv-formats'));
+  const addFormats = fmtMod.default?.default ?? fmtMod.default ?? fmtMod;
+  const seven = ['plan', 'manifest', 'verdict', 'dispatch', 'sfs-meta', 'lock', 'blueprint'];
+  /** @type {string[]} */
+  const failures = [];
+  let compiled = 0;
+  for (const n of seven) {
+    try {
+      const schema = JSON.parse(fs.readFileSync(path.join(root, `packages/sfs/schema/${n}.schema.json`), 'utf8'));
+      const ajv = new Ajv2020({ strict: true, allErrors: true });
+      addFormats(ajv);
+      ajv.compile(schema);
+      compiled += 1;
+    } catch (e) { failures.push(`${n}: ${(/** @type {Error} */ (e)).message.split('\n')[0]}`); }
+  }
+  return failures.length === 0 && compiled === 7
+    ? { ok: true, lines: ['seven handoff schemas compile under ajv strict; the plan schema forbids a prose assertion, < 3 predicates, a non-T3 contract and > 3 repair rounds (WP-8a, D-116)'] }
+    : { ok: false, lines: failures.map((f) => `FAIL ${f}`) };
+}
+
 /** WP-1c: noUncheckedIndexedAccess is on tree-wide, so every indexed access is checked (BL-010). */
 async function runStrictIndex(/** @type {string} */ root) {
   const ts = JSON.parse(fs.readFileSync(path.join(root, 'tsconfig.json'), 'utf8'));
@@ -264,6 +288,7 @@ const STEPS = [
   { id: 'hygiene', label: 'decompiler hygiene', needs: 'WP-5d', impl: runHygiene },
   { id: 'columns', label: 'columns lift', needs: 'WP-5e', impl: runColumns },
   { id: 'registry', label: 'full registry', needs: 'WP-2b', impl: runRegistry },
+  { id: 'schemas', label: 'handoff schemas', needs: 'WP-8a', impl: runSchemas },
   { id: 'strict-index', label: 'strict index', needs: 'WP-1c', impl: runStrictIndex },
   { id: 'prose-thin', label: 'prose thin', needs: 'WP-7', impl: runProseThin },
   { id: 'sidecar', label: 'placement sidecar', needs: 'WP-3b.1', impl: runSidecar },

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boxfusion.io/shesha/sfs/blueprint.schema.json",
+  "title": "Screen layout blueprint (§4.2.2)",
+  "description": "A measured/derived layout blueprint. An English assertion is unrepresentable: an assertion is a predicate id + args + expect, tier defaults to T3 (95% of placement is a property of the compiled tree).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["blueprintVersion", "screen", "tier", "archetype", "regions", "assertions"],
+  "properties": {
+    "blueprintVersion": { "const": "1.0" },
+    "screen": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,39}$" },
+    "tier": { "enum": ["A", "B", "C", "D"] },
+    "archetype": { "type": "string", "minLength": 1 },
+    "regions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "role"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "role": { "type": "string", "minLength": 1 },
+          "parent": { "type": "string" },
+          "tab": { "type": "string" },
+          "widthIntent": { "enum": ["fill", "fixed", "auto"] },
+          "widthPx": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "assertions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "predicate", "args", "expect", "severity"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^A[0-9]{1,2}$" },
+          "predicate": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]{2,39}$" },
+          "args": { "type": "object" },
+          "expect": {},
+          "severity": { "enum": ["must", "should"] },
+          "tier": { "enum": ["T3", "T5"] }
+        }
+      }
+    },
+    "source": { "type": "string" },
+    "viewport": { "type": "string" },
+    "bindings": { "type": "array", "items": { "type": "object" } },
+    "uninspectable": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["what", "why"],
+        "properties": {
+          "what": { "type": "string", "minLength": 1 },
+          "why": { "type": "string", "minLength": 12 }
+        }
+      }
+    }
+  }
+}

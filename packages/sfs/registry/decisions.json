@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 115,
+  "count": 117,
   "decisions": [
     {
       "id": "D-001",
@@ -1382,6 +1382,30 @@
       "consequence": "prove-b requires all four",
       "enforcedBy": [
         "structural:packages/verify/test/prove-b.contract.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-116",
+      "date": "2026-08-24",
+      "status": "decided",
+      "decision": "WP-8a: the seven handoff schemas (plan/manifest/verdict/dispatch/sfs-meta/lock/blueprint in packages/sfs/schema/) are draft-2020-12, $id boxfusion.io/shesha/sfs/&lt;name&gt;.schema.json, additionalProperties:false at every object level, and ajv strict-compilable; the plan schema makes five defect classes structurally impossible: a screen with no contract, an all-visual contract, a prose assertion, a repair loop above 3 rounds, and two authors on one form",
+      "why": "a prose/visual contract reintroduces the §1.2/§4L3 ambiguity and placement failures",
+      "consequence": "schemas.test proves the seven compile under {strict:true} and the plan's five rejections",
+      "enforcedBy": [
+        "structural:packages/verify/test/schemas.test.mjs"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-117",
+      "date": "2026-08-24",
+      "status": "decided",
+      "decision": "WP-8a: the run directory lives at runs/&lt;runId&gt;/, gitignored, never the pre-rebuild .claude/shesha/runs/ (§4.10 pt7)",
+      "why": "a run written to the old path is invisible to the toolchain and to .gitignore, and an un-ignored runs/ commits ephemeral run output as if it were source",
+      "consequence": "g-run-dir-location fails on old-path files or an unignored runs/",
+      "enforcedBy": [
+        "g-run-dir-location"
       ],
       "confirmation": "n/a"
     }

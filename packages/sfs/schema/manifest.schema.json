@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boxfusion.io/shesha/sfs/manifest.schema.json",
+  "title": "Run manifest (§4.2.2)",
+  "description": "Written only by `sfs run <init|advance|lock|release>`; a direct Write is denied by hook R3. Legal state transitions live in packages/sfs/src/run/states.mjs, not in this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["manifestVersion", "runId", "phase", "toolchain", "screens", "events"],
+  "properties": {
+    "manifestVersion": { "const": "1.0" },
+    "runId": { "type": "string", "pattern": "^[0-9]{8}-[0-9]{4}-[a-z0-9-]{1,40}$" },
+    "phase": { "enum": ["init", "comprehend", "plan", "build", "verify", "push", "report", "done", "aborted"] },
+    "hookDenials": { "type": "integer", "minimum": 0 },
+    "toolchain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compilerVersion", "schemaVersion", "registryRef", "registrySha256", "nodeVersion"],
+      "properties": {
+        "compilerVersion": { "type": "string", "minLength": 1 },
+        "schemaVersion": { "type": "string", "minLength": 1 },
+        "registryRef": { "type": "string", "minLength": 1 },
+        "registrySha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "nodeVersion": { "type": "string", "minLength": 1 },
+        "chromium": { "enum": ["present", "absent"] },
+        "backend": { "enum": ["live", "none"] },
+        "judge": { "enum": ["qualified", "disqualified", "untested"] }
+      }
+    },
+    "screens": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z][a-z0-9-]{1,39}$": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["state", "round"],
+          "properties": {
+            "state": { "enum": ["planned", "specced", "compiled", "verified", "pushed", "blocked", "abandoned"] },
+            "round": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "verdictSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "blockedBy": { "type": "string" },
+            "tokens": {},
+            "artifacts": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "sfs": { "$ref": "#/$defs/artifact" },
+                "sfsMeta": { "$ref": "#/$defs/artifact" },
+                "form": { "$ref": "#/$defs/artifact" },
+                "compile": { "$ref": "#/$defs/artifact" },
+                "verdict": { "$ref": "#/$defs/artifact" },
+                "receipt": { "$ref": "#/$defs/artifact" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["at", "kind", "detail"],
+        "properties": {
+          "at": { "type": "string", "format": "date-time" },
+          "kind": { "enum": ["init", "lock", "release", "advance", "denied", "compile", "verify", "push", "abort"] },
+          "detail": { "type": "string" },
+          "screen": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes", "at"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

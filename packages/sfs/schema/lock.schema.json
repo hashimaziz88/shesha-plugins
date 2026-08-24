@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boxfusion.io/shesha/sfs/lock.schema.json",
+  "title": "Run lock (§4.2.2)",
+  "description": "A lock file under runs/<runId>/locks/. Written only by `sfs run lock/release`. No session_id. For locks/plan.lock the screen is the literal \"__plan__\".",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["lockVersion", "screen", "role", "runId", "at", "pid"],
+  "properties": {
+    "lockVersion": { "const": "1.0" },
+    "screen": { "type": "string", "minLength": 1 },
+    "role": { "enum": ["planner", "sfs-specwriter", "sfs-evaluator"] },
+    "runId": { "type": "string", "pattern": "^[0-9]{8}-[0-9]{4}-[a-z0-9-]{1,40}$" },
+    "at": { "type": "string", "format": "date-time" },
+    "pid": { "type": "integer", "minimum": 0 }
+  }
+}

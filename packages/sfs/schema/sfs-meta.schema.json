@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boxfusion.io/shesha/sfs/sfs-meta.schema.json",
+  "title": "SFS spec provenance sidecar (§4.2.2)",
+  "description": "Provenance for a <screen>.sfs.json, kept beside it because SFS forbids unknown top-level keys (SFS-1002). basedOn=[] means authored blind (legal, recorded).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["metaVersion", "screen", "round", "basedOn"],
+  "properties": {
+    "metaVersion": { "const": "1.0" },
+    "screen": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,39}$" },
+    "round": { "type": "integer", "minimum": 1, "maximum": 3 },
+    "basedOn": { "type": "array", "items": { "type": "string" } },
+    "escapesIntended": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "reason"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 12 },
+          "structural": { "type": "boolean" }
+        }
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["what", "chose", "reason"],
+        "properties": {
+          "what": { "type": "string", "minLength": 1 },
+          "chose": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 12 },
+          "confidence": { "enum": ["verified", "assumed"] }
+        }
+      }
+    },
+    "uninspectable": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["what", "why"],
+        "properties": {
+          "what": { "type": "string", "minLength": 1 },
+          "why": { "type": "string", "minLength": 12 }
+        }
+      }
+    }
+  }
+}

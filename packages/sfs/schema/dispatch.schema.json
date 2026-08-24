@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boxfusion.io/shesha/sfs/dispatch.schema.json",
+  "title": "Subagent dispatch (§4.2.2)",
+  "description": "The only legal way to brief a subagent. paths[].not.pattern IS the judge-isolation rule as a regex; notes is capped so a builder's self-report cannot be smuggled through free text.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["dispatchVersion", "role", "runId", "screen", "round", "paths"],
+  "properties": {
+    "dispatchVersion": { "const": "1.0" },
+    "role": { "enum": ["sfs-planner", "sfs-specwriter", "sfs-evaluator", "design-critic", "fleet-transformer", "fullstack-prereq-checker"] },
+    "runId": { "type": "string", "pattern": "^[0-9]{8}-[0-9]{4}-[a-z0-9-]{1,40}$" },
+    "screen": { "type": ["string", "null"] },
+    "round": { "type": "integer", "minimum": 1, "maximum": 3 },
+    "paths": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": { "type": "string", "not": { "pattern": "(^|/)(logs)/|\\.rationale\\.|__SAA_RESULT__" } }
+    },
+    "notes": { "type": "string", "maxLength": 240 },
+    "lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "screen": { "type": "string" },
+        "role": { "enum": ["planner", "sfs-specwriter", "sfs-evaluator"] }
+      }
+    }
+  }
+}

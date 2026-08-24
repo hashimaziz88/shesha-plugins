@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://boxfusion.io/shesha/sfs/plan.schema.json",
+  "title": "Run plan (§4.2.2)",
+  "description": "Five things this schema makes structurally impossible: a screen with no acceptance contract; a contract that is entirely visual; a prose assertion (predicate must be an identifier); a repair loop above 3 rounds; two authors on one form.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["planVersion", "runId", "briefSha256", "brand", "backend", "screens", "repairPolicy", "fanout"],
+  "properties": {
+    "planVersion": { "const": "1.0" },
+    "runId": { "type": "string", "pattern": "^[0-9]{8}-[0-9]{4}-[a-z0-9-]{1,40}$" },
+    "briefSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "brand": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,31}$" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "designTier": { "enum": ["A", "B", "C", "D"] },
+    "backend": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "properties": {
+        "mode": { "enum": ["live", "none"] },
+        "baseUrl": { "type": "string", "format": "uri" },
+        "tokenPath": { "type": "string" },
+        "probedAt": { "type": ["string", "null"], "format": "date-time" }
+      }
+    },
+    "repairPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxRounds"],
+      "properties": { "maxRounds": { "const": 3 } }
+    },
+    "fanout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxConcurrentScreens", "withinScreen"],
+      "properties": {
+        "maxConcurrentScreens": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "withinScreen": { "const": 1 }
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["what", "why"],
+        "properties": {
+          "what": { "type": "string", "minLength": 8 },
+          "why": { "type": "string", "minLength": 8 },
+          "blocksScreens": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "signoff": { "type": "object" },
+    "screens": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "module", "formName", "kind", "buildOrder", "contract"],
+        "properties": {
+          "name": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,39}$" },
+          "module": { "type": "string", "pattern": "^[a-z][a-z0-9.]{1,63}$" },
+          "formName": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$" },
+          "kind": { "enum": ["list", "detail", "create", "edit", "modal", "dashboard", "custom"] },
+          "entityStatus": { "enum": ["resolved", "uninspectable", "notApplicable"] },
+          "buildOrder": { "type": "integer", "minimum": 1 },
+          "dependsOn": { "type": "array", "items": { "type": "string" } },
+          "status": { "enum": ["planned", "specced", "compiled", "verified", "pushed", "blocked", "abandoned"] },
+          "precedent": {
+            "type": "array",
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["sfsPath", "score", "method"],
+              "properties": {
+                "sfsPath": { "type": "string" },
+                "score": { "type": "number" },
+                "method": { "enum": ["shape", "embedding"] },
+                "why": { "type": "string" }
+              }
+            }
+          },
+          "decisions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["what", "chose", "reason"],
+              "properties": {
+                "what": { "type": "string", "minLength": 1 },
+                "chose": { "type": "string", "minLength": 1 },
+                "reason": { "type": "string", "minLength": 12 },
+                "confidence": { "enum": ["verified", "assumed"] }
+              }
+            }
+          },
+          "contract": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["predicates", "signedOffAt"],
+            "properties": {
+              "signedOffAt": { "type": ["string", "null"], "format": "date-time" },
+              "predicates": {
+                "type": "array",
+                "minItems": 3,
+                "contains": { "type": "object", "required": ["tier"], "properties": { "tier": { "const": "T3" } } },
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["id", "tier", "predicate", "args", "expect", "severity"],
+                  "properties": {
+                    "id": { "type": "string", "pattern": "^[A-Z][0-9]{1,2}$" },
+                    "tier": { "enum": ["T1", "T2", "T3", "T4", "T5"] },
+                    "predicate": { "type": "string", "pattern": "^[a-z][A-Za-z0-9]{2,39}$" },
+                    "args": { "type": "object" },
+                    "expect": {},
+                    "severity": { "enum": ["must", "should"] },
+                    "blockedBy": { "enum": ["metadata", "backend", "playwright", "judge", "none"] },
+                    "source": { "type": "string" }
+                  }
+                }
+              },
+              "thresholds": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "t5MinRank": { "enum": ["excellent", "acceptable"] },
+                  "maxStructuralEscapes": { "type": "integer", "minimum": 0, "maximum": 2 }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
