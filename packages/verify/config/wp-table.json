@@ -167,8 +167,29 @@
     {
       "id": "WP-8b",
       "order": null,
+      "inScope": false,
+      "goal": "6 runner/decide hooks (split into WP-8b.1..8b.3, D-118)",
+      "backlog": "BL-008"
+    },
+    {
+      "id": "WP-8b.1",
+      "order": null,
       "inScope": true,
-      "goal": "6 runner/decide hooks + hooks.test + g-hook-contract/g-hook-liveness + push-admissible.test",
+      "goal": "lib.mjs + block-form-writes hook + hooks.test (matcher + R-rules) + g-hook-contract + .claude/settings.json",
+      "backlog": "BL-008"
+    },
+    {
+      "id": "WP-8b.2",
+      "order": null,
+      "inScope": true,
+      "goal": "enforce-screen-lock + validate-sfs-on-write hooks + sfs validate CLI + their hooks.test cases",
+      "backlog": "BL-008"
+    },
+    {
+      "id": "WP-8b.3",
+      "order": null,
+      "inScope": true,
+      "goal": "gate-push + gate-dispatch + session-start hooks + push-admissible.mjs/test + g-hook-liveness + sfs run CLI",
       "backlog": "BL-008"
     },
     {
