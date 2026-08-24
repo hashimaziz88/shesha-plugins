@@ -29,9 +29,13 @@ const VERBS = {
   decompile: 'WP-6',
   roundtrip: null,
   validate: null,
+  run: null,
   normalise: 'WP-1',
   push: 'WP-6',
 };
+
+const RUN_ID_RE = /^[0-9]{8}-[0-9]{4}-[a-z0-9-]{1,40}$/;
+const ROLES = ['planner', 'sfs-specwriter', 'sfs-evaluator'];
 
 /** @param {string[]} args @param {string} flag @returns {string|undefined} */
 function argValue(args, flag) {
@@ -77,6 +81,75 @@ function runValidate(args) {
   const ok = !!validate(data);
   const diagnostics = ok ? [] : (validate.errors || []).map((/** @type {any} */ e) => `${e.instancePath || '/'} ${e.message}`.trim());
   return done({ ok, diagnostics }, ok ? EXIT.pass : EXIT.fail);
+}
+
+/** The repo root, three levels up from packages/sfs/bin. @returns {string} */
+function repoRootFromBin() {
+  return path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
+}
+
+/**
+ * `sfs run <lock|release|new> …` — the run-directory operations the hooks reference
+ * in their remediation strings (§4.10 pt12). A lock's identity is (role, screen,
+ * runId); there is no session_id. Locks are the fan-out mutex enforce-screen-lock
+ * reads; they are data, not markup, so writing them never trips INV 1.
+ * @param {string[]} args @returns {number}
+ */
+function runRun(args) {
+  const sub = args[1];
+  const root = repoRootFromBin();
+  if (sub === 'lock') return runLock(args, root);
+  if (sub === 'release') return runRelease(args, root);
+  if (sub === 'new') return runNew(args, root);
+  console.error('sfs run: <lock|release|new> …\n'
+    + '  run lock    --run <id> (--screen <s> | --plan) --role <planner|sfs-specwriter|sfs-evaluator>\n'
+    + '  run release --run <id> (--screen <s> | --plan)\n'
+    + '  run new     --run <id>');
+  return EXIT.usage;
+}
+
+/** @param {string[]} args @param {string} root @returns {number} */
+function runLock(args, root) {
+  const runId = argValue(args, '--run');
+  const isPlan = args.includes('--plan');
+  const screen = isPlan ? '__plan__' : argValue(args, '--screen');
+  const role = argValue(args, '--role') ?? (isPlan ? 'planner' : undefined);
+  if (!runId || !RUN_ID_RE.test(runId)) { console.error('sfs run lock: --run <id> must match YYYYMMDD-HHMM-<slug>'); return EXIT.usage; }
+  if (typeof screen !== 'string' || (!isPlan && !/^[a-z][a-z0-9-]{0,39}$/.test(screen))) { console.error('sfs run lock: --screen <s> (lowercase) or --plan is required'); return EXIT.usage; }
+  if (typeof role !== 'string' || !ROLES.includes(role)) { console.error(`sfs run lock: --role must be one of ${ROLES.join(', ')}`); return EXIT.usage; }
+  const dir = path.join(root, 'runs', runId, 'locks');
+  fs.mkdirSync(dir, { recursive: true });
+  const lock = { lockVersion: '1.0', screen, role, runId, at: new Date().toISOString(), pid: process.pid };
+  fs.writeFileSync(path.join(dir, `${screen}.lock`), `${JSON.stringify(lock, null, 2)}\n`);
+  console.log(`sfs run lock: ${role} holds ${screen} in ${runId}`);
+  return EXIT.pass;
+}
+
+/** @param {string[]} args @param {string} root @returns {number} */
+function runRelease(args, root) {
+  const runId = argValue(args, '--run');
+  const isPlan = args.includes('--plan');
+  const screen = isPlan ? '__plan__' : argValue(args, '--screen');
+  if (!runId || !RUN_ID_RE.test(runId)) { console.error('sfs run release: --run <id> is required'); return EXIT.usage; }
+  if (typeof screen !== 'string') { console.error('sfs run release: --screen <s> or --plan is required'); return EXIT.usage; }
+  const file = path.join(root, 'runs', runId, 'locks', `${screen}.lock`);
+  try { fs.unlinkSync(file); } catch { console.error(`sfs run release: no lock on ${screen} in ${runId}`); return EXIT.fail; }
+  console.log(`sfs run release: released ${screen} in ${runId}`);
+  return EXIT.pass;
+}
+
+/** @param {string[]} args @param {string} root @returns {number} */
+function runNew(args, root) {
+  const runId = argValue(args, '--run');
+  if (!runId || !RUN_ID_RE.test(runId)) { console.error('sfs run new: --run <id> must match YYYYMMDD-HHMM-<slug>'); return EXIT.usage; }
+  const dir = path.join(root, 'runs', runId);
+  fs.mkdirSync(path.join(dir, 'locks'), { recursive: true });
+  fs.mkdirSync(path.join(dir, 'screens'), { recursive: true });
+  const manifest = { manifestVersion: '1.0', runId, phase: 'planning', screens: {}, events: [] };
+  fs.writeFileSync(path.join(dir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+  fs.writeFileSync(path.join(root, '.build', 'active-run'), `${runId}\n`);
+  console.log(`sfs run new: created runs/${runId} and set the active run`);
+  return EXIT.pass;
 }
 
 /**
@@ -180,6 +253,8 @@ commands
   compile     <input.sfs.json> --out <dir>        compile SFS to a form envelope
   decompile   <input.form.json> --out <file>      recover SFS from an envelope
   roundtrip   --scope <scope.json>               compile(decompile(x)) == x over a corpus
+  validate    --schema <name> --file <path>       validate a JSON file against a handoff schema
+  run         <lock|release|new> …               run-directory operations (locks, active run)
   normalise   <envelope.json>                    apply the legacy normalisation pass
   push        <input.sfs.json> --backend <url>   compile and push (the only write path)
 
@@ -211,6 +286,7 @@ export function main(argv) {
   if (verb === 'compile') return runCompile(args);
   if (verb === 'roundtrip') return runRoundtrip(args);
   if (verb === 'validate') return runValidate(args);
+  if (verb === 'run') return runRun(args);
 
   const wp = VERBS[/** @type {keyof typeof VERBS} */ (verb)];
   console.error(`sfs ${verb}: not implemented in this build — ${wp} ships it.`);

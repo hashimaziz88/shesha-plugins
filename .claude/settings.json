@@ -9,12 +9,26 @@
       {
         "matcher": "Write|Edit|NotebookEdit",
         "hooks": [{ "type": "command", "command": "node .claude/hooks/enforce-screen-lock.mjs", "timeout": 15 }]
+      },
+      {
+        "matcher": "Bash|mcp__shesha-sfs__push",
+        "hooks": [{ "type": "command", "command": "node .claude/hooks/gate-push.mjs", "timeout": 40 }]
+      },
+      {
+        "matcher": "Task",
+        "hooks": [{ "type": "command", "command": "node .claude/hooks/gate-dispatch.mjs", "timeout": 20 }]
       }
     ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit|NotebookEdit",
         "hooks": [{ "type": "command", "command": "node .claude/hooks/validate-sfs-on-write.mjs", "timeout": 40 }]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [{ "type": "command", "command": "node .claude/hooks/session-start.mjs", "timeout": 25 }]
       }
     ]
   }

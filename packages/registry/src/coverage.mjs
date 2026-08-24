@@ -283,6 +283,41 @@ export function report(fams, opts = {}) {
 export function exitFor(v) { return EXIT[v]; }
 
 /**
+ * The single push-admission rule over T1–T3 (§4.3.5 P6), replacing three ad-hoc
+ * checks so admission has one decision procedure. Pure over the verdict plus the
+ * artifact's component-type set — push-admissible.mjs supplies `present`, the
+ * verdict carries per-tier uninspectable pointers in `tier.detail.uninspectable`.
+ * `result` is a function of T1–T3 only; T4/T5 never gate admission (D-015).
+ * @param {any} verdict
+ * @param {{allowPartial?:boolean, present?:Set<string>}} [opts]
+ * @returns {{ok:boolean, tier?:string, result?:string, reason?:string}}
+ */
+export function pushAdmissible(verdict, opts = {}) {
+  const present = opts.present instanceof Set ? opts.present : new Set();
+  const allowPartial = !!opts.allowPartial;
+  const t = (verdict && verdict.tiers) || {};
+  /** @param {any} tier */
+  const un = (tier) => (tier && tier.detail && Array.isArray(tier.detail.uninspectable) ? tier.detail.uninspectable : []);
+
+  // T1: must pass outright — no partial is admissible.
+  if (!t.T1 || t.T1.result !== 'pass') return { ok: false, tier: 'T1', result: t.T1 && t.T1.result, reason: t.T1 && t.T1.reason };
+  // T2: pass, or partial where every uninspectable pointer's component type is absent from the artifact.
+  if (t.T2.result !== 'pass') {
+    if (t.T2.result !== 'partial') return { ok: false, tier: 'T2', result: t.T2.result, reason: t.T2.reason };
+    const offending = un(t.T2).filter((/** @type {any} */ u) => present.has(u.componentType));
+    if (offending.length) return { ok: false, tier: 'T2', result: 'partial', reason: `uninspectable ${offending[0].componentType} is present in the artifact` };
+  }
+  // T3: pass, or partial with --allow-partial and every uninspectable reason a backend/metadata outage.
+  if (t.T3.result !== 'pass') {
+    if (t.T3.result !== 'partial') return { ok: false, tier: 'T3', result: t.T3.result, reason: t.T3.reason };
+    if (!allowPartial) return { ok: false, tier: 'T3', result: 'partial', reason: 'T3 is partial; pass --allow-partial to admit a backend/metadata-unavailable partial' };
+    const bad = un(t.T3).filter((/** @type {any} */ u) => !/^(backend|metadata) unavailable/.test(String((u && u.reason) || '')));
+    if (bad.length) return { ok: false, tier: 'T3', result: 'partial', reason: `uninspectable reason is not a backend/metadata outage: ${bad[0].reason}` };
+  }
+  return { ok: true };
+}
+
+/**
  * Every JSON read in packages/verify and packages/sfs goes through this. A
  * malformed data file is a domain failure on a named pointer, never an uncaught
  * SyntaxError with no verdict.

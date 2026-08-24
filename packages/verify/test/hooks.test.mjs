@@ -14,6 +14,9 @@ const { matchGlob } = await import(pathToFileURL(path.join(HOOKS, 'lib.mjs')).hr
 const { decide } = await import(pathToFileURL(path.join(HOOKS, 'block-form-writes.decide.mjs')).href);
 const { decide: lockDecide } = await import(pathToFileURL(path.join(HOOKS, 'enforce-screen-lock.decide.mjs')).href);
 const { decide: validateDecide } = await import(pathToFileURL(path.join(HOOKS, 'validate-sfs-on-write.decide.mjs')).href);
+const { decide: pushDecide } = await import(pathToFileURL(path.join(HOOKS, 'gate-push.decide.mjs')).href);
+const { decide: dispatchDecide } = await import(pathToFileURL(path.join(HOOKS, 'gate-dispatch.decide.mjs')).href);
+const { decide: sessionDecide } = await import(pathToFileURL(path.join(HOOKS, 'session-start.decide.mjs')).href);
 
 const RUNID = '20260824-1000-r';
 
@@ -221,6 +224,84 @@ test('val g: valid sfs whose form/module agree with plan -> allow V2', () => {
   put(root, `runs/${RUNID}/plan.json`, { screens: [{ name: 'x', formName: 'A', module: 'M' }] });
   const d = validateDecide(p('Write', { file_path: `runs/${RUNID}/screens/x.sfs.json` }), { root, fs, spawnNode: spawnOk });
   assert.equal(d.rule, 'V2'); assert.equal(d.decision, 'allow');
+});
+
+// ---- WP-8b.3 §4.3.5: gate-push detection + exit mapping ----------------------
+test('push a: npm run sfs -- push -> spawns admission, admissible -> allow', () => {
+  let called = false;
+  const d = pushDecide(p('Bash', { command: 'npm run sfs -- push --run 20260824-1000-r --screen items' }),
+    { root: mkRoot(), fs, spawnNode: () => { called = true; return { status: 0, stdout: JSON.stringify({ admissible: true, code: '', reason: '' }) }; } });
+  assert.equal(d.decision, 'allow'); assert.ok(called);
+});
+test('push b: raw curl to UpdateMarkup with no run -> deny HOOK-0301', () => {
+  const d = pushDecide(p('Bash', { command: 'curl -X POST http://x/api/services/Shesha/FormConfiguration/UpdateMarkup' }),
+    { root: mkRoot(), fs, spawnNode: () => ({ status: 1, stdout: JSON.stringify({ admissible: false, code: 'HOOK-0301', reason: 'push must name a run and a screen' }) }) });
+  assert.equal(d.decision, 'deny'); assert.equal(d.code, 'HOOK-0301');
+});
+test('push c: npm run lint -> allow without spawning', () => {
+  let called = false;
+  const d = pushDecide(p('Bash', { command: 'npm run lint' }), { root: mkRoot(), fs, spawnNode: () => { called = true; return { status: 0 }; } });
+  assert.equal(d.decision, 'allow'); assert.equal(called, false);
+});
+test('push d: push-admissible cannot start -> deny HOOK-0002', () => {
+  const d = pushDecide(p('Bash', { command: 'npm run sfs -- push --run 20260824-1000-r --screen items' }),
+    { root: mkRoot(), fs, spawnNode: () => ({ status: null }) });
+  assert.equal(d.code, 'HOOK-0002');
+});
+
+// ---- WP-8b.3 §4.3.7: gate-dispatch D0-D6 -------------------------------------
+const okSpawn = () => ({ status: 0, stdout: '{"ok":true,"diagnostics":[]}' });
+/** @param {string} root @param {any} over */
+function mkDispatch(root, over = {}) {
+  const d = { dispatchVersion: '1.0', role: 'sfs-specwriter', runId: RUNID, screen: 'items', round: 1, paths: [`runs/${RUNID}/screens/items.sfs.json`], ...over };
+  put(root, 'dispatch/spec.json', d);
+  return root;
+}
+const task = (/** @type {any} */ input) => ({ tool_name: 'Task', tool_input: input });
+
+test('dispatch D0: unknown subagent role -> allow', () => {
+  const d = dispatchDecide(task({ subagent_type: 'general-purpose', prompt: 'do a thing' }), { root: mkRoot(), fs, spawnNode: okSpawn });
+  assert.equal(d.decision, 'allow'); assert.equal(d.rule, 'D0');
+});
+test('dispatch D1: no dispatch path in the prompt -> deny HOOK-0501', () => {
+  const d = dispatchDecide(task({ subagent_type: 'sfs-specwriter', prompt: 'please build the items screen' }), { root: mkRoot(), fs, spawnNode: okSpawn });
+  assert.equal(d.code, 'HOOK-0501');
+});
+test('dispatch D2: dispatch file missing/invalid -> deny HOOK-0502', () => {
+  const d = dispatchDecide(task({ subagent_type: 'sfs-specwriter', prompt: 'use dispatch/ghost.json' }), { root: mkRoot(), fs, spawnNode: okSpawn });
+  assert.equal(d.code, 'HOOK-0502');
+});
+test('dispatch D3: a judge given a logs/ path -> deny HOOK-0503', () => {
+  const root = mkDispatch(mkRoot(), { role: 'sfs-evaluator', paths: [`runs/${RUNID}/logs/specwriter-items-r1.md`] });
+  const d = dispatchDecide(task({ subagent_type: 'sfs-evaluator', prompt: 'judge via dispatch/spec.json' }), { root, fs, spawnNode: okSpawn });
+  assert.equal(d.code, 'HOOK-0503');
+});
+test('dispatch D4: inline contents in the prompt -> deny HOOK-0504', () => {
+  const root = mkDispatch(mkRoot());
+  const d = dispatchDecide(task({ subagent_type: 'sfs-specwriter', prompt: 'dispatch/spec.json build this: {"components":[{"node":"field"}]}' }), { root, fs, spawnNode: okSpawn });
+  assert.equal(d.code, 'HOOK-0504');
+});
+test('dispatch D5: a specwriter while another screen is locked -> deny HOOK-0505', () => {
+  const root = mkDispatch(mkRoot());
+  lock(root, 'other', 'sfs-specwriter');
+  const d = dispatchDecide(task({ subagent_type: 'sfs-specwriter', prompt: 'build dispatch/spec.json' }), { root, fs, spawnNode: okSpawn });
+  assert.equal(d.code, 'HOOK-0505');
+});
+test('dispatch D6: a well-formed specwriter dispatch -> allow', () => {
+  const root = mkDispatch(mkRoot());
+  const d = dispatchDecide(task({ subagent_type: 'sfs-specwriter', prompt: 'build dispatch/spec.json' }), { root, fs, spawnNode: okSpawn });
+  assert.equal(d.decision, 'allow'); assert.equal(d.rule, 'D6');
+});
+
+// ---- WP-8b.3 §4.3.7: session-start prints six lines, never blocks -------------
+test('session-start a: exactly six lines, allow, green measured', () => {
+  const d = sessionDecide({ hook_event_name: 'SessionStart', source: 'startup' }, { root: mkRoot(), fs, spawnNode: () => ({ status: 0 }), nodeVersion: 'v22.23.2' });
+  assert.equal(d.lines.length, 6); assert.equal(d.decision, 'allow');
+  assert.match(d.lines[1], /green: exit 0/); assert.match(d.lines[4], /compiler is the only writer/);
+});
+test('session-start b: green not measured on spawn failure, still six lines', () => {
+  const d = sessionDecide({ source: 'compact' }, { root: mkRoot(), fs, spawnNode: () => { throw new Error('no toolchain'); }, nodeVersion: 'v22.23.2' });
+  assert.equal(d.lines.length, 6); assert.match(d.lines[1], /not measured \(timeout\)/);
 });
 
 // ---- row 5: the p95 <= 5ms budget over 500 non-matching decide calls ----------

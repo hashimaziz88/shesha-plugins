@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 120,
+  "count": 121,
   "decisions": [
     {
       "id": "D-001",
@@ -1378,7 +1378,7 @@
       "date": "2026-08-24",
       "status": "decided",
       "decision": "Scope change: WP-8 (the operating layer) splits into WP-8a (run-dir + 7 handoff schemas + sfs validate/run CLI + schemas.test + g-run-dir-location), WP-8b (6 runner/decide hooks + hooks.test + g-hook-contract/g-hook-liveness + push-admissible.test), WP-8c (3 agent files via git mv + .claude/settings.json + g-agent-contract/g-specwriter-purity/g-judge-isolation/g-plugin-enabled/g-markup-provenance), WP-8d (packages/mcp 7 tools/3 transports + .mcp.json + g-mcp-cli-parity + transports.test); session-scope-b.json swaps WP-8 for the four (§4.8 rows 1-8,12-13). §4.8 proves the hooks as programs so WP-8 is offline; the live restart pass is WP-11 (§4.9, out of session)",
-      "why": "the operating layer is ~10 gates + 7 schemas + packages/mcp + 6 hooks + 3 agents, far past one context (CONTROL §6, mirrors D-103/D-106)",
+      "why": "far past one context (CONTROL §6, mirrors D-103/D-106)",
       "consequence": "prove-b requires all four",
       "enforcedBy": [
         "structural:packages/verify/test/prove-b.contract.test.mjs"
@@ -1414,7 +1414,7 @@
       "date": "2026-08-24",
       "status": "decided",
       "decision": "Scope change: WP-8b (the 6 operating-layer hooks) splits into WP-8b.1/8b.2/8b.3 (per-sub-WP goals in wp-table.json); session-scope-b.json swaps WP-8b for the three",
-      "why": "~25 files (6 runner/decide hooks + lib + 80+ hooks.test cases + 2 gates + push-admissible + CLI) is past one context (CONTROL §6, mirrors D-115)",
+      "why": "past one context (CONTROL §6, mirrors D-115)",
       "consequence": "prove-b requires all three",
       "enforcedBy": [
         "structural:packages/verify/test/prove-b.contract.test.mjs"
@@ -1442,6 +1442,18 @@
       "consequence": "g-hook-contract + hooks.test prove both decides and the exit contract",
       "enforcedBy": [
         "g-hook-contract"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-121",
+      "date": "2026-08-24",
+      "status": "decided",
+      "decision": "WP-8b.3: push admission is one program (packages/verify/src/bin/push-admissible.mjs, imports coverage.mjs) evaluating P0–P9; pushAdmissible(verdict,{allowPartial,present}) is the single T1–T3 rule (T1 pass; T2 pass or absent-component partial; T3 pass or --allow-partial backend/metadata partial). gate-push detects a push (incl. raw curl to UpdateMarkup) and maps its exit; gate-dispatch enforces judge isolation + paths-not-contents on Task; session-start prints six lines, never blocks; `sfs run lock/release/new` manages locks",
+      "why": "admission rules in a hook are untestable and drift; a blocked SessionStart makes the repo unopenable",
+      "consequence": "push-admissible.test proves P0–P9, g-hook-liveness proves hooks.jsonl covers events, hooks.test the three decides",
+      "enforcedBy": [
+        "g-hook-liveness"
       ],
       "confirmation": "n/a"
     }

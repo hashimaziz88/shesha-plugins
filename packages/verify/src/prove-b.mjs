@@ -163,6 +163,42 @@ async function runValidateCli(/** @type {string} */ root) {
     : { ok: false, lines: [`FAIL okExit=${okExit} badExit=${badExit} denyLock=${denyLock.code} blockDead=${blockDead.code}`] };
 }
 
+/** WP-8b.3: push admission (P0–P9), gate-push/gate-dispatch mapping, session-start (§4.3.5/4.3.7). */
+async function runOperatingLayer(/** @type {string} */ root) {
+  const os = await import('node:os');
+  const { pushAdmissible } = /** @type {any} */ (await import(pathToFileURL(path.join(root, 'packages/registry/src/coverage.mjs')).href));
+  const { admit } = /** @type {any} */ (await import(pathToFileURL(path.join(root, 'packages/verify/src/bin/push-admissible.mjs')).href));
+  const { decide: pushD } = /** @type {any} */ (await import(pathToFileURL(path.join(root, '.claude/hooks/gate-push.decide.mjs')).href));
+  const { decide: dispD } = /** @type {any} */ (await import(pathToFileURL(path.join(root, '.claude/hooks/gate-dispatch.decide.mjs')).href));
+  const { decide: ssD } = /** @type {any} */ (await import(pathToFileURL(path.join(root, '.claude/hooks/session-start.decide.mjs')).href));
+
+  // pushAdmissible: green admits; a T3 partial admits only with --allow-partial + a backend outage.
+  const green = { tiers: { T1: { result: 'pass' }, T2: { result: 'pass' }, T3: { result: 'pass' } } };
+  const t3partial = { tiers: { T1: { result: 'pass' }, T2: { result: 'pass' }, T3: { result: 'partial', detail: { uninspectable: [{ reason: 'backend unavailable' }] } } } };
+  const a1 = pushAdmissible(green, { present: new Set() }).ok === true;
+  const a2 = pushAdmissible(t3partial, {}).ok === false;
+  const a3 = pushAdmissible(t3partial, { allowPartial: true }).ok === true;
+  // admit: a run with no artifact refuses P1; determinability refuses P0.
+  const b1 = admit({ root: os.tmpdir(), runId: '20260824-1000-none', screen: 'items', now: 0 }).code === 'HOOK-0302';
+  const b2 = admit({ root, runId: undefined, screen: undefined, now: 0 }).code === 'HOOK-0301';
+  // gate-push: a push maps push-admissible's refusal; a non-push never spawns.
+  const push = pushD({ tool_name: 'Bash', tool_input: { command: 'npm run sfs -- push --run 20260824-1000-r --screen items' } }, { root, fs, spawnNode: () => ({ status: 1, stdout: JSON.stringify({ admissible: false, code: 'HOOK-0307', reason: 'x' }) }) });
+  const p1 = push.decision === 'deny' && push.code === 'HOOK-0307';
+  const p2 = pushD({ tool_name: 'Bash', tool_input: { command: 'npm run lint' } }, { root, fs, spawnNode: () => ({ status: 0 }) }).decision === 'allow';
+  // gate-dispatch: judge isolation refuses a logs/ path to an evaluator.
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'proveb-disp-'));
+  fs.mkdirSync(path.join(tmp, 'dispatch'), { recursive: true });
+  fs.writeFileSync(path.join(tmp, 'dispatch', 'e.json'), JSON.stringify({ dispatchVersion: '1.0', role: 'sfs-evaluator', runId: '20260824-1000-r', screen: 'items', round: 1, paths: ['runs/20260824-1000-r/logs/x.md'] }));
+  const d1 = dispD({ tool_name: 'Task', tool_input: { subagent_type: 'sfs-evaluator', prompt: 'judge dispatch/e.json' } }, { root: tmp, fs, spawnNode: () => ({ status: 0 }) }).code === 'HOOK-0503';
+  // session-start: exactly six lines, never a block.
+  const s1 = ssD({ source: 'startup' }, { root, fs, spawnNode: () => ({ status: 0 }), nodeVersion: 'v22' }).lines.length === 6;
+
+  const ok = a1 && a2 && a3 && b1 && b2 && p1 && p2 && d1 && s1;
+  return ok
+    ? { ok: true, lines: ['push admission is one program (P0–P9): T1–T3 pushAdmissible admits green and a --allow-partial backend outage, refuses otherwise; admit refuses a missing artifact (HOOK-0302) and an undeterminable push (HOOK-0301); gate-push maps the refusal, gate-dispatch enforces judge isolation (HOOK-0503), session-start prints six lines and never blocks (WP-8b.3, D-121)'] }
+    : { ok: false, lines: [`FAIL a=${a1}${a2}${a3} b=${b1}${b2} push=${p1}${p2} dispatch=${d1} session=${s1}`] };
+}
+
 /** WP-1c: noUncheckedIndexedAccess is on tree-wide, so every indexed access is checked (BL-010). */
 async function runStrictIndex(/** @type {string} */ root) {
   const ts = JSON.parse(fs.readFileSync(path.join(root, 'tsconfig.json'), 'utf8'));
@@ -336,6 +372,7 @@ const STEPS = [
   { id: 'schemas', label: 'handoff schemas', needs: 'WP-8a', impl: runSchemas },
   { id: 'hooks', label: 'hook contract', needs: 'WP-8b.1', impl: runHooks },
   { id: 'validate-cli', label: 'sfs validate CLI', needs: 'WP-8b.2', impl: runValidateCli },
+  { id: 'operating-layer', label: 'push admission', needs: 'WP-8b.3', impl: runOperatingLayer },
   { id: 'strict-index', label: 'strict index', needs: 'WP-1c', impl: runStrictIndex },
   { id: 'prose-thin', label: 'prose thin', needs: 'WP-7', impl: runProseThin },
   { id: 'sidecar', label: 'placement sidecar', needs: 'WP-3b.1', impl: runSidecar },

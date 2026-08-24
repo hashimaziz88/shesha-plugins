@@ -1,0 +1,24 @@
+{
+  "manifestVersion": "1.0",
+  "runId": "20260824-1000-fixture",
+  "phase": "verify",
+  "toolchain": {
+    "compilerVersion": "1.0.0",
+    "schemaVersion": "1.0",
+    "registryRef": "0.45.1",
+    "registrySha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "nodeVersion": "v22.23.2",
+    "chromium": "absent",
+    "backend": "none",
+    "judge": "untested"
+  },
+  "screens": {
+    "items": { "state": "verified", "round": 1 }
+  },
+  "events": [
+    { "at": "2026-08-24T10:00:00Z", "kind": "init", "detail": "run created" },
+    { "at": "2026-08-24T10:01:00Z", "kind": "lock", "detail": "specwriter locked items", "screen": "items" },
+    { "at": "2026-08-24T10:02:00Z", "kind": "compile", "detail": "items compiled", "screen": "items" },
+    { "at": "2026-08-24T10:03:00Z", "kind": "verify", "detail": "items verified", "screen": "items" }
+  ]
+}
