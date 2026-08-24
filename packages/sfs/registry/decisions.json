@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 119,
+  "count": 120,
   "decisions": [
     {
       "id": "D-001",
@@ -1428,6 +1428,18 @@
       "decision": "WP-8b.1: Claude Code hooks return only exit 0 (decision on stdout) or 2 (stdout unwritable); exit(1) is banned (a non-2 non-zero exit is a silent non-block); decide(payload,ctx) is pure over an injected ctx so hooks.test runs it in-process (runner/decide split); block-form-writes is the fast first line of INV 1 (D-003), enforced of last resort by g-markup-provenance (WP-8c)",
       "why": "a hook that fails silently protects nothing (§4.3.1 rule 5)",
       "consequence": "g-hook-contract bans exit(1), checks every wired hook exists and every decide has a runner",
+      "enforcedBy": [
+        "g-hook-contract"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-120",
+      "date": "2026-08-24",
+      "status": "decided",
+      "decision": "WP-8b.2: `sfs validate --schema N --file P [--json]` checks JSON against packages/sfs/schema/*.schema.json (exit 0/1/2, writes nothing); enforce-screen-lock (PreToolUse) is the fan-out mutex + contract precondition (one sfs-specwriter lock/screen, a signed 3+-predicate contract before code, a 3-round cap); validate-sfs-on-write (PostToolUse) spawns it, renames rejects to *.rejected, blocks HOOK-0002 if it cannot start",
+      "why": "a second author per screen or unvalidated input revives the two-author/SFS-1002 defects",
+      "consequence": "g-hook-contract + hooks.test prove both decides and the exit contract",
       "enforcedBy": [
         "g-hook-contract"
       ],

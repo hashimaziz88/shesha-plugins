@@ -12,6 +12,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const HOOKS = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..', '.claude', 'hooks');
 const { matchGlob } = await import(pathToFileURL(path.join(HOOKS, 'lib.mjs')).href);
 const { decide } = await import(pathToFileURL(path.join(HOOKS, 'block-form-writes.decide.mjs')).href);
+const { decide: lockDecide } = await import(pathToFileURL(path.join(HOOKS, 'enforce-screen-lock.decide.mjs')).href);
+const { decide: validateDecide } = await import(pathToFileURL(path.join(HOOKS, 'validate-sfs-on-write.decide.mjs')).href);
 
 const RUNID = '20260824-1000-r';
 
@@ -112,6 +114,113 @@ test('o: repo root not found -> deny HOOK-0001', () => {
 test('p: Edit a source file with replace_all -> allow', () => {
   const d = decide(p('Edit', { file_path: 'packages/sfs/src/index.mjs', replace_all: true }), ctx(mkRoot()));
   assert.equal(d.decision, 'allow');
+});
+
+// ---- WP-8b.2 §4.3.6: enforce-screen-lock decide, >=6 cases --------------------
+const THIRTY_MIN = 30 * 60 * 1000;
+/** @param {string} root @param {string} rel @param {any} body */
+function put(root, rel, body) {
+  const full = path.join(root, rel);
+  fs.mkdirSync(path.dirname(full), { recursive: true });
+  fs.writeFileSync(full, typeof body === 'string' ? body : JSON.stringify(body));
+  return full;
+}
+/** @param {string} root @param {string} screen @param {string} role */
+function lock(root, screen, role) {
+  return put(root, `runs/${RUNID}/locks/${screen}.lock`, { lockVersion: '1.0', screen, role, runId: RUNID, at: '2026-08-24T10:00:00Z', pid: 1 });
+}
+const signedContract = { signedOffAt: '2026-08-24T10:00:00Z', predicates: ['a', 'b', 'c'] };
+
+test('lock a: Write a non-run source file -> allow L0', () => {
+  const d = lockDecide(p('Write', { file_path: 'packages/sfs/src/index.mjs' }), { root: mkRoot(), fs });
+  assert.equal(d.decision, 'allow'); assert.equal(d.rule, 'L0');
+});
+test('lock b: Write plan.json without a planner lock -> deny HOOK-0401', () => {
+  const d = lockDecide(p('Write', { file_path: `runs/${RUNID}/plan.json` }), { root: mkRoot(), fs });
+  assert.equal(d.code, 'HOOK-0401'); assert.equal(d.decision, 'deny');
+});
+test('lock c: Write plan.json with a planner lock -> allow', () => {
+  const root = mkRoot(); lock(root, '__plan__', 'planner');
+  const d = lockDecide(p('Write', { file_path: `runs/${RUNID}/plan.json` }), { root, fs });
+  assert.equal(d.decision, 'allow');
+});
+test('lock d: Write a screen with no lock -> deny HOOK-0402', () => {
+  const d = lockDecide(p('Write', { file_path: `runs/${RUNID}/screens/x.sfs.json` }), { root: mkRoot(), fs });
+  assert.equal(d.code, 'HOOK-0402');
+});
+test('lock e: Write a screen held by another author (fresh) -> deny HOOK-0403', () => {
+  const root = mkRoot(); lock(root, 'y', 'sfs-specwriter');
+  const d = lockDecide(p('Write', { file_path: `runs/${RUNID}/screens/x.sfs.json` }), { root, fs });
+  assert.equal(d.code, 'HOOK-0403');
+});
+test('lock f: Write a screen held by another author (stale) -> deny HOOK-0404', () => {
+  const root = mkRoot(); lock(root, 'y', 'sfs-specwriter');
+  const d = lockDecide(p('Write', { file_path: `runs/${RUNID}/screens/x.sfs.json` }), { root, fs, now: Date.now() + THIRTY_MIN + 60000 });
+  assert.equal(d.code, 'HOOK-0404');
+});
+test('lock g: own lock but no signed contract -> deny HOOK-0405', () => {
+  const root = mkRoot(); lock(root, 'x', 'sfs-specwriter');
+  put(root, `runs/${RUNID}/plan.json`, { screens: [{ name: 'x' }] });
+  const d = lockDecide(p('Write', { file_path: `runs/${RUNID}/screens/x.sfs.json` }), { root, fs });
+  assert.equal(d.code, 'HOOK-0405');
+});
+test('lock h: own lock + signed contract + round<3 -> allow L7', () => {
+  const root = mkRoot(); lock(root, 'x', 'sfs-specwriter');
+  put(root, `runs/${RUNID}/plan.json`, { screens: [{ name: 'x', contract: signedContract }] });
+  const d = lockDecide(p('Write', { file_path: `runs/${RUNID}/screens/x.sfs.json` }), { root, fs });
+  assert.equal(d.decision, 'allow'); assert.equal(d.rule, 'L7');
+});
+test('lock i: own lock + contract + round>=3 + file exists -> deny HOOK-0406', () => {
+  const root = mkRoot(); lock(root, 'x', 'sfs-specwriter');
+  put(root, `runs/${RUNID}/plan.json`, { screens: [{ name: 'x', contract: signedContract }] });
+  put(root, `runs/${RUNID}/manifest.json`, { screens: { x: { round: 3 } } });
+  put(root, `runs/${RUNID}/screens/x.sfs.json`, { form: 'f', module: 'm' });
+  const d = lockDecide(p('Write', { file_path: `runs/${RUNID}/screens/x.sfs.json` }), { root, fs });
+  assert.equal(d.code, 'HOOK-0406');
+});
+
+// ---- WP-8b.2 §4.3.4: validate-sfs-on-write decide, >=6 cases ------------------
+const spawnOk = () => ({ status: 0, stdout: '' });
+/** @param {string[]} diags */
+const spawnBad = (diags) => () => ({ status: 1, stdout: JSON.stringify({ ok: false, diagnostics: diags }) });
+const spawnDead = () => ({ status: null });
+
+test('val a: a non-schema file (.md) -> allow V0, no spawn', () => {
+  let called = false;
+  const d = validateDecide(p('Write', { file_path: `runs/${RUNID}/logs/x.md` }), { root: mkRoot(), fs, spawnNode: () => { called = true; return spawnOk(); } });
+  assert.equal(d.rule, 'V0'); assert.equal(d.decision, 'allow'); assert.equal(called, false);
+});
+test('val b: a non-handoff .json -> allow V0', () => {
+  const d = validateDecide(p('Write', { file_path: 'packages/registry/data/components.json' }), { root: mkRoot(), fs, spawnNode: spawnOk });
+  assert.equal(d.rule, 'V0');
+});
+test('val c: validator binary unavailable -> block HOOK-0002, no rename', () => {
+  const root = mkRoot(); const full = put(root, `runs/${RUNID}/screens/x.sfs.json`, { form: 'f', module: 'm' });
+  const d = validateDecide(p('Write', { file_path: `runs/${RUNID}/screens/x.sfs.json` }), { root, fs, spawnNode: spawnDead });
+  assert.equal(d.code, 'HOOK-0002'); assert.ok(fs.existsSync(full)); assert.ok(!fs.existsSync(`${full}.rejected`));
+});
+test('val d: a valid sfs with no plan -> allow V2', () => {
+  const root = mkRoot(); put(root, `runs/${RUNID}/screens/x.sfs.json`, { form: 'f', module: 'm' });
+  const d = validateDecide(p('Write', { file_path: `runs/${RUNID}/screens/x.sfs.json` }), { root, fs, spawnNode: spawnOk });
+  assert.equal(d.rule, 'V2'); assert.equal(d.decision, 'allow');
+});
+test('val e: an invalid sfs -> block HOOK-0201, diagnostics verbatim, renamed', () => {
+  const root = mkRoot(); const full = put(root, `runs/${RUNID}/screens/x.sfs.json`, { bad: true });
+  const d = validateDecide(p('Write', { file_path: `runs/${RUNID}/screens/x.sfs.json` }), { root, fs, spawnNode: spawnBad(['/ must NOT have additional properties (SFS-1002)']) });
+  assert.equal(d.code, 'HOOK-0201'); assert.match(d.reason, /SFS-1002/);
+  assert.ok(!fs.existsSync(full)); assert.ok(fs.existsSync(`${full}.rejected`));
+});
+test('val f: valid sfs whose form/module disagree with plan -> block HOOK-0203, renamed', () => {
+  const root = mkRoot(); const full = put(root, `runs/${RUNID}/screens/x.sfs.json`, { form: 'B', module: 'M' });
+  put(root, `runs/${RUNID}/plan.json`, { screens: [{ name: 'x', formName: 'A', module: 'M' }] });
+  const d = validateDecide(p('Write', { file_path: `runs/${RUNID}/screens/x.sfs.json` }), { root, fs, spawnNode: spawnOk });
+  assert.equal(d.code, 'HOOK-0203'); assert.ok(fs.existsSync(`${full}.rejected`));
+});
+test('val g: valid sfs whose form/module agree with plan -> allow V2', () => {
+  const root = mkRoot(); put(root, `runs/${RUNID}/screens/x.sfs.json`, { form: 'A', module: 'M' });
+  put(root, `runs/${RUNID}/plan.json`, { screens: [{ name: 'x', formName: 'A', module: 'M' }] });
+  const d = validateDecide(p('Write', { file_path: `runs/${RUNID}/screens/x.sfs.json` }), { root, fs, spawnNode: spawnOk });
+  assert.equal(d.rule, 'V2'); assert.equal(d.decision, 'allow');
 });
 
 // ---- row 5: the p95 <= 5ms budget over 500 non-matching decide calls ----------

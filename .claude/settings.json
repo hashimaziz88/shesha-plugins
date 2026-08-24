@@ -5,6 +5,16 @@
       {
         "matcher": "Write|Edit|NotebookEdit|Read|Bash",
         "hooks": [{ "type": "command", "command": "node .claude/hooks/block-form-writes.mjs", "timeout": 15 }]
+      },
+      {
+        "matcher": "Write|Edit|NotebookEdit",
+        "hooks": [{ "type": "command", "command": "node .claude/hooks/enforce-screen-lock.mjs", "timeout": 15 }]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|NotebookEdit",
+        "hooks": [{ "type": "command", "command": "node .claude/hooks/validate-sfs-on-write.mjs", "timeout": 40 }]
       }
     ]
   }

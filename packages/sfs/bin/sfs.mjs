@@ -11,9 +11,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
+import ajv2020 from 'ajv/dist/2020.js';
+import addFormatsMod from 'ajv-formats';
 import { SFS_LANGUAGE_VERSION } from '../src/index.mjs';
 import { compile } from '../src/compile/index.mjs';
 import { roundtrip } from '../src/roundtrip.mjs';
+
+// ajv/dist/2020.js and ajv-formats are CJS; Node unwraps default to the callable.
+const Ajv2020 = /** @type {any} */ (/** @type {any} */ (ajv2020).default ?? ajv2020);
+const addFormats = /** @type {any} */ (/** @type {any} */ (addFormatsMod).default ?? addFormatsMod);
 
 const EXIT = { pass: 0, fail: 1, usage: 2, partial: 3 };
 
@@ -22,9 +28,56 @@ const VERBS = {
   compile: null,
   decompile: 'WP-6',
   roundtrip: null,
+  validate: null,
   normalise: 'WP-1',
   push: 'WP-6',
 };
+
+/** @param {string[]} args @param {string} flag @returns {string|undefined} */
+function argValue(args, flag) {
+  const i = args.indexOf(flag);
+  return i >= 0 ? args[i + 1] : undefined;
+}
+
+/**
+ * `sfs validate --schema <name> --file <path> [--json]` — validate a JSON file against
+ * one of the packages/sfs/schema/*.schema.json handoff schemas (§4.10 pt1). Writes
+ * nothing. Exit 0 valid · 1 invalid · 2 usage. `--json` prints {ok, diagnostics}.
+ * The hooks (validate-sfs-on-write) spawn this; the diagnostics are surfaced verbatim.
+ * @param {string[]} args @returns {number}
+ */
+function runValidate(args) {
+  const schemaName = argValue(args, '--schema');
+  const file = argValue(args, '--file');
+  const asJson = args.includes('--json');
+  if (!schemaName || !file || !/^[a-z][a-z0-9-]*$/.test(schemaName)) {
+    console.error('sfs validate: --schema <name> --file <path> required');
+    return EXIT.usage;
+  }
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
+  const schemaPath = path.join(root, `packages/sfs/schema/${schemaName}.schema.json`);
+  let schema;
+  try { schema = JSON.parse(fs.readFileSync(schemaPath, 'utf8').replace(/^﻿/, '')); } catch {
+    console.error(`sfs validate: unknown schema "${schemaName}" (${schemaPath} not found)`);
+    return EXIT.usage;
+  }
+  /** @param {{ok:boolean, diagnostics:string[]}} out @param {number} code */
+  const done = (out, code) => {
+    if (asJson) console.log(JSON.stringify(out));
+    else if (!out.ok) console.error(out.diagnostics.join('\n'));
+    return code;
+  };
+  let data;
+  try { data = JSON.parse(fs.readFileSync(path.resolve(file), 'utf8').replace(/^﻿/, '')); } catch (e) {
+    return done({ ok: false, diagnostics: [`cannot read or parse ${file}: ${(/** @type {Error} */ (e)).message}`] }, EXIT.fail);
+  }
+  const ajv = new Ajv2020({ allErrors: true, strict: false });
+  addFormats(ajv);
+  const validate = ajv.compile(schema);
+  const ok = !!validate(data);
+  const diagnostics = ok ? [] : (validate.errors || []).map((/** @type {any} */ e) => `${e.instancePath || '/'} ${e.message}`.trim());
+  return done({ ok, diagnostics }, ok ? EXIT.pass : EXIT.fail);
+}
 
 /**
  * `sfs roundtrip --scope <scope.json>` — decompile the declared corpus subset and
@@ -157,6 +210,7 @@ export function main(argv) {
   }
   if (verb === 'compile') return runCompile(args);
   if (verb === 'roundtrip') return runRoundtrip(args);
+  if (verb === 'validate') return runValidate(args);
 
   const wp = VERBS[/** @type {keyof typeof VERBS} */ (verb)];
   console.error(`sfs ${verb}: not implemented in this build — ${wp} ships it.`);

@@ -131,6 +131,38 @@ async function runHooks(/** @type {string} */ root) {
     : { ok: false, lines: [`FAIL deny=${deny.code} allow=${allow.decision} rootless=${rootless.code}`] };
 }
 
+/** WP-8b.2: `sfs validate` gates handoff JSON, and the two write-path hooks decide correctly (§4.3.4/4.3.6). */
+async function runValidateCli(/** @type {string} */ root) {
+  const os = await import('node:os');
+  const sfs = /** @type {any} */ (await import(pathToFileURL(path.join(root, 'packages/sfs/bin/sfs.mjs')).href));
+  const lockDecide = /** @type {any} */ ((await import(pathToFileURL(path.join(root, '.claude/hooks/enforce-screen-lock.decide.mjs')).href)).decide);
+  const valDecide = /** @type {any} */ ((await import(pathToFileURL(path.join(root, '.claude/hooks/validate-sfs-on-write.decide.mjs')).href)).decide);
+
+  // sfs validate: a valid lock passes (exit 0); a lock missing the required `role` fails (exit 1).
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'proveb-val-'));
+  const good = path.join(tmp, 'good.json');
+  const bad = path.join(tmp, 'bad.json');
+  fs.writeFileSync(good, JSON.stringify({ lockVersion: '1.0', screen: 'x', role: 'sfs-specwriter', runId: '20260824-1000-r', at: '2026-08-24T10:00:00Z', pid: 1 }));
+  fs.writeFileSync(bad, JSON.stringify({ lockVersion: '1.0', screen: 'x', runId: '20260824-1000-r', at: '2026-08-24T10:00:00Z', pid: 1 }));
+  const log = console.log; const err = console.error;
+  console.log = () => {}; console.error = () => {};
+  let okExit; let badExit;
+  try {
+    okExit = sfs.main(['node', 'sfs', 'validate', '--schema', 'lock', '--file', good, '--json']);
+    badExit = sfs.main(['node', 'sfs', 'validate', '--schema', 'lock', '--file', bad, '--json']);
+  } finally { console.log = log; console.error = err; }
+
+  // enforce-screen-lock: a screen write with no lock is denied HOOK-0402 (fan-out mutex).
+  const denyLock = lockDecide({ tool_name: 'Write', tool_input: { file_path: 'runs/20260824-1000-r/screens/x.sfs.json' } }, { root, fs });
+  // validate-sfs-on-write: a validator that will not start blocks HOOK-0002, never a silent pass.
+  const blockDead = valDecide({ tool_name: 'Write', tool_input: { file_path: 'runs/20260824-1000-r/screens/x.sfs.json' } }, { root, fs, spawnNode: () => ({ status: null }) });
+
+  const ok = okExit === 0 && badExit === 1 && denyLock.code === 'HOOK-0402' && blockDead.code === 'HOOK-0002';
+  return ok
+    ? { ok: true, lines: ['sfs validate exits 0 on a schema-valid lock and 1 on one missing `role`; enforce-screen-lock denies a lockless screen write (HOOK-0402), validate-sfs-on-write blocks when the validator cannot start (HOOK-0002) (WP-8b.2, D-120)'] }
+    : { ok: false, lines: [`FAIL okExit=${okExit} badExit=${badExit} denyLock=${denyLock.code} blockDead=${blockDead.code}`] };
+}
+
 /** WP-1c: noUncheckedIndexedAccess is on tree-wide, so every indexed access is checked (BL-010). */
 async function runStrictIndex(/** @type {string} */ root) {
   const ts = JSON.parse(fs.readFileSync(path.join(root, 'tsconfig.json'), 'utf8'));
@@ -303,6 +335,7 @@ const STEPS = [
   { id: 'registry', label: 'full registry', needs: 'WP-2b', impl: runRegistry },
   { id: 'schemas', label: 'handoff schemas', needs: 'WP-8a', impl: runSchemas },
   { id: 'hooks', label: 'hook contract', needs: 'WP-8b.1', impl: runHooks },
+  { id: 'validate-cli', label: 'sfs validate CLI', needs: 'WP-8b.2', impl: runValidateCli },
   { id: 'strict-index', label: 'strict index', needs: 'WP-1c', impl: runStrictIndex },
   { id: 'prose-thin', label: 'prose thin', needs: 'WP-7', impl: runProseThin },
   { id: 'sidecar', label: 'placement sidecar', needs: 'WP-3b.1', impl: runSidecar },
