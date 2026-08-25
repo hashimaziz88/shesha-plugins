@@ -44,6 +44,21 @@
  *   R11  Extends R2: plain-string `{{data.<prop>}}` is also blocked in
  *        `refListStatus.propertyName`, `button.actionArguments.target`, and any
  *        plain-string `link.href`.
+ *   R12  datalist wiring: `formSelectionMode === "name"` AND `formId` is
+ *        `{ name, module }` — the canonical row-template pattern. Missing either
+ *        renders the list empty.
+ *   R13  Grid + space-between: any `container` with `desktop.display === "grid"`
+ *        MUST NOT use `justifyContent: "space-between"`. Grids distribute via
+ *        `gridColumnsCount`; space-between conflicts and breaks layout.
+ *   R14  Soft-shadow byte-exactness: any `container` with `desktop.shadow.blurRadius > 0`
+ *        MUST use the canonical soft shadow — `{offsetX:0, offsetY:2, blurRadius:8,
+ *        spreadRadius:2, color:"rgba(0,0,0,0.05)"}`. Solid `#000000` shadows produce
+ *        the "too dark" render observed on the organisations form.
+ *   R15  pageShell canon: any `container` with `desktop.background.color === "#fafafa"`
+ *        (the grey outer page shell) MUST carry `stylingBox` padding "20" on all four
+ *        sides. Missing padding produces the "content-glued-to-edge" render.
+ *   R16  (informational, WARN) any container using the deprecated field `columns` at
+ *        top level — the canonical seeds never do; use flex/grid containers instead.
  *
  * Add rules here as new defect patterns are observed. Every rule number maps to a
  * documented rule in references/canonical-seeds.md / binding-rules.md / functional-
@@ -303,6 +318,75 @@ function main() {
           errors.push({ rule: 'R11', where: `datatable(${n.componentName || '?'}) col "${col.caption || col.propertyName || '?'}"`, msg: `column actionArguments.target contains {{data.…}}` });
         }
       }
+    }
+  });
+
+  // ---------- R12 : datalist wiring (formSelectionMode: "name" + formId object) ----------
+  // The canonical datalist row-template pattern. Missing either renders the list empty.
+  walk(markup.components, (n) => {
+    if (n.type !== 'datalist') return;
+    const cn = n.componentName || '?';
+    if (n.formSelectionMode !== 'name') {
+      errors.push({ rule: 'R12', where: `datalist(${cn})`, msg: `formSelectionMode is ${JSON.stringify(n.formSelectionMode)} — must be "name" for the canonical row-template pattern` });
+    }
+    const fid = n.formId || n.formIdentifier;
+    if (!fid || typeof fid !== 'object' || !fid.name || !fid.module) {
+      errors.push({ rule: 'R12', where: `datalist(${cn})`, msg: `formId must be { name, module } — got ${JSON.stringify(fid)}` });
+    }
+  });
+
+  // ---------- R13 : Grid + space-between ----------
+  // Grid containers distribute via gridColumnsCount; justifyContent:"space-between" conflicts.
+  walk(markup.components, (n) => {
+    if (n.type !== 'container') return;
+    const dsk = n.desktop || {};
+    if (dsk.display === 'grid' && dsk.justifyContent === 'space-between') {
+      errors.push({ rule: 'R13', where: `container(${n.componentName || '?'})`, msg: `desktop.display:"grid" with justifyContent:"space-between" — grids distribute automatically via gridColumnsCount; use "normal" (or omit).` });
+    }
+  });
+
+  // ---------- R14 : Soft-shadow byte-exactness ----------
+  // Any container with a non-zero shadow must use the canonical soft shadow, not solid #000000.
+  const CANONICAL_SHADOW = { offsetX: 0, offsetY: 2, blurRadius: 8, spreadRadius: 2, color: 'rgba(0,0,0,0.05)' };
+  walk(markup.components, (n) => {
+    if (n.type !== 'container') return;
+    const sh = (n.desktop || {}).shadow;
+    if (!sh || !sh.blurRadius || sh.blurRadius <= 0) return;
+    const problems = [];
+    if (sh.color !== CANONICAL_SHADOW.color) problems.push(`color=${JSON.stringify(sh.color)} (want "rgba(0,0,0,0.05)")`);
+    if (sh.offsetY !== CANONICAL_SHADOW.offsetY) problems.push(`offsetY=${sh.offsetY} (want 2)`);
+    if (sh.blurRadius !== CANONICAL_SHADOW.blurRadius) problems.push(`blurRadius=${sh.blurRadius} (want 8)`);
+    if (sh.spreadRadius !== CANONICAL_SHADOW.spreadRadius) problems.push(`spreadRadius=${sh.spreadRadius} (want 2)`);
+    if (problems.length) {
+      errors.push({ rule: 'R14', where: `container(${n.componentName || '?'})`, msg: `non-canonical shadow — ${problems.join(', ')}. The canonical soft shadow is {offsetX:0, offsetY:2, blurRadius:8, spreadRadius:2, color:"rgba(0,0,0,0.05)"}` });
+    }
+  });
+
+  // ---------- R15 : pageShell canonical padding ----------
+  // Any container with bg #fafafa (the grey outer shell) must have stylingBox padding "20" all sides.
+  walk(markup.components, (n) => {
+    if (n.type !== 'container') return;
+    const dsk = n.desktop || {};
+    const bg = (dsk.background || {}).color;
+    if (bg !== '#fafafa') return;
+    let sb;
+    try { sb = typeof dsk.stylingBox === 'string' ? JSON.parse(dsk.stylingBox || '{}') : (dsk.stylingBox || {}); }
+    catch (e) {
+      errors.push({ rule: 'R15', where: `container(${n.componentName || '?'})`, msg: `pageShell stylingBox is not valid JSON: ${dsk.stylingBox}` });
+      return;
+    }
+    const want = ['paddingTop','paddingRight','paddingBottom','paddingLeft'];
+    const missing = want.filter(k => sb[k] !== '20');
+    if (missing.length) {
+      errors.push({ rule: 'R15', where: `container(${n.componentName || '?'})`, msg: `pageShell (bg #fafafa) requires stylingBox padding "20" on all four sides — off/missing on: ${missing.join(', ')}. Current stylingBox: ${dsk.stylingBox}` });
+    }
+  });
+
+  // ---------- R16 : deprecated `columns` component ----------
+  // WARN only — the canonical seeds never use `columns`; flex/grid containers are the pattern.
+  walk(markup.components, (n) => {
+    if (n.type === 'columns') {
+      warnings.push({ rule: 'R16', where: `columns(${n.componentName || '?'})`, msg: `deprecated 'columns' component — canonical seeds use flex/grid containers instead. Refactor to a flex or grid container with children sized via desktop.dimensions.width.` });
     }
   });
 

@@ -1,12 +1,12 @@
 # Canonical seeds — the source of truth
 
-Four seeds. Copy verbatim, swap the entity bits, push. Do not hand-author these structures.
+Six seeds. Copy verbatim, swap the entity bits, push. Do not hand-author these structures.
 
 Every seed under `assets/examples/` was captured verbatim from a live, correctly-rendering form on Shesha 0.45.x. Component versions, style blocks, action wirings, tab identity, permanentFilter shape — all correct. When something in the render doesn't match the seed, it's the build that's wrong, not the seed.
 
 Full screenshots of every seed live at [`assets/screenshots/`](../assets/screenshots/). Compare your render to the screenshot before claiming a form is done.
 
-## The four seeds
+## The six seeds
 
 ### `sample-patient-table.json` — table archetype
 
@@ -144,6 +144,66 @@ The reusable row-template card: `[avatar-with-initials-text] [name-link | subtit
 
 Embed in a table's primary column by setting `datatable.items[<primary col>].displayComponent = { type: "subForm", settings: { formSelectionMode: "name", formName: "sample-patient-subform" (or your equivalent) } }`.
 
+### `sample-appointment-list` (PAIR) — list-of-cards archetype
+
+**Screenshots:** [list host](../assets/screenshots/sample-appointment-list.png) · [row template](../assets/screenshots/sample-appointment-list-subform.png)
+
+Two files, always both. The HOST (`sample-appointment-list.json`) is the page with page-header + toolbar + `datalist`. The ROW TEMPLATE (`sample-appointment-list-subform.json`) is the small standalone form that renders once per row inside the datalist.
+
+- **Page structure IS the 3-layer sandwich from `sample-patient-table`** — `dataContext → pageShell(grey) → headerCard(white/shadow) + tableSurface(white/shadow)`. Same wrapper set, same paddings, same shadow. The only difference is what sits inside `tableSurface`:
+
+  ```
+  tableSurface  (white, shadow, marginTop 15, paddingBottom 15)
+  ├─ toolbarRow      (transparent, padding 15) — quickSearch + filter + column-selector
+  ├─ datalist        (v=11)                   — renders row-template N times
+  └─ datalist.pager  (…on the same datalist component)
+  ```
+
+- **`datalist` (v=11) is the host component**, NOT `datatable`. Its `items` are NOT columns — a datalist references an external form to use as the row template:
+
+  ```jsonc
+  {
+    "type": "datalist", "version": 11,
+    "componentName": "appointments",
+    "propertyName": "appointments",
+    "formSelectionMode": "name",                       // REQUIRED — literally "name"
+    "formId": { "name": "sample-appointment-list-subform", "module": "Forms.Optimization" },  // OBJECT — both keys required
+    "orientation": "vertical",
+    "dataFetchingMode": "paging",
+    "defaultPageSize": 10,
+    "showPagination": true,
+    "canAddInline": "no",  "canEditInline": "no",  "canDeleteInline": "no"
+  }
+  ```
+  **The single most common defect on this archetype: forgetting the `formId.module` key** — the row template resolves against the wrong scope and renders blank. Validator `[R12]` blocks this.
+
+- **The row template (`sample-appointment-list-subform.json`) is a full self-contained form** with `modelType`, `dataLoaderType: "gql"`, and its own root container — the `rowCard`. NOT a headless partial; the datalist mounts it as a real Shesha form per row.
+
+- **Row-card outer container = the `rowCard` layout recipe** — `display: "grid"`, `gridColumnsCount: 2`, `justifyContent: "normal"`, `alignItems: "center"`, `stylingBox` padding 15 all sides, `marginBottom: "15"`, `shadow` = the canonical soft shadow, `radius.all: 4`. Full byte-exact block in [§ layout-canon → rowCard](#layout-canon).
+
+  ```
+  rowCard (grid, 2 cols, gap 30)
+  ├─ LEFT COLUMN — nested grid, 2 cols, gap 30
+  │   ├─ avatar   (75×75, radius 50, initials text or image)
+  │   └─ name-block (flex column)
+  │       ├─ entityReference(patient) → name link, ZERO padding, blue
+  │       ├─ refListStatus(appointmentType) — pill, height 24, radius 4
+  │       └─ text (reason · location) — subdued
+  └─ RIGHT CLUSTER — flex row, justifyContent "right", alignItems center, gap 30
+      ├─ date-status column (flex column, alignItems "end")
+      │   ├─ text "{{startDateTime}}" (date-time — plain mustache, NOT {{data.*}})
+      │   └─ refListStatus(status) — pill
+      └─ chevron button — Navigate to details form
+  ```
+
+- **NEVER use `justifyContent: "space-between"` on a grid container.** Grids distribute automatically via `gridColumnsCount`. Space-between on a grid produces silent visual gaps. Use `"normal"`. Space-between IS valid on `display: "flex"` — see [§ layout-canon → flex-spaceBetween-row](#layout-canon). Validator `[R13]` blocks the grid variant.
+
+- **The two pills** (appointmentType, status) both use `refListStatus` (v=6) wrapped in the settings-wrapper (see [§ settings-wrapper](#the-settings-wrapper-rule-for-custom-display-cells)) with height 24, radius 4 — same recipe as a status column cell in a datatable.
+
+- **The name link uses `entityReference` (v=11)**, NOT a plain `link` — `entityReference` binds directly to the FK, resolves the display value, and routes to the target details form via `formSelectionMode: "name"` + `formIdentifier: {name, module}`. See `sample-appointment-list-subform.json` for the exact block.
+
+- **`formSettings.dataLoaderType: "gql"` on the row template** — the row template is loaded once per row by the datalist against the entity's GQL endpoint, same as any other form.
+
 ---
 
 ## The `settings`-wrapper rule for custom display cells
@@ -173,7 +233,7 @@ Embed in a table's primary column by setting `datatable.items[<primary col>].dis
 
 Flat `{ type: "refListStatus" }` (no settings) crashes on current datatable (v=29) with `Cannot read properties of undefined (reading 'version')`. Same rule for `entityReference`, `dropdown`, `dateField` as a display component. Only `[default]` and `[not-editable]` are settings-free.
 
-## Card content = ONE grid container (or field-holding containers, if multiple)
+## Card content — ONE grid container
 
 Every `card` (v=3) in a details Overview tab or a create form section has this content pattern:
 
@@ -235,7 +295,7 @@ Every seed you copy from `assets/examples/sample-patient-*` gets this pass, in o
 3. **Every field `propertyName` / `componentName` / `name` / `label`** → real camelCase property (path from metadata, lowercased first char) + sentence-case label ("First name", not "First Name" or "FirstName").
 4. **Every datatable column** — the `items[]` list → your entity's real columns (matching camelCase). Preserve the wrapped-`settings` shape on any status / entity-reference / date columns.
 5. **Every `formId` reference** in action arguments → your family's form names (`sample-patient-create` → `<yourentity>-create`, `sample-patient-details` → `<yourentity>-details`).
-6. **Every `actionOwner: "<datatable-id>"`** — after regenerating IDs, remap so Export/Refresh/Column-Selector actions point at the actual `datatable` component's new `id`.
+6. **Every `actionOwner: "<datatable-id>"`** (or `"<datalist-id>"` for the list-of-cards archetype) — after regenerating IDs, remap so Export/Refresh/Column-Selector actions point at the actual `datatable` / `datalist` component's new `id`.
 7. **The child-tab `permanentFilter`s** — `<parentFkProp>` → your child entity's FK property name (e.g. `patient` → `partOf` for NotificationMessage under Notification).
 8. **The hero avatar/meta code expressions** — `data.firstName`/`data.lastName`/`data.patientCode`/etc. → your entity's equivalent fields. Keep the `moment().diff` age pattern where applicable.
 9. **The subform's `href` code expression** — `sample-patient-details` → your details form name; `Forms.Optimization` → your module (if different).
@@ -246,5 +306,182 @@ Every seed you copy from `assets/examples/sample-patient-*` gets this pass, in o
 14. **Text mustache**: any plain-string `text.content`, `link.href` (plain-string), `refListStatus.propertyName`, `button.actionArguments.target` that binds an entity property uses `{{propertyName}}` — never `{{data.propertyName}}`. Code-mode is the only place `data.` is valid.
 15. **Card content = grid container(s)**: for every `card` in the details / create form, `card.content.components` contains at least one `container(v=7, desktop.display: "grid", gridColumnsCount: 2 or 3,"justifyContent": "normal",)` holding fields as direct children.
 16. **Every `buttonGroup` has `isInline: true`**. Otherwise buttons collapse into a "..." dropdown menu.
+17. **Every layout container matches its canonical recipe byte-exact** — pick the role from [§ layout-canon](#layout-canon), paste the block, adjust only `id`, `parentId`, `componentName`. NEVER `justifyContent: "space-between"` on `display: "grid"`. Every white-surface `shadow` is the canonical soft shadow (`offsetY:2, blurRadius:8, spreadRadius:2, color:"rgba(0,0,0,0.05)"`). Every `pageShell` has padding-20 on all four sides.
+18. **List-of-cards archetype = TWO forms.** The host uses `datalist` (v=11) with `formSelectionMode: "name"` + `formId: {name, module}` — never inlines the row template. The row template is a full standalone form whose root container is the `rowCard`. Push both; the datalist resolves the template by name at render time.
+17. **Every reference-list field** (dropdown / `refListStatus` / radio) → `dataSourceType: "referenceList"` + `referenceListId: { module, name }` copied **verbatim from `Metadata/GetProperties`** (`referenceListModule` / `referenceListName`). **Never call a `ReferenceList/*` endpoint to fetch or verify items, and never loop on one** — the frontend loads them at render. Framework lists keep their seed binding as-is: Gender is `{ "module": "Shesha", "name": "Shesha.Core.Gender" }` (module `Shesha`, dotted name — **not** `{ module: "Shesha.Core", name: "Gender" }`). See [binding-rules.md § Reference-list fields](binding-rules.md#reference-list-fields-bind-from-metadata-never-fetch).
 
 Full failure modes per rule → the validator's exit output when it flags them.
+
+---
+
+## Layout canon
+
+Every layout `container` in every seed matches ONE of the recipes below. When authoring a new form, DON'T invent a new container shape — pick the recipe that matches its role and paste the byte-exact block verbatim, then adjust only the `id`, `parentId`, `componentName`, and (where noted) padding.
+
+| Role | Recipe | Where it appears |
+|---|---|---|
+| `pageShell` | grey outer wrapper, padding 20 all sides | root of every page (`table`, `create`, `details`, `list`) |
+| `whiteCard.headerCard` | white, soft shadow, padding 15, radius 4 | wraps the page-header row |
+| `whiteCard.tableSurface` | white, soft shadow, padding-bottom 15, marginTop 15 | wraps `toolbar + datatable + pager` (or `toolbar + datalist + pager`) |
+| `whiteCard.detailsHero` | white, soft shadow, padding 20, radius 4 | wraps the details hero row |
+| `rowCard` | grid-2, soft shadow, padding 15, marginBottom 15 | outer of a datalist row template |
+| `cardContentGrid` | grid-2 or grid-3, `justifyContent: "normal"` | inside every card's `content.components` slot, holding fields |
+| `flex-spaceBetween-row` | flex row, `justifyContent: "space-between"`, alignItems center | page-header row, toolbar row, hero-actions row |
+
+**Canonical soft shadow** — used byte-exact on every white surface (`whiteCard.*`, `rowCard`). Validator `[R14]` blocks any deviation.
+
+```jsonc
+"shadow": { "offsetX": 0, "offsetY": 2, "blurRadius": 8, "spreadRadius": 2, "color": "rgba(0,0,0,0.05)" }
+```
+
+If a container's `desktop.background.color === "#ffffff"` and its `blurRadius > 0`, the shadow MUST match this block verbatim. Solid black (`#000000`) or single-channel colors are wrong.
+
+### `pageShell` — grey outer wrapper
+
+```jsonc
+{
+  "type": "container", "version": 7,
+  "id": "<fresh-uuid>", "parentId": "<parent-id>",
+  "componentName": "pageShell",
+  "propertyName": "pageShell",
+  "hideLabel": true, "direction": "vertical",
+  "desktop": {
+    "display": "block",
+    "background": { "type": "color", "color": "#fafafa" },
+    "stylingBox": "{\"paddingLeft\":\"20\",\"paddingBottom\":\"20\",\"paddingTop\":\"20\",\"paddingRight\":\"20\"}"
+  }
+}
+```
+
+Every page has exactly ONE `pageShell` as the child of the root `dataContext` (table / list) or the root `container` (create / details). Validator `[R15]` blocks a `#fafafa` container without padding-20 on all four sides.
+
+### `whiteCard.headerCard` — page-header card
+
+```jsonc
+{
+  "type": "container", "version": 7,
+  "id": "<fresh-uuid>", "parentId": "<pageShell-id>",
+  "componentName": "headerCard",
+  "propertyName": "headerCard",
+  "hideLabel": true, "direction": "vertical",
+  "desktop": {
+    "display": "block",
+    "background": { "type": "color", "color": "#ffffff" },
+    "border": { "radius": { "all": 4 } },
+    "shadow": { "offsetX": 0, "offsetY": 2, "blurRadius": 8, "spreadRadius": 2, "color": "rgba(0,0,0,0.05)" },
+    "stylingBox": "{\"paddingLeft\":\"15\",\"paddingBottom\":\"15\",\"paddingTop\":\"15\",\"paddingRight\":\"15\"}"
+  }
+}
+```
+
+Holds ONE `flex-spaceBetween-row` (title-block + actions-block).
+
+### `whiteCard.tableSurface` — datatable/datalist surface
+
+```jsonc
+{
+  "type": "container", "version": 7,
+  "id": "<fresh-uuid>", "parentId": "<pageShell-id>",
+  "componentName": "tableSurface",
+  "propertyName": "tableSurface",
+  "hideLabel": true, "direction": "vertical",
+  "desktop": {
+    "display": "block",
+    "background": { "type": "color", "color": "#ffffff" },
+    "border": { "radius": { "all": 4 } },
+    "shadow": { "offsetX": 0, "offsetY": 2, "blurRadius": 8, "spreadRadius": 2, "color": "rgba(0,0,0,0.05)" },
+    "stylingBox": "{\"paddingBottom\":\"15\",\"marginTop\":\"15\"}"
+  }
+}
+```
+
+Contains `toolbarRow` (transparent, padding 15) + the datatable/datalist + the pager.
+
+### `whiteCard.detailsHero` — details hero card
+
+```jsonc
+{
+  "type": "container", "version": 7,
+  "id": "<fresh-uuid>", "parentId": "<pageShell-id>",
+  "componentName": "detailsHero",
+  "propertyName": "detailsHero",
+  "hideLabel": true, "direction": "vertical",
+  "desktop": {
+    "display": "block",
+    "background": { "type": "color", "color": "#ffffff" },
+    "border": { "radius": { "all": 4 } },
+    "shadow": { "offsetX": 0, "offsetY": 2, "blurRadius": 8, "spreadRadius": 2, "color": "rgba(0,0,0,0.05)" },
+    "stylingBox": "{\"paddingLeft\":\"20\",\"paddingBottom\":\"20\",\"paddingTop\":\"20\",\"paddingRight\":\"20\"}"
+  }
+}
+```
+
+### `rowCard` — datalist row template outer
+
+```jsonc
+{
+  "type": "container", "version": 7,
+  "id": "<fresh-uuid>", "parentId": null,   // root of the row-template form
+  "componentName": "rowCard",
+  "propertyName": "rowCard",
+  "hideLabel": true, "direction": "vertical",
+  "desktop": {
+    "display": "grid",
+    "gridColumnsCount": 2,
+    "justifyContent": "normal",             // NEVER "space-between" on grid — validator R13 blocks
+    "alignItems": "center",
+    "gap": "30",                            // STRING, not number, when used on grids
+    "background": { "type": "color", "color": "#ffffff" },
+    "border": { "radius": { "all": 4 } },
+    "shadow": { "offsetX": 0, "offsetY": 2, "blurRadius": 8, "spreadRadius": 2, "color": "rgba(0,0,0,0.05)" },
+    "stylingBox": "{\"paddingLeft\":\"15\",\"paddingBottom\":\"15\",\"paddingTop\":\"15\",\"paddingRight\":\"15\",\"marginBottom\":\"15\"}"
+  }
+}
+```
+
+The two grid children are the LEFT COLUMN (avatar + name-block, itself a nested grid-2) and the RIGHT CLUSTER (`flex-spaceBetween-row` variant with `justifyContent: "right"`).
+
+### `cardContentGrid` — card content field-holder
+
+```jsonc
+{
+  "type": "container", "version": 7,
+  "id": "<fresh-uuid>", "parentId": "<card-content-slot-id>",
+  "componentName": "<sectionName>Grid",
+  "hideLabel": true, "direction": "vertical",
+  "desktop": {
+    "display": "grid",
+    "gridColumnsCount": 2,                  // 3 for medical rows (bloodType / heightCm / weightKg)
+    "justifyContent": "normal",
+    "gap": 8                                // NUMBER on cards (contrast with rowCard's string "30")
+  }
+}
+```
+
+Grid layout distributes fields evenly by column count — do NOT decompose into multiple horizontal-flex row containers (each holding one pair of fields). That renders 2 visual columns but loses seed spacing.
+
+### `flex-spaceBetween-row` — page-header / toolbar / hero-actions
+
+```jsonc
+{
+  "type": "container", "version": 7,
+  "id": "<fresh-uuid>", "parentId": "<parent-id>",
+  "componentName": "<pageHeader|toolbarRow|heroActionsRow>",
+  "hideLabel": true, "direction": "horizontal",
+  "desktop": {
+    "display": "flex",
+    "flexDirection": "row",
+    "justifyContent": "space-between",      // OR "right" for the datalist-row right-cluster variant
+    "alignItems": "center",
+    "flexWrap": "nowrap",
+    "stylingBox": "<varies by context — see below>"
+  }
+}
+```
+
+The three padding contexts:
+- **Page-header row (inside `headerCard`)**: `stylingBox: "{}"` — inherits card padding.
+- **Toolbar row (inside `tableSurface`, above the table)**: `"{\"paddingLeft\":\"15\",\"paddingBottom\":\"15\",\"paddingTop\":\"15\",\"paddingRight\":\"15\"}"`.
+- **Hero-actions row (inside `detailsHero`, right of the avatar block)**: `"{}"` — inherits hero padding.
+
+Two children only: the LEFT block (title-text + subtitle-text stack, or the quick-search + filter cluster) and the RIGHT block (`buttonGroup` with the row's actions).

@@ -90,6 +90,19 @@ Dropdowns without an explicit `dataSourceType` fail silently — the dropdown re
 
 `checkboxGroup` (v=5) with hardcoded options **uses `items` (NOT `values`)** — plus `referenceListId: null`, `container: {}`, `validate: {}` as required boilerplate.
 
+## Reference-list fields: bind from metadata, never fetch
+
+A reference-list-backed field (dropdown, `refListStatus`, radio) is resolved **entirely by binding** — the frontend loads the items at render. Your only job is to set the binding straight from `Metadata/GetProperties`, which returns `referenceListModule` and `referenceListName` for the property. Use them **verbatim**:
+
+```jsonc
+"dataSourceType": "referenceList",
+"referenceListId": { "module": "<referenceListModule>", "name": "<referenceListName>" }
+```
+
+- **Do NOT call any `ReferenceList/*` endpoint to fetch or verify the items.** The renderer (`useReferenceList`) loads them from the binding alone. Fetching them is pointless, and improvising a lookup is exactly how a run *hangs*.
+- **The values are not what they look like for framework lists.** For a framework enum like Gender, `name` is the **fully-qualified dotted list name** and `module` is the **owning module** — `{ "module": "Shesha", "name": "Shesha.Core.Gender" }`, **NOT** `{ "module": "Shesha.Core", "name": "Gender" }` (that combination 404s). This exact Gender binding already sits in `sample-patient-create.json` and `sample-patient-details.json` — **copy it verbatim; do not re-derive it.** Entity-owned lists use the app module + short name, e.g. `{ "module": "boxfusion.test", "name": "AstronautSpecialisation" }`, also taken verbatim from metadata.
+- **If you ever genuinely must confirm a list exists, do it ONCE — never loop:** `GET /api/services/app/ReferenceList/GetByName?module=<referenceListModule>&name=<referenceListName>` (BOTH params; `module` is the metadata `referenceListModule`, not the namespace) returns the list plus its `items[]`. `GetAll` is a paged config listing, not a lookup-by-name — don't use it here. Treat a `404` as "bind it anyway and move on" (or escalate to `domain-model` only if the list is genuinely missing) — **do not retry the call.**
+
 ## `defaultValue` must be a string
 
 `defaultValue` is resolved as a mustache TEMPLATE via `.match()`. A literal non-string (array, number, object) has no `.match` method → `e.match is not a function` → the component (often the whole form) fails to render.
