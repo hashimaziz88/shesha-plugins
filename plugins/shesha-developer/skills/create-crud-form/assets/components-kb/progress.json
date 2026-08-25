@@ -1,0 +1,233 @@
+{
+  "type": "progress",
+  "name": "Progress",
+  "isInput": true,
+  "isOutput": true,
+  "canBeJsSetting": null,
+  "icon": "LineOutlined",
+  "version": 3,
+  "initModel": {
+    "defaults": {
+      "hideLabel": true
+    },
+    "raw": "(model) => {\r\n    return {\r\n      ...model,\r\n      hideLabel: true,\r\n    };\r\n  }"
+  },
+  "settingsProps": {
+    "interfaceName": "IProgressProps",
+    "interfaceFile": "designer-components/progress/index.tsx",
+    "ownProps": [
+      "format",
+      "progressType",
+      "success",
+      "strokeColor",
+      "lineStrokeColor",
+      "circleStrokeColor",
+      "stylingBox",
+      "allStyles"
+    ],
+    "extends": [
+      "Omit<ProgressProps",
+      "'style' | 'type' | 'size' | 'format' | 'success' | 'strokeColor'>",
+      "IConfigurableFormComponent"
+    ],
+    "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
+      "circleStrokeColor",
+      "componentName",
+      "context",
+      "customEnabled",
+      "customVisibility",
+      "description",
+      "desktop",
+      "dimensions",
+      "editMode",
+      "enableStyleOnReadonly",
+      "font",
+      "format",
+      "hidden",
+      "hideLabel",
+      "hideScrollBar",
+      "id",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "inputStyles",
+      "isDynamic",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "layout",
+      "lineStrokeColor",
+      "listType",
+      "menuItemShadow",
+      "mobile",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChangeCustom",
+      "onClickCustom",
+      "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
+      "parentId",
+      "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
+      "progressType",
+      "propertyName",
+      "queryParams",
+      "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
+      "settingsValidationErrors",
+      "shadow",
+      "size",
+      "strokeColor",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "success",
+      "tablet",
+      "type",
+      "validate",
+      "wrapperStyle"
+    ],
+    "unresolvedExtends": [
+      "'style' | 'type' | 'size' | 'format' | 'success' | 'strokeColor'>",
+      "IHasVersion",
+      "Omit<ProgressProps"
+    ]
+  },
+  "settingsForm": {
+    "source": "progress/settings.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [
+    "width",
+    "stylingBox",
+    "style"
+  ],
+  "settingsFields": [
+    {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "To set the completion percentage"
+    },
+    {
+      "path": "propertyName",
+      "label": "Property Name",
+      "editorType": "contextPropertyAutocomplete"
+    },
+    {
+      "path": "hideLabel",
+      "label": "Label",
+      "editorType": "labelConfigurator"
+    },
+    {
+      "path": "description",
+      "label": "Tooltip",
+      "editorType": "settingsInputRow",
+      "description": "To set the completion percentage"
+    },
+    {
+      "path": "progressType",
+      "label": "Type",
+      "editorType": "settingsInputRow",
+      "description": "To specify the type of progress bar"
+    },
+    {
+      "path": "showInfo",
+      "label": "Show Info",
+      "editorType": "settingsInputRow",
+      "description": "Whether to display the progress info"
+    },
+    {
+      "path": "strokeColor",
+      "label": "Stroke Color",
+      "editorType": "settingsInputRow",
+      "description": "The color of progress bar. This will be overridden by the strokeColor property of 'line' and 'circle' types",
+      "group": "Progress Style"
+    },
+    {
+      "path": "strokeLinecap",
+      "label": "Stroke Linecap",
+      "editorType": "settingsInputRow",
+      "description": "To set the style of the progress linecap",
+      "group": "Progress Style"
+    },
+    {
+      "path": "width",
+      "label": "Width",
+      "editorType": "settingsInput",
+      "description": "The canvas width of the circular progress, unit: px",
+      "group": "Progress Style",
+      "shared": true
+    },
+    {
+      "path": "steps",
+      "label": "Steps",
+      "editorType": "settingsInput",
+      "description": "The total step count",
+      "group": "Type Specific Settings"
+    },
+    {
+      "path": "lineStrokeColor",
+      "label": "Line Stroke Color",
+      "editorType": "settingsInputRow",
+      "description": "The color of line progress bar",
+      "group": "Type Specific Settings"
+    },
+    {
+      "path": "gapDegree",
+      "label": "Gap Degree",
+      "editorType": "settingsInputRow",
+      "description": "The gap degree of half circle, 0 ~ 295",
+      "group": "Type Specific Settings"
+    },
+    {
+      "path": "gapPosition",
+      "label": "Gap Position",
+      "editorType": "settingsInputRow",
+      "description": "The gap position",
+      "group": "Type Specific Settings"
+    },
+    {
+      "path": "stylingBox",
+      "label": "Margin Padding",
+      "editorType": "styleBox",
+      "group": "Margin & Padding",
+      "shared": true
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
+      "shared": true
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "settingsInput"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "progress/index.tsx"
+  ]
+}

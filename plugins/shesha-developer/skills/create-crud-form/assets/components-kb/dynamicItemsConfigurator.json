@@ -1,0 +1,63 @@
+{
+  "type": "dynamicItemsConfigurator",
+  "name": "Dynamic Items Configurator",
+  "isInput": true,
+  "isOutput": true,
+  "canBeJsSetting": null,
+  "icon": "ThunderboltOutlined",
+  "version": null,
+  "initModel": null,
+  "settingsProps": {
+    "interfaceName": "IDynamicActionsConfiguratorComponentProps",
+    "interfaceFile": null,
+    "ownProps": [],
+    "extends": [],
+    "resolvedProps": [],
+    "unresolvedExtends": [
+      "IDynamicActionsConfiguratorComponentProps"
+    ]
+  },
+  "settingsForm": {
+    "source": "dynamicActionsConfigurator/settings.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [],
+  "settingsFields": [
+    {
+      "path": "label",
+      "label": "Label",
+      "editorType": "textField"
+    },
+    {
+      "path": "propertyName",
+      "label": "Property name",
+      "editorType": "textField"
+    },
+    {
+      "path": "description",
+      "label": "Description",
+      "editorType": "textArea"
+    },
+    {
+      "path": "hidden",
+      "label": "hide",
+      "editorType": "checkbox"
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "permissionAutocomplete"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "dynamicActionsConfigurator/index.tsx"
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "type": "childEntitiesTagGroup",
+  "name": "Child Entities Tag Group",
+  "isInput": true,
+  "isOutput": true,
+  "canBeJsSetting": null,
+  "icon": "UnorderedListOutlined",
+  "version": 3,
+  "initModel": null,
+  "settingsProps": {
+    "interfaceName": "IChildEntitiesTagGroupProps",
+    "interfaceFile": "designer-components/childEntitiesTagGroup/models.ts",
+    "ownProps": [
+      "capturedProperties",
+      "formId",
+      "labelFormat",
+      "modalTitle",
+      "modalWidth",
+      "deleteConfirmationTitle",
+      "deleteConfirmationBody"
+    ],
+    "extends": [
+      "IConfigurableFormComponent"
+    ],
+    "resolvedProps": [
+      "capturedProperties",
+      "componentName",
+      "context",
+      "customEnabled",
+      "customVisibility",
+      "defaultValue",
+      "deleteConfirmationBody",
+      "deleteConfirmationTitle",
+      "description",
+      "editMode",
+      "formId",
+      "hidden",
+      "hideLabel",
+      "id",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "isDynamic",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "labelFormat",
+      "modalTitle",
+      "modalWidth",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChangeCustom",
+      "onFocusCustom",
+      "parentId",
+      "permissions",
+      "propertyName",
+      "readOnly",
+      "settingsValidationErrors",
+      "size",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "type",
+      "validate"
+    ],
+    "unresolvedExtends": [
+      "IHasVersion"
+    ]
+  },
+  "settingsForm": {
+    "source": "childEntitiesTagGroup/settings.tsx",
+    "mechanism": "react-factory",
+    "parseQuality": "partial"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [],
+  "settingsFields": [
+    {
+      "path": "label",
+      "label": "Label",
+      "group": "Display"
+    },
+    {
+      "path": "labelAlign",
+      "label": "Label align",
+      "group": "Display"
+    },
+    {
+      "path": "editMode",
+      "label": "Edit mode",
+      "group": "Display"
+    },
+    {
+      "path": "hidden",
+      "label": "Hidden",
+      "group": "Display"
+    },
+    {
+      "path": "deleteConfirmationTitle",
+      "label": "Delete Confirmation Title",
+      "group": "Modal Display"
+    },
+    {
+      "path": "deleteConfirmationBody",
+      "label": "Delete Confirmation Body",
+      "group": "Modal Display"
+    },
+    {
+      "path": "modalTitle",
+      "label": "Modal Title",
+      "group": "Modal Display"
+    },
+    {
+      "path": "modalWidth",
+      "label": "Modal Width",
+      "group": "Modal Display"
+    },
+    {
+      "path": "capturedProperties",
+      "label": "Captured Properties",
+      "group": "Render"
+    },
+    {
+      "path": "formId",
+      "label": "Form Path",
+      "group": "Render"
+    },
+    {
+      "path": "labelFormat",
+      "label": "Label Format",
+      "group": "Render"
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "group": "Security",
+      "description": "Enter a list of permissions that should be associated with this component"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "childEntitiesTagGroup/index.tsx",
+    "childEntitiesTagGroup/models.ts"
+  ]
+}

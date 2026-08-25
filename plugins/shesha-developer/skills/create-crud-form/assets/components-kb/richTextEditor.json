@@ -1,0 +1,333 @@
+{
+  "type": "richTextEditor",
+  "name": "Rich Text Editor",
+  "isInput": true,
+  "isOutput": true,
+  "canBeJsSetting": null,
+  "icon": "EditOutlined",
+  "version": 6,
+  "initModel": {
+    "defaults": {
+      "showCharsCounter": true,
+      "showWordsCounter": true,
+      "showXPathInStatusbar": true,
+      "minHeight": 200,
+      "minWidth": 200,
+      "toolbar": true,
+      "useSearch": true,
+      "autoHeight": true,
+      "autoWidth": true,
+      "askBeforePasteHTML": true,
+      "askBeforePasteFromWord": true,
+      "disablePlugins": null
+    },
+    "raw": "(model) => ({\r\n    ...model,\r\n    showCharsCounter: true,\r\n    showWordsCounter: true,\r\n    showXPathInStatusbar: true,\r\n    minHeight: 200,\r\n    minWidth: 200,\r\n    toolbar: true,\r\n    useSearch: true,\r\n    autoHeight: true,\r\n    autoWidth: true,\r\n    askBeforePasteHTML: true,\r\n    askBeforePasteFromWord: true,\r\n    disablePlugins: null,\r\n  })"
+  },
+  "settingsProps": {
+    "interfaceName": "IRichTextEditorProps",
+    "interfaceFile": "designer-components/richTextEditor/interfaces.ts",
+    "ownProps": [
+      "placeholder",
+      "toolbar",
+      "textIcons",
+      "preset",
+      "toolbarButtonSize",
+      "toolbarStickyOffset",
+      "theme",
+      "toolbarSticky",
+      "autofocus",
+      "useSearch",
+      "iframe",
+      "spellcheck",
+      "direction",
+      "enter",
+      "defaultMode",
+      "showCharsCounter",
+      "showWordsCounter",
+      "showXPathInStatusbar",
+      "disablePlugins",
+      "insertImageAsBase64URI",
+      "autoHeight",
+      "allowResizeY",
+      "height",
+      "minHeight",
+      "maxHeight",
+      "autoWidth",
+      "allowResizeX",
+      "width",
+      "minWidth",
+      "maxWidth",
+      "saveHeightInStorage",
+      "saveModeInStorage",
+      "askBeforePasteHTML",
+      "askBeforePasteFromWord"
+    ],
+    "extends": [
+      "IConfigurableFormComponent"
+    ],
+    "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "allowResizeX",
+      "allowResizeY",
+      "askBeforePasteFromWord",
+      "askBeforePasteHTML",
+      "autoHeight",
+      "autoWidth",
+      "autofocus",
+      "background",
+      "border",
+      "componentName",
+      "context",
+      "customEnabled",
+      "customVisibility",
+      "defaultMode",
+      "description",
+      "desktop",
+      "dimensions",
+      "direction",
+      "disablePlugins",
+      "editMode",
+      "enableStyleOnReadonly",
+      "enter",
+      "font",
+      "height",
+      "hidden",
+      "hideLabel",
+      "hideScrollBar",
+      "id",
+      "iframe",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "inputStyles",
+      "insertImageAsBase64URI",
+      "isDynamic",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "layout",
+      "listType",
+      "maxHeight",
+      "maxWidth",
+      "menuItemShadow",
+      "minHeight",
+      "minWidth",
+      "mobile",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChangeCustom",
+      "onClickCustom",
+      "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
+      "parentId",
+      "permissions",
+      "placeholder",
+      "preset",
+      "primaryBgColor",
+      "primaryTextColor",
+      "propertyName",
+      "queryParams",
+      "readOnly",
+      "saveHeightInStorage",
+      "saveModeInStorage",
+      "secondaryBgColor",
+      "secondaryTextColor",
+      "settingsValidationErrors",
+      "shadow",
+      "showCharsCounter",
+      "showWordsCounter",
+      "showXPathInStatusbar",
+      "size",
+      "spellcheck",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "tablet",
+      "textIcons",
+      "theme",
+      "toolbar",
+      "toolbarButtonSize",
+      "toolbarSticky",
+      "toolbarStickyOffset",
+      "type",
+      "useSearch",
+      "validate",
+      "width",
+      "wrapperStyle"
+    ],
+    "unresolvedExtends": [
+      "IHasVersion"
+    ]
+  },
+  "settingsForm": {
+    "source": "richTextEditor/formSettings.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [
+    "style"
+  ],
+  "settingsFields": [
+    {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "If yes, will automatically be focused (be selected component) when the page loads"
+    },
+    {
+      "path": "propertyName",
+      "label": "Property Name",
+      "editorType": "contextPropertyAutocomplete"
+    },
+    {
+      "path": "hideLabel",
+      "label": "Label",
+      "editorType": "labelConfigurator"
+    },
+    {
+      "path": "placeholder",
+      "label": "Placeholder",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "description",
+      "label": "Tooltip",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "editMode",
+      "label": "Edit Mode",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "toolbar",
+      "label": "Show Toolbar",
+      "editorType": "settingsInputRow",
+      "group": "Toolbar"
+    },
+    {
+      "path": "toolbarButtonSize",
+      "label": "Size Of Icons",
+      "editorType": "settingsInput",
+      "group": "Toolbar"
+    },
+    {
+      "path": "disablePlugins",
+      "label": "Hidden Actions",
+      "editorType": "settingsInput",
+      "group": "Toolbar"
+    },
+    {
+      "path": "autofocus",
+      "label": "Auto Focus",
+      "editorType": "settingsInputRow",
+      "description": "If yes, will automatically be focused (be selected component) when the page loads",
+      "group": "Options"
+    },
+    {
+      "path": "preset",
+      "label": "Presets",
+      "editorType": "settingsInputRow",
+      "description": "Choose a pre-configured toolbar layout",
+      "group": "Options"
+    },
+    {
+      "path": "direction",
+      "label": "Direction",
+      "editorType": "settingsInput",
+      "group": "Display"
+    },
+    {
+      "path": "showCharsCounter",
+      "label": "Show Characters Counter",
+      "editorType": "settingsInputRow",
+      "group": "Display"
+    },
+    {
+      "path": "enter",
+      "label": "Element That Will Be Created On Enter",
+      "editorType": "settingsInput",
+      "group": "Advanced"
+    },
+    {
+      "path": "insertImageAsBase64URI",
+      "label": "Insert Image As Base64 URI",
+      "editorType": "settingsInputRow",
+      "description": "Isolates the editor content in a separate iframe for better style separation",
+      "group": "Advanced"
+    },
+    {
+      "path": "saveHeightInStorage",
+      "label": "Remember Height",
+      "editorType": "settingsInputRow",
+      "description": "Remembers the editor height for the next session",
+      "group": "Advanced"
+    },
+    {
+      "path": "askBeforePasteHTML",
+      "label": "Ask Before Paste HTML",
+      "editorType": "settingsInputRow",
+      "description": "If yes, will ask the user to confirm before allowing content copied from a Web page to be pasted in",
+      "group": "Advanced"
+    },
+    {
+      "path": "theme",
+      "label": "Theme",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "autoWidth",
+      "label": "Auto Width",
+      "editorType": "settingsInputRow",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.width",
+      "label": "Width",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "dimensions.height",
+      "label": "Height",
+      "editorType": "settingsInputRow",
+      "description": "You can use any unit (%, px, em, etc). px by default if without unit",
+      "group": "Dimensions"
+    },
+    {
+      "path": "allowResizeX",
+      "label": "Allow Width Resize",
+      "editorType": "settingsInputRow",
+      "group": "Dimensions"
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "description": "A script that returns the style of the element as an object. This should conform to CSSProperties",
+      "group": "Custom Styles",
+      "shared": true
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "settingsInput"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "richTextEditor/index.tsx",
+    "richTextEditor/interfaces.ts"
+  ]
+}

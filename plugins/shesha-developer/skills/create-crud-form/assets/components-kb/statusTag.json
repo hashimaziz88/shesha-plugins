@@ -1,0 +1,173 @@
+{
+  "type": "statusTag",
+  "name": "Status Tag",
+  "isInput": false,
+  "isOutput": true,
+  "canBeJsSetting": null,
+  "icon": "ArrowsAltOutlined",
+  "version": 2,
+  "initModel": {
+    "defaults": null,
+    "raw": "(model) => ({\r\n    mappings: JSON.stringify(DEFAULT_STATUS_TAG_MAPPINGS, null, 2) as any,\r\n    ...model,\r\n  })"
+  },
+  "settingsProps": {
+    "interfaceName": "IStatusTagProps",
+    "interfaceFile": "designer-components/statusTag/index.tsx",
+    "ownProps": [
+      "mappings",
+      "valueSource"
+    ],
+    "extends": [
+      "Omit<ITagProps",
+      "'mappings' | 'style'>",
+      "IConfigurableFormComponent"
+    ],
+    "resolvedProps": [
+      "_formFields",
+      "allStyles",
+      "autoHeight",
+      "autoWidth",
+      "background",
+      "border",
+      "componentName",
+      "context",
+      "customEnabled",
+      "customVisibility",
+      "description",
+      "desktop",
+      "dimensions",
+      "editMode",
+      "enableStyleOnReadonly",
+      "font",
+      "hidden",
+      "hideLabel",
+      "hideScrollBar",
+      "id",
+      "initialContext",
+      "injectedDefaultValue",
+      "injectedTableRow",
+      "inputStyles",
+      "isDynamic",
+      "jsSetting",
+      "label",
+      "labelAlign",
+      "layout",
+      "listType",
+      "mappings",
+      "menuItemShadow",
+      "mobile",
+      "noDataIcon",
+      "noDataSecondaryText",
+      "noDataText",
+      "onBlurCustom",
+      "onChangeCustom",
+      "onClickCustom",
+      "onFocusCustom",
+      "onSelectCustom",
+      "overflow",
+      "parentId",
+      "permissions",
+      "primaryBgColor",
+      "primaryTextColor",
+      "propertyName",
+      "queryParams",
+      "readOnly",
+      "secondaryBgColor",
+      "secondaryTextColor",
+      "settingsValidationErrors",
+      "shadow",
+      "size",
+      "style",
+      "stylingBox",
+      "subscribedEventNames",
+      "tablet",
+      "type",
+      "validate",
+      "valueSource",
+      "wrapperStyle"
+    ],
+    "unresolvedExtends": [
+      "'mappings' | 'style'>",
+      "IHasVersion",
+      "Omit<ITagProps"
+    ]
+  },
+  "settingsForm": {
+    "source": "statusTag/settings.ts",
+    "mechanism": "fluent-builder",
+    "parseQuality": "full"
+  },
+  "hasStandardAppearance": false,
+  "appearanceFieldPaths": [
+    "style"
+  ],
+  "settingsFields": [
+    {
+      "path": "settingsTabs",
+      "label": "Settings",
+      "editorType": "searchableTabs",
+      "description": "Enter the JSON object that should match the structure of the default one provided"
+    },
+    {
+      "path": "propertyName",
+      "label": "Property Name",
+      "editorType": "contextPropertyAutocomplete"
+    },
+    {
+      "path": "hideLabel",
+      "label": "Label",
+      "editorType": "labelConfigurator"
+    },
+    {
+      "path": "hidden",
+      "label": "Hide",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "valueSource",
+      "label": "Value Source",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "override",
+      "label": "Override",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "value",
+      "label": "Value",
+      "editorType": "settingsInputRow"
+    },
+    {
+      "path": "mappings",
+      "label": "Default Mappings",
+      "editorType": "settingsInput",
+      "description": "Enter the JSON object that should match the structure of the default one provided"
+    },
+    {
+      "path": "color",
+      "label": "Color",
+      "editorType": "settingsInput"
+    },
+    {
+      "path": "style",
+      "label": "Style",
+      "editorType": "settingsInput",
+      "shared": true
+    },
+    {
+      "path": "permissions",
+      "label": "Permissions",
+      "editorType": "settingsInput"
+    }
+  ],
+  "slots": {
+    "hostsChildren": false,
+    "customContainerNames": null,
+    "detectedSlotKeys": [],
+    "usesComponentsContainer": false
+  },
+  "sourceFiles": [
+    "statusTag/index.tsx"
+  ]
+}
