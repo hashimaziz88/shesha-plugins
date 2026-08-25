@@ -269,6 +269,49 @@ Both entries are required — `None Remove` prevents a duplicate item build erro
 
 ---
 
+### 6.4 Register the Shesha request-scope release middleware
+
+`SheshaFrameworkModule.PreInitialize()` replaces Castle Windsor's release policy with `RequestScopedReleasePolicy`, but that policy only takes effect if the web host opts in by registering `ReleaseRequestScopeMiddleware`. Without the opt-in, every component resolved from the root container during a request stays in Windsor's release-policy dictionary forever — a memory leak that also causes progressive lock-contention slowdown. If the host omits the call nothing breaks; the policy silently falls back to Castle's default behaviour and the leak is simply not fixed.
+
+Open the web host startup file — typically `backend/src/{fullNamespace}.Web.Host/Startup/Startup.cs` (fall back to a `Glob` for `**/Web.Host/Startup/Startup.cs` or `**/Program.cs` if the project uses minimal hosting).
+
+**Check first:** if `UseSheshaRequestScopeRelease` already appears in the file, verify it is the first middleware call in the pipeline and move it if it is not. Otherwise skip — already configured.
+
+**To add it**, ensure the using is present:
+
+```csharp
+using Shesha.Extensions;
+```
+
+Then make `app.UseSheshaRequestScopeRelease()` the **very first** statement in `Configure(IApplicationBuilder app, ...)` — before `UseSheshaElmah()`, `UseConfigurationFramework()`, `UseAbp()`, routing, authentication and endpoints:
+
+```csharp
+public void Configure(IApplicationBuilder app, IBackgroundJobClient backgroundJobs)
+{
+    // Must be first: releases per-request root-container resolutions at request end. Required to make
+    // SheshaFrameworkModule's RequestScopedReleasePolicy actually bound the release-policy dictionary.
+    app.UseSheshaRequestScopeRelease();
+
+    app.UseSheshaElmah();
+
+    // ... rest of the existing pipeline unchanged
+}
+```
+
+**Ordering matters.** The middleware opens a release bucket on the way in and drains it in a `finally` on the way out, so registering it first means its cleanup wraps everything else — including MVC authorization filters and ABP interceptors. Registering it later leaves anything resolved by earlier middleware untracked.
+
+Do not change any other line in the pipeline — the existing order of `UseAbp`, `UseCors`, `UseAuthentication`, `UseRouting`, `UseAuthorization` and `UseEndpoints` must stay as-is.
+
+After editing, rebuild to confirm the using resolves:
+
+```
+dotnet build "{slnPath}"
+```
+
+If `Shesha.Extensions` cannot be resolved, the project is on a Shesha version older than 0.43 that predates `UseSheshaRequestScopeRelease` — report this to the user and skip the step rather than adding a stub.
+
+---
+
 ## Phase 7: Summary Report
 
 **Do NOT restart any servers.** Compile results from Phase 3 and Phase 6 into a summary:
@@ -302,6 +345,7 @@ Dev Environment:
   - CLAUDE.md:     Created / Updated
   - Analyzers:     {summary of added/updated/unchanged}
   - .shaconfig Embed: Configured / Already Present
+  - Request Scope Release: Added / Already Present / Skipped (unsupported version)
   - Credentials:   Saved to .sheshadev.local.json
   - .gitignore:    Updated (if needed)
 
