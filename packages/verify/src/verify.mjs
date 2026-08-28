@@ -5,12 +5,14 @@
 // and not getting it is partial information about what you asked for.
 //
 //   node packages/verify/src/verify.mjs <run-dir> --screen <name> [--tiers t1,t2]
-//        [--legacy] [--metadata <snapshot.json>] [--json]
+//        [--legacy] [--metadata <snapshot.json>] [--base-url <url>] [--smoke <rec.json>]
+//        [--probe <probe.json>] [--json]
 //
 // A screen is resolved to a compiled form: an existing <run-dir>/screens/<screen>.form.json
 // is read as-is; otherwise the clean fixture packages/sfs/test/fixtures/clean/<screen>.sfs.json
-// is compiled into the run-dir. T4 and T5 never enter `result` (D-015) and are not
-// built in Scope A; requesting them yields notRun with a reason.
+// is compiled into the run-dir. T4 and T5 never enter `result` (D-015). T4b reports inside
+// T4's tier entry: the verdict envelope's `tiers` object is additionalProperties:false over
+// T1..T5, so there is no legal T4b key (§4.2.4).
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -20,9 +22,18 @@ import { repoRoot, readText } from './lib/fsx.mjs';
 import { t1Full, readArtifact } from './tiers/t1-schema.mjs';
 import { t2Registry } from './tiers/t2-registry.mjs';
 import { t3Semantic } from './tiers/t3-semantic.mjs';
+import { t4Smoke, t4Available, hasPlaywright, capture as t4Capture } from './tiers/t4-smoke.mjs';
+import { t4bResidue } from './tiers/t4b-residue.mjs';
 
 const LATTICE = /** @type {Record<string, number>} */ ({ pass: 0, partial: 1, fail: 2 });
 const RESULT_TIERS = ['T1', 'T2', 'T3'];
+/**
+ * The tier names the driver understands. An unrecognised name used to be silently
+ * ignored, and because `result` starts at `pass` and is only ever raised, asking for a
+ * tier that does not exist produced a sealed verdict claiming `pass` over nothing run.
+ * `t4b` names the residue half of T4 and runs it alone.
+ */
+export const KNOWN_TIERS = Object.freeze(['t1', 't2', 't3', 't4', 't4b', 't5']);
 
 /**
  * Read an already-compiled screen from the run-dir. Provenance comes from the
@@ -43,11 +54,16 @@ function readCompiledScreen(runDir, screen) {
 }
 
 /**
- * @param {{root:string, runDir:string, screen:string, tiers:string[], legacy:boolean, metadata:string|null}} opts
+ * @param {{root:string, runDir:string, screen:string, tiers:string[], legacy:boolean, metadata:string|null,
+ *          baseUrl?:string|null, smoke?:string|null, probe?:string|null}} opts
  * @returns {Promise<{verdict:any, exit:number, lines:string[]}>}
  */
 export async function runLadder(opts) {
   const { root, runDir, screen, tiers, legacy } = opts;
+  const unknown = tiers.filter((t) => !KNOWN_TIERS.includes(t));
+  if (unknown.length > 0) {
+    throw new Error(`unknown tier(s) ${JSON.stringify(unknown)}; known tiers are ${KNOWN_TIERS.join(', ')}. A tier the driver does not recognise runs nothing, and a verdict over nothing is not a pass`);
+  }
   const screensDir = path.join(runDir, 'screens');
   fs.mkdirSync(screensDir, { recursive: true });
 
@@ -71,7 +87,7 @@ export async function runLadder(opts) {
   }
 
   /** @type {Record<string, {result:string, reason?:string, detail?:any}>} */
-  const tierResults = { T1: notRun('not requested'), T2: notRun('not requested'), T3: notRun('not requested'), T4: notRun('T4 is BL-005'), T5: notRun('T5 is BL-005') };
+  const tierResults = { T1: notRun('not requested'), T2: notRun('not requested'), T3: notRun('not requested'), T4: notRun('not requested'), T5: notRun('T5 is WP-3d') };
   const lines = [];
 
   if (tiers.includes('t1')) {
@@ -94,6 +110,38 @@ export async function runLadder(opts) {
     const v = verdictOf(fams);
     tierResults.T3 = { result: v, detail: detailOf(fams) };
     lines.push(tierLine('t3', fams, v));
+  }
+  // T4 carries both the live smoke tier and T4b's DOM residue. Each half runs only from
+  // its own substrate — a recorded smoke run or a live host for T4, a recorded probe for
+  // T4b — and with neither the whole tier is notRun with the reason, never a pass.
+  if (tiers.includes('t4') || tiers.includes('t4b')) {
+    const wantSmoke = tiers.includes('t4');
+    const smokeRec = wantSmoke && opts.smoke ? readJsonAt(root, opts.smoke) : null;
+    const probe = opts.probe ? readJsonAt(root, opts.probe) : null;
+    // A probe of a different screen is not evidence about this one. Silently accepting
+    // it would let one clean recording satisfy every screen's T4.
+    if (probe && typeof probe.screen === 'string' && probe.screen !== screen) {
+      throw new Error(`--probe was recorded from screen "${probe.screen}", not "${screen}"; a probe of another screen is not evidence about this one`);
+    }
+    const avail = t4Available({ baseUrl: opts.baseUrl || null, playwright: await hasPlaywright() });
+    /** @type {import('@shesha/registry/coverage').Family[]} */
+    let fams = [];
+    const ran = [];
+    if (smokeRec) { fams = fams.concat(await t4Smoke(smokeRec, {})); ran.push('smoke:recorded'); }
+    else if (wantSmoke && avail.ok) { fams = fams.concat(await t4Smoke(await t4Capture({ baseUrl: String(opts.baseUrl), screen }), {})); ran.push('smoke:live'); }
+    if (probe) { fams = fams.concat(t4bResidue(probe)); ran.push('residue:recorded'); }
+    if (fams.length === 0) {
+      const reason = avail.reason || 'no --smoke record, no --probe and no --base-url given';
+      tierResults.T4 = notRun(reason);
+      lines.push(`  t4 notRun · ${reason}`);
+    } else {
+      const v = verdictOf(fams);
+      tierResults.T4 = { result: v, reason: ran.join(' + '), detail: detailOf(fams) };
+      lines.push(tierLine('t4', fams, v));
+      // T4 is advisory (D-015), so a T4 failure leaves `result` and the exit code alone.
+      // Saying so on the line below it is the difference between advisory and ignored.
+      if (v !== 'pass') lines.push(`  t4 reported ${v} and it is ADVISORY: it does not change result or the exit code (D-015). Read its findings.`);
+    }
   }
 
   // result = worst(T1,T2,T3) over pass<partial<fail; a REQUESTED result-tier that
@@ -119,10 +167,14 @@ export async function runLadder(opts) {
   };
   fs.writeFileSync(path.join(screensDir, `${screen}.verdict.json`), `${JSON.stringify(verdict, null, 2)}\n`);
 
-  // exit: exitFor(result), except a PASS with a requested tier notRun -> 3.
+  // exit: exitFor(result), except a PASS with ANY requested tier notRun -> 3 (§3.2.0
+  // rule 4). Asking for T4 and not getting it is partial information about what you
+  // asked for; not asking for it is not.
   let exit = result === 'pass' ? EXIT.pass : (result === 'partial' ? EXIT.partial : EXIT.fail);
-  // The includes() guard confirms the upper-cased tier is a seeded key, so the lookup is defined.
-  const requestedNotRun = tiers.some((t) => RESULT_TIERS.includes(t.toUpperCase()) && /** @type {{result:string}} */ (tierResults[t.toUpperCase()]).result === 'notRun');
+  const requestedNotRun = tiers.some((t) => {
+    const tr = tierResults[t.toUpperCase()];
+    return tr !== undefined && tr.result === 'notRun';
+  });
   if (result === 'pass' && requestedNotRun) exit = EXIT.partial;
   if (result !== 'pass') lines.push('A partial verdict is NOT a pass');
   lines.push(`verify ${screen}: result ${result} · tiers ${tiers.join(',')} · exit ${exit}`);
@@ -131,6 +183,18 @@ export async function runLadder(opts) {
 
 /** @param {string} reason @returns {{result:string, reason:string}} */
 function notRun(reason) { return { result: 'notRun', reason }; }
+
+/**
+ * A recorded T4/T4b substrate named on the command line. A malformed file is an error,
+ * not an empty recording that would quietly narrow the tier to nothing.
+ * @param {string} root @param {string} file @returns {any}
+ */
+function readJsonAt(root, file) {
+  const abs = path.isAbsolute(file) ? file : path.join(root, file);
+  const raw = readText(abs);
+  if (raw === null) throw new Error(`no such recording: ${file}`);
+  return JSON.parse(raw);
+}
 
 /**
  * The placement contract for a screen: a run-dir override, else the committed clean
@@ -195,7 +259,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const runDirArg = args.find((a) => !a.startsWith('--'));
   const at = (/** @type {string} */ flag) => { const i = args.indexOf(flag); return i >= 0 ? args[i + 1] : undefined; };
   if (!runDirArg || !at('--screen')) {
-    console.error('usage: verify.mjs <run-dir> --screen <name> [--tiers t1,t2] [--legacy] [--json]');
+    console.error('usage: verify.mjs <run-dir> --screen <name> [--tiers t1,t2,t3,t4] [--metadata <f>] [--base-url <url>] [--smoke <f>] [--probe <f>] [--legacy] [--json]');
     process.exit(EXIT.usage);
   }
   const root = repoRoot();
@@ -203,7 +267,10 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const tiers = (at('--tiers') || 't1,t2,t3').split(',').map((s) => s.trim().toLowerCase());
   const screen = /** @type {string} */ (at('--screen'));
   try {
-    const { verdict, exit, lines } = await runLadder({ root, runDir, screen, tiers, legacy: args.includes('--legacy'), metadata: at('--metadata') || null });
+    const { verdict, exit, lines } = await runLadder({
+      root, runDir, screen, tiers, legacy: args.includes('--legacy'), metadata: at('--metadata') || null,
+      baseUrl: at('--base-url') || null, smoke: at('--smoke') || null, probe: at('--probe') || null,
+    });
     if (args.includes('--json')) console.log(JSON.stringify({ target: screen, result: verdict.result, tiers: verdict.tiers }, null, 2));
     else for (const l of lines) console.log(l);
     process.exit(exit);

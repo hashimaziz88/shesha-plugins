@@ -17,7 +17,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { EXIT, readJsonGuarded, families, runGuarded } from '@shesha/registry/coverage';
+import { EXIT, readJsonGuarded, families, runGuarded, verdictOf } from '@shesha/registry/coverage';
 import { repoRoot } from './lib/fsx.mjs';
 import { completedWps } from './lib/session-state.mjs';
 
@@ -392,6 +392,28 @@ async function runRoundtrip(/** @type {string} */ root) {
     : { ok: false, lines: [`round-trip: rate=${rate.toFixed(2)} (want >= 0.90), clean=${clean} (want >= 7), ok=${r.ok}; ${r.report.problems.join('; ') || 'no problems'}`] };
 }
 
+/** WP-3c: the DOM-residue tier catches real residue, and T4 is never green without running. */
+async function runResidue(/** @type {string} */ root) {
+  const { t4bResidue } = await import(pathToFileURL(path.join(root, 'packages/verify/src/tiers/t4b-residue.mjs')).href);
+  const { t4Smoke, t4Available, selftestRecord } = await import(pathToFileURL(path.join(root, 'packages/verify/src/tiers/t4-smoke.mjs')).href);
+  const { withStubBackend } = await import(pathToFileURL(path.join(root, 'packages/verify/test/helpers/stub-backend.mjs')).href);
+  const probe = (/** @type {string} */ n) => JSON.parse(fs.readFileSync(path.join(root, `packages/sfs/test/fixtures/probe/${n}.json`), 'utf8'));
+
+  const clean = probe('login.probe');
+  const named = clean.nodes.filter((/** @type {any} */ n) => n.name).length;
+  const cleanV = verdictOf(t4bResidue(clean));
+  const overflowV = verdictOf(t4bResidue(probe('login.probe.overflow')));
+  const blindV = verdictOf(t4bResidue(probe('login.probe.no-name')));
+  const smokeV = verdictOf(await withStubBackend((/** @type {string} */ o, /** @type {any} */ get) => t4Smoke(selftestRecord(o), { backendGet: get })));
+  const avail = t4Available({ baseUrl: null, playwright: false });
+
+  const ok = cleanV === 'pass' && overflowV === 'fail' && blindV === 'partial' && smokeV === 'pass'
+    && avail.ok === false && avail.reason === 'playwright not installed; no --base-url given';
+  return ok
+    ? { ok: true, lines: [`T4b over a probe recorded from a live Shesha screen (${clean.nodes.length} nodes, ${named} carrying data-sha-c-name) passes; the overflow probe fails and the name-stripped probe is uninspectable, never a pass; T4's selftest passes over the stub backend and T4 states what is missing rather than running (WP-3c, D-127)`] }
+    : { ok: false, lines: [`t4/t4b: clean=${cleanV} overflow=${overflowV} blind=${blindV} smoke=${smokeV} availReason="${avail.reason}"`] };
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -418,6 +440,7 @@ const STEPS = [
   { id: 'checkref-lift', label: 'check-references lift', needs: 'WP-3b.4', impl: runCheckRefLift },
   { id: 'precedent', label: 'precedent index', needs: 'WP-9', impl: runPrecedent },
   { id: 'roundtrip', label: 'corpus round-trip', needs: 'WP-6', impl: runRoundtrip },
+  { id: 'residue', label: 'T4/T4b residue', needs: 'WP-3c', impl: runResidue },
 ];
 
 /**

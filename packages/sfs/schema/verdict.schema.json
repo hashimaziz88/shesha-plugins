@@ -123,7 +123,7 @@
       "additionalProperties": false,
       "required": ["result", "walked", "checked", "uninspectable", "ms"],
       "properties": {
-        "result": { "enum": ["pass", "fail", "partial", "skipped", "uninspectable"] },
+        "result": { "enum": ["pass", "fail", "partial", "notRun", "skipped", "uninspectable"] },
         "walked": { "type": "integer", "minimum": 0 },
         "checked": { "type": "integer", "minimum": 0 },
         "uninspectable": { "type": "integer", "minimum": 0 },

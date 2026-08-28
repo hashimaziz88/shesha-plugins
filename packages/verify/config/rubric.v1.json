@@ -1,0 +1,98 @@
+{
+  "_comment": "T5-R3 / T5-R6 (§3.6). The ONE score source for the T5 visual judge. Five orthogonal axes, each with a 1-5 level descriptor and an evidence requirement. The five scores are stored as a vector and never blended: no weight exists in this file, and `rank.from` is an order statistic over the retained vector, not a sum of it. Human agreement with a judge is 77-87% with a rubric this explicit and 59-67% without, which is the whole reason the descriptors are written out rather than left to the model.",
+  "id": "rubric.v1",
+  "version": "1.0.0",
+  "candidateSetSize": 4,
+  "scale": { "min": 1, "max": 5, "integer": true },
+  "evidence": {
+    "required": true,
+    "rule": "Every axis score cites what was actually seen — a named region, control or measurement in the screenshot under judgement. An axis whose evidence string is empty or whitespace has its score DISCARDED and the axis is reported uninspectable. A score with no evidence is an opinion, and an opinion is not a measurement."
+  },
+  "vector": {
+    "axisCount": 5,
+    "noWeightedTotal": true,
+    "rule": "The five axis scores are stored as a vector, in the order the axes are declared here. No weighted total, average, composite or overall score is computed, stored or printed anywhere. Regression on any single axis is reported on its own, because a blended score hides an inverse movement between two axes — which is exactly the movement worth seeing."
+  },
+  "rank": {
+    "from": "worst-axis",
+    "rule": "The advisory rank is the band containing the MINIMUM retained axis score. A minimum is an order statistic over the vector, not a blend of it: no weights are applied and no sum is taken, so a strong axis can never buy off a weak one.",
+    "bands": [
+      { "rank": "excellent", "worstAxisAtLeast": 4 },
+      { "rank": "acceptable", "worstAxisAtLeast": 3 },
+      { "rank": "generic", "worstAxisAtLeast": 2 },
+      { "rank": "broken", "worstAxisAtLeast": 1 }
+    ]
+  },
+  "axes": [
+    {
+      "id": "hierarchy",
+      "name": "Visual hierarchy",
+      "asks": "Where does the eye land first, and does the order it travels in match the order the screen matters in?",
+      "orthogonality": "Measures RANK ORDER of attention only. A screen can be perfectly aligned, perfectly rhythmic, perfectly on-token and still present five things of equal weight, so no other axis constrains this one.",
+      "evidenceRequirement": "Name the element judged to be at tier 1, the element at tier 2, and the device that separates them (size, weight, colour, position, surrounding space).",
+      "levels": {
+        "1": "Everything competes. After a three-second look the subject of the screen cannot be named; the title, the toolbar, the table and the side panel all read at the same weight.",
+        "2": "A primary element exists but is contested — page chrome, a filter bar or a secondary panel carries equal visual weight and wins about half the time.",
+        "3": "The primary object reads first, but the second and third tiers are flat against each other: supporting detail and actions are indistinguishable in weight.",
+        "4": "Primary, supporting and action tiers are each distinct and read in order; one or two elements sit at the wrong tier for their importance.",
+        "5": "Three tiers read in order — subject, supporting detail, actions — every element sits at the tier its importance earns, and nothing is emphasised twice by two devices at once."
+      }
+    },
+    {
+      "id": "spacingRhythm",
+      "name": "Spacing rhythm",
+      "asks": "Do the gaps come from one scale, and do gap sizes themselves encode grouping?",
+      "orthogonality": "Measures the SIZE of empty space and whether those sizes repeat. Independent of where edges line up (alignment), of what is emphasised (hierarchy), and of what the space is filled with (restraint, themeFidelity).",
+      "evidenceRequirement": "Name two gaps and state whether they are the same size, and name one place where a between-group gap is smaller than or equal to a within-group gap.",
+      "levels": {
+        "1": "Gaps are arbitrary. Space between unrelated groups equals space between fields inside a group, so the eye cannot tell where one thing ends.",
+        "2": "A scale is visible in places and abandoned wherever the content got tight; at least three ad-hoc gap sizes are in use.",
+        "3": "Most gaps come from a scale; two or three ad-hoc values remain, and one grouping boundary is under-spaced.",
+        "4": "One spacing scale throughout, and every between-group gap exceeds the within-group gaps it separates.",
+        "5": "One scale, and the gap sizes themselves carry the structure — section, group, field each get a distinct step, with no exception anywhere on the screen."
+      }
+    },
+    {
+      "id": "alignment",
+      "name": "Alignment and grid",
+      "asks": "Do edges, labels, controls and baselines resolve onto a small number of shared axes?",
+      "orthogonality": "Measures the POSITION of edges, independent of the distance between them. A screen on a strict grid can still have arbitrary gap sizes, and a screen with a perfect spacing scale can still have every column starting at a different x.",
+      "evidenceRequirement": "Name the vertical axes content resolves to, and name any control whose left, right or optical centre does not land on one of them.",
+      "levels": {
+        "1": "Labels, fields and section edges each start at their own x. Nothing lines up, and the right-hand edge is ragged at every row.",
+        "2": "Fields align within a column, but the columns do not agree with each other and neither agrees with the container edge.",
+        "3": "A grid is present and mostly honoured; a few controls — a button row, an icon, an over-wide field — break out of it.",
+        "4": "All content resolves to one grid; optical alignment of icons, badges or trailing actions is slightly off in one or two places.",
+        "5": "One grid honoured by every control, with baselines shared across adjacent columns and icon and action centres optically corrected rather than merely box-aligned."
+      }
+    },
+    {
+      "id": "restraint",
+      "name": "Chrome restraint",
+      "asks": "Is every border, fill, shadow and divider doing structural work, or is some of it there to look designed?",
+      "orthogonality": "Measures the QUANTITY of decoration and whether each piece earns its place. Independent of whether that decoration is on-brand (themeFidelity): a screen can use exclusively correct tokens and still wrap four nested cards around one table.",
+      "evidenceRequirement": "Name each decorated boundary (border, fill, shadow, divider) and state the structural fact it marks, or state that it marks none.",
+      "levels": {
+        "1": "Borders, fills, shadows and accent colours everywhere. The decoration outweighs the content and the screen reads as a stack of boxes.",
+        "2": "Repeated separation: nested cards inside bordered panels inside shaded sections, so the same boundary is drawn two or three times.",
+        "3": "Decoration is moderate, but a noticeable share of it is ornamental — a shadow, a fill or a divider that marks no real boundary.",
+        "4": "Nearly all decoration is structural; one or two ornamental elements remain, and no boundary is drawn twice.",
+        "5": "Every border, fill, shadow and accent marks a real boundary, grouping or state. Nothing is present merely to signal effort, and separation is carried by space wherever space can carry it."
+      }
+    },
+    {
+      "id": "themeFidelity",
+      "name": "Theme fidelity",
+      "asks": "Does this look like this product, or like the component library it was assembled from?",
+      "orthogonality": "Measures CONFORMANCE of concrete values to the resolved theme tokens. Independent of composition entirely: stock defaults can be laid out impeccably, and a fully tokenised screen can still be badly composed.",
+      "evidenceRequirement": "Name the concrete values observed — colours, corner radii, elevation, type sizes, status colours — and state for each whether it matches a declared theme token or is a library default.",
+      "levels": {
+        "1": "Stock component defaults throughout. Not one resolved brand token is visible anywhere on the screen.",
+        "2": "The brand colour appears on the primary action, and nothing else: type, radius, elevation and status colours are all library defaults.",
+        "3": "Colour and type follow the theme; corner radius, elevation and the status/lifecycle colours are still defaults.",
+        "4": "Colour, type, radius and elevation are token-derived; one or two hard-coded values survive, typically in a status colour or a one-off panel.",
+        "5": "Every colour, size, radius, elevation and status colour resolves to a declared theme token. Nothing is hard-coded, and the screen would restyle correctly if the token file changed."
+      }
+    }
+  ]
+}

@@ -19,11 +19,14 @@ export const describe = 'every deletion and move is declared, executed only in i
 // Both sides of every row have to be staged: the gate asks whether each declared
 // path is absent and each move destination present, so a copy carrying only the
 // config would report every completed move as having failed to land.
+// `quarantine/` was staged here while it still held files. WP-3c lifted the last one
+// (the DOM probe) and the directory is gone, so staging it would stage nothing: a
+// declared input that cannot exist stops this gate counting toward the ratchet. Its
+// delete rows assert ABSENCE, which an unstaged path satisfies identically.
 export const inputPaths = [
   'packages/verify/config/disposition.json',
   'packages/verify/config/wp-table.json',
   'BUILD-LOG.md',
-  'quarantine',
   'plugins',
   'packages',
 ];

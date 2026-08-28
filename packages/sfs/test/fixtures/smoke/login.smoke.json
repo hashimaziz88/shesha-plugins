@@ -1,0 +1,37 @@
+{
+  "screen": "login",
+  "navigation": {
+    "how": "direct-url",
+    "url": "http://localhost:3000/"
+  },
+  "render": {
+    "rootPresent": true,
+    "viewport": {
+      "w": 1440,
+      "h": 900
+    }
+  },
+  "console": [
+    {
+      "level": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold"
+    }
+  ],
+  "actionSites": [
+    {
+      "name": "mainContainer",
+      "unreachable": "unreached by this recording: clicking is a live mutation"
+    },
+    {
+      "name": "formContainer",
+      "unreachable": "unreached by this recording: clicking is a live mutation"
+    },
+    {
+      "name": "metaContainer",
+      "unreachable": "unreached by this recording: clicking is a live mutation"
+    }
+  ],
+  "reflists": [],
+  "readOnly": [],
+  "capturedAt": "2026-08-28T00:00:00Z"
+}

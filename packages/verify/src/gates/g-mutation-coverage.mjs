@@ -17,6 +17,8 @@ export const inputPaths = [
   'packages/verify/src/tiers/t1-schema.mjs',
   'packages/verify/src/tiers/t2-registry.mjs',
   'packages/verify/src/tiers/t3-semantic.mjs',
+  'packages/verify/src/tiers/t4-smoke.mjs',
+  'packages/verify/src/tiers/t4b-residue.mjs',
   'package.json',
 ];
 
@@ -24,6 +26,8 @@ const TIERS = [
   { tier: 't1', file: 'packages/verify/src/tiers/t1-schema.mjs' },
   { tier: 't2', file: 'packages/verify/src/tiers/t2-registry.mjs' },
   { tier: 't3', file: 'packages/verify/src/tiers/t3-semantic.mjs' },
+  { tier: 't4', file: 'packages/verify/src/tiers/t4-smoke.mjs' },
+  { tier: 't4b', file: 'packages/verify/src/tiers/t4b-residue.mjs' },
 ];
 
 /**

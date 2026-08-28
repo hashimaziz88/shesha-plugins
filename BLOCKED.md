@@ -1,14 +1,14 @@
 # BLOCKED
 
 Every blocked or degraded path has a row. No silent degradation. `g-blocked-honesty`
-(ships WP-2) cross-checks both ways: every row must name a tier or gate **currently**
-reporting `uninspectable` / `notRun` / `pending-probe`, and every such state in a
-committed artifact must have a row here.
+(WP-3c) reads this table: every row must be complete and must name a tier or gate that
+actually exists, so a row can never point at a degradation nothing implements.
 
 | ID | WP | What is blocked | Evidence (command + observed output) | Degraded state (tier/gate + verdict) | Unblock action | Recorded |
 |----|----|----|----|----|----|----|
 | B11 | WP-0 | The whole-brief 61,440 B budget of D-046 cannot be enforced in Scope A | `node -e` summing `docs/rebuild-brief/*.md` -> `bundle 594452 B across 8 files`, i.e. 9.7x the cap | `g-brief-budget` enforces `CONTROL.md <= 25600` only; `bundle.enforced: false` in `packages/verify/config/brief-budget.json`, paired with BL-011 | WP-16b (the Scope-B WP for this) was DESCOPED 2026-08-21 (D-114): the 61,440 B target is infeasible by the sanctioned BL-011 extraction — the `docs/rebuild-brief/*.md` bundle is ~613 KB and ~330 KB of that is design PROSE that cannot move to `data/*.json`, so 61,440 B is reachable only by moving prose files out of the glob (the S7 anti-pattern) or a 6x brief rewrite. BL-011 stays a deferred BACKLOG item; `bundle.enforced` stays `false` | 2026-08-17 |
 | B12 | WP-0 | 34 pre-existing prose-debt allowances carried as measured waivers | `node packages/verify/src/gates/g-prose-budget.mjs --baseline` -> `34 waiver(s) written from measured sizes` | `g-prose-budget` passes with 34 waivers, each dated to WP-7a / BL-007 / BL-012; caps ratchet down only and `--baseline` refuses to raise one | WP-7a deletes 25 of them with `shesha-form-edit/**`; BL-007 clears the design-skill 5; BL-012 clears the last 4 | 2026-08-17 |
+| B14 | WP-3c | The live T4 path — driving a real Shesha frontend, clicking every action site and reading each consequence back from the backend | `node packages/verify/src/tiers/t4-smoke.mjs packages/sfs/test/fixtures/smoke/login.smoke.json` -> `actions walked 3 checked 0` and `result: FAIL`: a recording that clicked nothing is a zero-coverage failure, not a pass | `t4-smoke` reports `notRun` with the reason naming what is missing when no `--base-url` is given, and its `actions`/`consequences` families report zero coverage over a passive recording; `t4b-residue` asserts only over a recorded probe. Neither enters `result` (D-015) | BL-033: run `npx playwright install chromium` (an operator step; no `--with-deps`, that flag is Linux-only) and `node packages/verify/src/verify.mjs <run> --screen <s> --tiers t4 --base-url <url>` against a Shesha host where clicking is not a live mutation | 2026-08-28 |
 | B13 | WP-0 | Node is not on PATH in any non-interactive shell on this machine | `node --version` -> `command not found`; `fnm list` -> `v20.20.2 v22.23.2 v24.19.0 default` | None. Every acceptance command in this session ran under an fnm-activated PATH and `g-commands-executable` resolves through `process.execPath`, not a bare `node` | Nothing required for correctness. A CI runner with Node 22+ on PATH satisfies it directly | 2026-08-17 |
 
 ## Environment note (not a block)

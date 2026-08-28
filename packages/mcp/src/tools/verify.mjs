@@ -27,15 +27,20 @@ export async function run(input = {}) {
   const root = repoRoot();
   const runId = typeof input.runId === 'string' ? input.runId : '';
   const runDir = runId ? path.join(root, 'runs', runId) : path.join(root, '.build/mcp-verify');
+  // The ladder matches tier names in lower case. This tool's schema spells them T1..T5,
+  // so passing them through unchanged matched NOTHING: every tier stayed notRun while
+  // `result` kept its initial `pass`, and this tool — the one an agent calls — returned a
+  // green verdict having run nothing at all.
+  const asked = Array.isArray(input.tiers) && input.tiers.length ? input.tiers : ['T1', 'T2', 'T3'];
+  const tiers = asked.map((/** @type {any} */ t) => String(t).toLowerCase());
   const r = /** @type {any} */ (await runLadder({
-    root, runDir, screen: String(input.screen),
-    tiers: Array.isArray(input.tiers) && input.tiers.length ? input.tiers : ['T1', 'T2', 'T3'],
+    root, runDir, screen: String(input.screen), tiers,
     legacy: !!input.legacy, metadata: typeof input.metadata === 'string' ? input.metadata : null,
   }));
   const v = r.verdict || {};
   return {
     verdictPath: path.join(runDir, 'screens', `${input.screen}.verdict.json`),
-    result: v.result, tiers: v.tiers, predicates: v.predicates ?? [],
+    result: v.result, exit: r.exit, tiers: v.tiers, predicates: v.predicates ?? [],
     findings: v.findings ?? [], route: v.route ?? {}, advisory: v.advisory ?? {},
   };
 }

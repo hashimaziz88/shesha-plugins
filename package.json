@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node --test \"packages/*/test/*.test.mjs\" \"quarantine/*.test.mjs\"",
+    "test": "node --test \"packages/*/test/*.test.mjs\"",
     "gates": "node packages/verify/src/run-gates.mjs",
     "gates:mutate": "node --test packages/verify/test/mutation/mutation-meta.test.mjs",
     "green:quick": "npm run typecheck && npm run gates",

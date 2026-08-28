@@ -14,6 +14,9 @@ import { compile } from '../../sfs/src/compile/index.mjs';
 import { t1Full, mutations as t1Muts, checks as t1Checks } from '../src/tiers/t1-schema.mjs';
 import { t2Registry, mutations as t2Muts, checks as t2Checks } from '../src/tiers/t2-registry.mjs';
 import { t3Semantic, mutations as t3Muts, checks as t3Checks } from '../src/tiers/t3-semantic.mjs';
+import { t4Smoke, selftestRecord, mutations as t4Muts, checks as t4Checks } from '../src/tiers/t4-smoke.mjs';
+import { t4bResidue, mutations as t4bMuts, checks as t4bChecks } from '../src/tiers/t4b-residue.mjs';
+import { withStubBackend } from './helpers/stub-backend.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 
@@ -30,7 +33,7 @@ function familyCaught(fams, name, expect) {
   return expect === 'partial' ? fam.uninspectable.length > 0 : fam.failures.length > 0;
 }
 
-for (const [tier, checks, muts] of /** @type {const} */ ([['t1', t1Checks, t1Muts], ['t2', t2Checks, t2Muts], ['t3', t3Checks, t3Muts]])) {
+for (const [tier, checks, muts] of /** @type {const} */ ([['t1', t1Checks, t1Muts], ['t2', t2Checks, t2Muts], ['t3', t3Checks, t3Muts], ['t4', t4Checks, t4Muts], ['t4b', t4bChecks, t4bMuts]])) {
   test(`${tier}: every non-subsumed check id is covered by a mutation`, () => {
     const covered = new Set(muts.flatMap((m) => m.covers));
     const uncovered = checks.filter((c) => !(/** @type {any} */ (c).subsumed) && !covered.has(c.id)).map((c) => c.id);
@@ -86,6 +89,42 @@ for (const m of t3Muts) {
     const ctx = /** @type {any} */ ({ doc: structuredClone(b.doc), meta: structuredClone(b.meta), entity: String(b.envelope.ModelType), contract: undefined });
     m.apply(ctx);
     const fams = t3Semantic(ctx.doc, ctx.meta, { entity: ctx.entity, contract: ctx.contract, metadata: t3Metadata });
+    assert.equal(verdictOf(fams), m.expect, `verdict did not become ${m.expect}`);
+    assert.ok(familyCaught(fams, m.expectFamily, m.expect), `${m.expectFamily} did not catch "${m.name}"`);
+  });
+}
+
+// T4's baseline is a recorded smoke run against the stub backend, and T4b's is the
+// recorded probe from a live Shesha frontend. Neither tier compiles a form, so neither
+// mutates `doc`; the ctx each carries is its own recording.
+test('t4 baseline passes a complete recorded smoke run', async () => {
+  const fams = await withStubBackend((origin, backendGet) => t4Smoke(selftestRecord(origin), { backendGet }));
+  assert.equal(verdictOf(fams), 'pass');
+});
+
+for (const m of t4Muts) {
+  test(`t4 mutation "${m.name}" flips ${m.expectFamily} to ${m.expect}`, async () => {
+    const fams = await withStubBackend((origin, backendGet) => {
+      const ctx = /** @type {any} */ ({ record: selftestRecord(origin) });
+      m.apply(ctx);
+      return t4Smoke(ctx.record, { backendGet });
+    });
+    assert.equal(verdictOf(fams), m.expect, `verdict did not become ${m.expect}`);
+    assert.ok(familyCaught(fams, m.expectFamily, m.expect), `${m.expectFamily} did not catch "${m.name}"`);
+  });
+}
+
+const cleanProbe = JSON.parse(fs.readFileSync(path.join(ROOT, 'packages/sfs/test/fixtures/probe/login.probe.json'), 'utf8'));
+
+test('t4b baseline passes the recorded live capture', () => {
+  assert.equal(verdictOf(t4bResidue(structuredClone(cleanProbe))), 'pass');
+});
+
+for (const m of t4bMuts) {
+  test(`t4b mutation "${m.name}" flips ${m.expectFamily} to ${m.expect}`, () => {
+    const ctx = /** @type {any} */ ({ probe: structuredClone(cleanProbe) });
+    m.apply(ctx);
+    const fams = t4bResidue(ctx.probe);
     assert.equal(verdictOf(fams), m.expect, `verdict did not become ${m.expect}`);
     assert.ok(familyCaught(fams, m.expectFamily, m.expect), `${m.expectFamily} did not catch "${m.name}"`);
   });

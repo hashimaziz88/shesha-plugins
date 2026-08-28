@@ -34,7 +34,6 @@ packages/sfs/        L1+L2: SFS schema, parser, compiler, decompiler, recipes, t
 packages/verify/     L3: verifier tiers, every repo gate, mutation harness, gate evidence
 packages/mcp/        L4: MCP tool surface (the server itself is BL-008)
 packages/precedent/  Scaffold; throws E_NOT_IMPLEMENTED until BL-009
-quarantine/          Legacy gates with declared holes, awaiting BL-003. Referenced by nothing
 plugins/             Claude Code plugins. Skills are thin routers over packages/**, never logic
 .githooks/           pre-commit runs green:fast; commit-msg runs the commit-format gate
 docs/rebuild-brief/  The rebuild brief. Not prompt payload; CONTROL.md is the turn-zero read

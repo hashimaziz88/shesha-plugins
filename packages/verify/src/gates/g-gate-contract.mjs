@@ -48,7 +48,6 @@ export const inputPaths = [
   '.claude/hooks',
   '.claude/settings.json',
   '.mcp.json',
-  'quarantine',
 ];
 
 /** The verdicts a mutation may legally expect. A mutation expecting pass is a contract violation. */

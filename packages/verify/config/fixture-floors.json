@@ -1,12 +1,50 @@
 {
   "_comment": "Per-family fixture floors. Every check id must own at least one fixture (anti-drift item 13), and a floor here is what stops a tier from being narrowed to the fixtures it happens to pass. Floors ratchet UP only; each is populated by the WP that creates its fixture family.",
   "families": {
-    "clean": { "floor": 10, "wp": "WP-4", "glob": "packages/sfs/test/fixtures/clean/*.sfs.json" },
-    "t1": { "floor": 0, "wp": "WP-3a", "glob": "packages/sfs/test/fixtures/t1/*" },
-    "t2": { "floor": 0, "wp": "WP-3a", "glob": "packages/sfs/test/fixtures/t2/*" },
-    "envelope": { "floor": 0, "wp": "WP-3a", "glob": "packages/sfs/test/fixtures/envelope/*" },
-    "coverage": { "floor": 0, "wp": "WP-3a", "glob": "packages/sfs/test/fixtures/coverage/*" },
-    "gaps": { "floor": 0, "wp": "WP-5", "glob": "packages/sfs/test/fixtures/gaps/*" },
-    "markup-provenance": { "floor": 11, "wp": "WP-8c.2", "glob": "packages/sfs/test/fixtures/**/*.expected.form.json + packages/verify/test/fixtures/run/screens/*.form.json" }
+    "clean": {
+      "floor": 10,
+      "wp": "WP-4",
+      "glob": "packages/sfs/test/fixtures/clean/*.sfs.json"
+    },
+    "t1": {
+      "floor": 0,
+      "wp": "WP-3a",
+      "glob": "packages/sfs/test/fixtures/t1/*"
+    },
+    "t2": {
+      "floor": 0,
+      "wp": "WP-3a",
+      "glob": "packages/sfs/test/fixtures/t2/*"
+    },
+    "envelope": {
+      "floor": 0,
+      "wp": "WP-3a",
+      "glob": "packages/sfs/test/fixtures/envelope/*"
+    },
+    "coverage": {
+      "floor": 0,
+      "wp": "WP-3a",
+      "glob": "packages/sfs/test/fixtures/coverage/*"
+    },
+    "gaps": {
+      "floor": 0,
+      "wp": "WP-5",
+      "glob": "packages/sfs/test/fixtures/gaps/*"
+    },
+    "markup-provenance": {
+      "floor": 11,
+      "wp": "WP-8c.2",
+      "glob": "packages/sfs/test/fixtures/**/*.expected.form.json + packages/verify/test/fixtures/run/screens/*.form.json"
+    },
+    "probe": {
+      "floor": 5,
+      "wp": "WP-3c",
+      "glob": "packages/sfs/test/fixtures/probe/*.json"
+    },
+    "smoke": {
+      "floor": 1,
+      "wp": "WP-3c",
+      "glob": "packages/sfs/test/fixtures/smoke/*.json"
+    }
   }
 }
