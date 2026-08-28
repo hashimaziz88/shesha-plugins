@@ -1,275 +1,99 @@
 # Shesha Plugins
 
-Welcome to the Shesha Plugins repository! This open-source project provides a collection of custom commands and plugins for Shesha, designed to extend functionality and streamline your development workflow.
+Claude Code plugins, skills, and the SFS toolchain for Shesha framework development
+(Shesha 0.45.x).
 
-## Overview
+Two things live here, and they are joined at the hip:
 
-Shesha Plugins is an extensible skills framework that allows developers to create and share custom skills for Claude. Skills are documentation-based guides that help automate tasks, standardize processes, and share best practices across your team. Whether you're setting up .NET analyzers, configuring authentication, or establishing coding standards, this repository provides a simple way to package and distribute your knowledge.
+- **`packages/`** — the SFS toolchain. SFS is a compact form-specification language; the
+  compiler in `packages/sfs` is the only writer of Shesha form markup in this repository.
+  A verifier ladder in `packages/verify` grades what it produces, and a registry in
+  `packages/registry` is the ground truth about Shesha's components.
+- **`plugins/`** — the Claude Code plugins and skills. Skills are **routers**: they state
+  intent, route to a package command, and show worked examples. Deterministic rules,
+  version integers, prop lists and enum domains live in `packages/registry` (data) or
+  `packages/sfs` (code), never in a skill's prose.
 
-## Getting Started
-
-### Prerequisites
-
-Before you begin, ensure you have:
-
-- Claude CLI installed
-- Git installed on your machine
-- Basic understanding of Markdown (for creating skill documentation)
-
-## Installation
-
-### Via Claude Plugin Marketplace
-
-The easiest way to install Shesha Plugins is through the Claude plugin marketplace:
-
-1. **Add the plugin to the marketplace**
-
-   ```bash
-   /plugin marketplace add ./
-   ```
-
-2. **Open the marketplace**
-   - Run: /plugin enter
-
-   - Use the arrow keys to navigate to the Marketplace tab
-
-3. **Navigate to Shesha Plugins**
-   - Scroll down or search for "Shesha Plugins"
-
-4. **Browse available plugins**
-   - Click "Browse Plugins" to see all available commands
-
-5. **Install for your team**
-   - Click "Install for all collaborators" to make plugins available to your entire team
-
-## Creating Custom Skills
-
-Skills allow you to extend Shesha's functionality with custom commands and workflows. Here's how to create your own:
-
-### Skill Structure
-
-Each skill is a folder containing a `SKILL.md` file with metadata and instructions:
+## Repository layout
 
 ```
-skills/
-└── your-skill-name/
-    └── SKILL.md
+packages/registry/   L0 ground truth: component registry, capability matrix, tokens, probes, coverage
+packages/sfs/        L1+L2: SFS schema, parser, compiler, decompiler, recipes, the `sfs` CLI
+packages/verify/     L3: verifier tiers, every repo gate, mutation harness, gate evidence
+packages/mcp/        L4: the `shesha-sfs` MCP tool surface
+packages/precedent/  shape-indexed precedent retrieval over the corpus
+plugins/             Claude Code plugins. Skills are thin routers over packages/**, never logic
+.claude/hooks/       write-blocking and dispatch hooks
+.githooks/           pre-commit runs green:fast; commit-msg runs the commit-format gate
+docs/rebuild-brief/  the rebuild brief
 ```
 
-### Step-by-Step Guide
+Root documents: `CLAUDE.md` (the working contract), `DECISIONS.md` (the only decision
+registry), `BACKLOG.md`, `BLOCKED.md`, `BUILD-LOG.md`, `HANDOFF.md`, `AUDIT.md`.
 
-1. **Navigate to the skills directory**
+## Using the plugins
 
-   ```bash
-   cd skills
-   ```
+Three plugins are published from `.claude-plugin/marketplace.json`:
 
-2. **Create a new folder for your skill**
+| Plugin | What it covers |
+|---|---|
+| `shesha-developer` | Application development against Shesha 0.45.x — domain model, application layer, forms, the design pipeline, configuration items |
+| `framework-dev` | Work on the Shesha framework itself, not on an application built with it |
+| `shesha-developer-0-43` | Version-pinned skill set for maintaining legacy v0.43 projects. Frozen; gates skip it and edits to it are forbidden |
 
-   ```bash
-   mkdir your-skill-name
-   ```
+Install through the Claude plugin marketplace:
 
-   **Naming conventions:**
-   - Use lowercase with hyphens (e.g., `add-analyzers`, `setup-authentication`)
-   - Make it descriptive and specific
-   - Avoid generic names
+1. From the repository root, run `/plugin marketplace add ./`.
+2. Run `/plugin`, then use the arrow keys to reach the Marketplace tab.
+3. Find "shesha-plugins", browse its plugins, and install the one you need.
 
-3. **Create the SKILL.md file**
+An MCP server ships alongside them. `.mcp.json` registers `shesha-sfs`, whose seven tools
+(`compile`, `decompile`, `verify`, `push`, `registry_lookup`, `metadata_entity`,
+`precedent_search`) hold parity with the `sfs` CLI.
 
-   ```bash
-   cd your-skill-name
-   touch SKILL.md
-   ```
+Skills live under `plugins/<plugin>/skills/<skill-name>/SKILL.md`. There is no top-level
+`skills/` directory. A skill's folder name must equal its frontmatter `name`; the only
+legal frontmatter keys are `name`, `description`, `allowed-tools` and `argument-hint`; and
+`README.md`, `CHANGELOG.md` and `INSTALLATION_GUIDE.md` are never legal inside a skill
+folder. `CLAUDE.md` carries the full skill conventions and the prose budget that enforces
+them.
 
-4. **Add frontmatter and content**
+## Working on the toolchain
 
-   Every `SKILL.md` file must start with YAML frontmatter containing the skill metadata:
+Node >= 22 is required, and `package-lock.json` is committed and authoritative.
 
-   ```markdown
-   ---
-   name: your-skill-name
-   description: Brief description of what this skill does and when to use it
-   ---
-
-   # Your Skill Title
-
-   Detailed documentation of your skill...
-   ```
-
-### Skill Template
-
-Here's a complete template for creating a new skill:
-
-```markdown
----
-name: your-skill-name
-description: Use this skill to [describe the main purpose and when to trigger this skill]
----
-
-# Skill Title
-
-Brief overview of what this skill accomplishes.
-
-## Overview
-
-Explain what the skill does and what problems it solves.
-
-## Step 1: [First Step Title]
-
-Detailed instructions for the first step.
-
-# Example commands
-
-command-example
-
-## Step 2: [Second Step Title]
-
-Continue with additional steps as needed.
-
-### Important Notes
-
-- Any special considerations
-- Prerequisites or requirements
-- Common pitfalls to avoid
-
-## Example Usage
-
-Provide concrete examples of how to use this skill.
-
----
+```
+npm ci                  install
+npm run typecheck       tsc --noEmit
+npm test                every test under packages/*/test/
+npm run gates           every gate in packages/verify/src/gates/
+npm run gates:mutate    proves every gate fails when its declared mutations are applied
+npm run green:quick     typecheck + gates
+npm run green:fast      typecheck + tests + gates. What .githooks/pre-commit runs
+npm run green           green:fast + gates:mutate. What `npm run prove` runs
+npm run sfs -- <args>   the compiler CLI, the only writer of form markup
+npm run prove           the Scope A integration proof
+npm run prove-b         the Scope B integration proof
+npm run bless           re-record a blessed expected file
+npm run hooks:install   git config core.hooksPath .githooks
 ```
 
-### Best Practices
+`npm run green:fast` exiting 0 is the definition of a committable tree. `npm run green`
+exiting 0 is the definition of a pushable tree. Nothing else is.
 
-- **Clear naming**: Use descriptive frontmatter names and descriptions
-- **Be specific**: Clearly define when and how to use the skill
-- **Step-by-step**: Break down complex tasks into numbered steps
-- **Include examples**: Show real code snippets and commands
-- **Document prerequisites**: List any required tools or setup
-- **Use code blocks**: Format commands and code properly with syntax highlighting
-
-## Running the Project
-
-### Using Skills in Claude
-
-Once installed via the marketplace, skills are automatically available in Claude:
-
-1. **Trigger skills naturally** - Claude will automatically use relevant skills based on your requests
-2. **Browse available skills** - Use the marketplace to see all installed skills
-3. **Share with team** - Skills installed for all collaborators are immediately available
-
-### Local Development
-
-If you're developing skills locally:
-
-```bash
-# Navigate to the project
-cd shesha-plugins
-
-# Add to Claude's plugin marketplace
-/plugin marketplace add ./
-
-# Your skills are now available in Claude
-```
+Every gate reports `walked / checked / notApplicable / uninspectable / failures` per
+declared family. A family that walked 0 fails, and anything needing a live Shesha backend
+degrades to `uninspectable` with a reason rather than passing. Completion is never a
+self-report: it is a command's exit code recorded under `packages/verify/evidence/`.
 
 ## Contributing
 
-We welcome contributions from the community! Here's how you can help:
+1. Fork and clone, then branch: `git checkout -b feature/<short-name>`.
+2. Make the change. If it touches `plugins/**`, bump
+   `plugins/shesha-developer/.claude-plugin/plugin.json`.
+3. Hold `npm run green` at exit 0 before you push. Never disable, skip, widen or downgrade
+   a gate to make the tree green.
+4. Commit subject `[type]- <imperative summary>`, types `[feature]`, `[fix]`, `[chore]`.
+5. Open a pull request describing what changed and which command proves it.
 
-### How to Contribute
-
-1. **Fork the repository**
-
-   ```bash
-   git clone https://github.com/your-username/shesha-plugins.git
-   ```
-
-2. **Create a feature branch**
-
-   ```bash
-   git checkout -b feature/new-skill-name
-   ```
-
-3. **Create your skill**
-
-   ```bash
-   cd skills
-   mkdir your-new-skill
-   cd your-new-skill
-   touch SKILL.md
-   ```
-
-4. **Commit your changes**
-
-   ```bash
-   git add .
-   git commit -m "Add [skill-name] skill for [purpose]"
-   ```
-
-5. **Push to your fork**
-
-   ```bash
-   git push origin feature/new-skill-name
-   ```
-
-6. **Open a Pull Request**
-   - Describe what your skill does and when to use it
-   - Include examples of the skill in action
-   - Reference any related issues
-
-### Contribution Guidelines
-
-- Follow the skill template structure
-- Use clear, descriptive frontmatter
-- Include step-by-step instructions
-- Provide code examples where applicable
-- Test your skill before submitting
-- Update documentation as needed
-- Be respectful and collaborative
-
-## Project Structure
-
-```
-├── .claude/
-│   ├── settings.json
-│   └── settings.local.json
-├── .claude-plugin/
-│   └── marketplace.json
-└── plugins/
-    └── shesha-developer/
-        ├── .claude-plugin/
-        │   └── plugin.json
-        └── skills/
-
-
-
-```
-
-## Troubleshooting
-
-### Common Issues
-
-**Plugin not showing in marketplace**
-
-- Ensure you've run `/plugin marketplace add ./` from the project root directory
-- Verify you're in the correct directory (should contain the `skills` folder)
-- Refresh the marketplace view
-
-**Skill not being triggered**
-
-- Check that your `SKILL.md` frontmatter is properly formatted with `name` and `description`
-- Ensure the description clearly indicates when the skill should be used
-- Verify the skill is installed for all collaborators
-
-**SKILL.md not recognized**
-
-- Verify the file is named exactly `SKILL.md` (case-sensitive)
-- Check that YAML frontmatter is properly formatted with `---` delimiters
-- Ensure the skill folder is directly under the `skills` directory
-
----
-
-**Made with ❤️ by the Shesha community**
-
-For questions or support, please open an issue or reach out to our community channels.
+`CLAUDE.md` is the authority on all of the above; this file is the front door.
