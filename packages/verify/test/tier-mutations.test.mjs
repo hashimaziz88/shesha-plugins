@@ -16,6 +16,9 @@ import { t2Registry, mutations as t2Muts, checks as t2Checks } from '../src/tier
 import { t3Semantic, mutations as t3Muts, checks as t3Checks } from '../src/tiers/t3-semantic.mjs';
 import { t4Smoke, selftestRecord, mutations as t4Muts, checks as t4Checks } from '../src/tiers/t4-smoke.mjs';
 import { t4bResidue, mutations as t4bMuts, checks as t4bChecks } from '../src/tiers/t4b-residue.mjs';
+// T5's mutations need an injected judge, so t5.test.mjs runs each of them against a
+// stubbed one; here T5 is held to the same static completeness rule as every other tier.
+import { mutations as t5Muts, checks as t5Checks } from '../src/tiers/t5-visual.mjs';
 import { withStubBackend } from './helpers/stub-backend.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
@@ -33,7 +36,7 @@ function familyCaught(fams, name, expect) {
   return expect === 'partial' ? fam.uninspectable.length > 0 : fam.failures.length > 0;
 }
 
-for (const [tier, checks, muts] of /** @type {const} */ ([['t1', t1Checks, t1Muts], ['t2', t2Checks, t2Muts], ['t3', t3Checks, t3Muts], ['t4', t4Checks, t4Muts], ['t4b', t4bChecks, t4bMuts]])) {
+for (const [tier, checks, muts] of /** @type {const} */ ([['t1', t1Checks, t1Muts], ['t2', t2Checks, t2Muts], ['t3', t3Checks, t3Muts], ['t4', t4Checks, t4Muts], ['t4b', t4bChecks, t4bMuts], ['t5', t5Checks, t5Muts]])) {
   test(`${tier}: every non-subsumed check id is covered by a mutation`, () => {
     const covered = new Set(muts.flatMap((m) => m.covers));
     const uncovered = checks.filter((c) => !(/** @type {any} */ (c).subsumed) && !covered.has(c.id)).map((c) => c.id);

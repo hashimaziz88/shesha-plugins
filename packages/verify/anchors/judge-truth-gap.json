@@ -1,0 +1,29 @@
+{
+  "_comment": "T5-R9 (§3.6). The judge-truth gap ledger: per release, how many screens were verified BY HAND, what the judge said about them, what the hand verdict was, and the gap between the two. This is the number that says whether the T5 signal is worth reading at all. `releases` is EMPTY because no release has yet had screens hand-verified against a judge run; an entry invented here would be the fabricated evidence the ledger exists to detect. A release with no entry makes T5 report the gap unrecorded, which is a finding, not a pass.",
+  "version": "1.0.0",
+  "entryShape": {
+    "release": "the released version string these screens were judged under",
+    "date": "ISO-8601 date the hand verification was completed",
+    "model": "the judge model id that produced the judge verdicts",
+    "rubricVersion": "the rubric.v1.json version in force for that release",
+    "handVerifiedScreens": "N, the count of screens a human ranked independently of the judge",
+    "screens": "N entries of {screen, judgeRank, handRank, agreed}",
+    "agreed": "the count of screens where judgeRank equals handRank",
+    "gap": "1 - (agreed / handVerifiedScreens), the disagreement rate",
+    "notes": "what the disagreements had in common, in one sentence"
+  },
+  "releases": [
+    {
+      "release": "1.11.0",
+      "date": "2026-08-28",
+      "model": null,
+      "rubricVersion": "1.0.0",
+      "handVerifiedScreens": 0,
+      "screens": [],
+      "agreed": 0,
+      "gap": null,
+      "blocked": "BL-034",
+      "notes": "No model has been qualified against the 10 anchors T5-R2 requires, so T5 reports notRun and there is no judge verdict to compare a hand verdict against. The gap is UNMEASURED, not zero; g-t5-advisory refuses a zero-screen entry that does not name the blocker."
+    }
+  ]
+}

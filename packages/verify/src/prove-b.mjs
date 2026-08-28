@@ -414,6 +414,36 @@ async function runResidue(/** @type {string} */ root) {
     : { ok: false, lines: [`t4/t4b: clean=${cleanV} overflow=${overflowV} blind=${blindV} smoke=${smokeV} availReason="${avail.reason}"`] };
 }
 
+/** WP-3d: T5 ranks, and ranking never becomes gating (D-015). */
+async function runAdvisory(/** @type {string} */ root) {
+  const t5 = await import(pathToFileURL(path.join(root, 'packages/verify/src/tiers/t5-visual.mjs')).href);
+  const { runLadder } = await import(pathToFileURL(path.join(root, 'packages/verify/src/verify.mjs')).href);
+  const gate = await import(pathToFileURL(path.join(root, 'packages/verify/src/gates/g-t5-advisory.mjs')).href);
+
+  // Every grade the rubric can produce, including the worst, exits 0 and never gates.
+  const { grades } = /** @type {any} */ (t5).selftest();
+  const axes = JSON.parse(fs.readFileSync(path.join(root, 'packages/verify/config/rubric.v1.json'), 'utf8')).axes.length;
+  const ranks = grades.map((/** @type {any} */ g) => `${g.grade}->${g.rank ?? 'notRun'}`).join(' ');
+  const everyGradeExitsZero = grades.every((/** @type {any} */ g) => g.exit === 0);
+
+  // The D-015 property, recomputed rather than asserted: the ladder's result is
+  // byte-identical whichever way T5 lands, because T5 is not in RESULT_TIERS at all.
+  const dir = path.join(root, '.build/prove-b-t5');
+  const base = { root, runDir: dir, screen: 'inline-editable-table', legacy: false, metadata: 'packages/sfs/test/fixtures/metadata/inline-editable-table.metadata.json' };
+  const without = /** @type {any} */ (await runLadder({ ...base, tiers: ['t1', 't2', 't3'] }));
+  const withT5 = /** @type {any} */ (await runLadder({ ...base, tiers: ['t1', 't2', 't3', 't5'] }));
+  const identical = without.verdict.result === withT5.verdict.result;
+
+  const fams = await gate.run({ repoRoot: root });
+  const gateOk = verdictOf(fams) === 'pass';
+  const line = gate.summaryLine(root);
+
+  const ok = everyGradeExitsZero && identical && gateOk && axes === 5 && /judge-truth gap recorded/.test(line);
+  return ok
+    ? { ok: true, lines: [`T5 ranks on ${axes} orthogonal axes with no total anywhere and exits 0 on every grade (${ranks}); result is unchanged whether or not T5 runs, and g-t5-advisory holds: ${line} (WP-3d, D-128; D-015 closed after 11 days pending)`] }
+    : { ok: false, lines: [`t5: grades=${ranks} exitsZero=${everyGradeExitsZero} resultIdentical=${identical} gate=${gateOk} axes=${axes} · ${line}`] };
+}
+
 /**
  * The proof's ordered steps. Each names the Scope-B WP that makes it runnable and
  * is added in that WP's commit.
@@ -441,6 +471,7 @@ const STEPS = [
   { id: 'precedent', label: 'precedent index', needs: 'WP-9', impl: runPrecedent },
   { id: 'roundtrip', label: 'corpus round-trip', needs: 'WP-6', impl: runRoundtrip },
   { id: 'residue', label: 'T4/T4b residue', needs: 'WP-3c', impl: runResidue },
+  { id: 'advisory', label: 'T5 advisory', needs: 'WP-3d', impl: runAdvisory },
 ];
 
 /**

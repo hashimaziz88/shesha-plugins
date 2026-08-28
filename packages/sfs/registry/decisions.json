@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 127,
+  "count": 128,
   "decisions": [
     {
       "id": "D-001",
@@ -178,7 +178,7 @@
       "why": "§4 L3",
       "consequence": "No T5 finding downgrades a result",
       "enforcedBy": [
-        "pending:BL-005"
+        "g-t5-advisory"
       ],
       "confirmation": "n/a"
     },
@@ -1526,6 +1526,18 @@
       "consequence": "A tier that could not look says so and is never a pass",
       "enforcedBy": [
         "g-blocked-honesty"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-128",
+      "date": "2026-08-28",
+      "status": "decided",
+      "decision": "WP-3d: T5 is a ranking signal — 5 orthogonal rubric axes as a vector with no total computed anywhere, a judge disqualified below 9-of-10 anchor-first, a 3-round cap, an injected judge so every path runs with no model; the judge-truth ledger must STATE the number, and a zero-screen entry must name its blocker",
+      "why": "a gap you cannot state is a gate you cannot trust",
+      "consequence": "T5 never changes result or the exit code",
+      "enforcedBy": [
+        "g-t5-advisory"
       ],
       "confirmation": "n/a"
     }

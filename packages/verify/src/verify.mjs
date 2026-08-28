@@ -24,6 +24,7 @@ import { t2Registry } from './tiers/t2-registry.mjs';
 import { t3Semantic } from './tiers/t3-semantic.mjs';
 import { t4Smoke, t4Available, hasPlaywright, capture as t4Capture } from './tiers/t4-smoke.mjs';
 import { t4bResidue } from './tiers/t4b-residue.mjs';
+import { t5Visual } from './tiers/t5-visual.mjs';
 
 const LATTICE = /** @type {Record<string, number>} */ ({ pass: 0, partial: 1, fail: 2 });
 const RESULT_TIERS = ['T1', 'T2', 'T3'];
@@ -55,7 +56,7 @@ function readCompiledScreen(runDir, screen) {
 
 /**
  * @param {{root:string, runDir:string, screen:string, tiers:string[], legacy:boolean, metadata:string|null,
- *          baseUrl?:string|null, smoke?:string|null, probe?:string|null}} opts
+ *          baseUrl?:string|null, smoke?:string|null, probe?:string|null, judge?:string|null}} opts
  * @returns {Promise<{verdict:any, exit:number, lines:string[]}>}
  */
 export async function runLadder(opts) {
@@ -87,8 +88,10 @@ export async function runLadder(opts) {
   }
 
   /** @type {Record<string, {result:string, reason?:string, detail?:any}>} */
-  const tierResults = { T1: notRun('not requested'), T2: notRun('not requested'), T3: notRun('not requested'), T4: notRun('not requested'), T5: notRun('T5 is WP-3d') };
+  const tierResults = { T1: notRun('not requested'), T2: notRun('not requested'), T3: notRun('not requested'), T4: notRun('not requested'), T5: notRun('not requested') };
   const lines = [];
+  /** Section 4's advisory slot. `result` is never a function of it (D-015). */
+  let advisory;
 
   if (tiers.includes('t1')) {
     const fams = t1Full(root, art, { sfs, meta, legacy, provenance });
@@ -143,6 +146,24 @@ export async function runLadder(opts) {
       if (v !== 'pass') lines.push(`  t4 reported ${v} and it is ADVISORY: it does not change result or the exit code (D-015). Read its findings.`);
     }
   }
+  // T5 is a ranking signal, never a gate (T5-R8). It runs from a recorded judge verdict;
+  // with none it reports notRun, and either way `result` above is untouched — a property
+  // g-t5-advisory proves from the other side.
+  if (tiers.includes('t5')) {
+    const t5in = opts.judge ? readJsonAt(root, opts.judge) : null;
+    if (!t5in) {
+      tierResults.T5 = notRun('no --judge record given; T5 runs from a recorded judge ranking (BL-034)');
+      lines.push(`  t5 notRun · ${tierResults.T5.reason}`);
+    } else {
+      const r = t5Visual({ screen, runDir, ...t5in });
+      const v = verdictOf(r.families);
+      tierResults.T5 = { result: v, reason: r.message || undefined, detail: { ...detailOf(r.families), advisory: r.advisory } };
+      advisory = r.advisory ? { t5: r.advisory } : undefined;
+      fs.writeFileSync(path.join(screensDir, `${screen}.t5.json`), `${JSON.stringify(r.t5, null, 2)}\n`);
+      lines.push(tierLine('t5', r.families, v));
+      lines.push(`  t5 is ADVISORY: its rank never changes result (D-015)`);
+    }
+  }
 
   // result = worst(T1,T2,T3) over pass<partial<fail; a REQUESTED result-tier that
   // did not run forces fail (§3.2.0 rule 2). T4/T5 never enter result.
@@ -163,6 +184,7 @@ export async function runLadder(opts) {
     screen,
     result,
     tiers: tierResults,
+    ...(advisory ? { advisory } : {}),
     sealedAt: new Date().toISOString(),
   };
   fs.writeFileSync(path.join(screensDir, `${screen}.verdict.json`), `${JSON.stringify(verdict, null, 2)}\n`);
@@ -270,6 +292,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     const { verdict, exit, lines } = await runLadder({
       root, runDir, screen, tiers, legacy: args.includes('--legacy'), metadata: at('--metadata') || null,
       baseUrl: at('--base-url') || null, smoke: at('--smoke') || null, probe: at('--probe') || null,
+      judge: at('--judge') || null,
     });
     if (args.includes('--json')) console.log(JSON.stringify({ target: screen, result: verdict.result, tiers: verdict.tiers }, null, 2));
     else for (const l of lines) console.log(l);

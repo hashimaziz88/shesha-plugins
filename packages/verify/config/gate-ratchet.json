@@ -1,6 +1,6 @@
 {
   "_comment": "g-gate-ratchet lives inside run-gates.mjs, not as a gate. It counts ONLY gates whose declared inputPaths[] all exist and are non-empty AND which have >= 1 verdict-flipping mutation, so a gate cannot be created early to inflate the count and a gate that cannot fail was never in it. Lowering `minGates` is legal only in a commit citing a DECISIONS.md row beginning 'Gate removal:'.",
-  "minGates": 41,
+  "minGates": 42,
   "minMutationsPerGate": 2,
   "mutationCeilingSeconds": 180,
   "wpZeroGates": [
@@ -42,6 +42,7 @@
     "g-run-dir-location",
     "g-skill-purity",
     "g-specwriter-purity",
+    "g-t5-advisory",
     "g-uninspectable-budget",
     "g-verdict-integrity",
     "g-workspace-hygiene"

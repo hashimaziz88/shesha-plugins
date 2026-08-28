@@ -1,0 +1,26 @@
+{
+  "_comment": "T5-R2 (§3.6). The qualification ledger for the T5 visual judge. Qualification is 10 anchor trials against rubric.v1.json; a model qualifies only by ranking the anonymously embedded ground-truth anchor FIRST in at least 9 of the 10. Re-qualify on a change of judge model, a change of rubric version, or a new anchor. `records` is EMPTY because no model has been put through the ten trials in this repository yet — writing a record here without having run them would be the self-report this whole tier exists to refuse. Until a record lands, t5-visual reports notRun and visual sign-off stays human, which is the honest state §8 asks for by name.",
+  "version": "1.0.0",
+  "threshold": {
+    "trials": 10,
+    "anchorFirstAtLeast": 9,
+    "accuracy": 0.9,
+    "candidateSetSize": 4
+  },
+  "requalifyOn": [
+    "a change of judge model id",
+    "a change of rubric.v1.json version",
+    "the addition or replacement of any anchor in the anchor set"
+  ],
+  "recordShape": {
+    "model": "the exact judge model id, as reported by the runtime",
+    "date": "ISO-8601 date the trials were run",
+    "rubricVersion": "the rubric.v1.json version the trials scored against",
+    "candidateSetSize": "K, the number of candidates shown per trial",
+    "trials": "exactly 10 entries of {trial, screen, anchorPosition, anchorRank}",
+    "anchorFirst": "the count of trials whose anchorRank is 1",
+    "accuracy": "anchorFirst / trials.length",
+    "qualified": "accuracy >= threshold.accuracy"
+  },
+  "records": []
+}
