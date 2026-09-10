@@ -1,0 +1,198 @@
+{
+  "_comment": "Entity-metadata snapshot recorded from a live backend by packages/registry/src/record-metadata.mjs. PascalCase paths as the backend spells them; the compiler emits the camelCased binding. Never edit by hand - re-record it.",
+  "recordedAt": "2026-09-10",
+  "backend": "http://localhost:21021",
+  "registryRef": "0.45.1",
+  "entities": {
+    "Shesha.Domain.Person": {
+      "properties": [
+        {
+          "path": "Address",
+          "dataType": "entity",
+          "required": false
+        },
+        {
+          "path": "CreationTime",
+          "dataType": "date-time",
+          "required": false
+        },
+        {
+          "path": "CreatorUserId",
+          "dataType": "number",
+          "required": false
+        },
+        {
+          "path": "CustomShortName",
+          "dataType": "string",
+          "required": false
+        },
+        {
+          "path": "DateOfBirth",
+          "dataType": "date",
+          "required": false
+        },
+        {
+          "path": "DeleterUserId",
+          "dataType": "number",
+          "required": false
+        },
+        {
+          "path": "DeletionTime",
+          "dataType": "date-time",
+          "required": false
+        },
+        {
+          "path": "EmailAddress1",
+          "dataType": "string",
+          "required": false
+        },
+        {
+          "path": "EmailAddress2",
+          "dataType": "string",
+          "required": false
+        },
+        {
+          "path": "FirstName",
+          "dataType": "string",
+          "required": false
+        },
+        {
+          "path": "FullName",
+          "dataType": "string",
+          "required": false,
+          "readonly": true
+        },
+        {
+          "path": "Gender",
+          "dataType": "reference-list-item",
+          "required": false,
+          "referenceListName": "Shesha.Core.Gender",
+          "referenceListModule": "Shesha"
+        },
+        {
+          "path": "HomeNumber",
+          "dataType": "string",
+          "required": false
+        },
+        {
+          "path": "Id",
+          "dataType": "guid",
+          "required": false
+        },
+        {
+          "path": "IdentityNumber",
+          "dataType": "string",
+          "required": false
+        },
+        {
+          "path": "Initials",
+          "dataType": "string",
+          "required": false
+        },
+        {
+          "path": "IsDeleted",
+          "dataType": "boolean",
+          "required": false
+        },
+        {
+          "path": "LastModificationTime",
+          "dataType": "date-time",
+          "required": false
+        },
+        {
+          "path": "LastModifierUserId",
+          "dataType": "number",
+          "required": false
+        },
+        {
+          "path": "LastName",
+          "dataType": "string",
+          "required": false
+        },
+        {
+          "path": "MiddleName",
+          "dataType": "string",
+          "required": false
+        },
+        {
+          "path": "MobileNumber1",
+          "dataType": "string",
+          "required": false
+        },
+        {
+          "path": "MobileNumber2",
+          "dataType": "string",
+          "required": false
+        },
+        {
+          "path": "Photo",
+          "dataType": "file",
+          "required": false
+        },
+        {
+          "path": "PreferredContactMethod",
+          "dataType": "reference-list-item",
+          "required": false,
+          "referenceListName": "Shesha.Core.PreferredContactMethod",
+          "referenceListModule": "Shesha"
+        },
+        {
+          "path": "PreferredLanguages",
+          "dataType": "array",
+          "required": false
+        },
+        {
+          "path": "TenantId",
+          "dataType": "number",
+          "required": false
+        },
+        {
+          "path": "Title",
+          "dataType": "reference-list-item",
+          "required": false,
+          "referenceListName": "Shesha.Core.PersonTitles",
+          "referenceListModule": "Shesha"
+        },
+        {
+          "path": "User",
+          "dataType": "entity",
+          "required": false
+        },
+        {
+          "path": "WorkAddress",
+          "dataType": "entity",
+          "required": false
+        },
+        {
+          "path": "PrimaryAccount",
+          "dataType": "entity",
+          "required": false
+        },
+        {
+          "path": "PrimaryOrganisation",
+          "dataType": "entity",
+          "required": false
+        },
+        {
+          "path": "PrimarySite",
+          "dataType": "entity",
+          "required": false
+        },
+        {
+          "path": "TargetingFlag",
+          "dataType": "number",
+          "required": false
+        },
+        {
+          "path": "Type",
+          "dataType": "reference-list-item",
+          "required": false,
+          "referenceListName": "Shesha.Core.PersonType",
+          "referenceListModule": "Shesha"
+        }
+      ]
+    }
+  },
+  "referenceLists": {},
+  "forms": {}
+}
