@@ -67,7 +67,14 @@ export const mutations = [
     apply: async (tmp) => {
       const f = path.join(tmp, FIXTURE, 'manifest.json');
       const m = JSON.parse(fs.readFileSync(f, 'utf8'));
-      m.events.push({ at: '2026-08-24T10:04:00Z', kind: 'push', detail: 'pushed with no hook line', screen: 'items' });
+      // Enough events to outrun the log however long the log has grown. A mutation
+      // that assumed events === lines quietly stopped biting the moment the fixture
+      // gained real recorded lines (WP-11).
+      const lines = fs.readFileSync(path.join(tmp, FIXTURE, 'hooks.jsonl'), 'utf8')
+        .split('\n').filter((l) => l.trim() !== '').length;
+      while (m.events.length <= lines) {
+        m.events.push({ at: '2026-08-24T10:04:00Z', kind: 'push', detail: 'pushed with no hook line', screen: 'items' });
+      }
       fs.writeFileSync(f, `${JSON.stringify(m, null, 2)}\n`);
     },
     expect: 'fail',

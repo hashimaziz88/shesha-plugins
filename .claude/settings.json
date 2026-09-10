@@ -15,7 +15,7 @@
         "hooks": [{ "type": "command", "command": "node .claude/hooks/gate-push.mjs", "timeout": 40 }]
       },
       {
-        "matcher": "Task",
+        "matcher": "Task|Agent",
         "hooks": [{ "type": "command", "command": "node .claude/hooks/gate-dispatch.mjs", "timeout": 20 }]
       }
     ],

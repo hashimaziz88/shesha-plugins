@@ -465,7 +465,7 @@ green: <exit 0|exit <n>|not measured (timeout)>
 backend: <live <url>|none>  chromium: <present|absent>
 active run: <runId|none>  phase: <phase>  screens: <n> (<states>)
 invariants: compiler is the only writer of markup · no push without an admissible sealed verdict · one author per screen
-read this first: plugins/shesha-developer/skills/shesha-designer/SKILL.md
+read this first: plugins/shesha-developer/skills/shesha-claude-designer/SKILL.md
 ```
 
 Line 2 runs `spawnNode(['packages/verify/src/bin/green-quick.mjs','--json'], {timeout: 20000})`, backed by the root script `"green:quick": "node packages/verify/src/bin/green-quick.mjs"` which runs **typecheck + gates only** — no `test`, no `gates:mutate`. `npm run green -- --quick` is **not** used: `--quick` appends to the last command of the `&&` chain only, so it would run the full four stages including the mutation suite. On timeout or spawn failure line 2 is `green: not measured (timeout)` — never a verdict. It **never blocks**: a SessionStart hook that blocks makes the repo unopenable.

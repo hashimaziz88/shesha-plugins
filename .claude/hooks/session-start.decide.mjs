@@ -52,7 +52,10 @@ export function decide(payload, ctx) {
   const line4 = `active run: ${runId || 'none'}  phase: ${phase}  screens: ${screens}`;
 
   const line5 = 'invariants: compiler is the only writer of markup · no push without an admissible sealed verdict · one author per screen';
-  const line6 = 'read this first: plugins/shesha-developer/skills/shesha-designer/SKILL.md';
+  // The folder is shesha-claude-designer; 'shesha-designer' never existed, so every
+  // session since WP-8c opened by naming a file that is not there (WP-11 finding).
+  // g-hook-contract's printed-paths family holds every repo path a hook prints.
+  const line6 = 'read this first: plugins/shesha-developer/skills/shesha-claude-designer/SKILL.md';
 
   const lines = [line1, line2, line3, line4, line5, line6];
   return { event: 'session-start', decision: 'allow', lines, additionalContext: lines.join('\n') };

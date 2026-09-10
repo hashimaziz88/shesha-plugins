@@ -319,3 +319,82 @@ test('p95 <= 5ms over 500 non-matching decide calls', () => {
   const p95 = times[Math.floor(times.length * 0.95)] ?? Infinity;
   assert.ok(p95 <= 5, `p95 ${p95.toFixed(3)}ms over the 5ms budget`);
 });
+
+// ---- WP-11: the gate must engage on what the HARNESS sends, not on what the brief
+// calls it. Every dispatch test above uses tool_name 'Task'; the harness sends 'Agent'
+// and qualifies the role as '<plugin>:<role>', so gate-dispatch returned D0 on all 7
+// firings in the repo's history and D1-D5 had never run once against a real dispatch.
+const agentTask = (/** @type {any} */ input) => ({ tool_name: 'Agent', tool_input: input });
+
+test('dispatch: the harness tool name Agent engages the gate rather than falling through D0', () => {
+  const d = dispatchDecide(agentTask({ subagent_type: 'sfs-specwriter', prompt: 'please build the items screen' }), { root: mkRoot(), fs, spawnNode: okSpawn });
+  assert.notEqual(d.rule, 'D0', 'an Agent dispatch must not fall through the no-op rule');
+  assert.equal(d.code, 'HOOK-0501');
+});
+test('dispatch: a plugin-qualified role engages the gate', () => {
+  const d = dispatchDecide(agentTask({ subagent_type: 'shesha-developer:sfs-specwriter', prompt: 'please build the items screen' }), { root: mkRoot(), fs, spawnNode: okSpawn });
+  assert.notEqual(d.rule, 'D0', 'shesha-developer:sfs-specwriter must normalise to sfs-specwriter');
+  assert.equal(d.code, 'HOOK-0501');
+});
+test('dispatch: a qualified judge role still reaches judge isolation', () => {
+  const root = mkDispatch(mkRoot(), { role: 'sfs-evaluator', paths: [`runs/${RUNID}/logs/specwriter-items-r1.md`] });
+  const d = dispatchDecide(agentTask({ subagent_type: 'shesha-developer:sfs-evaluator', prompt: 'judge dispatch/spec.json' }), { root, fs, spawnNode: okSpawn });
+  assert.equal(d.code, 'HOOK-0503'); assert.equal(d.rule, 'D3');
+});
+test('dispatch: HOOK-0503 is shadowed by the schema, not dead code', () => {
+  // dispatch.schema.json rejects a logs/ path itself, so a real leaking dispatch is
+  // refused at D2 (HOOK-0502) and D3 never sees it. D3 is the second line of defence,
+  // for a loosened schema or a validator that cannot run - it must still fire.
+  const root = mkDispatch(mkRoot(), { role: 'sfs-evaluator', paths: [`runs/${RUNID}/logs/x.md`] });
+  const shadowed = dispatchDecide(agentTask({ subagent_type: 'sfs-evaluator', prompt: 'judge dispatch/spec.json' }),
+    { root, fs, spawnNode: () => ({ status: 1, stdout: JSON.stringify({ ok: false, diagnostics: ['/paths/0 must NOT be valid'] }) }) });
+  assert.equal(shadowed.code, 'HOOK-0502', 'the schema owns this rejection first');
+  const direct = dispatchDecide(agentTask({ subagent_type: 'sfs-evaluator', prompt: 'judge dispatch/spec.json' }), { root, fs, spawnNode: okSpawn });
+  assert.equal(direct.code, 'HOOK-0503', 'with the schema check passing, D3 must still refuse the leak');
+});
+
+// ---- WP-11: a hook that names a repo path is telling the model where to look. The
+// session banner named skills/shesha-designer/SKILL.md, which never existed.
+test('every repo path a hook cites exists', () => {
+  const repo = path.resolve(HOOKS, '..', '..');
+  const cited = new RegExp('(?:plugins|packages|docs)/[A-Za-z0-9._/-]+[.][A-Za-z0-9]+', 'g');
+  let checked = 0;
+  for (const n of fs.readdirSync(HOOKS).filter((f) => f.endsWith('.mjs'))) {
+    const src = fs.readFileSync(path.join(HOOKS, n), 'utf8');
+    for (const m of src.matchAll(cited)) {
+      const rel = m[0];
+      if (rel.includes('*')) continue;
+      assert.ok(fs.existsSync(path.join(repo, rel)), `${n} cites ${rel}, which does not exist`);
+      checked += 1;
+    }
+  }
+  assert.ok(checked >= 8, `expected at least 8 cited paths, checked ${checked}`);
+});
+
+// ---- WP-11: chromium presence is a different question from playwright resolving.
+test('hasChromium reads a browsers cache, not only an env var', async () => {
+  const t4 = await import('../src/tiers/t4-smoke.mjs');
+  const saved = { c: process.env.CHROMIUM_PATH, p: process.env.PLAYWRIGHT_BROWSERS_PATH };
+  try {
+    // A cache directory carrying a chromium build is a present browser.
+    const cache = fs.mkdtempSync(path.join(os.tmpdir(), 'ms-playwright-'));
+    fs.mkdirSync(path.join(cache, 'chromium-1234'));
+    delete process.env.CHROMIUM_PATH;
+    process.env.PLAYWRIGHT_BROWSERS_PATH = cache;
+    assert.equal(t4.hasChromium(), true, 'a cache holding chromium-<rev> is a present browser');
+    // An empty cache is not, and this is the case the old env-var-only probe got wrong
+    // in the other direction: it reported absent even with a real install on disk.
+    process.env.PLAYWRIGHT_BROWSERS_PATH = fs.mkdtempSync(path.join(os.tmpdir(), 'ms-empty-'));
+    assert.equal(t4.hasChromium(), false, 'an empty cache is an absent browser');
+    // CHROMIUM_PATH still wins outright.
+    process.env.CHROMIUM_PATH = '/somewhere/chrome';
+    assert.equal(t4.hasChromium(), true);
+    // And the tier states the gap rather than pretending it can drive a browser.
+    const av = t4.t4Available({ baseUrl: 'http://x', playwright: true, chromium: false });
+    assert.equal(av.ok, false);
+    assert.match(av.reason, /chromium/);
+  } finally {
+    if (saved.c === undefined) delete process.env.CHROMIUM_PATH; else process.env.CHROMIUM_PATH = saved.c;
+    if (saved.p === undefined) delete process.env.PLAYWRIGHT_BROWSERS_PATH; else process.env.PLAYWRIGHT_BROWSERS_PATH = saved.p;
+  }
+});

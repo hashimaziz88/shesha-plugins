@@ -1173,3 +1173,45 @@ Next: the Scope-B close-out — `prove-b --bless`, then `SESSION COMPLETE — SC
 WP-3d closes the oldest open decision in the registry. D-015 was recorded on day one and has carried a `pending:` enforcer ever since; `g-t5-advisory` now proves the property from three sides at once — the push-admission path carries zero `t5` references, the block that computes `result` carries zero, and the judge-truth gap is recorded for the release. The tier itself is five orthogonal rubric axes stored as a **vector with no total computed, stored or printed anywhere**: `rank` is the band containing the worst retained axis, an order statistic rather than a blend, because MobileForge measured an *inverse* correlation between visual quality and maintainability that any weighted sum would have hidden. The judge is dependency-injected, so all ten tests and the five-grade selftest run with no model, no browser and no network; the anchor is placed by an injected rng and the prompt is assembled from a four-key whitelist with every candidate restaged under an anonymous path, so provenance cannot leak rather than being asserted absent afterwards. A judge that does not rank the anonymously embedded anchor first is disqualified and produces no score at all.
 
 The honest part is what the ledgers say. No model has been through the ten anchor trials T5-R2 requires, and no release has had screens hand-verified, so `qualification.json` holds no record and T5 reports `notRun` for every screen — which is exactly what §8's risk row asks for by name: if no available model passes the anchor test on your designs, T5 stays advisory and visual sign-off stays human, *stated* rather than pretended. Writing a qualification record here would have been the fabricated evidence this tier exists to refuse. But silence is not honest either, so `judge-truth-gap.json` carries an entry for this release recording `handVerifiedScreens: 0`, `gap: null` — unmeasured, not zero — and naming `BL-034` as what stopped it, and `g-t5-advisory` refuses a zero-screen entry that does NOT name a blocker. That interlocks with `g-blocked-honesty`, which requires B15 to cite a live tier or gate in return: the two gates hold each other's story up. The gate-ratchet floor rises 41 -> 42; `prove-b` gains its `T5 advisory` step, and Scope B's twenty-three work packages are complete.
+
+
+## WP-11 — restart verification, the operator pass (S4.9) - 2026-09-10
+
+Status: in-progress (steps 0-7 observed; step 8 outstanding)
+Gate: observation, not a program - S4.9 is the one place in the brief where the evidence is what a fresh session actually did. Every string below is copied from this session's tool output or from `runs/20260910-1518-wp11/hooks.jsonl`
+Evidence: packages/verify/evidence/WP-12.json (the fix WP that this pass produced)
+Decisions added: none (D-129 belongs to WP-12)
+Blocked: none new. B14/B15 unchanged
+Next: step 8 (drive the 3-screen brief end to end), then BL-033's live T4 path
+
+The restart pass ran against a live Shesha 0.45 starter: backend `http://localhost:21021` (Kestrel, `/swagger`, `Session/GetCurrentLoginInfo` 200), frontend `http://localhost:3000` (200 after a ~20s first compile), chromium 1234 present in the playwright cache. Observed, step by step:
+
+| Step | Observed |
+|---|---|
+| 0 | `shesha-developer` is registered: its skills and its six agent roles are offered by name in a fresh session, which is a stronger signal than the `enabledPlugins` key it is read from |
+| 1 | Six lines, verbatim, and two of them wrong - `backend: none  chromium: absent` on a host running both, and `read this first: plugins/shesha-developer/skills/shesha-designer/SKILL.md`, a folder that has never existed |
+| 2 | `registry_lookup {"types":["datatable"]}` -> `{"registryRef":"0.45.1","records":[{"type":"datatable","version":29,"sfsNode":"table","authorable":true,"isInput":false}],"missing":[]}` |
+| 3 | `HOOK-0101 the compiler is the only writer of form markup...` and the file was not created. The Bash arm answers `HOOK-0102`, and denies a command that merely NAMES a markup path - fail-closed, so `ls` of one is refused too |
+| 4 | `HOOK-0104 markup is not readable while a spec is being written. The IR is the interface.` |
+| 5 | `HOOK-0106 judge isolation: the evaluator never reads the builder's reasoning` |
+| 6 | not run (step 8 covers the full loop) |
+| 7 | `HOOK-0502 /paths/0 must NOT be valid` - **after** the WP-12 fix. Before it, the same dispatch was ALLOWED |
+
+Step 7 is why this pass exists. `gate-dispatch` had fired 7 times in the repository's entire history and answered rule `D0` - its no-op - every single time, because `payload.tool_name` is `Agent` in this harness and the role arrives as `shesha-developer:sfs-evaluator`, while the module tested `name !== 'Task'` and matched bare role names. D1-D5 had never executed against a real dispatch: judge isolation, the paths-not-contents rule and one-screen-per-specwriter were all unenforced, and `prove-b`'s sealed line saying otherwise was true only of `hooks.test.mjs`, which had always passed a synthetic `tool_name: 'Task'`. A deliberately leaking dispatch handed an evaluator the specwriter's log; the agent refused on its own judgement and, on a second run with the eval lock released, opened the file and declined to use it. Agent restraint is exactly what a gate exists not to depend on.
+
+The brief's expected code for step 7 is `HOOK-0503`; the observed code is `HOOK-0502`. `dispatch.schema.json` carries the same isolation regex as the hook's own `LEAK` pattern, so a leaking dispatch is refused by the schema at D2 one rule earlier and D3 never sees it. D3 is not dead - it is the second line for a loosened schema or a validator that cannot run - and `hooks.test.mjs` now proves both halves: the same dispatch answers `HOOK-0502` when the validator refuses it and `HOOK-0503` when the validator passes it.
+
+## WP-12 — the restart pass's findings, each with an enforcer (D-129) - 2026-09-10
+
+Status: complete
+Gate: `node packages/verify/src/gates/g-hook-contract.mjs` -> PASS over 5 families including `tool-coverage` (5 hooks) and `role-coverage` (1 hook); `node --test packages/verify/test/hooks.test.mjs` -> `# pass 53 # fail 0`; `node --test --test-name-pattern='g-hook-contract' packages/verify/test/mutation/mutation-meta.test.mjs` -> 5 mutations, all flipping; `npm run green` -> exit 0 with 610 tests, 42 gates, 161 mutations
+Evidence: packages/verify/evidence/WP-12.json
+Decisions added: D-129 (hooks are proved live by the harness's own decision log; enforcer g-hook-contract)
+Blocked: none new
+Next: WP-11 step 8, then BL-033
+
+Four defects, four enforcers. **gate-dispatch was inert twice over** - once on the tool name, once on the plugin-qualified role - so it now gates `Task` and `Agent` and normalises `<plugin>:<role>` before matching. The enforcement is deliberately not a source-text check: `g-hook-contract`'s new `role-coverage` family asks the module what rule it returns for a tool it cannot know, then asks again with exactly what `hooks.jsonl` recorded the harness sending, and fails if the answers match. A textual check was written first and could not be made to bite - the first mutation left the `lastIndexOf(':')` line in place while breaking what it did, and the gate still passed. `tool-coverage` holds the same line for every hook: the decision log is the only ground truth for what the harness actually sends, the committed fixture guarantees coverage on a clean checkout, and any live log is read too. The runner now records the dispatched role, so the log can answer the question at all.
+
+**The session banner lied twice.** `chromium: absent` came from probing `CHROMIUM_PATH`/`PLAYWRIGHT_BROWSERS_PATH` alone, which are exactly the variables `npx playwright install chromium` - BL-033's operator step - does not set; `hasChromium()` in `t4-smoke.mjs` now reads the platform browsers cache, honours `PLAYWRIGHT_BROWSERS_PATH` as the sole location when set (its own first draft consulted both and a test caught it), and `t4Available` states a missing browser instead of blaming the package. `backend: none` was correct behaviour with no `.build/backend` file, which now names the live host. And `read this first:` pointed at a skill folder that never existed, in every session since WP-8c; the hook and S4.3.7 now name `shesha-claude-designer`, and `hooks.test.mjs` asserts that every repo path any hook cites resolves - 8 cited paths, all checked.
+
+One mutation elsewhere stopped biting as a side effect and is fixed: `g-hook-liveness`'s manifest mutation appended a single event on the assumption that the fixture's lines and events were equal, so the richer recorded fixture gave it slack and the gate passed under mutation. It now appends until the events outrun the log, whatever the log's length.

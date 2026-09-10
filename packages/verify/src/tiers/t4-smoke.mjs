@@ -37,12 +37,13 @@ const UNREACHED = 'unreached';
 /**
  * What T4 needs before it can run at all. The reason is assembled from what is actually
  * missing, so it never claims Playwright is absent on a host that has it.
- * @param {{baseUrl?:string|null, playwright?:boolean}} opts
+ * @param {{baseUrl?:string|null, playwright?:boolean, chromium?:boolean}} opts
  * @returns {{ok:boolean, reason:string}}
  */
 export function t4Available(opts) {
   const missing = [];
   if (opts.playwright === false) missing.push('playwright not installed');
+  if (opts.chromium === false) missing.push('no chromium browser installed (npx playwright install chromium)');
   if (!opts.baseUrl) missing.push('no --base-url given');
   return { ok: missing.length === 0, reason: missing.join('; ') };
 }
@@ -51,6 +52,42 @@ export function t4Available(opts) {
 export async function hasPlaywright() {
   try { await import('playwright'); return true; } catch { return false; }
 }
+
+/**
+ * True when a chromium BROWSER BINARY is installed, which is a different question from
+ * whether the playwright package resolves. `npx playwright install chromium` — BL-033's
+ * operator step — writes into the platform default cache and sets no environment
+ * variable, so probing only CHROMIUM_PATH/PLAYWRIGHT_BROWSERS_PATH reports `absent` on
+ * exactly the host that just installed it (WP-11 observed that in the session banner).
+ * @returns {boolean}
+ */
+export function hasChromium() {
+  if (process.env.CHROMIUM_PATH) return true;
+  const env = process.env.PLAYWRIGHT_BROWSERS_PATH;
+  /** @type {string[]} */
+  let roots = [];
+  const home = process.env.USERPROFILE || process.env.HOME || '';
+  if (env === '0') {
+    // Playwright's "browsers live beside the package" mode.
+    roots = ['node_modules/playwright-core/.local-browsers'];
+  } else if (env) {
+    // Set means THIS is the browsers directory; the platform cache is not consulted.
+    roots = [env];
+  } else if (process.platform === 'win32') {
+    if (process.env.LOCALAPPDATA) roots = [path.join(process.env.LOCALAPPDATA, 'ms-playwright')];
+  } else if (process.platform === 'darwin') {
+    if (home) roots = [path.join(home, 'Library', 'Caches', 'ms-playwright')];
+  } else if (home) {
+    roots = [path.join(home, '.cache', 'ms-playwright')];
+  }
+  for (const r of roots) {
+    try {
+      if (fs.readdirSync(r).some((n) => n.startsWith('chromium'))) return true;
+    } catch { /* an unreadable root is not a present browser */ }
+  }
+  return false;
+}
+
 
 /**
  * @typedef {{name:string, clicked?:boolean, unreachable?:string,

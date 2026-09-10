@@ -2,3 +2,10 @@
 {"at":"2026-08-24T10:01:00Z","hook":"enforce-screen-lock","tool":"Write","path":"runs/20260824-1000-fixture/screens/items.sfs.json","decision":"allow","rule":"L7","code":"","ms":1}
 {"at":"2026-08-24T10:02:00Z","hook":"block-form-writes","tool":"Write","path":"runs/20260824-1000-fixture/screens/items.sfs.json","decision":"allow","rule":"R7","code":"","ms":1}
 {"at":"2026-08-24T10:03:00Z","hook":"validate-sfs-on-write","tool":"Write","path":"runs/20260824-1000-fixture/screens/items.sfs.json","decision":"allow","rule":"V2","code":"","ms":12}
+{"at":"2026-09-10T13:17:05Z","hook":"block-form-writes","tool":"Write","path":".build/bl008-restart-probe.form.json","decision":"deny","rule":"R1","code":"HOOK-0101","ms":1}
+{"at":"2026-09-10T13:17:52Z","hook":"block-form-writes","tool":"Bash","path":".build/bl008-bash-probe.form.json","decision":"deny","rule":"R2","code":"HOOK-0102","ms":1}
+{"at":"2026-09-10T13:19:14Z","hook":"block-form-writes","tool":"Read","path":"runs/20260910-1518-wp11/screens/booking-list.form.json","decision":"deny","rule":"R4","code":"HOOK-0104","ms":1}
+{"at":"2026-09-10T13:19:26Z","hook":"block-form-writes","tool":"Read","path":"runs/20260910-1518-wp11/logs/specwriter-booking-list-r1.md","decision":"deny","rule":"R6","code":"HOOK-0106","ms":1}
+{"at":"2026-09-10T13:20:20Z","hook":"gate-dispatch","tool":"Agent","path":null,"decision":"allow","rule":"D0","code":"","ms":1}
+{"at":"2026-09-10T13:20:40Z","hook":"gate-push","tool":"Bash","path":null,"decision":"allow","rule":"G0","code":"","ms":1}
+{"at":"2026-09-10T13:28:03Z","hook":"gate-dispatch","tool":"Agent","role":"shesha-developer:sfs-evaluator","path":null,"decision":"deny","rule":"D2","code":"HOOK-0502","ms":317}

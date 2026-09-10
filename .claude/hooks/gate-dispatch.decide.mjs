@@ -3,9 +3,27 @@
 // judge isolation (D-016), the paths-not-contents rule, and one-screen-per-specwriter.
 // Pure over ctx = {root, fs, spawnNode}.
 
+// The harness names the subagent tool `Agent`; Claude Code's documented name is `Task`.
+// Gating on one name only made every rule below unreachable: WP-11 observed 7 firings,
+// all `{"tool":"Agent","rule":"D0"}`, so D1-D5 had never run once. Both names gate.
+// g-hook-contract's tool-coverage family holds this against the observed hook log.
+const DISPATCH_TOOLS = ['Task', 'Agent'];
 const DISPATCH_ROLES = ['sfs-planner', 'sfs-specwriter', 'sfs-evaluator', 'design-critic', 'fleet-transformer', 'fullstack-prereq-checker'];
 const JUDGES = ['sfs-evaluator', 'design-critic'];
 const LEAK = /(^|\/)logs\/|\.rationale\.|__SAA_RESULT__/;
+
+/**
+ * A plugin agent arrives qualified as `<plugin>:<role>` (`shesha-developer:sfs-evaluator`);
+ * DISPATCH_ROLES holds bare role names. Matching the qualified string against the bare
+ * list was the second reason this gate was inert — WP-11 saw D0 again after the tool-name
+ * fix. Normalise once, here, so every rule below sees the bare role.
+ * @param {unknown} s @returns {string}
+ */
+function bareRole(s) {
+  const t = String(s ?? '');
+  const i = t.lastIndexOf(':');
+  return i === -1 ? t : t.slice(i + 1);
+}
 
 /** @param {typeof import('node:fs')} fsx @param {string} p */
 function readJson(fsx, p) { try { return JSON.parse(fsx.readFileSync(p, 'utf8')); } catch { return null; } }
@@ -34,9 +52,9 @@ export function decide(payload, ctx) {
     ({ event: 'gate-dispatch', decision, code, reason, rule });
   const name = payload.tool_name;
   const input = payload.tool_input || {};
-  if (name !== 'Task') return ev('allow', '', '', 'D0');
-  const role = input.subagent_type;
-  if (typeof role !== 'string' || !DISPATCH_ROLES.includes(role)) return ev('allow', '', '', 'D0');
+  if (typeof name !== 'string' || !DISPATCH_TOOLS.includes(name)) return ev('allow', '', '', 'D0');
+  const role = bareRole(input.subagent_type);
+  if (typeof input.subagent_type !== 'string' || !DISPATCH_ROLES.includes(role)) return ev('allow', '', '', 'D0');
 
   const root = ctx.root;
   if (!root) return ev('deny', 'HOOK-0001', 'repo root not found', 'D0');

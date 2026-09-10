@@ -1,6 +1,6 @@
 {
   "_generated": "from /DECISIONS.md by packages/registry/src/gen-decisions.mjs — do not hand-edit (D-029)",
-  "count": 128,
+  "count": 129,
   "decisions": [
     {
       "id": "D-001",
@@ -1538,6 +1538,18 @@
       "consequence": "T5 never changes result or the exit code",
       "enforcedBy": [
         "g-t5-advisory"
+      ],
+      "confirmation": "n/a"
+    },
+    {
+      "id": "D-129",
+      "date": "2026-09-10",
+      "status": "decided",
+      "decision": "WP-12: gate-dispatch gates `Task` AND `Agent` and normalises `<plugin>:<role>`; for every tool and role a hooks.jsonl records, the module must answer a rule other than its no-op; a hook cites only paths that exist; chromium is read from the browsers cache, not an env var",
+      "why": "it answered D0 on all 7 firings ever, so D1-D5 never ran and judge isolation rested on the agent's own restraint",
+      "consequence": "An inert gate reports itself",
+      "enforcedBy": [
+        "g-hook-contract"
       ],
       "confirmation": "n/a"
     }
