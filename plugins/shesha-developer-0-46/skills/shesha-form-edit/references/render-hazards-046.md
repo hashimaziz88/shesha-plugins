@@ -41,6 +41,9 @@ Quick index
 | H28 | A value the host form shows disappears after a subform loads (status tag shows, then goes blank) | proven |
 | H29 | Partial device blocks make the style migration ignore top-level styles and defaults (no row gap, collapsed boxes) | proven |
 | H30 | Collapsible panel headers taller with 8px padding all round | proven |
+| H31 | Reviving an old CSS carrier activates CSS written for the old DOM, which can break the page | proven |
+| H32 | Lookups naming renamed framework entity types show blank values | proven |
+| H33 | A status tag with no value draws an empty grey chip | proven |
 
 ---
 
@@ -261,6 +264,25 @@ Apply it to the root `style` and to any `desktop`/`tablet`/`mobile` block that h
 * **Symptom:** collapsible panel headers are 52-56px with 8px padding on every side; before they were 50px with 5px top and 10px left padding.
 * **Cause:** the panel migration writes default `headerStyles` (padding 8 all round) into every device block (`collapsiblePanel/collapsiblePanelComponent.tsx`).
 * **Fix:** where the stored header padding is still exactly the default, set `headerStyles.stylingBoxJson` padding to 5 / 0 / 0 / 10 in each device block.
+
+## H31 Reactivated CSS carriers
+
+* **Symptom:** after making an htmlRender CSS carrier work again (H3-H6), a section of the same form collapses or overlaps (e.g. read-only boxes shrink to about 10px with inner scrollbars).
+* **Cause:** the carrier's CSS was written for the old DOM and never applied on 0.46 until it was fixed. 0.46 wraps components such as `htmlRender` in an `ant-form-item`, so broad rules like `.x .ant-form-item-row{flex-direction:column}` now also match them.
+* **Fix:** after reviving a carrier, re-check every page the form appears on, and narrow its rules to the elements they were meant for (e.g. `.ant-form-item:has(textarea)`).
+
+## H32 Renamed framework entity types
+
+* **Symptom:** an autocomplete or table bound to a framework entity shows nothing; the console shows `Metadata/Get?entityType=...` 404 and `Entities/GetAll` 500.
+* **Cause:** 0.46 renamed framework entity classes: `Shesha.Domain.ConfigurationItems.Module` is `Shesha.Domain.Module`, and form references are `Shesha.Domain.FormConfiguration` (not `Shesha.Framework.ConfigurableComponent`).
+* **Detect:** grep markup for `Shesha.Domain.ConfigurationItems.` and `Shesha.Framework.ConfigurableComponent`; confirm the target with `Metadata/GetProperties` (`entityType` + `entityModule` of the bound property) or `EntityConfig/GetMainDataList`.
+* **Fix:** replace the type name in the `entityType` / `entityTypeShortAlias` values.
+
+## H33 Empty status chip
+
+* **Symptom:** a grey rounded box beside a record name where the status has no value; before 0.46 nothing rendered.
+* **Cause:** `refListStatus` renders a placeholder chip when its value is null.
+* **Fix:** give an always-visible `refListStatus` the visibility condition `return data?.<path> != null;` (optional chaining on every hop of a dotted property name).
 
 ---
 
