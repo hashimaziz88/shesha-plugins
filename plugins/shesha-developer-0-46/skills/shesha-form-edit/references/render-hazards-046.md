@@ -44,6 +44,19 @@ Quick index
 | H31 | Reviving an old CSS carrier activates CSS written for the old DOM, which can break the page | proven |
 | H32 | Lookups naming renamed framework entity types show blank values | proven |
 | H33 | A status tag with no value draws an empty grey chip | proven |
+| H34 | An optional filter item that does not resolve is sent as `null`, so the table loads nothing (400) | proven |
+| H35 | Custom dialog footer buttons ignore their `editMode` / visibility scripts | proven |
+| H36 | A `[default]` column on a URL-sourced table shows a reference-list value as the raw number | proven |
+| H37 | Searchable reference-list dropdowns filter by option value, not label | proven (framework) |
+| H38 | An entity autocomplete with no stored sort lists options in database order | proven |
+| H39 | `delete data.x` in an action script does nothing, so `...data` still posts the helper fields | proven |
+| H40 | A URL-sourced table fetches once with an empty id before the record loads and never again | proven |
+| H41 | `globalState.<tableContext>` no longer exists; refresh/read tables through `contexts.<name>` | proven |
+| H42 | Saves rejected: "Property '<x>' is readonly" (calculated properties posted back) | proven |
+| H43 | A leftover required filter on a URL-sourced table keeps it from ever fetching | proven |
+| H44 | `onAfterDataLoad` on a page form receives only the id as `data`; the record is `form.data` | proven |
+| H45 | A subform names a framework form 0.46 no longer ships (empty box, "form not found") | proven |
+| H46 | Subform filter expressions cannot see the host record (`data`, `pageContext`, `query` unresolved) | proven |
 
 ---
 
@@ -147,10 +160,11 @@ Quick index
 
 ## H15 `editMode` boolean false = disabled
 
-* **Symptom:** a read-only view shows greyed (disabled) controls.
+* **Symptom:** a read-only view shows greyed (disabled) controls; after Edit, controls whose `editMode` script returns `'edit'` / `'readonly'` (or `false`) stay disabled; a button whose `editMode` is `'readOnly'` stays clickable.
 * **Cause:** `getDisabledAndReadOnly`: `false -> {disabled:true}`, `true|'editable' -> editable`, `'readOnly' -> readOnly`, anything else (incl. `'disabled'`) -> disabled (`components/formDesigner/formComponent/formComponentApi.ts:18-27`). 0.43 treated `false` as read-only.
 * **Detect:** `c.editMode === false` or `editMode._mode==='code' && /return\s+(true|false)\b/.test(editMode._code)`.
-* **Fix:** return the strings `'editable' | 'readOnly' | 'disabled' | 'inherited'`. See [edit-mode.md](components/edit-mode.md).
+* **Buttons:** `'readOnly'` maps to `{disabled:false, readOnly:true}` and a button honours only `disabled`, so a read-only button is clickable on 0.46 (0.43 disabled it). Return `'disabled'` for buttons.
+* **Fix:** return the strings `'editable' | 'readOnly' | 'disabled' | 'inherited'` (`'disabled'` for buttons that must not be clicked). For existing scripts, wrap the result and map `true`/`'edit'` -> `'editable'`, `false`/`'readonly'` -> `'readOnly'` (buttons: `'disabled'`). See [edit-mode.md](components/edit-mode.md).
 
 ## H16 `columns` gutter
 
@@ -283,6 +297,97 @@ Apply it to the root `style` and to any `desktop`/`tablet`/`mobile` block that h
 * **Symptom:** a grey rounded box beside a record name where the status has no value; before 0.46 nothing rendered.
 * **Cause:** `refListStatus` renders a placeholder chip when its value is null.
 * **Fix:** give an always-visible `refListStatus` the visibility condition `return data?.<path> != null;` (optional chaining on every hop of a dotted property name).
+
+## H34 Optional filter item sent as `null`
+
+* **Symptom:** a table (`datatableContext` / `dataContext`) shows no rows; the `Entities/GetAll` call answers 400 `The binary operator AndAlso is not defined for the types 'System.Boolean' and 'System.Object'`; the request's filter is `{"and":[{...},null]}`. The same table loaded on 0.43.
+* **Cause:** the 0.46 filter evaluator in `@shesha-io/reactjs`: an `and` / `or` item whose mustache `evaluate` is optional (`required: false`) and does not resolve is left in the array as `undefined`. The array is kept when at least one item is defined, and `JSON.stringify` turns the `undefined` into `null`, which the backend cannot turn into a boolean expression. 0.43 dropped the item.
+* **Detect:** a stored filter (`permanentFilter` and similar) with an `and` / `or` item `{"==":[{"var":"<prop>"},{"evaluate":[{"expression":"...","required":false}]}]}`; typically an optional fallback beside a required item on the same variable (`<prop> == {{data.x.id}}` required + `<prop> == {{data.model.x.id}}` optional). Confirm in the browser: the `GetAll` request body contains `null`.
+* **Fix:** drop the optional item when a required sibling compares the same variable (identical to 0.43 whenever the fallback is unresolved or equal). Report, and review by hand, any other optional item: dropping it changes the filter when it does resolve. Verify by comparing the request with the 0.43 environment's request for the same page (same filter, 200, same row count).
+
+## H35 Custom dialog footer buttons ignore their scripts
+
+* **Symptom:** a dialog opened with `footerButtons: "custom"` shows its buttons, but a button whose `editMode` (or `visible` / `hidden`) is a script never changes state: a Save that 0.43 disabled until a condition held is always enabled; a script `console.log` inside it never fires.
+* **Cause:** the 0.46 dialog renders the action's `buttons` with the raw button-group renderer, which reads only static `visible`, `disabled` and permissions. Script evaluation happens only in the `buttonGroup` *form component*, which footer items never pass through. 0.43 evaluated them.
+* **Detect:** a `Show Dialog` action with `footerButtons: "custom"` and any item whose `editMode` / `visible` / `hidden` / `disabled` has `_mode: "code"`.
+* **Fix:** when the dialog form is opened by that one dialog, render the buttons inside the dialog form as an ordinary `buttonGroup` (a right-aligned row appended to the root container) and set `footerButtons: "none"`; the items are copied unchanged and `shesha.form` actions still act on the dialog form. When the dialog form is shared by several dialogs with different buttons, the buttons cannot move: enforce the button's condition inside its first `Execute Script` (warn and throw when the condition says disabled; fail open if the condition itself errors). The visual disabled state then needs a framework fix.
+
+## H36 `[default]` reference-list column on a URL-sourced table
+
+* **Symptom:** a table whose context has `sourceType: "Url"` shows a reference-list column as numbers (`12`, `20`) where 0.43 showed item names; sibling tables with an explicit dropdown display render names.
+* **Cause:** the `[default]` display needs property metadata to know the value is a reference-list item; 0.46 does not resolve it for URL-sourced data even when the context names an `entityType`. 0.43 did.
+* **Detect:** a `datatable` under a `datatableContext` with `sourceType: "Url"` and an `entityType`, a data column whose `displayComponent.type` is `[default]`, and whose property is a reference list in that entity's metadata (`Metadata/Get?entityType=`).
+* **Fix:** give the column a dropdown display (`dataSourceType: "referenceList"`, `referenceListId` from the metadata), copied from a working dropdown display; read-only, stored values unchanged.
+
+## H37 Reference-list dropdown search filters by value
+
+* **Symptom:** typing in a searchable reference-list dropdown ("South" in a country list) shows "No matches" although the items exist; 0.43 filtered by the item text.
+* **Cause:** the 0.46 reference-list select renders antd `Select` with `showSearch: true` and passes `filterOption` from its props, which the dropdown component never supplies; antd then matches the typed text against the option `value` (the numeric item value).
+* **Detect:** any `dropdown` with `dataSourceType: "referenceList"` and numeric item values; type part of an item's text.
+* **Fix:** none at configuration level (no setting reaches the select). Framework fix: pass `optionFilterProp: "label"` (or a label `filterOption`) for reference-list selects. Until then users scroll and click.
+
+## H38 Entity autocomplete without a sort
+
+* **Symptom:** an entity autocomplete lists options in database order (provinces: Limpopo, Free State, Western Cape, ...) where 0.43 listed them alphabetically.
+* **Cause:** 0.43 sent `sorting=<displayPropName>` when none was stored; 0.46 sends no sorting.
+* **Detect:** `autocomplete` with `dataSourceType: "entitiesList"`, no `sorting`, and a real `displayPropName` (compare the `GetAll` request on both versions: `&sorting=name` vs none).
+* **Fix:** store the 0.43 default explicitly: `sorting: [{"id": "...", "propertyName": "<displayPropName>", "sorting": "asc", "itemType": "item"}]`. Leave `_displayName` / dotted display properties alone (not sortable columns).
+
+## H39 `delete data.x` does nothing in an action script
+
+* **Symptom:** a save that posts `{...data, ...}` from an `Execute Script` action fails with `Property '<helper>' not found for '<Entity>'` although the script deletes that helper field first; 0.43 saved.
+* **Cause:** in 0.46 action scripts `data` is a proxy over the form values that ignores `delete`; spreading it afterwards still copies the "deleted" keys.
+* **Detect:** an action script (`actionConfiguration...expression`, `_code`) containing `delete data.<x>` followed by a spread `...data`.
+* **Fix:** copy first and work on the copy: `const payload = { ...data }; delete payload.x; ... {...payload, ...}`. Reads of `data.<x>` stay as they are.
+
+## H40 URL table fetches with an empty id before the record loads
+
+* **Symptom:** a table with `sourceType: "Url"` and an endpoint such as `...?parentId={{data.id}}` stays empty; the network shows one call with `parentId=` (400 `The value '' is invalid`) and no retry.
+* **Cause:** the 0.46 context fetches when it mounts and does not refetch once the mustache value resolves; on 0.43 the first fetch came after the record had loaded.
+* **Detect:** `datatableContext` / `dataContext` with `sourceType: "Url"` whose endpoint mustache parameters are all id-like (`data.id`, `data.<x>Id`) and whose visibility is static.
+* **Fix:** make the context visible only once the ids exist (`visible` code `return !!data?.id;`), so it mounts and fetches with real values. Leave contexts whose parameters may legitimately be empty (filters) alone.
+
+## H41 `globalState.<tableContext>` no longer holds table contexts
+
+* **Symptom:** a script that refreshes or reads a table through `globalState.<contextName>.refreshTable()` / `.tableData` does nothing or throws `Cannot read properties of undefined`; the row list is not refreshed after an upload or add.
+* **Cause:** 0.43 published every data table context into `globalState` under its component name; 0.46 exposes them through `contexts.<name>` (and the action system), not `globalState`.
+* **Detect:** any `_code` / action expression containing `globalState.<name>.refreshTable`, `globalState.<name>.tableData` or `globalState?.<name>` where `<name>` is a `datatableContext` component name in the same form or its host.
+* **Fix:** `contexts.<name>` holds the table *state* (`tableData`, `selectedRow`, `selectedRows`) but has no `refreshTable`. Read state through `contexts.<name>?.<prop>`; replace a script refresh with a chained `Refresh table` action (`{"_type": "action-config", "actionName": "Refresh table", "actionOwner": "<context component id>"}`) after the script, ahead of any existing `onSuccess`. Proven on a real upload: the list request fires again and the row updates without a reload. A context that lives in a hosting form needs its own browser proof before converting.
+
+## H42 Read-only (calculated) properties rejected on save
+
+* **Symptom:** saving a form fails with `Your request is not valid! Property '<x>' is readonly.`; 0.43 saved the same form.
+* **Cause:** the 0.46 dynamic CRUD validates the payload against metadata and rejects properties marked `readonly`; 0.43 ignored them. A form that displays a calculated value, or hosts a subform whose entity is updated in cascade, posts them back.
+* **Detect:** the form's model metadata (`Metadata/Get?entityType=`) has `readonly: true` properties, at the top level or under an entity reference with `cascadeUpdate: true`, and the form submits through the default endpoints.
+* **Fix:** in `formSettings.onPrepareSubmitData`, before `return data;`, delete every read-only property from `data` (and from each cascade-updated reference). Deleting an absent key is a no-op; read-only values were never stored anyway. Verify by repeating the save: 200 and the record reloads.
+
+## H43 Leftover filter on a URL-sourced table blocks the fetch
+
+* **Symptom:** a URL-sourced table never issues its request (nothing in the network tab) and shows "No Data"; on 0.43 the same table listed rows.
+* **Cause:** the context still carries a `permanentFilter` from when it was entity-sourced, with a required mustache value that can never resolve on this form (e.g. `{{data.parent.id}}` on a form whose data *is* the parent). 0.46 keeps the filter "not ready" and does not fetch; 0.43 fetched the URL without it.
+* **Detect:** `sourceType: "Url"` plus a `permanentFilter` whose every mustache expression starts with `data.<prop>` where `<prop>` is neither `id` nor a property of the form's model.
+* **Fix:** remove that permanent filter (the URL already scopes the data). Leave filters that resolve alone: 0.46 sends a resolvable filter to the URL endpoint. Proof: strip it in flight and the request fires.
+
+## H44 `onAfterDataLoad` receives only the id as `data`
+
+* **Symptom:** values that a page form's `formSettings.onAfterDataLoad` derives from the loaded record (totals, flags, page-context values) stay empty; the handler throws part-way (`Cannot read properties of undefined`), skipping everything after the throw.
+* **Cause:** on 0.46 the page form runs `onAfterDataLoad` with `data` holding only the initial values (the `id` from the URL); the loaded record is in `form.data`. 0.43 passed the loaded record as `data`. Sub-form after-load scripts behave the same on both versions.
+* **Detect:** an `onAfterDataLoad` that reads record fields through `data.<x>` (other than `data.id`). Confirm in the browser: log `Object.keys(data)` vs `Object.keys(form.data)` inside the handler.
+* **Fix:** run the handler with `data` bound to `form.data` exactly when `data` holds nothing but the id and `form.data` holds more: `const d = (form?.data && only-id(data) && Object.keys(form.data).length > 1) ? form.data : data; return (async (data) => { <original> })(d);`. Elsewhere the handler runs unchanged. Leave handlers that write into `data` for review by hand.
+
+## H45 Subform names a framework form 0.46 no longer ships
+
+* **Symptom:** a tab that hosts a subform renders an empty dashed box with an info icon; the console shows `form '<module>/<name>' not found`.
+* **Cause:** a framework module form that existed on 0.43 is not shipped by the 0.46 packages (absent on a fresh 0.46 environment too), while the application has its own copy with the same components.
+* **Detect:** `subForm.formId` naming a framework module form that `ConfigurationItem/GetCurrent` cannot find on 0.46, and an application form with the same name and the same component list on 0.43.
+* **Fix:** point the subform at the application's copy. Confirm the two are equivalent (same components) on the 0.43 environment first.
+
+## H46 Subform expressions cannot see the host record
+
+* **Symptom:** a list inside a subform that filters on the host record (`{{data.id}}`) never fetches; the tab shows its empty text while the pager shows a default count.
+* **Cause:** a subform with `dataSource: "form"` bound to a property the host record does not have gets empty `data` on 0.46; its filter expressions also do not resolve `pageContext`, `query` or `parentFormValues`, so a required filter stays unresolved and the context never fetches. On 0.43 the subform's data proxy fell back to the host record.
+* **Detect:** a `subForm` with `dataSource: "form"` whose `propertyName` is not a property of the host model, hosting a form whose `permanentFilter` uses `{{data.id}}`. A literal id in the filter makes it fetch (proof the evaluator, not the endpoint, is the blocker).
+* **Fix:** no lever inside the subform. Proven design: place the subform's components directly in the host (ids made unique), where `{{data.id}}` is the host record. That turns one shared form into copies, so it is a design decision for the application owner; the alternative is a framework fix (subform expression context falls back to the host record).
 
 ---
 
