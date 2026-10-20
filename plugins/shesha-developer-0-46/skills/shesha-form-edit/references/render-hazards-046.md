@@ -324,7 +324,8 @@ Apply it to the root `style` and to any `desktop`/`tablet`/`mobile` block that h
 * **Symptom:** typing in a searchable reference-list dropdown ("South" in a country list) shows "No matches" although the items exist; 0.43 filtered by the item text.
 * **Cause:** the 0.46 reference-list select renders antd `Select` with `showSearch: true` and passes `filterOption` from its props, which the dropdown component never supplies; antd then matches the typed text against the option `value` (the numeric item value).
 * **Detect:** any `dropdown` with `dataSourceType: "referenceList"` and numeric item values; type part of an item's text.
-* **Fix:** none at configuration level (no setting reaches the select). Framework fix: pass `optionFilterProp: "label"` (or a label `filterOption`) for reference-list selects. Until then users scroll and click.
+* **Not a fix:** the dropdown's *Binding Format* (Item value / Item label). With *Item label* the option value is the label, so search works, but the form then stores and sends the label string on save, which a numeric reference-list property rejects.
+* **Fix:** none at configuration level. Framework fix: make the search always use the item label, independent of Binding Format (`optionFilterProp: "label"` or a label `filterOption`). Until then users scroll and click.
 
 ## H38 Entity autocomplete without a sort
 
