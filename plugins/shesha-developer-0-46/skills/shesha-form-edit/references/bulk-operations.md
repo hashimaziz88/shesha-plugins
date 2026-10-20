@@ -46,7 +46,7 @@ Pipeline: **fetch → mutate in Node.js → write UTF-8 without BOM → double-s
 |---|---|
 | Mutate | In Node.js, never by hand-editing escaped JSON-in-JSON |
 | Write | UTF-8 **WITHOUT BOM**. PowerShell `Out-File -Encoding utf8` AND `[System.Text.Encoding]::UTF8` both emit a BOM (EF BB BF) that breaks Node `JSON.parse`. Use `New-Object System.Text.UTF8Encoding $false` + `[System.IO.File]::WriteAllText`, or do ALL writes in Node (`fs.writeFileSync` is BOM-free) |
-| Body | `JSON.stringify({ id, markup: JSON.stringify(form) })` — **double-stringify**; `markup` is a string, passing the object gives `"Unexpected character encountered while parsing value: {"` |
+| Body | `JSON.stringify({ id, markup: JSON.stringify(form), modelType })` — **double-stringify**; `markup` is a string, passing the object gives `"Unexpected character encountered while parsing value: {"`. Always carry the stored `modelType` (H1): `UpdateMarkup` overwrites it with what is sent and clears it when omitted |
 | Push | `curl --data-binary @req.json` or `Invoke-RestMethod -InFile req.json`. **Never inline PowerShell bodies** — encoding + size traps (`Invoke-WebRequest -Body` can prompt for credentials in NonInteractive mode on large payloads) |
 
 ```js
@@ -58,7 +58,7 @@ if (!sameFieldSet(before, after)) throw new Error(`${name}: field loss`);
 if (after.count - before.count !== EXPECTED_DELTA) throw new Error(`${name}: count delta ${after.count - before.count} !== ${EXPECTED_DELTA}`);
 // + structural rules for the specific transform, e.g.:
 //   every non-final columns row has both cells filled; no columns row after a textArea within a section
-fs.writeFileSync(`req-${name}.json`, JSON.stringify({ id, markup: JSON.stringify(form) }));
+fs.writeFileSync(`req-${name}.json`, JSON.stringify({ id, markup: JSON.stringify(form), modelType }));   // modelType = the value just read (H1)
 ```
 
 Idempotence matters: rollouts get interrupted and re-run. Guard every mutation with a "already transformed?" check so a second pass is a no-op.

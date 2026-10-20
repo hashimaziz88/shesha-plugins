@@ -7,6 +7,8 @@ Evidence tags: **[proven]** = reproduced on a running 0.46 app (2026-10-01); **[
 `release-0.46.0` source only. Paths are relative to `shesha-reactjs/src/` (frontend) or `shesha-core/src/` (backend).
 Run the detectors with `node scripts/scan-hazards.mjs <markup.json | dir>` (see [Scanner](#scanner)).
 
+Fleet-wide fixes for these hazards are packaged as rules in `shesha-developer:shesha-upgrade-reconciler` (`references/pack-0.46.md`); a hazard found on many forms belongs there rather than in a per-form edit.
+
 Quick index
 
 | # | Hazard | Tag |
@@ -57,6 +59,13 @@ Quick index
 | H44 | `onAfterDataLoad` on a page form receives only the id as `data`; the record is `form.data` | proven |
 | H45 | A subform names a framework form 0.46 no longer ships (empty box, "form not found") | proven |
 | H46 | Subform filter expressions cannot see the host record (`data`, `pageContext`, `query` unresolved) | proven |
+| H47 | A stale `parentId` makes the designer re-nest a component into its old parent on the next save | proven |
+| H48 | Flex-item sizing comes from the device block's `dimensions`, not from `style` | proven |
+| H49 | Scripts inside a sub-form (or a dialog-opened form) run against the HOST page form: `data` is empty, record ids resolve to `undefined` | proven |
+| H50 | A Url data context drops the endpoint's query string and rebuilds filter, sorting and properties (data leak) | proven |
+| H51 | Which id expression resolves inside a nested sub-form's `permanentFilter` | proven |
+| H52 | Hidden data-holder fields are not mounted; a list row sees only what is mounted directly under it | proven |
+| H53 | A datalist makes two requests; the first load after a push can look right and later loads wrong | proven (symptom), source (cause inferred) |
 
 ---
 
@@ -76,7 +85,7 @@ Quick index
 
 ## H3 `htmlRender` drops a leading `<style>`
 
-* **Symptom:** a form that used an `htmlRender` to inject CSS (chevron tabs, section styling) is unstyled.
+* **Symptom:** a form that used an `htmlRender` to inject CSS (custom tab styling, section styling) is unstyled.
 * **Cause:** `sanitize` defaults to `true`; content goes through `DOMPurify.sanitize(html)` (`designer-components/htmlRender/index.tsx:39`, default at `:52-56`, migration `:62-67`). DOMPurify moves a `<style>` at the start of a fragment to `<head>` and drops it; a renderer that is only `<style>` becomes `""`.
 * **Detect:** `c.type==='htmlRender' && /<style/i.test(c.renderer ?? c.html ?? '') && c.sanitize !== false`.
 * **Fix:** set `sanitize: false` on the carrier (the branch at `:39` honours it), or prefix real content (`<div></div><style>...</style>` survives). The carrier must also be mounted (H6).
@@ -104,7 +113,7 @@ Quick index
 
 ## H7 antd 6 tabs DOM
 
-* **Symptom:** custom CSS written against tabs (chevron tabs, counters, pane styling) matches nothing.
+* **Symptom:** custom CSS written against tabs (custom tab styling, counters, pane styling) matches nothing.
 * **Cause:** antd 6 / `@rc-component/tabs` renamed the DOM: `.ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane` is now `.ant-tabs-body-holder > .ant-tabs-body > .ant-tabs-content` (pane = `.ant-tabs-content`). The tabs component `style` (e.g. `counterReset`) is no longer put on each pane inline; it becomes a class rule on the holder/`.ant-tabs-content` (`designer-components/tabs/styles.ts:58,73`; `tabs/index.tsx`). Collapse also changed (`.ant-collapse-content-box` is now `.ant-collapse-body`, header text `.ant-collapse-title`).
 * **Detect:** any string (renderer, `style`, `className` CSS) matching `/ant-tabs-(content-holder|tabpane)|\[style\*=/` or `/ant-collapse-content-box/`; `c.type==='tabs' && /counter-?reset/i.test(c.style)`.
 * **Fix:** rewrite selectors to the antd 6 chain and prefer the Shesha anchors, which survive library changes: live components carry `data-sha-c-id`, `data-sha-c-name`, `data-sha-c-type` (`components/formDesigner/formComponent/knownFormComponent.tsx:98-124`), e.g. `[data-sha-c-name="tabs1"] .ant-tabs-body-holder`. For per-pane styling give each tab item a `className` (it lands on `.ant-tabs-content`). Do not rely on hashed `css-xxxx` classes.
@@ -157,6 +166,7 @@ Quick index
 * **Cause:** the sub-form label span is `model.hideLabel === true ? 0 : model.labelCol ?? 0` (`designer-components/subForm/index.tsx:87`); the host's `labelCol` is applied to the hosted fields, so 0 hides their labels. Known core issue.
 * **Detect:** `c.type==='subForm' && !(c.labelCol>0)`.
 * **Fix:** a positive span on the sub-form component, e.g. `labelCol: 8, wrapperCol: 16` (the core fix ships 8), or `10/14` when long labels need more room; keep `hideLabel` for the sub-form's own label only. A wider span reduces wrapping but does not stop a wrapped label overlapping (see H20).
+* **Fixed in:** Shesha 0.46.1 release notes add a migration for sub-form `labelCol` / `wrapCol` - verify on a running 0.46.1 which spans it writes before relying on it; the reconciler's `labelcol` rule is a project choice (opt-in) and has no retire.
 
 ## H15 `editMode` boolean false = disabled
 
@@ -165,6 +175,7 @@ Quick index
 * **Detect:** `c.editMode === false` or `editMode._mode==='code' && /return\s+(true|false)\b/.test(editMode._code)`.
 * **Buttons:** `'readOnly'` maps to `{disabled:false, readOnly:true}` and a button honours only `disabled`, so a read-only button is clickable on 0.46 (0.43 disabled it). Return `'disabled'` for buttons.
 * **Fix:** return the strings `'editable' | 'readOnly' | 'disabled' | 'inherited'` (`'disabled'` for buttons that must not be clicked). For existing scripts, wrap the result and map `true`/`'edit'` -> `'editable'`, `false`/`'readonly'` -> `'readOnly'` (buttons: `'disabled'`). See [edit-mode.md](components/edit-mode.md).
+* **Fixed in:** Shesha 0.46.1 release notes report this fixed - verify on a running 0.46.1 before relying on it; the reconciler's retire command unwinds the workaround.
 
 ## H16 `columns` gutter
 
@@ -202,6 +213,7 @@ return __vis === false ? Object.assign({}, __base, { display: 'none' }) : __base
 ```
 
 Apply it to the root `style` and to any `desktop`/`tablet`/`mobile` block that has its own `style` (a device `style` overrides the root one). Verify both directions: the hidden case disappears and a forced-visible case still shows.
+* **Fixed in:** Shesha 0.46.1 release notes report this fixed - verify on a running 0.46.1 before relying on it; the reconciler's retire command unwinds the workaround.
 
 ## H20 Multi-line labels overlap the next row
 
@@ -214,6 +226,7 @@ Apply it to the root `style` and to any `desktop`/`tablet`/`mobile` block that h
   - a field holder `container` with width `stretch` holding the original field with `hideLabel: true`.
 
   The input then starts at the same x as the inputs of the neighbouring fields. Copy the `text` and `container` shapes from working instances in the same form, not from documentation. Skip required fields unless the required mark is rebuilt (the field's red `*` goes with its label). Vertical label layout (`ant-form-item-vertical`) also lets labels grow, but mixed into a horizontal form it looks inconsistent.
+* **Fixed in:** Shesha 0.46.1 release notes report this fixed - verify on a running 0.46.1 before relying on it; the reconciler's retire command unwinds the workaround.
 
 ## H21 Field rows are 35px
 
@@ -304,6 +317,7 @@ Apply it to the root `style` and to any `desktop`/`tablet`/`mobile` block that h
 * **Cause:** the 0.46 filter evaluator in `@shesha-io/reactjs`: an `and` / `or` item whose mustache `evaluate` is optional (`required: false`) and does not resolve is left in the array as `undefined`. The array is kept when at least one item is defined, and `JSON.stringify` turns the `undefined` into `null`, which the backend cannot turn into a boolean expression. 0.43 dropped the item.
 * **Detect:** a stored filter (`permanentFilter` and similar) with an `and` / `or` item `{"==":[{"var":"<prop>"},{"evaluate":[{"expression":"...","required":false}]}]}`; typically an optional fallback beside a required item on the same variable (`<prop> == {{data.x.id}}` required + `<prop> == {{data.model.x.id}}` optional). Confirm in the browser: the `GetAll` request body contains `null`.
 * **Fix:** drop the optional item when a required sibling compares the same variable (identical to 0.43 whenever the fallback is unresolved or equal). Report, and review by hand, any other optional item: dropping it changes the filter when it does resolve. Verify by comparing the request with the 0.43 environment's request for the same page (same filter, 200, same row count).
+* **Fixed in:** Shesha 0.46.1 release notes report this fixed - verify on a running 0.46.1 before relying on it; the reconciler's retire command unwinds the workaround.
 
 ## H35 Custom dialog footer buttons ignore their scripts
 
@@ -311,6 +325,7 @@ Apply it to the root `style` and to any `desktop`/`tablet`/`mobile` block that h
 * **Cause:** the 0.46 dialog renders the action's `buttons` with the raw button-group renderer, which reads only static `visible`, `disabled` and permissions. Script evaluation happens only in the `buttonGroup` *form component*, which footer items never pass through. 0.43 evaluated them.
 * **Detect:** a `Show Dialog` action with `footerButtons: "custom"` and any item whose `editMode` / `visible` / `hidden` / `disabled` has `_mode: "code"`.
 * **Fix:** when the dialog form is opened by that one dialog, render the buttons inside the dialog form as an ordinary `buttonGroup` (a right-aligned row appended to the root container) and set `footerButtons: "none"`; the items are copied unchanged and `shesha.form` actions still act on the dialog form. When the dialog form is shared by several dialogs with different buttons, the buttons cannot move: enforce the button's condition inside its first `Execute Script` (warn and throw when the condition says disabled; fail open if the condition itself errors). The visual disabled state then needs a framework fix.
+* **Fixed in:** Shesha 0.46.1 release notes report this fixed - verify on a running 0.46.1 before relying on it; the reconciler's retire command unwinds the workaround.
 
 ## H36 `[default]` reference-list column on a URL-sourced table
 
@@ -326,10 +341,11 @@ Apply it to the root `style` and to any `desktop`/`tablet`/`mobile` block that h
 * **Detect:** any `dropdown` with `dataSourceType: "referenceList"` and numeric item values; type part of an item's text.
 * **Not a fix:** the dropdown's *Binding Format* (Item value / Item label). With *Item label* the option value is the label, so search works, but the form then stores and sends the label string on save, which a numeric reference-list property rejects.
 * **Fix:** none at configuration level. Framework fix: make the search always use the item label, independent of Binding Format (`optionFilterProp: "label"` or a label `filterOption`). Until then users scroll and click.
+* **Fixed in:** Shesha 0.46.1 release notes are reported to cover this - verify on a running 0.46.1 before relying on it. There is no reconciler workaround to retire for this hazard.
 
 ## H38 Entity autocomplete without a sort
 
-* **Symptom:** an entity autocomplete lists options in database order (provinces: Limpopo, Free State, Western Cape, ...) where 0.43 listed them alphabetically.
+* **Symptom:** an entity autocomplete lists options in database order (a list of categories) where 0.43 listed them alphabetically.
 * **Cause:** 0.43 sent `sorting=<displayPropName>` when none was stored; 0.46 sends no sorting.
 * **Detect:** `autocomplete` with `dataSourceType: "entitiesList"`, no `sorting`, and a real `displayPropName` (compare the `GetAll` request on both versions: `&sorting=name` vs none).
 * **Fix:** store the 0.43 default explicitly: `sorting: [{"id": "...", "propertyName": "<displayPropName>", "sorting": "asc", "itemType": "item"}]`. Leave `_displayName` / dotted display properties alone (not sortable columns).
@@ -375,6 +391,7 @@ Apply it to the root `style` and to any `desktop`/`tablet`/`mobile` block that h
 * **Cause:** on 0.46 the page form runs `onAfterDataLoad` with `data` holding only the initial values (the `id` from the URL); the loaded record is in `form.data`. 0.43 passed the loaded record as `data`. Sub-form after-load scripts behave the same on both versions.
 * **Detect:** an `onAfterDataLoad` that reads record fields through `data.<x>` (other than `data.id`). Confirm in the browser: log `Object.keys(data)` vs `Object.keys(form.data)` inside the handler.
 * **Fix:** run the handler with `data` bound to `form.data` exactly when `data` holds nothing but the id and `form.data` holds more: `const d = (form?.data && only-id(data) && Object.keys(form.data).length > 1) ? form.data : data; return (async (data) => { <original> })(d);`. Elsewhere the handler runs unchanged. Leave handlers that write into `data` for review by hand.
+* **Fixed in:** Shesha 0.46.1 release notes report this fixed - verify on a running 0.46.1 before relying on it; the reconciler's retire command unwinds the workaround.
 
 ## H45 Subform names a framework form 0.46 no longer ships
 
@@ -389,6 +406,55 @@ Apply it to the root `style` and to any `desktop`/`tablet`/`mobile` block that h
 * **Cause:** a subform with `dataSource: "form"` bound to a property the host record does not have gets empty `data` on 0.46; its filter expressions also do not resolve `pageContext`, `query` or `parentFormValues`, so a required filter stays unresolved and the context never fetches. On 0.43 the subform's data proxy fell back to the host record.
 * **Detect:** a `subForm` with `dataSource: "form"` whose `propertyName` is not a property of the host model, hosting a form whose `permanentFilter` uses `{{data.id}}`. A literal id in the filter makes it fetch (proof the evaluator, not the endpoint, is the blocker).
 * **Fix:** no lever inside the subform. Proven design: place the subform's components directly in the host (ids made unique), where `{{data.id}}` is the host record. That turns one shared form into copies, so it is a design decision for the application owner; the alternative is a framework fix (subform expression context falls back to the host record).
+
+## H47 A stale `parentId` makes the designer re-nest a component
+
+* **Symptom:** a component that a merge or a script placed correctly renders in the wrong container after someone opens and saves the form in the designer: a side panel that was moved out of a tab pane jumps back into it and renders below the page content. Read-back equality, `forms changed 0` and component counts all pass while this is waiting to happen.
+* **Cause:** 0.43 renders by NESTING and ignores `parentId`; the 0.46 designer rebuilds the tree from `parentId` on save. A package authored with the 0.43 designer can leave `parentId` pointing at the OLD parent although the component sits in the new container. Who re-saved the form is inferred (a designer open and save); the tree rebuild from `parentId` is the mechanism.
+* **Detect:** for every component compare its `parentId` with the id of the container that actually holds it in the markup tree (the root holds children as `'root'`; any `components` list belongs to the nearest enclosing dict with an `id`: a component, a tab pane, a column, a wizard step, a panel part). A component with no `parentId` is left alone, and keys starting with `_` are not part of the tree. A markup diff between what you wrote and what the server holds minutes later shows the re-nest. `shrec.py detect` check `parent-id`. **[proven]**: a package's raw copy had a row's children `[mainColumn, sidePanel]` with `sidePanel.parentId` naming an old pane; a later read had the panel in the pane and nine components normalised by the designer (`hidden` to `visible`, `version` bumped, device blocks added).
+* **Fix:** set `parentId` to the real nesting parent BEFORE the push (the reconciler rule `normparent` normalises every `parentId` to the tree; run it before and after every merge; it rewrites only the string and never moves a component). Re-read the form some minutes after the push and diff it. Tell the authors of the package: their source carries stale `parentId`s, and the trap recurs on every merge.
+
+## H48 Flex-item sizing comes from the device block's `dimensions`
+
+* **Symptom:** a two-column row (a main column and a fixed-width side column) clips or squeezes the side column when `flex` or `width` is set in the container's `style` code. A script that positions things by counting the row's DOM children (`row.children.length === 2`) silently bails because the row's inner element has extra zero-size `display:none` placeholder children.
+* **Cause:** on 0.46 the flex items are the `sha-component` wrappers; their `width` / `min-width` / `max-width` / `min-height` come from `desktop.dimensions`. `style` (code) and top-level `dimensions` reach only the INNER element, so they do not size the flex item.
+* **Detect:** a container used as a row whose children rely on `style` for width or flex, and any `htmlRender` script that counts `children`. Measure instead of guessing: `shrec.py dom-chain <page> --name <component>` prints width, display and flex per ancestor and the matched CSS rules. Read the computed CSS, not the markup. **[proven]** by computed CSS at one viewport (main column + gap + side column summed to the row width, nothing clipped); a static top margin used to align the side column was an approximation that was not verified at other widths.
+* **Fix:** give the row `desktop = { display: 'flex', flexDirection: 'row', direction: 'horizontal', justifyContent: 'start', alignItems: 'start', flexWrap: 'nowrap', gap: 16 }`, the fixed column `desktop.dimensions = { width, minWidth, maxWidth }` (all the same value) and the flexible column `desktop.dimensions = { width: '100%', minWidth: 0 }`; keep the author's `style` strings. Do not depend on the number of DOM children of a row.
+
+## H49 Scripts inside a sub-form run against the HOST page form
+
+* **Symptom:** a Save button inside a sub-form reads `data.newEntry` and gets nothing (an "empty" validation message with text in the box); a request that needs a record id goes out with `undefined` or no id (a 500 "id must be supplied", a 400 `parentId=undefined`); `http.get(url, { params })` in a form script sends no query string.
+* **Cause:** in a sub-form's (or a dialog-opened form's) Execute Script, `data` is `{}` and `form` is the HOST page form (read-only mode, `form.shaForm._formData` holds the host record, `getFieldValue('x')` is undefined, `form.getFormData()` is undefined, `pageContext` has no key for the sub-form's fields). `form.setFieldsValue(...)` there silently writes to the host form. The value lives only in the sub-form's own state; the DOM node is the only reachable handle. A custom component that evaluates a setting with a narrower scope (for example only `{ data, globalState, formMode }`) throws on `page.state` and loses the whole expression.
+* **Detect:** any sub-form (embedded through `subForm` or a datalist row) whose scripts read `data.*` or call `form.getFieldValue` / `setFieldsValue` / `getFormData` for fields of the same sub-form; any `<id>: data.x` read in an action, `getUrl` or `queryParams` of a hosted or dialog form. `shrec.py detect` check `subform-script-scope` (a heuristic: review); confirm with `shrec.py probe-scope`, which adds a TEMPORARY dump of `data`, `form` (keys, `formMode`, `shaForm._formData`), `pageContext` and `contexts` to one script, prints it from a fresh browser, and always removes it afterwards. Confirm record ids with `shrec.py audit-requests` (hook `fetch` AND `XMLHttpRequest`). **[proven]** end to end: after the fix the Save request carried the parent id and entity type, and the stored row was read back.
+* **Fix:** read and clear a sub-form's input through its stable component name (`document.querySelector('[data-sha-c-name="newEntry"] textarea')`, clear with the native value setter plus a bubbling `input` event) and let the list refresh through the button's `onSuccess: Refresh table`. For record ids, keep the ORIGINAL lookup first and append only fallbacks that exist in that scope: an id the host publishes in `page.state` (scripts, mustache) and in `globalState` (the only one a narrow-scope component can see); never rewrite a setter. How a sub-form button should read sibling fields on 0.46 is an open question for the framework team. The first attempt (`form.getFieldValue`) was a guess and wrong: probe first.
+
+## H50 A Url data context drops the endpoint's query string (data leak)
+
+* **Symptom:** a list that filters and sorts through query text in the context's `endpoint` shows ALL rows of the entity, unsorted: any user sees records that belong to other parents. With `sortMode: 'strict'` (or the Entity source), rows render empty (or with defaults) instead.
+* **Cause:** the Url data context drops the endpoint's query text and rebuilds `filter`, `sorting` and `properties` from its own settings. With `sortMode: 'strict'` (and with the Entity source) the sort field is added to `properties` (`properties=<sortField> id`), so each row carries only `id` and the sort field. A Url context with NO `properties` returns whole objects.
+* **Detect:** a `datatableContext` / `dataContext` with `sourceType: 'Url'` whose `endpoint` (a string or a code-mode `_code`) contains `filter=`, `sorting=` or `properties=`. `shrec.py detect` check `url-endpoint-query` (trap when it is a generic list endpoint such as `Crud/GetAll` or `Entities/GetAll` carrying `filter=` with no `permanentFilter`; review otherwise). Capture the real request with `shrec.py audit-requests` (flags NO FILTER, NO SORTING, TRIMMED PROPERTIES, PARENT MISMATCH). The strongest check compares the rendered set with the database. **[proven]** on the wire: the author's endpoint produced `GET .../Crud/GetAll?maxResultCount=100&skipCount=0`; with a plain-string `Entities/GetAll?...&filter=...` only `entityType` survived; after the fix the request carried `sorting=<sortField> desc` and a filter on the parent, and every returned row belonged to that parent.
+* **Fix:** keep `sourceType: 'Url'`, `endpoint: '/api/dynamic/Shop/Order/Crud/GetAll'` (or the entity's own endpoint) and `entityType` set, and put the scope in settings: `permanentFilter: { and: [ { '==': [ {var: '<parent reference property>'}, {evaluate: [{expression: '{{page.state.<parent id key>}}', required: true}]} ] } ] }`, `sortMode: 'standard'`, `standardSorting: [{ id, propertyName: '<sortField>', sorting: 'desc', itemType: 'item' }]`. Use `standard` plus `standardSorting` rather than `strict` when the row needs more than the sort column.
+
+## H51 Which id expression resolves inside a nested sub-form's `permanentFilter`
+
+* **Symptom:** a list inside a sub-form inside a host form shows its empty text although records exist, and the network shows NO request.
+* **Cause:** a `required: true` mustache that never resolves gives an EMPTY list, not an error. In a form nested two deep, `{{data.id}}` did not resolve and `{{pageContext.<key>}}` did not either; `{{page.state.<key>}}` resolved to the record id the host publishes (the pattern existing task and list sub-forms already use). How `page.state` and `pageContext` relate on 0.46 is unexplained: the key resolved at run time although no `page.state.<key> = ...` setter was found, only a legacy `pageContext.setFieldValue` write. An open question for the framework team.
+* **Detect:** a `required: true` `{{data.*}}` or `{{pageContext.*}}` mustache in the `permanentFilter` of a form embedded two deep (a sub-form of a sub-form). `shrec.py detect` check `required-mustache-subform` (a heuristic: review). Confirm a request fires with `shrec.py audit-requests`. **[proven]** on the wire; the explanation is open.
+* **Fix:** use `{{page.state.<key>}}` for an id the host page publishes (in its `onAfterDataLoad`). Negative control: `{{page.state.doesNotExist}}` must send no request. H46 is the same family for one level of nesting.
+
+## H52 Hidden data-holder fields are not mounted; a list row sees only what is mounted directly under it
+
+* **Symptom:** a list row's `htmlRender` prints a default value although the response holds the data.
+* **Cause:** extends H6. Row data keys: bound fields with `hidden: true` (a trick to force fields into the row) give `[id, <sortField>]` only; `hidden: false` bound fields that are DIRECT children of the row root give the full keys; `hidden: false` fields nested inside a zero-height holder container give `[id, <sortField>]` again. A row only sees what is mounted directly under its root.
+* **Detect:** a bound input with `hidden: true` inside a list row form, or a bound input wrapped in a zero-height container there. `shrec.py detect` check `hidden-row-field` (trap when a row script reads `data.<field>`, review otherwise). Dump `data` from inside the row's `htmlRender` with `shrec.py probe-scope`. Judge by a screenshot: `innerText` of the panel still contains the collapsed fields' values. **[proven]** by a temporary dump from inside the row's `htmlRender`.
+* **Fix:** keep the data-holder fields mounted as DIRECT children of the row root and collapse each one on its own: `desktop` / `tablet` / `mobile` `dimensions` height, minHeight and maxHeight 0, `style` height 0 plus `overflow: hidden`, margin as the author had it. If a generic rule such as `layout` writes a margin on the same fields, make both agree (a collapse with `margin: 0` against the rule's `-3` kept reporting changes).
+
+## H53 A datalist makes two requests, and the first load after a push can mislead
+
+* **Symptom:** a list that looks complete on the first load after a push and is incomplete on later fresh loads; a row-level `visible` code such as `return !!data && data.bodyText !== undefined` leaves the list empty forever.
+* **Cause:** a datalist makes TWO requests: the first with `properties=id` (plus the sort field), the second with the full projection (the task lists do the same). In some states the second response never reached the rows, and an `htmlRender` paints once. No Shesha-internal explanation was found (the bundles are minified, only `.d.ts` ships): the cause is inferred.
+* **Detect:** a list that is complete after a push and incomplete on later fresh loads. Capture ALL requests without de-duplicating by path and load at least three times in fresh browser contexts: `shrec.py audit-requests <page> --loads 3` flags `LOAD DIFFERS`. **[proven]** misleading signal: twice the very first load after a push showed complete rows and every later fresh load did not.
+* **Fix:** do not accept a result from the first load after a push. Prefer the Url-with-no-`properties` shape (H50), which avoids the question.
 
 ---
 

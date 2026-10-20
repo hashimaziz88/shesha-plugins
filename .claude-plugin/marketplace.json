@@ -7,7 +7,7 @@
         {
             "name": "shesha-developer",
             "source": "./plugins/shesha-developer",
-            "description": "Shesha backend development toolkit with skills for creating entities, database migrations, and module projects following DDD patterns and framework conventions."
+            "description": "Shesha backend development toolkit with skills for creating entities, database migrations, and module projects following DDD patterns and framework conventions. Includes shesha-upgrade-reconciler for reconciling form configuration after a framework upgrade (version-aware rule packs, ledger, defect register, retire of fixed workarounds)."
         },
         {
             "name": "framework-dev",
@@ -22,7 +22,7 @@
         {
             "name": "shesha-developer-0-46",
             "source": "./plugins/shesha-developer-0-46",
-            "description": "Version-pinned design and form pipeline for the v0.46 release of the Shesha framework: shesha-claude-designer, shesha-design-comprehension, shesha-design-system (Ant Design 6 theming), shesha-form-edit (0.46 form API, render-migration hazards, reworked components), clean-form-config and create-crud-form, plus the form-author, form-auditor, fleet-transformer, design-critic and fullstack-prereq-checker agents. Component knowledge is extracted from release-0.46.0."
+            "description": "Version-pinned design and form pipeline for the v0.46 release of the Shesha framework: shesha-claude-designer, shesha-design-comprehension, shesha-design-system (Ant Design 6 theming), shesha-form-edit (0.46 form API, render-migration hazards, reworked components), clean-form-config and create-crud-form, plus the form-author, form-auditor, fleet-transformer, design-critic, fullstack-prereq-checker and reconciliation-assessor agents. Component knowledge is extracted from release-0.46.0; fleet-wide fixes for the 0.46 render hazards are packaged as rules in shesha-developer:shesha-upgrade-reconciler."
         }
     ]
 }

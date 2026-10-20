@@ -257,6 +257,7 @@ Structural:
 | Every push (Step 6) | `shesha-developer-0-46:clean-form-config` | MUST |
 | >3 forms changed | `shesha-developer-0-46:form-auditor` fan-out | MUST before pushing |
 | Any bulk mutation | `shesha-developer-0-46:fleet-transformer` agent (exactly one) | MUST |
+| A hazard found on many forms after an upgrade | `shesha-developer:shesha-upgrade-reconciler` (packaged, tested rules with pilot, fleet and report) instead of hand-editing each form | SHOULD |
 | 2+ distinct new forms | `shesha-developer-0-46:form-author` per form | SHOULD |
 | After ANY `form-author` dispatch | `node scripts/verify-artifact.mjs <outputPath> --backend <url> --token $RUN_DIR/access-token` | MUST - the file on disk is the evidence |
 | Form renders and placement is settled | `shesha-developer-0-46:design-critic` agent | SHOULD |

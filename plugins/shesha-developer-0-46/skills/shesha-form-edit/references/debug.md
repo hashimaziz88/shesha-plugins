@@ -61,6 +61,7 @@ If multiple symptoms fire at once, fix them in source order — earlier rows oft
 | 42 | **Fields inside a `subForm` have no labels** | `labelCol` 0/unset on the sub-form. | `labelCol: 8, wrapperCol: 16`. | [render-hazards-046.md](render-hazards-046.md) H14 |
 | 43 | **Read-only view shows greyed controls** | `editMode` `false` now means disabled. | Return `'readOnly'`. | [components/edit-mode.md](components/edit-mode.md); [render-hazards-046.md](render-hazards-046.md) H15 |
 | 44 | **HTTP 429 from `TokenAuth/Authenticate`** | 0.46 limits login to 10/min (OTP 5/min). | Authenticate once and reuse the token. | [api.md](api.md) section 2 |
+| 45 | **The same symptom on many forms after the upgrade** | A render hazard from the catalogue ([render-hazards-046.md](render-hazards-046.md)) hitting every form that uses the component. | Do not hand-edit each form: use `shesha-developer:shesha-upgrade-reconciler` (a rule from its pack, or a project rule, run pilot-first across the fleet). | `shesha-developer:shesha-upgrade-reconciler` |
 
 ---
 

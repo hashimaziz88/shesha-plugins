@@ -27,7 +27,7 @@ Exit criteria per stage: audit = every target has a verdict; pilot = assertions 
 | `shesha-developer-0-46:form-auditor` | Read-only verdict per form, before bulk pushes and after rollouts | sonnet | editing |
 | `shesha-developer-0-46:fleet-transformer` | ONE per bulk mutation — writes the transform script, pilots, rolls out | sonnet | one-per-form |
 | `shesha-developer-0-46:fullstack-prereq-checker` | Backend readiness before entity-bound work | haiku | fixing |
-| `shesha-developer-0-46:reconciliation-assessor` | Upgrade reconciliation: compares captured reference vs target renderings of the same pages (one agent per slice of pages) and maps each defect to a render hazard; run after a capture sweep and after each fleet rollout | sonnet | browsing, editing config |
+| `shesha-developer-0-46:reconciliation-assessor` | Upgrade reconciliation: compares captured reference vs target renderings of the same pages (one agent per slice of pages) and maps each defect to a render hazard; run after a capture sweep and after each fleet rollout; dispatched by `shesha-developer:shesha-upgrade-reconciler` | sonnet | browsing, editing config |
 
 ---
 

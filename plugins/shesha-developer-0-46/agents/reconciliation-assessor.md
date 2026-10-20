@@ -23,7 +23,7 @@ You compare a reference rendering of a page with a target rendering and report w
 1. For each page: Read the reference and target main screenshots, then every tab pair; skip nested-tab shots identical to their parent.
 2. Confirm each visual difference in the probe JSON and name the component (`data-sha-c-name`) where the probe has it. A difference you cannot see in a screenshot or a probe is not a finding.
 3. Separate data from defects: a different value, count or empty list is data; a widget that is broken, blank, clipped, overlapping, or missing where the reference shows a working one is a defect.
-4. Map each finding to the hazard in `HAZARDS` that explains it (H1-H27), or `new` when none does. Do not invent causes beyond that mapping.
+4. Map each finding to the hazard in `HAZARDS` that explains it (any hazard id in `HAZARDS`), or `new` when none does. Do not invent causes beyond that mapping.
 5. Look across pages for patterns (the same component type or the same symptom on several pages) - those become fleet rules.
 
 ## Categories
